@@ -1402,9 +1402,19 @@ These were needed to finish the work; each is reversible.
   several passages is counted at each; no figure for gas carriers (PortWatch defines none of its five ship
   classes); the weekly grain vessel line-up of the USDA is linked, not shown yet. The new step of the PortWatch
   job has not run on GitHub.
-- `NOTICE.md` calls the publications of the USGS and of the USDA "public domain" as it does the EIA's: a quoted
-  page supports it for the EIA only (its "Copyrights and Reuse" page). The pages of the USGS and of the USDA
-  Foreign Agricultural Service are still to be read and quoted.
+- `NOTICE.md` and the registry call the publications of the USGS and of the USDA "public domain" as they do
+  the EIA's, and quote a page for the EIA only (its "Copyrights and Reuse" page). The USGS's page was read on 25
+  November 2026 (https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits): "USGS-authored
+  or produced data and information are considered to be in the U.S. Public Domain."; it asks that "proper credit
+  be given" and says that some material on its sites is not in the public domain. The registry and the notice
+  are to quote it. The site of the USDA Foreign Agricultural Service refused automated reading: its terms are
+  still to be read, in a browser.
+- **The passage estimates depend on the machine that builds them.** The yearly totals of IMF PortWatch that the
+  passage pages compare the atlas's tonnages with (915 Mt of tanker cargo at one passage in 2024, for example)
+  were computed from PortWatch's daily table, which only the building machine holds. The yearly job on GitHub has
+  no daily table and computes them from the weekly series of the repository, whose values are rounded: the
+  totals then differ by up to about 0.1% (916 Mt). The next yearly run would move these figures by that much.
+  To be made one path, from the weekly series, in the next release.
 - Events: 37 of the 80 events still cite a Wikipedia article as one of their pages; one (the cobalt export
   suspension of the Democratic Republic of the Congo) rests on a trade-press page that asks for a free account
   after three articles.
@@ -1633,12 +1643,17 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
     Dallas Fed's index by its registry name, which does not hold the Bank's name (the page and the About window
     do): rename the entry? (c) Rows per port (tanker and dry bulk cargo at a few named ports, from the weekly
     port series) on the same page?
-36. **GitHub's scheduled runs.** If the scheduled jobs do not start by themselves in the coming days: a
+36. **The terms of the USDA's and the USGS's publications.** The site of the USDA Foreign Agricultural Service
+    (the source of the grain, oilseed, sugar, cotton and coffee balances) refuses automated reading. Would the
+    owner open its page on policies or on the reuse of its data in a browser (from the foot of
+    https://www.fas.usda.gov/) and report what it says, as he did for the BLS? Until then the registry keeps
+    "Public domain (US Government)" for it, with no quoted page.
+37. **GitHub's scheduled runs.** If the scheduled jobs do not start by themselves in the coming days: a
     temporary workflow that only prints the time four times an hour would tell quickly whether GitHub starts
     scheduled runs here at all (prepared, not added: adding it is the owner's call); and if the cause is that
     every commit to the workflow files was made under a name that is no GitHub account, a commit by the owner
     that touches the schedule line would make him the user the schedule is attached to.
-37. The choices listed above, each reversible.
+38. The choices listed above, each reversible.
 
 ## Update jobs
 
