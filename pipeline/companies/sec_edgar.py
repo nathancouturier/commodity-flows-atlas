@@ -13,43 +13,40 @@ the passages to read.
 The contact address. sec.gov asks automated clients to declare a User-Agent that names them with a contact address (its
 page "Accessing EDGAR data": "Sample Company Name AdminContact@<sample company domain>.com"). The owner decided on 24
 November 2026 that a contact address is sent to the SEC, and to nobody else, when its filings are read. The address is
-the environment variable SEC_CONTACT_EMAIL, which the owner sets himself: it is written in no file of the repository, and
-this script never prints it, logs it or stores it. Without it the script stops before its first request.
+the environment variable SEC_CONTACT_EMAIL, set by the owner: it is written in no file of the repository, and this
+script never prints it, logs it or stores it. Without it the script stops before its first request.
 
 Rules of the script, each tested in pipeline/tests/test_sec_edgar.py:
+  * it downloads through the shared module (common/fetch.py), with the address in the headers of its own requests;
   * requests go to the hosts of HOSTS only, over HTTPS; a redirect is followed only to one of them, so the header never
     leaves sec.gov (requests would otherwise send it on to any host a redirect names);
   * one request at a time, at least MIN_INTERVAL seconds apart (sec.gov's published limit is 10 requests a second);
   * an HTTP 403 or 429 stops the run at once, without a retry (sec.gov answers so when it refuses or limits a client);
-    a network error or an HTTP 5xx is asked again after a pause, ATTEMPTS times in all;
+    a network error or an HTTP 5xx is asked again after the shared module's pause, ATTEMPTS times in all;
   * the pages are kept in pipeline/cache/sec/ (outside git): a filing does not change once filed, so it is read from the
     disk after the first time; the lists of filings and the tickers file are fetched again after a day.
 """
 import html
 import json
 import os
-import random
 import re
 import sys
 import time
 from html.parser import HTMLParser
 from urllib.parse import quote, urljoin, urlsplit
 
-import requests
-
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "pipeline"))
-from common import fetch  # noqa: E402  (the shared, address-free User-Agent that this one extends)
+from common import fetch  # noqa: E402  (the shared downloader, whose address-free User-Agent this one extends)
 
 ENV = "SEC_CONTACT_EMAIL"
 HOSTS = ("www.sec.gov", "data.sec.gov", "efts.sec.gov")
 CACHE = os.path.join(ROOT, "pipeline", "cache", "sec")
 MIN_INTERVAL = 2.0          # seconds between two requests (sec.gov allows 10 a second)
 ATTEMPTS = 3
-BACKOFF = 10.0              # seconds before a request is asked again after a network error or an HTTP 5xx
 MAX_REDIRECTS = 5
-STOP_STATUS = (403, 429)
+STOP_STATUS = (403, 429)    # never asked again (not in RETRY_STATUS)
 RETRY_STATUS = (500, 502, 503, 504)
 REDIRECT_STATUS = (301, 302, 303, 307, 308)
 TIMEOUT = (20, 120)
@@ -58,7 +55,6 @@ ANNUAL_FORMS = ("10-K", "20-F", "40-F", "10-K/A", "20-F/A", "40-F/A")
 # one address, nothing around it (the value is never echoed: a message names the variable only)
 ADDRESS = re.compile(r"[A-Za-z0-9.!#$%&'*+/=?^_`{|}~-]+@[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)*\.[A-Za-z]{2,}")
 
-_session = None
 _last = [0.0]
 
 
@@ -93,14 +89,9 @@ def where(url):
     return f"{u.hostname or '?'}{u.path}"
 
 
-def _sess():
-    global _session
-    if _session is None:
-        _session = requests.Session()
-    return _session
-
-
 def _pause():
+    """At least MIN_INTERVAL seconds since the last request to any host of HOSTS (the shared module's own pause is per
+    host; this one counts the three hosts of the SEC together)."""
     wait = _last[0] + MIN_INTERVAL - time.monotonic()
     if wait > 0:
         time.sleep(wait)
@@ -112,45 +103,24 @@ def request(url):
     if not host_ok(url):
         raise SecError(f"not a sec.gov address ({where(url)}): the contact address is sent to the SEC only")
     headers = {"User-Agent": user_agent(), "Accept-Encoding": "gzip, deflate", "Accept": "*/*"}
-    hops = 0
-    attempt = 1
-    while True:
+    for hop in range(MAX_REDIRECTS + 1):
         _pause()
         try:
-            r = _sess().get(url, headers=headers, timeout=TIMEOUT, allow_redirects=False)
-        except requests.RequestException as e:
-            if attempt >= ATTEMPTS:
-                raise SecError(f"{e.__class__.__name__} after {ATTEMPTS} attempts ({where(url)})") from None
-            attempt += 1
-            time.sleep(BACKOFF * attempt + random.uniform(0, BACKOFF))
-            continue
-        code = r.status_code
-        if code in REDIRECT_STATUS:
-            nxt = urljoin(url, r.headers.get("Location", ""))
-            r.close()
-            if not host_ok(nxt):
-                raise SecError(f"sec.gov redirected {where(url)} to {where(nxt)}: not followed, the contact address "
-                               "would leave sec.gov")
-            hops += 1
-            if hops > MAX_REDIRECTS:
-                raise SecError(f"more than {MAX_REDIRECTS} redirects from {where(url)}")
-            url = nxt
-            continue
-        if code in STOP_STATUS:
-            r.close()
-            raise SecError(f"HTTP {code} from {where(url)}: sec.gov refuses or limits this client; the run stops "
-                           "without asking again")
-        if code in RETRY_STATUS:
-            r.close()
-            if attempt >= ATTEMPTS:
-                raise SecError(f"HTTP {code} after {ATTEMPTS} attempts ({where(url)})")
-            attempt += 1
-            time.sleep(BACKOFF * attempt + random.uniform(0, BACKOFF))
-            continue
-        if code >= 400:
-            r.close()
-            raise SecError(f"HTTP {code} for {where(url)}")
-        return r
+            r = fetch.request(url, headers=headers, attempts=ATTEMPTS, timeout=TIMEOUT, min_interval=MIN_INTERVAL,
+                              allow_redirects=False, retry_status=RETRY_STATUS)
+        except fetch.FetchError as e:
+            stop = " (sec.gov refuses or limits this client: the run stops without asking again)" if any(
+                f"HTTP {c} " in f"{e} " for c in STOP_STATUS) else ""
+            raise SecError(f"{e}{stop}") from None
+        if r.status_code not in REDIRECT_STATUS:
+            return r
+        nxt = urljoin(url, r.headers.get("Location", ""))
+        r.close()
+        if not host_ok(nxt):
+            raise SecError(f"sec.gov redirected {where(url)} to {where(nxt)}: not followed, the contact address "
+                           "would leave sec.gov")
+        url = nxt
+    raise SecError(f"more than {MAX_REDIRECTS} redirects ({where(url)})")
 
 
 # ---------------------------------------------------------------------------------------------------------------- cache

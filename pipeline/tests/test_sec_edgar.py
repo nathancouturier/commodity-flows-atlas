@@ -9,10 +9,12 @@ of sec.gov is asked again, or when the cache of the filings could be committed. 
 import contextlib
 import io
 import os
+import random
 import shutil
 import subprocess
 import sys
 import tempfile
+import time
 import unittest
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -41,13 +43,13 @@ class FakeResponse:
 
 
 class FakeSession:
-    """Records each request (url, headers, allow_redirects) and answers from a list."""
+    """Stands for the shared module's session: records each request (url, headers, allow_redirects), answers from a list."""
 
     def __init__(self, answers):
         self.answers = list(answers)
         self.calls = []
 
-    def get(self, url, headers=None, timeout=None, allow_redirects=True):
+    def request(self, method, url, params=None, headers=None, timeout=None, stream=False, allow_redirects=True):
         self.calls.append((url, dict(headers or {}), allow_redirects))
         a = self.answers.pop(0)
         if isinstance(a, Exception):
@@ -89,15 +91,18 @@ def env(value):
 
 @contextlib.contextmanager
 def fake(answers):
-    """The script with a fake session and a fake clock; yields (session, clock)."""
+    """The script and the shared downloader with a fake session and a fake clock; yields (session, clock)."""
     sess, clock = FakeSession(answers), Clock()
-    saved = (S._session, S._last[0], S.time.monotonic, S.time.sleep, S.random.uniform)
-    S._session, S._last[0] = sess, 0.0
-    S.time.monotonic, S.time.sleep, S.random.uniform = clock.monotonic, clock.sleep, (lambda a, b: 0.0)
+    saved = (F._session, dict(F._last_hit), S._last[0], time.monotonic, time.sleep, random.uniform)
+    F._session, S._last[0] = sess, 0.0
+    F._last_hit.clear()
+    time.monotonic, time.sleep, random.uniform = clock.monotonic, clock.sleep, (lambda a, b: 0.0)
     try:
         yield sess, clock
     finally:
-        S._session, S._last[0], S.time.monotonic, S.time.sleep, S.random.uniform = saved
+        F._session, hits, S._last[0], time.monotonic, time.sleep, random.uniform = saved
+        F._last_hit.clear()
+        F._last_hit.update(hits)
 
 
 class TheAddress(unittest.TestCase):
@@ -175,13 +180,13 @@ class Pace(unittest.TestCase):
         self.assertGreaterEqual(S.MIN_INTERVAL, 0.1)   # sec.gov's published limit: 10 requests a second
         with env(ADDR), fake([FakeResponse(), FakeResponse(), FakeResponse()]) as (sess, clock):
             starts = []
-            orig = sess.get
+            orig = sess.request
 
             def timed(*a, **k):
                 starts.append(clock.t)
                 return orig(*a, **k)
 
-            sess.get = timed
+            sess.request = timed
             for _ in range(3):
                 S.request("https://data.sec.gov/submissions/CIK0000093410.json")
         self.assertEqual(len(starts), 3)
@@ -200,7 +205,17 @@ class Pace(unittest.TestCase):
             with self.assertRaises(S.SecError):
                 S.request("https://www.sec.gov/files/company_tickers.json")
         self.assertEqual(len(sess.calls), S.ATTEMPTS)
-        self.assertTrue(all(s >= S.BACKOFF for s in clock.sleeps if s > S.MIN_INTERVAL))
+        self.assertEqual(sum(1 for s in clock.sleeps if s >= F.BACKOFF_BASE), S.ATTEMPTS - 1)   # a backoff between two attempts
+
+    def test_it_downloads_through_the_shared_module_without_following_redirects(self):
+        """The shared module's session makes the request (so its retries and pauses apply), with redirects returned to
+        this script, which checks the next host itself."""
+        with env(ADDR), fake([FakeResponse()]) as (sess, _):
+            S.request("https://www.sec.gov/files/company_tickers.json")
+        self.assertEqual(len(sess.calls), 1)
+        self.assertFalse(sess.calls[0][2])
+        self.assertNotIn(429, S.RETRY_STATUS)
+        self.assertNotIn(403, S.RETRY_STATUS)
 
 
 class NothingPrintedOrKept(unittest.TestCase):

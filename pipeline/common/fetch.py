@@ -27,8 +27,8 @@ import requests
 
 # The one place the identification is set. A site that refuses this client is not worked around: its update becomes a
 # step done by hand (docs/UPDATING.md). Naming the project or a contact page here is the owner's decision. sec.gov alone
-# asks automated clients for a contact address: pipeline/companies/sec_edgar.py adds the owner's to this string, for
-# sec.gov only, and does not download through this module (the owner's decision of 24 November 2026).
+# asks automated clients for a contact address: pipeline/companies/sec_edgar.py adds the owner's to this string in the
+# headers of its own requests, for sec.gov only (the owner's decision of 24 November 2026); the session keeps this one.
 USER_AGENT = "data-update-script/1.0 (python-requests)"
 CONNECT_TIMEOUT = 20
 READ_TIMEOUT = 90
@@ -97,19 +97,24 @@ def _check_head(kind, content_type, first):
 
 
 def request(url, *, params=None, headers=None, attempts=ATTEMPTS, timeout=None, stream=False, min_interval=None,
-            method="GET"):
-    """GET/HEAD with retries; returns a ``requests.Response`` with a good status or raises FetchError."""
+            method="GET", allow_redirects=True, retry_status=RETRY_STATUS):
+    """GET/HEAD with retries; returns a ``requests.Response`` with a good status or raises FetchError.
+
+    ``allow_redirects=False`` returns a redirect (3xx) to the caller instead of following it: requests sends the
+    caller's headers on to whatever host a redirect names, so a caller whose header is meant for one host checks the
+    next address itself (pipeline/companies/sec_edgar.py). ``retry_status``: the statuses asked again (a caller that
+    must stop at the first HTTP 429 leaves it out)."""
     timeout = timeout or (CONNECT_TIMEOUT, READ_TIMEOUT)
     last = "no attempt"
     for attempt in range(1, attempts + 1):
         _pause(url, min_interval)
         try:
             r = _sess().request(method, url, params=params, headers=headers, timeout=timeout, stream=stream,
-                                allow_redirects=True)
+                                allow_redirects=allow_redirects)
         except requests.RequestException as e:
             last = e.__class__.__name__ + (" (timeout)" if isinstance(e, requests.Timeout) else "")
         else:
-            if r.status_code in RETRY_STATUS:
+            if r.status_code in retry_status:
                 last = f"HTTP {r.status_code}"
                 r.close()
             elif r.status_code >= 400 and r.status_code != 416:
