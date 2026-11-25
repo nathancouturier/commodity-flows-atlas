@@ -577,7 +577,8 @@ def normal_week_requests(n_ports, today, lag_days):
 def weekly_request_bounds(n_ports, today, max_requests):
     """(least, most_usual, most): the fewest and the most requests of a normal weekly run for ``n_ports`` ports, and the bound of a run.
     A normal week is the one ``normal_week_requests`` describes, with the table ending 0 to 9 days before the run (the weekday it ends
-    on is not known: 0 to 9 days take every weekday, three of them twice); ``least`` and ``most_usual`` are the smallest and the
+    on is not known: 0 to 9 days take every weekday, three of them twice, and the table ends on the same weekday at the run before:
+    a table that gains two complete weeks at once asks for more, see docs/UPDATING.md); ``least`` and ``most_usual`` are the smallest and the
     largest count over those days, for the week of ``today`` (the quarter of the ports read in depth follows the week). ``most`` is
     ``max_requests``, which the plan keeps whatever state the files are in (the ports that end earliest are read first), counting the
     check of each port read in full; a request repeated after an error is in no count."""

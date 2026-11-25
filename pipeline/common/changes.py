@@ -126,6 +126,8 @@ def price_moves(prices_dir=os.path.join(DATA, "prices")):
     for m in index:
         if m["freq"] not in ("D", "M"):  # annual series (real prices, indices) move once a year: not news of the week
             continue
+        if re.search(r"deviation", m["unit"], re.I):  # a deviation from a trend or an average crosses zero: no change in percent (as the price board)
+            continue
         doc = load(prices_dir, m["id"] + ".json")
         if not doc or not doc.get("v"):
             continue
@@ -247,11 +249,18 @@ def jobs(workflows=os.path.join(ROOT, ".github", "workflows")):
 SOURCE_WORDS = {"eia-spot": "EIA, source: Refinitiv", "wb-pink": "World Bank", "bls": "BLS", "dallasfed": "Dallas Fed", "nyfed": "New York Fed"}
 
 
+def reword(line):
+    """``line`` with the id that ends its last parenthesis ("...; eia-spot)") written in the words of SOURCE_WORDS; any other line,
+    and a line already in words, comes back as it is. The one rule for a new line and for a line carried over from the previous file."""
+    m = re.search(r"; ([a-z0-9-]+)\)$", line)
+    return line[:m.start(1)] + SOURCE_WORDS[m.group(1)] + ")" if m and m.group(1) in SOURCE_WORDS else line
+
+
 def lines_prices(block, label):
     out = []
     for r in block["moves"]:
         when = f"in the week to {day_label(r['to'])}" if label == "week" else f"in {day_label(r['to'])}"
-        out.append(f"{r['name']}: {signed(r['pct'])} {when} ({num(r['v0'])} to {num(r['v1'])} {r['unit']}; {SOURCE_WORDS.get(r['s'], r['s'])})")
+        out.append(reword(f"{r['name']}: {signed(r['pct'])} {when} ({num(r['v0'])} to {num(r['v1'])} {r['unit']}; {r['s']})"))
     return out
 
 
@@ -288,7 +297,8 @@ def build(prices_dir=os.path.join(DATA, "prices"), series_dir=os.path.join(DATA,
         "jobs": jobs(),
         "seen": {"weekly": weekly["to"], "monthly": monthly["to"], "passages": passages["to"], "sources": prints},
     }
-    entries = list(prev.get("entries") or [])
+    # a line stored before its source had words (or by an older script) is written again with them: the feed is made from these lines
+    entries = [{**e, "lines": [reword(l) for l in e.get("lines") or []]} for e in prev.get("entries") or []]
     add = []
     s = seen or {}
     if weekly["moves"] and weekly["to"] != s.get("weekly"):

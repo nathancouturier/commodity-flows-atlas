@@ -145,6 +145,8 @@ class Notes(unittest.TestCase):
         self.assertIn("Ponta da Madeira", by["itaqui"]["note"])
         self.assertIn("sits next to", by["itaqui"]["note"])
         self.assertIn("which sits next to the public port this asset describes", self.notes["itaqui"])
+        # "the public port" is the wording of the note of the terminal's own asset
+        self.assertIn("public port of Itaqui", by["ponta-da-madeira"]["note"])
         self.assertIn("Coal Terminal", by["richards-bay"]["name"])
         # and the paragraph says no more than the sentences do
         m = method_bullet()
@@ -170,6 +172,8 @@ class Notes(unittest.TestCase):
         pair = next(a["properties"]["portwatch"] for a in ASSETS if a["properties"]["id"] == "ras-lanuf")
         row = next(r for r in PP.load_table() if r["portid"] == pair)
         self.assertIn(f'"{row["name"]}"', m)
+        self.assertIn(f'The series is that of PortWatch\'s port "{row["name"]}", whose position is', note)
+        self.assertNotIn("of this name", note)
         self.assertIn("a later change", m)
 
     def test_the_fixture_of_the_two_index_entries_names_the_copy_of_the_index_the_atlas_reads(self):
@@ -194,7 +198,7 @@ class SourceLine(unittest.TestCase):
     def test_the_clauses_are_those_of_the_item_and_come_in_this_order(self):
         section = flat(read("web", "src", "components", "views", "PortTrafficSection.tsx"))
         clauses = ["weekly sums of daily figures",
-                   "a call is a ship entering PortWatch's own boundary of the port, which is not always this asset's",
+                   "a call is a ship entering PortWatch's own boundary of the port, which is not always this asset's (PortWatch leaves out calls of less than 5 hours with no change of draught)",
                    "tonnes are PortWatch's estimates from each ship's size and draught, not a port statistic",
                    "ships are counted from their AIS signals: PortWatch notes that"]
         at = [section.index(c) for c in clauses]
@@ -278,7 +282,7 @@ class Quotes(unittest.TestCase):
         self.assertEqual(fx["item"], f"https://www.arcgis.com/sharing/rest/content/items/{fx['item_id']}?f=json")
         self.assertRegex(fx["read"], r"^2026-11-25$")
         self.assertIn(fx["item_id"], REGISTRY[NEW]["access"])
-        self.assertEqual(sorted(fx["quotations"]), ["manual_entry", "port_call", "trade_estimates", "transponder"])
+        self.assertEqual(sorted(fx["quotations"]), ["manual_entry", "port_call", "trade_estimates", "transponder", "transponder_cargo", "transponder_limited"])
         self.assertIn(f"the item's recommended citation is \"{fx['recommended_citation'].rstrip('.')}\"", REGISTRY[NEW]["licence"])
 
     def test_every_sentence_in_quotation_marks_that_comes_from_the_item_is_a_sentence_of_the_fixture(self):
@@ -288,7 +292,8 @@ class Quotes(unittest.TestCase):
         quoted = [q for q in re.findall(r'"([^"]{40,})"', m) if "behave like a human" not in q]
         self.assertGreaterEqual(len(quoted), 3)
         from_item = [q for q in quoted if (q.startswith("a port call is defined") or q.startswith("we use the vessel information")
-                                           or "entered manually" in q or "turn off their AIS transponder" in q)]
+                                           or "entered manually" in q or "turn off their AIS transponder" in q
+                                           or q.startswith("mostly limited to") or q.startswith("not common for container"))]
         self.assertEqual(len(from_item), len(quotations))
         for q in from_item:
             self.assertIn(q.rstrip("."), [x.rstrip(".") for x in quotations], q)
@@ -309,14 +314,32 @@ class Quotes(unittest.TestCase):
         for q in fixture()["quotations"].values():
             self.assertIn(q, m)
 
-    def test_the_block_prints_the_warning_of_portwatch_on_ships_that_send_no_signal(self):
-        """A port where ships switch their transponder off reads low in PortWatch: the block says so in PortWatch's own words, under every series."""
+    def test_the_block_prints_the_warning_of_portwatch_on_ships_that_send_no_signal_and_its_bound(self):
+        """A port where ships switch their transponder off reads low in PortWatch: the block says so in PortWatch's own words, with the
+        bound PortWatch puts on it, under every series; and METHODOLOGY gives the two halves, and the bound's other sentence."""
         q = "ships can turn off their AIS transponder to avoid being detected"
-        self.assertIn(f'PortWatch notes that "{q}"', flat(read("web", "src", "components", "views", "PortTrafficSection.tsx")))
-        self.assertIn(q, method_bullet())
+        cargo = "not common for container and other cargo ships"
+        section = flat(read("web", "src", "components", "views", "PortTrafficSection.tsx"))
+        self.assertIn(f'PortWatch notes that "{q}" and calls it "{cargo}" entering a port', section)
+        m = method_bullet()
+        limited = fixture()["quotations"]["transponder_limited"]
+        self.assertIn(q, m)
+        self.assertIn(f'it says that this is "{limited}" and "{cargo}" entering a port', m)
         self.assertEqual(q, fixture()["quotations"]["transponder"])
+        self.assertEqual(cargo, fixture()["quotations"]["transponder_cargo"])
         if item_text() is not None:
-            self.assertIn(q, item_text())
+            for x in (q, limited, cargo):
+                self.assertIn(x, item_text())
+            # the quotation of the block stops before the parenthesis that follows it in the item
+            self.assertIn(f"It is {cargo} (which is the focus of our study) entering a country\u2019s port", item_text())
+
+    def test_the_block_says_the_short_calls_are_left_out_as_the_item_does(self):
+        """The source line says in a few words what the quotation of the paragraph says: calls of under 5 hours with no change of draught are excluded."""
+        fixture_text = fixture()["quotations"]["port_call"]
+        self.assertIn("Port calls with a turnaround time of less than 5 hours and no draft change between the current and next port are excluded", fixture_text)
+        self.assertIn("(PortWatch leaves out calls of less than 5 hours with no change of draught)",
+                      flat(read("web", "src", "components", "views", "PortTrafficSection.tsx")))
+        self.assertIn("and the exclusion of short calls, under every series", method_bullet())
 
 
 class ReleaseNote(unittest.TestCase):

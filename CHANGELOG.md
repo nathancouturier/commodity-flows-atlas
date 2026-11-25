@@ -20,8 +20,7 @@ releases: the About window's "What changed" lists them. The full account of each
 - The eight daily prices from the EIA (Brent, WTI, Henry Hub, New York Harbor gasoline, diesel and heating oil, US
   Gulf Coast jet fuel, Mont Belvieu propane) are credited "EIA (source: Refinitiv)": the EIA's own pages give
   Refinitiv as their source. They are no longer offered as CSV files, because no page read says whether they may
-  be redistributed; the values are still served to draw the charts, and the monthly World Bank series keep their download.
-- About, Data freshness: a source whose first checks have not completed yet shows "Retrying", not "On time".
+  be redistributed; their charts are unchanged, and the monthly World Bank series keep their download.
 
 ## Release 8 (2026-11-25)
 

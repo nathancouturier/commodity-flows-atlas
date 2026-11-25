@@ -20,7 +20,7 @@ released. This file is updated at each release.
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
 | 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). A release number with release notes, a way to report an error, a coverage table of the commodity pages, a voyage calculator on the route pages and port facts from the World Port Index (eighth release, 25 November). Weekly traffic per port from IMF PortWatch, loaded little by little and slowly as the owner decided on 25 November, shown on the port pages and read each week by the PortWatch job (ninth release, 26 November). Designed, built next: a block on the state of the freight market. Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
-| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, 2,008 and 164 at the ninth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, 2,018 and 165 at the ninth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
 
 ## Ninth release (26 November 2026): what changed
 
@@ -40,8 +40,9 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   block says so wherever they appear and never labels them an Atlas estimate, and it does not add them to, or
   compare them with, the port's own figure (throughput, capacity) or the World Port Index block of the same page.
 - **A series can read far below the port's real traffic.** PortWatch counts ships from their AIS signals and
-  says itself that "ships can turn off their AIS transponder to avoid being detected". The block prints these
-  words under every series and corrects nothing. The lowest series of the atlas, in the 52 weeks to
+  says itself that "ships can turn off their AIS transponder to avoid being detected", which it calls "not common
+  for container and other cargo ships" entering a port. The block prints both under every series and corrects
+  nothing. The lowest series of the atlas, in the 52 weeks to
   15 November 2026: 2 calls at Odesa and at Surigao City, 3 at Chornomorsk, 5 at Pivdennyi, 23 at Jask, 33 at
   Sullom Voe, 41 at Kharg Island. The atlas cannot tell, port by port, whether ships that sent no signal, the
   boundary PortWatch draws for the port, or little traffic explains a low count.
@@ -51,7 +52,7 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   claims only what a file supports: Rosario (the asset is the up-river complex, which its own note says is far
   larger than the municipal port), Richards Bay (the asset is the coal terminal) and Itaqui (Vale's Ponta da
   Madeira terminal sits next to the public port the asset describes) each say that no page read settles what
-  PortWatch's port covers; Ras Lanuf gives two distances: PortWatch's port of that name stands 1.1 km from the
+  PortWatch's port covers; Ras Lanuf gives two distances: PortWatch's port "Ras Lanuf (Al Burayqah)" stands 1.1 km from the
   World Port Index's entry "Al Burayqah" (also called Marsa Brega) and 99.6 km east of its entry "Ras Lanuf".
 - 27 ports have no series: 18 that the pairing rule cannot pair and 9 with no PortWatch port within 15 km.
 
@@ -62,7 +63,11 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   again every four weeks: 23 requests in a normal week and never more than 42 (not counting a request repeated
   after an error), one at a time, 8 to 14 seconds apart (the script's reading of the owner's "slowly"): 4 to 6
   minutes in a normal week, and the script stops asking after 12. A request asks for 18 ports: the most whose
-  six weeks fit one page of 1,000 rows, so that no request is followed by a second page. A run of the job waits
+  six weeks fit one page of 1,000 rows, so that the window of a normal week is one page a request. A normal week
+  is one in which PortWatch's table has gained one complete week since the run before; when it has gained two or
+  more (the day it ends on moves past a Sunday, PortWatch skips a week, or a run was missed) the run asks for 29
+  to 33 requests. The first scheduled run asks for 23 if the table then ends on or before Saturday 28 November,
+  for 29 if it ends later. A run of the job waits
   one pause before its first request as well, because the chokepoint step before it asks the same host. The
   step may fail without costing the chokepoint update, and cannot turn the job red. Its first run is that of
   Wednesday 2 December 2026.
@@ -111,12 +116,13 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
 
 ### Checks
 
-- 2,008 unit tests (1,899 at the eighth release) and 164 web tests (138), all passing without the raw
+- 2,018 unit tests (1,899 at the eighth release) and 165 web tests (138), all passing without the raw
   downloads; a second run of every builder changes no file; the checks of GitHub reproduced on a fresh clone;
   five browser suites on the production build; LIVE-TO-WRITE targeted checks, in which every figure of the block is
   recounted from the files.
 - Four reviewers read a frozen copy of the candidate before anything was published: 31 findings, 11 of them
-  important, none on a figure the atlas shows. The weekly step: the texts said 23 or 24 requests in a normal
+  important, none on a figure of the data files (two minor ones on how the readout of the port chart printed
+  a zero and a week without data, and the count of requests that the texts stated). The weekly step: the texts said 23 or 24 requests in a normal
   week where a chain of weekly runs would have asked for 29 or 30 (20 ports of a request made two pages); nothing
   paced its first request after the last request of the chokepoint step; its bound of 42 did not count one check;
   a quota answer given as HTTP 429 with its delay in the body was asked again within seconds. The block: two
@@ -124,7 +130,23 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   `NOTICE.md` filed the EIA's daily prices under "cited, not redistributed" while their files are served; the
   page's description for search engines called the data open; the publication calendar still showed the port
   series as read by hand; this file held unfilled figures. Three correction packages followed, then a second
-  review of the corrections.
+  review of the corrections by three reviewers, who found them sound and found one defect more that mattered:
+  the rebuild of the weekly digest, which is run at each release and by each scheduled job, carried the lines of
+  earlier entries over as they were stored, so the feed would have named the EIA's daily prices by the
+  registry's id again, without the credit to Refinitiv; the rule that writes the words of a source now applies
+  to the lines that are carried over. Seventeen smaller points were corrected with it, among them: the block
+  quoted the first half of what PortWatch says of transponders and of a port call, and now gives both halves
+  (PortWatch calls the switching-off "not common for container and other cargo ships" entering a port, and leaves
+  out calls of less than five hours with no change of draught); an answer of the service that names a delay in
+  other words than "quota" is waited out as a quota answer; no pause begins after the time limit of a run; the
+  Dallas Fed index, a deviation from a trend, is no longer listed among the price moves with a percent change;
+  the page's description for search engines no longer gives one licence for the whole of the data. A last
+  reader then verified these corrections on a frozen copy.
+- The quotations of the EIA's pages that the registry holds were read a second time on 25 November 2026, by a
+  reader that had not seen the first reading: the five sentences of the definitions page, of "Copyrights and
+  Reuse" and of the open-data page are word for word, and the terms of the EIA's interface name no third party.
+  The two lines under the table of spot prices ("Source: Refinitiv", "Updates occur daily") do not come with
+  the page's text to an automated reader: they rest on the owner's own reading in a browser.
 - Slips of the work, to know about. A sitting of the first load started in the minute in which a package had
   changed one of the two files of the download script and not yet the other: it stopped on an error before any
   request, nothing was written, and the remaining sittings were run with the script of the eighth release from a
@@ -954,9 +976,11 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
     29 September 2026 as the closest to that day: the atlas already uses the latest archived copy.
   - **Two choices put to him.** Asked whether the voyage calculator may start from the speed and fuel of the
     Baltic standard vessels, and whether the port series that read very low (Odesa, Kharg Island) should stay
-    on the pages, the owner asked why they would not be kept. He was given the reasons against (the Baltic
-    Exchange's terms restrict the reuse of its content; a visitor may take a low count for the port's real
-    traffic) and asked for no change: both stay as they are, with PortWatch's own warning under every series.
+    on the pages, the owner answered with a question: why would they not be kept? He was then given the reasons
+    against (the Baltic Exchange's terms restrict the reuse of its content; a visitor may take a low count for
+    the port's real traffic) with the recommendation to keep both, and has not asked for a change since. Both
+    stay as they are, with PortWatch's own warning under every series, and both stay listed among the choices
+    to confirm.
 
 ## Choices made without the owner, to confirm
 

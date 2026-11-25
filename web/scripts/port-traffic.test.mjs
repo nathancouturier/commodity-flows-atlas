@@ -153,6 +153,22 @@ test('the readout of the chart: a zero is "0", calls are whole numbers, tonnes a
   }
 });
 
+test('the CSV: the measures come in the order of the buttons, and a total is the sum of the types rounded to the file\'s decimals', () => {
+  const rows = csvRows(make(6, { holes: [2] }));
+  const order = [...new Set(rows.map((r) => r[2]))];
+  assert.deepEqual(order, ['port calls', 'estimated export tonnes', 'estimated import tonnes'], 'calls, then exports, then imports, as the buttons');
+  // the weeks of one measure run forward, the five rows of a week are the four types in the chart\'s order and the total
+  const first = rows.filter((r) => r[2] === 'port calls');
+  assert.deepEqual(first.slice(0, 5).map((r) => r[1]), [...SHIP_TYPES.map(([, label]) => label), 'Total']);
+  assert.deepEqual([...new Set(first.map((r) => r[0]))], [0, 1, 2, 3, 4, 5].map((i) => weekStart(make(6), i)));
+  // the cells 0.1 and 0.2 add up to 0.30000000000000004: the total is written at the file's own decimals
+  const noisy = make(4, { tonnes: (k, i, j) => (j === 0 ? 0.1 : j === 1 ? 0.2 : 0) });
+  const totals = csvRows(noisy).filter((r) => r[1] === 'Total' && r[2] === 'estimated export tonnes').map((r) => r[3]);
+  assert.deepEqual(totals, [0.3, 0.3, 0.3, 0.3], 'a total is rounded to the decimals of the file');
+  const coarse = { ...noisy, dp: 1 };
+  assert.deepEqual(csvRows({ ...coarse, exports: Object.fromEntries(TYPES.map((t, j) => [t, [0.04, 0.04, 0.04, 0.04].map((v) => (j < 2 ? v : 0))])) }).filter((r) => r[1] === 'Total' && r[2] === 'estimated export tonnes').map((r) => r[3]), [0.1, 0.1, 0.1, 0.1], 'the decimals are those of the document, not a fixed number');
+});
+
 test('how a tonnage is written', () => {
   assert.equal(fmtTonnes(0), '0 kt');
   assert.equal(fmtTonnes(4.14), '4.14 kt');
@@ -249,13 +265,15 @@ test('the sentences name the PortWatch port as the table names it, and print onl
     const pw = table.get(by[id].properties.portwatch);
     assert.ok(pw, `${id}: its PortWatch id is not in the table`);
     const note = by[id].properties.portwatchNote;
-    if (id === 'ras-lanuf') assert.ok(note.includes(pw.name.replace(/ \(.*\)$/, '')) || note.includes('of this name'), id);
-    else assert.ok(note.includes(`"${pw.name}"`), `${id}: the note does not name "${pw.name}"`);
+    assert.ok(note.includes(`"${pw.name}"`), `${id}: the note does not name "${pw.name}"`);
   }
   // what a sentence takes from the note of its own asset
   const noteOf = (id) => by[id].properties.note;
   assert.ok(/municipal port/.test(noteOf('rosario-up-river')) && /far larger/.test(noteOf('rosario-up-river')), 'the Rosario sentence quotes what the asset\'s note says');
   assert.ok(/Ponta da Madeira/.test(noteOf('itaqui')) && /next to/.test(noteOf('itaqui')), 'the Itaqui sentence takes the terminal from the asset\'s note');
+  // "the public port this asset describes" is the wording of the note of the terminal's own asset
+  assert.ok(/public port of Itaqui/.test(noteOf('ponta-da-madeira')), 'the Itaqui sentence takes "the public port" from the note of ponta-da-madeira');
+  assert.ok(/the public port this asset describes/.test(by['itaqui'].properties.portwatchNote));
   assert.ok(/Coal Terminal/.test(by['richards-bay'].properties.name));
   // and says nothing of what PortWatch's port covers: no page read does
   for (const id of ['rosario-up-river', 'richards-bay', 'itaqui']) assert.ok(/No page read says/.test(by[id].properties.portwatchNote), `${id}: the sentence must say that no page read settles the extent`);
@@ -311,6 +329,11 @@ test('the block never reads the port\'s own figures, stores nothing, says nothin
   const section = src('components/views/PortTrafficSection.tsx');
   assert.ok(/IMF PortWatch's estimate/.test(section), 'the buttons do not say whose estimate the tonnes are');
   assert.ok(/Exports \(est\.\)/.test(section) && /Imports \(est\.\)/.test(section));
+  // the wiring of the readout (a zero is "0", a week without data a dash): the block gives the chart a formatter made from the measure,
+  // and the chart writes a total as a dash when no series has a value in that week
+  assert.ok(/readoutFormatter\(measure, fmt\)/.test(section), 'the formatter is not built from the measure and the general format');
+  assert.ok(/readoutFormat=\{readoutFormat\}/.test(section), 'the block does not give the chart its own readout format');
+  assert.ok(/series\.some\(\(s\) => s\.values\[i\] != null\) \? props\.readoutFormat\(total\) : '—'/.test(src('components/charts/TimeChart.tsx')), 'the chart\'s total does not read a dash when no series has a value');
 });
 
 test('the port page places the block with one import and one line, for a port that has a PortWatch id, and passes it no figure of the port', () => {

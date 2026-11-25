@@ -8,6 +8,8 @@
   "port_call": "a port call is defined when a ship enters the port boundary. Port calls with a turnaround time of less than 5 hours and no draft change between the current and next port are excluded to filter out vessels in transit",
   "trade_estimates": "we use the vessel information (length, width, draft, capacity, block coefficient) to estimate the payload (or utilization rate) of the vessel when entering and leaving the port boundary. The change in the vessel payload (in percentage points) multiplied by the vessel’s deadweight tonnage (the maximum carrying capacity) in metric tons is the resulting trade flow (either import or export) in metric tons.",
   "manual_entry": "entered manually and, hence, may have human errors",
-  "transponder": "ships can turn off their AIS transponder to avoid being detected"
+  "transponder": "ships can turn off their AIS transponder to avoid being detected",
+  "transponder_limited": "mostly limited to fishing vessels conducting illegal fishing or oil tankers circumventing international sanctions, usually in international waters",
+  "transponder_cargo": "not common for container and other cargo ships"
  }
 }

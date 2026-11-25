@@ -28,6 +28,16 @@ assert.ok(/monthly commodity prices \(World Bank\) and daily spot prices \(U\.S\
 assert.ok(!/monthly and daily commodity prices/.test(description), 'the monthly and the daily prices are not named together under "World Bank, EIA"');
 assert.ok(/Licences are mixed/.test(description) && /terms of some sources are still to be confirmed \(see NOTICE\.md\)/.test(description), 'the description says that licences are mixed and that some terms are to be confirmed');
 
+// the licence of the whole dataset is not a Creative Commons address: each third-party dataset keeps the licence of its source, and the terms of
+// some are still to be confirmed, so the field points to the notice that says which is which (the address `usageInfo` gives)
+const licences = [dataset.license].flat();
+assert.ok(licences.length >= 1 && licences.every((l) => typeof l === 'string' && /^https:\/\//.test(l)), 'the Dataset has a licence address');
+assert.ok(!licences.some((l) => /creativecommons\.org|\/publicdomain\//i.test(l)), 'the licence of the Dataset is not a Creative Commons address');
+assert.deepEqual(licences, [dataset.usageInfo], 'the licence points to the notice that usageInfo gives');
+assert.ok(/\/NOTICE\.md$/.test(dataset.license), 'the licence is the address of NOTICE.md');
+assert.ok(!/public domain/i.test(description), 'the description does not say "public domain"');
+assert.ok(!/open data/i.test(description), 'the description does not say "open data"');
+
 const downloads = (dataset.distribution ?? []).map((d) => d.contentUrl);
 assert.ok(downloads.length >= 1, 'the Dataset still lists its other downloads');
 assert.ok(!downloads.some((u) => /\/data\/prices\//.test(u)), 'no download of the price series catalogue (data/prices/)');

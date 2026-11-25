@@ -51,8 +51,10 @@ def stamp(iso):
 
 
 def the_workflow_reads_the_port_series():
-    """True when the workflow of the PortWatch job has a step that runs the script of the port series."""
-    return "fetch_portwatch_port_traffic" in read(".github", "workflows", "update-portwatch.yml")
+    """True when the workflow of the PortWatch job has a step that runs the script of the port series: a `run:` line that names it,
+    not a comment that does."""
+    return re.search(r"^\s*run:\s*python\s+pipeline/freight/fetch_portwatch_port_traffic\.py(\s|$)",
+                     read(".github", "workflows", "update-portwatch.yml"), re.M) is not None
 
 
 class Registry(unittest.TestCase):

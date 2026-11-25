@@ -370,9 +370,14 @@ itself (`--dry-run` prints it, a test ties the figures below to `portwatch_ports
 - the requests, 18 ports at a time, in pages of 1,000 rows (a page that is full is followed by one more request, so the count is an upper
   bound of the rows; 18 is the most ports whose window of a normal week, at most 55 days, is fewer than 1,000 rows, one page, and no size
   from 1 to 20 asks for fewer requests in a normal week): **23 requests** in a normal week (every port has a file, as the run of the week
-  before left it, the table ends 0 to 9 days before the run, whatever the day it ends on and whatever the quarter), and **never more than
-  42**, not counting a request repeated after an error: the plan keeps to that, whatever state the files are in (a service that was down for
-  weeks leaves the files late and the run asks for more days). When the late files would need more, the ports whose files end earliest are
+  before left it, the table ends 0 to 9 days before the run and has gained one complete week since the run before, whatever the quarter), and
+  **never more than 42**, not counting a request repeated after an error: the plan keeps to that, whatever state the files are in (a service
+  that was down for weeks leaves the files late and the run asks for more days). A table that gains two or more complete weeks between two
+  runs (it ended on a Saturday or earlier at the run before and ends on a Sunday or later now, PortWatch skips a week, or it is the first run
+  after the files of the first load) makes the window of a full request more than one page of 1,000 rows, and the run asks for 29 requests;
+  after one missed week 29 to 31, after two 31 to 32, after three 31 to 33. The first scheduled run (Wednesday 2 December 2026, the files
+  ending with the week of 9 to 15 November 2026) asks for 23 requests if the table then ends on or before Saturday 28 November, 29 if it ends
+  on Sunday 29 November or later. When the late files would need more, the ports whose files end earliest are
   read first and the others wait for the next run (the run says which); the ports without a file take what is left, each at its pages and one
   request more (the check that a port whose file ends weeks before the others is late in the service), so a run near its bound reads fewer
   than five. 42 is the figure for the pace: at 14 seconds a pause and three seconds an answer, 42 requests fill the 12 minutes after which

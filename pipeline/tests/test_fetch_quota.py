@@ -114,6 +114,20 @@ class QuotaBody(Clock):
         self.assertEqual(len(self.starts), 1)
         self.assertEqual(out.retry_after, F.QUOTA_MAX_WAIT)
 
+    def test_the_longest_delay_the_helper_waits_out_is_the_one_that_ends_at_the_most_a_job_waits(self):
+        """The boundary, from the constants: a delay of QUOTA_MAX_WAIT - QUOTA_MARGIN seconds is waited out (with the margin, the
+        longest wait), one second more fails at once with the delay kept."""
+        edge = int(F.QUOTA_MAX_WAIT - F.QUOTA_MARGIN)
+        body = lambda d: {"error": {"message": f"too many calls. Retry after {d} sec"}}
+        out = self.run_on_clock(lambda n: Resp(200, body(edge) if n == 1 else GOOD), lambda: F.get_json(URL))
+        self.assertEqual(out, GOOD)
+        self.assertEqual(len(self.starts), 2)
+        self.assertGreaterEqual(self.gaps()[0], F.QUOTA_MAX_WAIT)
+        out = self.run_on_clock(lambda n: Resp(200, body(edge + 1)), lambda: F.get_json(URL))
+        self.assertIsInstance(out, F.FetchError)
+        self.assertEqual(len(self.starts), 1)
+        self.assertEqual(out.retry_after, edge + 1)
+
     def test_the_chokepoint_script_is_asked_nothing_sooner_than_the_service_said_with_no_code_of_its_own(self):
         out = self.run_on_clock(lambda n: Resp(200, BODY if n == 1 else GOOD), lambda: FP.fetch_rows("1=1"))
         self.assertEqual(out, [])

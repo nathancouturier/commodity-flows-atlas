@@ -57,8 +57,8 @@ Checks  a page without the expected fields or with a value that is not a number 
         fetch.QUOTA_MARGIN when that is longer) and that page asked once more, a second refusal of the same page stops the run, and
         so does a delay that the helper does not wait for (fetch.QUOTA_MAX_WAIT); no request follows a quota answer sooner than that,
         and any other failure is asked again after a pause of PAUSE_S, ATTEMPTS requests in all. The time limit of a weekly run
-        (RUN_LIMIT_S) is checked before every request and before a quota wait: no wait ends after the limit and no request follows
-        it. A page counts as followed by more rows when the service says so or when it is
+        (RUN_LIMIT_S) is checked before every request, before every pause and before a quota wait: no request follows the limit, no
+        pause begins after it, and no quota wait is begun that would end after it (a pause that began before the limit may end after it). A page counts as followed by more rows when the service says so or when it is
         full (PAGE rows). A first-load port whose last week starts more than FIRST_LOAD_LAG_DAYS before the newest of the
         sitting is not written (it stays pending; the port and both dates are printed); one written before a newer port was read is
         judged when the run ends, and a file that cannot be judged (an error, or the time limit) is taken back: the folder is as it
@@ -125,8 +125,9 @@ def take_lock():
 
 
 def quota_refused(e):
+    """A quota answer: one that names a delay, in whatever words (the helper read it), or says "quota" or HTTP 429."""
     s = str(e).lower()
-    return "quota" in s or "http 429" in s
+    return e.retry_after is not None or "quota" in s or "http 429" in s
 
 
 class Reader:
@@ -140,6 +141,10 @@ class Reader:
         self.pause_first = pause_first
         self.t0 = time.monotonic()
 
+    def check_time(self):
+        if self.limit_s is not None and time.monotonic() - self.t0 > self.limit_s:
+            raise TimeUp(f"the run used its {int(self.limit_s)} seconds")
+
     def ask(self, params):
         """One page from the service. The helper is given one attempt, so that every retry is this script's own: after a
         quota answer (an error body or HTTP 429) the script waits QUOTA_WAIT_S, or the delay the service named plus the helper's
@@ -148,8 +153,7 @@ class Reader:
         and asks again, ATTEMPTS requests in all."""
         quota, failures = False, 0
         while True:
-            if self.limit_s is not None and time.monotonic() - self.t0 > self.limit_s:
-                raise TimeUp(f"the run used its {int(self.limit_s)} seconds")
+            self.check_time()
             try:
                 return fetch.get_json(PP.URL, params=params, min_interval=PAUSE_S[0], attempts=1)
             except fetch.FetchError as e:
@@ -175,6 +179,8 @@ class Reader:
 
     def page(self, where, offset, order, allowed):
         if self.n or self.pause_first:
+            # no pause begins after the time limit: the check of `ask` follows the pause, this one precedes it
+            self.check_time()
             time.sleep(random.uniform(*PAUSE_S))
         self.n += 1
         doc = self.ask(PP.request_params(where, offset, order))
@@ -341,7 +347,7 @@ def _run(argv, today, held):
     print_plan(pl, today, by_hand)
     least, usual, most = PP.weekly_request_bounds(len(all_ids), today, MAX_REQUESTS)
     print(f"  a normal weekly run for all {len(all_ids)} ports asks for " + (f"{least}" if least == usual else f"{least} to {usual}")
-          + f" requests; a run never asks for more than {most}, not counting a request repeated after an error "
+          + f" requests; a weekly run of the job never asks for more than {most}, not counting a request repeated after an error "
           f"(the ports whose files end earliest are read first, the others wait for the next run)")
     if args.dry_run:
         return res

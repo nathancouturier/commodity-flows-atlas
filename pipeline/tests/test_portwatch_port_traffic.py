@@ -1804,9 +1804,11 @@ class Retries(Env):
         def close(self):
             pass
 
-    def on_clock(self, answer, limit_s=None, pause_first=False):
-        """One ``Reader.page`` whose n-th request (from 1) is answered by ``answer(n)`` (a Resp). Returns (outcome, starts):
-        the rows or the exception, and the time each request started on the virtual clock."""
+    def on_clock(self, answer, limit_s=None, pause_first=False, pages=1, carry_on=False):
+        """``pages`` calls of ``Reader.page`` (the last outcome is returned; the loop stops at the first exception) whose n-th request
+        (from 1) is answered by ``answer(n)`` (a Resp). Returns (outcome, starts): the rows or the exception, and the time each
+        request started on the virtual clock; ``self.clock_at_end`` is the clock when the calls ended. With ``carry_on`` a failed call is
+        followed by the next one (the take-back loop of a run asks for every port that is left, whatever happened to the one before)."""
         clock, starts = [1000.0], []
 
         class Session:
@@ -1822,10 +1824,14 @@ class Retries(Env):
                     mock.patch.object(S.time, "monotonic", lambda: clock[0]), mock.patch.object(S.fetch, "get_json", GET_JSON), \
                     contextlib.redirect_stdout(io.StringIO()):
                 reader = S.Reader(limit_s, pause_first=pause_first)
-                try:
-                    out = reader.page(P.where_history("port1"), 0, "date", {"port1"})
-                except F.FetchError as e:
-                    out = e
+                for _ in range(pages):
+                    try:
+                        out = reader.page(P.where_history("port1"), 0, "date", {"port1"})
+                    except F.FetchError as e:
+                        out = e
+                        if not carry_on:
+                            break
+                self.clock_at_end = clock[0]
         finally:
             F._sess = saved[0]
             F._last_hit.clear()
@@ -1890,10 +1896,62 @@ class Retries(Env):
             self.assertIsInstance(out, F.FetchError)
             self.assertEqual(len(starts), 1)
             self.assertEqual(out.retry_after, long)
-        # and a wait that would end after the time of the run is not begun: the run ends there
+        # and a wait that would end after the time of the run is not begun: the run ends there, at the time of the first answer and
+        # not after the wait (the virtual clock at the end of the call is below the limit)
         out, starts = self.on_clock(as_body, limit_s=delay)
         self.assertIsInstance(out, S.TimeUp)
         self.assertEqual(len(starts), 1)
+        self.assertLess(self.clock_at_end - 1000.0, delay)
+
+    def test_a_delay_the_service_names_in_other_words_than_quota_is_a_quota_answer(self):
+        """A body that says "Too many requests. Retry after 90 sec." carries a delay: it is waited out, not asked again after a pause."""
+        self.start(n_ports=1)
+        for message in ("Too many requests. Retry after 90 sec.", "Rate limit exceeded. Retry after 90 sec."):
+            body = {"error": {"message": message}}
+            self.assertNotIn("quota", message.lower())
+            out, starts = self.on_clock(lambda n: self.Resp(200, body) if n == 1 else self.Resp(200, self.GOOD))
+            self.assertEqual(out, ([], False, 0), message)
+            self.assertEqual(len(starts), 2, message)
+            self.assertGreaterEqual(starts[1] - starts[0], 90 + F.QUOTA_MARGIN, message)
+            # a second such answer stops the run: two requests, not ATTEMPTS of them
+            out, starts = self.on_clock(lambda n: self.Resp(200, body))
+            self.assertIsInstance(out, F.FetchError, message)
+            self.assertEqual(len(starts), 2, message)
+            self.assertGreaterEqual(starts[1] - starts[0], 90 + F.QUOTA_MARGIN, message)
+        # an error that names no delay and no quota is an ordinary failure, asked again after a pause
+        out, starts = self.on_clock(lambda n: self.Resp(200, {"error": {"message": "Too many requests."}}))
+        self.assertEqual(len(starts), S.ATTEMPTS)
+
+    def test_the_boundary_of_the_longest_quota_wait_is_the_helpers_own(self):
+        """The script waits a delay of QUOTA_MAX_WAIT - QUOTA_MARGIN seconds (plus the margin: the longest wait the helper accepts)
+        and stops at once on one second more, with the delay kept."""
+        self.start(n_ports=1)
+        edge = int(F.QUOTA_MAX_WAIT - F.QUOTA_MARGIN)
+        quota = lambda delay: {"error": {"message": f"quota exceeded. Retry after {delay} sec"}}
+        out, starts = self.on_clock(lambda n: self.Resp(200, quota(edge)) if n == 1 else self.Resp(200, self.GOOD))
+        self.assertEqual(out, ([], False, 0))
+        self.assertEqual(len(starts), 2)
+        self.assertGreaterEqual(starts[1] - starts[0], F.QUOTA_MAX_WAIT)
+        out, starts = self.on_clock(lambda n: self.Resp(200, quota(edge + 1)))
+        self.assertIsInstance(out, F.FetchError)
+        self.assertEqual(len(starts), 1)
+        self.assertEqual(out.retry_after, edge + 1)
+
+    def test_no_pause_begins_after_the_time_limit(self):
+        """Once the limit has passed, the checks that follow (the take-back loop asks for page after page) fail at once: no request and
+        no pause. The run ends within one pause of the limit."""
+        self.start(n_ports=1)
+        limit = 30
+        with mock.patch.object(S.random, "uniform", lambda a, b: b):      # the longest pauses
+            out, starts = self.on_clock(lambda n: self.Resp(200, self.GOOD), limit_s=limit, pages=10, carry_on=True)
+        self.assertIsInstance(out, S.TimeUp)
+        self.assertTrue(starts)
+        self.assertLessEqual(max(starts) - 1000.0, limit, "no request follows the limit")
+        self.assertLessEqual(self.clock_at_end - 1000.0, limit + FP.PAUSE_S[1] + 1, "ten calls, and the run ends within one pause of the limit")
+        # a run that has gone over the limit does not sleep again
+        out, starts = self.on_clock(lambda n: self.Resp(200, self.GOOD), limit_s=0, pages=2, carry_on=True)
+        self.assertIsInstance(out, S.TimeUp)
+        self.assertLessEqual(self.clock_at_end - 1000.0, FP.PAUSE_S[1] + 1)
 
     def test_a_service_that_fails_otherwise_is_asked_four_times_never_less_than_the_least_pause_apart(self):
         self.start(n_ports=1)
@@ -2182,7 +2240,7 @@ class TheTextsGiveTheFiguresOfTheCode(Env):
         n = len(P.port_ids())
         bounds = [P.weekly_request_bounds(n, TODAY + timedelta(weeks=w), S.MAX_REQUESTS) for w in range(4)]
         least, most = min(b[0] for b in bounds), max(b[1] for b in bounds)
-        self.assertEqual((least, most), (23, 23), "the figure of the guide is 23, whatever the quarter and the day the table ends on: change the text with the code")
+        self.assertEqual((least, most), (23, 23), "the figure of the guide is 23, whatever the quarter and the day the table ends on, for a table that gains one complete week: change the text with the code")
         self.assertIn(f"**{least} requests** in a normal week", self.section)
         self.assertIn(f"**never more than {S.MAX_REQUESTS}**, not counting a request repeated after an error", self.section)
         self.assertEqual(S.REQUEST_S, 3)
@@ -2204,6 +2262,57 @@ class TheTextsGiveTheFiguresOfTheCode(Env):
         self.assertIn(f"the {S.RUN_LIMIT_S // 60} minutes are the limit of the script", self.section)
         self.assertIn(f"{P.WINDOW_DAYS_MAX} days", self.section)
         self.assertIn("waits one pause of 8 to 14 seconds before its first request, a sitting by hand does not", " ".join(self.section.split()))
+
+    def test_the_requests_of_a_run_after_a_table_that_gained_more_than_a_week_are_the_plans(self):
+        """23 is the count of a table that gains one complete week between two runs. The guide gives what a longer gain asks for (a window
+        that is more than one page), and what the first scheduled run asks for, from the plan on a state the test builds."""
+        n = len(P.port_ids())
+
+        def last_week(table_end):
+            """The Monday of the last complete week of a table that ends on ``table_end``."""
+            return table_end - timedelta(days=6) if table_end.weekday() == 6 else P.monday(table_end) - timedelta(days=7)
+
+        def asked(today, files_last_monday, lag):
+            ids = [f"port{k}" for k in range(n)]
+            docs = {i: {"start": P.iso(files_last_monday - timedelta(weeks=300)), "calls": {"tanker": [0] * 301}} for i in ids}
+            return P.plan(ids, docs, set(), today, end=today - timedelta(days=lag))["requests"]["total"]
+
+        def after(today, weeks_since, lag_before, lag_now):
+            before = today - timedelta(weeks=weeks_since)
+            return asked(today, last_week(before - timedelta(days=lag_before)), lag_now)
+
+        first = date(2026, 12, 2)                      # the first scheduled run: a Wednesday
+        runs = [first + timedelta(weeks=w) for w in range(4)]            # the four quarters
+        lags = range(10)                                                 # the table ends 0 to 9 days before the run
+        normal = {after(t, 1, lag, lag) for t in runs for lag in lags}
+        self.assertEqual(normal, {23}, "23: the table gained one complete week, whatever the day it ends on")
+        # a table that moved on by ten days (it ended 4 days before the run before and ends 1 day before this one: Saturday, then Tuesday)
+        moved = after(first, 1, 4, 1)
+        self.assertEqual((first - timedelta(days=1)) - (first - timedelta(weeks=1) - timedelta(days=4)), timedelta(days=10))
+        self.assertGreater(moved, 23)
+        self.assertIn(f"the run asks for {moved} requests;", self.section)
+        # it is the same whenever a table that ended on a Saturday or earlier ends on a Sunday or later (lags 4 to 9, then 0 to 3)
+        self.assertEqual({after(t, 1, a, b) for t in runs for a in range(4, 10) for b in range(4)}, {moved})
+        # and one, two, three missed weeks (the run before was two, three, four weeks earlier)
+        for missed, weeks in (("one missed week", 2), ("two", 3), ("three", 4)):
+            got = {after(t, weeks, lag, lag) for t in runs for lag in lags}
+            lo, hi = min(got), max(got)
+            self.assertIn(f"{missed} {lo} to {hi}", self.section, missed)
+            self.assertLessEqual(hi, S.MAX_REQUESTS)
+        # the first scheduled run: the files end with the week of 9 to 15 November 2026
+        files = date(2026, 11, 9)
+        by_end = {first - timedelta(days=lag): asked(first, files, lag) for lag in range(1, 8)}
+        self.assertEqual(set(by_end.values()), {23, moved})
+        last_23 = max(d for d, c in by_end.items() if c == 23)
+        first_29 = min(d for d, c in by_end.items() if c == moved)
+        self.assertEqual(first_29, last_23 + timedelta(days=1), "one day tells the two apart")
+        self.assertEqual((last_23.strftime("%A %-d %B %Y"), first_29.strftime("%A %-d %B %Y")), ("Saturday 28 November 2026", "Sunday 29 November 2026"))
+        self.assertIn("The first scheduled run (Wednesday 2 December 2026, the files ending with the week of 9 to 15 November 2026) asks for "
+                      f"23 requests if the table then ends on or before {last_23.strftime('%A %-d %B')}, {moved} if it ends on {first_29.strftime('%A %-d %B')} or later",
+                      self.section)
+        self.assertEqual(files.strftime("%A"), "Monday")
+        self.assertIn("a normal week (every port has a file", self.section)
+        self.assertNotIn("whatever the day it ends on", self.section)
 
     def test_the_other_figures_of_the_section_are_the_constants(self):
         sec = self.section
@@ -2328,6 +2437,9 @@ class AsTheWorkflowCallsIt(unittest.TestCase):
             self.assertRegex(r.stdout, r"in full 0\b|in full: 0 ports|nothing to read|no port without a file")
         self.assertIn(f"a normal weekly run for all {n} ports asks for", r.stdout)
         self.assertIn("not counting a request repeated after an error", r.stdout)
+        # the line is true in every mode: a sitting by hand counts pages only, so the bound it prints is that of a weekly run of the job
+        self.assertIn(f"a weekly run of the job never asks for more than {S.MAX_REQUESTS}, not counting a request repeated after an error", r.stdout)
+        self.assertNotIn("a run never asks for more", r.stdout)
         self.assertEqual(r.stderr, "")
 
     def test_a_wrong_option_does_not_make_the_step_fail(self):
