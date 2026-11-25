@@ -25,3 +25,9 @@
 {"t":"2026-11-25T20:27:56Z","source":"portwatch","outcome":"ok","note":"updated","records":80724,"data_to":"2026-11-22","consecutive_failures":0}
 {"t":"2026-11-25T20:27:56Z","source":"build-alerts","outcome":"ok","note":"updated","records":3,"data_to":"2026-11-22","consecutive_failures":0}
 {"t":"2026-11-25T20:27:56Z","source":"build-changes","outcome":"ok","note":"updated","records":5,"data_to":"2026-11-25","consecutive_failures":0}
+{"t":"2026-11-25T20:38:17Z","source":"wb-pink","outcome":"ok","note":"updated; closed: barley-m (last period 2020-08), sorghum-m (last period 2020-08)","records":802,"data_to":"2026-10","consecutive_failures":0}
+{"t":"2026-11-25T20:38:17Z","source":"eia-spot","outcome":"ok","note":"updated","records":63825,"data_to":"2026-11-24","consecutive_failures":0}
+{"t":"2026-11-25T20:38:17Z","source":"bls","outcome":"ok","note":"updated; older years still to fetch: 1988-1997, 1998-2007, 2008-2017, 2018-2023; refused: 1988-1997: asked for 1988-1997, got 2024-2026: the years were not taken into account; 1998-2007: asked for 1998-2007,","records":461,"data_to":"2026-10","consecutive_failures":0}
+{"t":"2026-11-25T20:38:17Z","source":"dallasfed","outcome":"ok","note":"updated","records":706,"data_to":"2026-10","consecutive_failures":0}
+{"t":"2026-11-25T20:38:17Z","source":"nyfed","outcome":"ok","note":"updated","records":346,"data_to":"2026-10","consecutive_failures":0}
+{"t":"2026-11-25T20:38:17Z","source":"build-changes","outcome":"ok","note":"updated","records":6,"data_to":"2026-11-25","consecutive_failures":0}
