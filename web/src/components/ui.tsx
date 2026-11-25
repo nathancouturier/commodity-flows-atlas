@@ -639,11 +639,12 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
   const further = all ? [] : beyond;
   const furtherSum = further.reduce((a, r) => a + r.v, 0) + notBy;
   const furtherNames = further.map((r) => r.name ?? countryName(r.c));
+  const totalWord = data.scope === 'EU' ? 'EU total' : data.shareOf ? 'total' : 'world total'; // the table's own total, not always the world's
   const restTitle =
     data.hidden && data.hidden.k === further.length
       ? data.hidden.n
-      : `${furtherNames.slice(0, 12).join(', ')}${furtherNames.length > 12 ? ` and ${furtherNames.length - 12} more` : ''}${notBy ? '; and what the world total holds that the source does not give by country' : ''}`;
-  const notByTitle = `The world total minus the countries listed${other ? ' and the source\'s "Other countries" line' : ''}: places and regions the source does not give as a country of the atlas, and rounding`;
+      : `${furtherNames.slice(0, 12).join(', ')}${furtherNames.length > 12 ? ` and ${furtherNames.length - 12} more` : ''}${notBy ? `; and what the ${totalWord} holds that the source does not give by country` : ''}`;
+  const notByTitle = `The ${totalWord} minus the countries listed${other ? ' and the source\'s "Other countries" line' : ''}: places and regions the source does not give as a country of the atlas, and rounding`;
   const trendAt = props.at ?? (hist ? hist.years.length - 1 : null);
   const longNote = !!data.n && data.n.length > 130;
   const published = data.worldPublished != null && data.worldPublished !== world ? data.worldPublished : null;

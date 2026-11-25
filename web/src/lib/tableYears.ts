@@ -73,7 +73,7 @@ export function tableAt(base: Ranked, h: HistTable | undefined, yr: number | nul
     ...odd.map(
       (c) =>
         `the source's figure for ${countryName(c)} in ${label}, ${fmt(h.c[c][at])} ${h.u}, is far out of line with the years around it (${around(h, c, at)}): ` +
-        `it is not ranked, and the shares are of the world total without it, ${fmt(world)} ${h.u} (the source's total, ${fmt(h.world[at])} ${h.u}, includes it)`,
+        `it is not ranked, and the shares are of the ${base.shareOf ? 'total' : 'world total'} without it, ${fmt(world)} ${h.u} (the source's total, ${fmt(h.world[at])} ${h.u}, includes it)`,
     ),
     `ranking of ${label} from the series by year, with the rules of the latest table (${base.y})`,
     estTable && base.n ? `the method of the estimate, as written for ${base.y}: ${base.n}` : null,
