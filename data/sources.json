@@ -574,7 +574,7 @@
   "licence": "UN Comtrade's policy on re-dissemination (https://uncomtrade.org/docs/re-dissemination-of-data/): permission is not required for the \"Publication of limited amounts of UN Comtrade data in a few tables, graphs, visualization in printed or digital platform\"; attribution: \"Source: UN Comtrade.\" The answers are not published as files",
   "update": "annual (one call per year)",
   "access": "Public preview endpoint, no key, one call per year, two minutes apart, by hand; the few figures the page prints are kept in pipeline/cache/comtrade_tin_china.json, the answers stay in raw/ and are never fetched by a scheduled job",
-  "use": "China's declared imports of tin ores and concentrates by origin (the tin page), and the flow Myanmar to China that CEPII BACI records at under 2 kt a year (the atlas's extract has no row for it in 2021, 2022 and 2024)"
+  "use": "China's declared imports of tin ores and concentrates by origin (the tin page), and the flow Myanmar to China that CEPII BACI records at under 2 kt a year in 2017 to 2024 (the atlas's extract has no row for it in 2021, 2022 and 2024)"
  },
  {
   "id": "census-exports",

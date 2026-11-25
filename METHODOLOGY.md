@@ -179,7 +179,7 @@ is called one where it is shown. The figures below are those of the build from C
      before rule 9; the cache is `pipeline/cache/us_lpg_volumes.json` (what `pipeline/trade/us_lpg.py` reads from raw/census and raw/eia). The Census file
      (a 78 MB zip) and the EIA pages are downloaded by hand and no scheduled job fetches them: the data are for the calendar year 2024 and the EIA
      release of 30 October 2026, and a later year is read by putting the new file in raw/ and running the script again.
-  11. **Flows that the importer declares and CEPII BACI records at under 2 kt a year (the atlas's extract has no row for the pair in 2021, 2022 and 2024): tin ores and concentrates from Myanmar to China**
+  11. **Flows that the importer declares and CEPII BACI records at under 2 kt a year in 2017 to 2024 (the atlas's extract has no row for the pair in 2021, 2022 and 2024): tin ores and concentrates from Myanmar to China**
      (`comtrade_tin.ADDED_FLOWS`, flag `added`). China declares 76 to 293 kt of tin ores and concentrates (HS 260900) from Myanmar in each of
      2017 to 2024 (UN Comtrade, public preview, China as reporter, imports; net weight), the first origin every year and 48% to 99% of its
      imports; CEPII BACI, in the extract the atlas reads (flows under 1,000 t and USD 1 million are dropped), has at most 1.6 kt a year of this pair in those

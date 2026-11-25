@@ -29,7 +29,7 @@ URL = "https://comtradeapi.un.org/public/v1/preview/C/A/HS"
 CHINA, MYANMAR, WORLD = 156, 104, 0
 TOP = 5
 
-# Added flows (rule 11 of clean.py): (group, exporter, importer) -> what the importer declares and CEPII BACI records at under 2 kt a year. The flow is taken from
+# Added flows (rule 11 of clean.py): (group, exporter, importer) -> what the importer declares and CEPII BACI records at under 2 kt a year in 2017 to 2024. The flow is taken from
 # China's import declaration in every year of the cache; a year where the customs table has the pair at under REPLACE_BELOW of the declared
 # tonnage has that row replaced, a year with no row gets one. Pair by pair: nothing else is added.
 ADDED_FLOWS = {("tin-ore", "MMR", "CHN"): "myanmar"}

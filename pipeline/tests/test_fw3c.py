@@ -288,14 +288,17 @@ class TheExtractOfBaci(unittest.TestCase):
         self.assertNotIn("not in the atlas's extract", src)
 
     def test_the_comtrade_text_says_what_the_extract_and_the_file_hold(self):
-        """The registry text, DATA_SOURCES.md and the heading of rule 11 give the extract's rows of the pair (at under 2 kt a year; no row in some years)."""
+        """The registry text, DATA_SOURCES.md and the heading of rule 11 give the extract's rows of the pair (at under 2 kt a year in 2017 to 2024; no row in some years)."""
         extract = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz"))
         t = extract[(extract["group"] == "tin-ore") & (extract["o"] == "MMR") & (extract["d"] == "CHN") & (extract["year"] >= 2017)].groupby("year")["t"].sum()
         self.assertLess(t.max(), 2000)
         self.assertGreaterEqual(t.max(), 1000)  # "under 2 kt" and not "under 1 kt"
         gone = sorted(set(range(2017, 2025)) - set(t.index))
         self.assertEqual(gone, [2021, 2022, 2024])
-        want = "that CEPII BACI records at under 2 kt a year (the atlas's extract has no row for it in 2021, 2022 and 2024"
+        # the years are said because the pair was larger before them (16 kt and more in some years): "under 2 kt a year" alone would be false
+        before = extract[(extract["group"] == "tin-ore") & (extract["o"] == "MMR") & (extract["d"] == "CHN") & (extract["year"] < 2017)].groupby("year")["t"].sum()
+        self.assertGreater(before.max(), 2000)
+        want = "that CEPII BACI records at under 2 kt a year in 2017 to 2024 (the atlas's extract has no row for it in 2021, 2022 and 2024"
         use = [s["use"] for s in load("sources.json") if s["id"] == "comtrade"][0]
         self.assertIn(want, use)
         self.assertNotIn("BACI lacks", use)
@@ -303,7 +306,7 @@ class TheExtractOfBaci(unittest.TestCase):
         self.assertNotIn("BACI lacks", read("DATA_SOURCES.md"))
         heading = [ln for ln in read("METHODOLOGY.md").splitlines() if "tin ores and concentrates from Myanmar to China**" in ln]
         self.assertEqual(len(heading), 1)
-        self.assertIn("CEPII BACI records at under 2 kt a year (the atlas's extract has no row for the pair in 2021, 2022 and 2024)", heading[0])
+        self.assertIn("CEPII BACI records at under 2 kt a year in 2017 to 2024 (the atlas's extract has no row for the pair in 2021, 2022 and 2024)", heading[0])
 
     def test_the_cleaning_rule_gives_what_the_cache_holds(self):
         """The docstring of clean.py rule 11 gives the range of the extract's tonnes for the pair in 2017 to 2024."""

@@ -3114,7 +3114,7 @@ IGU_LICENCE = ("Copyright International Gas Union; one world total is cited, wit
                "\"No part of this publication may be reproduced, stored in retrieval systems or transmitted in any form or by any means [...] without "
                "the prior permission of the copyright owner.\"")
 
-COMTRADE_USE = "China's declared imports of tin ores and concentrates by origin (the tin page), and the flow Myanmar to China that CEPII BACI records at under 2 kt a year (the atlas's extract has no row for it in 2021, 2022 and 2024)"
+COMTRADE_USE = "China's declared imports of tin ores and concentrates by origin (the tin page), and the flow Myanmar to China that CEPII BACI records at under 2 kt a year in 2017 to 2024 (the atlas's extract has no row for it in 2021, 2022 and 2024)"
 # the Public-Use Statement is the permission the registry quotes (web/src/lib/licence.ts): the atlas publishes an estimate of its own made from the data
 CENSUS_LICENCE = ("U.S. Census Bureau Public-Use Statement (own estimates from the data, with the Census Bureau cited as the source of the original data). "
                   "The statement, on \"Citing our Data, Tools, Technical Documents and Research\" (https://www.census.gov/about/policies/citation.html, "
