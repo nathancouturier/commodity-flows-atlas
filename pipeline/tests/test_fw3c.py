@@ -325,6 +325,64 @@ class TheExtractOfBaci(unittest.TestCase):
         self.assertEqual(sorted(set(range(2017, 2025)) - set(t.index)), [2021, 2022, 2024])
 
 
+class SeaShareOfAKnownSplit(unittest.TestCase):
+    """A flow of mode mixed carries the share by sea (`seaShare`) only where the pairs file knows the split of its pair, and the share is the one its note prints."""
+
+    def test_the_field_is_the_share_of_the_note_and_exists_only_for_a_pair_the_pairs_file_cuts(self):
+        seen = []
+        for path in sorted(glob.glob(os.path.join(DATA, "commodities", "*.json"))):
+            doc = json.load(open(path, encoding="utf-8"))
+            for f in doc.get("flows") or []:
+                group = f["lane"].split(":")[0] if f.get("lane") else None
+                rest = set()
+                if group and os.path.exists(os.path.join(DATA, "freight", "pairs", f"{group}.json")):
+                    rest = {(o, d) for o, d, _ in load("freight", "pairs", f"{group}.json").get("rest", [])}
+                cut = (f["o"], f["d"]) in rest
+                self.assertEqual("seaShare" in f, cut, f"{os.path.basename(path)} {f['o']}-{f['d']}")
+                if cut:
+                    seen.append((os.path.basename(path), f["o"], f["d"]))
+                    self.assertEqual(f["mode"], "mixed")
+                    self.assertIn(f"{f['seaShare']:.0%} of the pair's", f["n"])  # the sentence of the split note
+                    self.assertGreater(f["seaShare"], 0)
+                    self.assertLess(f["seaShare"], 1)
+        self.assertEqual(seen, [("lpg.json", "USA", "MEX")])
+
+    def test_the_other_mixed_flows_have_no_share(self):
+        mixed = [f for f in load("commodities", "lpg.json")["flows"] if f.get("mode") == "mixed" and f["o"] != "USA"]
+        self.assertTrue(all("seaShare" not in f for f in mixed))
+
+
+class TheTwoBlocksOfACountryPage(unittest.TestCase):
+    """The freight block of a country page counts as an estimate what the balance block does, for the same total (every mode)."""
+
+    def test_the_estimated_tonnes_of_the_freight_block_are_the_estimated_share_of_the_balance_block_times_its_total(self):
+        checked = 0
+        for path in sorted(glob.glob(os.path.join(DATA, "countries", "profiles", "*.json"))):
+            doc = json.load(open(path, encoding="utf-8"))
+            for side, part in (("exports", "customers"), ("imports", "suppliers")):
+                for x in (doc.get("freight") or {}).get(side, []):
+                    for b in doc.get("balance") or []:
+                        p = b.get(part)
+                        if not p or p.get("g") != x["g"]:
+                            continue
+                        checked += 1
+                        tol = x["kt"] * 1e-4 + 0.5  # the share is rounded to four decimals, the tonnes to 0.1 kt
+                        where = f"{os.path.basename(path)} {side} {x['g']}"
+                        self.assertAlmostEqual(x.get("estKt", 0), p.get("estShare", 0) * x["kt"], delta=tol, msg=where)
+                        self.assertAlmostEqual(x.get("estVolKt", 0), p.get("estVolShare", 0) * x["kt"], delta=tol, msg=where)
+        self.assertGreater(checked, 1000)
+
+    def test_the_two_pages_of_the_lpg_pair_count_the_overland_part(self):
+        rest = {(o, d): kt for o, d, kt in load("freight", "pairs", "lpg.json")["rest"]}
+        kt = rest[("USA", "MEX")]
+        usa = next(x for x in load("countries", "profiles", "USA.json")["freight"]["exports"] if x["g"] == "lpg")
+        mex = next(x for x in load("countries", "profiles", "MEX.json")["freight"]["imports"] if x["g"] == "lpg")
+        pair = next(r for r in load("freight", "pairs", "lpg.json")["rows"] if r[0] == "USA" and r[1] == "MEX")
+        self.assertAlmostEqual(mex["estKt"], pair[2] + kt, delta=0.1)  # the pair in all modes: the part by sea and the part read as overland
+        self.assertAlmostEqual(mex["estVolKt"], mex["estKt"], delta=0.1)
+        self.assertGreater(usa["estKt"], usa["estVolKt"])  # the part from the declared value is still told apart
+
+
 class RoutesTarget(unittest.TestCase):
     """The count and the names of the groups that reach the target of the generated routes, as METHODOLOGY writes them, are the ones of QA_routes.md."""
 

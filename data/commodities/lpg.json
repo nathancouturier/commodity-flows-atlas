@@ -2657,6 +2657,7 @@
    "usd": 2354499000,
    "mode": "mixed",
    "lane": "lpg:USA-MEX",
+   "seaShare": 0.72,
    "est": true,
    "estBy": "volume",
    "n": "the figure is for all modes of transport, 3.81 Mt of it by sea (the lane) and 1.47 Mt read as overland. In 2024, 72% of the pair's 5.28 Mt in all modes went by sea: vessel shipping weight over the pair's estimated tonnage, both from the US Census Bureau's export detail file; the file gives no weight for the other modes and does not name them, and the rest is read as overland (rail, road and pipeline across the border). The other years of this pair are for all modes: the customs total before 2021, the atlas's estimate from EIA's volume for 2021 to 2023; in none of those years is the split by mode known; Atlas estimate: CEPII BACI reports 9.33 Mt for USD 2,354 million (252 USD/t, 0.39 times the 2024 median unit value of LPG); this customs tonnage is 1.77 times the tonnage that the United States' own volume gives at the density of the cargo and 0.90 times that volume in cubic metres (a volume in cubic metres read as tonnes, for part or all of the declarations, is a plausible cause, not established here); tonnage = the quantity of propane and butanes in the US Census Bureau's export detail file for 2024 (10.43 million m3, all modes of transport) times the density of that file's own vessel rows (506 kg/m3 for propane and 582 for butanes)"

@@ -342,7 +342,7 @@ export function RouteFinder() {
           {leads.map(([c, v]) => (
             <option value={c}>
               {countryName(c)} · {v > 0 ? tonnage(v, false, gs.every((g) => SMALL_GROUPS.has(g)) ? gs[0] : undefined) : 'no recorded tonnage'}
-              {overland.has(c) ? ` (all modes: ${tonnage(overland.get(c)!, false, gs.every((g) => SMALL_GROUPS.has(g)) ? gs[0] : undefined)} of it read as overland)` : ''}
+              {overland.has(c) ? ` (${tonnage(overland.get(c)!, false, gs.every((g) => SMALL_GROUPS.has(g)) ? gs[0] : undefined)} of it overland)` : ''}
             </option>
           ))}
         </select>

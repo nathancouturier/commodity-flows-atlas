@@ -4,6 +4,7 @@ import { commodityMeta, countryName, sourceLabel } from './data';
 import { atlasKind, sig2 } from './format';
 import { ATLAS_LICENCE, downloadCsv, licenceColumn, licenceOf, licenceTexts, publisherOf, slug, sourceColumn, sourceName, toCsv } from './csv';
 import { licenceShort } from './licence';
+import { gapLabel } from './gapRow';
 import { selection } from './store';
 
 /** The title of the section a table sits in ("Top exporters"), read from the page when the button is pressed: RankedBars is not given it. */
@@ -87,7 +88,7 @@ export function rankedCsv(data: Ranked, title: string): { file: string; text: st
   if (other) line('', '', 'Other countries (as published)', other, false, "the source's own line");
   // what the world total holds beyond the rows and that line, when it is 0.05% of the world or more (as the table prints it)
   const gap = world ? world - data.rows.reduce((a, r) => a + r.v, 0) - other : 0;
-  if (world && gap > world * 5e-4) line('', '', 'Not given by country', gap, false, eu ? 'the EU total minus the member states listed' : `${data.shareOf ? 'the total' : 'the world total'} minus the countries listed`);
+  if (world && gap > world * 5e-4) line('', '', gapLabel(data, true), gap, false, eu ? 'the EU total minus the member states listed' : `${data.shareOf ? 'the total' : 'the world total'} minus the countries listed`);
   // the total row also carries the warning that holds for the whole table (trade hubs, re-exports), which the page prints apart from the note
   const base = eu ? 'sum of the 27 member states, the base of the shares' : 'sum the shares are of';
   if (world) line('', eu ? 'EU27' : data.shareOf ? 'TOTAL' : 'WLD', eu ? 'EU total' : (data.shareOf ?? 'World'), world, false, [base, data.caveat].filter(Boolean).join(' | '), !!data.convWorld);

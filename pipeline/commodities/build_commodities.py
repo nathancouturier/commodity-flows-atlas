@@ -3114,6 +3114,7 @@ IGU_LICENCE = ("Copyright International Gas Union; one world total is cited, wit
                "\"No part of this publication may be reproduced, stored in retrieval systems or transmitted in any form or by any means [...] without "
                "the prior permission of the copyright owner.\"")
 
+COMTRADE_USE = "China's declared imports of tin ores and concentrates by origin (the tin page), and the flow Myanmar to China that CEPII BACI records at under 2 kt a year (the atlas's extract has no row for it in 2021, 2022 and 2024)"
 # the Public-Use Statement is the permission the registry quotes (web/src/lib/licence.ts): the atlas publishes an estimate of its own made from the data
 CENSUS_LICENCE = ("U.S. Census Bureau Public-Use Statement (own estimates from the data, with the Census Bureau cited as the source of the original data). "
                   "The statement, on \"Citing our Data, Tools, Technical Documents and Research\" (https://www.census.gov/about/policies/citation.html, "
@@ -3188,7 +3189,7 @@ def update_sources():
          "update": "annual (one call per year)",
          "access": "Public preview endpoint, no key, one call per year, two minutes apart, by hand; the few figures the page prints are kept in "
                    "pipeline/cache/comtrade_tin_china.json, the answers stay in raw/ and are never fetched by a scheduled job",
-         "use": "China's declared imports of tin ores and concentrates by origin (the tin page), and the flow Myanmar to China that CEPII BACI records at under 2 kt a year (the atlas's extract has no row for it in 2021, 2022 and 2024)"},
+         "use": COMTRADE_USE},
         {"id": "census-exports", "name": "US Census Bureau, USA Trade Online: export detail file (EXDB), December 2024",
          "publisher": "U.S. Census Bureau, Foreign Trade Division", "url": "https://www.census.gov/foreign-trade/data/dataproducts.html",
          "licence": CENSUS_LICENCE,
@@ -3231,7 +3232,8 @@ def update_sources():
              "giignl-2026": {"use": "World LNG trade in 2025 and 2024, the United States as the largest exporter, and LNG liquefaction and regasification capacities",
                              "licence": GIIGNL_LICENCE},
              "disr-req": {"licence": DISR_LICENCE},
-             "census-exports": {"licence": CENSUS_LICENCE}}
+             "census-exports": {"licence": CENSUS_LICENCE},
+             "comtrade": {"use": COMTRADE_USE}}
     retired = {"igu-lng-report-2025": "the 2026 edition of the IGU report (igu-lng-report-2026) is the one the LNG page cites"}
     changed = False
     for s in new:

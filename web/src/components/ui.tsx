@@ -9,6 +9,7 @@ import { GROUP_LABEL, loadChokepoints, loadEvents } from '../lib/freight';
 import { select, year } from '../lib/store';
 import { statusClassOf, statusText } from '../lib/infra';
 import { downloadRanked, rankedSources } from '../lib/rankedCsv';
+import { gapLabel, gapTitle } from '../lib/gapRow';
 import { CsvAction } from './CsvAction';
 import { openAbout } from './AboutHost';
 import { checkedLabel } from '../lib/events';
@@ -644,7 +645,7 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
     data.hidden && data.hidden.k === further.length
       ? data.hidden.n
       : `${furtherNames.slice(0, 12).join(', ')}${furtherNames.length > 12 ? ` and ${furtherNames.length - 12} more` : ''}${notBy ? `; and what the ${totalWord} holds that the source does not give by country` : ''}`;
-  const notByTitle = `The ${totalWord} minus the countries listed${other ? ' and the source\'s "Other countries" line' : ''}: places and regions the source does not give as a country of the atlas, and rounding`;
+  const notByTitle = gapTitle(data, totalWord, !!other);
   const trendAt = props.at ?? (hist ? hist.years.length - 1 : null);
   const longNote = !!data.n && data.n.length > 130;
   const published = data.worldPublished != null && data.worldPublished !== world ? data.worldPublished : null;
@@ -724,7 +725,7 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
           notBy > 0 && (
             <div class={`bar-row bar-other${tr}`} title={notByTitle}>
               <span class="bar-rank" />
-              <span class="bar-label">{data.norank && data.scope !== 'EU' ? 'Countries not listed' : 'Not given by country'}</span>
+              <span class="bar-label">{gapLabel(data)}</span>
               {trendSlot()}
               <span class="bar-value">
                 {val(notBy)}
