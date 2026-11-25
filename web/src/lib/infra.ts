@@ -2,7 +2,7 @@
  * What an infrastructure asset says, read from the schema of pipeline/infrastructure/README.md: its figures
  * (capacity and output, each with its own year), its status, and what the History year changes.
  */
-import type { InfraFigure, InfraOutput, InfraProps, Route } from '../types';
+import type { InfraFigure, InfraOutput, InfraProps, Route, WpiFile } from '../types';
 import { loadOptional } from './data';
 
 /**
@@ -12,6 +12,10 @@ import { loadOptional } from './data';
 export interface PortIndexRow { id: string; name: string; c: string; g: string[]; lane: string | null; lanes?: string[]; asset?: string; aka?: string[] }
 let portIndex: Promise<PortIndexRow[]> | null = null;
 export const loadPortIndex = () => (portIndex ??= loadOptional<{ ports: PortIndexRow[] }>('freight/ports.json').then((d) => d?.ports ?? []));
+
+/** The World Port Index entries of the ports (data/infrastructure/wpi.json), read once when a port page first needs them; null when the file is not there. */
+let wpiFile: Promise<WpiFile | null> | null = null;
+export const loadWpi = () => (wpiFile ??= loadOptional<WpiFile>('infrastructure/wpi.json'));
 
 /** The row of the port index that a route's port is: same name, in the country of that end of the route when two share it. */
 export function portRowOf(rows: PortIndexRow[], name: string, c?: string | null): PortIndexRow | undefined {

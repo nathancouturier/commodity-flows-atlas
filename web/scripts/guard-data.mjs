@@ -15,6 +15,10 @@
  *    tested. A series whose unit is a deviation (data/prices/index.json: it crosses zero, and its past months can be
  *    revised) is checked on its shape only. Annual series are left out of the step test: a yearly price can halve
  *    (lithium). The replay of the published history is in docs/UPDATING.md.
+ *  - the coverage file (data/coverage.json) when a page lost a block that the floor file lists
+ *    (pipeline/commodities/coverage_floor.json), unless the last commit already lacked it: a loss accepted by hand is
+ *    refused once. This is the one rule that reads a hand-typed file, so it sits here, where "accept large moves"
+ *    overrides it, and not in validate-data.mjs, which has no override.
  * The status files (data/_status) are not compared: they are rewritten on every run.
  *
  *    node web/scripts/guard-data.mjs            compare the working tree with HEAD (run by the update jobs)
@@ -35,6 +39,8 @@ export const MIN_BYTES = 1024;
 export const PRICE_MOVE = 0.5;
 export const SCALE_POWER = 3;
 export const MAX_RATIO = 5;
+export const COVERAGE_FILE = 'data/coverage.json';
+export const COVERAGE_FLOOR = 'pipeline/commodities/coverage_floor.json';
 
 /** {place in the file: number of entries} of every list of the document (indices left out of the place). */
 export function rowCounts(doc) {
@@ -170,6 +176,42 @@ export function compareFile(rel, beforeText, afterText, units = new Map()) {
   return out;
 }
 
+/** {page: {block: cell}} of a data/coverage.json text, or null when it does not read as one. */
+function coverageCells(text) {
+  try {
+    const doc = JSON.parse(text);
+    return Object.fromEntries(doc.pages.map((p) => [p.id, p.cells]));
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Problems of a rebuilt coverage file against the floor ({"version": 1, "present": {page: [blocks]}}): a block the floor
+ * lists that the new file no longer shows as present. A block the last commit's file already lacked is not reported
+ * again (a loss accepted by hand, until the floor is lowered). Texts that do not read give no finding: the shape is
+ * the validator's.
+ */
+export function compareCoverage(afterText, floorText, beforeText = null) {
+  const after = coverageCells(afterText);
+  let floor;
+  try {
+    floor = JSON.parse(floorText).present;
+  } catch {
+    return [];
+  }
+  if (!after || !floor || typeof floor !== 'object') return [];
+  const before = beforeText == null ? null : coverageCells(beforeText);
+  const out = [];
+  for (const [page, blocks] of Object.entries(floor))
+    for (const block of blocks) {
+      if (after[page]?.[block] === 'p') continue;
+      if (before && before[page]?.[block] !== 'p') continue;
+      out.push(`${COVERAGE_FILE}: page ${page} lost the block ${block} that ${COVERAGE_FLOOR} lists`);
+    }
+  return out;
+}
+
 /** Problems of the files that left a folder: {folder: [count before, count after]}. */
 export function compareFolders(counts) {
   const out = [];
@@ -223,13 +265,18 @@ export function guardRepo(repo, paths = []) {
       }
       continue;
     }
-    let before;
+    let before = null;
     try {
       before = git(['show', `HEAD:${f}`], repo);
     } catch {
-      continue; // a new file: nothing to compare with
+      // a new file: nothing to compare with, except the floor
     }
-    problems.push(...compareFile(rel, before, fs.readFileSync(path.join(repo, f), 'utf8'), units));
+    const after = fs.readFileSync(path.join(repo, f), 'utf8');
+    if (f === COVERAGE_FILE) {
+      const floor = path.join(repo, COVERAGE_FLOOR);
+      if (fs.existsSync(floor)) problems.push(...compareCoverage(after, fs.readFileSync(floor, 'utf8'), before));
+    }
+    if (before !== null) problems.push(...compareFile(rel, before, after, units));
   }
   return [...problems, ...compareFolders(folders)];
 }
@@ -244,6 +291,6 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
     console.error(`\ndata guard: ${problems.length} change(s) refused against the last commit; the previous data is kept`);
     process.exit(1);
   } else {
-    console.log('data guard OK: no table lost rows, no file shrank, no price jumped');
+    console.log('data guard OK: no table lost rows, no file shrank, no price jumped, no page lost a block');
   }
 }

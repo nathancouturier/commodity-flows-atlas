@@ -11,7 +11,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { compareFile, comparePrice, guardRepo } from './guard-data.mjs';
+import { compareCoverage, compareFile, comparePrice, guardRepo } from './guard-data.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const table = (n) => ({ id: 'wheat', production: Array.from({ length: n }, (_, i) => ({ c: `C${i}`, v: 100 - i, y: 2024, s: 'usda-psd' })) });
@@ -144,4 +144,94 @@ ok('a truncated table and a removed folder of files are refused by the command, 
   assert.equal(off.status, 0, off.stdout + off.stderr);
 });
 fs.rmSync(repo, { recursive: true, force: true });
+
+// the coverage file: a page that lost a block of the floor is refused, a rebuild that only changes reasons or improves a page is not
+const realCoverage = fs.readFileSync(path.resolve(here, '../../data/coverage.json'), 'utf8');
+const cov = (cells) => JSON.stringify({ version: 1, release: 7, blocks: [], reasons: {}, pages: Object.entries(cells).map(([id, c]) => ({ id, cells: c })), work: {} });
+const floor = JSON.stringify({ version: 1, present: { copper: ['price', 'assets'], wheat: ['trade'] } });
+const full = { copper: { price: 'p', assets: 'p', monthly: 'm' }, wheat: { trade: 'p' } };
+ok('a rebuilt coverage file that keeps every block of the floor passes, and so does one that gains a block', () => {
+  assert.deepEqual(compareCoverage(cov(full), floor, cov(full)), []);
+  assert.deepEqual(compareCoverage(cov({ ...full, copper: { ...full.copper, monthly: 'p' } }), floor, cov(full)), []);
+});
+ok('a page that lost a block of the floor is refused, by name', () => {
+  const lost = { ...full, copper: { ...full.copper, price: 'm' } };
+  const p = compareCoverage(cov(lost), floor, cov(full));
+  assert.equal(p.length, 1);
+  assert.match(p[0], /page copper lost the block price that pipeline\/commodities\/coverage_floor\.json lists/);
+  // a page that has no row any more is a loss of every block of the floor
+  assert.equal(compareCoverage(cov({ wheat: full.wheat }), floor, cov(full)).length, 2);
+  // a block that turned into a reason is a loss too: a typed reason does not hide it
+  assert.equal(compareCoverage(cov({ ...full, wheat: { trade: 'na:crop' } }), floor, cov(full)).length, 1);
+});
+ok('a loss that the last commit already holds is not refused again', () => {
+  const lost = { ...full, copper: { ...full.copper, price: 'm' } };
+  assert.deepEqual(compareCoverage(cov(lost), floor, cov(lost)), []);
+  // a new file has no last commit: the floor alone decides
+  assert.equal(compareCoverage(cov(lost), floor, null).length, 1);
+});
+ok('files that do not read give no finding: the shape is the validator\'s', () => {
+  assert.deepEqual(compareCoverage('not json', floor, cov(full)), []);
+  assert.deepEqual(compareCoverage(cov(full), 'not json', cov(full)), []);
+});
+ok('the real coverage file with fewer reasons or another order of reasons is not refused: reasons are an object, not a list', () => {
+  const doc = JSON.parse(realCoverage);
+  const ids = Object.keys(doc.reasons);
+  assert.ok(ids.length >= 10, 'the real file has a table of reasons of ten entries or more');
+  const fewer = { ...doc, reasons: Object.fromEntries(Object.entries(doc.reasons).slice(0, ids.length - 4)) };
+  assert.deepEqual(compareFile('coverage.json', realCoverage, JSON.stringify(fewer, null, 1)), []);
+  // every cell stays one short string whatever its state: the file does not shrink when pages improve or fall
+  const gain = JSON.parse(realCoverage);
+  for (const row of gain.pages) for (const b of Object.keys(row.cells)) row.cells[b] = 'p';
+  gain.work = {};
+  assert.deepEqual(compareFile('coverage.json', realCoverage, JSON.stringify(gain, null, 1)), []);
+});
+
+// the same through the command, in a small repository: HEAD holds the last build and the floor
+const crepo = fs.mkdtempSync(path.join(os.tmpdir(), 'guard-coverage-'));
+const cg = (...a) => execFileSync('git', a, { cwd: crepo, stdio: 'ignore' });
+const cwrite = (rel, text) => {
+  fs.mkdirSync(path.dirname(path.join(crepo, rel)), { recursive: true });
+  fs.writeFileSync(path.join(crepo, rel), text);
+};
+cg('init', '-q');
+cg('config', 'user.email', 'test@example.invalid');
+cg('config', 'user.name', 'test');
+cg('config', 'commit.gpgsign', 'false');
+cwrite('data/coverage.json', cov(full));
+cwrite('pipeline/commodities/coverage_floor.json', floor);
+cg('add', '-A');
+cg('commit', '-q', '-m', 'last build');
+fs.mkdirSync(path.join(crepo, 'web', 'scripts'), { recursive: true });
+fs.copyFileSync(path.join(here, 'guard-data.mjs'), path.join(crepo, 'web', 'scripts', 'guard-data.mjs'));
+const guardCmd = (env = {}, ...paths) =>
+  spawnSync(process.execPath, [path.join(crepo, 'web', 'scripts', 'guard-data.mjs'), ...paths], { encoding: 'utf8', env: { ...process.env, ...env } });
+ok('a rebuild that took a block of the floor from a page is refused by the command, with the paths of the job, and the override accepts it', () => {
+  cwrite('data/coverage.json', cov({ ...full, copper: { ...full.copper, price: 'm' } }));
+  const r = guardCmd({}, 'data/commodities', 'data/coverage.json', 'data/_status');
+  assert.equal(r.status, 1, r.stdout + r.stderr);
+  assert.match(r.stderr, /page copper lost the block price/);
+  const off = guardCmd({ DATA_GUARD: 'off' }, 'data/commodities', 'data/coverage.json', 'data/_status');
+  assert.equal(off.status, 0, off.stdout + off.stderr);
+  assert.match(off.stderr, /accepted by hand/);
+  assert.match(off.stderr, /page copper lost the block price/);
+  // a job that does not own the file is not asked about it
+  assert.equal(guardCmd({}, 'data/prices', 'data/_status').status, 0);
+});
+ok('after the discard of the job the previous coverage file is back and the guard passes', () => {
+  cg('checkout', '--', 'data/coverage.json');
+  const r = guardCmd({}, 'data/coverage.json');
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+  assert.equal(fs.readFileSync(path.join(crepo, 'data/coverage.json'), 'utf8'), cov(full));
+});
+ok('a loss that was accepted and committed does not stop the next rebuild, which only gains', () => {
+  const lost = { ...full, copper: { ...full.copper, price: 'm' } };
+  cwrite('data/coverage.json', cov(lost));
+  cg('add', '-A');
+  cg('commit', '-q', '-m', 'accepted loss');
+  cwrite('data/coverage.json', cov({ ...lost, copper: { ...lost.copper, monthly: 'p' } }));
+  const r = guardCmd({}, 'data/coverage.json');
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+});
+fs.rmSync(crepo, { recursive: true, force: true });
 console.log(`guard-data: ${n} checks passed`);

@@ -107,6 +107,80 @@ try {
     assert.equal(r.status, 1);
     assert.match(r.stderr, /country code "XQZ" is not in countries\/index.json or places.json/);
   });
+  // the coverage file: the walker that reads every `s` as a source id runs on it too, and its shape is checked
+  const firstReason = (doc) => Object.keys(doc.reasons)[0];
+  ok('the built coverage file passes, and the walker that reads every `s` as a source id does read it', () => {
+    assert.equal(run().status, 0);
+    const undo = edit('coverage.json', (doc) => {
+      doc.reasons[firstReason(doc)].s = 'na';
+    });
+    const r = run();
+    undo();
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /coverage\.json: unknown source "na" at \$\.reasons\.[a-z-]+/);
+  });
+  ok('a coverage file with a reason that has no state, or a state that is not one, is refused', () => {
+    const undo = edit('coverage.json', (doc) => {
+      doc.reasons[firstReason(doc)].st = 'missing';
+    });
+    const r = run();
+    undo();
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /coverage\.json: reason [a-z-]+ needs a state \(na or nofree\) and a text/);
+  });
+  ok('a cell that names a reason that does not exist, or a state that does not match its reason, is refused', () => {
+    let undo = edit('coverage.json', (doc) => {
+      const cells = doc.pages.find((p) => Object.values(p.cells).some((c) => c.startsWith('na:'))).cells;
+      const b = Object.keys(cells).find((k) => cells[k].startsWith('na:'));
+      cells[b] = 'na:no-such-reason';
+    });
+    let r = run();
+    undo();
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /names the reason "no-such-reason", which does not exist/);
+    undo = edit('coverage.json', (doc) => {
+      const cells = doc.pages.find((p) => Object.values(p.cells).some((c) => c.startsWith('na:'))).cells;
+      const b = Object.keys(cells).find((k) => cells[k].startsWith('na:'));
+      cells[b] = cells[b].replace('na:', 'nf:');
+    });
+    r = run();
+    undo();
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /is nf: but the reason "[a-z-]+" is na/);
+  });
+  ok('a page of the index without a row, a row of no page and a cell that is not a state are refused', () => {
+    let undo = edit('coverage.json', (doc) => {
+      doc.pages.pop();
+    });
+    let r = run();
+    undo();
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /coverage\.json: page [a-z-]+ has no row/);
+    undo = edit('coverage.json', (doc) => {
+      doc.pages.push({ id: 'unobtainium', cells: {} });
+    });
+    r = run();
+    undo();
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /row "unobtainium" is not a page of commodities\/index\.json/);
+    undo = edit('coverage.json', (doc) => {
+      doc.pages[0].cells.production = 'yes';
+    });
+    r = run();
+    undo();
+    assert.equal(r.status, 1);
+    assert.match(r.stderr, /production is "yes", not p, m, na:<reason> or nf:<reason>/);
+  });
+  ok('what the cells say about the data is not this check\'s business: a page that lost a block still passes (the guard decides, and can be overridden)', () => {
+    const undo = edit('coverage.json', (doc) => {
+      const row = doc.pages.find((p) => p.cells.price === 'p');
+      row.cells.price = 'm';
+      doc.work[row.id] = [...(doc.work[row.id] ?? []), 'price'];
+    });
+    const r = run();
+    undo();
+    assert.equal(r.status, 0, r.stderr.slice(0, 1000));
+  });
 } finally {
   fs.rmSync(tmp, { recursive: true, force: true });
 }

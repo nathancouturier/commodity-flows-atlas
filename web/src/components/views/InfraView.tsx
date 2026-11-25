@@ -12,6 +12,7 @@ import { infraColor, loadInfra, type InfraFeature } from '../../map/modules/infr
 import { select, year } from '../../lib/store';
 import { Section, Kpi, Skeleton, Placeholder, InfraIcon, INFRA_META, StatusBadge, shortSource } from '../ui';
 import { CommodityChips, VesselChip, useLoaded } from './shared';
+import PortWpi from './PortWpi';
 import '../../styles/infra.css';
 
 /** "Crude oil, Saudi Arabia to China": a lane id `<group>:<origin>-<destination>` in the words of the lane page. */
@@ -253,6 +254,7 @@ export default function InfraView({ id, layer }: { id: string; layer?: InfraType
           </Section>
         )}
         {p.limits && <PortLimitsSection lim={p.limits} maxClass={p.maxClass} read={p.read} />}
+        {p.type === 'port' && <PortWpi id={p.id} />}
         {uses && <UsesSections key={`${p.type}:${p.id}`} uses={uses} />}
         <Section title="Location">
           {p.coord === 'approx' && <p class="infra-approx">Approximate location</p>}

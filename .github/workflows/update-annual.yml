@@ -69,7 +69,7 @@ jobs:
         continue-on-error: true
         # a hung source must not hit the job timeout (that would fail the run and e-mail the owner):
         # the step is stopped, recorded as failed by the next step, and the job still finishes green
-        timeout-minutes: 200
+        timeout-minutes: 205
         run: python pipeline/annual/update_annual.py --baci-check-only
       - name: Update the "what changed" digest and feed
         id: changes
@@ -82,12 +82,12 @@ jobs:
         env:
           DATA_GUARD: ${{ inputs.accept-large-moves && 'off' || 'on' }}
         with:
-          sources: "usda-psd usgs-mcs eia-intl baci faostat-wna build-freight build-alerts build-commodities build-monthly build-profiles build-prices build-changes"
+          sources: "usda-psd usgs-mcs eia-intl baci faostat-wna build-freight build-alerts build-commodities build-monthly build-coverage build-profiles build-prices build-changes"
           # only the files the job writes: a hand edit elsewhere in data/ is never part of its commit
-          paths: "data/commodities data/countries data/freight data/prices data/sources.json data/_status pipeline/cache pipeline/commodities/QA.md pipeline/freight/QA_routes.md web/public/changes.atom"
+          paths: "data/commodities data/coverage.json data/countries data/freight data/prices data/sources.json data/_status pipeline/cache pipeline/commodities/QA.md pipeline/freight/QA_routes.md web/public/changes.atom"
           message: "data: monthly update of annual sources"
           steps: |
-            ${{ steps.update.outcome }} usda-psd usgs-mcs eia-intl baci ?faostat-wna ?build-prices ?build-freight ?build-alerts ?build-commodities ?build-monthly ?build-profiles
+            ${{ steps.update.outcome }} usda-psd usgs-mcs eia-intl baci ?faostat-wna ?build-prices ?build-freight ?build-alerts ?build-commodities ?build-monthly ?build-coverage ?build-profiles
             ${{ steps.changes.outcome }} build-changes
           since: ${{ steps.start.outputs.t }}
       - name: Keep the downloads for the next run

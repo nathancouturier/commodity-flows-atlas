@@ -1300,6 +1300,50 @@ export interface PortLimits {
   y?: number;
 }
 
+/**
+ * One entry of the World Port Index for a port (data/infrastructure/wpi.json, pipeline/infrastructure/wpi_limits.py): the
+ * publication's own figures in metres, as it lists them. A figure the publication does not state is absent. There is no
+ * `s`, `y` or `v` key: the source is the file's, and the file has no year of its own.
+ */
+export interface WpiEntry {
+  /** the publication's port number and the entry's name */
+  n: number;
+  name: string;
+  /** UN/LOCODE of the entry */
+  lc?: string;
+  /** how the entry was matched to the port, and the distance in km: audit trail, not shown */
+  by: 'code' | 'name' | 'review';
+  km: number;
+  why?: string;
+  size?: 'Very Small' | 'Small' | 'Medium' | 'Large';
+  type?: string;
+  /** tidal range */
+  tide?: number;
+  /** least depths: channel, anchorage, cargo pier, oil terminal, LNG terminal */
+  chan?: number;
+  anch?: number;
+  pier?: number;
+  oil?: number;
+  lng?: number;
+  /** the largest ship the publication states: length, beam, draught; and the same for offshore berths */
+  loa?: number;
+  beam?: number;
+  draft?: number;
+  oloa?: number;
+  obeam?: number;
+  odraft?: number;
+  pilot?: 'Yes' | 'No';
+  tideRes?: 'Yes' | 'No';
+}
+
+/** data/infrastructure/wpi.json: `read` is the month the atlas read the file; `edition` is the publication's own, or null when it is not stated. */
+export interface WpiFile {
+  s: string;
+  read: string;
+  edition: string | null;
+  ports: Record<string, WpiEntry>;
+}
+
 /** A change of basis read from the source's own description: `now` starts at `at` ("YYYY-MM"), replacing `before`. */
 export interface PriceBreak {
   at: string;

@@ -27,7 +27,12 @@ the others and of the rebuild.
 Processing chain, run when the inputs it depends on changed (or when its last run failed), each step in its
 own try block with a backup of its outputs that is restored on failure:
   geo/adjacency.py -> build_lanes.py -> build_freight.py ; commodities/build_commodities.py (if present) ;
+  commodities/build_coverage.py (after any step above ran, or when its last run failed) ;
   build_profiles.py (if present) ; prices/build_prices.py (after a new USGS edition: its annual prices)
+The coverage matrix (data/coverage.json) follows the pages and rests on two hand-typed tables, which never stop the update:
+a typed reason that the data now contradict is a warning of the run (the data win), a failed step keeps the previous file, and
+the file is kept only when it has its shape (web/scripts/validate-coverage.mjs). A page that lost a block it had is refused
+by the guard of the finish action (web/scripts/guard-data.mjs), which "accept large moves" overrides.
 When the freight step fails after a new BACI cache was installed, the old cache is put back, the version it was
 built from is the one recorded again, and the two steps that depend on the lanes do not run (each is recorded as
 failed, so that the next run runs it): the commodity pages never rest on a customs cache that the lanes do not.
@@ -89,12 +94,12 @@ def install(src, dest):
     shutil.move(src, dest)
 
 
-# Time limit of each command, in minutes. Their sum (175) stays under the workflow step's 200 minutes, so that the
+# Time limit of each command, in minutes. Their sum (182) stays under the workflow step's 205 minutes, so that the
 # downloads keep about 30 minutes and a command that runs long is stopped here, its outputs restored by its Snapshot,
 # before the workflow stops the whole step mid-write. Measured on the 2026 rebuild: build_lanes.py 943 s from cold
 # caches, build_freight.py 18 s, build_commodities.py 7 s, build_profiles.py 1 s.
 STEP_MIN = {"extract": 30, "rice-forms": 10, "external": 10, "adjacency": 5, "lanes": 70, "freight": 20, "commodities": 15,
-            "profiles": 10, "alerts": 5, "prices": 5}
+            "profiles": 10, "alerts": 5, "prices": 5, "coverage": 2}
 
 
 # Time limit of each source (download and checks), in minutes. A BACI download (without --baci-check-only, by hand) has none.
@@ -127,14 +132,18 @@ class time_limit:
         return False
 
 
-def run(cmd, timeout):
-    """Run a command from the repo root; raise RuntimeError (with the last output line) when it fails."""
+def run(cmd, timeout, annotate=False):
+    """Run a command from the repo root; raise RuntimeError (with the last output line) when it fails. With ``annotate``,
+    the last lines the command wrote to stderr are shown as warnings of the run, whatever its exit status."""
     print("  $", " ".join(os.path.relpath(c, ROOT) if os.path.isabs(c) and c.startswith(ROOT) else c for c in cmd), flush=True)
     try:
         r = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, timeout=timeout)
     except subprocess.TimeoutExpired:
         raise RuntimeError(f"timed out after {timeout // 60} min")
     print("\n".join(r.stdout.splitlines()[-8:]))
+    if annotate:
+        for line in r.stderr.splitlines()[-20:]:
+            print(f"::warning::{line}")
     if r.returncode != 0:
         tail = (r.stderr.strip().splitlines() or r.stdout.strip().splitlines() or ["?"])[-1]
         raise RuntimeError(f"exit {r.returncode}: {tail}"[:200])
@@ -459,6 +468,18 @@ def build_commodities(script):
         status.record_success("build-monthly", note="rebuilt")
 
 
+def build_coverage(script):
+    """Rebuild data/coverage.json. Its warnings (a typed reason on a block that is present, a page below its floor) are
+    shown as warnings of the run and do not fail the step. A file that has not the shape the site reads fails it, so that
+    the step restores the previous file and the data validator, which has no override, never meets a malformed one."""
+    run([PY, script], STEP_MIN["coverage"] * 60, annotate=True)
+    node = shutil.which("node")
+    if node:
+        run([node, os.path.join(ROOT, "web", "scripts", "validate-coverage.mjs")], STEP_MIN["coverage"] * 60)
+    else:
+        print("  node not found: the shape of data/coverage.json is left to the data validators")
+
+
 def release_baci_backup():
     snap = _baci_backup.pop("snap", None)
     _baci_backup.pop("entry", None)
@@ -511,6 +532,10 @@ def process(changed):
         # build_commodities.py also rewrites pipeline/commodities/QA.md, which the workflow commits
         chain.append(("build-commodities", lambda: build_commodities(commodities),
                       [os.path.join(data, "commodities"), sources_json, os.path.join(ROOT, "pipeline", "commodities", "QA.md")]))
+    coverage = os.path.join(ROOT, "pipeline", "commodities", "build_coverage.py")
+    if os.path.exists(coverage) and (chain or pending("build-coverage")):
+        # the matrix reads the pages, lanes, routes, prices, assets and companies: it is rebuilt when any of them was
+        chain.append(("build-coverage", lambda: build_coverage(coverage), [os.path.join(data, "coverage.json")]))
     profiles = (glob.glob(os.path.join(ROOT, "pipeline", "**", "build_profiles.py"), recursive=True) or [None])[0]
     if profiles and (changed or pending("build-profiles")):
         chain.append(("build-profiles", lambda: run([PY, profiles], STEP_MIN["profiles"] * 60),

@@ -9,13 +9,14 @@ C2  data/coverage.json is what the builder makes from the files (same bytes twic
 C3  every block of every page is recounted by a second reading of the files, and the one difference between the web's lane groups and the lane files is named
 C4  no page has lost a block the floor file lists
 C5  the typed reasons: structure, evidence found in the cited file, no reason on a block that is present
-C9  build-coverage is wired into the annual update, in all three places or in none
+C9  build-coverage is wired into the annual update in every place, and no hand-typed table can stop a scheduled update's publication
 
 Every file read is tracked, so the tests run on GitHub without the raw downloads.
 Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_governance.py"
 """
 import builtins
 import datetime
+import functools
 import glob
 import importlib.util
 import json
@@ -32,6 +33,22 @@ MONTHS = {m: i + 1 for i, m in enumerate(
     ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"])}
 # the words of the work, not of the site: what a visitor reads never says how the work was done
 PROCESS = re.compile(r"\b(packages?|reviews?|reviewers?|findings?|agents?|rounds?|sessions?|assistants?|claude)\b|\b\d[\d,]* (unit |web |node )?tests\b", re.I)
+
+
+def drift(test):
+    """Marks a test of the committed coverage matrix against the data or the typed tables. A data update can move the
+    data under the file, or leave the file as it was (its step failed and kept the previous one): in the checks of a
+    scheduled update (ci.yml sets COVERAGE_CHECKS=warn when it is called with soft) such a finding is a warning, so that a
+    file of metadata never keeps data from being published; in every other run it fails as any test does."""
+    @functools.wraps(test)
+    def run(self):
+        try:
+            return test(self)
+        except Exception as e:  # noqa: BLE001 - a builder that cannot read the data is a finding of the same kind
+            if os.environ.get("COVERAGE_CHECKS") != "warn":
+                raise
+            warnings.warn(f"{test.__name__}: {type(e).__name__}: {e}"[:600])
+    return run
 
 
 def read(*parts):
@@ -209,6 +226,7 @@ def index():
 
 
 class CoverageFile(unittest.TestCase):
+    @drift
     def test_the_file_is_what_the_builder_makes(self):
         doc, _ = built()
         self.assertEqual(read("data", "coverage.json"), builder().render(doc), "data/coverage.json is stale: run pipeline/commodities/build_coverage.py")
@@ -261,6 +279,7 @@ class CoverageFile(unittest.TestCase):
         walk(committed(), "$")
         self.assertEqual(found, [])
 
+    @drift
     def test_one_row_per_page_and_one_cell_per_block_the_page_can_have(self):
         doc = committed()
         pages = index()
@@ -299,6 +318,7 @@ class CoverageFile(unittest.TestCase):
         for word in ("generated", "customs pairs", "benchmark", "by hand"):
             self.assertIn(word, routes["text"])
 
+    @drift
     def test_the_work_list_is_the_missing_cells_largest_seaborne_tonnage_first(self):
         doc = committed()
         missing = {r["id"]: [b for b, c in r["cells"].items() if c == "m"] for r in doc["pages"]}
@@ -394,6 +414,7 @@ class CoverageRecount(unittest.TestCase):
             "balance": bool((d.get("balance") or {}).get("rows")),
         }
 
+    @drift
     def test_every_block_of_every_page_agrees_with_the_recount(self):
         doc = committed()
         cells = {r["id"]: r["cells"] for r in doc["pages"]}
@@ -405,6 +426,7 @@ class CoverageRecount(unittest.TestCase):
                     wrong.append(f"{page['id']}/{block}: the file says {cell!r}, the files say {'present' if seen[block] else 'absent'}")
         self.assertEqual(wrong, [])
 
+    @drift
     def test_the_web_and_the_lane_files_differ_in_one_place_only(self):
         """Metallurgical coal: the web lists the group 'coal' (whose lanes are the thermal coal page's: k is
         thermal-coal) beside 'coke'; the lane files give the page only 'coke'. The presence of lanes agrees. A second
@@ -428,6 +450,7 @@ class CoverageRecount(unittest.TestCase):
         del web["met-coal"]
         self.assertNotEqual(lane_group_differences(web, files), KNOWN_LANE_GROUP_DIFFERENCE)
 
+    @drift
     def test_a_file_of_monthly_gaps_is_not_a_series(self):
         """LNG's monthly file holds a sentence about what is missing: a plain 'file exists' test would call it present."""
         for page, doc in self.monthly.items():
@@ -450,6 +473,7 @@ class CoverageFloor(unittest.TestCase):
             for b in blocks:
                 self.assertIn(b, cells[page], f"{page}: the floor lists {b}, which is not a block of that page")
 
+    @drift
     def test_no_page_has_lost_a_block(self):
         lost = builder().below_floor(committed(), self.floor()["present"])
         self.assertEqual(lost, [], "; ".join(f"page {p} lost block {b}" for p, b in lost)
@@ -508,15 +532,12 @@ class CoverageReasons(unittest.TestCase):
                 self.assertTrue(os.path.exists(path), f"{e['id']}: no file {ev['file']}")
                 self.assertIn(ev["text"], read(ev["file"]), f"{e['id']}: {ev['file']} does not say {ev['text']!r}")
 
+    @drift
     def test_no_reason_sits_on_a_block_that_is_present(self):
         """In a scheduled run the data win: the builder writes the cell as present and warns. A hand edit that leaves
-        a stale reason fails here; the checks of a data update set COVERAGE_STALE_REASONS=warn so that a table
+        a stale reason fails here; the checks of a data update only warn (COVERAGE_CHECKS=warn), so that a table
         that improved never blocks the publication of unrelated data."""
         stale = [w for w in built()[1] if w.startswith("stale reason")]
-        if os.environ.get("COVERAGE_STALE_REASONS") == "warn":
-            for w in stale:
-                warnings.warn(w)
-            return
         self.assertEqual(stale, [], "the block exists: remove the reason from pipeline/commodities/coverage_reasons.json")
 
     def test_the_data_win_when_a_typed_block_becomes_present(self):
@@ -569,20 +590,42 @@ class CoverageReasons(unittest.TestCase):
 
 
 class UpdateJobs(unittest.TestCase):
-    def test_build_coverage_is_wired_into_the_annual_update_in_all_places_or_in_none(self):
-        """The step is added to the update by the package that wires it: partly wired is the bug this catches."""
+    """The step is in every place the annual update needs, and no hand-typed table can stop the publication of data."""
+
+    def test_build_coverage_is_wired_into_the_annual_update_in_every_place(self):
         status = read("pipeline", "common", "status.py")
         workflow = read(".github", "workflows", "update-annual.yml")
+        annual = read("pipeline", "annual", "update_annual.py")
         steps = re.search(r"BUILD_STEPS = \(([^)]*)\)", status).group(1)
         places = {
             "BUILD_STEPS of pipeline/common/status.py": '"build-coverage"' in steps,
             "sources of update-annual.yml": bool(re.search(r'sources: "[^"]*\bbuild-coverage\b', workflow)),
             "steps of update-annual.yml": "?build-coverage" in workflow,
             "paths of update-annual.yml": bool(re.search(r'paths: "[^"]*\bdata/coverage\.json\b', workflow)),
+            "the chain of update_annual.py": 'chain.append(("build-coverage"' in annual,
+            "STEP_MIN of update_annual.py": '"coverage":' in annual,
         }
-        wired = [k for k, v in places.items() if v]
-        self.assertIn(len(wired), (0, len(places)), f"build-coverage is in {wired} but not in {[k for k in places if k not in wired]}")
+        missing = [k for k, v in places.items() if not v]
+        self.assertEqual(missing, [], f"build-coverage is not in {missing}")
         self.assertTrue(os.path.exists(os.path.join(ROOT, "pipeline", "commodities", "build_coverage.py")))
+
+    def test_the_step_comes_after_the_pages_and_before_the_profiles(self):
+        annual = read("pipeline", "annual", "update_annual.py")
+        order = [annual.index(f'chain.append(("{n}"') for n in ("build-commodities", "build-coverage", "build-profiles")]
+        self.assertEqual(order, sorted(order))
+
+    def test_the_checks_of_a_scheduled_update_only_warn_on_the_matrix(self):
+        """ci.yml is called with soft by the update workflows: the Python suite then runs with COVERAGE_CHECKS=warn."""
+        ci = read(".github", "workflows", "ci.yml")
+        self.assertRegex(ci, r"COVERAGE_CHECKS: \$\{\{ inputs\.soft == true && 'warn' \|\| 'fail' \}\}")
+        step = ci[ci.index("name: Python unit suite"):ci.index("name: Production build")]
+        self.assertIn("COVERAGE_CHECKS", step)
+
+    def test_the_floor_is_the_guards_and_not_the_validators(self):
+        """The validator has no override and a failure of it discards every path of a job; the guard has one."""
+        self.assertIn("coverage_floor.json", read("web", "scripts", "guard-data.mjs"))
+        self.assertNotIn("coverage_floor", read("web", "scripts", "validate-data.mjs"))
+        self.assertNotIn("coverage_floor", read("web", "scripts", "validate-coverage.mjs"))
 
 
 if __name__ == "__main__":

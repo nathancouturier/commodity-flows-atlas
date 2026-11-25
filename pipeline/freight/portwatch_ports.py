@@ -52,7 +52,14 @@ WINDOW_WEEKS = 6             # the weeks read again every run
 DEEP_WEEKS = 52              # the weeks read again for a quarter of the ports every run
 QUARTERS = 4
 SCHEDULED_BACKFILL_CAP = 5   # ports without a file filled in by one scheduled run
-DECIMALS = 0                 # tonnes are stored in thousands, rounded to this many decimals (see the module notes of the script)
+# Tonnes are stored in thousand tonnes rounded to this many decimals. Measured on 25 November 2026 on the whole history of
+# five ports (Ras Tanura, Fujairah, Singapore, Basrah Oil Terminal, Narvik) and on an earlier sample of Port Hedland: rounding
+# to the integer moves the 52-week sum of one ship type by at most 5.9% (Ras Tanura, where the type's whole sum is 2 kt) and
+# by 0.11% at Singapore; the four types together (computed for Basrah, Narvik and Hedland) by at most 0.7%, except 4.6% of
+# the 4 kt of imports of Narvik (0.2 kt). A file is 11 to 19 kB, against 17 to 26 kB with one decimal: about 2.2 MB against
+# 3.3 MB for 163 files, close to SIZE_STOP_KB. The script prints, for each port it reads in full, how far rounding moves its
+# sums, and flags the ports above 1%.
+DECIMALS = 0
 UNIT = "kt"
 SIZE_STOP_KB = 3500          # the folder may not exceed this (decimal kB, as check-size.mjs counts)
 MIN_ROW_SHARE = 0.9          # a run that gets less than this share of the rows it expects is refused
@@ -263,20 +270,22 @@ def revision(old, new, since, before):
     return diff / base if base else None
 
 
-def rounding_error(weeks, dp=DECIMALS, n=52):
-    """(share, where): the largest relative difference between the sum of the last ``n`` rounded weeks and the exact
-    sum, over the exports and imports of every ship type whose exact sum is not zero; (0.0, None) when there is none."""
+def rounding_error(weeks, dp=DECIMALS, n=52, by_type=False):
+    """(share, where): the largest relative difference between the sum of the last ``n`` rounded weeks and the exact sum,
+    for the exports and the imports. By default the four ship types are added first, as the 52-week figure of the page is;
+    with ``by_type`` each type is taken alone. A sum of zero is left out; (0.0, None) when there is none."""
     ms = sorted(weeks)[-n:]
     worst = (0.0, None)
     for k in ("exports", "imports"):
-        for t in TYPES:
-            exact = sum(weeks[m][k][t] for m in ms)
+        groups = [(t,) for t in TYPES] if by_type else [tuple(TYPES)]
+        for g in groups:
+            exact = sum(weeks[m][k][t] for m in ms for t in g)
             if not exact:
                 continue
-            rounded = sum(kt(weeks[m][k][t], dp) for m in ms) * 1000
+            rounded = sum(kt(weeks[m][k][t], dp) for m in ms for t in g) * 1000
             share = abs(rounded - exact) / exact
             if share > worst[0]:
-                worst = (share, f"{k} {t}")
+                worst = (share, f"{k} {g[0]}" if by_type else k)
     return worst
 
 

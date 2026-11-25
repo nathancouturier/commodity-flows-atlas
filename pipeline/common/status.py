@@ -45,8 +45,8 @@ ALERT_AFTER = 3
 # a cloud runner once), two in a row are. A build step alerts at its first failure: its inputs did not change between
 # two runs, so a second run would fail the same way, a month later.
 MONTHLY_SOURCES = ("usda-psd", "usgs-mcs", "eia-intl", "baci", "faostat-wna")
-BUILD_STEPS = ("build-freight", "build-alerts", "build-commodities", "build-monthly", "build-profiles", "build-prices",
-               "build-changes")
+BUILD_STEPS = ("build-freight", "build-alerts", "build-commodities", "build-monthly", "build-coverage", "build-profiles",
+               "build-prices", "build-changes")
 ALERT_AFTER_SOURCE = {**{s: 2 for s in MONTHLY_SOURCES}, **{s: 1 for s in BUILD_STEPS}}
 
 

@@ -340,8 +340,10 @@ def run(argv=None, today=None):
             none.discard(p)
             res["written"].append(p)
             share, where = PP.rounding_error(weeks)
+            tshare, twhere = PP.rounding_error(weeks, by_type=True)
             print(f"  {p} {names[p]}: {len(doc['calls']['tanker'])} weeks, {len(text.encode('utf-8'))} bytes, to {doc['y']}; "
-                  f"a 52-week sum is off by at most {share * 100:.2f}% by rounding" + (f" ({where})" if where else "")
+                  f"rounding moves the 52-week sum of the four types by at most {share * 100:.2f}%" + (f" ({where})" if where else "")
+                  + f", of one type by at most {tshare * 100:.2f}%" + (f" ({twhere})" if twhere else "")
                   + (" ROUNDING OVER 1%" if share > 0.01 else ""))
         if rechecked or none != none0:
             atomic_write(os.path.join(out_dir, PP.INDEX), dump(PP.index_doc(none, today.isoformat())))

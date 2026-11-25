@@ -131,6 +131,7 @@ const SHORT_PUBLISHER: Record<string, string> = {
   'U.S. Energy Information Administration': 'EIA',
   'U.S. Geological Survey': 'USGS',
   'U.S. Geological Survey, National Minerals Information Center': 'USGS',
+  'US National Geospatial-Intelligence Agency': 'NGA',
 };
 export function shortSource(id: string): string {
   const pub = sources.value[id]?.publisher;
