@@ -476,10 +476,12 @@ prohibits bulk download of information by automated technology without explicit 
 terminate access to its Sites or Content.", and lists "Copying or downloading IMF Content in any systematic way" among
 the uses that need the IMF's written permission; no page read says whether PortWatch's public data service comes with
 such a permission. The owner's decision of 25 November 2026: the atlas keeps reading PortWatch as a person would, in
-small pieces, one request at a time and slowly, and credits IMF PortWatch wherever its figures appear. The update
-script asks for one page a week (the days since the last one stored) and waits 8 to 14 seconds between two requests
-when it has to read more (the whole chokepoint table, about 41 pages, when it has no working table or once every four
-weeks).
+small pieces, one request at a time and slowly, and credits IMF PortWatch (the credit line of this section). How the
+update script reads that decision: once a week it asks for one page (the days since the last one stored and the 14 days
+before it, which PortWatch may revise); when it has to read more (the whole chokepoint table, about 41 pages, when it
+has no working table or once every four weeks) it waits 8 to 14 seconds between two pages; and no request, one repeated
+after an error included, starts less than 8 seconds after the one before. The figures in seconds are the script's, not
+the owner's.
 
 The CC BY 4.0 release of the atlas's own figures does not extend IMF's rights: the weekly averages stay subject to
 the IMF conditions above.

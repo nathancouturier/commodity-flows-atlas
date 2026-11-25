@@ -5,12 +5,14 @@ Fetch the IMF PortWatch daily chokepoint transits and rebuild data/freight/portw
 
 Source  ArcGIS feature service Daily_Chokepoints_Data (services9.arcgis.com/weJ1QsnbMYJlCHdG), paged
         2000 records at a time (the service allows 10,000) ordered by ObjectId, one request at a time, with a pause of
-        PAUSE_S seconds (8 to 14) between two pages.
+        PAUSE_S seconds (8 to 14) between two pages; no request, one repeated after an error included, starts less
+        than PAUSE_S[0] seconds after the one before (the download helper is given that as its least interval).
 Pace    the owner's rule for PortWatch (25 November 2026): read it as a person would, in small pieces, one request at a
-        time and slowly, and credit it. The IMF's terms page says that it "prohibits bulk download of information by
-        automated technology without explicit permission" (NOTICE.md quotes it): a weekly run asks for one page, the
-        whole table (about 41 pages, about eight minutes at this pace) is asked for only when there is no working table
-        or once every FULL_EVERY_DAYS days. Do not shorten the pause or run two requests at once.
+        time and slowly, and credit it. The pause in seconds is this script's reading of "slowly", not a figure of the
+        owner. The IMF's terms page says that it "prohibits bulk download of information by automated technology
+        without explicit permission" (NOTICE.md quotes it): a weekly run asks for one page, the whole table (about 41
+        pages: about ten minutes at this pace, a quarter of an hour at the slowest) is asked for only when there is
+        no working table or once every FULL_EVERY_DAYS days. Do not shorten the pause or run two requests at once.
 Incremental  the daily table is a working file in pipeline/cache/portwatch/ (one file per year). It is NOT in git: the
         atlas publishes only its own weekly averages and comparisons (data/freight/portwatch/). On GitHub the weekly job
         restores it at its start from the newest artifact of the workflow (restore_portwatch.py) and uploads it again
@@ -56,7 +58,8 @@ NEEDED = {"date", "portid", "portname", "n_tanker", "n_dry_bulk", "n_container",
           "capacity_tanker", "capacity_dry_bulk", "capacity_container", "capacity_general_cargo", "capacity_roro", "capacity"}
 OVERLAP_DAYS = 14
 FULL_EVERY_DAYS = 28
-PAUSE_S = (8.0, 14.0)   # seconds between two pages: the owner's rule for PortWatch (one request at a time, slowly)
+PAUSE_S = (8.0, 14.0)   # seconds between two pages, the first also the least time between two requests: this script's reading
+#                         of the owner's rule for PortWatch (slowly, one request at a time)
 
 
 def plan(has_cache, full_on, last_date, today):
@@ -77,7 +80,7 @@ def fetch_rows(where):
         doc = fetch.get_json(URL, params={
             "where": where, "outFields": "*", "f": "json", "orderByFields": "ObjectId",
             "resultOffset": offset, "resultRecordCount": PAGE,
-        })
+        }, min_interval=PAUSE_S[0])   # a request repeated after an error waits as long as any other
         feats = doc.get("features")
         if not isinstance(feats, list):
             raise fetch.FetchError("page without features")

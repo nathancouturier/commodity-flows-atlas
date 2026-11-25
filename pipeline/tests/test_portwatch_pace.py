@@ -1,22 +1,36 @@
-"""The pace of the PortWatch download: the owner's rule of 25 November 2026 (in small pieces, one request at a time, slowly).
+"""The pace of the PortWatch download.
 
-The IMF's terms page says that it "prohibits bulk download of information by automated technology without explicit
-permission" (NOTICE.md quotes it). The update script may not be made faster or parallel by mistake: these tests fail first.
+The owner's rule of 25 November 2026 for PortWatch: read it as a person would, in small pieces, one request at a time and
+slowly. The IMF's terms page says that it "prohibits bulk download of information by automated technology without explicit
+permission" (NOTICE.md quotes it). The pause in seconds is the script's reading of "slowly". These tests fail when the
+script is made faster, when a pause is dropped or when two requests could run at once, and they tie the figures of the
+texts to the constants of the code.
 """
+import json
+import math
 import os
+import re
 import sys
+import threading
 import unittest
+from datetime import date, timedelta
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 sys.path.insert(0, os.path.join(ROOT, "pipeline"))
 sys.path.insert(0, os.path.join(ROOT, "pipeline", "freight"))
+sys.path.insert(0, os.path.join(ROOT, "pipeline", "infrastructure"))
 
 import fetch_portwatch as FP  # noqa: E402
+from common import fetch as F  # noqa: E402
 
 
 def read(*parts):
     with open(os.path.join(ROOT, *parts), encoding="utf-8") as fh:
         return fh.read()
+
+
+def flat(text):
+    return " ".join(text.split())
 
 
 class Pace(unittest.TestCase):
@@ -26,52 +40,143 @@ class Pace(unittest.TestCase):
         self.assertGreater(hi, lo)
 
     def test_pages_are_asked_one_after_the_other_with_the_pause_between_them(self):
-        """Three pages: three requests in order, a pause of PAUSE_S after each page but the last, and nothing in parallel."""
+        """Three pages: request, pause, request, pause, request, in that order, on one thread, never two requests at once,
+        and the download helper is given the least interval so that a repeated request waits as long as any other."""
         row = {k: 0 for k in FP.NEEDED}
         pages = [{"features": [{"attributes": dict(row)}] * 2, "exceededTransferLimit": True},
                  {"features": [{"attributes": dict(row)}] * 2, "exceededTransferLimit": True},
                  {"features": [{"attributes": dict(row)}], "exceededTransferLimit": False}]
-        calls, sleeps = [], []
+        events, flying, main = [], [0], threading.get_ident()
 
         def fake_get_json(url, params=None, **kw):
-            calls.append(params["resultOffset"])
-            return pages[len(calls) - 1]
+            self.assertEqual(threading.get_ident(), main, "a request left the main thread")
+            self.assertEqual(flying[0], 0, "two requests at once")
+            flying[0] += 1
+            events.append(("get", params["resultOffset"], kw.get("min_interval")))
+            flying[0] -= 1
+            return pages[sum(1 for e in events if e[0] == "get") - 1]
+
+        def fake_sleep(s):
+            self.assertEqual(threading.get_ident(), main, "a pause left the main thread: the next request would not wait for it")
+            events.append(("sleep", s))
 
         saved = (FP.fetch.get_json, FP.time.sleep)
         try:
-            FP.fetch.get_json, FP.time.sleep = fake_get_json, sleeps.append
+            FP.fetch.get_json, FP.time.sleep = fake_get_json, fake_sleep
             rows = FP.fetch_rows("1=1")
         finally:
             FP.fetch.get_json, FP.time.sleep = saved
         self.assertEqual(len(rows), 5)
-        self.assertEqual(calls, [0, 2, 4])            # one request at a time, each after the one before
-        self.assertEqual(len(sleeps), 2)              # a pause between two pages, none after the last
-        for s in sleeps:
-            self.assertGreaterEqual(s, FP.PAUSE_S[0])
-            self.assertLessEqual(s, FP.PAUSE_S[1])
+        self.assertEqual([e[0] for e in events], ["get", "sleep", "get", "sleep", "get"])   # a pause between two pages, none after the last
+        self.assertEqual([e[1] for e in events if e[0] == "get"], [0, 2, 4])
+        for e in events:
+            if e[0] == "get":
+                self.assertEqual(e[2], FP.PAUSE_S[0])
+            else:
+                self.assertGreaterEqual(e[1], FP.PAUSE_S[0])
+                self.assertLessEqual(e[1], FP.PAUSE_S[1])
 
-    def test_a_weekly_run_asks_for_the_days_since_the_last_one_stored_only(self):
-        from datetime import date
-        mode, where = FP.plan(True, "2026-11-20", "2026-11-18", date(2026, 11, 25))
+    def test_a_request_repeated_after_an_error_starts_no_sooner_than_any_other(self):
+        """The download helper itself, on a clock of the test: a page answered 503 twice and then 200. With the least interval that
+        fetch_rows passes, each attempt starts at least PAUSE_S[0] seconds after the one before (the helper's own waits are shorter)."""
+        clock, starts = [1000.0], []
+
+        class Resp:
+            def __init__(self, code):
+                self.status_code = code
+                self.content = b'{"features": []}'
+
+            def json(self):
+                return {"features": []}
+
+            def close(self):
+                pass
+
+        class Session:
+            def __init__(self):
+                self.codes = [503, 503, 200]
+
+            def request(self, *a, **kw):
+                starts.append(clock[0])
+                clock[0] += 0.5   # the time of an answer
+                return Resp(self.codes.pop(0))
+
+        session = Session()
+        saved = (F._sess, F.time.sleep, F.time.monotonic, dict(F._last_hit), F.random.uniform)
+        try:
+            F._sess = lambda: session
+            F.time.sleep = lambda s: clock.__setitem__(0, clock[0] + max(0.0, s))
+            F.time.monotonic = lambda: clock[0]
+            F.random.uniform = lambda a, b: a   # the shortest wait the helper can draw
+            F._last_hit.clear()
+            doc = F.get_json(FP.URL, params={"f": "json"}, min_interval=FP.PAUSE_S[0])
+        finally:
+            F._sess, F.time.sleep, F.time.monotonic, F.random.uniform = saved[0], saved[1], saved[2], saved[4]
+            F._last_hit.clear()
+            F._last_hit.update(saved[3])
+        self.assertEqual(doc, {"features": []})
+        self.assertEqual(len(starts), 3)
+        for a, b in zip(starts, starts[1:]):
+            self.assertGreaterEqual(b - a, FP.PAUSE_S[0])
+        # and without the least interval the helper would have come back sooner: the parameter is what makes the difference
+        self.assertLess(F.BACKOFF_BASE, FP.PAUSE_S[0])
+
+    def test_a_weekly_run_asks_for_the_last_days_and_the_days_portwatch_may_revise(self):
+        last, today = date(2026, 11, 18), date(2026, 11, 25)
+        mode, where = FP.plan(True, (today - timedelta(days=5)).isoformat(), last.isoformat(), today)
         self.assertEqual(mode, "incremental")
-        self.assertIn("date > '2026-11-04'", where)   # the last day stored less the days PortWatch may revise
+        self.assertIn(f"date > '{(last - timedelta(days=FP.OVERLAP_DAYS)).isoformat()}'", where)
+        # that is one page: the rows of a day (one per passage; the atlas has at least as many passages as the table) times the days asked for
+        with open(os.path.join(ROOT, "data", "freight", "chokepoints.json"), encoding="utf-8") as fh:
+            passages = len(json.load(fh))
+        self.assertLess((7 + FP.OVERLAP_DAYS) * passages, FP.PAGE)
+        # the whole table is asked for again only after FULL_EVERY_DAYS days, or with no working table
+        self.assertEqual(FP.plan(True, (today - timedelta(days=FP.FULL_EVERY_DAYS)).isoformat(), last.isoformat(), today)[0], "full")
+        self.assertEqual(FP.plan(False, None, None, today)[0], "full")
+
+    def _records(self):
+        """The rows of the table at the last update, as the status file records them."""
+        with open(os.path.join(ROOT, "data", "_status", "updates.json"), encoding="utf-8") as fh:
+            st = json.load(fh)
+        src = st.get("sources", st).get(FP.SOURCE) if isinstance(st, dict) else None
+        n = (src or {}).get("records")
+        self.assertIsInstance(n, int, "the status file no longer records the rows of the PortWatch table")
+        return n
 
     def test_the_whole_table_fits_the_step_of_the_job_at_this_pace(self):
-        """About 80,000 rows by pages of PAGE at the slowest pause must stay well inside the 25 minutes of the workflow's step."""
-        import re
+        """The table of today, a tenth larger, at the longest pause and five seconds an answer, stays within three quarters of the step's limit."""
         wf = read(".github", "workflows", "update-portwatch.yml")
         step = re.search(r"- name: Fetch PortWatch and rebuild chokepoint series\n(?:.*\n)*?\s+timeout-minutes: (\d+)", wf)
         self.assertIsNotNone(step)
         limit_s = int(step.group(1)) * 60
-        pages = -(-90000 // FP.PAGE)                   # a table a little larger than today's
-        worst = pages * (FP.PAUSE_S[1] + 5)            # the longest pause and five seconds for each answer
-        self.assertLess(worst, limit_s * 0.75)
+        pages = math.ceil(self._records() * 1.1 / FP.PAGE)
+        self.assertLess(pages * (FP.PAUSE_S[1] + 5), limit_s * 0.75)
 
-    def test_the_notice_quotes_the_terms_and_gives_the_rule(self):
-        notice = " ".join(read("NOTICE.md").split())
+    def test_the_texts_give_the_figures_of_the_code(self):
+        lo, hi = int(FP.PAUSE_S[0]), int(FP.PAUSE_S[1])
+        pages = math.ceil(self._records() / FP.PAGE)
+        notice = flat(read("NOTICE.md"))
         self.assertIn("prohibits bulk download of information by automated technology without explicit permission", notice)
+        self.assertIn("Copying or downloading IMF Content in any systematic way", notice)
         self.assertIn("one request at a time and slowly", notice)
-        self.assertIn(f"waits {int(FP.PAUSE_S[0])} to {int(FP.PAUSE_S[1])} seconds between two requests", notice)
+        self.assertIn(f"it waits {lo} to {hi} seconds between two pages", notice)
+        self.assertIn(f"starts less than {lo} seconds after the one before", notice)
+        self.assertIn(f"about {pages} pages", notice)
+        self.assertIn(f"the {FP.OVERLAP_DAYS} days before it", notice)
+        self.assertEqual(FP.FULL_EVERY_DAYS, 28)
+        self.assertIn("once every four weeks", notice)
+        self.assertIn("The figures in seconds are the script's, not the owner's", notice)
+        wf = flat(read(".github", "workflows", "update-portwatch.yml").replace("#", " "))
+        self.assertIn(f"{pages} requests, one at a time and at least {lo} seconds apart", wf)
+        doc = flat(FP.__doc__)
+        self.assertIn(f"PAUSE_S seconds ({lo} to {hi}) between two pages", doc)
+        self.assertIn(f"about {pages} pages", doc)
+        self.assertIn('this script\'s reading of "slowly", not a figure of the owner', doc)
+
+    def test_the_other_script_that_reads_portwatch_keeps_the_same_least_interval(self):
+        import fetch_portwatch_ports as PP
+        self.assertGreaterEqual(PP.MIN_INTERVAL_S, FP.PAUSE_S[0])
+        self.assertIn("min_interval=MIN_INTERVAL_S", read("pipeline", "infrastructure", "fetch_portwatch_ports.py"))
 
 
 if __name__ == "__main__":

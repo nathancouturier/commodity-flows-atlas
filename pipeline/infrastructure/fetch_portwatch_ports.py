@@ -24,13 +24,14 @@ OUT = os.path.join(ROOT, "pipeline", "cache", "portwatch_ports.csv")
 URL = "https://services9.arcgis.com/weJ1QsnbMYJlCHdG/ArcGIS/rest/services/PortWatch_ports_database/FeatureServer/0/query"
 FIELDS = ["portid", "portname", "ISO3", "LOCODE", "lat", "lon", "pageid"]
 PAGE = 1000
+MIN_INTERVAL_S = 8.0   # the least time between two requests to PortWatch, as in pipeline/freight/fetch_portwatch.py (the owner's rule: slowly, one at a time)
 
 
 def fetch():
     rows, off = [], 0
     while True:
         d = get_json(URL, params={"where": "1=1", "outFields": ",".join(FIELDS), "returnGeometry": "false", "f": "json",
-                                  "orderByFields": "ObjectId", "resultOffset": off, "resultRecordCount": PAGE})
+                                  "orderByFields": "ObjectId", "resultOffset": off, "resultRecordCount": PAGE}, min_interval=MIN_INTERVAL_S)
         feats = d.get("features") or []
         rows += [f["attributes"] for f in feats]
         if not feats or not d.get("exceededTransferLimit"):

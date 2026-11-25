@@ -19,8 +19,8 @@ released. This file is updated at each release.
 | 3 | Wrong figures per commodity (gas, LNG, copper, precious metals, lithium, nickel, steel, fertilisers, cocoa) | corrections done, released on 23 November; the points that needed a new source (LPG from the United States to Mexico, tin ores from Myanmar, the steel and LNG cross-checks, metallurgical coal by pair of countries) in the seventh release, on 25 November. Left: the lanes and route shares of metallurgical coal, thermal coal by destination |
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
-| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). Designed and criticised on 25 November, built next: a way to report an error, a changelog and a coverage matrix per commodity; a voyage calculator on the route pages; port limits from the World Port Index; a block on the state of the freight market; weekly traffic per port from IMF PortWatch (loaded little by little, at the pace the owner decided on 25 November). Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
-| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,560 and 75 at the seventh, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
+| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). Designed and criticised on 25 November, built next: a way to report an error, a changelog and a coverage matrix per commodity; a voyage calculator on the route pages; port limits from the World Port Index; a block on the state of the freight market; weekly traffic per port from IMF PortWatch (loaded little by little and slowly, as the owner decided on 25 November). Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
 
 ## Seventh release (25 November 2026): what changed
 
@@ -129,13 +129,14 @@ the code that called the Census file public domain), a package of ten points, an
 - The parts of an estimated share are each rounded from their own value (LPG lanes: 4.2% of the 2024 seaborne
   tonnage is an Atlas estimate, 2.9% from a volume and 1.2% from the declared value, where 1.3% was printed).
 - The recipe for adding a commodity (`docs/ADDING_A_COMMODITY.md`) names no work package any more.
-- The weekly PortWatch download now waits 8 to 14 seconds between two requests, and `NOTICE.md` quotes what the
-  IMF's terms page says of downloads by script: the owner's decision of 25 November 2026 (see "Decisions of the
-  owner").
+- The weekly PortWatch download is slower: 8 to 14 seconds between two pages, and never less than 8 seconds
+  between two requests, a repeated one included. The owner decided on 25 November 2026 that PortWatch is read
+  slowly, in small pieces and one request at a time (see "Decisions of the owner"); the figures in seconds are
+  the script's reading of it. `NOTICE.md` quotes what the IMF's terms page says of downloads by script.
 
 ### Checks
 
-- 1,560 unit tests and 75 web tests, all passing without the raw downloads; a second run of every builder
+- 1,562 unit tests and 75 web tests, all passing without the raw downloads; a second run of every builder
   changes no file; the checks of GitHub reproduced on a fresh clone; five browser suites on the production
   build; a reading of 1,238 pages of the candidate with every fold open (every commodity, country, passage,
   route, vessel class and event page, 402 lanes and a sample of 113 assets) against the released site: 97 pages
@@ -650,9 +651,11 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
   statistical data with attribution and also says that the IMF "prohibits bulk download of information by
   automated technology without explicit permission"; no page read says whether PortWatch's public data service
   comes with such a permission. Asked, the owner decided: keep reading PortWatch as a person would, in small
-  pieces, one request at a time and slowly, and credit it. The update script waits 8 to 14 seconds between two
-  requests since the seventh release (a test keeps it from being made faster), NOTICE.md quotes the terms and
-  the decision, and the weekly traffic per port will be loaded the same way, a few ports at a time.
+  pieces, one request at a time and slowly, and credit it. What was done with it, the figures being the
+  script's and not the owner's: since the seventh release the update script waits 8 to 14 seconds between two
+  pages and never less than 8 seconds between two requests (a test keeps it from being made faster), NOTICE.md
+  quotes the terms and the decision, and the weekly traffic per port will be loaded the same way, a few ports
+  at a time.
 
 ## Choices made without the owner, to confirm
 
