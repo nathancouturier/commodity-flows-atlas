@@ -242,8 +242,9 @@ def jobs(workflows=os.path.join(ROOT, ".github", "workflows")):
 
 
 # ----------------------------------------------------------------------------- entries and feed
-# how the feed words a source of a price move: the id is the default; the EIA's spot prices carry the source the EIA gives for them
-SOURCE_WORDS = {"eia-spot": "EIA, source: Refinitiv"}
+# how the feed words the source of a price move: the EIA's spot prices carry the source the EIA gives for them, the others the short
+# names of the price board (web/src/components/PriceBoard.tsx); the id is the default for a source with no word
+SOURCE_WORDS = {"eia-spot": "EIA, source: Refinitiv", "wb-pink": "World Bank", "bls": "BLS", "dallasfed": "Dallas Fed", "nyfed": "New York Fed"}
 
 
 def lines_prices(block, label):

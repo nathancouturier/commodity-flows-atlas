@@ -69,8 +69,18 @@ class PriceMoves(unittest.TestCase):
             lines = C.lines_prices(weekly, "week")
             self.assertTrue(lines and all(l.endswith("; EIA, source: Refinitiv)") for l in lines), lines)
             self.assertFalse(any("eia-spot" in l for l in lines))
+            # the monthly sources are named in words, not by their registry id
+            m = C.lines_prices(monthly, "month")
+            self.assertTrue(m and all(l.endswith("; World Bank)") for l in m), m)
+            self.assertFalse(any("wb-pink" in l for l in m))
             # a source without a word of its own is named by its id
-            self.assertTrue(all("; " in l for l in C.lines_prices(monthly, "month")))
+            self.assertTrue(C.lines_prices({"moves": [{"name": "N", "to": "2026-10", "pct": 1.0, "v0": 1, "v1": 2, "unit": "USD", "s": "x-id"}]}, "month")[0].endswith("; x-id)"))
+            # every source of the weekly job that prices come from has a word the site uses
+            with open(os.path.join(ROOT, "web", "src", "components", "PriceBoard.tsx"), encoding="utf-8") as fh:
+                board = fh.read()
+            for sid, word in (("wb-pink", "World Bank"), ("bls", "BLS"), ("dallasfed", "Dallas Fed"), ("nyfed", "New York Fed")):
+                self.assertEqual(C.SOURCE_WORDS[sid], word)
+                self.assertIn(f"{sid}: {{ by: '{word}'" if sid.isidentifier() else f"'{sid}': {{ by: '{word}'", board)
 
     def test_a_series_without_a_quote_a_week_before_is_left_out(self):
         with tempfile.TemporaryDirectory() as tmp:

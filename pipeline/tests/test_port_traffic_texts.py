@@ -19,12 +19,15 @@ for sub in ("", "common", "freight", "infrastructure"):
         sys.path.insert(0, p)
 
 import fetch_portwatch as FP  # noqa: E402
+import extract_wpi as W  # noqa: E402
 import fetch_portwatch_port_traffic as S  # noqa: E402
 import portwatch_pairs as PP  # noqa: E402
 import portwatch_ports as P  # noqa: E402
 
 NEW = "portwatch-port-traffic"
-# the text of the item "Daily_Ports_Data" that the figures were quoted from, saved when the design was made (outside the repository)
+# the sentences of the item "Daily_Ports_Data" that the texts quote, with their source and the date they were read (in the repository)
+FIXTURE = os.path.join(ROOT, "pipeline", "tests", "fixtures", "portwatch_daily_ports_data_quotations.json")
+# the whole text of the item as it was saved when the design was made (outside the repository: compared with the fixture where it exists)
 ITEM = "/tmp/claude-0/audit/work/6B/PORTS/samples/item_83b1bbc7b3354c5fb1f40673bb8f852e.json"
 
 
@@ -35,6 +38,25 @@ def read(*parts):
 
 def flat(text):
     return " ".join(text.split())
+
+
+def fixture():
+    with open(FIXTURE, encoding="utf-8") as fh:
+        return json.load(fh)
+
+
+def item_text():
+    """The text of the saved item, tags removed, on one line; None where the saved file is not on this machine."""
+    if not os.path.exists(ITEM):
+        return None
+    import html
+    with open(ITEM, encoding="utf-8") as fh:
+        return flat(re.sub(r"<[^>]+>", " ", html.unescape(json.load(fh)["description"])))
+
+
+def tight(text):
+    """The text without the spaces that removing the tags left inside parentheses."""
+    return re.sub(r"\(\s+", "(", re.sub(r"\s+\)", ")", text))
 
 
 def method_bullet():
@@ -150,6 +172,16 @@ class Notes(unittest.TestCase):
         self.assertIn(f'"{row["name"]}"', m)
         self.assertIn("a later change", m)
 
+    def test_the_fixture_of_the_two_index_entries_names_the_copy_of_the_index_the_atlas_reads(self):
+        """The node test recomputes the two distances from this fixture on every machine: its source is the copy the extraction reads."""
+        with open(os.path.join(ROOT, "pipeline", "tests", "fixtures", "wpi_ras_lanuf_entries.json"), encoding="utf-8") as fh:
+            fx = json.load(fh)
+        self.assertEqual(next(iter(fx)), "source")
+        for part in (W.CAPTURED, W.CAPTURED_FROM, W.DOWNLOADED, "UpdatedPub150.csv", "World Port Index (Publication 150)"):
+            self.assertIn(part, fx["source"])
+        self.assertEqual([e["name"] for e in fx["entries"]], ["Al Burayqah", "Ras Lanuf"])
+        self.assertEqual(fx["entries"][0]["alternate_name"], "Marsa Brega")
+
     def test_the_asset_is_still_where_the_text_says_it_is_to_be_moved_from(self):
         """The text says the asset is to be moved in a later change: it is still paired with PortWatch's port of that name."""
         asset = next(a for a in ASSETS if a["properties"]["id"] == "ras-lanuf")
@@ -238,29 +270,43 @@ class Requests(unittest.TestCase):
 class Quotes(unittest.TestCase):
     """What PortWatch says its figures are: quoted from the item's text, word for word."""
 
-    def test_every_sentence_in_quotation_marks_that_comes_from_the_item_is_in_the_item(self):
-        if not os.path.exists(ITEM):
-            self.skipTest("the saved text of the item is not on this machine: " + ITEM)
-        import html
-        with open(ITEM, encoding="utf-8") as fh:
-            d = json.load(fh)
-        text = flat(re.sub(r"<[^>]+>", " ", html.unescape(d["description"])))
+    def test_the_fixture_says_what_it_is_and_where_its_sentences_were_read(self):
+        fx = fixture()
+        self.assertEqual(next(iter(fx)), "about", "the first field says what the file holds")
+        self.assertIn("Quotations of a few sentences, with their source", fx["about"])
+        self.assertIn("Nothing else of the item is copied", fx["about"])
+        self.assertEqual(fx["item"], f"https://www.arcgis.com/sharing/rest/content/items/{fx['item_id']}?f=json")
+        self.assertRegex(fx["read"], r"^2026-11-25$")
+        self.assertIn(fx["item_id"], REGISTRY[NEW]["access"])
+        self.assertEqual(sorted(fx["quotations"]), ["manual_entry", "port_call", "trade_estimates", "transponder"])
+        self.assertIn(f"the item's recommended citation is \"{fx['recommended_citation'].rstrip('.')}\"", REGISTRY[NEW]["licence"])
+
+    def test_every_sentence_in_quotation_marks_that_comes_from_the_item_is_a_sentence_of_the_fixture(self):
+        """On every machine: the sentences the paragraph quotes from the item are those of the fixture, and the fixture holds no other."""
         m = method_bullet()
+        quotations = list(fixture()["quotations"].values())
         quoted = [q for q in re.findall(r'"([^"]{40,})"', m) if "behave like a human" not in q]
         self.assertGreaterEqual(len(quoted), 3)
-        for q in quoted:
-            if (q.startswith("a port call is defined") or q.startswith("we use the vessel information") or "entered manually" in q
-                    or "turn off their AIS transponder" in q):
-                self.assertIn(q.rstrip("."), text, q)
+        from_item = [q for q in quoted if (q.startswith("a port call is defined") or q.startswith("we use the vessel information")
+                                           or "entered manually" in q or "turn off their AIS transponder" in q)]
+        self.assertEqual(len(from_item), len(quotations))
+        for q in from_item:
+            self.assertIn(q.rstrip("."), [x.rstrip(".") for x in quotations], q)
+        for x in quotations:
+            self.assertIn(x, m, "a sentence of the fixture that the paragraph does not quote")
+
+    def test_the_fixture_is_the_text_of_the_saved_item_where_that_file_exists(self):
+        text = item_text()
+        if text is None:
+            self.skipTest("the saved text of the item is not on this machine: " + ITEM)
+        fx = fixture()
+        for key, x in fx["quotations"].items():
+            self.assertIn(x.rstrip("."), text, key)
+        self.assertIn(fx["recommended_citation"], tight(text))
 
     def test_the_quotes_are_in_the_paragraph(self):
         m = method_bullet()
-        for q in ("a port call is defined when a ship enters the port boundary. Port calls with a turnaround time of less than 5 hours and no "
-                  "draft change between the current and next port are excluded to filter out vessels in transit",
-                  "we use the vessel information (length, width, draft, capacity, block coefficient) to estimate the payload (or utilization "
-                  "rate) of the vessel when entering and leaving the port boundary.",
-                  "entered manually and, hence, may have human errors",
-                  "ships can turn off their AIS transponder to avoid being detected"):
+        for q in fixture()["quotations"].values():
             self.assertIn(q, m)
 
     def test_the_block_prints_the_warning_of_portwatch_on_ships_that_send_no_signal(self):
@@ -268,10 +314,24 @@ class Quotes(unittest.TestCase):
         q = "ships can turn off their AIS transponder to avoid being detected"
         self.assertIn(f'PortWatch notes that "{q}"', flat(read("web", "src", "components", "views", "PortTrafficSection.tsx")))
         self.assertIn(q, method_bullet())
-        if os.path.exists(ITEM):
-            import html
-            with open(ITEM, encoding="utf-8") as fh:
-                self.assertIn(q, flat(re.sub(r"<[^>]+>", " ", html.unescape(json.load(fh)["description"]))))
+        self.assertEqual(q, fixture()["quotations"]["transponder"])
+        if item_text() is not None:
+            self.assertIn(q, item_text())
+
+
+class ReleaseNote(unittest.TestCase):
+    def test_the_release_note_says_what_the_atlas_cannot_say_and_its_figure_is_the_one_of_the_file(self):
+        """The note gives the calls of the last 52 weeks of the port paired with the asset `odesa`, read from its file, and claims no cause."""
+        note = flat(read("CHANGELOG.md"))
+        i = note.index("## Release 9")
+        entry = note[i:note.index("## Release 8", i)]
+        pair = next(a["properties"]["portwatch"] for a in ASSETS if a["properties"]["id"] == "odesa")
+        with open(os.path.join(P.OUT, f"{pair}.json"), encoding="utf-8") as fh:
+            calls = json.load(fh)["calls"]
+        in_a_year = sum(v or 0 for series in calls.values() for v in series[-P.DEEP_WEEKS:])
+        self.assertIn(f"some series read very low ({in_a_year} calls in a year at Odesa), and the atlas cannot say why", entry)
+        self.assertIn("prints PortWatch's own warning that ships can switch their transponder off", entry)
+        self.assertNotIn("real traffic", entry)
 
 
 class WhatIsNotSaid(unittest.TestCase):

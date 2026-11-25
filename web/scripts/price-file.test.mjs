@@ -48,6 +48,10 @@ assert.ok(/splitOffered\(data, \(d\) => sourcesOf\(d\.meta\), \(id\) => termsNot
 const drawer = fs.readFileSync(path.join(here, '../src/components/PriceDrawer.tsx'), 'utf8');
 assert.ok(/<CsvAction[\s\S]*?downloadPrices\(fileOf\.offered,/.test(drawer), 'the drawer downloads the offered series');
 assert.ok(!/downloadPrices\(data,/.test(drawer), 'the drawer never hands the whole selection to the file');
+// what the visitor reads on the button: a daily EIA series alone has no active CSV button (the button is given the sources of the series the file would
+// hold, and with none offered the sources of the selection, which makes it the "No download" line), and a mixed selection says how many of its series are in the file
+assert.ok(/sources=\{priceSources\(fileOf\.offered\.length \? fileOf\.offered : data\)\}/.test(drawer), 'the button is built from the offered series, or from the selection when none is offered');
+assert.ok(/CSV · \$\{fileOf\.offered\.length\} of \$\{data\.length\}/.test(drawer), 'a mixed selection reads "CSV · N of M"');
 
 // the credit of a daily series, wherever the page shows it: "EIA (source: Refinitiv)" (the short label of ui.tsx, the board's status line and footer)
 const ui = fs.readFileSync(path.join(here, '../src/components/ui.tsx'), 'utf8');

@@ -1,0 +1,13 @@
+{
+ "about": "Quotations of a few sentences, with their source, from the text of the ArcGIS item \"Daily_Ports_Data\" of IMF PortWatch, kept so that the sentences the texts of the atlas quote can be compared with them on every machine. Nothing else of the item is copied here; the item's text belongs to its publisher.",
+ "item": "https://www.arcgis.com/sharing/rest/content/items/83b1bbc7b3354c5fb1f40673bb8f852e?f=json",
+ "item_id": "83b1bbc7b3354c5fb1f40673bb8f852e",
+ "read": "2026-11-25",
+ "recommended_citation": "Sources: UN Global Platform; IMF PortWatch (portwatch.imf.org).",
+ "quotations": {
+  "port_call": "a port call is defined when a ship enters the port boundary. Port calls with a turnaround time of less than 5 hours and no draft change between the current and next port are excluded to filter out vessels in transit",
+  "trade_estimates": "we use the vessel information (length, width, draft, capacity, block coefficient) to estimate the payload (or utilization rate) of the vessel when entering and leaving the port boundary. The change in the vessel payload (in percentage points) multiplied by the vessel’s deadweight tonnage (the maximum carrying capacity) in metric tons is the resulting trade flow (either import or export) in metric tons.",
+  "manual_entry": "entered manually and, hence, may have human errors",
+  "transponder": "ships can turn off their AIS transponder to avoid being detected"
+ }
+}

@@ -234,6 +234,7 @@ const km = (a, b, c, d) => {
   return 2 * 6371.0088 * Math.asin(Math.sqrt(h));
 };
 const NOTED = ['rosario-up-river', 'richards-bay', 'ras-lanuf', 'itaqui'];
+const wpiFixture = JSON.parse(fs.readFileSync(path.join(root, 'pipeline/tests/fixtures/wpi_ras_lanuf_entries.json'), 'utf8'));
 
 test('portwatchNote exists only on ports that have a PortWatch id, and on the four that need a sentence', () => {
   const withNote = ports.filter((f) => f.properties.portwatchNote !== undefined);
@@ -259,29 +260,40 @@ test('the sentences name the PortWatch port as the table names it, and print onl
   // and says nothing of what PortWatch's port covers: no page read does
   for (const id of ['rosario-up-river', 'richards-bay', 'itaqui']) assert.ok(/No page read says/.test(by[id].properties.portwatchNote), `${id}: the sentence must say that no page read settles the extent`);
   for (const id of NOTED) assert.ok(!/, the (whole|municipal) port;/.test(by[id].properties.portwatchNote), `${id}: states the extent of PortWatch's port as a fact`);
-  // Ras Lanuf: the two distances to the World Port Index entries, recomputed from the raw copy of the index and the PortWatch table
-  const raw = path.join(root, 'raw/nga/UpdatedPub150.csv');
-  if (!fs.existsSync(raw)) return skip('raw/nga/UpdatedPub150.csv is not here: the two distances of the Ras Lanuf sentence are not recomputed');
+  // Ras Lanuf: the two distances to the World Port Index entries, recomputed on every machine from the two entries kept in the fixture and the PortWatch
+  // table; the fixture itself is compared with the raw copy of the index where that copy exists (the next test)
   const pw = table.get(by['ras-lanuf'].properties.portwatch);
-  const lines = fs.readFileSync(raw, 'utf8').replace(/^\uFEFF/, '').split(/\r?\n/);
-  const head = lines[0].split(',');
-  const col = (n) => head.indexOf(n);
-  const find = (name) => {
-    for (const l of lines.slice(1)) {
-      const c = l.match(/("(?:[^"]|"")*"|[^,]*)(?:,|$)/g)?.map((x) => x.replace(/,$/, '').replace(/^"|"$/g, '').trim()) ?? [];
-      if (c[col('Main Port Name')]?.replace(/\s+/g, ' ') === name) return km(pw.lat, pw.lon, Number(c[col('Latitude')]), Number(c[col('Longitude')]));
-    }
-    return null;
-  };
   const note = by['ras-lanuf'].properties.portwatchNote;
-  const alt = lines.slice(1).map((l) => l.match(/("(?:[^"]|"")*"|[^,]*)(?:,|$)/g)?.map((x) => x.replace(/,$/, '').replace(/^"|"$/g, '').trim()) ?? []).find((c) => c[col('Main Port Name')] === 'Al Burayqah');
-  assert.equal(alt?.[col('Alternate Port Name')], 'Marsa Brega', 'the index names its entry "Al Burayqah" and gives "Marsa Brega" as the other name');
+  const entry = (name) => wpiFixture.entries.find((e) => e.name === name);
+  const near = entry('Al Burayqah');
+  const far = entry('Ras Lanuf');
+  assert.ok(near && far, 'the two entries of the index are not in the fixture');
+  assert.equal(near.alternate_name, 'Marsa Brega', 'the index names its entry "Al Burayqah" and gives "Marsa Brega" as the other name');
   assert.ok(note.includes('"Al Burayqah" (also called Marsa Brega)'));
-  const near = find('Al Burayqah');
-  const far = find('Ras Lanuf');
-  assert.ok(near !== null && far !== null, 'the two entries of the index are not found');
-  assert.ok(note.includes(`${near.toFixed(1)} km`), `the note does not say ${near.toFixed(1)} km`);
-  assert.ok(note.includes(`${far.toFixed(1)} km`), `the note does not say ${far.toFixed(1)} km`);
+  const away = (e) => km(pw.lat, pw.lon, Number(e.latitude), Number(e.longitude));
+  assert.ok(note.includes(`${away(near).toFixed(1)} km`), `the note does not say ${away(near).toFixed(1)} km`);
+  assert.ok(note.includes(`${away(far).toFixed(1)} km`), `the note does not say ${away(far).toFixed(1)} km`);
+  assert.equal(note.match(/\d+\.\d km/g)?.length, 2, 'the sentence gives two distances and no other');
+});
+
+test('the two entries of the fixture are those of the raw copy of the World Port Index, where that copy is here', () => {
+  assert.equal(Object.keys(wpiFixture)[0], 'source', 'the first field of the fixture says where the entries come from');
+  assert.deepEqual(Object.keys(wpiFixture), ['source', 'entries']);
+  for (const e of wpiFixture.entries) assert.deepEqual(Object.keys(e), ['name', 'alternate_name', 'latitude', 'longitude'], 'nothing else of an entry is kept');
+  const raw = path.join(root, 'raw/nga/UpdatedPub150.csv');
+  if (!fs.existsSync(raw)) return skip('raw/nga/UpdatedPub150.csv is not here: the fixture is not compared with the index');
+  const lines = fs.readFileSync(raw, 'utf8').replace(/^\uFEFF/, '').split(/\r?\n/);
+  const col = (n) => lines[0].split(',').indexOf(n);
+  const cells = (l) => l.match(/("(?:[^"]|"")*"|[^,]*)(?:,|$)/g)?.map((x) => x.replace(/,$/, '').replace(/^"|"$/g, '').trim()) ?? [];
+  const rows = lines.slice(1).map(cells);
+  for (const e of wpiFixture.entries) {
+    const hits = rows.filter((c) => c[col('Main Port Name')]?.replace(/\s+/g, ' ') === e.name);
+    assert.equal(hits.length, 1, `${e.name}: one entry of the index`);
+    const c = hits[0];
+    assert.equal(c[col('Alternate Port Name')], e.alternate_name, `${e.name}: alternate name`);
+    assert.equal(c[col('Latitude')], e.latitude, `${e.name}: latitude`);
+    assert.equal(c[col('Longitude')], e.longitude, `${e.name}: longitude`);
+  }
 });
 
 // ---------------------------------------------------------------- the sources of the block

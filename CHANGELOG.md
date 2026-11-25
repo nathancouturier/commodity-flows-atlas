@@ -10,8 +10,9 @@ releases: the About window's "What changed" lists them. The full account of each
 - Port pages: a block "Weekly port traffic" on the 163 ports that IMF PortWatch counts and the atlas could pair with
   it. It draws the weekly series since 2019 by ship type (tanker, dry bulk, container, other) for port calls and for
   PortWatch's estimates of the tonnes exported and imported, gives the last 52 weeks beside the 52 before, and offers
-  the series as a CSV. The block names PortWatch's own port where its name differs, and prints PortWatch's warning
-  that ships can switch their transponder off, which makes some series read far below the port's real traffic.
+  the series as a CSV. The block names PortWatch's own port where its name differs, and prints PortWatch's own
+  warning that ships can switch their transponder off; some series read very low (2 calls in a year at Odesa), and the atlas
+  cannot say why.
 - The About window credits IMF PortWatch for the port series, says what its weekly sums are, and lists the series
   among the sources read every week.
 
@@ -19,7 +20,7 @@ releases: the About window's "What changed" lists them. The full account of each
 - The eight daily prices from the EIA (Brent, WTI, Henry Hub, New York Harbor gasoline, diesel and heating oil, US
   Gulf Coast jet fuel, Mont Belvieu propane) are credited "EIA (source: Refinitiv)": the EIA's own pages give
   Refinitiv as their source. They are no longer offered as CSV files, because no page read says whether they may
-  be redistributed; the monthly World Bank series keep their download.
+  be redistributed; the values are still served to draw the charts, and the monthly World Bank series keep their download.
 
 ## Release 8 (2026-11-25)
 

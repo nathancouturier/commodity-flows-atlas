@@ -23,6 +23,7 @@ for sub in ("", "common", "freight", "infrastructure"):
 import changes as C  # noqa: E402
 import fetch_portwatch as FP  # noqa: E402
 import fetch_portwatch_ports as FPP  # noqa: E402
+import portwatch_ports as PP  # noqa: E402
 import staleness as S  # noqa: E402
 
 NEW = "portwatch-port-traffic"
@@ -152,6 +153,10 @@ class Registry(unittest.TestCase):
         pace = f"{lo:g} to {hi:g} seconds apart"
         self.assertIn(pace, REGISTRY["portwatch"]["access"])
         self.assertIn(pace, REGISTRY[NEW]["access"])
+        # the size of a request of the weekly run is the constant of the code, and the first load asks for one port at a time
+        self.assertIn(f"asked for one port at a time in the first load and for up to {PP.MAX_IDS} ports at a time in a weekly run, one request at a time",
+                      REGISTRY[NEW]["access"])
+        self.assertNotIn("a few ports at a time", REGISTRY[NEW]["access"])
         self.assertIn(f"at least {FPP.MIN_INTERVAL_S:g} seconds apart", REGISTRY["portwatch-ports"]["access"])
         self.assertEqual(FPP.MIN_INTERVAL_S, lo)
         for sid in PORTWATCH:

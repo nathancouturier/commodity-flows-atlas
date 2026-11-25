@@ -59,9 +59,13 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
 
 - The PortWatch job (Wednesdays, 19:17 UTC) has a second step for the port series. Each week it reads the last
   six weeks of every port and, in turn, a year of one quarter of the ports, so that every port's last year is read
-  again every four weeks: 23 or 24 requests in a normal week and never more than 42, one at a time, 8 to 14
-  seconds apart (the script's reading of the owner's "slowly"), in at most 12 minutes. The step may fail without
-  costing the chokepoint update, and cannot turn the job red. Its first run is that of Wednesday 2 December 2026.
+  again every four weeks: 23 requests in a normal week and never more than 42 (not counting a request repeated
+  after an error), one at a time, 8 to 14 seconds apart (the script's reading of the owner's "slowly"): 4 to 6
+  minutes in a normal week, and the script stops asking after 12. A request asks for 18 ports: the most whose
+  six weeks fit one page of 1,000 rows, so that no request is followed by a second page. A run of the job waits
+  one pause before its first request as well, because the chokepoint step before it asks the same host. The
+  step may fail without costing the chokepoint update, and cannot turn the job red. Its first run is that of
+  Wednesday 2 December 2026.
 - The first load was made by hand on 25 November 2026, after a proof on five ports: twelve sittings of at most
   15 ports, twenty minutes apart or more, one request at a time (549 requests in all; the first fifteen ports
   were read twice, the rounding rule having changed in between). All 163 ports have a file of 410 weeks, from
@@ -71,9 +75,14 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   the year the job reads again, or disappears ("accept large moves" overrides it). A run that reaches nine tenths
   of the folder's size limit (3,500 kB; 2,679 kB today, about 6.5 kB more each week) says so long before the
   limit refuses it.
-- The common downloader now waits out the delay a service names in a quota answer (the delay plus five seconds)
-  and stops at a second such answer, for every script: the chokepoint script and the others no longer ask again
-  8 to 20 seconds after such an answer.
+- The common downloader now waits out the delay a service names in a quota answer (the delay plus five seconds;
+  the delay is read in the header of an HTTP 429, in its body, or in the error body of the service) and stops at
+  a second such answer or at a delay of more than five minutes, for every script: the chokepoint script and the
+  others no longer ask again 8 to 20 seconds after such an answer. The port script waits 65 seconds or the delay
+  named plus five, whichever is longer, once per page.
+- A weekly run that fails is recorded as a failure of the source as soon as the status file holds an entry of
+  it; a port loaded by a weekly run and found to end weeks before the others is checked against the service in
+  one request, counted by the plan, and its file is taken back when the check cannot be made.
 - A source that has never succeeded and has failed fewer runs than its alert threshold is shown as "retrying",
   not "stale", in the freshness table and in the weekly staleness check (a choice made without the owner; it
   applies to every tracked source).

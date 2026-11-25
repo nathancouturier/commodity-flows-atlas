@@ -386,9 +386,12 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
   Energy Data, the country analysis briefs (refinery towns and ports of entry of the gateway tables, the Saudi coast
   rule), the company-level crude and products imports, the refinery capacity report and the natural gas data.
   The EIA's daily spot prices (Brent, WTI, Henry Hub and the five other series of the price drawer) are not covered by this line:
-  the EIA's pages give Refinitiv, an LSEG business, as their source, and no page read says whether they may be redistributed. They
-  are shown with that credit, no file of them is offered, and no text of the atlas calls them public domain (terms to be
-  confirmed; the pages read, with their quotations, are in the registry entry `eia-spot` and in DATA_SOURCES.md).
+  the EIA's pages give Refinitiv, an LSEG business, as their source, and no page read says whether they may be redistributed. The
+  eight series are published in full in `data/prices/*-d.json`, which the charts read. They are shown with the credit "EIA (source:
+  Refinitiv)" on the commodity pages, the price drawer and the price board, and as a few figures of the weekly digest and its feed.
+  No button offers a CSV file or a copy of them, and no text of the atlas calls them public domain. The owner decided on 25 November
+  2026 to keep them, saying where they come from. Terms to be confirmed; the pages read, with their quotations, are in the registry
+  entry `eia-spot` and in DATA_SOURCES.md.
 - **Queensland Government** (the Metallurgical coal page): the dataset "Quarterly coal reports", workbook "Quarterly Coal Sales" (exports by country and
   by port), CC BY 4.0. Credit as the workbook gives it: "Source: Department of Natural Resources and Mines, Manufacturing and Regional and Rural
   Development (NRMMRRD)". The workbook reads "Data through to 30 June 2026" and "Current as at October 2026", and says that the data may be revised and
@@ -472,7 +475,6 @@ verdict (redistribute, cite a few facts, link only).
 | Panama Canal Authority, Suez Canal Authority, port authorities | Published statistics and transit limits are cited as facts with attribution. No licence is stated on the pages; terms to be confirmed. Their toll tariffs are linked from the voyage calculator of the route pages and not copied (see below). |
 | Company reports | Facts cited with a link to the report. |
 | World Nuclear Association | Annual uranium production figures cited with attribution. Terms to be confirmed. |
-| EIA daily spot prices (credited by the EIA to Refinitiv) | The eight series are shown on the commodity pages, the price drawer and the price board with the credit "EIA (source: Refinitiv)", and as a few figures of the weekly digest. No CSV is built of them. No page read says whether they may be redistributed; terms to be confirmed (registry entry `eia-spot`). |
 
 ### IMF PortWatch
 
@@ -610,6 +612,8 @@ heading and the release.
 - Whether single points taken from OpenStreetMap make the infrastructure files a database derived from it under the
   ODbL's share-alike clause, or should be re-sourced.
 - Terms of the Norwegian Offshore Directorate, Natural Resources Canada, Wilhelmsen and Cochilco.
+- Whether the EIA's daily spot prices, which the EIA credits to Refinitiv, may be redistributed (registry entry `eia-spot`): the
+  eight series stay on the site with that credit and are served as JSON for the charts, without a CSV button.
 - The terms of use, and the edition, of the World Port Index file used: the statement read is on the 2017 edition of the
   publication and not on the file, the publisher's page held no text in the archived copies, and the file is the Internet Archive's
   copy of 29 September 2026, for which no terms of the archive's own were read.

@@ -2218,13 +2218,29 @@ class TheTextsGiveTheFiguresOfTheCode(Env):
         self.assertIn(f"{int(FP.PAUSE_S[0])} to {int(FP.PAUSE_S[1])} between two requests", sec)
         self.assertIn(f"{int(P.MIN_ROW_SHARE * 100)}% of the rows", sec)
         self.assertIn(f"more than {int(P.MAX_SKIPPED_SHARE * 100)}% of the ports", sec)
-        self.assertIn("first-load sitting of 15 ports is 45 requests (8 to 10 minutes of pauses)", sec)
-        self.assertEqual((45 * (FP.PAUSE_S[0] + FP.PAUSE_S[1]) / 2 / 60, 45 * FP.PAUSE_S[1] / 60), (8.25, 10.5))
+        # 45 requests of a sitting by hand are 44 pauses (no wait before the first), from the shortest pause to the longest
+        self.assertIn("first-load sitting of 15 ports is 45 requests (6 to 10 minutes of pauses)", sec)
+        self.assertEqual((round(44 * FP.PAUSE_S[0] / 60, 1), round(44 * FP.PAUSE_S[1] / 60, 1)), (5.9, 10.3))
         self.assertEqual((P.SITTING_MAX, P.pages((TODAY - date.fromisoformat(P.HISTORY_FROM)).days + 1) * P.SITTING_MAX), (15, 45))
         self.assertIn(f"{S.FIRST_LOAD_LAG_DAYS} days before the newest last week", sec)
         self.assertIn("(`continue-on-error`, 15 minutes;", sec)
         self.assertIn("more than 16 days or a latest day of data more than 21 days old", sec)
         self.assertEqual((ST.WEEKLY, ST.DAY_LAG), (16, 21))
+
+    def test_the_minutes_the_plan_prints_are_the_pauses_at_the_shortest_and_the_longest_pace(self):
+        def printed(total, by_hand):
+            pl = {"quarter": 1, "window": [], "deep": [], "history": [], "deferred": [],
+                  "requests": {"total": total, "window": total, "deep": 0, "history": 0}}
+            buf = io.StringIO()
+            with contextlib.redirect_stdout(buf):
+                S.print_plan(pl, TODAY, by_hand)
+            return buf.getvalue()
+        # a sitting by hand of 45 requests has 44 pauses: 44 x 8 s = 5.9 and 44 x 14 s = 10.3 minutes
+        self.assertIn("requests: 45 at most", printed(45, True))
+        self.assertIn("6 to 10 minutes of pauses", printed(45, True))
+        # a run of the job waits before its first request too: 23 requests are 23 pauses, 3.1 to 5.4 minutes
+        self.assertIn("3 to 5 minutes of pauses", printed(23, False))
+        self.assertIn("0 to 0 minutes of pauses", printed(0, True))
 
     def test_the_docstring_of_the_script_names_the_bound_and_the_pages_of_a_first_read(self):
         doc = " ".join(S.__doc__.split())

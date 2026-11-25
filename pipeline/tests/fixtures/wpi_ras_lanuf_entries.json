@@ -1,0 +1,17 @@
+{
+ "source": "World Port Index (Publication 150) of the U.S. National Geospatial-Intelligence Agency, as the file UpdatedPub150.csv that the atlas reads: the Internet Archive's copy, captured on 2026-09-29, of https://web.archive.org/web/20260929232408id_/https://msi.nga.mil/api/publications/download?type=view&key=16920959%2FSFH00000%2FUpdatedPub150.csv; taken by hand on 2026-11-24. Two entries of the index only, each with its name, its alternate name, its latitude and its longitude as the file gives them (spaces inside a name are as the file has them, one space here), kept so that the two distances of the Ras Lanuf sentence of ports.geojson can be recomputed on every machine; nothing else of the index is copied.",
+ "entries": [
+  {
+   "name": "Al Burayqah",
+   "alternate_name": "Marsa Brega",
+   "latitude": "30.416667000000000",
+   "longitude": "19.600000000000001"
+  },
+  {
+   "name": "Ras Lanuf",
+   "alternate_name": "",
+   "latitude": "30.516667000000002",
+   "longitude": "18.566666999999999"
+  }
+ ]
+}

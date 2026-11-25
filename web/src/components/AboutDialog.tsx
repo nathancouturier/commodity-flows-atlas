@@ -7,7 +7,7 @@ import type { ComponentChildren } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { load, sources } from '../lib/data';
 import { ESTIMATE_DEFINITION } from '../lib/freight';
-import { BUILD, RELEASE, fmtDate, loadChanges, loadStatus, loadVintages, type Changes, type Freshness, type StatusView } from '../lib/status';
+import { BUILD, HEALTH_LABEL, RELEASE, fmtDate, loadChanges, loadStatus, loadVintages, type Changes, type Freshness, type StatusView } from '../lib/status';
 import type { Alert } from '../types';
 import { aboutTab, closeAbout, type AboutTab } from './AboutHost';
 import { CloseIcon, Skeleton } from './ui';
@@ -191,7 +191,7 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
           <b>Daily prices.</b> Spot prices of petroleum and natural gas from the{' '}
           <Ext href={sources.value['eia-spot']?.url ?? 'https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm'}>U.S. Energy Information Administration</Ext>, which gives
           Refinitiv as their source. No page read says whether they may be redistributed (terms to be confirmed): the atlas shows them with that credit and
-          offers no file of them (see the table above).
+          offers no download of them; the values are served to draw the charts (see the table above).
         </li>
         <li>
           <b>Chokepoint traffic.</b> IMF PortWatch, <Ext href="https://portwatch.imf.org/">portwatch.imf.org</Ext>
@@ -249,14 +249,7 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
 
 // ---------------------------------------------------------------- data freshness
 
-const HEALTH_LABEL: Record<Freshness['health'], string> = {
-  ok: 'On time',
-  stale: 'Stale',
-  failing: 'Check failing',
-  manual: 'Checked by hand',
-  unconfigured: 'Not configured',
-};
-const HEALTH_BADGE: Record<Freshness['health'], string> = { ok: 'badge-ok', stale: 'badge-warn', failing: 'badge-warn', manual: '', unconfigured: '' };
+const HEALTH_BADGE: Record<Freshness['health'], string> = { ok: 'badge-ok', retrying: '', stale: 'badge-warn', failing: 'badge-warn', manual: '', unconfigured: '' };
 
 function FreshnessTabView(props: { status: StatusView | null; failed: boolean; vintages: Record<string, string>; changes: Changes | null | undefined; alerts: Alert[] }) {
   const st = props.status;

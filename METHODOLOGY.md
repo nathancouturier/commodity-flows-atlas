@@ -1435,7 +1435,8 @@ totals of the series by year are the same for every country: they are in one fil
   oil, US Gulf jet fuel, Mont Belvieu propane). The EIA's table page of the petroleum spot prices reads "Source: Refinitiv" under
   the table and its natural gas definitions page gives "Spot Price: Refinitiv, an LSEG business." (read on 25 November 2026); no
   page read says whether these prices may be redistributed, whatever the EIA's sentence on its own publications. The atlas
-  therefore credits them as "EIA (source: Refinitiv)" and offers no file of them (the owner decided on 25 November 2026 to
+  therefore credits them as "EIA (source: Refinitiv)" and offers no download of them: the files `data/prices/*-d.json` that the charts
+  read are served with the site, and no button offers a CSV file or a copy of them (the owner decided on 25 November 2026 to
   keep these series, saying where they come from: see "Decisions of the owner" in PROGRESS.md); the quotations and the
   addresses are in the registry entry `eia-spot` (terms to be confirmed).
 - Freight (the "Freight" family of the price drawer and the board): no freight rate is shown, because
@@ -1594,7 +1595,9 @@ totals of the series by year are the same for every country: they are in one fil
   months, or 120 days for a daily one, behind the newest series of its own source) is marked
   `closed` by the build: it is recorded once in the status of its source (state `closed`, with its last
   period), listed as closed, hidden from the board and no longer checked; a series that is only late
-  keeps raising its alert. The annual job rebuilds the prices after a new USGS edition. On a price
+  keeps raising its alert. In the "Data freshness" table of the About window, a source that has never succeeded and has failed fewer runs
+  than its alert threshold (three for a weekly source) shows the badge "Retrying", with the note that the last check did not complete, and
+  its family line says "retrying"; at the threshold the badge reads "Check failing". The annual job rebuilds the prices after a new USGS edition. On a price
   chart an event that names commodities is shown when one of them is charted, or when an alert that covers
   one points to it, and an event that names none is always shown (the rule of the timeline). `web/scripts/validate-data.mjs` checks that the series files agree with the index.
 - Baltic Exchange freight indices are proprietary and are not shown.

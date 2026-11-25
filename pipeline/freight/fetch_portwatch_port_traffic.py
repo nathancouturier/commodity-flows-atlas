@@ -258,8 +258,9 @@ def ends_here(reader, p, y):
     return not reader.page(PP.where_window([p], date.fromisoformat(y) + timedelta(days=1)), 0, "ObjectId", {p})[0]
 
 
-def print_plan(pl, today):
+def print_plan(pl, today, by_hand=False):
     r = pl["requests"]
+    pauses = max(r["total"] - 1, 0) if by_hand else r["total"]   # a run of the job waits before its first request, a sitting by hand does not
     print(f"  quarter of the week: {pl['quarter']} of {PP.QUARTERS}")
     for kind in ("window", "deep"):
         for g in pl[kind]:
@@ -274,7 +275,7 @@ def print_plan(pl, today):
     if pl["deferred"]:
         print(f"  left to the next run (the plan is kept to {MAX_REQUESTS} requests): {len(pl['deferred'])} ports ({', '.join(pl['deferred'])})")
     print(f"  requests: {r['total']} at most (window {r['window']}, deep {r['deep']}, in full {r['history']}); "
-          f"{r['total'] * (PAUSE_S[0] + PAUSE_S[1]) / 2 / 60:.0f} to {r['total'] * PAUSE_S[1] / 60:.0f} minutes of pauses")
+          f"{pauses * PAUSE_S[0] / 60:.0f} to {pauses * PAUSE_S[1] / 60:.0f} minutes of pauses")
 
 
 def run(argv=None, today=None):
@@ -337,7 +338,7 @@ def _run(argv, today, held):
         print(f"  {i}.json is not a valid port file: read again in full")
     pl = PP.plan(ids, docs, none, today, backfill=args.backfill, max_ports=args.max_ports, full=args.full, max_requests=MAX_REQUESTS)
     print(f"port traffic: {len(ids)} ports, {len(docs)} with a file, {len(none)} without rows at the last check")
-    print_plan(pl, today)
+    print_plan(pl, today, by_hand)
     least, usual, most = PP.weekly_request_bounds(len(all_ids), today, MAX_REQUESTS)
     print(f"  a normal weekly run for all {len(all_ids)} ports asks for " + (f"{least}" if least == usual else f"{least} to {usual}")
           + f" requests; a run never asks for more than {most}, not counting a request repeated after an error "

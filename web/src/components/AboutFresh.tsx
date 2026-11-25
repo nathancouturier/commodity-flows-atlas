@@ -62,7 +62,7 @@ export function FamilySummary(props: { status: StatusView; vintages: Record<stri
         return (
           <li key={f.name} data-family={f.name}>
             <b>{f.name}:</b> {runs.length ? <>run to <span class="num">{runs.join(', ')}</span>.</> : 'no end date recorded.'}{' '}
-            {upd ? <>Last successful update <span class="num">{fmtDate(upd)}</span>.</> : 'No successful update recorded.'}
+            {upd ? <>Last successful update <span class="num">{fmtDate(upd)}</span>.</> : rs.some((r) => r.health === 'retrying') ? 'No successful update recorded; the first checks did not complete, retrying.' : 'No successful update recorded.'}
           </li>
         );
       })}

@@ -385,7 +385,7 @@ itself (`--dry-run` prints it, a test ties the figures below to `portwatch_ports
 second): a normal run of 23 requests is 23 pauses, 3.1 to 5.4 minutes, 4 to 6 minutes in all; the worst run, 42 requests, is 42 pauses, 5.6 to
 9.8 minutes, 6 to 12 minutes in all (the 12 minutes are the limit of the script: a run that is not done by then asks for nothing more and fails as below). The job
 as a whole is a few minutes longer, and about ten minutes longer in the week of the chokepoint script's whole re-read (every fourth week). A
-first-load sitting of 15 ports is 45 requests (8 to 10 minutes of pauses), one more for a port that is checked against the newest.
+first-load sitting of 15 ports is 45 requests (6 to 10 minutes of pauses), one more for a port that is checked against the newest.
 
 **What a run does with what it read.** Everything is read, then checked, then written; a port that fails a check keeps its file. A run that
 gets under 90% of the rows it expects, whose table ends earlier than at the last run, that has to skip more than 10% of the ports, whose deep
@@ -410,7 +410,7 @@ changed: read the run's log, nothing was written); some ports were skipped or "h
 last good version in every case. "Data update discarded by the data checks" after this step means the checks refused a file of the folder
 and, with it, the chokepoint update of the same job: open the output of the checks in the issue. The first scheduled run of the step is the one
 that writes the status entry of the source into `data/_status/updates.json`: until then neither the staleness check nor the About window
-says anything about it, and a first run that fails shows the source as retrying, not stale (it turns failing at the third run in a row). What a failed run
+says anything about it, and a first run that fails shows the source in the "Data freshness" table with the badge "Retrying" (never "On time", and not stale), with the note that the last check did not complete; it turns "Check failing" at the third run in a row. What a failed run
 records: a failure whenever the status file already holds an entry of the source; while it holds none, the failure is printed and recorded
 nowhere when some port has neither a file nor an entry of `none` (the first load is not finished), and recorded when every port is accounted
 for (the first scheduled runs, retrying until the third). Leave
