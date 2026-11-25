@@ -199,7 +199,8 @@ class Quotes(unittest.TestCase):
         quoted = [q for q in re.findall(r'"([^"]{40,})"', m) if "behave like a human" not in q]
         self.assertGreaterEqual(len(quoted), 3)
         for q in quoted:
-            if q.startswith("a port call is defined") or q.startswith("we use the vessel information") or "entered manually" in q:
+            if (q.startswith("a port call is defined") or q.startswith("we use the vessel information") or "entered manually" in q
+                    or "turn off their AIS transponder" in q):
                 self.assertIn(q.rstrip("."), text, q)
 
     def test_the_quotes_are_in_the_paragraph(self):
@@ -208,8 +209,19 @@ class Quotes(unittest.TestCase):
                   "draft change between the current and next port are excluded to filter out vessels in transit",
                   "we use the vessel information (length, width, draft, capacity, block coefficient) to estimate the payload (or utilization "
                   "rate) of the vessel when entering and leaving the port boundary.",
-                  "entered manually and, hence, may have human errors"):
+                  "entered manually and, hence, may have human errors",
+                  "ships can turn off their AIS transponder to avoid being detected"):
             self.assertIn(q, m)
+
+    def test_the_block_prints_the_warning_of_portwatch_on_ships_that_send_no_signal(self):
+        """A port where ships switch their transponder off reads low in PortWatch: the block says so in PortWatch's own words, under every series."""
+        q = "ships can turn off their AIS transponder to avoid being detected"
+        self.assertIn(f'PortWatch notes that "{q}"', flat(read("web", "src", "components", "views", "PortTrafficSection.tsx")))
+        self.assertIn(q, method_bullet())
+        if os.path.exists(ITEM):
+            import html
+            with open(ITEM, encoding="utf-8") as fh:
+                self.assertIn(q, flat(re.sub(r"<[^>]+>", " ", html.unescape(json.load(fh)["description"]))))
 
 
 class WhatIsNotSaid(unittest.TestCase):

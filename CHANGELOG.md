@@ -4,6 +4,17 @@ What a visitor sees changed on the site, release by release, newest first. The w
 releases: the About window's "What changed" lists them. The full account of each release is in
 [`PROGRESS.md`](PROGRESS.md).
 
+## Release 9 (2026-11-26)
+
+### Added
+- Port pages: a block "Weekly port traffic" on the 163 ports that IMF PortWatch counts and the atlas could pair with
+  it. It draws the weekly series since 2019 by ship type (tanker, dry bulk, container, other) for port calls and for
+  PortWatch's estimates of the tonnes exported and imported, gives the last 52 weeks beside the 52 before, and offers
+  the series as a CSV. The block names PortWatch's own port where its name differs, and prints PortWatch's warning
+  that ships can switch their transponder off, which makes some series read far below the port's real traffic.
+- The About window credits IMF PortWatch for the port series, says what its weekly sums are, and lists the series
+  among the sources read every week.
+
 ## Release 8 (2026-11-25)
 
 ### Added

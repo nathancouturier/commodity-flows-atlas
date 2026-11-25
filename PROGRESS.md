@@ -1,6 +1,6 @@
 # Commodity Flows Atlas: progress
 
-_Last updated: 2026-11-25, after the eighth release of audit fixes_
+_Last updated: 2026-11-26, after the ninth release of audit fixes_
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
@@ -19,8 +19,71 @@ released. This file is updated at each release.
 | 3 | Wrong figures per commodity (gas, LNG, copper, precious metals, lithium, nickel, steel, fertilisers, cocoa) | corrections done, released on 23 November; the points that needed a new source (LPG from the United States to Mexico, tin ores from Myanmar, the steel and LNG cross-checks, metallurgical coal by pair of countries) in the seventh release, on 25 November. Left: the lanes and route shares of metallurgical coal, thermal coal by destination |
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
-| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). A release number with release notes, a way to report an error, a coverage table of the commodity pages, a voyage calculator on the route pages and port facts from the World Port Index (eighth release, 25 November). Being loaded, shown next: weekly traffic per port from IMF PortWatch (little by little and slowly, as the owner decided on 25 November). Designed, built after it: a block on the state of the freight market. Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
-| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
+| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). A release number with release notes, a way to report an error, a coverage table of the commodity pages, a voyage calculator on the route pages and port facts from the World Port Index (eighth release, 25 November). Weekly traffic per port from IMF PortWatch, loaded little by little and slowly as the owner decided on 25 November, shown on the port pages and read each week by the PortWatch job (ninth release, 26 November). Designed, built next: a block on the state of the freight market. Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, UNIT-TO-WRITE and 157 at the ninth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
+
+## Ninth release (26 November 2026): what changed
+
+Weekly traffic per port from IMF PortWatch (audit point A-036): the series are on the port pages and the weekly
+job reads them. The groundwork was in the eighth release; three packages built the rest (the block of the port
+pages, the weekly step of the job, the method text and the credits), and reviewers read a frozen copy before the publication (see "Checks").
+
+### Weekly port traffic on the port pages
+
+- A block "Weekly port traffic" on the page of each port that IMF PortWatch counts and the atlas could pair with
+  it: 163 of the 190 ports. It draws the weekly series since January 2019 by ship type (tanker, dry bulk,
+  container, other) for one of three measures (port calls; PortWatch's estimate of the tonnes exported; of the
+  tonnes imported), gives the last 52 weeks beside the 52 before, and offers the series as a CSV with its source
+  and licence. The figures are weekly sums, Monday to Sunday and complete weeks only, that the atlas makes from
+  PortWatch's daily figures; no daily row is kept and nothing finer than a port's weekly sum is shown.
+- The tonnes are PortWatch's estimates, from each ship's size and draught on entering and leaving the port: the
+  block says so wherever they appear and never labels them an Atlas estimate, and it does not add them to, or
+  compare them with, the port's own figure (throughput, capacity) or the World Port Index block of the same page.
+- **A series can read far below the port's real traffic.** PortWatch counts ships from their AIS signals and
+  says itself that "ships can turn off their AIS transponder to avoid being detected". The block prints these
+  words under every series and corrects nothing. In the last 52 weeks PortWatch gives 2 calls at Odesa and at Surigao City, 3 at Chornomorsk, 5 at Pivdennyi, 23 at Jask, 33 at Sullom Voe and 41 at Kharg Island.
+- The series is that of PortWatch's port, which is not always the atlas's asset: the block names PortWatch's port
+  where its name differs, and three pairings carry a sentence typed for them (Rosario: PortWatch's port is the
+  municipal port, the asset the up-river complex; Richards Bay: the whole port, the asset its coal terminal; Ras
+  Lanuf: PortWatch's port of that name lies at Marsa Brega by the World Port Index, 99.6 km east of the index's
+  Ras Lanuf).
+- 27 ports have no series: 18 that the pairing rule cannot pair and 9 with no PortWatch port within 15 km.
+
+### The weekly step, and how PortWatch is read
+
+- The PortWatch job (Wednesdays, 19:17 UTC) has a second step for the port series. Each week it reads the last
+  six weeks of every port and, in turn, a year of one quarter of the ports, so that every port's last year is read
+  again every four weeks: 23 or 24 requests in a normal week and never more than 42, one at a time, 8 to 14
+  seconds apart (the script's reading of the owner's "slowly"), in at most 12 minutes. The step may fail without
+  costing the chokepoint update, and cannot turn the job red. Its first run is that of Wednesday 2 December 2026.
+- The first load was made by hand on 25 November 2026, in eleven sittings of at most 15 ports, twenty minutes
+  apart, one request at a time: LOADSTATE-TO-WRITE
+- A weekly file can only grow: the update guard refuses a port file that loses weeks, changes a week older than
+  the year the job reads again, or disappears ("accept large moves" overrides it). A run that reaches nine tenths
+  of the folder's size limit (3,500 kB; FOLDERKB-TO-WRITE kB today, about 6.5 kB more each week) says so long before the
+  limit refuses it.
+- The common downloader now waits out the delay a service names in a quota answer (the delay plus five seconds)
+  and stops at a second such answer, for every script: the chokepoint script and the others no longer ask again
+  8 to 20 seconds after such an answer.
+- A source that has never succeeded and has failed fewer runs than its alert threshold is shown as "retrying",
+  not "stale", in the freshness table and in the weekly staleness check (a choice made without the owner; it
+  applies to every tracked source).
+- The registry entry of the port series says what the publisher gives and what the atlas does ("daily rows;
+  rhythm not stated by the publisher; read weekly by the atlas"), its link opens PortWatch's site, and the
+  About window carries the credit as the item recommends it. `NOTICE.md` still quotes the IMF's sentence on
+  downloads by automated technology and the owner's decision.
+
+### Checks
+
+- UNIT-TO-WRITE unit tests (1,899 at the eighth release) and 157 web tests (138), all passing without the raw
+  downloads; a second run of every builder changes no file; the checks of GitHub reproduced on a fresh clone;
+  five browser suites on the production build; LIVE-TO-WRITE targeted checks, in which every figure of the block is
+  recounted from the files.
+- Two slips of the work, to know about. A sitting of the first load started in the minute in which a package had
+  changed one of the two files of the download script and not yet the other: it stopped on an error before any
+  request, nothing was written, and the remaining sittings were run with the script of the eighth release from a
+  frozen copy. And the weekly step was built before the first scheduled run of the job in its present form
+  (25 November, 19:17 UTC) had been seen: nothing of it was published before that run, RUNSEEN-TO-WRITE
 
 ## Eighth release (25 November 2026): what changed
 
@@ -768,7 +831,8 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
   nitrogen, Sulphur, NPK fertilisers.
 - **657 infrastructure assets**: 190 ports, 175 mines, 108 LNG terminals, 68 refineries, 44 smelters,
   39 fields, 31 pipelines, 2 storage hubs. 138 ports carry the facts of their World Port Index entry (depths,
-  maximum vessel, harbour, tide, pilotage) beside the limits of the page they cite.
+  maximum vessel, harbour, tide, pilotage) beside the limits of the page they cite, and 163 ports their weekly
+  traffic as IMF PortWatch counts it (port calls and estimated tonnes by ship type since 2019, read each week).
 - **Country pages** for 239 countries and territories and for the European Union (227 with figures).
 - **Prices**: 154 series (World Bank monthly since 1960, annual averages and annual real prices, World
   Bank price indices, EIA daily, USGS annual, three freight indicators), a price board, lookup by date.
@@ -1087,6 +1151,22 @@ These were needed to finish the work; each is reversible.
      value (whole kt from 100 kt, one decimal from 10 kt, two from 1 kt, the tonne below), which moves a
      52-week sum by 0.1% at most on the ports loaded so far.
 
+14. Ninth release, each reversible:
+   - **The CSV of a port's weekly series** is offered as the CSV of a passage's is: the three PortWatch items
+     carry the same terms, and the owner was asked how PortWatch is read, not about the CSV.
+   - **One PortWatch port for one asset.** Ponta da Madeira (beside Itaqui), the CPC terminal (beside
+     Novorossiysk) and Westridge (beside Vancouver) share none with their neighbour and have no series.
+   - **The rotation of the weekly reading**: the last six weeks of every port each week, and a year of one
+     quarter of the ports in turn. The owner asked for small pieces, not for this rotation.
+   - **The block** sits between "Note" and "Limits" on the port page, opens on the exports when they are at
+     least the imports over the last 52 weeks, and prints one muted line when a file that should be there cannot
+     be read. The weekly sums keep the source id of PortWatch's port table, not the atlas's.
+   - **"Retrying", not "stale"**, for a source that has never succeeded and has failed fewer runs than its
+     alert threshold: the rule is shared by the freshness table and the weekly staleness check, and applies to
+     every tracked source.
+   - **What the registry says of the rhythm** of the port table: "daily rows; rhythm not stated by the
+     publisher; read weekly by the atlas", because no page read states how often PortWatch updates it.
+
 ## Known limits
 
 - Baltic Exchange index values are proprietary and are not shown.
@@ -1139,18 +1219,19 @@ These were needed to finish the work; each is reversible.
   they are, and are left as they are in this release: Pengerang carries the code of Penang in the freight engine
   (PortWatch's table gives MYPGG for Pengerang), which a rebuild of the lanes will correct; Ras Lanuf is drawn
   at the position of PortWatch's port "Ras Lanuf (Al Burayqah)", about 100 km east of the World Port Index's Ras
-  Lanuf, and will be renamed or moved before its traffic series is shown.
+  Lanuf: its traffic block says so, and the asset, which no lane, route or event uses, is to be moved to Ras
+  Lanuf's own position and unpaired.
 - Voyage calculator: the laden distance has no year (the SeaRoute network gives none); no weather allowance and
   no commission; a number typed with a thousands comma shows the warning until its last three digits are typed; five eligible routes have no standard vessel, so the speed is the class's (an Atlas assumption)
   and the fuel is typed; a route with a status note on the Strait of Hormuz computes on its normal routing.
 - Coverage table: no block is marked "not available for free" yet; aluminium, zinc, lead, tin, cobalt and rare
   earths show their routes as missing, because a named route is expected wherever lanes exist.
 - "Report an error" was not tested against GitHub itself (the checks send no request there).
-- The chokepoint script and the common downloader still ask again 8 to 20 seconds after a quota answer or an
-  HTTP 429 (three times), even when the service names a longer delay; the port script waits 65 seconds. To be
-  corrected at the root with the weekly step of the port series.
-- Weekly traffic per port is loaded and not shown; the first load was not finished at this release; 27 ports have no PortWatch port (18 that the rule
-  cannot pair, 9 without one within 15 km).
+- Weekly traffic per port: 27 ports have no PortWatch port (18 that the rule cannot pair, 9 without one within
+  15 km). PortWatch's port is not always the asset (see the three sentences of the block). A series reads low
+  where ships switch their transponder off: in the last 52 weeks PortWatch gives 2 calls at Odesa, 3 at Chornomorsk, 5 at Pivdennyi, 23 at Jask and 41 at Kharg Island. Revisions that PortWatch makes to weeks older than the
+  year the job reads again are not seen (a port can be read again in full by hand). The weekly step has not run on
+  GitHub yet (first run: Wednesday 2 December 2026); the freshness table shows the source from that run on.
 - The weekly PortWatch job still reads its whole chokepoint table again every four weeks (about 41 requests, 8 to
   14 seconds apart): reading it again in slices, a part each week, fits the owner's rule of small pieces better
   and is planned with the port traffic series.
@@ -1307,7 +1388,15 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
 33. **PortWatch ports.** May two assets share one PortWatch port (Ponta da Madeira with Itaqui, the CPC terminal
     with Novorossiysk, Westridge with Vancouver)? Is 8 to 14 seconds between two requests slow enough for the
     rule of 25 November?
-34. The choices listed above, each reversible.
+34. **Weekly port traffic.** (a) Some series read far below the port's real traffic because ships switch their
+    transponder off (Odesa, Chornomorsk, Pivdennyi, Kharg Island, Jask): the block shows them as PortWatch
+    publishes them, with PortWatch's own warning. Keep them, or hide a series under a number of calls to be
+    chosen? (b) 27 ports have no series (18 that no rule can pair, 9 without a PortWatch port within 15 km): leave
+    them so, or pair them by hand, port by port, from PortWatch's own pages? (c) The folder of the weekly files
+    may not exceed 3,500 kB; at the growth measured it warns in 2028 and would stop in 2029: raise the limit when
+    the warning comes, or now? (d) Is "retrying" the right word for a source whose first runs fail, before it is
+    called stale?
+35. The choices listed above, each reversible.
 
 ## Update jobs
 

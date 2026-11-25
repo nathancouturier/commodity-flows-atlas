@@ -110,7 +110,8 @@ function Block({ doc, name, note }: { doc: PortTraffic; name: string; note?: str
           shortSource(doc.s)
         )}{' '}
         ({sources.value[doc.s]?.publisher ?? 'IMF and University of Oxford'}), data adapted · {lastWeekEnd === doc.y ? `data to ${dayText(doc.y)}` : `weeks to ${dayText(lastWeekEnd)}, data to ${dayText(doc.y)}`} · weekly sums of daily figures; a call is a ship
-        entering the port boundary; tonnes are PortWatch's estimate from each ship's size and draught on entering and leaving it, not a port statistic
+        entering the port boundary; tonnes are PortWatch's estimate from each ship's size and draught on entering and leaving it, not a port statistic;
+        ships are counted from their AIS signals, and PortWatch notes that "ships can turn off their AIS transponder to avoid being detected"
       </div>
       <div class="lt-foot">
         <CsvAction

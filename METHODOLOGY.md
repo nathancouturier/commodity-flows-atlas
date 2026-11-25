@@ -1177,7 +1177,10 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     vessel when entering and leaving the port boundary. The change in the vessel payload (in percentage points) multiplied by the
     vessel’s deadweight tonnage (the maximum carrying capacity) in metric tons is the resulting trade flow (either import or export)
     in metric tons." The same text warns that some of the ship signals it rests on are "entered manually and, hence, may have human
-    errors". The tonnes are therefore PortWatch's estimates: the block says so wherever they appear ("Exports (est.)", "kt/week,
+    errors", and that "ships can turn off their AIS transponder to avoid being detected": the atlas reads from it that a ship which
+    sends no signal at a port is not counted there, so the series of a port where ships do so reads low (the known limits of
+    `PROGRESS.md` name the terminals whose series read lowest); the block prints these words of PortWatch under every series and
+    corrects nothing. The tonnes are therefore PortWatch's estimates: the block says so wherever they appear ("Exports (est.)", "kt/week,
     estimate") and never labels them "Atlas estimate". They are not customs flows and not a port authority's statistic, and the
     atlas does not add them to, compare them with or reconcile them with the figure of the same port in its own tile (for
     example "Throughput"), which counts another period and another scope; that figure keeps its own source.
