@@ -73,8 +73,23 @@ class Registry(unittest.TestCase):
         i = notice.index("Port traffic. For the ports of the infrastructure layer")
         para = notice[i:notice.index("Ports database. The ports of the infrastructure layer", i)]
         if the_workflow_reads_the_port_series():
-            self.assertEqual(s["update"], "weekly")
-            self.assertIn("weekly run", s["access"])
+            # the registry's `update` is the publisher's rhythm (the Sources window prints it as "Updates:", the calendar as "Published"):
+            # no saved page states one for this table, so it says what is true on both sides
+            self.assertEqual(s["update"], "daily rows; rhythm not stated by the publisher; read weekly by the atlas")
+            self.assertNotEqual(s["update"], "weekly")
+            self.assertIn("each weekly run reads the recent weeks of every port and a longer stretch of part of the ports in turn", s["access"])
+            self.assertNotIn("no scheduled job reads this table yet", s["access"])
+            self.assertNotIn("each weekly run", para.replace("the weekly step, which runs after the chokepoint step", ""))
+            self.assertIn("that the weekly step reads back", para)
+            self.assertNotIn("will read back", para)
+            self.assertIn("the weekly step, which runs after the chokepoint step of the same job on Wednesdays, reads only recent weeks", para)
+            guide = flat(read("docs", "UPDATING.md"))
+            j = guide.index("### Port traffic")
+            section = guide[j:guide.index("## Releasing", j)]
+            self.assertNotIn("The weekly step is not in place", section)
+            self.assertNotIn("no scheduled job runs the script", section)
+            self.assertIn("update-portwatch.yml", section)
+            self.assertNotIn("METHODOLOGY.md", section)
             return
         self.assertNotEqual(s["update"], "weekly")
         self.assertTrue(s["update"].startswith("by hand for now"), s["update"])

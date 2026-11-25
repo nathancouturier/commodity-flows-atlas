@@ -70,6 +70,7 @@ MAX_DECIMALS = 3             # the tonne: the most decimals a value of a file ma
 # (from this many tonnes, rounded to this many tonnes): whole kt from 100 kt, one decimal from 10 kt, two from 1 kt, three below
 STEPS = ((100_000, 1000), (10_000, 100), (1_000, 10), (0, 1))
 SIZE_STOP_KB = 3500          # the folder may not exceed this (decimal kB, as check-size.mjs counts)
+SIZE_WARN_SHARE = 0.9        # a run says in its summary that the stop is near from this share of it
 MIN_ROW_SHARE = 0.9          # a run that gets less than this share of the rows it expects is refused
 MAX_SKIPPED_SHARE = 0.1      # ... and so is one that has to skip more than this share of the ports
 REVISED_SHARE = 0.25         # a port whose older weeks changed by more than this share ...
@@ -386,6 +387,27 @@ def validate_doc(doc, port_id=None, sources=None):
     return p
 
 
+def size_note(total_bytes, docs, today, stop_kb=None):
+    """(share, message): the share of the size stop that the folder uses, and, from SIZE_WARN_SHARE of it, a sentence that says so
+    (else None). The growth is that of the files in ``docs`` {id: document}: each adds one week a week, and the folder holds
+    ``total_bytes`` for the weeks of ``docs``, so a week costs ``total_bytes`` over those weeks, times the number of files."""
+    stop = (SIZE_STOP_KB if stop_kb is None else stop_kb) * 1000
+    share = total_bytes / stop
+    if share < SIZE_WARN_SHARE:
+        return share, None
+    weeks = sum(len(d["calls"]["tanker"]) for d in docs.values())
+    a_week = total_bytes / weeks * len(docs) if weeks else 0
+    left = max(stop - total_bytes, 0)
+    msg = (f"the folder of the port files holds {total_bytes / 1000:.0f} kB, {share * 100:.0f}% of its {stop / 1000:.0f} kB stop; "
+           f"it grows by about {a_week / 1000:.1f} kB a week")
+    if left and a_week:
+        n = math.ceil(left / a_week)
+        msg += f", so the stop is reached in about {n} weeks (the week of {iso(monday(today) + timedelta(weeks=n))})"
+    else:
+        msg += ", and the stop is reached"
+    return share, msg + "; from there a weekly run refuses everything (the stop is the owner's figure to raise: docs/UPDATING.md)"
+
+
 def index_doc(none, checked, pending=()):
     """The index of the folder: ``none`` the ports that returned no rows at the last check, ``pending`` the ports not read yet
     (the first load is made in sittings: the ids are removed from the list as the files are written, and the list is empty
@@ -437,7 +459,9 @@ def chunks(ids, since, max_ids=MAX_IDS, max_chars=MAX_ADDRESS):
 
 
 def pages(rows):
-    return max(1, math.ceil(rows / PAGE))
+    """The requests a query of at most ``rows`` rows takes: a page that is full is followed by one more request (the script
+    does not trust a service that says nothing of the rows that remain), so a query of exactly one page of rows takes two."""
+    return rows // PAGE + 1
 
 
 def week_index(today):
@@ -451,7 +475,25 @@ def quarter_of(i, today):
     return i % QUARTERS == week_index(today) % QUARTERS
 
 
-def plan(ids, docs, none, today, *, backfill=False, max_ports=None, full=None, end=None):
+def _groups(ids, docs, deep_ids, end):
+    """The window and deep groups of the ports ``ids`` (all with a file; ``deep_ids`` the ports of the quarter read in depth):
+    [{"since", "ports", "chunks", "days"}] each."""
+    out = {"window": [], "deep": []}
+    for kind, members, since_of in (("window", [i for i in ids if i not in deep_ids], window_since),
+                                    ("deep", [i for i in ids if i in deep_ids], deep_since)):
+        groups = {}
+        for i in members:
+            groups.setdefault(since_of(docs[i]), []).append(i)
+        for since, ports in sorted(groups.items()):
+            out[kind].append({"since": iso(since), "ports": ports, "chunks": chunks(ports, since), "days": (end - since).days + 1})
+    return out
+
+
+def _cost(groups):
+    return sum(pages(len(c) * g["days"]) for kind in ("window", "deep") for g in groups[kind] for c in g["chunks"])
+
+
+def plan(ids, docs, none, today, *, backfill=False, max_ports=None, full=None, end=None, max_requests=None):
     """What a run asks for, as a dict (nothing is requested here).
 
     ``ids``      the ports in the fixed order, ``docs`` {id: document} of the ports that have a file, ``none`` the ids that
@@ -463,31 +505,42 @@ def plan(ids, docs, none, today, *, backfill=False, max_ports=None, full=None, e
                  ``backfill``: only the ports without a file (not in ``none``), at most ``max_ports`` and never more than
                  SITTING_MAX (that many when ``max_ports`` is not given).
                  ``full``: the ports named, read in full, whatever they hold.
-    Returns      {"window": [{"since", "ports", "chunks", "days"}], "deep": [...], "history": [ids], "quarter": q,
-                  "requests": {"window", "deep", "history", "total"}} (pages of 1,000 rows, one row per port per day, to ``end``)."""
+    ``max_requests``  (weekly only) the most requests the run may ask for, whatever state the files are in: the ports whose
+                 files end earliest are read first, as many as fit, and the others are left to the next run
+                 (``deferred``); the ports without a file take what is left of it, at most SCHEDULED_BACKFILL_CAP of them.
+    Returns      {"window": [{"since", "ports", "chunks", "days"}], "deep": [...], "history": [ids], "deferred": [ids],
+                  "quarter": q, "requests": {"window", "deep", "history", "total"}}
+                 (pages of 1,000 rows, one row per port per day, to ``end``; a full page is followed by one more request)."""
     end = end or today
     q = week_index(today) % QUARTERS
     have = [i for i in ids if i in docs]
-    out = {"window": [], "deep": [], "history": [], "quarter": q}
+    out = {"window": [], "deep": [], "history": [], "deferred": [], "quarter": q}
+    days = (end - date.fromisoformat(HISTORY_FROM)).days + 1
     if full:
         out["history"] = [i for i in ids if i in set(full)]
     elif backfill:
         todo = [i for i in ids if i not in docs and i not in none]
         out["history"] = todo[:min(SITTING_MAX if max_ports is None else max_ports, SITTING_MAX)]
     else:
+        read = have
         deep_ids = {i for n, i in enumerate(ids) if i in docs and n % QUARTERS == q}
-        for kind, members, since_of in (("window", [i for i in have if i not in deep_ids], window_since),
-                                        ("deep", [i for i in have if i in deep_ids], deep_since)):
-            groups = {}
-            for i in members:
-                groups.setdefault(since_of(docs[i]), []).append(i)
-            for since, ports in sorted(groups.items()):
-                out[kind].append({"since": iso(since), "ports": ports, "chunks": chunks(ports, since),
-                                  "days": (end - since).days + 1})
+        if max_requests is not None and _cost(_groups(have, docs, deep_ids, end)) > max_requests:
+            order = sorted(have, key=lambda i: (last_monday(docs[i]), i))
+            lo, hi = 0, len(order)         # the longest run of the ports that end earliest whose requests fit (the cost only grows)
+            while lo < hi:
+                mid = (lo + hi + 1) // 2
+                if _cost(_groups(order[:mid], docs, deep_ids, end)) <= max_requests:
+                    lo = mid
+                else:
+                    hi = mid - 1
+            read = [i for i in have if i in set(order[:lo])]
+            out["deferred"] = [i for i in have if i not in set(read)]
+        out.update(_groups(read, docs, deep_ids, end))
         recheck = [i for n, i in enumerate(ids) if i in none and i not in docs and n % QUARTERS == q]
         cap = SCHEDULED_BACKFILL_CAP if max_ports is None else max_ports
+        if max_requests is not None:
+            cap = min(cap, max(0, (max_requests - _cost(out)) // pages(days)))
         out["history"] = ([i for i in ids if i not in docs and i not in none] + recheck)[:cap]
-    days = (end - date.fromisoformat(HISTORY_FROM)).days + 1
     r = {kind: sum(pages(len(c) * g["days"]) for g in out[kind] for c in g["chunks"]) for kind in ("window", "deep")}
     r["history"] = len(out["history"]) * pages(days)
     r["total"] = r["window"] + r["deep"] + r["history"]
@@ -495,16 +548,17 @@ def plan(ids, docs, none, today, *, backfill=False, max_ports=None, full=None, e
     return out
 
 
-def weekly_request_bounds(n_ports, today):
-    """(least, most) number of requests of one scheduled run for ``n_ports`` ports, from the plan itself.
-    Least: every port has a file, the rows reach only the end of the last week stored, nothing is read in full.
-    Most: five ports have no file, the rows reach ``today``. Pages of 1,000 rows before any request is repeated."""
+def weekly_request_bounds(n_ports, today, max_requests):
+    """(least, usual, most) number of requests of one scheduled run for ``n_ports`` ports, from the plan itself.
+    least: every port has a file, the rows reach only the end of the last week stored, nothing is read in full.
+    usual: the files are as a weekly run leaves them, five ports have no file, the rows reach ``today``.
+    most:  ``max_requests``, which the plan keeps whatever state the files are in (the ports that end earliest are read first)."""
     ids = [f"port{n}" for n in range(n_ports)]
     last = monday(today) - timedelta(weeks=2)   # the last week stored: the table lags the date by days, not by weeks
     mk = lambda: {i: {"start": iso(last - timedelta(weeks=300)), "calls": {"tanker": [0] * 301}} for i in ids}   # noqa: E731
-    least = plan(ids, mk(), set(), today, end=last + timedelta(days=6))["requests"]["total"]
+    least = plan(ids, mk(), set(), today, end=last + timedelta(days=6), max_requests=max_requests)["requests"]["total"]
     docs = mk()
     for i in ids[:SCHEDULED_BACKFILL_CAP]:
         del docs[i]
-    most = plan(ids, docs, set(), today)["requests"]["total"]
-    return least, most
+    usual = plan(ids, docs, set(), today, max_requests=max_requests)["requests"]["total"]
+    return least, usual, max_requests

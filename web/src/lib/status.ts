@@ -169,7 +169,7 @@ function clean(raw: RawStatus, now: number): StatusView {
     } else if (fails >= limit) {
       health = 'failing';
       why = `The last ${fails} scheduled checks did not complete. The site keeps the last good data.`;
-    } else if (!checked || ageDays(checked, now) > t.maxAge) {
+    } else if ((!checked && fails === 0) || (checked && ageDays(checked, now) > t.maxAge)) {
       if (t.optional && fails === 0) {
         health = 'unconfigured';
         why = 'This optional series is fetched only when its key is set. The site keeps the last values fetched.';

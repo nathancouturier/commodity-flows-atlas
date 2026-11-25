@@ -79,7 +79,8 @@ assert.ok(/prohibits bulk download of information by automated technology withou
 assert.ok(/does not name PortWatch/.test(traffic.licence) && /atlas's reading/.test(traffic.licence));
 assert.ok(/Copyright-and-Terms/.test(traffic.licence) && /25 November 2026/.test(traffic.licence), 'the port series cites the page and the date it was read');
 assert.ok(/Daily_Ports_Data/.test(traffic.name) && /83b1bbc7b3354c5fb1f40673bb8f852e/.test(traffic.url), 'the port series carries the dataset name and the address of its item');
-assert.ok(traffic.update === 'weekly' || /^by hand for now/.test(traffic.update), 'the port series says "weekly" once a scheduled job reads it, and "by hand for now" until then');
+assert.ok(/^daily rows; rhythm not stated by the publisher; read weekly by the atlas$/.test(traffic.update) || /^by hand for now/.test(traffic.update),
+  'the port series says what is true on both sides once a scheduled job reads it (the publisher states no rhythm for the table), and "by hand for now" until then');
 
 // The Public-Use Statement of the Census Bureau covers an estimate made from its data, not a row of its file: no table or file of the site
 // may carry a row whose own source (`s`) is census-exports. The estimate names it as an input only (the lanes' histSrc, a note).

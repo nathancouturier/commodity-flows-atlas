@@ -1,7 +1,7 @@
 """
 Fetch the IMF PortWatch daily port table and write the weekly port traffic files of data/freight/port-traffic/.
 
-    python pipeline/freight/fetch_portwatch_port_traffic.py                       # the weekly run (no workflow calls it yet)
+    python pipeline/freight/fetch_portwatch_port_traffic.py                       # the weekly run (update-portwatch.yml, second step)
     python pipeline/freight/fetch_portwatch_port_traffic.py --dry-run             # the plan, no request
     python pipeline/freight/fetch_portwatch_port_traffic.py --backfill --max-ports 15   # one sitting of the first load
     python pipeline/freight/fetch_portwatch_port_traffic.py --full port955 port276      # read these ports in full again
@@ -21,8 +21,12 @@ Pace    the owner's rule for PortWatch (25 November 2026): read it as a person w
 Modes   weekly (no option): the last WINDOW_WEEKS weeks of every port that has a file (PortWatch revises its recent days),
         the last DEEP_WEEKS weeks instead for one quarter of the ports (the ports in their fixed order, the quarter by the
         week: every port is read over a year once every four weeks, never all together), and at most
-        SCHEDULED_BACKFILL_CAP ports without a file read in full (3 requests each; a port that returned nothing is asked
-        again only in the week of its quarter). The requests are counted by the plan itself (``--dry-run`` prints them).
+        SCHEDULED_BACKFILL_CAP ports without a file read in full (3 requests each while a port has fewer than 3,000 days of rows,
+        one more from then on; a port that returned nothing is asked again only in the week of its quarter). The requests are
+        counted by the plan itself (``--dry-run`` prints them); it never plans more than MAX_REQUESTS, the number of requests
+        that fit RUN_LIMIT_S at the longest pause (REQUEST_S seconds an answer): when files that are late would need more, the ports
+        whose files end earliest are read first and the others are left to the next run (the run says which), and the ports without
+        a file take what is left.
         --backfill: only the ports without a file, in order, ``--max-ports N`` of them (SITTING_MAX, 15, when N is not given;
         N is refused above SITTING_MAX): a sitting of the first load; run it again for the next ports (a port with a file is
         skipped, a port that returned nothing is in index.json and skipped). The twenty minutes between two sittings are the
@@ -86,6 +90,8 @@ ATTEMPTS = 4               # requests made for one page when the service fails (
 FIRST_LOAD_LAG_DAYS = 21   # a first-load port whose last week starts this long before the newest of the sitting is not written
 MAX_PAGES = 60             # pages of one query: a safeguard against a service that never says it is done
 RUN_LIMIT_S = 12 * 60      # a weekly run stops asking after this long (the workflow's step is allowed 15 minutes)
+REQUEST_S = 3              # seconds one request is allowed in the count below (the saved requests of the research took 0.4 to 1.2 s)
+MAX_REQUESTS = int(RUN_LIMIT_S // (PAUSE_S[1] + REQUEST_S))   # the most a weekly run asks for: at the longest pause, every request fits RUN_LIMIT_S
 LOCK_PATH = os.path.join(tempfile.gettempdir(), "portwatch-port-traffic.lock")   # never in the data folder (the site's rules refuse any other file there)
 
 
@@ -224,6 +230,12 @@ def folder_bytes(out_dir, replacing=()):
     return total
 
 
+def ends_here(reader, p, y):
+    """True when the service has no row of port ``p`` after its day ``y``: the file ends there because the port is late in PortWatch,
+    not because a read stopped short. One request (one more for a page that is full)."""
+    return not reader.rows(PP.where_window([p], date.fromisoformat(y) + timedelta(days=1)), "ObjectId", {p})
+
+
 def print_plan(pl, today):
     r = pl["requests"]
     print(f"  quarter of the week: {pl['quarter']} of {PP.QUARTERS}")
@@ -237,12 +249,15 @@ def print_plan(pl, today):
         n = len(PP.address(PP.where_history(pl["history"][0]), order="date"))
         print(f"  in full: {len(pl['history'])} ports ({', '.join(pl['history'])}), up to {r['history']} requests "
               f"(addresses of {n} characters)")
+    if pl["deferred"]:
+        print(f"  left to the next run (the plan is kept to {MAX_REQUESTS} requests): {len(pl['deferred'])} ports ({', '.join(pl['deferred'])})")
     print(f"  requests: {r['total']} at most (window {r['window']}, deep {r['deep']}, in full {r['history']}); "
           f"{r['total'] * (PAUSE_S[0] + PAUSE_S[1]) / 2 / 60:.0f} to {r['total'] * PAUSE_S[1] / 60:.0f} minutes of pauses")
 
 
 def run(argv=None, today=None):
-    """One run. Returns {"requests", "written", "skipped", "none", "unchanged", "stopped", "error"} (the tests read it)."""
+    """One run. Returns {"requests", "written", "skipped", "none", "unchanged", "stopped", "error", "revised", "deferred", "size_warning"}
+    (the tests read it)."""
     held = []       # the lock file of the run, closed (the lock released) whatever the way out
     try:
         return _run(argv, today, held)
@@ -265,7 +280,8 @@ def _run(argv, today, held):
     out_dir = args.out or PP.OUT
     by_hand = any([args.backfill, args.max_ports is not None, args.full, args.ports, args.limit, args.out])
     record = not (args.dry_run or args.out or args.ports or args.limit)   # a part of the ports must not set the counts of all
-    res = {"requests": 0, "written": [], "skipped": [], "none": [], "unchanged": [], "stopped": None, "error": None, "revised": []}
+    res = {"requests": 0, "written": [], "skipped": [], "none": [], "unchanged": [], "stopped": None, "error": None, "revised": [],
+           "deferred": [], "size_warning": None}
     if args.max_ports is not None and not 1 <= args.max_ports <= PP.SITTING_MAX:
         print(f"--max-ports takes a number from 1 to {PP.SITTING_MAX}: a sitting is at most {PP.SITTING_MAX} ports")
         res["error"] = "max-ports out of range"
@@ -296,11 +312,12 @@ def _run(argv, today, held):
     docs, bad, none = read_state(out_dir, ids, all_ids)
     for i in bad:
         print(f"  {i}.json is not a valid port file: read again in full")
-    pl = PP.plan(ids, docs, none, today, backfill=args.backfill, max_ports=args.max_ports, full=args.full)
+    pl = PP.plan(ids, docs, none, today, backfill=args.backfill, max_ports=args.max_ports, full=args.full, max_requests=MAX_REQUESTS)
     print(f"port traffic: {len(ids)} ports, {len(docs)} with a file, {len(none)} without rows at the last check")
     print_plan(pl, today)
-    least, most = PP.weekly_request_bounds(len(all_ids), today)
-    print(f"  a weekly run for all {len(all_ids)} ports asks for {least} to {most} requests")
+    least, usual, most = PP.weekly_request_bounds(len(all_ids), today, MAX_REQUESTS)
+    print(f"  a weekly run for all {len(all_ids)} ports asks for {least} to {usual} requests as a rule; the plan never asks for more than "
+          f"{most} (the ports whose files end earliest are read first, the others wait for the next run)")
     if args.dry_run:
         return res
     lock = take_lock()
@@ -394,7 +411,13 @@ def _run(argv, today, held):
 
         # ---- the ports without a file (or named by --full): read in full, one file as soon as its pages are in
         rechecked = False
-        sitting, newest = {}, None      # first-load ports written by this run: {id: Monday of their last week}; the newest of them
+        # first-load ports written by this run and not yet judged late: {id: Monday of their last week}; ``newest`` is the newest last
+        # week known, in the folder before the run or read by it
+        sitting = {}
+        newest = None
+        if pl["history"] and not args.full:
+            known = {**read_state(out_dir, all_ids)[0], **docs}
+            newest = max((PP.last_monday(d) for d in known.values()), default=None)
         for p in pl["history"]:
             try:
                 rows = reader.rows(PP.where_history(p), "date", {p})
@@ -422,10 +445,21 @@ def _run(argv, today, held):
                 last = PP.last_monday(doc)
                 newest = max(newest or last, last)
                 if (newest - last).days > FIRST_LOAD_LAG_DAYS:
-                    print(f"  {p} {names[p]}: its last week starts {last}, the newest of this sitting {newest}: not written, "
-                          f"the port stays pending")
-                    continue
-                sitting[p] = last
+                    # late next to the newest port of the folder: a read that stopped short, or a port that PortWatch has not updated
+                    try:
+                        late = ends_here(reader, p, doc["y"])
+                    except TimeUp as e:
+                        res["stopped"] = str(e)
+                        print("  stopped:", e)
+                        break
+                    if not late:
+                        print(f"  {p} {names[p]}: its last week starts {last}, the newest {newest}, and the service has rows after {doc['y']}: "
+                              f"not written, the port stays pending")
+                        continue
+                    print(f"  {p} {names[p]}: its last week starts {last}, the newest {newest}; the service has no row of this port after "
+                          f"{doc['y']}: written as it is")
+                else:
+                    sitting[p] = last
             text = dump(doc)
             size = folder_bytes(out_dir, replacing={p}) + len(text.encode("utf-8"))
             if size > PP.SIZE_STOP_KB * 1000:
@@ -445,13 +479,22 @@ def _run(argv, today, held):
                   f"rounding moves the 52-week sum of the four types by at most {share * 100:.2f}%" + (f" ({where})" if where else "")
                   + f", of one type by at most {tshare * 100:.2f}%" + (f" ({twhere})" if twhere else "")
                   + (" ROUNDING OVER 0.5%" if max(share, tshare) > 0.005 else ""))
-        for p, last in sitting.items():     # a port written before the newest of the sitting was read
+        for p, last in sitting.items():     # a port written before a newer one was read: judged now, as the later ones were
             if (newest - last).days > FIRST_LOAD_LAG_DAYS:
+                try:
+                    late = ends_here(reader, p, docs[p]["y"])
+                except fetch.FetchError as e:
+                    late = False
+                    print(f"  {p} {names[p]}: could not be checked against the newest ({e})")
+                if late:
+                    print(f"  {p} {names[p]}: its last week starts {last}, the newest {newest}; the service has no row of this port after "
+                          f"{docs[p]['y']}: kept as it is")
+                    continue
                 os.remove(os.path.join(out_dir, f"{p}.json"))
                 docs.pop(p, None)
                 res["written"].remove(p)
-                print(f"  {p} {names[p]}: its last week starts {last}, the newest of this sitting {newest}: its file is removed, "
-                      f"the port stays pending")
+                print(f"  {p} {names[p]}: its last week starts {last}, the newest {newest}, and the service has rows after it: its file is "
+                      f"removed, the port stays pending")
         if rechecked:
             sync_index(force=True)
         elif os.path.exists(os.path.join(out_dir, PP.INDEX)):
@@ -471,11 +514,20 @@ def _run(argv, today, held):
         return res
     res["requests"] = reader.n
     res["none"] = sorted(none)
+    res["deferred"] = pl["deferred"]
+    share, warning = PP.size_note(folder_bytes(out_dir), docs, today)
+    res["size_share"], res["size_warning"] = share, warning
+    if warning:
+        print(("::warning::" if os.environ.get("GITHUB_ACTIONS") else "WARNING: ") + warning)
+    if pl["deferred"]:
+        print(f"  {len(pl['deferred'])} ports are left to the next run: {', '.join(pl['deferred'])}")
     if record:
         y = max((d["y"] for d in docs.values()), default=None)
-        status.record_success(SOURCE, records=len(docs), data_to=y, note="updated" if res["written"] else "unchanged",
+        status.record_success(SOURCE, records=len(docs), data_to=y,
+                              note=("updated" if res["written"] else "unchanged") + (f"; {warning}" if warning else ""),
                               state={"mode": "hand" if by_hand else "weekly", "files": len(docs), "written": len(res["written"]),
-                                     "skipped": len(res["skipped"]), "none": len(none), "requests": reader.n})
+                                     "skipped": len(res["skipped"]), "deferred": len(pl["deferred"]), "none": len(none),
+                                     "requests": reader.n, "size_kb": round(folder_bytes(out_dir) / 1000)})
     print(f"done: {len(res['written'])} files written, {len(docs)} in all, {reader.n} requests")
     return res
 

@@ -58,7 +58,7 @@ SOURCES_OF = {"faostat-wna": ["faostat", "wna"]}
 # the workflow (.github/workflows/<id>.yml) that reads each registry source; every other source is entered by hand
 JOBS = {
     "update-prices": ["eia-spot", "wb-pink", "bls", "dallasfed", "nyfed"],
-    "update-portwatch": ["portwatch"],
+    "update-portwatch": ["portwatch", "portwatch-port-traffic"],
     "update-annual": ["usda-psd", "usgs-mcs", "eia-intl", "baci", "faostat", "wna"],
 }
 DOW = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]

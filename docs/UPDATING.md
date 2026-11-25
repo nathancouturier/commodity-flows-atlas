@@ -9,7 +9,7 @@ one GitHub issue.
 | Workflow | When (UTC) | What |
 |---|---|---|
 | `update-prices.yml` | Wednesdays 21:43, Thursdays 09:43 | World Bank Pink Sheet, EIA daily spot prices, freight indicators -> `data/prices` |
-| `update-portwatch.yml` | Wednesdays 19:17 | IMF PortWatch chokepoint transits -> `data/freight/portwatch`, then the alert banners |
+| `update-portwatch.yml` | Wednesdays 19:17 | IMF PortWatch chokepoint transits -> `data/freight/portwatch`; then the weekly port traffic -> `data/freight/port-traffic` (a second step of the same job, see "Port traffic" below); then the alert banners |
 | `update-annual.yml` | the 15th, 22:17 | USDA PSD, USGS MCS, EIA INTL, FAOSTAT and WNA (every 80 days), a check of the CEPII BACI version, then the rebuilds that depend on them |
 | `check-staleness.yml` | Mondays 13:37 | compares each source with its cadence; opens "Data stale: <source>" |
 | `watch-releases.yml` | the 3rd, 14:41 | compares the yearly pages read by hand with the release recorded; opens "New release available: <id>" |
@@ -71,6 +71,12 @@ repository, and the owner must watch it to be notified.
   series whose unit is a deviation (`igrea-m`, % deviation from trend; `gscpi-m`, standard deviations from average:
   the unit is read in `data/prices/index.json`): they cross zero, so a move is not proportional to their level, and
   their past months can be revised;
+- a weekly port traffic file (`data/freight/port-traffic/<port id>.json`) that does not only grow: fewer weeks than in the
+  last commit, a first week that moved, a last day of data that went back, a week older than the 52 weeks before the last
+  stored week that is not the same (the weekly job reads again the last six weeks of every port and, in turn, 52 weeks of
+  a quarter of the ports, and no older week), or a port file that is gone. The lists of `index.json` of that folder (the
+  ports not read yet, the ports with no rows) shrink as the ports are read and are left out of the rows rule. A reading in
+  full by hand (`--full`) that changes old weeks, or the first load, is a real move: accept it as below;
 - for every other price series (a price or a positive index), a value of the previous last date revised by more than
   half, and, for a daily or monthly series, a new value that moves in one step further than the series itself has
   ever moved in one step: the range is ×0.5 to ×1.5 for a quiet series, widened to the largest one-step move of its
@@ -342,53 +348,100 @@ Where `raw/` does not exist (a fresh clone, the runners of GitHub), the match ru
 are not tested: those tests skip themselves, and a change to the rule is therefore proved only on a machine that has the file. The tests that run without it
 check the cache, the meta file, the builder and the data file against each other.
 
-### Port traffic: the first load in sittings, and `index.json` (by hand)
+### Port traffic: the weekly step, the first load in sittings, and `index.json`
 
 `data/freight/port-traffic/` holds one weekly file per PortWatch port (`<port id>.json`) and `index.json`. The ports are the `portwatch`
 ids of `data/infrastructure/ports.geojson`; the files come from `pipeline/freight/fetch_portwatch_port_traffic.py`, which asks the data service
-for the daily rows of one port at a time, keeps none of them and writes only the weekly sums (NOTICE.md). The first load is not one
-pull: it is made in sittings, by hand, because the owner's rule for PortWatch (25 November 2026) is small pieces, one request at a time, slowly.
-Nothing else reads the table yet: no scheduled job runs the script (`update-portwatch.yml` reads only the chokepoint series) and no page of the site shows
-the series. Both come with the next release.
+for the daily rows of the ports, keeps none of them and writes only the weekly sums (NOTICE.md). The owner's rule for PortWatch
+(25 November 2026) is small pieces, one request at a time, slowly; the pauses in seconds (8 to 14 between two requests) are the script's reading of
+"slowly" (the chokepoint script's, imported: one place), never the owner's figure.
 
-1. `.venv/bin/python -I pipeline/freight/fetch_portwatch_port_traffic.py --dry-run --backfill --max-ports 15` prints the ports, the requests and the minutes
-   of pauses of the next sitting, and asks for nothing.
-2. `.venv/bin/python -I pipeline/freight/fetch_portwatch_port_traffic.py --backfill --max-ports 15` is one sitting: the next 15 ports without a file, in the
-   fixed order of the ids, each written as soon as its pages are in. Run it in the background (it takes several minutes). A sitting that stops short (the
-   service refuses, the folder reaches the size stop) leaves the files already written: run it again. What the code enforces: a sitting is at most 15 ports
-   (`--max-ports` takes 1 to 15, `--backfill` without it plans 15, `--full` takes at most 15 ports), and one runs at a time (a run that asks holds a lock on a
-   file of the system's temporary folder, and a second copy prints one line and exits without a request; `--dry-run` takes no lock). What it does not enforce:
-   the twenty minutes between two sittings, which are yours to keep. A page of 1,000 rows counts as followed by more rows even when the service does not say so,
-   and a port whose last week starts more than 21 days before the newest of the sitting is not written (the script prints the port and both dates; it stays
-   in `pending`).
-3. After each sitting, `node web/scripts/validate-data.mjs` and `.venv/bin/python -I pipeline/common/staleness.py` and read what the sitting printed:
-   the ports that returned no rows, and how far the rounding moves the 52-week sums of each port (the rule keeps it within 0.5%; `ROUNDING OVER 0.5%` would be a defect).
-   A sitting records its success in `data/_status/updates.json`, and the staleness check judges the source from its first entry on (stale after 16 days
-   without a success): no entry of this source is published before the weekly step exists.
-4. Once the load is complete, check what the 21-day rule does not see. A port is judged against the newest last week of its own sitting, at the end of a
-   sitting that runs to its end or stops on the size stop (and then only against the ports it had read); a sitting that ends in an error (after its first
-   port, say) leaves the ports it had written unjudged, so a file that ends early can stay. Check that every file ends within 21 days of the newest
-   (it prints the newest day and the files that end more than 21 days before it; the list must be empty):
+**The weekly step.** `update-portwatch.yml` runs the script as its second step, after the chokepoint step and before the alert banners
+(`continue-on-error`, 15 minutes; the job's own limit is the sum of the limits of its steps plus 15, a test keeps it so). The step is
+independent of the chokepoint step: the finish step records each source on its own, and a step that fails, or is stopped by its limit,
+records a failure for `portwatch-port-traffic` alone while the chokepoint files are committed. What one run asks for, counted by the plan
+itself (`--dry-run` prints it, a test ties the figures below to `portwatch_ports.py` and the script):
+
+- the last six weeks of every port that has a file (the window, PortWatch revises its recent days) and, instead of the window, the last 52
+  weeks of one quarter of the ports (the ports in their fixed order, the quarter chosen by the week: every port is read over a year once
+  every four weeks, never all together);
+- at most five ports without a file, each read in full (3 requests: the table holds fewer than 3,000 days of a port, a fourth request comes
+  when it passes that), a port that returned no rows only in the week of its quarter;
+- the requests, 20 ports at a time, in pages of 1,000 rows (a page that is full is followed by one more request, so the count is an upper
+  bound of the rows): **23 or 24 requests** in a normal week, depending on the quarter, and **never more than 42**: the plan keeps to
+  that, whatever state the files are in (a service that was down for weeks leaves the files late and the run asks for more days). When the late
+  files would need more, the ports whose files end earliest are read first and the others wait for the next run (the run says which); the
+  ports without a file take what is left, so a run near its bound reads fewer than five. 42 is the figure for the pace: at 14 seconds a
+  pause and three seconds an answer, 42 requests fill the 12 minutes after which the script stops asking (`RUN_LIMIT_S`), which is inside the
+  step's 15 minutes with room for the last answer.
+
+**Time.** At the script's pace (a pause of 8 to 14 seconds before each request but the first, an answer of about a second): a normal run of
+24 requests is 23 pauses, 3.1 to 5.4 minutes, 4 to 6 minutes in all; the worst run, 42 requests, is 41 pauses, 5.5 to 9.6 minutes, 6 to 12
+minutes in all (the 12 minutes are the limit of the script: a run that is not done by then asks for nothing more and fails as below). The job
+as a whole is a few minutes longer, and about ten minutes longer in the week of the chokepoint script's whole re-read (every fourth week). A
+first-load sitting of 15 ports is 45 requests (8 to 10 minutes of pauses).
+
+**What a run does with what it read.** Everything is read, then checked, then written; a port that fails a check keeps its file. A run that
+gets under 90% of the rows it expects, whose table ends earlier than at the last run, that has to skip more than 10% of the ports, whose deep
+pass finds the older weeks of more than a tenth of the ports changed by more than a quarter ("history revised: run `--full`"), or whose
+folder would pass the size stop, is refused as a whole: nothing is written and a failure is recorded. The script never writes a file that
+the site's data checks refuse (it applies the same rules before it writes; a test runs both on the same documents), and it exits 0 whatever
+happens, so that the step cannot turn the job red. A step killed between the writing of a file and its move into place would leave a
+`<id>.json.tmp` that the data checks refuse and a refusal discards the whole update, the chokepoint files with it: the job removes such a file
+in a step of its own.
+
+**The folder's size.** The folder may not exceed 3,500 kB (`SIZE_STOP_KB`, the owner's figure to raise: `web/scripts/check-size.mjs` budgets
+the whole data folder separately). From 90% of it (3,150 kB) the summary of every run says so, as a GitHub warning in the run and in the note of
+the status entry: how many kB the folder holds, how many it grows by in a week (each file gains one week a week) and in how many weeks the
+stop would be reached. Raising the stop is a decision for the owner; at the stop a weekly run refuses everything and records a failure.
+
+**When it fails.** After three weekly runs in a row, "Data update failing: portwatch-port-traffic" opens, with the last error of the run.
+The usual ones and what to do: the service refused for its quota (the script waits 65 seconds once per page and stops at a second refusal;
+look again next week); the service returned fewer rows than expected or the table ends earlier than before (the service is behind or
+changed: read the run's log, nothing was written); some ports were skipped or "history revised" (PortWatch re-estimated its history: run
+`--full` by hand for the ports it names, below); the folder would pass the size stop; the run used its twelve minutes. The files keep their
+last good version in every case. "Data update discarded by the data checks" after this step means the checks refused a file of the folder
+and, with it, the chokepoint update of the same job: open the output of the checks in the issue. The first scheduled run of the step is the one
+that writes the status entry of the source into `data/_status/updates.json`: until then neither the staleness check nor the About window
+says anything about it, and a first run that fails shows the source as retrying, not stale (it turns failing at the third run in a row). Leave
+out of your commits the entry that a sitting by hand writes. "Data stale: portwatch-port-traffic" (Mondays) means no success for more than 16
+days or a latest day of data more than 21 days old.
+
+**By hand.**
+
+1. `.venv/bin/python -I pipeline/freight/fetch_portwatch_port_traffic.py --dry-run` prints the plan of a weekly run (the groups, the chunks, the
+   requests, the minutes), and `--dry-run --backfill --max-ports 15` that of a sitting; they ask for nothing and take no lock.
+2. `... --backfill --max-ports N` (N from 1 to 15, 15 when it is left out) reads the next ports that have no file, in the fixed order of the ids,
+   each written as soon as its pages are in: a sitting of the first load, or the reading of a port added to `ports.geojson` (add the asset, run
+   it, commit both; the weekly step would also read it, five a run). Run it in the background (several minutes). A sitting that stops short
+   (the service refuses, the folder reaches the size stop) leaves the files already written: run it again. What the code enforces: a sitting is at
+   most 15 ports (`--max-ports` takes 1 to 15, `--full` takes at most 15 ports), and one runs at a time (a run that asks holds a lock on a file
+   of the system's temporary folder; a second copy prints one line and exits without a request). What it does not enforce: the twenty minutes
+   between two sittings, which are yours to keep.
+3. `... --full port955 port276` reads these ports in full again (at most 15) and replaces their files, after PortWatch has re-estimated its history
+   or when a run reports a port as skipped for good. Commit the files by hand: a job never changes a week older than the 52 it reads, and the guard
+   (above) would refuse such a change in a job's output.
+4. After a sitting, `node web/scripts/validate-data.mjs`, `.venv/bin/python -I pipeline/common/staleness.py`, and read what the sitting printed: the ports
+   that returned no rows, and how far the rounding moves the 52-week sums of each port (the rule keeps it within 0.5%; `ROUNDING OVER 0.5%` would
+   be a defect).
+5. A page of 1,000 rows counts as followed by more rows even when the service does not say so. A first-load port whose last week starts more than 21
+   days before the newest last week (of the folder and of the sitting) is not accepted on the first read: the script asks the service for the
+   rows of that port after its last day. If there are some, the first read stopped short, the file is not written and the port stays in `pending`;
+   if there are none, the port really ends there in PortWatch and its file is written as it is (the sitting says so). Once the load is complete, check
+   that no file ends more than 21 days before the newest (the list must be empty or hold only ports that PortWatch itself has not updated):
    `.venv/bin/python -I -c "import glob,json,datetime as d; f={p:d.date.fromisoformat(json.load(open(p))['y']) for p in glob.glob('data/freight/port-traffic/port*.json')}; n=max(f.values()); print(n, sorted(p for p,v in f.items() if (n-v).days>21))"`.
-   A file in the list is read again with `--full <id>`.
 
 `index.json` is `{checked, none, pending}`, written by the script and checked by the validator, which asks of every `portwatch` id of the port assets a
 file, an entry of `none` or an entry of `pending`, and of no id more than one of them:
 
-- `none`: the ports that returned no rows at the last check. They have no file and `--backfill` skips them; no page shows them. The script's weekly mode asks again
+- `none`: the ports that returned no rows at the last check. They have no file and `--backfill` skips them; no page shows them. The weekly run asks again
   for them, in the week of their quarter of the ports.
 - `pending`: the ports not read yet. While the first load is under way it lists the ports without a file; the script takes an id out of it as it writes
   the file (after each port, so that a run that stops leaves the folder as the validator accepts it), and it is an empty list once every port has a file or is in
-  `none`. It is what lets a release go out between two sittings. A port added to `ports.geojson` later is in `pending` until a run has read it: add the asset,
-  run the script with `--backfill`, commit both.
+  `none`. It is what lets a release go out between two sittings.
 - `checked`: the day of the last run that read a port in full.
 
-A run that is not a sitting of the first load (the script's weekly mode, made by hand since no job runs it yet, or `--full`) keeps the file of every port as
-the script's checks allow, and leaves `index.json` byte-identical when nothing in the folder changed.
-
-The weekly step is not in place. The script's weekly mode is written and tested: it reads again the last six weeks of every port with a file, the last 52
-weeks of one quarter of the ports in turn (the quarter follows the week), and at most five ports without a file; `--dry-run` prints the requests of the run
-and the range for all ports. The step that will run it on a schedule, and the section of the port pages that will show the series, come with the next release.
+A run that reads no port in full leaves `index.json` byte-identical when nothing in the folder changed.
 
 ## Releasing
 

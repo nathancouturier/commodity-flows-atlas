@@ -24,7 +24,7 @@ import sys
 import tempfile
 import threading
 import unittest
-from datetime import date, timedelta
+from datetime import date, datetime, timedelta, timezone
 from decimal import ROUND_HALF_UP, Decimal
 from unittest import mock
 
@@ -38,6 +38,7 @@ import fetch_portwatch as FP  # noqa: E402
 import fetch_portwatch_port_traffic as S  # noqa: E402
 import portwatch_ports as P  # noqa: E402
 from common import fetch as F  # noqa: E402
+from common import staleness as ST  # noqa: E402
 from common import status  # noqa: E402
 
 GET_JSON = F.get_json     # the download helper itself, before a test puts a stub in its place
@@ -605,16 +606,107 @@ class Requests(unittest.TestCase):
 
     def test_the_request_bounds_of_a_weekly_run_come_from_the_plan(self):
         n = len(P.port_ids())
-        least, most = P.weekly_request_bounds(n, TODAY)
-        self.assertLess(least, most)
+        least, usual, most = P.weekly_request_bounds(n, TODAY, S.MAX_REQUESTS)
+        self.assertLessEqual(least, usual)
+        self.assertLessEqual(usual, most)
+        self.assertEqual(most, S.MAX_REQUESTS)
         self.assertGreaterEqual(least, math.ceil(n / P.MAX_IDS))
-        self.assertGreater(most - least, P.SCHEDULED_BACKFILL_CAP)     # at least the ports read in full
-        self.assertEqual(P.weekly_request_bounds(n, TODAY + timedelta(weeks=1))[0] > 0, True)
+        self.assertGreater(usual - least, 0)     # the ports without a file are read in full
+        self.assertEqual(P.weekly_request_bounds(n, TODAY + timedelta(weeks=1), S.MAX_REQUESTS)[0] > 0, True)
+
+    def test_a_page_that_is_full_costs_one_more_request_in_the_count(self):
+        self.assertEqual([P.pages(r) for r in (0, 1, 999, 1000, 1001, 1999, 2000)], [1, 1, 1, 2, 2, 2, 3])
+        # a first read of a port takes three requests while the table holds fewer than three pages of days
+        self.assertEqual(P.pages(P.PAGE * 3 - 1), 3)
+        self.assertEqual(P.pages(P.PAGE * 3), 4)
+
+
+class WeeklyBound(unittest.TestCase):
+    """The plan of a scheduled run never asks for more than S.MAX_REQUESTS, whatever state the files are in, and the time that costs
+    at the longest pause fits the limit the script gives itself and the step of the workflow."""
+
+    def docs(self, ids, today, lag):
+        """Files whose last week is (2 + lag(i)) weeks before the Monday of ``today``: the weeks an ordinary run leaves, and more."""
+        out = {}
+        for i, pid in enumerate(ids):
+            last = P.monday(today) - timedelta(weeks=2 + lag(i))
+            out[pid] = {"start": (last - timedelta(weeks=300)).isoformat(), "calls": {"tanker": [0] * 301}}
+        return out
+
+    def test_the_plan_keeps_to_the_bound_in_every_state_of_the_files(self):
+        ids = [f"port{n}" for n in range(1, 164)]
+        for weekday in range(7):
+            today = date(2026, 11, 23) + timedelta(days=weekday)
+            for lag_weeks in (0, 1, 3, 6, 10, 30, 100):
+                for name, lag in (("all", lambda i: lag_weeks), ("spread", lambda i: i % (lag_weeks + 1)),
+                                  ("a few", lambda i: lag_weeks if i % 9 == 0 else 0)):
+                    docs = self.docs(ids, today, lag)
+                    for missing in (0, 5, 40):
+                        d = {k: v for k, v in docs.items() if int(k[4:]) > missing}
+                        pl = P.plan(ids, d, set(), today, max_requests=S.MAX_REQUESTS)
+                        label = f"{today} lag {lag_weeks} {name} missing {missing}"
+                        self.assertLessEqual(pl["requests"]["total"], S.MAX_REQUESTS, label)
+                        self.assertLessEqual(len(pl["history"]), P.SCHEDULED_BACKFILL_CAP, label)
+                        read = {p for kind in ("window", "deep") for g in pl[kind] for p in g["ports"]}
+                        self.assertEqual(read | set(pl["deferred"]), set(d), label)
+                        self.assertFalse(read & set(pl["deferred"]), label)
+
+    def test_the_ports_that_end_earliest_are_read_first_and_the_others_wait_for_the_next_run(self):
+        ids = [f"port{n}" for n in range(1, 164)]
+        today = date(2026, 11, 25)
+        docs = self.docs(ids, today, lambda i: 100 if i < 20 else 0)       # twenty files two years late, the rest as usual
+        pl = P.plan(ids, docs, set(), today, max_requests=12)
+        read = {p for kind in ("window", "deep") for g in pl[kind] for p in g["ports"]}
+        self.assertTrue(read)
+        self.assertTrue(set(ids[:20]) & read, "the files that end earliest must be read first")
+        self.assertTrue(pl["deferred"])
+        self.assertLessEqual(pl["requests"]["total"], 12)
+        # the cap does not bite in the usual state: nothing is deferred
+        usual = P.plan(ids, self.docs(ids, today, lambda i: 0), set(), today, max_requests=S.MAX_REQUESTS)
+        self.assertEqual(usual["deferred"], [])
+
+    def test_a_run_that_defers_ports_reads_them_in_the_following_weeks_and_ends_with_none_late(self):
+        ids = [f"port{n}" for n in range(1, 164)]
+        today = date(2026, 11, 25)
+        docs = self.docs(ids, today, lambda i: 40)
+        for week in range(8):
+            t = today + timedelta(weeks=week)
+            pl = P.plan(ids, docs, set(), t, max_requests=S.MAX_REQUESTS)
+            for kind in ("window", "deep"):
+                for g in pl[kind]:
+                    for p in g["ports"]:       # a port that was read now ends with the table
+                        docs[p] = self.docs([p], t, lambda i: 0)[p]
+            if not pl["deferred"]:
+                break
+        self.assertEqual(pl["deferred"], [])
+        self.assertLess(week, 7, "ports left to the next run must be read within a few weeks")
+
+    def test_the_longest_run_at_the_longest_pause_fits_the_limit_of_the_script_and_of_its_step(self):
+        self.assertLessEqual(S.MAX_REQUESTS * (FP.PAUSE_S[1] + S.REQUEST_S), S.RUN_LIMIT_S)
+        self.assertGreater((S.MAX_REQUESTS + 1) * (FP.PAUSE_S[1] + S.REQUEST_S), S.RUN_LIMIT_S)
+        step = int(re.search(r"Fetch PortWatch port traffic[^\n]*\n(?:.*\n)*?\s+timeout-minutes: (\d+)", read(".github", "workflows", "update-portwatch.yml")).group(1))
+        # the limit is checked before a request, so the last one starts by RUN_LIMIT_S and can last a connection and a read; a quota wait that began
+        # before the limit ends 65 s after it
+        last = S.RUN_LIMIT_S + max(S.QUOTA_WAIT_S, FP.PAUSE_S[1] + F.CONNECT_TIMEOUT + F.READ_TIMEOUT)
+        self.assertLess(last, step * 60 - 30)
+
+    def test_the_usual_run_of_all_the_ports_fits_the_bound(self):
+        n = len(P.port_ids())
+        least, usual, most = P.weekly_request_bounds(n, TODAY, S.MAX_REQUESTS)
+        self.assertLessEqual(usual, most)
+        self.assertGreaterEqual(most - usual, 0)
 
 
 def read(*parts):
     with open(os.path.join(ROOT, *parts), encoding="utf-8") as fh:
         return fh.read()
+
+
+def guide_section():
+    """The port traffic section of docs/UPDATING.md, on one line."""
+    guide = " ".join(read("docs", "UPDATING.md").split())
+    i = guide.index("### Port traffic: the weekly step")
+    return guide[i:guide.index("## Releasing", i)]
 
 
 def iso_of(d):
@@ -766,6 +858,43 @@ class FirstLoad(Env):
         self.run_script(today=date(2026, 11, 25))
         self.assertEqual(status.get(S.SOURCE)["consecutive_failures"], 1)
 
+    def test_a_first_scheduled_run_that_fails_opens_no_issue_and_shows_no_stale_row(self):
+        """The entry of the source is recorded by the first scheduled run and by nothing else: here the sittings left none (the files of the
+        load are in the folder, the status files were put back). The run fails; the staleness check (Mondays) and the alert step of the
+        finish action see a source that is retrying."""
+        self.start(n_ports=3)
+        self.run_script("--backfill", "--max-ports", "3", today=date(2026, 11, 12))
+        for f in ("updates.json", "log.jsonl"):
+            os.remove(os.path.join(self.tmp, f))
+        self.assertEqual(status.get(S.SOURCE), {})
+        now = datetime(2026, 11, 30, 13, 37, tzinfo=timezone.utc)      # the Monday after the Wednesday run
+        self.assertEqual(ST.check(status.load(), now=now), {"stale": {}, "fresh": []})
+        for n in (1, 2):
+            self.svc.script = down()
+            self.run_script(today=date(2026, 11, 25))
+            e = status.get(S.SOURCE)
+            self.assertEqual((e["consecutive_failures"], e["last_success"]), (n, None))
+            self.assertEqual(status.failing(), {}, "the alert step opens its issue at the third run in a row, not before")
+            self.assertEqual(ST.check(status.load(), now=now), {"stale": {}, "fresh": [S.SOURCE]}, "retrying, not stale")
+        self.svc.script = down()
+        self.run_script(today=date(2026, 11, 25))
+        self.assertEqual(list(status.failing()), [S.SOURCE])
+        self.assertIn(S.SOURCE, ST.check(status.load(), now=now)["stale"])        # and then both say so
+        # a first run that fails while ports are still pending records nothing at all
+        self.start(n_ports=3)
+        self.run_script("--backfill", "--max-ports", "2", today=date(2026, 11, 12))
+        os.remove(os.path.join(self.tmp, "updates.json"))
+        self.svc.script = down()
+        self.run_script(today=date(2026, 11, 25))
+        self.assertEqual(status.get(S.SOURCE), {})
+        self.assertEqual(ST.check(status.load(), now=now), {"stale": {}, "fresh": []})
+        # the first run that succeeds records the entry, fresh
+        self.svc.script = []
+        self.run_script("--backfill", "--max-ports", "3", today=date(2026, 11, 25))
+        e = status.get(S.SOURCE)
+        self.assertEqual(e["consecutive_failures"], 0)
+        self.assertEqual(ST.check(status.load(), now=datetime(2026, 11, 26, tzinfo=timezone.utc))["stale"], {})
+
 
 class PartOfThePorts(Env):
     def test_a_run_on_a_few_ports_writes_their_files_and_sets_no_count_in_the_status(self):
@@ -835,6 +964,65 @@ class WeeklyRun(Env):
             self.assertEqual(P.validate_doc(doc, p, {"portwatch-port-traffic"}), [])
         self.assertEqual(status.get(S.SOURCE)["data_to"], "2026-11-20")
         self.assertEqual(status.get(S.SOURCE)["state"]["mode"], "weekly")
+
+    def test_what_a_weekly_run_writes_passes_the_data_guard_of_the_job_and_is_the_most_it_may_change(self):
+        """The guard (web/scripts/guard-data.mjs) compares the job's files with the last commit: the weeks that a run rewrites (the window and the
+        deep pass of the quarter) are inside what it lets through, and one week more than the deep pass reads is not."""
+        if not NODE:
+            self.skipTest("node is not installed")
+        today = date(2026, 11, 25)
+        self.start(n_ports=4, first=date(2024, 1, 1))                   # two and a half years of weeks: older than the deep pass reads
+        self.run_script("--backfill", "--max-ports", "4", today=date(2026, 11, 12))
+        self.before = self.tree()
+        table = make_table(self.ports, date(2024, 1, 1), date(2026, 11, 20))
+        for rows in table.values():
+            for r in rows:
+                if r["date"] in ("2026-10-21", "2026-03-04"):
+                    r["export_dry_bulk"] += 9000
+        self.svc.table = table
+        res = self.run_script(today=today)
+        self.assertIsNone(res["error"])
+        after = self.tree()
+        self.assertNotEqual(after, self.before)
+        repo = os.path.join(self.tmp, "repo")
+        git = lambda *a: subprocess.run(["git", *a], cwd=repo, check=True, capture_output=True)   # noqa: E731
+        os.makedirs(os.path.join(repo, "data", "freight", "port-traffic"))
+        os.makedirs(os.path.join(repo, "web", "scripts"))
+        shutil.copy(os.path.join(ROOT, "web", "scripts", "guard-data.mjs"), os.path.join(repo, "web", "scripts", "guard-data.mjs"))
+        git("init", "-q")
+        git("config", "user.email", "t@example.invalid")
+        git("config", "user.name", "t")
+        git("config", "commit.gpgsign", "false")
+
+        def put(tree):
+            for f, b in tree.items():
+                with open(os.path.join(repo, "data", "freight", "port-traffic", f), "wb") as fh:
+                    fh.write(b)
+
+        def guard(*env):
+            return subprocess.run([NODE, os.path.join(repo, "web", "scripts", "guard-data.mjs"), "data/freight/port-traffic"], cwd=repo,
+                                  capture_output=True, text=True)
+        put(self.before)
+        git("add", "-A")
+        git("commit", "-q", "-m", "first load")
+        put(after)
+        r = guard()
+        self.assertEqual(r.returncode, 0, r.stdout + r.stderr)
+        # a run that rewrote one week older than the deep pass reads is refused
+        doc = json.loads(after["port1.json"])
+        old = json.loads(self.before["port1.json"])
+        cut = (P.deep_since(old) - date.fromisoformat(old["start"])).days // 7
+        self.assertGreater(cut, 3)
+        doc["calls"]["tanker"][cut - 1] += 1
+        put({"port1.json": json.dumps(doc, separators=(",", ":")).encode()})
+        r = guard()
+        self.assertEqual(r.returncode, 1, r.stdout)
+        self.assertIn("port1.json", r.stderr)
+        self.assertIn("older than the 52 weeks", r.stderr)
+
+    def test_the_weeks_the_guard_lets_a_run_rewrite_are_the_weeks_the_script_reads(self):
+        guard = read("web", "scripts", "guard-data.mjs")
+        self.assertIn(f"PORT_DEEP_WEEKS = {P.DEEP_WEEKS};", guard)
 
     def test_a_second_run_leaves_every_file_byte_identical(self):
         today = date(2026, 11, 25)
@@ -1025,6 +1213,105 @@ class WeeklyRun(Env):
         self.assertEqual(P.validate_doc(self.read("port2"), "port2"), [])
 
 
+class WeeklyCap(Env):
+    """The script gives the plan its bound: a run whose files are late asks for no more than that, leaves the rest to the next run, and says so."""
+
+    def test_a_run_over_files_that_are_late_keeps_to_the_bound_and_the_next_runs_catch_up(self):
+        self.start(n_ports=8, first=date(2024, 1, 1), last=date(2026, 3, 1))
+        self.run_script("--backfill", "--max-ports", "8", today=date(2026, 3, 9))           # the files end in the last week of February
+        self.svc.table = make_table(self.ports, date(2024, 1, 1), date(2026, 11, 20))
+        before = {p: self.read(p)["y"] for p in self.ports}
+        asked, deferred = [], []
+        with mock.patch.object(S, "MAX_REQUESTS", 3), mock.patch.object(P.chunks, "__defaults__", (3, P.MAX_ADDRESS)):
+            for week in range(8):
+                n = len(self.svc.calls)
+                res = self.run_script(today=date(2026, 11, 25) + timedelta(weeks=week))
+                self.assertIsNone(res["error"])
+                asked.append(len(self.svc.calls) - n)
+                deferred.append(len(res["deferred"]))
+                self.assertEqual(status.get(S.SOURCE)["state"]["deferred"], len(res["deferred"]))
+                if not res["deferred"]:
+                    break
+        self.assertTrue(all(a <= 3 for a in asked), asked)
+        self.assertGreater(deferred[0], 0, "the first run could not read every file in three requests")
+        self.assertEqual(deferred[-1], 0, f"the ports left to the next run are read within a few weeks: {deferred}")
+        for p in self.ports:
+            self.assertGreater(self.read(p)["y"], before[p])
+
+
+class SizeStop(Env):
+    """The size stop is the owner's figure; the run says plainly, from 90% of it, how near it is and when it would be reached."""
+
+    def setUp(self):
+        super().setUp()
+        self.start(n_ports=8)
+        self.run_script("--backfill", "--max-ports", "8", today=date(2026, 11, 12))
+        self.svc.table = make_table(self.ports, date(2025, 11, 3), date(2026, 11, 20))
+        self.total = sum(len(b) for f, b in self.tree().items() if f.startswith("port"))
+
+    def stop_for(self, share):
+        """The stop in kB that makes the folder as it now is ``share`` of it."""
+        return self.total / 1000 / share
+
+    def test_below_ninety_per_cent_the_summary_says_nothing_of_the_stop(self):
+        with mock.patch.object(P, "SIZE_STOP_KB", self.stop_for(0.85)):
+            res = self.run_script(today=date(2026, 11, 25))
+        self.assertIsNone(res["error"])
+        self.assertIsNone(res["size_warning"])
+        self.assertNotIn("WARNING", self.output)
+        self.assertNotIn("stop is reached", self.output)
+        self.assertNotIn("; the folder", status.get(S.SOURCE)["last_error"] or "")
+        self.assertIn("size_kb", status.get(S.SOURCE)["state"])
+
+    def test_from_ninety_per_cent_the_run_warns_in_its_summary_and_in_the_status_and_still_writes(self):
+        with mock.patch.object(P, "SIZE_STOP_KB", self.stop_for(0.93)):
+            res = self.run_script(today=date(2026, 11, 25))
+        self.assertIsNone(res["error"])
+        self.assertTrue(res["written"])
+        w = res["size_warning"]
+        self.assertRegex(w, r"^the folder of the port files holds \d+ kB, 9\d% of its \d+ kB stop; it grows by about [\d.]+ kB a week, "
+                            r"so the stop is reached in about \d+ weeks \(the week of 20\d\d-\d\d-\d\d\); from there a weekly run refuses everything")
+        self.assertIn("WARNING: " + w, self.output)
+        e = status.get(S.SOURCE)
+        self.assertIsNone(e["last_error"])
+        self.assertEqual(e["consecutive_failures"], 0)
+        with open(status.LOG, encoding="utf-8") as fh:
+            self.assertIn("the stop is reached in about", fh.read().splitlines()[-1])
+        # as a GitHub warning when the run is one
+        with mock.patch.object(P, "SIZE_STOP_KB", self.stop_for(0.93)), mock.patch.dict(os.environ, {"GITHUB_ACTIONS": "true"}):
+            self.run_script(today=date(2026, 11, 25))
+        self.assertIn("::warning::the folder of the port files holds", self.output)
+
+    def test_the_weeks_left_are_the_room_over_the_growth_of_a_week(self):
+        docs = {p: self.read(p) for p in self.ports}
+        total = sum(len(b) for f, b in self.tree().items() if f.startswith("port"))
+        weeks = sum(len(d["calls"]["tanker"]) for d in docs.values())
+        a_week = total / weeks * len(docs)
+        stop_kb = total / 0.95 / 1000
+        share, msg = P.size_note(total, docs, date(2026, 11, 25), stop_kb)
+        self.assertAlmostEqual(share, 0.95, places=3)
+        n = math.ceil((stop_kb * 1000 - total) / a_week)
+        self.assertIn(f"in about {n} weeks (the week of {(P.monday(date(2026, 11, 25)) + timedelta(weeks=n)).isoformat()})", msg)
+        self.assertIn(f"it grows by about {a_week / 1000:.1f} kB a week", msg)
+        # at and over the stop: it says so and gives no date
+        share, msg = P.size_note(total, docs, date(2026, 11, 25), total / 1000)
+        self.assertIn("and the stop is reached; from there", msg)
+
+    def test_at_the_stop_a_weekly_run_still_refuses_everything_and_records_a_failure(self):
+        before = self.tree()
+        with mock.patch.object(P, "SIZE_STOP_KB", self.stop_for(1.0) - 1):
+            res = self.run_script(today=date(2026, 11, 25))
+        self.assertIn("kB stop", res["error"])
+        self.assertEqual(self.tree(), before)
+        self.assertEqual(status.get(S.SOURCE)["consecutive_failures"], 1)
+
+    def test_the_stop_and_the_share_are_the_ones_the_documentation_gives(self):
+        self.assertEqual((P.SIZE_STOP_KB, P.SIZE_WARN_SHARE), (3500, 0.9))
+        section = guide_section()
+        self.assertIn(f"The folder may not exceed {P.SIZE_STOP_KB:,} kB", section)
+        self.assertIn(f"From {int(P.SIZE_WARN_SHARE * 100)}% of it ({int(P.SIZE_STOP_KB * P.SIZE_WARN_SHARE):,} kB)", section)
+
+
 class WindowMergeBySize(Env):
     """Six ports whose weekly tonnages are of every size the rule knows (from a few tonnes to hundreds of thousands), loaded
     in full, then a weekly run that reads the window again: the older weeks are the same bytes, the weeks of the window and the
@@ -1198,11 +1485,71 @@ class Pace(Env):
         self.assertGreater(45 * FP.PAUSE_S[0], 5 * 60)
         self.assertGreater(n, 15)
 
-    def test_the_longest_weekly_run_at_the_longest_pause_fits_the_time_the_script_gives_itself(self):
-        least, most = P.weekly_request_bounds(len(P.port_ids()), TODAY)
-        self.assertLess(most * FP.PAUSE_S[1], S.RUN_LIMIT_S)
-        self.assertLess(S.RUN_LIMIT_S + 2 * FP.PAUSE_S[1] + 90, 15 * 60)      # the step limit of the job leaves room for the last request
-        self.assertLessEqual(least, most)
+
+class WeeklyPace(Env):
+    """The weekly run (window, deep and a scheduled backfill, in several chunks) is asked one request at a time with a pause between
+    two requests, like a sitting of the first load."""
+
+    def setUp(self):
+        super().setUp()
+        self.start(n_ports=10)
+        self.run_script("--backfill", "--max-ports", "8", today=date(2026, 11, 12))       # eight files, two ports still pending
+        self.svc.table = make_table(self.ports, date(2025, 11, 3), date(2026, 11, 20))
+
+    def watched(self, today=date(2026, 11, 25)):
+        events, main = [], threading.get_ident()
+        real = self.svc
+
+        def get(url, params=None, **kw):
+            self.assertEqual(threading.get_ident(), main, "a request left the main thread")
+            events.append(("get", kw, params["where"]))
+            return real(url, params=params, **kw)
+
+        def sleep(s):
+            self.assertEqual(threading.get_ident(), main, "a pause left the main thread")
+            events.append(("sleep", s))
+        with mock.patch.object(S.fetch, "get_json", get), mock.patch.object(S.time, "sleep", sleep), \
+                mock.patch.object(P.chunks, "__defaults__", (3, P.MAX_ADDRESS)):
+            res = self.run_script(today=today)
+        return res, events
+
+    def test_the_requests_of_a_weekly_run_go_one_after_the_other_with_the_pause_between_them_on_one_thread(self):
+        res, events = self.watched()
+        self.assertIsNone(res["error"])
+        kinds = [e[0] for e in events]
+        gets = kinds.count("get")
+        self.assertEqual(res["requests"], gets)
+        self.assertGreaterEqual(gets, 5, "the run must have several chunks, a deep pass and a backfill")
+        self.assertEqual(kinds, (["get", "sleep"] * gets)[:-1])            # none before the first, none after the last
+        self.assertEqual(self.svc.threads, {threading.get_ident()})
+        for e in events:
+            if e[0] == "get":
+                self.assertEqual(e[1], {"min_interval": FP.PAUSE_S[0], "attempts": 1})
+            else:
+                self.assertGreaterEqual(e[1], FP.PAUSE_S[0])
+                self.assertLessEqual(e[1], FP.PAUSE_S[1])
+
+    def test_a_weekly_run_asks_the_window_in_chunks_then_the_deep_pass_then_the_ports_without_a_file(self):
+        res, events = self.watched()
+        asked = [e[2] for e in events if e[0] == "get"]
+        windows = [w for w in asked if " AND date >" in w]
+        history = [w for w in asked if " AND date >" not in w]
+        self.assertGreaterEqual(len({w.split(" AND ")[0] for w in windows}), 3)       # three ports a chunk: more than one chunk of each kind
+        self.assertEqual(len(history), 2)                                              # port9 and port10, one page each
+        self.assertEqual(asked, windows + history)
+        for w in windows:
+            self.assertLessEqual(w.split(" AND ")[0].count("'port") , 3)
+        self.assertEqual(sorted(res["written"]), sorted(self.ports))
+
+    def test_a_request_of_a_weekly_run_repeated_after_an_error_waits_as_long_as_any_other(self):
+        self.svc.script = [None, F.FetchError("HTTP 503 after 1 attempts (services9.arcgis.com)")]
+        res, events = self.watched()
+        self.assertIsNone(res["error"])
+        gets = [i for i, e in enumerate(events) if e[0] == "get"]
+        self.assertGreater(len(gets), 3)
+        for a, b in zip(gets, gets[1:]):
+            self.assertEqual(b - a, 2, "a pause between every two requests, the repeated one included")
+            self.assertGreaterEqual(events[a + 1][1], FP.PAUSE_S[0])
 
 
 class Retries(Env):
@@ -1443,41 +1790,171 @@ class ThePageThatDoesNotSayItIsTheLast(Env):
         res = self.run_script("--backfill", today=date(2026, 11, 25))
         self.assertEqual(res["requests"], 2)
 
-    def test_a_first_load_port_that_ends_weeks_before_the_newest_of_the_sitting_is_not_written_and_stays_pending(self):
+    def cut_first_read(self, port, last_day):
+        """The service stops a port's first read (the query with no lower date) at ``last_day`` and still holds the later rows: a read
+        that stopped short. The query that asks for the rows after a day gets them."""
+        def hook(rows, params):
+            if " AND date >" not in params["where"]:
+                return [r for r in rows if r["portid"] != port or r["date"] <= last_day]
+            return rows
+        self.svc.hook = hook
+
+    def test_a_first_load_port_that_ends_weeks_before_the_newest_and_has_later_rows_in_the_service_is_not_written(self):
         self.start(n_ports=3)
-        self.svc.table["port2"] = [r for r in self.svc.table["port2"] if r["date"] <= "2026-10-11"]    # last week starts 2026-10-05
+        self.cut_first_read("port2", "2026-10-11")        # last week starts 2026-10-05
         res = self.run_script("--backfill", "--max-ports", "3", today=date(2026, 11, 12))
         self.assertIsNone(res["error"])
         self.assertEqual(sorted(res["written"]), ["port1", "port3"])
         self.assertEqual(sorted(f for f in os.listdir(self.out)), ["index.json", "port1.json", "port3.json"])
         self.assertEqual(json.loads(self.tree()["index.json"])["pending"], ["port2"])
-        self.assertIn("port2 Böte, Port: its last week starts 2026-10-05, the newest of this sitting 2026-11-02: not written, "
-                      "the port stays pending", self.output)
-        # three weeks behind is the lag of an ordinary table: written
+        self.assertIn("port2 Böte, Port: its last week starts 2026-10-05, the newest 2026-11-02, and the service has rows after "
+                      "2026-10-11: not written, the port stays pending", self.output)
+        self.assertEqual(res["requests"], 4)               # one page for each of the three ports, and one more for the late one
+
+    def test_a_first_load_port_that_really_ends_early_in_the_service_is_written_after_one_more_request(self):
+        self.start(n_ports=3)
+        self.svc.table["port2"] = [r for r in self.svc.table["port2"] if r["date"] <= "2026-10-11"]
+        res = self.run_script("--backfill", "--max-ports", "3", today=date(2026, 11, 12))
+        self.assertIsNone(res["error"])
+        self.assertEqual(sorted(res["written"]), ["port1", "port2", "port3"])
+        self.assertEqual(self.read("port2")["y"], "2026-10-11")
+        self.assertEqual(json.loads(self.tree()["index.json"])["pending"], [])
+        self.assertIn("port2 Böte, Port: its last week starts 2026-10-05, the newest 2026-11-02; the service has no row of this port "
+                      "after 2026-10-11: written as it is", self.output)
+        self.assertEqual(res["requests"], 4)
+        # three weeks behind is the lag of an ordinary table: written with no further request
         self.start(n_ports=3)
         self.svc.table["port2"] = [r for r in self.svc.table["port2"] if r["date"] <= "2026-10-18"]    # last week starts 2026-10-12
         res = self.run_script("--backfill", "--max-ports", "3", today=date(2026, 11, 12))
-        self.assertEqual(sorted(res["written"]), ["port1", "port2", "port3"])
+        self.assertEqual((sorted(res["written"]), res["requests"]), (["port1", "port2", "port3"], 3))
 
-    def test_a_port_read_before_the_newest_one_of_the_sitting_is_taken_back_when_the_sitting_ends(self):
+    def test_a_port_read_before_the_newest_one_of_the_sitting_is_judged_when_the_sitting_ends(self):
         self.start(n_ports=3)
-        self.svc.table["port1"] = [r for r in self.svc.table["port1"] if r["date"] <= "2026-10-11"]
+        self.cut_first_read("port1", "2026-10-11")
         res = self.run_script("--backfill", "--max-ports", "3", today=date(2026, 11, 12))
         self.assertEqual(sorted(res["written"]), ["port2", "port3"])
         self.assertEqual(sorted(f for f in os.listdir(self.out)), ["index.json", "port2.json", "port3.json"])
         self.assertEqual(json.loads(self.tree()["index.json"])["pending"], ["port1"])
-        self.assertIn("port1 Alpha: its last week starts 2026-10-05, the newest of this sitting 2026-11-02: its file is removed, "
-                      "the port stays pending", self.output)
+        self.assertIn("port1 Alpha: its last week starts 2026-10-05, the newest 2026-11-02, and the service has rows after it: its file "
+                      "is removed, the port stays pending", self.output)
         # the next sitting reads it again
-        self.svc.table["port1"] = make_table(["port1"], date(2025, 11, 3), date(2026, 11, 8))["port1"]
+        self.svc.hook = None
         res = self.run_script("--backfill", "--max-ports", "3", today=date(2026, 11, 12))
         self.assertEqual(res["written"], ["port1"])
+        # a port that really ends there is kept
+        self.start(n_ports=3)
+        self.svc.table["port1"] = [r for r in self.svc.table["port1"] if r["date"] <= "2026-10-11"]
+        res = self.run_script("--backfill", "--max-ports", "3", today=date(2026, 11, 12))
+        self.assertEqual(sorted(res["written"]), ["port1", "port2", "port3"])
+        self.assertIn("port1 Alpha: its last week starts 2026-10-05, the newest 2026-11-02; the service has no row of this port after "
+                      "2026-10-11: kept as it is", self.output)
+
+    def test_a_port_is_judged_against_the_newest_file_already_in_the_folder_whatever_way_the_sitting_ends(self):
+        self.start(n_ports=3)
+        self.run_script("--backfill", "--max-ports", "2", today=date(2026, 11, 12))       # port1 and port2, newest week 2026-11-02
+        before = self.tree()
+        self.cut_first_read("port3", "2026-10-11")
+        res = self.run_script("--backfill", "--max-ports", "1", today=date(2026, 11, 12))     # a sitting of one port: no newer port in it
+        self.assertEqual(res["written"], [])
+        self.assertEqual(self.tree(), before)
+        self.assertIn("the service has rows after 2026-10-11: not written", self.output)
+        # a sitting that stops on an error after its first port leaves that port judged all the same
+        self.svc.script = [None] + down()
+        res = self.run_script("--backfill", "--max-ports", "2", today=date(2026, 11, 12))
+        self.assertEqual(res["written"], [])
+        self.assertTrue(res["error"])
+
+    def test_a_port_that_is_late_in_the_service_ends_with_a_file_and_the_load_ends(self):
+        self.start(n_ports=6)
+        self.svc.table["port1"] = [r for r in self.svc.table["port1"] if r["date"] <= "2026-10-04"]     # four weeks later than the others
+        sittings, asked = 0, 0
+        while json.loads(self.tree().get("index.json", b'{"pending":[1]}'))["pending"] and sittings < 6:
+            res = self.run_script("--backfill", "--max-ports", "2", today=date(2026, 11, 12))
+            sittings += 1
+            asked += res["requests"]
+            self.assertIsNone(res["error"])
+        self.assertLessEqual(sittings, 3)                          # two ports a sitting: three sittings for six ports
+        self.assertEqual(sorted(f for f in os.listdir(self.out) if f.startswith("port")), [f"port{i}.json" for i in range(1, 7)])
+        self.assertEqual(self.read("port1")["y"], "2026-10-04")
+        self.assertEqual(asked, 6 + 1)                             # a page each, and one for the port that is late
+
+    def test_a_scheduled_backfill_is_judged_like_a_sitting(self):
+        self.start(n_ports=9)
+        self.run_script("--backfill", "--max-ports", "8", today=date(2026, 11, 12))
+        self.cut_first_read("port9", "2026-10-11")
+        res = self.run_script(today=date(2026, 11, 12))
+        self.assertIsNone(res["error"])
+        self.assertNotIn("port9", res["written"])
+        self.assertFalse(os.path.exists(os.path.join(self.out, "port9.json")))
+        self.assertIn("port9", json.loads(self.tree()["index.json"])["pending"])
+        self.svc.hook = None
+        res = self.run_script(today=date(2026, 11, 12))
+        self.assertIn("port9", res["written"])
 
     def test_a_full_read_of_a_port_is_not_judged_against_the_sitting(self):
         self.start(n_ports=2)
         self.run_script("--backfill", "--max-ports", "2", today=date(2026, 11, 12))
         res = self.run_script("--full", "port1", today=date(2026, 11, 12))
         self.assertEqual(res["written"], ["port1"])
+
+
+class TheTextsGiveTheFiguresOfTheCode(Env):
+    """docs/UPDATING.md quotes counts, minutes and limits: each is recomputed from the plan and the constants, so that the text fails the day
+    a constant moves."""
+
+    def setUp(self):
+        super().setUp()
+        self.section = guide_section()
+
+    def test_the_requests_and_the_minutes_of_a_normal_run_and_of_the_worst_one(self):
+        n = len(P.port_ids())
+        bounds = [P.weekly_request_bounds(n, TODAY + timedelta(weeks=w), S.MAX_REQUESTS) for w in range(4)]
+        least, most = min(b[0] for b in bounds), max(b[0] for b in bounds)
+        self.assertEqual((least, most), (23, 24), "the figures of the guide are 23 or 24: change the text with the code")
+        self.assertIn(f"**{least} or {most} requests** in a normal week", self.section)
+        self.assertIn(f"**never more than {S.MAX_REQUESTS}**", self.section)
+        self.assertEqual(S.REQUEST_S, 3)
+        self.assertIn(f"{S.MAX_REQUESTS} is the figure for the pace: at {int(FP.PAUSE_S[1])} seconds a pause and three seconds an answer, "
+                      f"{S.MAX_REQUESTS} requests fill the {S.RUN_LIMIT_S // 60} minutes after which the script stops asking", self.section)
+        lo, hi = FP.PAUSE_S
+        self.assertIn(f"a normal run of {most} requests is {most - 1} pauses, {(most - 1) * lo / 60:.1f} to {(most - 1) * hi / 60:.1f} minutes", self.section)
+        self.assertIn(f"the worst run, {S.MAX_REQUESTS} requests, is {S.MAX_REQUESTS - 1} pauses, {(S.MAX_REQUESTS - 1) * lo / 60:.1f} to "
+                      f"{(S.MAX_REQUESTS - 1) * hi / 60:.1f} minutes", self.section)
+        self.assertLessEqual(S.MAX_REQUESTS * (hi + S.REQUEST_S) / 60, S.RUN_LIMIT_S / 60)
+        self.assertIn(f"the {S.RUN_LIMIT_S // 60} minutes are the limit of the script", self.section)
+
+    def test_the_other_figures_of_the_section_are_the_constants(self):
+        sec = self.section
+        self.assertEqual((P.WINDOW_WEEKS, P.DEEP_WEEKS), (6, 52))
+        self.assertIn("the last six weeks of every port that has a file", sec)
+        self.assertIn(f"the last {P.DEEP_WEEKS} weeks of one quarter of the ports", sec)
+        self.assertIn(f"at most {['zero', 'one', 'two', 'three', 'four', 'five'][P.SCHEDULED_BACKFILL_CAP]} ports without a file", sec)
+        self.assertIn(f"{P.MAX_IDS} ports at a time, in pages of {P.PAGE:,} rows", sec)
+        self.assertEqual(P.pages(P.PAGE * 3 - 1), 3)
+        self.assertIn(f"(3 requests: the table holds fewer than {3 * P.PAGE:,} days of a port", sec)
+        self.assertIn(f"{S.QUOTA_WAIT_S} seconds once per page", sec)
+        self.assertIn(f"{int(FP.PAUSE_S[0])} to {int(FP.PAUSE_S[1])} between two requests", sec)
+        self.assertIn(f"{int(P.MIN_ROW_SHARE * 100)}% of the rows", sec)
+        self.assertIn(f"more than {int(P.MAX_SKIPPED_SHARE * 100)}% of the ports", sec)
+        self.assertIn("first-load sitting of 15 ports is 45 requests (8 to 10 minutes of pauses)", sec)
+        self.assertEqual((45 * (FP.PAUSE_S[0] + FP.PAUSE_S[1]) / 2 / 60, 45 * FP.PAUSE_S[1] / 60), (8.25, 10.5))
+        self.assertEqual((P.SITTING_MAX, P.pages((TODAY - date.fromisoformat(P.HISTORY_FROM)).days + 1) * P.SITTING_MAX), (15, 45))
+        self.assertIn(f"{S.FIRST_LOAD_LAG_DAYS} days before the newest last week", sec)
+        self.assertIn("(`continue-on-error`, 15 minutes;", sec)
+        self.assertIn("more than 16 days or a latest day of data more than 21 days old", sec)
+        self.assertEqual((ST.WEEKLY, ST.DAY_LAG), (16, 21))
+
+    def test_the_docstring_of_the_script_names_the_bound_and_the_pages_of_a_first_read(self):
+        doc = " ".join(S.__doc__.split())
+        self.assertIn(f"read in full (3 requests each while a port has fewer than {3 * P.PAGE:,} days of rows, one more from then on;", doc)
+        self.assertIn("MAX_REQUESTS", doc)
+
+    def test_the_step_of_the_workflow_runs_this_script_and_its_limit_holds_the_run_limit(self):
+        wf = read(".github", "workflows", "update-portwatch.yml")
+        self.assertIn("run: python pipeline/freight/fetch_portwatch_port_traffic.py\n", wf)
+        step = int(re.search(r"id: ports\n\s+continue-on-error: true\n(?:\s+#.*\n)*\s+timeout-minutes: (\d+)", wf).group(1))
+        self.assertEqual(step, 15)
+        self.assertLess(S.RUN_LIMIT_S, step * 60)
 
 
 class Files(Env):

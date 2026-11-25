@@ -7,13 +7,14 @@ Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_update_
 """
 import json
 import os
+import re
 import shutil
 import subprocess
 import sys
 import tempfile
 import time
 import unittest
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from unittest import mock
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -526,6 +527,346 @@ class WorkflowSignals(unittest.TestCase):
         self.assertIn('status.py fail "$s" "update not pushed: $reason"', push)
         self.assertNotIn("push -f", push)
         self.assertNotIn("--force", push)
+
+
+def _text(*p):
+    with open(os.path.join(ROOT, *p), encoding="utf-8") as fh:
+        return fh.read()
+
+
+def workflow_steps(text, job="update"):
+    """[{name, id, continue-on-error, timeout-minutes, run, uses}] of the steps of ``job``, and the job's own timeout (minutes), read as
+    text (the shape of these workflow files; no YAML library is a dependency of the pipeline)."""
+    lines = text.splitlines()
+    start = next(i for i, ln in enumerate(lines) if ln == f"  {job}:")
+    end = next((i for i in range(start + 1, len(lines)) if re.match(r"^  \S", lines[i])), len(lines))
+    block = lines[start:end]
+    job_limit = next((int(m.group(1)) for ln in block if (m := re.match(r"^    timeout-minutes: (\d+)", ln))), None)
+    steps, cur = [], None
+    for ln in block[next(i for i, x in enumerate(block) if x == "    steps:") + 1:]:
+        if ln.startswith("      - "):
+            cur = {}
+            steps.append(cur)
+            ln = "        " + ln[8:]
+        if cur is not None and (m := re.match(r"^        ([\w-]+): ?(.*)$", ln)):
+            cur[m.group(1)] = m.group(2)
+    return steps, job_limit
+
+
+def run_block(text, step_name):
+    """The shell of the ``run: |`` of the step ``step_name`` of a workflow or an action file, dedented."""
+    lines = text.splitlines()
+    i = next(k for k, ln in enumerate(lines) if ln.strip() == f"- name: {step_name}")
+    indent = len(lines[i]) - len(lines[i].lstrip())
+    for k in range(i + 1, len(lines)):
+        ln = lines[k]
+        if ln.strip().startswith("- name:") and len(ln) - len(ln.lstrip()) == indent:
+            break
+        if ln.strip() == "run: |":
+            base = len(ln) - len(ln.lstrip()) + 2
+            out = []
+            for m in lines[k + 1:]:
+                if m.strip() and len(m) - len(m.lstrip()) < base:
+                    break
+                out.append(m[base:] if m.strip() else "")
+            return "\n".join(out)
+    raise KeyError(step_name)
+
+
+class PortStepInTheJob(unittest.TestCase):
+    """The PortWatch job has a second step for the port series. Its shape is read from the workflow; what the finish action does with
+    each way that step can end is run on a copy of the data in a temporary repository (the shell of the action as it is in action.yml:
+    record, validate, discard, commit and push to a local remote); the two update steps are replaced by their effects."""
+
+    WF = ".github/workflows/update-portwatch.yml"
+    PORTS = "portwatch-port-traffic"
+
+    @classmethod
+    def setUpClass(cls):
+        cls.wf = _text(".github", "workflows", "update-portwatch.yml")
+        cls.action = _text(".github", "actions", "finish-data-update", "action.yml")
+        cls.steps, cls.job_limit = workflow_steps(cls.wf)
+
+    # ------------------------------------------------------------------------------------------ the shape of the job
+    def step(self, step_id):
+        return next(x for x in self.steps if x.get("id") == step_id)
+
+    def test_the_limit_of_the_job_holds_the_limits_of_its_steps_and_fifteen_minutes_more(self):
+        limits = [int(x["timeout-minutes"]) for x in self.steps if "timeout-minutes" in x]
+        self.assertGreaterEqual(len(limits), 7)
+        self.assertEqual(sum(limits), 10 + 5 + 25 + 15 + 1 + 5 + 5)
+        self.assertGreaterEqual(self.job_limit, sum(limits) + 15, "a job limit that is hit is a red run and an e-mail")
+        # the other PortWatch step of the job keeps the limit it had
+        self.assertEqual(self.step("fetch")["timeout-minutes"], "25")
+
+    def test_the_port_step_follows_the_chokepoint_step_cannot_turn_the_job_red_and_is_stopped_by_its_limit(self):
+        order = [x.get("id") or x.get("name") for x in self.steps]
+        self.assertLess(order.index("fetch"), order.index("ports"))
+        self.assertLess(order.index("ports"), order.index("alerts"))
+        port = self.step("ports")
+        self.assertEqual(port["continue-on-error"], "true")
+        self.assertEqual(port["timeout-minutes"], "15")
+        self.assertEqual(port["run"], "python pipeline/freight/fetch_portwatch_port_traffic.py")
+        self.assertNotIn("--", port["run"], "the scheduled step takes no option: the weekly run")
+        self.assertEqual(self.step("fetch")["continue-on-error"], "true")
+        self.assertNotIn("if", port, "the step runs whatever the chokepoint step did")
+        # no step of the job can turn it red: every step that runs a script is continue-on-error
+        for x in self.steps:
+            if x.get("run") and "timeout-minutes" in x:
+                self.assertEqual(x.get("continue-on-error"), "true", x.get("name"))
+
+    def test_the_finish_step_records_commits_and_validates_the_port_series_with_the_other_sources(self):
+        self.assertIn('sources: "portwatch portwatch-port-traffic build-alerts build-changes"', self.wf)
+        paths = re.search(r'^\s+paths: "([^"]+)"', self.wf, re.M).group(1).split()
+        self.assertIn("data/freight/port-traffic", paths)
+        self.assertIn("data/freight/portwatch", paths)
+        self.assertIn("data/_status", paths)
+        steps_arg = re.search(r"steps: \|\n((?:\s+\$\{\{.*\n)+)", self.wf).group(1).split("\n")
+        lines = [ln.strip() for ln in steps_arg if ln.strip()]
+        self.assertIn("${{ steps.ports.outcome }} portwatch-port-traffic", lines)
+        self.assertIn("${{ steps.fetch.outcome }} portwatch", lines)
+        # every step that has an id has its outcome line: a step that does not finish is recorded as failed
+        self.assertEqual(sorted(re.search(r"steps\.(\w+)\.outcome", ln).group(1) for ln in lines),
+                         sorted(x["id"] for x in self.steps if x.get("id") in ("fetch", "ports", "alerts", "changes")))
+        # the calendar of the About window names the sources of the job as the finish step does
+        import changes
+        self.assertEqual(set(changes.JOBS["update-portwatch"]), {"portwatch", "portwatch-port-traffic"})
+
+    def test_no_restore_step_and_no_artifact_for_the_ports(self):
+        self.assertEqual(len(re.findall(r"restore_", self.wf)), 1)
+        self.assertEqual(self.wf.count("upload-artifact"), 1)
+        artifact = self.wf[self.wf.index("upload-artifact"):]
+        self.assertIn("name: portwatch-daily", artifact)
+        self.assertIn("path: pipeline/cache/portwatch\n", artifact)
+        self.assertNotIn("port-traffic", artifact)
+        self.assertNotIn("port-traffic", "\n".join(x.get("run", "") for x in self.steps if x.get("id") != "ports" and "rm -f" not in x.get("run", "")))
+
+    def test_a_port_file_left_half_written_by_a_killed_step_is_removed_before_the_checks(self):
+        names = [x.get("name") for x in self.steps]
+        i = names.index("Remove a port file left half written")
+        self.assertEqual(names[i - 1], "Fetch PortWatch port traffic and rebuild the port series")
+        self.assertEqual(self.steps[i]["run"], "rm -f data/freight/port-traffic/*.tmp")
+        self.assertEqual(self.steps[i]["continue-on-error"], "true")
+
+    def test_the_schedule_is_the_one_it_was(self):
+        self.assertIn('cron: "17 19 * * 3"', self.wf)
+        self.assertEqual(self.wf.count("cron:"), 1)
+
+    # ------------------------------------------------------------------------------------------ the job, simulated
+    @classmethod
+    def sandbox(cls):
+        """A temporary repository with a copy of data/, the data checks, status.py and push.sh, and a bare remote it pushes to."""
+        if getattr(cls, "_box", None):
+            return cls._box
+        box = tempfile.mkdtemp()
+        cls._box = box
+        repo, remote, bin_ = os.path.join(box, "repo"), os.path.join(box, "origin.git"), os.path.join(box, "bin")
+        os.makedirs(os.path.join(repo, "web", "scripts"))
+        os.makedirs(os.path.join(repo, "pipeline", "common"))
+        os.makedirs(os.path.join(repo, ".github", "actions", "finish-data-update"))
+        os.makedirs(bin_)
+        os.symlink(sys.executable, os.path.join(bin_, "python"))
+        shutil.copytree(os.path.join(ROOT, "data"), os.path.join(repo, "data"))
+        for f in os.listdir(os.path.join(ROOT, "web", "scripts")):
+            if f.endswith(".mjs") and not f.endswith(".test.mjs"):
+                shutil.copy(os.path.join(ROOT, "web", "scripts", f), os.path.join(repo, "web", "scripts", f))
+        shutil.copy(os.path.join(ROOT, "pipeline", "common", "status.py"), os.path.join(repo, "pipeline", "common", "status.py"))
+        shutil.copy(os.path.join(ROOT, ".github", "actions", "finish-data-update", "push.sh"),
+                    os.path.join(repo, ".github", "actions", "finish-data-update", "push.sh"))
+        shutil.copy(os.path.join(ROOT, ".gitattributes"), os.path.join(repo, ".gitattributes"))
+        for ln in (["git", "init", "-q", "-b", "main"], ["git", "config", "user.email", "t@example.invalid"], ["git", "config", "user.name", "t"],
+                   ["git", "config", "commit.gpgsign", "false"], ["git", "add", "-A"], ["git", "commit", "-q", "-m", "base"]):
+            subprocess.run(ln, cwd=repo, check=True, capture_output=True)
+        subprocess.run(["git", "init", "-q", "--bare", "-b", "main", remote], check=True, capture_output=True)
+        subprocess.run(["git", "remote", "add", "origin", remote], cwd=repo, check=True)
+        subprocess.run(["git", "push", "-q", "origin", "main"], cwd=repo, check=True, capture_output=True)
+        cls.base = subprocess.run(["git", "rev-parse", "HEAD"], cwd=repo, check=True, capture_output=True, text=True).stdout.strip()
+        return box
+
+    @classmethod
+    def tearDownClass(cls):
+        if getattr(cls, "_box", None):
+            shutil.rmtree(cls._box, ignore_errors=True)
+
+    def setUp(self):
+        box = self.sandbox()
+        self.repo, self.remote = os.path.join(box, "repo"), os.path.join(box, "origin.git")
+        self.env = dict(os.environ, PATH=os.path.join(box, "bin") + os.pathsep + os.environ["PATH"], RUNNER_TEMP=box,
+                        GITHUB_OUTPUT=os.path.join(box, "out.txt"), PYTHON=sys.executable)
+        for k in ("GITHUB_ACTIONS", "DATA_GUARD", "STATUS_JOURNAL"):
+            self.env.pop(k, None)
+        self.env["STATUS_JOURNAL"] = os.path.join(box, "journal")
+        for ln in (["git", "reset", "-q", "--hard", self.base], ["git", "clean", "-fdq"], ["git", "push", "-q", "-f", "origin", f"{self.base}:main"]):
+            subprocess.run(ln, cwd=self.repo, check=True, capture_output=True)
+        for f in ("out.txt", "journal", "data-validation.log"):
+            if os.path.exists(os.path.join(box, f)):
+                os.remove(os.path.join(box, f))
+        self.since = "2026-11-25T19:17:00Z"
+
+    def sh(self, script, **env):
+        r = subprocess.run(["bash", "-c", script], cwd=self.repo, env={**self.env, **env}, capture_output=True, text=True)
+        return r
+
+    def py(self, code):
+        r = subprocess.run([sys.executable, "-I", "-c", "import sys; sys.path.insert(0, 'pipeline/common'); import status\n" + code], cwd=self.repo,
+                           env=self.env, capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
+        return r.stdout
+
+    def status(self):
+        with open(os.path.join(self.repo, "data", "_status", "updates.json"), encoding="utf-8") as fh:
+            return json.load(fh)["sources"]
+
+    def chokepoint_update(self):
+        """What the chokepoint step leaves: a changed series file and its success in the status file. Returns (path, new text)."""
+        d = os.path.join(self.repo, "data", "freight", "portwatch")
+        name = sorted(f for f in os.listdir(d) if f.endswith(".json"))[0]
+        path = os.path.join(d, name)
+        with open(path, encoding="utf-8") as fh:
+            doc = json.load(fh)
+        doc["updated_by_the_test"] = True
+        text = json.dumps(doc, separators=(",", ":"))
+        with open(path, "w", encoding="utf-8") as fh:
+            fh.write(text)
+        self.py("status.record_success('portwatch', records=80600, data_to='2026-11-20', note='updated')")
+        return path, text
+
+    def finish(self, outcomes, paths=None):
+        """Run the finish action's shell: record, validate, discard, commit. ``outcomes`` {step id: outcome}. Returns what it decided."""
+        steps_arg = re.search(r"steps: \|\n((?:\s+\$\{\{.*\n)+)", self.wf).group(1)
+        steps_arg = re.sub(r"\$\{\{ steps\.(\w+)\.outcome \}\}", lambda m: outcomes[m.group(1)], steps_arg)
+        steps_arg = "\n".join(ln.strip() for ln in steps_arg.split("\n"))
+        sources = re.search(r'^\s+sources: "([^"]+)"', self.wf, re.M).group(1)
+        paths = paths or re.search(r'^\s+paths: "([^"]+)"', self.wf, re.M).group(1)
+        res = {}
+        self.sh(run_block(self.action, "Record a failure for an update step that did not finish"), STEPS=steps_arg, SINCE=self.since)
+        v = self.sh(run_block(self.action, "Validate data"))
+        res["validate"] = v.returncode
+        res["validation"] = v.stdout + v.stderr
+        out = os.path.join(self.env["RUNNER_TEMP"], "out.txt")
+        if v.returncode != 0:
+            d = self.sh(run_block(self.action, "Discard invalid data"), PATHS=paths, SOURCES=sources)
+            res["discard"] = d.stdout + d.stderr
+            res["clean"] = "clean=true" in open(out).read() if os.path.exists(out) else None
+        if v.returncode == 0 or res.get("clean"):
+            c = self.sh(run_block(self.action, "Commit and push"), MESSAGE="data: update PortWatch", DEFAULT_BRANCH="main", PATHS=paths,
+                        SOURCES=sources, GITHUB_ACTION_PATH=os.path.join(self.repo, ".github", "actions", "finish-data-update"))
+            res["push"] = c.stdout + c.stderr
+        return res
+
+    def remote_file(self, rel):
+        r = subprocess.run(["git", "--git-dir", self.remote, "show", f"main:{rel}"], capture_output=True, text=True)
+        return r.stdout if r.returncode == 0 else None
+
+    def remote_changed(self):
+        r = subprocess.run(["git", "--git-dir", self.remote, "diff", "--name-only", self.base, "main"], capture_output=True, text=True)
+        return [x for x in r.stdout.split("\n") if x]
+
+    def a_port_file(self):
+        d = os.path.join(self.repo, "data", "freight", "port-traffic")
+        name = sorted(f for f in os.listdir(d) if re.match(r"port\d+\.json$", f))[0]
+        return os.path.join(d, name)
+
+    def test_the_base_of_the_simulation_passes_the_checks_of_the_job(self):
+        v = self.sh("node web/scripts/validate-data.mjs && node web/scripts/guard-data.mjs")
+        self.assertEqual(v.returncode, 0, v.stdout + v.stderr)
+
+    def test_a_port_step_that_fails_costs_the_chokepoint_update_nothing(self):
+        """The script ends with exit 0 and a failure recorded (the service was down): the step succeeds, the files are as they were."""
+        path, text = self.chokepoint_update()
+        self.py(f"status.record_failure({self.PORTS!r}, 'HTTP 503 after 4 attempts (services9.arcgis.com)')")
+        res = self.finish({"fetch": "success", "ports": "success", "alerts": "success", "changes": "success"})
+        self.assertEqual(res["validate"], 0, res["validation"])
+        self.assertEqual(self.remote_file(os.path.relpath(path, self.repo)), text)
+        self.assertIn("data/_status/updates.json", self.remote_changed())
+        self.assertFalse([x for x in self.remote_changed() if "port-traffic" in x])
+        st = json.loads(self.remote_file("data/_status/updates.json"))["sources"]
+        self.assertEqual((st["portwatch"]["consecutive_failures"], st[self.PORTS]["consecutive_failures"]), (0, 1))
+        self.assertIsNone(st[self.PORTS]["last_success"])
+
+    def test_a_port_step_killed_by_its_limit_is_recorded_as_failed_and_the_chokepoint_update_is_committed(self):
+        path, text = self.chokepoint_update()
+        # GitHub reports a step stopped by its timeout-minutes as a failure (continue-on-error keeps the job going); nothing was recorded
+        res = self.finish({"fetch": "success", "ports": "failure", "alerts": "success", "changes": "success"})
+        self.assertEqual(res["validate"], 0, res["validation"])
+        self.assertEqual(self.remote_file(os.path.relpath(path, self.repo)), text)
+        st = json.loads(self.remote_file("data/_status/updates.json"))["sources"]
+        self.assertEqual(st["portwatch"]["consecutive_failures"], 0)
+        self.assertEqual(st[self.PORTS]["consecutive_failures"], 1)
+        self.assertIn("timed out, crashed or cancelled", st[self.PORTS]["last_error"])
+        # and the alert step opens its issue at the third run, not before
+        report = json.loads(self.sh("python pipeline/common/status.py report").stdout)
+        self.assertNotIn(self.PORTS, report["failing"])
+        self.assertIn(self.PORTS, report["all"])
+
+    def test_a_port_file_left_half_written_is_refused_by_the_checks_unless_the_step_that_removes_it_ran(self):
+        path, text = self.chokepoint_update()
+        tmp = os.path.join(os.path.dirname(self.a_port_file()), "port1.json.tmp")
+        with open(tmp, "w") as fh:
+            fh.write('{"id":"port1"')
+        removed = self.sh(self.steps_run("Remove a port file left half written"))
+        self.assertEqual(removed.returncode, 0, removed.stderr)
+        self.assertFalse(os.path.exists(tmp))
+        res = self.finish({"fetch": "success", "ports": "failure", "alerts": "success", "changes": "success"})
+        self.assertEqual(res["validate"], 0, res["validation"])
+        self.assertEqual(self.remote_file(os.path.relpath(path, self.repo)), text)
+        # without that step the checks refuse the folder and discard the whole update
+        subprocess.run(["git", "reset", "-q", "--hard", self.base], cwd=self.repo, check=True)
+        subprocess.run(["git", "clean", "-fdq"], cwd=self.repo, check=True)
+        subprocess.run(["git", "push", "-q", "-f", "origin", f"{self.base}:main"], cwd=self.repo, check=True, capture_output=True)
+        path, text = self.chokepoint_update()
+        with open(tmp, "w") as fh:
+            fh.write('{"id":"port1"')
+        res = self.finish({"fetch": "success", "ports": "failure", "alerts": "success", "changes": "success"})
+        self.assertNotEqual(res["validate"], 0)
+        self.assertIn("port1.json.tmp: not a port file", res["validation"])
+
+    def steps_run(self, name):
+        return next(x["run"] for x in self.steps if x.get("name") == name)
+
+    def test_when_the_checks_refuse_a_port_file_the_whole_update_is_discarded_the_chokepoint_series_with_it(self):
+        """The coupling that the script exists to avoid (it writes nothing that the checks refuse): when it does happen, every path of the job
+        is put back to the last commit and a failure is recorded for each source of the job."""
+        path, text = self.chokepoint_update()
+        port = self.a_port_file()
+        with open(port, encoding="utf-8") as fh:
+            doc = json.load(fh)
+        doc["calls"]["tanker"] = doc["calls"]["tanker"][:-1]          # the twelve arrays no longer have one length
+        with open(port, "w", encoding="utf-8") as fh:
+            json.dump(doc, fh, separators=(",", ":"))
+        res = self.finish({"fetch": "success", "ports": "success", "alerts": "success", "changes": "success"})
+        self.assertNotEqual(res["validate"], 0)
+        self.assertIn("freight/port-traffic/", res["validation"])
+        self.assertTrue(res["clean"], res["discard"])
+        self.assertEqual(self.remote_changed(), ["data/_status/log.jsonl", "data/_status/updates.json"])      # only the record of the failure
+        with open(path, encoding="utf-8") as fh:
+            self.assertNotIn("updated_by_the_test", fh.read(), "the chokepoint update was discarded with the rest")
+        st = json.loads(self.remote_file("data/_status/updates.json"))["sources"]
+        for source in ("portwatch", self.PORTS, "build-alerts", "build-changes"):
+            self.assertEqual(st[source]["consecutive_failures"], 1, source)
+            self.assertTrue(st[source]["last_error"].startswith("update discarded: data validation failed"), source)
+
+    def test_a_port_file_that_lost_weeks_is_refused_by_the_guard_in_the_same_way(self):
+        path, text = self.chokepoint_update()
+        port = self.a_port_file()
+        with open(port, encoding="utf-8") as fh:
+            doc = json.load(fh)
+        for k in ("calls", "exports", "imports"):
+            for t in doc[k]:
+                doc[k][t] = doc[k][t][:-5]
+        doc["y"] = (datetime.strptime(doc["y"], "%Y-%m-%d") - timedelta(days=35)).strftime("%Y-%m-%d")
+        with open(port, "w", encoding="utf-8") as fh:
+            json.dump(doc, fh, separators=(",", ":"))
+        res = self.finish({"fetch": "success", "ports": "success", "alerts": "success", "changes": "success"})
+        self.assertNotEqual(res["validate"], 0)
+        self.assertIn("lost weeks", res["validation"])
+        self.assertTrue(res["clean"], res["discard"])
+        with open(path, encoding="utf-8") as fh:
+            self.assertNotIn("updated_by_the_test", fh.read())
+        self.assertFalse([x for x in self.remote_changed() if "port-traffic" in x])
+        # the same files, a hand reading accepted on purpose: the override lets the guard through (the validators have nothing to say)
+        guard = self.sh("node web/scripts/guard-data.mjs data/freight/port-traffic", DATA_GUARD="off")
+        self.assertEqual(guard.returncode, 0, guard.stdout + guard.stderr)
 
 
 if __name__ == "__main__":
