@@ -10,6 +10,7 @@ import '../styles/changes.css';
 const FAMILIES: { name: string; keys: string[] }[] = [
   { name: 'Prices', keys: ['eia-spot', 'wb-pink', 'bls', 'dallasfed', 'nyfed'] },
   { name: 'Chokepoint traffic', keys: ['portwatch'] },
+  { name: 'Port traffic', keys: ['portwatch-port-traffic'] },
   { name: 'Trade flows between countries', keys: ['baci'] },
   { name: 'Production, reserves and consumption', keys: ['usgs-mcs', 'usda-psd', 'eia-intl'] },
   { name: 'Cocoa, uranium and fertilisers', keys: ['faostat-wna'] },

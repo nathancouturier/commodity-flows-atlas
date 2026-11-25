@@ -517,14 +517,15 @@ Port traffic. For the ports of the infrastructure layer that have a PortWatch po
 PortWatch's daily table of port calls and estimated trade volumes (ArcGIS item "Daily_Ports_Data", registry id
 `portwatch-port-traffic`; the licence field of the item points to the same IMF terms of use as the two other PortWatch items,
 read in the item's metadata on 25 November 2026). What the atlas publishes of it, in `data/freight/port-traffic/` (one file
-per PortWatch port, written by the series' first load, made by hand in small sittings, and then kept up to date by the weekly step of the PortWatch job; no page of the site shows the series yet): the weekly sums, Monday to Sunday and complete weeks only, of the
+per PortWatch port, written by the series' first load, made by hand in small sittings, and then kept up to date by the weekly step of the PortWatch job; the "Weekly port traffic" block of the page of each port that has a file shows them): the weekly sums, Monday to Sunday and complete weeks only, of the
 daily port calls and of PortWatch's estimated import and export tonnes, by ship type (tanker, dry bulk, container, and other,
 which is general cargo and ro-ro together). Credit line: **IMF PortWatch (IMF and University of Oxford), data adapted**; the
 item's own recommended citation is "Sources: UN Global Platform; IMF PortWatch (portwatch.imf.org)" (the UN Global Platform
 supplies the ship signals: nothing of it is taken). The transformation, stated as the IMF's terms ask: the daily figures are
 added into weeks; the atlas adds the ship types itself and does not use the table's own total columns; the tonnes are rounded
 to the unit each file states; and the tonnes are PortWatch's estimate, made from each ship's dimensions and draught on
-entering and leaving the port boundary, not a customs or port-authority statistic. What the atlas does not publish or keep:
+entering and leaving the port boundary, not a customs or port-authority statistic. On the page of a port the block names PortWatch's own port, calls the tonnes PortWatch's estimates,
+and shows no figure of the port's own beside them. What the atlas does not publish or keep:
 no daily row, no vessel, no position or track, no time finer than a day. No row of the table is kept in the repository (no
 file under `pipeline/cache/`, nothing under `raw/`) or as a workflow artifact: the published weekly files are the only state
 that the weekly step reads back. Pace: the same as for the chokepoint table, one request at a time with a pause of 8 to 14
@@ -532,8 +533,8 @@ seconds before the next (the script's reading of the owner's rule of 25 November
 small sittings; the weekly step, which runs after the chokepoint step of the same job on Wednesdays, reads only recent weeks of the ports and a longer stretch of a part of them in turn; the
 counts of requests are those of the script and of `docs/UPDATING.md`. The terms are those quoted above, with the same two
 open points (PortWatch is not named among the page's examples of statistical data; the sentence on bulk download), which
-now cover the chokepoint series, the ports database and the port series alike. The CSV of a port series will be offered as the CSV
-of a chokepoint series is (no page offers it yet), with its source and licence columns, because the registry licence text of the three PortWatch
+now cover the chokepoint series, the ports database and the port series alike. The CSV of a port series is offered as the CSV
+of a chokepoint series is, with its source and licence columns, because the registry licence text of the three PortWatch
 entries opens with the same words: a choice made without the owner, listed in PROGRESS.md (he was asked how PortWatch is read
 by script, not about the CSV).
 

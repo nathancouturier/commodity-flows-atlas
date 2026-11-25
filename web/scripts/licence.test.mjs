@@ -78,7 +78,10 @@ const traffic = pw[2];
 assert.ok(/prohibits bulk download of information by automated technology without explicit permission/.test(traffic.licence), 'the port series quotes the IMF sentence on bulk download');
 assert.ok(/does not name PortWatch/.test(traffic.licence) && /atlas's reading/.test(traffic.licence));
 assert.ok(/Copyright-and-Terms/.test(traffic.licence) && /25 November 2026/.test(traffic.licence), 'the port series cites the page and the date it was read');
-assert.ok(/Daily_Ports_Data/.test(traffic.name) && /83b1bbc7b3354c5fb1f40673bb8f852e/.test(traffic.url), 'the port series carries the dataset name and the address of its item');
+assert.ok(/Daily_Ports_Data/.test(traffic.name) && /83b1bbc7b3354c5fb1f40673bb8f852e/.test(traffic.access), 'the port series carries the dataset name and, in its access text, the address of its item');
+assert.equal(traffic.url, 'https://portwatch.imf.org/', 'the link of the series opens the PortWatch site, as the two other PortWatch entries do (the item answers with JSON)');
+assert.equal(traffic.url, pw[0].url);
+assert.equal(traffic.url, pw[1].url);
 assert.ok(/^daily rows; rhythm not stated by the publisher; read weekly by the atlas$/.test(traffic.update) || /^by hand for now/.test(traffic.update),
   'the port series says what is true on both sides once a scheduled job reads it (the publisher states no rhythm for the table), and "by hand for now" until then');
 

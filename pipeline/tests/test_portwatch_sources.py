@@ -59,20 +59,25 @@ class Registry(unittest.TestCase):
         s = REGISTRY[NEW]
         self.assertEqual(s["publisher"], "IMF and University of Oxford")
         self.assertIn("Daily_Ports_Data", s["name"])
-        # the item the licence field was read on: its address is the one the service answered to on 25 November 2026
-        self.assertIn("83b1bbc7b3354c5fb1f40673bb8f852e", s["url"])
+        # the link of the source line and of the Sources window opens a page, as the two other PortWatch entries do; the item and the
+        # service, which answer with JSON, are named in `access`
+        self.assertEqual(s["url"], "https://portwatch.imf.org/")
+        self.assertEqual(s["url"], REGISTRY["portwatch"]["url"])
+        self.assertEqual(s["url"], REGISTRY["portwatch-ports"]["url"])
         self.assertIn("83b1bbc7b3354c5fb1f40673bb8f852e", s["access"])
         self.assertIn("Daily_Ports_Data/FeatureServer", s["access"])
         for field in ("name", "publisher", "url", "licence", "update", "access", "use"):
             self.assertTrue(str(s.get(field) or "").strip(), field)
 
-    def test_the_texts_say_weekly_only_when_a_scheduled_step_reads_the_port_series_and_say_what_is_true_today_before(self):
-        """The weekly wording comes back with the step that makes it true, and not before: the Sources window shows `update`."""
+    def test_the_texts_say_what_the_step_and_the_page_make_true(self):
+        """The workflow has the step, the port page has the block: the registry, NOTICE.md and the update guide say so, and no longer say
+        that no job or no page reads the series. The Sources window shows `update` as the publisher's rhythm."""
         s = REGISTRY[NEW]
         notice = flat(read("NOTICE.md"))
         i = notice.index("Port traffic. For the ports of the infrastructure layer")
         para = notice[i:notice.index("Ports database. The ports of the infrastructure layer", i)]
-        if the_workflow_reads_the_port_series():
+        self.assertTrue(the_workflow_reads_the_port_series())
+        if True:
             # the registry's `update` is the publisher's rhythm (the Sources window prints it as "Updates:", the calendar as "Published"):
             # no saved page states one for this table, so it says what is true on both sides
             self.assertEqual(s["update"], "daily rows; rhythm not stated by the publisher; read weekly by the atlas")
@@ -89,27 +94,16 @@ class Registry(unittest.TestCase):
             self.assertNotIn("The weekly step is not in place", section)
             self.assertNotIn("no scheduled job runs the script", section)
             self.assertIn("update-portwatch.yml", section)
-            self.assertNotIn("METHODOLOGY.md", section)
-            return
-        self.assertNotEqual(s["update"], "weekly")
-        self.assertTrue(s["update"].startswith("by hand for now"), s["update"])
-        self.assertIn("no scheduled job reads this table yet", s["update"])
-        self.assertIn("The first load is made by hand in sittings of a few ports; no scheduled job reads this table yet.", s["access"])
-        self.assertIn("The files are being loaded and no page of the site shows them yet", s["use"])
-        for field in ("update", "access", "use"):
-            self.assertIsNone(re.search(r"weekly run|each week|every week|updated weekly|updates weekly", s[field], re.I), field)
-        self.assertNotIn("each weekly run", para)
-        self.assertIn("the weekly step that will follow reads only recent weeks", para)
-        self.assertIn("that the weekly step will read back", para)
-        self.assertIn("The CSV of a port series will be offered", para)
-        self.assertIn("no page of the site shows the series yet", para)
-        # the update guide says the same: no job, no page, the weekly step not in place, and no pointer to a section that is not there
-        guide = flat(read("docs", "UPDATING.md"))
-        j = guide.index("### Port traffic: the first load in sittings")
-        section = guide[j:guide.index("## Releasing", j)]
-        self.assertIn("no scheduled job runs the script", section)
-        self.assertIn("The weekly step is not in place", section)
-        self.assertNotIn("METHODOLOGY.md", section)
+            self.assertIn("METHODOLOGY.md (section 5, \"Port traffic\")", section)
+            # the page shows the series and offers its CSV: the sentences that said it did not are gone
+            for text in (s["use"], para, section):
+                self.assertNotIn("no page of the site shows", text)
+                self.assertNotIn("being loaded", text)
+                self.assertNotIn("will be offered", text)
+                self.assertNotIn("no page offers it yet", text)
+            self.assertIn('Shown in the "Weekly port traffic" block of the page of each port that has a file', s["use"])
+            self.assertIn('the "Weekly port traffic" block of the page of each port that has a file shows them', para)
+            self.assertIn("The CSV of a port series is offered as the CSV of a chokepoint series is", para)
 
     def test_the_use_says_what_is_published_and_how_it_is_transformed(self):
         use = REGISTRY[NEW]["use"]

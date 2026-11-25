@@ -443,6 +443,10 @@ file, an entry of `none` or an entry of `pending`, and of no id more than one of
 
 A run that reads no port in full leaves `index.json` byte-identical when nothing in the folder changed.
 
+The port page (the "Weekly port traffic" block, `PortTrafficSection.tsx`) reads `index.json` first and asks for a port's file only when the port is in
+neither list: for a port in `none` or in `pending` it shows nothing. What the block shows, and the rules of the weekly sums, the pairing of the ports and
+the revisions, are in METHODOLOGY.md (section 5, "Port traffic").
+
 ## Releasing
 
 A release is a state of the code and of the hand-made layers that the owner decides to number. The weekly and monthly

@@ -124,6 +124,8 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
   for (const r of props.status?.rows ?? []) if (r.dataTo) for (const s of r.sources) dated.set(s, r.dataTo);
   const vintage = (id: string) => dated.get(id) ?? (props.vintages[id] ? fmtDate(props.vintages[id]) : null);
   const lic = (id: string) => sources.value[id]?.licence;
+  /** The credit a registry licence text carries after "Credit: ", where it has one. */
+  const credit = (id: string) => /Credit: (.+)$/s.exec(lic(id) ?? '')?.[1];
   const st = props.status;
   return (
     <>
@@ -190,6 +192,13 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
           {lic('portwatch') ? `. ${lic('portwatch')}` : ''}.
         </li>
         <li>
+          <b>Port traffic.</b> The daily port table of IMF PortWatch, <Ext href={sources.value['portwatch-port-traffic']?.url ?? 'https://portwatch.imf.org/'}>portwatch.imf.org</Ext>.
+          {credit('portwatch-port-traffic') ? ` Credit: ${credit('portwatch-port-traffic')}.` : ''} The weekly sums of the "Weekly port traffic" block of a port
+          page are the atlas's own: PortWatch's daily port calls and its estimated tonnes added into weeks (Monday to Sunday, complete weeks only), the ship
+          types added by the atlas, the tonnes rounded. The tonnes are PortWatch's estimates, made from each ship's size and draught, and are not a port
+          statistic; no daily figure, vessel or position is kept. The IMF's terms of use apply (see the table above).
+        </li>
+        <li>
           <b>Wikipedia.</b> Figures and notes credited to Wikipedia (infrastructure assets, companies, events, vessel classes and chokepoint
           limits) are adapted from English Wikipedia articles, written by Wikipedia contributors and licensed{' '}
           <Ext href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</Ext>. Changes were made: passages were shortened and
@@ -249,7 +258,7 @@ function FreshnessTabView(props: { status: StatusView | null; failed: boolean; v
   return (
     <>
       <p>
-        Scheduled jobs check each source and rebuild the data: prices and chokepoint traffic every week, the annual statistics every month (FAOSTAT and WNA about every 80 days). A
+        Scheduled jobs check each source and rebuild the data: prices, chokepoint traffic and port traffic every week, the annual statistics every month (FAOSTAT and WNA about every 80 days). A
         source is marked stale when its last check, or its latest data, is later than that rhythm allows.
       </p>
       {props.failed ? (
