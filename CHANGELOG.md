@@ -21,6 +21,7 @@ releases: the About window's "What changed" lists them. The full account of each
   Gulf Coast jet fuel, Mont Belvieu propane) are credited "EIA (source: Refinitiv)": the EIA's own pages give
   Refinitiv as their source. They are no longer offered as CSV files, because no page read says whether they may
   be redistributed; the values are still served to draw the charts, and the monthly World Bank series keep their download.
+- About, Data freshness: a source whose first checks have not completed yet shows "Retrying", not "On time".
 
 ## Release 8 (2026-11-25)
 
