@@ -89,7 +89,7 @@ const KIND_HINT: Record<Pair['kind'], string> = { sea: '', transit: '', mixed: '
 const shortSource = (id: string) => sourceLabel(id).split(/ \(|: /)[0];
 /** Where a row's figure comes from, for the overland sentence: a row the atlas adds from the importer's declaration is not in the customs file. */
 const rowSource = (pair: Pair, y: number) =>
-  pair.added ? `${shortSource(pair.added)}, ${countryName(pair.d)}'s import declaration ${y}, which replaces the customs file's figure for the pair` : `CEPII BACI ${y}`;
+  pair.added ? `${shortSource(pair.added)}, ${countryName(pair.d)}'s import declaration ${y}, used instead of the customs file for the pair` : `CEPII BACI ${y}`;
 
 type Loaded = { k: string; files: PairsFile[]; pairs: Pair[] };
 
@@ -342,7 +342,7 @@ export function RouteFinder() {
           {leads.map(([c, v]) => (
             <option value={c}>
               {countryName(c)} · {v > 0 ? tonnage(v, false, gs.every((g) => SMALL_GROUPS.has(g)) ? gs[0] : undefined) : 'no recorded tonnage'}
-              {overland.has(c) ? ` (${tonnage(overland.get(c)!, false, gs.every((g) => SMALL_GROUPS.has(g)) ? gs[0] : undefined)} of it overland)` : ''}
+              {overland.has(c) ? ` (${tonnage(overland.get(c)!, false, gs.every((g) => SMALL_GROUPS.has(g)) ? gs[0] : undefined)} overland)` : ''}
             </option>
           ))}
         </select>

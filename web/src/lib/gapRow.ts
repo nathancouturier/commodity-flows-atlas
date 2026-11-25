@@ -5,10 +5,15 @@ type GapTable = { shareOf?: string; norank?: boolean; scope?: string };
 export const gapLabel = (data: GapTable, csv = false): string =>
   data.shareOf ? 'Countries not listed' : !csv && data.norank && data.scope !== 'EU' ? 'Countries not listed' : 'Not given by country';
 
+const OWN_TOTAL_REASON = 'the part of it that the table does not list by country, and rounding';
+
+/** The note of the row in the CSV. */
+export const gapNote = (data: GapTable): string => (data.shareOf ? `the total minus the rows listed: ${OWN_TOTAL_REASON}` : 'the world total minus the countries listed');
+
 /** The tooltip of the row: the reason of a world table is places and regions the source does not give as a country; a table with its own total lists rows only. */
 export const gapTitle = (data: GapTable, totalWord: string, other: boolean): string => {
   const minus = `${other ? ' and the source\'s "Other countries" line' : ''}`;
   return data.shareOf
-    ? `The total minus the rows listed${minus}: the part of it that the table does not list by country, and rounding`
+    ? `The total minus the rows listed${minus}: ${OWN_TOTAL_REASON}`
     : `The ${totalWord} minus the countries listed${minus}: places and regions the source does not give as a country of the atlas, and rounding`;
 };

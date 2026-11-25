@@ -1,7 +1,7 @@
 /** The gap row of a ranked table: a table with its own total has one name and one reason on the page, in the tooltip and in the CSV; a world table keeps its words. */
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { gapLabel, gapTitle } from '../src/lib/gapRow.ts';
+import { gapLabel, gapNote, gapTitle } from '../src/lib/gapRow.ts';
 
 const own = { shareOf: "Australia's LNG exports", norank: true };
 const world = { norank: true };
@@ -36,4 +36,10 @@ test('the page and the CSV take their words from the same functions', async () =
     assert.ok(!src.includes("'Not given by country'") && !src.includes("'Countries not listed'"), `${file} words the row on its own`);
   }
   assert.ok(readFileSync(new URL('../src/components/ui.tsx', import.meta.url), 'utf8').includes('gapTitle('));
+});
+
+test('the CSV note gives the same reason as the tooltip', () => {
+  assert.equal(gapNote(own), 'the total minus the rows listed: the part of it that the table does not list by country, and rounding');
+  assert.equal(gapNote(own).slice(1), gapTitle(own, 'total', false).slice(1));
+  assert.equal(gapNote(ranked), 'the world total minus the countries listed');
 });

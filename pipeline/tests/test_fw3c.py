@@ -91,32 +91,18 @@ class CensusRegistry(unittest.TestCase):
         self.assertIn("census", cache)
 
     def test_no_text_of_the_repository_calls_the_census_file_public_domain(self):
-        """Every file (code, tests, texts, data): no sentence of an item that speaks of the Census file says "public domain" of it. The EIA files are EIA's own, and a
-        sentence that names EIA is left out; "no public domain" says the opposite."""
-        about_the_file = re.compile(r"(?i)export detail file|USA Trade Online|EXDB|census-exports|Census file|Census Bureau's file")
+        """Every file (code, tests, texts, data): no line that says "public domain" has the Census Bureau or its file in it or in the three lines above it
+        (a docstring or a list item wraps over several lines). The EIA files are EIA's own (a window that names EIA is left out) and "no public domain" says the opposite."""
+        census = re.compile(r"(?i)Census|EXDB|USA Trade Online")
+        eia = re.compile(r"EIA|Energy Information Administration")
         negated = re.compile(r"(?i)\bno public domain")
         domain = re.compile(r"(?i)public[\s-]domain")
-        item_start = re.compile(r"^\s*(?:[-*]\s|\d+\.\s)")
 
         def bad(text):
-            items, cur = [], []
-            for line in text.splitlines():
-                if not line.strip() or item_start.match(line):
-                    if cur:
-                        items.append(" ".join(cur))
-                    cur = [line.strip()] if line.strip() else []
-                else:
-                    cur.append(line.strip())
-            if cur:
-                items.append(" ".join(cur))
-            out = []
-            for item in items:
-                if not about_the_file.search(item):
-                    continue
-                for sentence in re.split(r"(?<=[.;])\s+", item):
-                    if domain.search(negated.sub("", sentence)) and not re.search(r"EIA|Energy Information Administration", sentence):
-                        out.append(sentence[:120])
-            return out
+            lines = text.splitlines()
+            return [" ".join(lines[max(0, i - 3):i + 1])[-160:] for i, ln in enumerate(lines)
+                    if domain.search(negated.sub("", ln))
+                    and census.search(" ".join(lines[max(0, i - 3):i + 1])) and not eia.search(" ".join(lines[max(0, i - 3):i + 1]))]
         found = []
         skip = {".git", "node_modules", "raw", ".venv", "dist"}
         me = os.path.abspath(__file__)
@@ -132,11 +118,15 @@ class CensusRegistry(unittest.TestCase):
                 except (UnicodeDecodeError, OSError):
                     continue
                 if name.endswith(".json"):
-                    found += [(os.path.relpath(path, ROOT), s) for v in strings(json.loads(text) if text.strip() else "") for s in bad(v)]
+                    try:
+                        found += [(os.path.relpath(path, ROOT), s) for v in strings(json.loads(text)) for s in bad(v)]
+                    except ValueError:
+                        found += [(os.path.relpath(path, ROOT), s) for s in bad(text)]
                 else:
                     found += [(os.path.relpath(path, ROOT), s) for s in bad(text)]
         self.assertEqual(found, [])
-        self.assertTrue(bad("  * US Census Bureau, USA Trade Online export detail file (EXDB2412.ZIP): the quantity. The file gives a weight. Public domain."))  # the test sees the old docstring
+        # the search finds the sentence this test was written for
+        self.assertTrue(bad("  * US Census Bureau, USA Trade Online export detail file (EXDB2412.ZIP):\n    the quantity. The file gives a weight for vessel and air cargo only.\n    Public domain.\n"))
 
     def test_data_sources_carries_the_same_text(self):
         self.assertIn(self.src["licence"], read("DATA_SOURCES.md"))
@@ -331,8 +321,9 @@ class SeaShareOfAKnownSplit(unittest.TestCase):
     def test_the_field_is_the_share_of_the_note_and_exists_only_for_a_pair_the_pairs_file_cuts(self):
         seen = []
         for path in sorted(glob.glob(os.path.join(DATA, "commodities", "*.json"))):
-            doc = json.load(open(path, encoding="utf-8"))
-            for f in doc.get("flows") or []:
+            with open(path, encoding="utf-8") as fh:
+                doc = json.load(fh)
+            for f in (doc.get("flows") or []) if isinstance(doc, dict) else []:
                 group = f["lane"].split(":")[0] if f.get("lane") else None
                 rest = set()
                 if group and os.path.exists(os.path.join(DATA, "freight", "pairs", f"{group}.json")):
