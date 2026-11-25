@@ -190,12 +190,12 @@ export interface Matchable {
   order: string | number;
   /** among items that match a query equally well, the one with the lower number comes first (default 0); only for a query that is one of the words in `tieFor`; the list with no query ignores it */
   tie?: number;
-  /** the words `tie` is for: a typed word of four letters or more that is the beginning of one of them is a query the tie applies to */
+  /** the words `tie` is for: a typed word of four letters or more that is the beginning of one of them (or begins with one of them) is a query the tie applies to */
   tieFor?: string[];
 }
 
-/** The tie of an item for this query: 0 unless the query is one word of four letters or more that is the beginning of one of the words the item's tie is for. */
-const tieOf = (q: string[], it: Matchable): number => (q.length === 1 && q[0].length >= 4 && it.tieFor?.some((w) => w.startsWith(q[0])) ? (it.tie ?? 0) : 0);
+/** The tie of an item for this query: 0 unless the query is one word of four letters or more that is the beginning of one of the words the item's tie is for, or begins with one of them (the plural). */
+const tieOf = (q: string[], it: Matchable): number => (q.length === 1 && q[0].length >= 4 && it.tieFor?.some((w) => w.startsWith(q[0]) || q[0].startsWith(w)) ? (it.tie ?? 0) : 0);
 
 /**
  * The items of one kind that match, best first; with no query, the kind's own order. An item that has every typed word whole comes

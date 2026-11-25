@@ -181,7 +181,7 @@ test('"sulfate" and "sulphate" give the same first page, as before the tie: pota
 
 test('the fertiliser tie applies to the beginnings of the two words of four letters or more, and to no other query', () => {
   const firstUrea = (q) => assert.deepEqual(find(q).slice(0, 5), FERTILISER_PAGES, q);
-  for (const q of ['fert', 'ferti', 'fertil', 'fertilis', 'fertiliser', 'fertiliz', 'fertilizer']) firstUrea(q);
+  for (const q of ['fert', 'ferti', 'fertil', 'fertilis', 'fertiliser', 'fertiliz', 'fertilizer', 'fertilizers']) firstUrea(q);
   // three letters or two words: no tie
   const noTie = items.map((i) => ({ ...i, tie: undefined }));
   const same = (q) => assert.deepEqual(matchKind(tokens(q), items, 'commodity').map((m) => m.item.id), matchKind(tokens(q), noTie, 'commodity').map((m) => m.item.id), q);
@@ -189,7 +189,7 @@ test('the fertiliser tie applies to the beginnings of the two words of four lett
   // every beginning of every name or alias of the catalogue, up to five letters, but the fertiliser words: the tie changes nothing
   const words = new Set();
   for (const c of items) for (const w of [c.label, ...(ALIASES[c.id] ?? []), c.id]) for (const t of tokens(w)) for (let k = 2; k <= Math.min(5, t.length); k++) words.add(t.slice(0, k));
-  const fert = (q) => q.length >= 4 && TIE_FOR.some((w) => w.startsWith(q));
+  const fert = (q) => q.length >= 4 && TIE_FOR.some((w) => w.startsWith(q) || q.startsWith(w));
   for (const q of words) if (!fert(q)) same(q);
 });
 
