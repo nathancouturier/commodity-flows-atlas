@@ -1,6 +1,6 @@
 # Commodity Flows Atlas: progress
 
-_Last updated: 2026-11-24, after the sixth release of audit fixes_
+_Last updated: 2026-11-25, after the seventh release of audit fixes_
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
@@ -16,11 +16,137 @@ released. This file is updated at each release.
 |---|---|---|
 | 1 | Visible defects of the site and quick data fixes | done, released on 22 November |
 | 2 | Trade-flow engine: sea or land rule, lane selection, typical ports, routing, chokepoint shares, Route finder | done, released on 23 November |
-| 3 | Wrong figures per commodity (gas, LNG, copper, precious metals, lithium, nickel, steel, fertilisers, cocoa) | corrections done, released on 23 November. Left for the next release, with the sources found and the files on disk: tin (China's declared imports from Myanmar), LPG from the United States to Mexico, pig iron production, a cross-check of LNG exports, metallurgical coal by pair |
+| 3 | Wrong figures per commodity (gas, LNG, copper, precious metals, lithium, nickel, steel, fertilisers, cocoa) | corrections done, released on 23 November; the points that needed a new source (LPG from the United States to Mexico, tin ores from Myanmar, the steel and LNG cross-checks, metallurgical coal by pair of countries) in the seventh release, on 25 November. Left: the lanes and route shares of metallurgical coal, thermal coal by destination |
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
-| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). Left: freight rates in USD per tonne (no free source may be republished), traffic per port, a voyage calculator, forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
-| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
+| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). Designed and criticised on 25 November, built next: a way to report an error, a changelog and a coverage matrix per commodity; a voyage calculator on the route pages; port limits from the World Port Index; a block on the state of the freight market; weekly traffic per port from IMF PortWatch (loaded little by little, at the pace the owner decided on 25 November). Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,560 and 75 at the seventh, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
+
+## Seventh release (25 November 2026): what changed
+
+The five audit points left from wave 3, each of which needed a source that was not on disk (C-031, C-042, C-038,
+C-023, M-004), and the small points left by the last review of the sixth release. Three packages, three
+reviewers on frozen copies (20 findings, 5 of them important: all about what the pages said of the new figures,
+none about the figures, which the reviewers recomputed from the raw files), two correction packages, then two
+reviewers on the release candidate (17 findings, 7 of them important: a download that the released site had and
+the candidate had lost, one rounding, and sentences that said more than the files; no wrong figure), a
+correction package of twelve points, two reviewers on it (11 findings, 3 of them important: a label that said
+"split not known" where the split is known, a note of the tin page that was wrong for five years, a comment in
+the code that called the Census file public domain), a package of ten points, and one reviewer on those (3 findings, 1 of them important: a text of the Route finder's list that was still cut at 1440 px), corrected by the orchestrator and checked in the browser.
+
+### LPG from the United States to Mexico
+
+- The customs tonnage of this pair (9.33 Mt in 2024) is 1.5 to 1.9 times the tonnage that the United States' own
+  export statistics give for 2021 to 2024, and 0.76 to 0.98 times their volume in cubic metres: a volume read
+  as tonnes, for part or all of the declarations, is a plausible cause, not established. For these
+  four years the atlas publishes its own estimate from the volume (EIA exports by destination for 2021 to
+  2023, the US Census Bureau's export file for 2024) at the density of the file: 4.94, 5.31, 5.06 and 5.28 Mt
+  (customs data: 7.44, 7.87, 9.74 and 9.33 Mt). Each year is marked "Atlas estimate", with both figures and its
+  source; 2004 to 2020 stay as reported.
+- For 2024 the Census file gives the part that left by vessel: 3.81 Mt, 72%. The lane is a sea lane of 3.81 Mt;
+  the other 1.47 Mt is read as overland (the file does not name the modes of the remainder).
+- What moved on pages already published: world LPG exports of 2024 from 144.8 to 140.8 Mt (2021 to 2023 move
+  too); United States exports from 68.2 to 64.2 Mt; Mexico's imports from 9.8 to 5.7 Mt; seaborne LPG from
+  125.8 to 129.7 Mt; the thirteen passage estimates of LPG keep their tonnes and lose up to one point of share
+  (Hormuz 32.3% to 31.3%, Panama 33.1% to 32.1%); the shares of ten LPG routes; the LPG lines of 71 country
+  pages.
+- LPG from the United States to Canada shows the same signature from 2015 and stays as reported, with a
+  sentence: the EIA's figures for Canada are too coarse to correct by.
+- The flows of the LPG page still download as a CSV. The estimate has the Census Bureau's quantity among its
+  inputs and the download rule asks for a stated permission for every input: the registry quotes the Census
+  Bureau's Public-Use Statement (a user's own estimates from its data, with the Census Bureau cited as the
+  source of the original data). The site publishes no row of the Census file and offers none for download: it
+  prints its own estimate and a few totals of the file, each credited, and a test checks it.
+- In the Main flows, the row of the United States to Mexico says its split (72% by sea in 2024); the other
+  flows that go by sea and overland still say that their split is not known.
+- On the country pages of the United States and Mexico, the freight block now counts the overland part of the
+  pair in the Atlas estimate, as the balance block does: 6.56 Mt of the United States' 64.2 Mt of exports
+  (5.28 Mt from a volume, 1.27 Mt from the declared value), 5.28 Mt of Mexico's 5.71 Mt of imports.
+
+### Tin
+
+- The flow of tin ores from Myanmar to China, nearly absent from the customs file (at most 1.6 kt a year), is
+  added from China's own import declaration (UN Comtrade, public data, no key) for 2017 to 2024: 292.5 kt in
+  2017, 76.5 kt in 2024. Every page that carries it says that it is not in the atlas's extract of CEPII BACI
+  (which leaves out flows under 1,000 t and USD 1 million); it is an overland flow, counted in the all-modes
+  total and not in the seaborne figure, with no lane and no passage. Each year's note gives what the extract
+  holds for the pair that year (139 to 1,571 t in 2017 to 2020 and in 2023, no row in 2021, 2022 and 2024). The world total of tin ores of 2024 goes from 124 to 200 kt and Myanmar becomes
+  the first exporter.
+- A table of China's declared imports by origin (158.5 kt in 2024), with shares "of China's declared imports"
+  and no download, as UN Comtrade's terms ask. The series breaks between 2016 and 2017: the declaration is
+  loaded from 2017 (2015 was refused twice by the source; Myanmar's own declaration was not fetched).
+
+### Steel, pig iron and LNG
+
+- Steel: the world total cited from worldsteel is the later one, 1,848.9 Mt for 2025 (World Steel in Figures
+  2026). Its country table is not reproduced: its terms of use do not allow it, and the page and the registry
+  say so.
+- LNG: two cross-check tables beside the customs tables, which do not change. Exports in the exporting
+  country's own statistics for 2024: Australia 81.2 Mt (the Department's Resources and Energy Quarterly) and
+  the United States 90.9 Mt (the EIA's volume, converted by the atlas), each with the customs figure beside it
+  (78.7 and 73.3 Mt). Australia's exports by market: China 26.7, Japan 25.5, South Korea 11.6, Taiwan 8.1 Mt.
+  The IGU's total is cited from its 2026 edition.
+
+### Metallurgical coal by pair of countries (first part of M-004)
+
+- The Main flows of the Metallurgical coal page are now 63 flows of 2024 from the exporters' own statistics
+  (20 rows of all coal from customs data before): 31 from Queensland's coal sales (137.0 Mt in all: hard
+  coking, semi-soft coking and PCI coal, Queensland's producers only) and 32 from the EIA's exports of rank
+  metallurgical for the United States (51.3 Mt). Largest: Queensland to India 35.4 Mt, to Japan 29.7, to South
+  Korea 18.3; United States to India 9.3 Mt.
+- Each row carries its source, the two sources are not added to one another, and the definitions are printed
+  under the block. The customs group of all coal is untouched (its lanes, passages, routes and the Thermal
+  coal page are byte for byte the same): the two cannot be subtracted, because a destination of the exporter's
+  statistics is not always the country where customs data record the coal (Queensland to Singapore: 1.66 Mt,
+  against 0.14 Mt of all coal in customs data).
+- The page says what the two sources cover (80% of Australia's metallurgical coal exports, all of the United
+  States') and which exporters have no source by destination (Mongolia, Russia, Canada, Mozambique).
+- Both files were downloaded by hand by the owner and are refreshed by hand; a guard stops the refresh when a
+  definition changes, not when a figure is revised.
+- Left: the lanes of the layer (the page still shows the customs lanes of all coal, so that a pair can show two
+  figures, each labelled), the shares of the coal routes, thermal coal by destination.
+
+### Routes and lanes of the last release stay
+
+- A generated route or a main lane of the last release is no longer put out by a cap when another pair's
+  tonnage changes: it stays while its corridor or pair still exists in the data, and new ones take the places
+  left. The caps go back to what they were (120 generated routes for the earlier groups). The LPG correction
+  had put out the sugar route within South-East Asia and the lane Qatar to the Philippines: both are back.
+  301 routes, as in the sixth release; the list of released ids is renewed at each release.
+
+### Small points
+
+- Search: "sulfate" and "sulphate" open the same page again (the order of the fertiliser pages applies to
+  "fertiliser" and "fertilizer" only).
+- An open lane says when a coast rule of the atlas chose its principal port (181 lanes). The key figure of an
+  annual price carries its year. The price board says that annual series and series their publisher stopped
+  open from the search and from their commodity page. The Singapore Strait page no longer cites IMF PortWatch,
+  which has no counter there. The hint sentence of the Crude oil page is gone.
+- METHODOLOGY.md is in plain words: the names of work packages and reviews (216 places) and the figures of
+  states that were never published are gone; a reviewer compared every rule before and after.
+- Notes that denied what a page has (no lanes for tin and lead) are removed, and a test scans the pages for
+  such notes.
+- The parts of an estimated share are each rounded from their own value (LPG lanes: 4.2% of the 2024 seaborne
+  tonnage is an Atlas estimate, 2.9% from a volume and 1.2% from the declared value, where 1.3% was printed).
+- The recipe for adding a commodity (`docs/ADDING_A_COMMODITY.md`) names no work package any more.
+- The weekly PortWatch download now waits 8 to 14 seconds between two requests, and `NOTICE.md` quotes what the
+  IMF's terms page says of downloads by script: the owner's decision of 25 November 2026 (see "Decisions of the
+  owner").
+
+### Checks
+
+- 1,560 unit tests and 75 web tests, all passing without the raw downloads; a second run of every builder
+  changes no file; the checks of GitHub reproduced on a fresh clone; five browser suites on the production
+  build; a reading of 1,238 pages of the candidate with every fold open (every commodity, country, passage,
+  route, vessel class and event page, 402 lanes and a sample of 113 assets) against the released site: 97 pages
+  differ, each for a change listed above (the LPG, tin, metallurgical coal, LNG and steel pages, the year on
+  thirteen annual price labels, 21 country pages, 5 passages, 10 LPG routes and 43 lanes), and the other 1,141
+  read the same.
+- One correction to the checks reported for the sixth release: one of the five browser suites (the regression
+  suite, 16 checks) had run against an older local build, because the address of its server was written in the
+  script. It was run again on a copy of the sixth release and on this one: 16 of 16 on both.
+- The container that runs the work restarted once during the night: nothing was lost but a package four
+  minutes old, which was started again.
 
 ## Sixth release (24 November 2026): what changed
 
@@ -454,9 +580,11 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
   - 301 routes: 90 Baltic benchmarks (85 active, 5 ended) with their definition, 43 heavy
     non-benchmark routes written by hand and 168 Atlas corridors generated from customs pairs. 255 have
     a corridor share of seaborne trade and 261 a 2005 to 2024 volume history; the others say why.
-  - 71 customs groups with seaborne lanes on real sea routes: 3,734 main lanes, 58 mixed lanes,
-    572 history-only lanes; a table of 36,071 recorded pairs (25,922 by sea, 2,725 through a transit
-    port, 109 mixed, 7,315 overland). Two ports up a river (Rouen, Bremen) carry a river leg.
+  - 71 customs groups with seaborne lanes on real sea routes: 3,735 main lanes, 57 mixed lanes,
+    572 history-only lanes; a table of 36,072 recorded pairs (25,923 by sea, 2,725 through a transit
+    port, 108 mixed, 7,316 overland). Two ports up a river (Rouen, Bremen) carry a river leg.
+  - Metallurgical coal by pair of countries from the exporters' own statistics (Queensland and the United
+    States, 63 flows of 2024), beside the customs flows of all coal.
   - A route finder for every recorded pair.
   - 30 chokepoint pages: the 28 passages counted by IMF PortWatch (weekly series since 2019,
     vessels and estimated cargo tonnes), plus the Singapore Strait and Cape Horn; 20 of them carry
@@ -484,7 +612,7 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
 - **Search** over every kind of page, companies included, with trade names and abbreviations; CSV
   downloads with source and licence on each row, copy link and copy citation.
 - **History**: a 2005 to 2024 timeline of flows, with events to 2026.
-- **55 registered third-party sources**, every one free to read, plus the atlas's own entry for its
+- **61 registered third-party sources**, every one free to read, plus the atlas's own entry for its
   estimates and conversions.
 
 ## Decisions of the owner
@@ -518,6 +646,13 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
     sales and coal production workbooks, the historical tables of Australia's Resources and Energy Quarterly
     (all CC BY 4.0) and the World Port Index of the US National Geospatial-Intelligence Agency (public domain).
     They feed the next rounds (metallurgical coal by pair, port limits).
+- 25 November 2026: **IMF PortWatch.** The IMF's terms page (read again that day) allows the reuse of its
+  statistical data with attribution and also says that the IMF "prohibits bulk download of information by
+  automated technology without explicit permission"; no page read says whether PortWatch's public data service
+  comes with such a permission. Asked, the owner decided: keep reading PortWatch as a person would, in small
+  pieces, one request at a time and slowly, and credit it. The update script waits 8 to 14 seconds between two
+  requests since the seventh release (a test keeps it from being made faster), NOTICE.md quotes the terms and
+  the decision, and the weekly traffic per port will be loaded the same way, a few ports at a time.
 
 ## Choices made without the owner, to confirm
 
@@ -707,6 +842,43 @@ These were needed to finish the work; each is reversible.
    - A port whose page names a plant and not the cargo keeps that port, under the basis "page names the plant,
      not the cargo" (eight rows: two steel works, an alumina plant, five refineries).
 
+12. Seventh release, each reversible:
+   - **LPG from the United States to Mexico.** The years 2021 to 2024 are replaced by the atlas's estimate from
+     the United States' own volume at the density of the Census file (505.5 kg per cubic metre for propane);
+     2004 to 2020 stay as reported because the two sources agree within 0.7 to 1.2 there. The 28% of 2024 that
+     did not leave by vessel is read as overland. The same signature for Canada from 2015 is not corrected.
+   - **A flow the importer declares and the customs file lacks** is added from UN Comtrade when the customs
+     file holds under a tenth of the declared tonnage (one flow today: tin ores from Myanmar to China, 2017 to
+     2024), flagged on every page; only the figures a page prints are kept in the repository.
+   - **Metallurgical coal.** PCI coal is counted as metallurgical for Queensland (34.6 of 137.0 Mt in 2024), as
+     the Queensland file does from 2022. The flows are those of 2024 beside tables of 2025. The page prints
+     the share each source covers and no combined share of the world. A new customs year stops the build until
+     the two files are refreshed by hand, rather than printing a stale layer.
+   - **Routes and lanes of the last release** stay while their corridor or pair holds at least the floor
+     (0.5 Mt for a route), and count against the caps; a new corridor enters only where a cap has room. The
+     Mediterranean LPG corridor that the corrected total would have added has no place.
+   - **LNG**: the row of the United States in the cross-check table is the EIA's volume converted by the atlas,
+     credited to the EIA with the conversion marked.
+   - **Singapore Strait**: the page-level source is the atlas (its figures are the atlas's estimates; IMF
+     PortWatch has no counter there).
+   - Two sentences without a source were removed rather than kept: that the customs district of Norfolk covers
+     Hampton Roads, and a combined share of the world for the two coal sources.
+   - **The U.S. Census Bureau's terms.** Two pages of census.gov were read on 25 November 2026 ("Citing our Data,
+     Tools, Technical Documents and Research", revised 24 February 2026, and "Policies and Notices"): neither
+     states a copyright or the public domain. The first has a Public-Use Statement: "Data users who create their
+     own estimates using data from disseminated tables and other data should cite the Census Bureau as the
+     source of the original data only." The atlas reads it as the permission to publish, and to let a visitor
+     download, its own estimate made from the Census quantity (LPG from the United States to Mexico), with the
+     Census Bureau cited as the source of the original data; it publishes no row of the Census file. If the
+     owner reads the statement otherwise, the permission is one line of `web/src/lib/licence.ts` and one text
+     of the registry: without it the page keeps its figures and only the CSV of its Main flows is withheld.
+   - **Rounding of the parts of an estimate.** Each percentage is the rounding of its own value, so the printed
+     parts can differ from the printed total by one unit of the last digit (4.2% = 2.9% + 1.2%, from
+     4.18 = 2.94 + 1.24).
+   - **The Route finder's totals by origin and by destination** count all modes and name the part of a split
+     pair read as overland (United States, LPG: 64.2 Mt, 1.47 Mt of it read as overland), so that they equal
+     the exporters and importers tables.
+
 ## Known limits
 
 - Baltic Exchange index values are proprietary and are not shown.
@@ -748,7 +920,12 @@ These were needed to finish the work; each is reversible.
 - 61.2 Mt of 2024 seaborne tonnage is not routed: 40.6 Mt between a landlocked country without a sourced
   transit port and its overseas partners, 15.2 Mt with no sea route or one under 50 nm (mostly Malaysian
   refined products to Singapore), 5.5 Mt for which no page supports a port on the right coast.
-- Named routes cover 65.0% of seaborne tonnes; eleven of the 71 customs groups reach the 70% aimed at.
+- The weekly PortWatch job still reads its whole chokepoint table again every four weeks (about 41 requests, 8 to
+  14 seconds apart): reading it again in slices, a part each week, fits the owner's rule of small pieces better
+  and is planned with the port traffic series.
+- Named routes cover 65.0% of seaborne tonnes; ten of the 71 customs groups reach the 70% aimed at (LPG, whose
+  corrected total is larger, is at 69.0%: the Mediterranean corridor that would take it past 70% has no place
+  under the cap of generated routes).
 - **The atlas's assumptions overstate two passages.** Its "at least" tonnage of dry bulk is above IMF PortWatch's
   whole dry bulk volume at Gibraltar (394 Mt against 384 Mt) and at the Bosphorus (207 Mt against 203 Mt), and the pages say so.
   The first suspects: ferrous scrap to Turkey, typed as dry bulk and sent through Gibraltar from the United
@@ -761,16 +938,15 @@ These were needed to finish the work; each is reversible.
   lanes; wheat flour and distillers' dregs are trade tables only; NPK, pig iron and DRI, coke and the alloys
   other than ferro-chromium and ferrosilicon have no free price; the USGS prices are annual and for the United
   States.
-- METHODOLOGY.md still names the work packages and reviews of this release (FNCA to FNCI, GV6 and so on) and
-  keeps figures of intermediate states that were never published: an editing pass is planned. The sentence that
-  defines "at least" is repeated under each of the 967 passage estimates.
-- Left from the last review round of the sixth release, all minor: the search for "sulfate" opens "Urea &
-  nitrogen" first while "sulphate" opens Potash; a lane whose principal port comes from a coast rule and that
-  has an option no longer says that a rule chose it; the price board lists the daily and monthly series that
-  are still published (the sixteen new series, annual or closed, open from their commodity page and from the
-  search); the year of an annual price is in the label of its key figure, not in its source line; the
-  Singapore Strait page cites IMF PortWatch although it has no counter of its own; the Crude oil page carries
-  one hint sentence ("Click a producer to open its page"), to be removed.
+- The sentence that defines "at least" is repeated under each of the 967 passage estimates.
+- Metallurgical coal by pair covers Queensland and the United States only: no source by destination was found
+  for Mongolia, Russia, Canada and Mozambique, nor for New South Wales. The Metallurgical coal page still shows
+  the customs lanes of all coal, so that one pair can show two figures, each labelled with its source, and the
+  shares of the coal routes are still those of all coal.
+- The flow of tin ores from Myanmar to China starts in 2017, which breaks the series against 2016. LPG from
+  the United States to Canada is probably overstated from 2015 and is left as reported. The Mediterranean LPG
+  corridor that the corrected LPG total calls for has no place under the cap of generated routes.
+- A few sentences of the site still tell the visitor what to do (see the open questions).
 - No measured split of a country's trade between its coasts or ports, and none of a trade between
   vessel classes: these are options and typical classes, not shares.
 - Proved oil and gas reserves and refining capacity are not in the atlas yet (the publishers whose tables are
@@ -850,7 +1026,35 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
     today, as the owner set it.
 20. A new kind of event, "trade measure" (export bans, quotas, tariffs), would separate the 33 events added in
     the fourth release from the disruptions of passages.
-21. The choices listed above, each reversible.
+21. **PCI coal.** Queensland counts pulverised coal for injection with metallurgical coal from 2022 and the atlas
+    follows it (34.6 of 137.0 Mt in 2024). Right, or should the page show coking coal alone?
+22. **LPG to Canada.** Customs data give 523 kt from the United States in 2024 against about 350 kt in the
+    Census file, with the same signature as Mexico from 2015. Correct it by the same rule, although the EIA's
+    figures for Canada are coarse?
+23. **A free UN Comtrade key**, if the owner creates one, would let the atlas read Myanmar's own declaration and
+    China's of 2015, and check other flows the customs file may lack. The public data without a key answer a
+    few calls a minute and refused 2015 twice.
+24. **Sentences that tell the visitor what to do**, other than the lines under the charts, which stay: "Select a
+    commodity to list its pairs" on the passage pages, "All types shown. Click a type to hide it." in the layer
+    switches, "Hover the chart, or type a year ... to read the exact value" and "click to remove" in the price
+    drawer, "choose All commodities to see them all" in the timeline. Keep them, or remove them as hint text?
+25. **Coal from the United States to Canada** is drawn as an overland flow, although part of it leaves by ports
+    of the Great Lakes (Cleveland, Detroit, Buffalo); the EIA's file does not say by which mode. Leave the arc
+    as it is, or look for a source?
+26. **The cap of generated routes.** A route of the last release now stays while its corridor exists, and new
+    corridors enter only where the cap (120 for the earlier groups) has room. With the corrected LPG total, a
+    Mediterranean LPG corridor would qualify and has no place. Raise the cap by one, let a new corridor replace
+    the smallest released route of its group, or leave it?
+27. **The U.S. Census Bureau's terms.** No page of census.gov read states a copyright or the public domain. The
+    atlas relies on the Census Bureau's Public-Use Statement (a user's own estimates from its data, with the
+    Census Bureau cited as the source of the original data) to publish its estimate of LPG from the United
+    States to Mexico and to offer the CSV of that page's flows. Is that reading acceptable, or should the CSV
+    be withheld (the figures and their sources would stay on the page)?
+28. **EIA daily spot prices.** EIA's copyright page (read on 25 November 2026) puts its own publications in the
+    public domain and adds that material of third parties on its site may be protected. Whether the daily spot
+    series the atlas shows fall under that sentence has not been checked: the table pages of the series have
+    to be read for the source they credit. To be read next; the owner decides if no page settles it.
+29. The choices listed above, each reversible.
 
 ## Update jobs
 

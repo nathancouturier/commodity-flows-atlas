@@ -3,7 +3,8 @@
 # The daily table (pipeline/cache/portwatch) is a working file that is not in git: the atlas publishes only its own weekly
 # averages and comparisons. It is restored at the start of the job from the newest artifact "portwatch-daily" of this
 # workflow (kept 90 days) and uploaded again after a successful update; with no usable artifact (first run, expired, corrupt,
-# older than a month) the job downloads the whole table (about 80,000 rows, 41 requests).
+# older than a month) the job downloads the whole table (about 80,000 rows, 41 requests, one at a time with 8 to 14
+# seconds between two: about eight minutes. The pace is the owner's rule for PortWatch: see fetch_portwatch.py).
 # Never fails because a source is down: each step is continue-on-error, invalid data is discarded, a step that did not
 # finish is recorded as failed, and the owner is alerted by one GitHub issue per source (after 3 failed runs in a row,
 # at the first failure of the alert banners).

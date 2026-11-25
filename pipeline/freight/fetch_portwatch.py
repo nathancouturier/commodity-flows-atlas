@@ -4,7 +4,13 @@ Fetch the IMF PortWatch daily chokepoint transits and rebuild data/freight/portw
     python pipeline/freight/fetch_portwatch.py
 
 Source  ArcGIS feature service Daily_Chokepoints_Data (services9.arcgis.com/weJ1QsnbMYJlCHdG), paged
-        2000 records at a time (the service allows 10,000) ordered by ObjectId, 1-2 s pause between pages.
+        2000 records at a time (the service allows 10,000) ordered by ObjectId, one request at a time, with a pause of
+        PAUSE_S seconds (8 to 14) between two pages.
+Pace    the owner's rule for PortWatch (25 November 2026): read it as a person would, in small pieces, one request at a
+        time and slowly, and credit it. The IMF's terms page says that it "prohibits bulk download of information by
+        automated technology without explicit permission" (NOTICE.md quotes it): a weekly run asks for one page, the
+        whole table (about 41 pages, about eight minutes at this pace) is asked for only when there is no working table
+        or once every FULL_EVERY_DAYS days. Do not shorten the pause or run two requests at once.
 Incremental  the daily table is a working file in pipeline/cache/portwatch/ (one file per year). It is NOT in git: the
         atlas publishes only its own weekly averages and comparisons (data/freight/portwatch/). On GitHub the weekly job
         restores it at its start from the newest artifact of the workflow (restore_portwatch.py) and uploads it again
@@ -50,6 +56,7 @@ NEEDED = {"date", "portid", "portname", "n_tanker", "n_dry_bulk", "n_container",
           "capacity_tanker", "capacity_dry_bulk", "capacity_container", "capacity_general_cargo", "capacity_roro", "capacity"}
 OVERLAP_DAYS = 14
 FULL_EVERY_DAYS = 28
+PAUSE_S = (8.0, 14.0)   # seconds between two pages: the owner's rule for PortWatch (one request at a time, slowly)
 
 
 def plan(has_cache, full_on, last_date, today):
@@ -82,7 +89,7 @@ def fetch_rows(where):
         offset += len(feats)
         if not feats or not doc.get("exceededTransferLimit"):
             break
-        time.sleep(random.uniform(1.0, 2.0))
+        time.sleep(random.uniform(*PAUSE_S))
     else:
         raise fetch.FetchError("too many pages")
     return rows

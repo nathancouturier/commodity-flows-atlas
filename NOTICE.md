@@ -469,6 +469,18 @@ transformation, without altering the nature or accuracy of the data; commercial 
 "CC BY 4.0". PortWatch's own page on data and methodology shows no licence text. PortWatch is built from vessel
 tracking signals; the atlas shows only aggregated counts and volumes, never a position or a track.
 
+Read again on 25 November 2026, the same page defines the statistical data of these special terms as "published
+statistical data produced or curated by the IMF", with a list of examples that does not name PortWatch: the atlas
+takes PortWatch's tables to be such data, which no page read says in so many words. The page also says: "The IMF
+prohibits bulk download of information by automated technology without explicit permission and reserves the right to
+terminate access to its Sites or Content.", and lists "Copying or downloading IMF Content in any systematic way" among
+the uses that need the IMF's written permission; no page read says whether PortWatch's public data service comes with
+such a permission. The owner's decision of 25 November 2026: the atlas keeps reading PortWatch as a person would, in
+small pieces, one request at a time and slowly, and credits IMF PortWatch wherever its figures appear. The update
+script asks for one page a week (the days since the last one stored) and waits 8 to 14 seconds between two requests
+when it has to read more (the whole chokepoint table, about 41 pages, when it has no working table or once every four
+weeks).
+
 The CC BY 4.0 release of the atlas's own figures does not extend IMF's rights: the weekly averages stay subject to
 the IMF conditions above.
 
