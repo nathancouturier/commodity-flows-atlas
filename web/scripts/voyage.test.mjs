@@ -181,6 +181,20 @@ test('every default has a source that exists, and an estimate says so', () => {
   assert.ok(seen > 1000);
 });
 
+test('the cargo size of a route whose definition allows two sizes says that the default is the smaller', () => {
+  const two = eligible.filter((r) => r.parcelMax > 0);
+  assert.ok(two.some((r) => r.id === 'C5'), 'C5 allows 160,000 t or 170,000 t');
+  for (const r of two) {
+    const d = voyageDefaults(r, null, classes);
+    assert.equal(d.values.cargoT, r.parcel);
+    assert.ok(r.parcelMax > r.parcel, `${r.id}: the default is the smaller size`);
+    assert.equal(d.traces.cargoT.n, 'Cargo size of the benchmark definition (the smaller of the two sizes it allows)');
+  }
+  const one = eligible.filter((r) => r.parcelUnit === 't' && !(r.parcelMax > 0));
+  assert.ok(one.length > 50);
+  for (const r of one) assert.equal(voyageDefaults(r, null, classes).traces.cargoT.n, 'Cargo size of the benchmark definition');
+});
+
 test('the class LNG has a speed but no fuel default, and the one function switches the defaults off', () => {
   const lng = eligible.find((r) => r.vclass === 'lng');
   assert.ok(lng, 'an eligible LNG route');
@@ -225,7 +239,7 @@ function guide(r, std, typed) {
   const duration = ladenDays + ballastDays + typed.portDays;
   const fuelCost = typed.bunkerUsdPerT * (ladenDays * std.cons.laden + ballastDays * std.cons.ballast + typed.portFuelT);
   const voyageCosts = typed.portCostsUsd + typed.tollsUsd;
-  const tonnes = r.parcel;
+  const tonnes = typed.cargoT ?? r.parcel;
   const grossFreight = typed.freightUsdPerT * tonnes;
   const grossToCoverHire = typed.hireUsdPerDay * duration + fuelCost + voyageCosts;
   return {
@@ -256,15 +270,75 @@ test('the worked example C3 equals the calculation in the form of the Baltic gui
 });
 
 test('the same holds for a class that takes its vessel from its bench, on every such class', () => {
+  let checked = 0;
   for (const c of classes.filter((x) => !legs(x.std) && x.bench && legs(classOf(x.bench.id)?.std))) {
-    const r = eligible.find((x) => x.vclass === c.id && x.parcelUnit === 't');
+    // a route of the class, with or without a cargo in tonnes: the cargo is typed
+    const r = eligible.find((x) => x.vclass === c.id);
     if (!r) continue;
-    const g = guide(r, classOf(c.bench.id).std, TYPED);
-    const res = voyage(full(r));
+    const std = classOf(c.bench.id).std;
+    const typed = { ...TYPED, cargoT: 50000 };
+    const g = guide(r, std, typed);
+    const res = voyage(full(r, null, typed));
+    near(res.ballastDays, r.distanceNm / (24 * std.speed.ballast), `${r.id} ballast days`);
     near(res.days, g.duration, `${r.id} days`);
+    near(res.fuelT, g.fuelT, `${r.id} fuel`);
     near(res.freight.usdPerT, g.freight, `${r.id} freight`);
     near(res.tce.usdPerDay, g.tce, `${r.id} TCE`);
+    checked++;
   }
+  assert.ok(checked >= 2, `${checked} classes that take the vessel of their bench were checked`);
+});
+
+// A second worked example, on a tanker route whose standard vessel has a different speed and a different fuel laden and in ballast
+// (the Capesize of C3 has the same speed both ways). The route is picked by a rule of the test, from the files: the first eligible
+// route, in the order of the file, of a class with a standard vessel of its own that the module reads (not the LNG carrier), whose
+// main routing crosses a canal and whose laden and ballast speeds and fuel all differ. The expected values are written from the
+// figures of the files with the formulas of METHODOLOGY (section 3, "Voyage calculator"), by hand, not by calling the module.
+const TANKER_TYPED = { cargoT: 135000, portDays: 4.5, portFuelT: 33, bunkerUsdPerT: 612.5, portCostsUsd: 87500, tollsUsd: 310000, hireUsdPerDay: 17350, freightUsdPerT: 13.5 };
+test('a tanker route with different laden and ballast speeds and fuel equals the formulas of the method text, by hand', (t) => {
+  const r = eligible.find((x) => {
+    const c = classOf(x.vclass);
+    return c.segment === 'tanker' && legs(c.std) && c.std.speed.laden !== c.std.speed.ballast && c.std.cons.laden !== c.std.cons.ballast
+      && (x.via ?? []).some((v) => v === 'suez' || v === 'panama');
+  });
+  assert.ok(r, 'an eligible tanker route through a canal with a standard vessel of its own');
+  const std = classOf(r.vclass).std;
+  // the example cannot go blind: if a figure of the files changes so that the legs are alike, the test says so
+  assert.notEqual(std.speed.laden, std.speed.ballast);
+  assert.notEqual(std.cons.laden, std.cons.ballast);
+  assert.ok(Math.abs(r.distanceNm / std.speed.laden - r.distanceNm / std.speed.ballast) > 24, 'the two legs differ by more than a day');
+  const typed = TANKER_TYPED;
+
+  // Sl = Dl / (24 vl), Sb = Db / (24 vb) with Db = Dl; T = Sl + Sb + P; M = cl Sl + cb Sb + Fp; B = M p; X = tolls + port costs
+  const sl = r.distanceNm / (24 * std.speed.laden);
+  const sb = r.distanceNm / (24 * std.speed.ballast);
+  const T = sl + sb + typed.portDays;
+  const M = std.cons.laden * sl + std.cons.ballast * sb + typed.portFuelT;
+  const B = M * typed.bunkerUsdPerT;
+  const X = typed.tollsUsd + typed.portCostsUsd;
+  const freightToCoverHire = (typed.hireUsdPerDay * T + B + X) / typed.cargoT;
+  const tce = (typed.freightUsdPerT * typed.cargoT - B - X) / T;
+
+  const res = voyage(full(r, null, typed));
+  near(res.ladenDays, sl, 'laden days');
+  near(res.ballastDays, sb, 'ballast days');
+  near(res.days, T, 'days');
+  near(res.seaFuelT, M - typed.portFuelT, 'fuel at sea');
+  near(res.fuelT, M, 'fuel');
+  near(res.bunkersUsd, B, 'bunkers');
+  near(res.extrasUsd, X, 'tolls and port costs');
+  near(res.freight.usdPerT, freightToCoverHire, 'freight that covers the hire');
+  near(res.tce.usdPerDay, tce, 'time-charter equivalent');
+  near(res.tce.revenueUsd, typed.freightUsdPerT * typed.cargoT, 'revenue');
+  // the same by the form of the guide
+  const g = guide(r, std, typed);
+  near(g.duration, T, 'the guide form: days');
+  near(g.tce, tce, 'the guide form: TCE');
+  // each typed figure counts once: port days add their value to the days, port fuel its tonnes at the price, tolls their value
+  near(voyage(full(r, null, { ...typed, portDays: typed.portDays + 2 })).days - res.days, 2, 'two more port days');
+  near(voyage(full(r, null, { ...typed, portFuelT: typed.portFuelT + 10 })).bunkersUsd - res.bunkersUsd, 10 * typed.bunkerUsdPerT, 'ten more tonnes of port fuel');
+  near(voyage(full(r, null, { ...typed, tollsUsd: typed.tollsUsd + 1000 })).freight.usdPerT - res.freight.usdPerT, 1000 / typed.cargoT, 'a thousand more of tolls');
+  t.diagnostic(`${r.id} (${r.vclass}): ${sl.toFixed(3)} + ${sb.toFixed(3)} + ${typed.portDays} = ${T.toFixed(3)} d; fuel ${M.toFixed(1)} t; freight ${freightToCoverHire.toFixed(3)} USD/t; TCE ${tce.toFixed(1)} USD/day`);
 });
 
 test('with a speed and fuel typed in, a route of class LNG gets its results', () => {
@@ -376,15 +450,17 @@ test('a speed, a distance or a figure that is zero, negative or not finite gives
 
 // ---- typed text
 test('parseNumber', () => {
-  for (const [text, want] of [['1,250.5', 1250.5], [' 12 ', 12], ['0', 0], ['.5', 0.5], ['12.', null], ['1,234,567', 1234567], ['20000', 20000], ['3.25', 3.25]]) {
+  for (const [text, want] of [['1,250.5', 1250.5], [' 12 ', 12], ['0', 0], ['.5', 0.5], ['12.', 12], ['1,250.', 1250], ['0.', 0], ['1,234,567', 1234567], ['20000', 20000], ['3.25', 3.25]]) {
     assert.equal(parseNumber(text), want, JSON.stringify(text));
   }
-  for (const text of ['', '   ', '-3', '+3', 'abc', '1e9x', '1e9', '1,25', '12,34', '1.2.3', ',5', '1 000', '0x10', '--', '.', 'NaN', 'Infinity']) {
+  for (const text of ['', '   ', '-3', '+3', 'abc', '1e9x', '1e9', '1,25', '12,34', '1.2.3', ',5', '1 000', '0x10', '--', '.', '1..2', '12..', 'NaN', 'Infinity']) {
     assert.equal(parseNumber(text), null, JSON.stringify(text));
   }
   assert.deepEqual(parseField(''), { value: null, invalid: false });
   assert.deepEqual(parseField('  '), { value: null, invalid: false });
   assert.deepEqual(parseField('12'), { value: 12, invalid: false });
+  // a number being typed is not flagged while it ends with the point
+  for (const text of ['1', '12', '12.', '12.5']) assert.equal(parseField(text).invalid, false, text);
   assert.deepEqual(parseField('abc'), { value: null, invalid: true });
   assert.deepEqual(parseField('-3'), { value: null, invalid: true });
 });
@@ -520,6 +596,8 @@ test('the standard vessels the method text names are the ones the code uses', ()
   const noFuel = classes.filter((c) => { const v = standardVessel({ vclass: c.id }, classes); return v && !v.fuel; }).map((c) => c.id);
   assert.deepEqual(noFuel, ['lng']);
   assert.ok(methodFlat.includes('The LNG carrier takes its speed but no fuel'));
+  // the reason is the guide's: the benchmarks shown are defined on LNG fuel, and the guide gives both figures for the ship
+  for (const w of ['BLNG1-174 to BLNG3-174', '"burning LNG fuel"', 'version 7.09', 'the atlas holds the fuel-oil figure only']) assert.ok(methodFlat.includes(w), w);
   // the classes of eligible routes with no standard vessel at all
   const none = [...new Set(eligible.filter((r) => !standardVessel(r, classes)).map((r) => classOf(r.vclass).name.toLowerCase()))].sort();
   assert.ok(none.length > 0);

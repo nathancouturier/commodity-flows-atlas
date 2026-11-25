@@ -201,31 +201,33 @@ merged with `limits`, and no `maxClass` is derived from it.
 
 | Step | What | Where |
 |---|---|---|
-| 1 | A person downloads the CSV from the publisher's page into `raw/nga/UpdatedPub150.csv` (`raw/` is not tracked). The file holds no edition and no date, so the day it was taken and the edition, when the page states one, are typed in the extractor (`DOWNLOADED`, `EDITION`, `EDITION_PAGE`). | by hand, never by a scheduled job |
+| 1 | A person takes the CSV into `raw/nga/UpdatedPub150.csv` (`raw/` is not tracked): from the publisher's page, or, when its site does not answer, from the Internet Archive's copy of its download address. The file read so far is the archive's copy captured on 29 September 2026. The file holds no edition and no date inside it, so the day it was taken, the capture day and address of an archived copy and the edition, when the page states one, are typed in the extractor (`DOWNLOADED`, `CAPTURED`, `CAPTURED_FROM`, `EDITION`, `EDITION_PAGE`). | by hand, never by a scheduled job |
 | 2 | `.venv/bin/python -I pipeline/infrastructure/extract_wpi.py` matches the atlas's ports to the rows of the file and keeps 23 of its 109 columns for the matching ports: `pipeline/cache/wpi_ports.csv` and `pipeline/cache/wpi_meta.json` (the file's hash, the rule with its numbers, the counts, the doubtful and absent ports with their reasons, the ports whose maximum vessel is held back, the terms found). It downloads nothing; without the raw file it prints one line and leaves the cache as it is. | needs `raw/` |
 | 3 | `.venv/bin/python -I pipeline/infrastructure/wpi_limits.py` writes `data/infrastructure/wpi.json` from the two cache files alone (and the ids of `ports.geojson`). It names no path under `raw/`, stops without writing when the cache is not what the extractor writes, and gives the same bytes when run twice. | runs anywhere; `bootstrap.sh` runs it after `port_limits.py` |
 
 The three files, the cache, the meta and `wpi.json`, are one unit: they are committed together, and a change of the terms
 holds all three back, not `wpi.json` alone.
 
-The file is `{s, read, edition, ports}`: `s` is the source id (`nga-wpi`), `read` the month the file was taken (the file has no
-date of its own), `edition` the text typed at the download or `null`, `ports` an object keyed by the port asset's id. An entry
+The file is `{s, read, captured?, edition, ports}`: `s` is the source id (`nga-wpi`), `read` the month the file was taken and
+`captured` the day the Internet Archive captured the address the file is a copy of (absent for a file from the publisher itself; the file
+has no date of its own), `edition` the text typed at the download or `null`, `ports` an object keyed by the port asset's id. An entry
 has the publication's own `name` and number `n` for the place, its UN/LOCODE `lc` when the row has one, how the entry was
 matched (`by`: `code`, `name` or `review`; `km`, the distance from the atlas point; `why`, a sentence, if and only if the
 match was reviewed), and the columns read: `size` and `type` (the publication's classes for the harbour), `tide` (tidal range),
-the four depths `chan`, `anch`, `pier`, `oil` and `lng` (the LNG terminal), the maximum vessel `loa`, `beam`, `draft`, the same
+the depths `chan`, `anch`, `pier` and `oil` and `lng` (the LNG terminal), the maximum vessel `loa`, `beam`, `draft`, the same
 for offshore berths `oloa`, `obeam`, `odraft`, and the flags `pilot` (pilotage compulsory) and `tideRes` (entrance restricted
-by the tide), `Yes` or `No`. A figure is a positive number as the file gives it (a depth is one of the publication's bands; the
-page prints it as a band, this file does not turn it into text); one the file does not state is absent, never `0` or `null`; a
+by the tide), `Yes` or `No`. A figure is a positive number as the file gives it (the first four depths are one of the publication's bands and the
+page prints them as bands, this file does not turn them into text; the LNG terminal depth is printed as given); one the file does not state is absent, never `0` or `null`; a
 flag the file marks "Unknown" is absent. The keys `s`, `y` and `v` are not used on an entry: the data check reads them as a
 source id and a figure. An entry has at least one depth or maximum-vessel figure, and a port whose match is doubtful, or has
 no match, has no entry (the counts are in `pipeline/cache/wpi_meta.json`, not typed here).
 
 The match rule is in the docstring and the constants of `extract_wpi.py` and is written to the meta. A match by UN/LOCODE or
 by name is sure only if no other row of the same country lies nearer to the atlas point than the matched row by more than a
-margin; otherwise it is doubtful. `REVIEW`, a short table of the extractor, promotes a doubtful match or holds a sure one,
+margin, or, for a match by name, if another row of the country carries an equal name within a stated distance; otherwise it is
+doubtful. `REVIEW`, a short table of the extractor, promotes a doubtful match or holds a sure one,
 each with a sentence written by a person who opened the two rows. A maximum vessel that is not plausible as a ship (a beam
-above 40% of the length or above 70 m, or a beam with no length) is left out of its port's entry and listed in the meta
+above 40% of the length or above 70 m, a beam with no length, or a draught above 25% of the length) is left out of its port's entry and listed in the meta
 (`held_vessel`); it is a check on the publication's figures, not an estimate. The match rule, the review table and the
 equality of the cache with the raw file can only be tested where `raw/` exists; the other tests run without it.
 

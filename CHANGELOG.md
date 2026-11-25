@@ -4,6 +4,21 @@ What a visitor sees changed on the site, release by release, newest first. The w
 releases: the About window's "What changed" lists them. The full account of each release is in
 [`PROGRESS.md`](PROGRESS.md).
 
+## Release 8 (2026-11-25)
+
+### Added
+- A voyage calculator on the route pages (259 of the 301 routes: the laden voyages). From the hire, the freight, the
+  bunker price and the port figures a visitor types, it gives the days and the fuel of the voyage, the freight that
+  covers the hire and the time-charter equivalent of the freight. It starts from the cargo size, the distance and the
+  standard vessel the atlas already shows, prints no market rate, and keeps nothing that is typed.
+- Port pages: a block "World Port Index" on 138 of the 190 ports, with the depths, the largest vessel, the harbour, the
+  tidal range and the pilotage that Publication 150 of the US National Geospatial-Intelligence Agency gives, beside the
+  limits of the page each port cites.
+- "Report an error" on every page: a button that opens a form on GitHub, filled in with the address of the page.
+- The About window shows the release with a link to these notes, and a new tab, "Quality", shows which blocks each of
+  the 51 commodity pages holds (362 of the 448 that apply). A commodity page lists the blocks that cannot apply to it,
+  with the reason.
+
 ## Release 7 (2026-11-25)
 
 ### Added
@@ -40,8 +55,8 @@ releases: the About window's "What changed" lists them. The full account of each
 - Ten annual USGS prices (chromite ore, ferro-chromium, ferrosilicon, heavy melting scrap, molybdenum, three kinds of
   natural graphite, sulphur and ammonia). Barley and sorghum, whose monthly series stopped in August 2020, continue
   with the World Bank's annual average.
-- 168 generated routes, and 967 estimates of the shares that cross 20 passages, with the comparison with IMF PortWatch
-  printed once per ship type.
+- 48 more generated routes (168 in all) and 368 more estimates of the shares that cross passages (967 in all, at 20
+  passages), with the comparison with IMF PortWatch printed once per ship type.
 - Search finds trade names and abbreviations (DRI, HMS, FeCr, SiMn, AN, UAN, MAP, SOP, canola oil).
 
 ### Changed
@@ -58,15 +73,16 @@ releases: the About window's "What changed" lists them. The full account of each
 ## Release 5 (2026-11-24)
 
 ### Added
-- Baltic benchmark routes: 90 routes, each compared with the Baltic Exchange's Guide to Market Benchmarks (version 7.09):
-  85 active and 5 ended. Each has a definition table (vessel, cargo and quantity, load and discharge, index, status and
-  document); an ended route says when it ended and links to its successor.
-- Vessel classes: 20 classes, 14 with a standard vessel shown with its source and year, and a "World fleet" block per
-  class from UNCTADstat.
-- 190 ports and a new type, storage hub (Cushing, Mont Belvieu). 20 ports have published limits, and a largest vessel
-  class where a page gives a dimension of a ship.
-- Companies: 403 entries for 269 companies, 88 with a figure dated from the company's own report or filing, and 32
-  shipping companies on the class pages. Companies are in the search, and a company links to the assets it operates.
+- Baltic benchmark routes: 30 more routes (90 in all, 85 active and 5 ended), each compared with the Baltic Exchange's
+  Guide to Market Benchmarks (version 7.09). Each has a definition table (vessel, cargo and quantity, load and
+  discharge, index, status and document); an ended route says when it ended and links to its successor.
+- Vessel classes: a chemical tanker class for vegetable oils (20 classes in all); 14 classes show a standard vessel
+  with its source and year, and each class has a "World fleet" block from UNCTADstat.
+- 154 more ports (190 in all) and a new type, storage hub (Cushing, Mont Belvieu). 20 ports have published limits, and
+  a largest vessel class where a page gives a dimension of a ship.
+- Companies: 156 more entries (403 for 269 companies in all), and 85 more figures dated from the company's own report
+  or filing (88 in all); 32 shipping companies on the class pages. Companies are in the search, and a company links to
+  the assets it operates.
 - Two long freight indicators, each labelled "not a freight rate": the Dallas Fed index of global real economic
   activity and the New York Fed Global Supply Chain Pressure Index.
 
@@ -87,7 +103,8 @@ releases: the About window's "What changed" lists them. The full account of each
 - A search field over commodities, countries, routes, chokepoints, vessel classes, assets, ports, events and price
   series; CSV downloads on tables, flows, price selections and series, each row with its source and licence; Copy link
   and Copy citation on every page.
-- 80 events, each text read against the page it cites, with an events section on the pages they concern.
+- 33 more events (80 in all), each text read against the page it cites, with an events section on the pages they
+  concern.
 - Energy: monthly crude production by producer, OECD imports by origin, petroleum stocks with days of cover and oil
   demand by month. Agriculture: USDA's 2026/27 forecast beside its 2025/26 estimate and a balance per crop. Metals:
   apparent consumption of refined copper, primary aluminium and crude steel (Atlas estimates) and US net import

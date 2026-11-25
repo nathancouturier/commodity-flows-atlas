@@ -50,6 +50,7 @@ step "World Port Index entries of the ports (from the tracked cache)" "$PY" pipe
 step "alert banners" "$PY" pipeline/freight/build_alerts.py
 step "companies files from the hand-curated lists" "$PY" pipeline/companies/build_companies.py
 step "commodity pages" "$PY" pipeline/commodities/build_commodities.py
+step "coverage of the commodity pages" "$PY" pipeline/commodities/build_coverage.py
 step "country profiles" "$PY" pipeline/commodities/build_profiles.py
 step "what changed digest" "$PY" pipeline/common/changes.py
 # 4. generated documentation

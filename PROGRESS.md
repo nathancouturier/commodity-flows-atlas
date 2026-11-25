@@ -1,6 +1,6 @@
 # Commodity Flows Atlas: progress
 
-_Last updated: 2026-11-25, after the seventh release of audit fixes_
+_Last updated: 2026-11-25, after the eighth release of audit fixes_
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
@@ -19,8 +19,142 @@ released. This file is updated at each release.
 | 3 | Wrong figures per commodity (gas, LNG, copper, precious metals, lithium, nickel, steel, fertilisers, cocoa) | corrections done, released on 23 November; the points that needed a new source (LPG from the United States to Mexico, tin ores from Myanmar, the steel and LNG cross-checks, metallurgical coal by pair of countries) in the seventh release, on 25 November. Left: the lanes and route shares of metallurgical coal, thermal coal by destination |
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
-| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). Designed and criticised on 25 November, built next: a way to report an error, a changelog and a coverage matrix per commodity; a voyage calculator on the route pages; port limits from the World Port Index; a block on the state of the freight market; weekly traffic per port from IMF PortWatch (loaded little by little and slowly, as the owner decided on 25 November). Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
-| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
+| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). A release number with release notes, a way to report an error, a coverage table of the commodity pages, a voyage calculator on the route pages and port facts from the World Port Index (eighth release, 25 November). Being loaded, shown next: weekly traffic per port from IMF PortWatch (little by little and slowly, as the owner decided on 25 November). Designed, built after it: a block on the state of the freight market. Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,897 and 138 at the eighth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
+
+## Eighth release (25 November 2026): what changed
+
+The first additions of wave 6 that were designed on 25 November: a release number with release notes, a way to
+report an error and a coverage table of the commodity pages (audit points M-113 and M-116, each in part), a
+voyage calculator on the route pages (A-027) and port facts from the World Port Index on the port pages (A-043,
+in part). Each of the five designs was read by a critic before anything was built, and every design changed
+(the largest change: the weekly traffic per port waited for the owner's decision on IMF PortWatch, taken the
+same day). Seventeen packages were built in four chains. Four reviewers then read a frozen copy (28
+findings, 10 of them important and none on a figure the atlas computes: a changelog that passed totals off as
+additions, four texts that said a coverage table could never stop an update when one rule does, tests that did
+not pin the ballast speed of the calculator, a draught as long as the ship printed from the publication's own
+file, a terminal matched to a river port of the same name, a depth key applied to a column it does not cover,
+documents that said the file came from the publisher when it came from the Internet Archive's copy, texts that
+announced a weekly update that does not exist yet, a download script that asked again too soon after a quota
+answer, and a status entry that would have turned "stale" if it were published before its weekly job). Three correction packages followed, then two reviewers on the corrections, on a second frozen copy (see "Checks").
+
+### A release number, release notes and a way to report an error
+
+- The About window opens with "Release 8, 25 November 2026 · Release notes". The link opens `CHANGELOG.md`:
+  what a visitor sees added, changed and corrected at each release (eight entries, each figure checked against
+  the data files). `release.json` holds the number and the date, and a test fails when that file, the changelog
+  and the release sections of this file disagree. A release is not a data update: the dates of the data stay
+  in the freshness table of the same window.
+- "Report an error": a third button in the header of every detail page and two links in the About window open
+  GitHub's new-issue form of the repository, filled in by the browser with the address of the page, what is
+  selected on it, its heading and the release. Nothing is sent to GitHub before the click; a GitHub account is
+  needed to submit; a report arrives as an ordinary issue, without a label, and no job reads it.
+  `docs/UPDATING.md` says how reports are handled, and promises no delay.
+- Not tested against GitHub itself, because the checks send no request there: what a visitor without an
+  account sees at the form, and the longest address the form accepts (the address is cut at 2,000 characters,
+  an Atlas assumption).
+
+### What each commodity page holds
+
+- A sixth tab of the About window, "Quality", shows which of eleven blocks each of the 51 commodity pages has:
+  production, reserves, consumption, trade, lanes, routes, price, assets, companies, and for the families that
+  have them the monthly series (energy) and the balance of stocks and use (crops). 362 of the 448 blocks
+  that apply are present and 86 are missing; 39 cannot apply, each for one of ten reasons typed once
+  with the place that supports it (a crop has no reserves; gold moves by air; gas goes by pipeline or as LNG;
+  a fertiliser has no crop balance). A row opens its page.
+- A commodity page says, in a folded section, which blocks it cannot have and why. The blocks that are missing
+  are shown in the Quality tab only.
+- The table is built from the data files by `pipeline/commodities/build_coverage.py`, rebuilt by the annual job
+  after the pages, and checked: a page that loses a block it had at this release stops the publication (a
+  scheduled update is stopped by its guard, which the "accept large moves" box overrides); a typed reason that
+  the data contradict never stops an update, the data win and a warning says so.
+- No reason of the kind "not available for free" is typed yet: none meets the rule of a publisher's page read
+  plus the alternatives tried. The table therefore says "missing" where a later release may say "no free
+  source" (audit point A-078).
+
+### Voyage calculator on the route pages
+
+- A folded block, "Voyage calculator", on 259 of the 301 routes: the laden voyages. Round voyages,
+  time-charter trips, routes drawn as a laden leg, stand-in routes, ended benchmarks and container routes have
+  none.
+- It computes in the browser, from figures the visitor types: the freight in USD per tonne that covers a typed
+  daily hire, and the time-charter equivalent in USD per day of a typed freight, with the days, the fuel and
+  the bunker cost of the voyage. The method is in `METHODOLOGY.md` (section 3), formulas included.
+- The only fields filled in at the start come from files the atlas already holds: the cargo size of the
+  benchmark definition (53 routes), the sea distance of the route, and the speed and daily fuel of the class's
+  standard vessel (254 routes; for the LNG carrier the speed only: its benchmarks are defined on LNG fuel and
+  the atlas holds a fuel-oil figure only; on the five routes of the two classes without a standard vessel,
+  the speed assumed for the class, labelled as an Atlas assumption, and no fuel). The ballast distance starts as the laden distance, labelled "Atlas
+  estimate". Hire, freight, bunker price, port days, port costs, port fuel and canal tolls are typed: the atlas
+  prints no rate, no bunker price and no canal tariff (the pages of the Panama and Suez canal authorities are
+  linked). A weather allowance and commissions are not counted, and the page says so.
+- Nothing typed is stored or put in the link, so a copied address never carries a figure that would pass for
+  one the atlas published. The block ends with: "A calculation on the figures above, not a market rate or a
+  quote, and not a Baltic Exchange assessment." On C5, whose definition allows two cargo sizes, the cargo
+  starts from the smaller and the line says so.
+
+### Port facts from the World Port Index
+
+- A block "World Port Index" under "Limits" on 138 of the 190 ports: the entry's name and number, depths
+  (channel, anchorage, cargo pier, oil terminal, LNG terminal), the maximum vessel (length, beam, draught, at
+  the berths and offshore), tidal range, harbour size and type, and pilotage, as Publication 150 of the US
+  National Geospatial-Intelligence Agency gives them. Four of the depths are printed as the bands of the
+  publication's own key ("14.0 to 15.2 m", "23.2 m or more"); the LNG terminal depth, a column the key does
+  not cover, is printed as given. The figures are the publication's, shown beside the limits of the page each
+  port cites and never merged with them; "Largest class" is unchanged.
+- A port has the block only when its entry is surely the same place: 115 by UN/LOCODE, 18 by name
+  and country, 5 after a review written in the code. 36 doubtful matches and 16 ports without an
+  entry have none: Rotterdam (the nearest entry is too far from the atlas's point), and Forcados, whose name is
+  carried by two rows of the file, a river port and an oil terminal (a match by name is doubtful when a second
+  row of the country has the same name within 60 km).
+- The maximum vessel is held back where the publication's own figures cannot be a ship's: six ports for the
+  beam (above 40% of the length or above 70 m, or given with no length) and Tema's offshore figures, a draught
+  of 275 m for a length of 275 m (a draught above a quarter of the length is held back; the largest ratio among
+  the 846 other pairs of the file is 0.18). Rows that pass these checks are shown as given, even where the
+  figures of one entry disagree with one another (four ports by one stated rule: a maximum draught above the
+  deepest depth printed plus the tidal range, at Hay Point, Santos, Seria and Ust-Luga).
+- The file is the Internet Archive's copy, captured on 29 September 2026, of the publisher's download address:
+  the owner took it by hand on 24 November 2026 because the publisher's site was in maintenance. The block
+  says "Internet Archive copy of 29 Sep 2026" and links the publisher's page. The file carries no edition and
+  no date inside. Its terms could not be read: the archived copies of the publisher's page hold no text. The
+  registry quotes the title page of the 2017 edition ("NO COPYRIGHT CLAIMED UNDER TITLE 17 U.S.C.") as what was
+  read, says "terms to be confirmed", claims no terms of the Internet Archive's, and no download of these
+  figures is offered.
+
+### PortWatch ports
+
+- 32 more ports carry the id of their IMF PortWatch port (163 of 190), set by one tested rule: same country,
+  the same UN/LOCODE or the same name, at most 15 km apart, and one PortWatch port for one asset. 18 ports
+  cannot be paired by the rule and 9 have no PortWatch port within 15 km; none was paired by hand.
+- Weekly traffic per port (audit point A-036) is prepared and not shown yet. The owner's rule of 25 November
+  is applied: one request at a time, 8 to 14 seconds apart (the script's reading of "slowly"), a first load in
+  sittings of at most 15 ports, one sitting at a time (the script enforces both), twenty minutes apart.
+  The first load began on 25 November 2026: 60 of the 163 ports were read when this release was
+  prepared, and the load goes on.
+  The files hold the atlas's own weekly sums (port calls, estimated import and export tonnes, by ship type),
+  never a daily row. No page reads them in this release and no scheduled job reads the table: the registry,
+  the About window and the documents say so; the port pages and the weekly update come next, after the first
+  scheduled PortWatch run has been seen.
+- The script that reads the port table waits 65 seconds after a quota answer of the service and asks once
+  more; a second refusal stops the run. The chokepoint script, older, still asks again 8 to 20 seconds after
+  such an answer, up to three times: it makes one or two requests a week, and is corrected with the weekly
+  step.
+
+### Checks
+
+- 1,897 unit tests (1,562 at the seventh release) and 138 web tests (75), all passing without the raw
+  downloads; a second run of every builder changes no file; the checks of GitHub reproduced on a fresh clone;
+  five browser suites on the production build; 41 targeted checks of the new blocks and of their
+  corrections.
+- Two slips of the packages, to know about. The first browser run of the "Report an error" package let the
+  tab opened by the click reach github.com: 14 requests to the repository's new-issue address, each answered by
+  a redirect to GitHub's sign-in page; no issue was created, and each address carried a local test address, a
+  page heading and the build, nothing else. The checks now block that host for the whole browser and count
+  the attempts. The same package stopped its own unit run with a command that can also have stopped another
+  package's run; every suite was run again on the integrated tree.
+- One correction to what the documents of the candidate said, found by a reviewer in the owner's own record
+  of the hand-over: the World Port Index file was not downloaded from the publisher's page but taken from the
+  Internet Archive's copy of it. The registry, the notices, the method and the block now say so.
 
 ## Seventh release (25 November 2026): what changed
 
@@ -592,7 +726,8 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
     port, 108 mixed, 7,316 overland). Two ports up a river (Rouen, Bremen) carry a river leg.
   - Metallurgical coal by pair of countries from the exporters' own statistics (Queensland and the United
     States, 63 flows of 2024), beside the customs flows of all coal.
-  - A route finder for every recorded pair.
+  - A route finder for every recorded pair, and a voyage calculator on the 259 routes that are laden voyages
+    (freight that covers a typed hire, time-charter equivalent of a typed freight; no rate is printed).
   - 30 chokepoint pages: the 28 passages counted by IMF PortWatch (weekly series since 2019,
     vessels and estimated cargo tonnes), plus the Singapore Strait and Cape Horn; 20 of them carry
     Atlas estimates of the cargo that has to cross or may cross (967 estimates), compared with
@@ -612,15 +747,18 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
   Pulses, Sugar, Coffee, Cocoa, Cotton, Palm oil, Sunflower, Rapeseed & canola, Potash, Phosphate, Urea &
   nitrogen, Sulphur, NPK fertilisers.
 - **657 infrastructure assets**: 190 ports, 175 mines, 108 LNG terminals, 68 refineries, 44 smelters,
-  39 fields, 31 pipelines, 2 storage hubs.
+  39 fields, 31 pipelines, 2 storage hubs. 138 ports carry the facts of their World Port Index entry (depths,
+  maximum vessel, harbour, tide, pilotage) beside the limits of the page they cite.
 - **Country pages** for 239 countries and territories and for the European Union (227 with figures).
 - **Prices**: 154 series (World Bank monthly since 1960, annual averages and annual real prices, World
   Bank price indices, EIA daily, USGS annual, three freight indicators), a price board, lookup by date.
 - **Search** over every kind of page, companies included, with trade names and abbreviations; CSV
   downloads with source and licence on each row, copy link and copy citation.
 - **History**: a 2005 to 2024 timeline of flows, with events to 2026.
-- **61 registered third-party sources**, every one free to read, plus the atlas's own entry for its
+- **62 registered third-party sources**, every one free to read, plus the atlas's own entry for its
   estimates and conversions.
+- **A release number and release notes** in the About window, a "Report an error" button on every page, and
+  a "Quality" tab that shows which blocks each commodity page holds (362 of the 448 that apply).
 
 ## Decisions of the owner
 
@@ -651,8 +789,10 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
     passage pages and of the price drawer: the rule against hint text does not cover them.
   - The owner downloaded by hand and handed over four files that the machine could not fetch: Queensland's coal
     sales and coal production workbooks, the historical tables of Australia's Resources and Energy Quarterly
-    (all CC BY 4.0) and the World Port Index of the US National Geospatial-Intelligence Agency (public domain).
-    They feed the next rounds (metallurgical coal by pair, port limits).
+    (all CC BY 4.0) and the World Port Index of the US National Geospatial-Intelligence Agency, taken from the
+    Internet Archive's copy of 29 September 2026 of the publisher's download address because the publisher's
+    site was in maintenance (its terms could not be read: the registry says "terms to be confirmed").
+    They fed the metallurgical coal by pair (seventh release) and the port facts (eighth release).
 - 25 November 2026: **IMF PortWatch.** The IMF's terms page (read again that day) allows the reuse of its
   statistical data with attribution and also says that the IMF "prohibits bulk download of information by
   automated technology without explicit permission"; no page read says whether PortWatch's public data service
@@ -888,6 +1028,45 @@ These were needed to finish the work; each is reversible.
      pair read as overland (United States, LPG: 64.2 Mt, 1.47 Mt of it read as overland), so that they equal
      the exporters and importers tables.
 
+13. Eighth release, each reversible:
+   - **Release identity.** A release is a number and a date in `release.json`, shown in the About window with
+     the release notes. No git tag, no GitHub release, no DOI and no citation file are made.
+   - **Reports.** A report is a GitHub issue that the visitor opens through GitHub's own form (an account is
+     needed), without a label; nobody promises a delay. The address that fills the form is cut at 2,000
+     characters, an Atlas assumption: GitHub publishes no limit.
+   - **Coverage.** The ten reasons why a block cannot apply to a page are the atlas's own reading of each
+     commodity (a crop has no reserves, gold and the platinum metals move by air, gas goes by pipeline or as
+     LNG, a fertiliser has no crop balance), each typed once in `pipeline/commodities/coverage_reasons.json`.
+     "Routes" counts the generated corridors as well as the benchmark routes. A commodity page lists the
+     blocks that cannot apply to it and not those that are missing (one constant, `SHOW_MISSING_ON_PAGES`,
+     turns them on). A page that loses a block it had makes the update guard refuse the scheduled update that
+     removed it, until someone accepts it ("accept large moves") and lowers the floor by hand; a warning in
+     place of the refusal is a one-line change.
+   - **Voyage calculator.** It computes with the speed and fuel of the Baltic standard vessels that the class
+     pages already state. The owner's decision of 24 November covers the facts shown on the site, not a
+     calculation with them, and neither the Baltic Exchange's terms (clause 5.1) nor its Data Policy (clauses
+     1.2 and 2.2.3), read on 25 November 2026, say whether the descriptions of the standard vessels are
+     "Baltic Data". One line switches these defaults off (`standardVessel` in `web/src/lib/voyage.ts`); the
+     registry entry `baltic` names the use. The bunker price is typed and never prefilled; the fuel of the LNG
+     carrier starts empty; the ballast distance starts as the laden distance, labelled as an Atlas estimate;
+     typed values are kept in memory only, never in the link. The tariff pages of the Panama and Suez canal
+     authorities are linked and credited in `NOTICE.md` and `METHODOLOGY.md`; no tariff is copied and they are
+     not entries of the registry, which lists the sources of figures.
+   - **World Port Index.** Its figures are shown with the publication's name, the entry's name and number and
+     a link, without download, on terms that could not be read (the registry says "terms to be confirmed").
+     A port has the block only when its entry is surely the same place; five matches were accepted and two
+     refused by a review written in the code, from the names, the positions and the atlas's own notes (no map
+     was opened). The maximum vessel is held back where the publication's own figures cannot be a ship's (a beam
+     above 40% of the length or above 70 m, a beam with no length, a draught above a quarter of the length);
+     other rows are shown as given. The block's source line gives the date of the copy that was read
+     ("Internet Archive copy of 29 Sep 2026") and not the month the atlas read it.
+   - **PortWatch ports.** One PortWatch port for one asset: Ponta da Madeira (beside Itaqui), the CPC terminal
+     (beside Novorossiysk) and Westridge (beside Vancouver) share none with their neighbour and will have no
+     traffic series. The CSV of a port's weekly series will be offered as the CSV of a passage's is, the three
+     PortWatch items carrying the same terms. The tonnes of the weekly files are rounded by the size of each
+     value (whole kt from 100 kt, one decimal from 10 kt, two from 1 kt, the tonne below), which moves a
+     52-week sum by 0.1% at most on the ports loaded so far.
+
 ## Known limits
 
 - Baltic Exchange index values are proprietary and are not shown.
@@ -929,6 +1108,29 @@ These were needed to finish the work; each is reversible.
 - 61.2 Mt of 2024 seaborne tonnage is not routed: 40.6 Mt between a landlocked country without a sourced
   transit port and its overseas partners, 15.2 Mt with no sea route or one under 50 nm (mostly Malaysian
   refined products to Singapore), 5.5 Mt for which no page supports a port on the right coast.
+- World Port Index: 52 of the 190 ports have no block (36 doubtful matches, 16 without an entry);
+  7 of the doubtful have another entry of the country nearer than the matched one (Coveñas, Amsterdam, Lagos,
+  Portland, Mumbai, Ain Sokhna, Arzew) and Rotterdam is refused for distance. The depths are bands of the key of
+  the 2017 edition; the edition of the file is not stated. Some rows are shown as the publication gives them
+  although their own figures disagree with one another (a maximum draught above the deepest depth printed plus
+  the tide, at Hay Point, Santos, Seria and Ust-Luga; a beam of 68 m for a length of 210 m at Ulsan; an
+  anchorage of 54 m at Tema). A sure match is the same place, not always the same extent as the atlas's asset.
+- Two port entries of the atlas disagree with the World Port Index and with IMF PortWatch about where or what
+  they are, and are left as they are in this release: Pengerang carries the code of Penang in the freight engine
+  (PortWatch's table gives MYPGG for Pengerang), which a rebuild of the lanes will correct; Ras Lanuf is drawn
+  at the position of PortWatch's port "Ras Lanuf (Al Burayqah)", about 100 km east of the World Port Index's Ras
+  Lanuf, and will be renamed or moved before its traffic series is shown.
+- Voyage calculator: the laden distance has no year (the SeaRoute network gives none); no weather allowance and
+  no commission; five eligible routes have no standard vessel, so the speed is the class's (an Atlas assumption)
+  and the fuel is typed; a route with a status note on the Strait of Hormuz computes on its normal routing.
+- Coverage table: no block is marked "not available for free" yet; aluminium, zinc, lead, tin, cobalt and rare
+  earths show their routes as missing, because a named route is expected wherever lanes exist.
+- "Report an error" was not tested against GitHub itself (the checks send no request there).
+- The chokepoint script and the common downloader still ask again 8 to 20 seconds after a quota answer or an
+  HTTP 429 (three times), even when the service names a longer delay; the port script waits 65 seconds. To be
+  corrected at the root with the weekly step of the port series.
+- Weekly traffic per port is loaded and not shown; the first load was not finished at this release; 27 ports have no PortWatch port (18 that the rule
+  cannot pair, 9 without one within 15 km).
 - The weekly PortWatch job still reads its whole chokepoint table again every four weeks (about 41 requests, 8 to
   14 seconds apart): reading it again in slices, a part each week, fits the owner's rule of small pieces better
   and is planned with the port traffic series.
@@ -1059,11 +1261,33 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
     Census Bureau cited as the source of the original data) to publish its estimate of LPG from the United
     States to Mexico and to offer the CSV of that page's flows. Is that reading acceptable, or should the CSV
     be withheld (the figures and their sources would stay on the page)?
-28. **EIA daily spot prices.** EIA's copyright page (read on 25 November 2026) puts its own publications in the
-    public domain and adds that material of third parties on its site may be protected. Whether the daily spot
-    series the atlas shows fall under that sentence has not been checked: the table pages of the series have
-    to be read for the source they credit. To be read next; the owner decides if no page settles it.
-29. The choices listed above, each reversible.
+28. **EIA daily spot prices.** EIA's "Copyrights and Reuse" page (read on 25 November 2026) says: "U.S. government
+    publications are in the public domain and are not subject to copyright protection", "You may use and/or
+    distribute any of our data, files, databases, reports, graphs, charts, and other information products that
+    are on our website", and, under "Protected materials", that material contributed or licensed by others may
+    be protected. Of the eight spot files the atlas downloads, one names "U.S. Energy Information
+    Administration" as its source, seven leave the cell empty, and none names a third party. The table page of
+    the series (https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm) is drawn by script and could not be read by
+    the machine: would the owner open it in a browser and read the "Source" line under the table?
+29. **The World Port Index.** The file is the Internet Archive's copy of 29 September 2026, taken while the
+    publisher's site was in maintenance. When the site answers again: what does the publication's page say of
+    its terms of use (does it carry "NO COPYRIGHT CLAIMED UNDER TITLE 17 U.S.C." as the 2017 edition does), and
+    which edition or date does it show? Until then the block is shown with credit and a link, without download.
+    Should its source line give the date of the copy (the choice made) or the month the atlas read it?
+    Should the maximum vessel held back for seven ports be printed as listed? Should the rows whose own figures
+    disagree with one another be held back too?
+30. **The voyage calculator and the Baltic Exchange.** May it start from the speed and fuel of the Baltic
+    standard vessels that the class pages already state (the default followed), or should those fields start
+    empty? Should the two canal authorities be asked for permission to link their tariff pages (not asked)?
+31. **What a commodity page should hold** (audit point M-116). The Quality tab shows which of eleven blocks each
+    page has; which are the minimum for every page? Should a page also list its missing blocks (today only
+    those that cannot apply)? Do the ten reasons read right?
+32. **A page that loses a block** stops the scheduled update that removed it until someone accepts it. Keep the
+    refusal, or publish the update and only warn?
+33. **PortWatch ports.** May two assets share one PortWatch port (Ponta da Madeira with Itaqui, the CPC terminal
+    with Novorossiysk, Westridge with Vancouver)? Is 8 to 14 seconds between two requests slow enough for the
+    rule of 25 November?
+34. The choices listed above, each reversible.
 
 ## Update jobs
 

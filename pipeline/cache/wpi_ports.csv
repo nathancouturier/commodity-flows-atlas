@@ -28,7 +28,6 @@ dos-bocas,9425,Dos Bocas Terminal,MXDBT,code,3.6,Very Small,Open Roadstead,1,4.9
 dumai,50785,Dumai,IDDUM,code,5.1,Medium,River (Natural),2.4,18.3,14,9.4,17.1,,315,,17,,,,Yes,No,
 es-sider,45297,As Sidr,LYESI,name,0.3,Very Small,Open Roadstead,1,23.2,23.2,,23.2,,,,,,,,Yes,No,
 esperance,54450,Esperance,AUEPR,code,0.6,Very Small,Coastal (Breakwater),1,18.6,23.2,18.6,14,,300,60,17.9,,,,Yes,No,
-forcados,46160,Forcados,NGFOR,name,9.1,Very Small,River (Natural),3,3.4,9,4.9,,,,,5.2,,,,Yes,No,
 fremantle,54520,Fremantle,AUFRE,code,11.5,Large,Coastal (Breakwater),1,12.5,14,12.5,9.4,,345,48.4,12.9,,,,Yes,No,
 fujairah,48262,Al Fujayrah,,review,6.0,Small,Coastal (Breakwater),2,15,23.2,15,18,,344,60,22.5,340,,21.5,Yes,Yes,"Atlas point 25.12 N, 56.36 E, row no. 48262 Al Fujayrah at 25.17 N, 56.37 E. The names are two spellings of Fujairah (the row's alternate name is Fujayrah Harbor) and the next row of the country, Khawr Fakkan, is another port; the page the atlas cites is about the Fujairah oil terminal and the entry is the harbour."
 galveston,9150,Galveston,USGLS,code,2.2,Large,Coastal (Natural),,11,7.9,7.9,6.4,,,,,,,,Yes,No,
@@ -121,7 +120,7 @@ taichung,57955,Tai-Chung Kang,TWTXG,code,5.1,Large,Coastal (Natural),3.6,16,7,16
 tallinn,28480,Vanasadam - Port of Tallinn,EETLL,code,3.1,Large,Coastal (Breakwater),,13,20.1,9.8,,,340,50,17.1,,,,Yes,No,
 taranto,40470,Taranto,ITTAR,code,3.8,Large,Coastal (Breakwater),,14,11,15.5,21.6,,,,,,,,Yes,No,
 tarragona,38540,Tarragona,ESTAR,code,2.6,Large,Coastal (Breakwater),1,20.1,23.2,20.1,23.2,,,,,,,,Yes,No,
-tema,46070,Tema,GHTEM,code,1.7,Small,Coastal (Breakwater),1.6,12.5,54,19,25,,366.5,51.2,16,275,,275,Yes,Yes,
+tema,46070,Tema,GHTEM,code,1.7,Small,Coastal (Breakwater),1.6,12.5,54,19,25,,366.5,51.2,16,,,,Yes,Yes,
 texas-city,9160,Texas City,USTXT,code,0.9,Small,Coastal (Natural),,11,7.9,11,9.4,,,,,,,,Yes,No,
 tokyo,61380,Tokyo Ko,JPTYO,code,7.8,Large,Coastal (Natural),1,15.5,18.6,14,9.4,,,,,,,,Yes,No,
 tubarao,12855,Tubarao,BRTUB,code,0.7,Large,Coastal (Breakwater),2,21.6,17.1,23.2,7.9,,,,23.3,,,,Yes,No,

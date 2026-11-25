@@ -384,7 +384,7 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
 }
 
 const WPI_ID = /^[a-z0-9-]+$/;
-const WPI_TOP = ['s', 'read', 'edition', 'ports'];
+const WPI_TOP = ['s', 'read', 'captured', 'edition', 'ports'];
 const WPI_KEYS = ['n', 'name', 'lc', 'by', 'km', 'why', 'size', 'type', 'tide', 'chan', 'anch', 'pier', 'oil', 'lng', 'loa', 'beam', 'draft', 'oloa', 'obeam', 'odraft', 'pilot', 'tideRes'];
 const WPI_FIGURES = ['tide', 'chan', 'anch', 'pier', 'oil', 'lng', 'loa', 'beam', 'draft', 'oloa', 'obeam', 'odraft'];
 const WPI_LIMITS = WPI_FIGURES.filter((k) => k !== 'tide'); // an entry needs one of these: a depth or a maximum vessel
@@ -394,7 +394,7 @@ const WPI_SIZES = ['Very Small', 'Small', 'Medium', 'Large'];
 /**
  * infrastructure/wpi.json, the World Port Index entry of each port that has one (built by pipeline/infrastructure/wpi_limits.py,
  * loaded by the port panel when it opens). Its shape, and that each entry belongs to a port asset of ports.geojson: `s` is
- * the registry's `nga-wpi`, `read` a month, `edition` text or null; an entry has the publication's number `n` (a positive
+ * the registry's `nga-wpi`, `read` a month, `captured` (optional) the day of the archived copy the file is, `edition` text or null; an entry has the publication's number `n` (a positive
  * integer) and its `name`, `by` (code, name or review), `km`, and `why` if and only if `by` is review; the figures are
  * positive numbers up to 1,000; `size` is one of the publication's classes, `pilot` and `tideRes` are Yes or No; at least
  * one depth or maximum-vessel figure; no other key (a key `s`, `y` or `v` would be read as a source and a figure).
@@ -425,6 +425,7 @@ export function validateWpi(root, errors, warnings = []) {
   if (doc.s !== 'nga-wpi') bad(`"s" must be "nga-wpi", not ${JSON.stringify(doc.s)}`);
   else if (!registry.includes(doc.s)) bad(`"s" ${doc.s} is not in sources.json`);
   if (!(typeof doc.read === 'string' && /^\d{4}-(0[1-9]|1[0-2])$/.test(doc.read))) bad(`"read" must be a month YYYY-MM, not ${JSON.stringify(doc.read)}`);
+  if (doc.captured !== undefined && !(typeof doc.captured === 'string' && /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$/.test(doc.captured))) bad(`"captured" must be a day YYYY-MM-DD, not ${JSON.stringify(doc.captured)}`);
   if (!(doc.edition === null || (typeof doc.edition === 'string' && doc.edition.trim() !== ''))) bad('"edition" must be null or a text');
   let ports = null;
   try {

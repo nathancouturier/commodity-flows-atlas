@@ -881,8 +881,8 @@ code.
 
 What each field starts from. Every default has its source and its year beside it in the block, and a field that no file holds
 and the atlas does not supply starts empty.
-- Cargo, t: the parcel of the benchmark definition, when the definition gives it in tonnes (source and year of the definition);
-  else empty (a route whose definition gives the capacity of its carrier, not a cargo, has none).
+- Cargo, t: the parcel of the benchmark definition, when the definition gives it in tonnes (source and year of the definition;
+  the smaller one, and the line says so, when the definition allows two sizes, as C5 does); else empty (a route whose definition gives the capacity of its carrier, not a cargo, has none).
 - Laden distance, nm: the distance of the routing chosen, as the Distance tile shows it (the SeaRoute network, no year). The
   routing is the main one or an alternative that has a distance of its own; the parallel passages listed beside a route have
   none and are not offered. The distance is shown, not typed.
@@ -897,8 +897,11 @@ and the atlas does not supply starts empty.
   A class that has no standard vessel of its own takes that of the class its benchmark names (Supramax: Ultramax; Panamax:
   Kamsarmax; Newcastlemax: Capesize), and the block says which. A class with none (the mid-size gas carrier, the chemical
   tanker) takes the laden speed assumed for the class, the one the page's laden days use (Atlas assumption), the same speed in
-  ballast (Atlas estimate), and no fuel. The LNG carrier takes its speed but no fuel: the Baltic's LNG benchmark carrier burns
-  its cargo (Guide to Market Benchmarks, version 7.09), and the fuel-oil figure on the class page would mislead.
+  ballast (Atlas estimate), and no fuel. The LNG carrier takes its speed but no fuel: the benchmarks the atlas shows, BLNG1-174 to
+  BLNG3-174, are defined for a carrier "burning LNG fuel" (Guide to Market Benchmarks, version 7.09; the older BLNG1 to BLNG3
+  say "burning marine fuel oil to reposition"). The guide gives two figures for the same ship, tonnes of marine fuel oil and
+  cubic metres of LNG a day; the atlas holds the fuel-oil figure only, and a fuel-oil figure beside a route priced on LNG
+  fuel would mislead.
   All of these figures are read through one function (`standardVessel`), so that a single line switches them off.
 - No default: port and canal days, port fuel, bunker price, port costs, canal tolls, hire, freight. They are typed. The
   atlas stores no bunker price and no rate: the sources of the kind are proprietary (see "Freight rates that are not stored",
@@ -2138,12 +2141,14 @@ and the month the atlas read the file): the depth of the channel, of the anchora
 terminal, and of the LNG terminal where there is one; the largest vessel the publication states for the port (length,
 beam, draught) and, where it states one, for its offshore berths; the tidal range; the class and type of harbour; and
 whether pilotage is compulsory and the tide restricts the entrance. A figure the file does not state has no row. These are
-not Atlas estimates and carry no such label. A person downloaded the file (a CSV of 3,807 rows and 109 columns) from the
-publisher's page on 24 November 2026; no script downloads it and no scheduled job reads it. The atlas keeps 23 of the 109
+not Atlas estimates and carry no such label. A person took the file (a CSV of 3,807 rows and 109 columns) on 24 November 2026 from the
+Internet Archive's copy, captured on 29 September 2026, of the publisher's download address, because the publisher's site was
+in maintenance; no script downloads it and no scheduled job reads it. The atlas keeps 23 of the 109
 columns, for the ports that match, in `pipeline/cache/wpi_ports.csv`, and the file the site reads,
-`data/infrastructure/wpi.json`, is built from that cache alone. The file holds neither an edition nor a date: the page
-prints the month the atlas read it, which is not the date of the figures (Assumption A6). The terms of use of the file
-are not settled (`NOTICE.md`): the block gives the publication's name, the entry's name and number and a link, offers no
+`data/infrastructure/wpi.json`, is built from that cache alone. The file holds neither an edition nor a date inside it: the copy read was
+captured on 29 September 2026, and the page's source line says so ("Internet Archive copy of 29 Sep 2026"), which is not the
+date of the figures (Assumption A6). The terms of use of the file are not settled, and no terms of the Internet Archive's own
+for it were read (`NOTICE.md`): the block gives the publication's name, the entry's name and number and a link, offers no
 download of the figures, and is a choice made without the owner, listed in `PROGRESS.md`.
 
 The match. Each of the 190 ports of the atlas is compared with the rows of the file, and a match is sure in two cases.
@@ -2153,11 +2158,13 @@ exactly one row of the same country has a main or alternate name equal to the at
 match is sure only if no other row of the same country lies nearer to the atlas point than the matched row by more than
 2 km: a port of several terminals, a city harbour and its terminal rows, would otherwise take the figures of the wrong
 entry. Doubtful, and never shown: a code that several rows share, a row of another country, a row too far, a name that
-several rows carry or that is found between 15 and 40 km away, a nearer row, or a row within 10 km with no code or name in
-common. The distances are constants of `pipeline/infrastructure/extract_wpi.py`; the meta file
+several rows carry or that is found between 15 and 40 km away, a nearer row, a match by name when another row of the same
+country carries an equal name within 60 km (the atlas's Forcados terminal is an offshore crude terminal; the file has a river
+port Forcados 9.1 km away and a row Forcados Oil Terminal 27.5 km away, which carry the same name once its stop words are
+dropped, so the row found by name may be either and neither is shown), or a row within 10 km with no code or name in common. The distances are constants of `pipeline/infrastructure/extract_wpi.py`; the meta file
 `pipeline/cache/wpi_meta.json` writes them with the counts, the reason of every doubtful port and the farthest match kept
-and the nearest refused for its distance, which is how the radius by code was chosen. Of the 190 ports, 139 have an entry
-(115 by code, 19 by name and 5 by review), 35 are doubtful and 16 have no match; the 51 without an entry have no block
+and the nearest refused for its distance, which is how the radius by code was chosen. Of the 190 ports, 138 have an entry
+(115 by code, 18 by name and 5 by review), 36 are doubtful and 16 have no match; the 52 without an entry have no block
 and nothing in its place. Among the doubtful, 7 ports have another row of their country nearer to the atlas point than the
 matched one. A short table of the extractor, written by a person who opened the two rows, promotes a doubtful match or
 holds a sure one, each with a sentence that says why (Assumption A7); nothing is promoted without it. A sure match is the
@@ -2169,7 +2176,10 @@ meters" and "Depths refer to chart datum"; a code "means a least depth of 31 fee
 great as 36 feet (11.0 meters)". What each depth is: for the channel, "The controlling depth of the principal or deepest
 channel at chart datum is given"; for the anchorage, "the least depth in the best or principal anchorage"; for the cargo
 pier, "The greatest depth at chart datum alongside the respective wharf/pier is given", the deepest pier where there are
-several; for the oil terminal and the LNG terminal, "The greatest depth at chart datum will be shown". The page prints a
+several; for the oil terminal, "The greatest depth at chart datum will be shown". The LNG terminal depth is a column of the
+CSV that the 2017 edition does not have, and its values are not on that key's grid (one of the 22 the file gives sits on a
+floor of the key, against nine in ten of each of the four depths above): the page prints it as the file gives it, never as a
+band. For the four depths, the page prints a
 value that is the lower edge of a band of the key as that band ("14.0 to 15.2 m"), the top band, which has no upper edge,
 as "23.2 m or more", and a value off the edges as it is given ("16.1 m"); it never prints a zero. The sixteen bands are
 typed once, in `web/src/lib/wpi.ts`, with the address of the archived copy of the publication they were read in and the
@@ -2188,15 +2198,21 @@ Assumptions of the block. The atlas names them as such; none is a figure of a so
   and the entry one harbour or one terminal. The entry's own name is printed so that the difference stays visible.
 - **A5.** An oil terminal depth above 100 m is the water depth of an offshore field terminal. No ceiling is applied to
   the figures; none of the published entries has such a depth.
-- **A6.** The month the atlas read the file stands for the date, since the file has none. When an edition is typed in the
-  extractor, the page prints it in place of "read".
+- **A6.** The day the Internet Archive captured the address the file is a copy of stands for the date, since the file has none;
+  for a file taken from the publisher itself it would be the month the atlas read it ("read November 2026"). When an edition is
+  typed in the extractor, the page prints it in the name of the source.
 - **A7.** The review table is a person's judgment, recorded with a reason; it is not computed.
 
 A plausibility check on the maximum vessel. A port's maximum vessel, or its offshore one, is left out when its beam is
-more than 40% of its length or more than 70 m, or when a beam is given with no length to compare it with: it holds back
-the maximum vessel of 6 ports, listed with the reason in the meta file (`held_vessel`), and their depths stay. It is a
-check on the publication's figures, not an estimate, and it looks at the beam only: the atlas does not correct a
-figure that passes it.
+more than 40% of its length or more than 70 m, when a beam is given with no length to compare it with, or when its draught
+is more than 25% of its length: it holds back the maximum vessel of 7 ports, listed with the group and the reason in the meta
+file (`held_vessel`), and their depths stay; a port's berth figures and its offshore figures are judged apart (Tema's offshore
+berths, a 275 m length with a 275 m draught, are held and its berth figures stay). The 25% is read from the file: of the
+846 groups of its rows that give a length and a draught, the median is 0.049 of the length and the largest is 0.182 apart from
+Tema's 1.00 (the meta file's `rule_basis` has them). It is a check on the publication's figures, not an estimate: the atlas
+does not correct a figure that passes it, and some figures that pass it disagree with others of the same entry. In 4 ports a
+maximum vessel's draught is above the deepest depth printed for the port plus its tidal range (the upper edge of a band
+counts as printed; the top band has none), and the page shows them as the publication gives them.
 
 Two sources side by side. A port that also has "Limits" (the page the atlas cites, Wikipedia) shows the two blocks one
 under the other, each under its own source, never merged, averaged or reconciled, and with no sentence about which is
@@ -2282,5 +2298,6 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   seaborne tonnage first. A reason never hides a block: when the data hold a block that carries a typed reason, the data
   win, the cell is present and the build warns that the reason is stale. A page does not lose a block it has had: the
   blocks present at the last accepted state are listed in a floor file, a rebuild that takes one from a page is refused
-  by the update guard, and a real loss is accepted by hand (docs/UPDATING.md). The floor is raised by a command and
+  by the update guard, which discards the whole update of that run (a stale reason or a failed coverage step stops
+  nothing), and a real loss is accepted by hand (docs/UPDATING.md). The floor is raised by a command and
   lowered by a hand edit; no job changes either hand-typed table.

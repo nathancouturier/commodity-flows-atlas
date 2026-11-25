@@ -12,7 +12,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
-import { WPI_DEPTH_KEY, depthText as depthTextNb, harbourText, vesselText as vesselTextNb, wpiEntryText, wpiRows as wpiRowsNb } from '../src/lib/wpi.ts';
+import { WPI_DEPTH_KEY, dayText, depthText as depthTextNb, harbourText, vesselText as vesselTextNb, wpiEntryText, wpiRows as wpiRowsNb, wpiWhen } from '../src/lib/wpi.ts';
 
 // a figure and its unit are joined by a no-break space (the panel never breaks a row inside a figure); the texts are compared with a plain one
 const flat = (t) => (typeof t === 'string' ? t.replace(/\u00a0/g, ' ') : t);
@@ -29,7 +29,9 @@ const LABELS = [
   'Channel depth', 'Anchorage depth', 'Cargo pier depth', 'Oil terminal depth', 'LNG terminal depth',
   'Maximum vessel', 'Offshore maximum vessel', 'Tidal range', 'Harbour', 'Pilotage', 'Tide restricts entry',
 ];
-const DEPTH_FIELDS = { 'Channel depth': 'chan', 'Anchorage depth': 'anch', 'Cargo pier depth': 'pier', 'Oil terminal depth': 'oil', 'LNG terminal depth': 'lng' };
+// the four depths of the publication's key are bands; the LNG terminal depth is a column the key does not cover and is printed as given
+const BAND_FIELDS = { 'Channel depth': 'chan', 'Anchorage depth': 'anch', 'Cargo pier depth': 'pier', 'Oil terminal depth': 'oil' };
+const DEPTH_FIELDS = { ...BAND_FIELDS, 'LNG terminal depth': 'lng' };
 /** the numbers a text holds, as numbers */
 const numbers = (t) => (t.match(/\d[\d,]*(?:\.\d+)?/g) ?? []).map((x) => Number(x.replace(/,/g, '')));
 const enUS = (v) => v.toLocaleString('en-US', { maximumFractionDigits: 3 });
@@ -109,6 +111,11 @@ test('the rows of a fixture follow the fixed order and leave out what is not sta
   );
   assert.deepEqual(rows.map((r) => r.value), [depthText(floor), '16.1 m', '300 m long', 'Small, coastal (natural)', 'Not compulsory', 'Yes']);
   assert.deepEqual(wpiRows({ n: 1, name: 'Testport', by: 'code', km: 0 }), []);
+  // the LNG terminal depth is never a band, whether or not it sits on a floor of the key
+  const lng = (v) => wpiRows({ n: 1, name: 'Testport', by: 'code', km: 0, lng: v })[0];
+  assert.deepEqual(lng(floor), { label: 'LNG terminal depth', value: `${floor} m` });
+  assert.equal(lng(12.8).value, '12.8 m');
+  assert.equal(lng(WPI_DEPTH_KEY[0].from).value, `${WPI_DEPTH_KEY[0].from} m`);
   assert.equal(wpiRows({ n: 1, name: 'Testport', by: 'code', km: 0, pilot: 'Yes' })[0].value, 'Compulsory');
   assert.equal(wpiEntryText({ name: 'Testport', n: 42 }), 'Testport, no. 42');
 });
@@ -136,7 +143,7 @@ test('a row stands for a figure the file gives, and no figure of the file is lef
       if (e[k] == null) continue;
       // the first number is the figure itself, whether it is the floor of a band or off the floors
       assert.equal(numbers(rows[label])[0], e[k], `${id}: ${label}`);
-      assert.ok(rows[label].endsWith(' m') || rows[label].endsWith(' m or more'), `${id}: ${label}`);
+      assert.ok(label === 'LNG terminal depth' ? rows[label] === `${enUS(e[k])} m` : rows[label].endsWith(' m') || rows[label].endsWith(' m or more'), `${id}: ${label}`);
       assert.ok(!/(^|\D)0(\.0)? m/.test(rows[label]), `${id}: ${label} prints a zero`);
     }
     assert.equal('Maximum vessel' in rows, e.loa != null || e.beam != null || e.draft != null, `${id}: maximum vessel`);
@@ -158,25 +165,25 @@ test('every number of every row is a figure of the entry or an edge of the key',
   for (const [id, e] of entries) {
     const own = new Set(['chan', 'anch', 'pier', 'oil', 'lng', 'loa', 'beam', 'draft', 'oloa', 'obeam', 'odraft', 'tide'].map((k) => e[k]).filter((v) => v != null));
     for (const r of wpiRows(e)) {
-      for (const v of numbers(r.value)) assert.ok(own.has(v) || (DEPTH_FIELDS[r.label] && edges.has(v)), `${id}: ${r.label} prints ${v}`);
+      for (const v of numbers(r.value)) assert.ok(own.has(v) || (BAND_FIELDS[r.label] && edges.has(v)), `${id}: ${r.label} prints ${v}`);
     }
   }
 });
 
-test('a figure is a band exactly when it sits on a floor of the key, and only the depth rows are bands', () => {
+test('a figure is a band exactly when it sits on a floor of the key, and only the four depths of the key are bands', () => {
   const floors = new Set(WPI_DEPTH_KEY.map((b) => b.from));
   for (const [id, e] of entries) {
     for (const r of wpiRows(e)) {
       const band = / to |or more/.test(r.value);
-      if (!DEPTH_FIELDS[r.label]) assert.ok(!band, `${id}: ${r.label}`);
-      else assert.equal(band, floors.has(e[DEPTH_FIELDS[r.label]]), `${id}: ${r.label}`);
+      if (!BAND_FIELDS[r.label]) assert.ok(!band, `${id}: ${r.label}`);
+      else assert.equal(band, floors.has(e[BAND_FIELDS[r.label]]), `${id}: ${r.label}`);
     }
   }
 });
 
 test('most depths of the file sit on the floors of the key, which is the evidence that the key is the file\'s', () => {
   const floors = new Set(WPI_DEPTH_KEY.map((b) => b.from));
-  const all = entries.flatMap(([, e]) => Object.values(DEPTH_FIELDS).map((k) => e[k]).filter((v) => v != null));
+  const all = entries.flatMap(([, e]) => Object.values(BAND_FIELDS).map((k) => e[k]).filter((v) => v != null));
   const on = all.filter((v) => floors.has(v)).length;
   assert.ok(on / all.length > 0.7, `${on} of ${all.length}`);
   // the top band is what the file's heap at its largest value is
@@ -206,4 +213,45 @@ test('no printed text is an estimate, an instruction or a comparison', () => {
   for (const [id, e] of entries) {
     for (const r of wpiRows(e)) assert.ok(!/estimate|see |click|note that|differs|than the/i.test(`${r.label} ${r.value}`), `${id}: ${r.label}`);
   }
+});
+
+test('the LNG terminal depth is printed as the file gives it; the one that sits on a floor of the key is no band', () => {
+  const floors = new Set(WPI_DEPTH_KEY.map((b) => b.from));
+  const withLng = entries.filter(([, e]) => e.lng != null);
+  assert.ok(withLng.length > 0);
+  for (const [id, e] of withLng) {
+    assert.equal(wpiRows(e).find((r) => r.label === 'LNG terminal depth').value, `${enUS(e.lng)} m`, id);
+  }
+  // Manzanillo's depth is the floor of a band of the key, and reads as the figure the file gives
+  const manzanillo = file.ports['manzanillo-mexico'];
+  assert.ok(floors.has(manzanillo.lng), 'the case this test is about');
+  assert.equal(wpiRows(manzanillo).find((r) => r.label === 'LNG terminal depth').value, `${enUS(manzanillo.lng)} m`);
+});
+
+// ---------------------------------------------------------------- the source line
+
+test('the day is written as the site writes a date', () => {
+  const status = fs.readFileSync(path.join(here, '../src/lib/status.ts'), 'utf8');
+  const mon = /const MON = \[([^\]]+)\]/.exec(status)[1].match(/'([A-Za-z]+)'/g).map((x) => x.slice(1, -1));
+  for (const [i, m] of mon.entries()) assert.equal(dayText(`2026-${String(i + 1).padStart(2, '0')}-09`), `9 ${m} 2026`);
+  assert.equal(dayText('2026-09-29'), '29 Sep 2026');
+  assert.equal(dayText('2026-09'), '2026-09', 'what is not a day is returned as it is');
+});
+
+test('the source line names the archived copy when the file has a capture date, else the month it was read', () => {
+  assert.equal(wpiWhen({ read: '2026-11', captured: '2026-09-29', edition: null }, 'November 2026'), 'Internet Archive copy of 29 Sep 2026');
+  assert.equal(wpiWhen({ read: '2026-11', edition: null }, 'November 2026'), 'read November 2026');
+  // a typed edition goes into the name of the source, so a file from the publisher has nothing to add; an archived copy is still said
+  assert.equal(wpiWhen({ read: '2026-11', edition: 'Pub. 150, 27th edition' }, 'November 2026'), null);
+  assert.equal(wpiWhen({ read: '2026-11', captured: '2026-09-29', edition: 'Pub. 150, 27th edition' }, 'November 2026'), 'Internet Archive copy of 29 Sep 2026');
+});
+
+test('the data file and the meta file give the same capture day, and the line carries it', () => {
+  assert.equal(file.captured, meta.captured ?? undefined);
+  assert.match(String(meta.captured_from ?? ''), meta.captured ? /^https:\/\/web\.archive\.org\/web\/\d{14}id_\/https:\/\/msi\.nga\.mil\// : /^$/);
+  if (meta.captured) assert.ok(meta.captured_from.includes(meta.captured.replace(/-/g, '')), 'the address is the capture of that day');
+  const line = wpiWhen(file, 'November 2026');
+  if (file.captured) assert.equal(line, `Internet Archive copy of ${dayText(file.captured)}`);
+  else assert.ok(file.edition || /^read /.test(line));
+  assert.ok(!/read November/.test(line ?? ''), 'a file that has a capture date is not described by the month it was read');
 });

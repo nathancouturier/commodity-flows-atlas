@@ -6,7 +6,7 @@
 import { Fragment } from 'preact';
 import { sources, sourceLabel } from '../../lib/data';
 import { loadWpi, monthYear } from '../../lib/infra';
-import { wpiEntryText, wpiRows } from '../../lib/wpi';
+import { wpiEntryText, wpiRows, wpiWhen } from '../../lib/wpi';
 import { Section, shortSource } from '../ui';
 import { useLoaded } from './shared';
 import '../../styles/infra.css';
@@ -16,9 +16,10 @@ export default function PortWpi({ id }: { id: string }) {
   const e = file && Object.hasOwn(file.ports, id) ? file.ports[id] : undefined;
   const rows = e ? wpiRows(e) : [];
   if (!file || !e || !rows.length) return null;
-  // the file has no year of its own: the month the atlas read it, or the publication's edition when one is typed
+  // the file has no date of its own: the day the Internet Archive captured the address it is a copy of, else the month the atlas read it,
+  // and the publication's edition when one is typed
   const name = `${sourceLabel(file.s)}, ${shortSource(file.s)}`;
-  const when = file.edition ? null : `read ${monthYear(file.read)}`;
+  const when = wpiWhen(file, monthYear(file.read));
   const url = sources.value[file.s]?.url;
   const link = file.edition ? `${name}, ${file.edition}` : name;
   return (

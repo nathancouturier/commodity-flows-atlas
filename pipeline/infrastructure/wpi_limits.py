@@ -7,11 +7,12 @@ Input   pipeline/cache/wpi_ports.csv    one row per published match (written by 
         pipeline/cache/wpi_meta.json    the file's date, the ports held back, the ports the match left out
         data/infrastructure/ports.geojson   only the ids of the port assets, to check that each entry belongs to one
 Output  data/infrastructure/wpi.json
-          {"s": "nga-wpi", "read": "YYYY-MM", "edition": text | null,
+          {"s": "nga-wpi", "read": "YYYY-MM", "captured"?: "YYYY-MM-DD", "edition": text | null,
            "ports": {port id: {n, name, lc?, by, km, why?, size?, type?, tide?, chan?, anch?, pier?, oil?, lng?, loa?, beam?,
                                draft?, oloa?, obeam?, odraft?, pilot?, tideRes?}}}
-        `s` is the source id, `read` the month the file was taken (the file holds no date), `edition` the text typed from
-        the publisher's page or null. An entry has the publication's own name for the place (`name`) and its number (`n`),
+        `s` is the source id, `read` the month the file was taken, `captured` the day the Internet Archive captured the
+        publisher's address the file is a copy of (absent when the file comes from the publisher itself; the file holds no
+        date of its own), `edition` the text typed from the publisher's page or null. An entry has the publication's own name for the place (`name`) and its number (`n`),
         the UN/LOCODE the file gives (`lc`), how the entry was matched to the port (`by`: code, name or review, with `km`
         from the atlas point and, for a review, its sentence `why`), and the columns read: harbour size and type, tidal
         range, the four depths, the maximum vessel, the offshore maximum vessel, pilotage and tide restriction. A figure is
@@ -72,6 +73,12 @@ def month(date):
     if not m:
         raise Stop(f"the meta's `downloaded` is {date!r}, not a date YYYY-MM-DD")
     return m.group(1)
+
+
+def day(date, name):
+    if not re.fullmatch(r"\d{4}-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01])", date or ""):
+        raise Stop(f"the meta's `{name}` is {date!r}, not a date YYYY-MM-DD")
+    return date
 
 
 def entry(r):
@@ -135,7 +142,10 @@ def build(csv_text, meta, port_ids):
         if pid in held and any(r[k] for k in VESSEL):
             raise Stop(f"{pid} is held back for its maximum vessel and the cache holds a figure of it")
         ports[pid] = entry(r)
-    return {"s": meta["source"], "read": month(meta["downloaded"]), "edition": meta["edition"], "ports": ports}
+    head = {"s": meta["source"], "read": month(meta["downloaded"])}
+    if meta.get("captured") is not None:
+        head["captured"] = day(meta["captured"], "captured")
+    return {**head, "edition": meta["edition"], "ports": ports}
 
 
 def render(doc):

@@ -8,6 +8,8 @@
  },
  "source": "nga-wpi",
  "downloaded": "2026-11-24",
+ "captured": "2026-09-29",
+ "captured_from": "https://web.archive.org/web/20260929232408id_/https://msi.nga.mil/api/publications/download?type=view&key=16920959%2FSFH00000%2FUpdatedPub150.csv",
  "edition": null,
  "edition_page": null,
  "terms_quote": "© COPYRIGHT 2017 BY THE UNITED STATES GOVERNMENT / NO COPYRIGHT CLAIMED UNDER TITLE 17 U.S.C.",
@@ -19,6 +21,7 @@
   "name_km": 15.0,
   "nameless_km": 10.0,
   "name_far_km": 40.0,
+  "name_twin_km": 60.0,
   "nearer_margin_km": 2.0,
   "stop_words": [
    "port",
@@ -41,7 +44,8 @@
    "the"
   ],
   "beam_max_ratio": 0.4,
-  "beam_max_m": 70.0
+  "beam_max_m": 70.0,
+  "draft_max_ratio": 0.25
  },
  "rule_basis": {
   "code_km": "the farthest code match kept and the nearest code match refused for its distance",
@@ -52,13 +56,31 @@
   "nearest_refused": {
    "id": "new-york-new-jersey",
    "km": 15.6
+  },
+  "draft_max_ratio": {
+   "pairs": 846,
+   "median": 0.049,
+   "largest_kept": {
+    "wpi": 230,
+    "name": "Skagastrond",
+    "group": "maximum",
+    "ratio": 0.182
+   },
+   "above": [
+    {
+     "wpi": 46070,
+     "name": "Tema",
+     "group": "offshore",
+     "ratio": 1.0
+    }
+   ]
   }
  },
  "counts": {
   "sure_code": 115,
-  "sure_name": 19,
+  "sure_name": 18,
   "sure_review": 5,
-  "doubtful": 35,
+  "doubtful": 36,
   "none": 16,
   "ports": 190
  },
@@ -383,6 +405,15 @@
    }
   },
   {
+   "id": "forcados",
+   "reason": "two rows of the file carry the name within 60 km: no. 46160 Forcados at 9.1 km and no. 46161 Forcados Oil Terminal at 27.5 km",
+   "candidate": {
+    "wpi": 46160,
+    "name": "Forcados",
+    "km": 9.1
+   }
+  },
+  {
    "id": "qua-iboe",
    "reason": "the name is found 35.1 km from the atlas point",
    "candidate": {
@@ -487,6 +518,11 @@
  ],
  "held_vessel": [
   {
+   "id": "tema",
+   "group": "offshore",
+   "reason": "the draught is above 25% of the length"
+  },
+  {
    "id": "busan",
    "group": "maximum",
    "reason": "the beam is above 40% of the length"
@@ -542,5 +578,5 @@
   "Pilotage - Compulsory",
   "Entrance Restriction - Tide"
  ],
- "published": 139
+ "published": 138
 }

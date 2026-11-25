@@ -53,6 +53,7 @@ WINDOW_WEEKS = 6             # the weeks read again every run
 DEEP_WEEKS = 52              # the weeks read again for a quarter of the ports every run
 QUARTERS = 4
 SCHEDULED_BACKFILL_CAP = 5   # ports without a file filled in by one scheduled run
+SITTING_MAX = 15             # ports read in full by one run made by hand: a sitting of the first load (45 requests)
 # Tonnes are stored in thousand tonnes, each value with three significant figures at least and never finer than a tonne
 # (STEPS). Whole thousand tonnes for every value, as the first load was made, moved the 52-week sum of a small flow by
 # several per cent (7.6% for the imports of Primorsk, 5.9% for a ship type of Ras Tanura, 4.6% for the imports of Narvik),
@@ -459,7 +460,8 @@ def plan(ids, docs, none, today, *, backfill=False, max_ports=None, full=None, e
     Modes        weekly (default): the window (six weeks) of the ports with a file, the deep pass (52 weeks) instead of it
                  for the quarter of the ports of the week, and at most SCHEDULED_BACKFILL_CAP ports without a file read in
                  full; a port of ``none`` is asked again only in the week of its quarter.
-                 ``backfill``: only the ports without a file (not in ``none``), at most ``max_ports``.
+                 ``backfill``: only the ports without a file (not in ``none``), at most ``max_ports`` and never more than
+                 SITTING_MAX (that many when ``max_ports`` is not given).
                  ``full``: the ports named, read in full, whatever they hold.
     Returns      {"window": [{"since", "ports", "chunks", "days"}], "deep": [...], "history": [ids], "quarter": q,
                   "requests": {"window", "deep", "history", "total"}} (pages of 1,000 rows, one row per port per day, to ``end``)."""
@@ -471,7 +473,7 @@ def plan(ids, docs, none, today, *, backfill=False, max_ports=None, full=None, e
         out["history"] = [i for i in ids if i in set(full)]
     elif backfill:
         todo = [i for i in ids if i not in docs and i not in none]
-        out["history"] = todo[:max_ports] if max_ports is not None else todo
+        out["history"] = todo[:min(SITTING_MAX if max_ports is None else max_ports, SITTING_MAX)]
     else:
         deep_ids = {i for n, i in enumerate(ids) if i in docs and n % QUARTERS == q}
         for kind, members, since_of in (("window", [i for i in have if i not in deep_ids], window_since),

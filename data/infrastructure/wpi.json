@@ -1,6 +1,7 @@
 {
  "s": "nga-wpi",
  "read": "2026-11",
+ "captured": "2026-09-29",
  "edition": null,
  "ports": {
   "alexandria": {
@@ -475,22 +476,6 @@
    "loa": 300,
    "beam": 60,
    "draft": 17.9,
-   "pilot": "Yes",
-   "tideRes": "No"
-  },
-  "forcados": {
-   "n": 46160,
-   "name": "Forcados",
-   "lc": "NGFOR",
-   "by": "name",
-   "km": 9.1,
-   "size": "Very Small",
-   "type": "River (Natural)",
-   "tide": 3,
-   "chan": 3.4,
-   "anch": 9,
-   "pier": 4.9,
-   "draft": 5.2,
    "pilot": "Yes",
    "tideRes": "No"
   },
@@ -2046,8 +2031,6 @@
    "loa": 366.5,
    "beam": 51.2,
    "draft": 16,
-   "oloa": 275,
-   "odraft": 275,
    "pilot": "Yes",
    "tideRes": "Yes"
   },

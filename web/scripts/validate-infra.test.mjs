@@ -328,6 +328,7 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
   const good = () => ({
     s: 'nga-wpi',
     read: '2026-11',
+    captured: '2026-09-29',
     edition: null,
     ports: {
       'port-one': { n: 100, name: 'Port One', lc: 'AAONE', by: 'code', km: 1.2, size: 'Medium', type: 'River (Natural)', tide: 3, chan: 14, anch: 4.9, loa: 340, beam: 60, draft: 11.8, pilot: 'Yes', tideRes: 'No' },
@@ -361,6 +362,8 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
     'source is another id': [(d) => (d.s = 'wikipedia'), /"s" must be "nga-wpi"/],
     'no month': [(d) => (d.read = '2026'), /"read" must be a month/],
     'a month out of range': [(d) => (d.read = '2026-13'), /"read" must be a month/],
+    'a capture that is not a day': [(d) => (d.captured = '2026-09'), /"captured" must be a day/],
+    'a capture day out of range': [(d) => (d.captured = '2026-02-32'), /"captured" must be a day/],
     'empty edition': [(d) => (d.edition = ' '), /"edition"/],
     'ports is a list': [(d) => (d.ports = []), /"ports" must be an object/],
     'no entry': [(d) => (d.ports = {}), /"ports" is empty/],

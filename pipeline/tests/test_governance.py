@@ -9,7 +9,7 @@ C2  data/coverage.json is what the builder makes from the files (same bytes twic
 C3  every block of every page is recounted by a second reading of the files, and the one difference between the web's lane groups and the lane files is named
 C4  no page has lost a block the floor file lists
 C5  the typed reasons: structure, evidence found in the cited file, no reason on a block that is present
-C9  build-coverage is wired into the annual update in every place, and no hand-typed table can stop a scheduled update's publication
+C9  build-coverage is wired into the annual update in every place; a typed table or a failed step stops no update, and no text says the guard's floor does not
 
 Every file read is tracked, so the tests run on GitHub without the raw downloads.
 Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_governance.py"
@@ -19,6 +19,7 @@ import datetime
 import functools
 import glob
 import importlib.util
+import inspect
 import json
 import os
 import re
@@ -38,8 +39,9 @@ PROCESS = re.compile(r"\b(packages?|reviews?|reviewers?|findings?|agents?|rounds
 def drift(test):
     """Marks a test of the committed coverage matrix against the data or the typed tables. A data update can move the
     data under the file, or leave the file as it was (its step failed and kept the previous one): in the checks of a
-    scheduled update (ci.yml sets COVERAGE_CHECKS=warn when it is called with soft) such a finding is a warning, so that a
-    file of metadata never keeps data from being published; in every other run it fails as any test does."""
+    scheduled update (ci.yml sets COVERAGE_CHECKS=warn when it is called with soft) such a finding is a warning and keeps
+    no data from being published; in every other run it fails as any test does. The one rule that refuses an update is the
+    data guard's: a page that lost a block of the floor (web/scripts/guard-data.mjs)."""
     @functools.wraps(test)
     def run(self):
         try:
@@ -590,7 +592,8 @@ class CoverageReasons(unittest.TestCase):
 
 
 class UpdateJobs(unittest.TestCase):
-    """The step is in every place the annual update needs, and no hand-typed table can stop the publication of data."""
+    """The step is in every place the annual update needs; a typed table or a failed step stops no update, and the one rule
+    that refuses one is the guard's floor."""
 
     def test_build_coverage_is_wired_into_the_annual_update_in_every_place(self):
         status = read("pipeline", "common", "status.py")
@@ -614,6 +617,11 @@ class UpdateJobs(unittest.TestCase):
         order = [annual.index(f'chain.append(("{n}"') for n in ("build-commodities", "build-coverage", "build-profiles")]
         self.assertEqual(order, sorted(order))
 
+    def test_the_bootstrap_builds_the_matrix_after_the_pages_and_before_the_profiles(self):
+        boot = read("pipeline", "bootstrap.sh")
+        order = [boot.index(f"commodities/{n}.py") for n in ("build_commodities", "build_coverage", "build_profiles")]
+        self.assertEqual(order, sorted(order))
+
     def test_the_checks_of_a_scheduled_update_only_warn_on_the_matrix(self):
         """ci.yml is called with soft by the update workflows: the Python suite then runs with COVERAGE_CHECKS=warn."""
         ci = read(".github", "workflows", "ci.yml")
@@ -626,6 +634,23 @@ class UpdateJobs(unittest.TestCase):
         self.assertIn("coverage_floor.json", read("web", "scripts", "guard-data.mjs"))
         self.assertNotIn("coverage_floor", read("web", "scripts", "validate-data.mjs"))
         self.assertNotIn("coverage_floor", read("web", "scripts", "validate-coverage.mjs"))
+
+    def test_no_text_says_that_the_coverage_tables_never_stop_an_update(self):
+        """The guard refuses an update in which a page loses a block of the floor, and every path of the job is then
+        discarded: the four texts that speak of it must not say that nothing can stop an update."""
+        wrong = re.compile(r"neither table can stop|never keeps? data from being published|no hand-typed table can stop", re.I)
+        coverage = re.search(r"- \*\*Coverage\.\*\*.*?(?:\n\n|\Z)", read("METHODOLOGY.md"), re.S)
+        self.assertTrue(coverage, "the coverage paragraph of section 13 is not found")
+        texts = {
+            "docs/UPDATING.md": read("docs", "UPDATING.md"),
+            ".github/workflows/ci.yml": read(".github", "workflows", "ci.yml"),
+            "drift() of test_governance.py": inspect.getdoc(drift),
+            "METHODOLOGY.md, coverage paragraph": coverage.group(0),
+        }
+        for name, text in texts.items():
+            self.assertIsNone(wrong.search(text), f"{name} says that nothing can stop an update")
+        self.assertIn("guard", texts["drift() of test_governance.py"])
+        self.assertIn("guard", texts["METHODOLOGY.md, coverage paragraph"])
 
 
 if __name__ == "__main__":

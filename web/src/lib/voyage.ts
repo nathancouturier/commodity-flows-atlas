@@ -80,9 +80,10 @@ export function voyageEligible(r: Route): boolean {
 // ------------------------------------------------------------------ the standard vessel
 
 /**
- * Classes whose standard vessel burns something other than fuel oil, so that a fuel-oil figure beside the speed would mislead:
- * the Baltic's LNG benchmark is a carrier that burns its cargo (priced as LNG, not as bunkers), and the figure the atlas holds
- * for it is fuel oil. Its speed is a default; its fuel fields start empty.
+ * Classes whose benchmark is priced on a fuel other than fuel oil, so that a fuel-oil figure beside the speed would mislead:
+ * the Baltic's BLNG1-174 to BLNG3-174 are defined for a carrier "burning LNG fuel" (Guide to Market Benchmarks, version 7.09,
+ * which gives a fuel-oil and an LNG figure for the same ship), and the atlas holds the fuel-oil figure only. Its speed is a
+ * default; its fuel fields start empty.
  */
 const NO_FUEL_DEFAULT = new Set(['lng']);
 
@@ -183,7 +184,11 @@ export function voyageDefaults(r: Route, alt: number | null, classes: VesselClas
 
   if (r.parcelUnit === 't' && pos(r.parcel)) {
     values.cargoT = r.parcel;
-    traces.cargoT = { s: r.s, y: r.definition?.y, n: 'Cargo size of the benchmark definition' };
+    traces.cargoT = {
+      s: r.s,
+      y: r.definition?.y,
+      n: pos(r.parcelMax) ? 'Cargo size of the benchmark definition (the smaller of the two sizes it allows)' : 'Cargo size of the benchmark definition',
+    };
   }
 
   const ladenNm = chosen ? chosen.distanceNm : r.distanceNm;
@@ -299,12 +304,13 @@ export function voyage(i: Inputs, shown: Field[] = OPTIONAL_FIELDS): Result {
 // ------------------------------------------------------------------ typed text
 
 /**
- * A typed number: digits with an optional decimal point and thousands commas ("1,250.5", " 12 ", ".5"). Empty text, a sign,
- * letters and an exponent are not numbers (null); so is the value that is not finite.
+ * A typed number: digits with an optional decimal point and thousands commas ("1,250.5", " 12 ", ".5", "12."). A point with no
+ * digit before or after it, empty text, a sign, letters and an exponent are not numbers (null); so is the value that is not
+ * finite. "12." reads 12 so that typing 12.5 never passes through a refused text.
  */
 export function parseNumber(text: string): number | null {
   const t = text.trim();
-  if (!/^(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d+)?$/.test(t) || !/\d/.test(t)) return null;
+  if (!/^(?:\d+|\d{1,3}(?:,\d{3})+)?(?:\.\d*)?$/.test(t) || !/\d/.test(t)) return null;
   const v = Number(t.replace(/,/g, ''));
   return Number.isFinite(v) ? v : null;
 }

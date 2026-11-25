@@ -419,11 +419,15 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
   Federal Reserve System, or the Federal Open Market Committee.
 - **World Port Index (Pub. 150), US National Geospatial-Intelligence Agency (NGA)** (the "World Port Index" block of the port
   pages): depths, maximum vessel size, harbour size and type, tidal range and pilotage of the entry that matches a port, shown
-  with the publication's name, the entry's name and number and a link. A person downloaded the CSV (UpdatedPub150.csv) from
-  <https://msi.nga.mil/Publications/WPI> on 24 November 2026; the repository keeps 23 of its 109 columns, for 139 ports, in
+  with the publication's name, the entry's name and number and a link. A person took the CSV (UpdatedPub150.csv) on 24 November 2026 from the Internet Archive's copy, captured on 29 September 2026,
+  of the publisher's download address
+  (<https://web.archive.org/web/20260929232408id_/https://msi.nga.mil/api/publications/download?type=view&key=16920959%2FSFH00000%2FUpdatedPub150.csv>),
+  the publisher's page being <https://msi.nga.mil/Publications/WPI>; the repository keeps 23 of its 109 columns, for 138 ports, in
   `pipeline/cache/wpi_ports.csv` and `data/infrastructure/wpi.json`, and offers no file of the figures for download. Terms of
-  the file used: not read. The publisher's site was in maintenance on 24 and 25 November 2026 and its page of the publication
-  holds no text in the archived copies; the edition of the file is not stated (terms to be confirmed). What was read is the
+  the file used: not read; the file is an archived copy, and no terms of the Internet Archive's own for it were read (none is
+  claimed). The publisher's site was in maintenance on 24 and 25 November 2026 and its page of the publication
+  holds no text in the archived copies; the edition of the file is not stated and the file holds no date inside it (terms to be
+  confirmed). What was read is the
   title page of the twenty-sixth edition (2017) of the publication, "© COPYRIGHT 2017 BY THE UNITED STATES GOVERNMENT / NO
   COPYRIGHT CLAIMED UNDER TITLE 17 U.S.C." (archived PDF,
   <https://web.archive.org/web/20170829062601if_/http://msi.nga.mil/MSISiteContent/StaticFiles/NAV_PUBS/WPI/Pub150bk.pdf>,
@@ -513,7 +517,7 @@ Port traffic. For the ports of the infrastructure layer that have a PortWatch po
 PortWatch's daily table of port calls and estimated trade volumes (ArcGIS item "Daily_Ports_Data", registry id
 `portwatch-port-traffic`; the licence field of the item points to the same IMF terms of use as the two other PortWatch items,
 read in the item's metadata on 25 November 2026). What the atlas publishes of it, in `data/freight/port-traffic/` (one file
-per PortWatch port, written by the series' first load): the weekly sums, Monday to Sunday and complete weeks only, of the
+per PortWatch port, written by the series' first load, which is being made by hand; no page of the site shows the series yet): the weekly sums, Monday to Sunday and complete weeks only, of the
 daily port calls and of PortWatch's estimated import and export tonnes, by ship type (tanker, dry bulk, container, and other,
 which is general cargo and ro-ro together). Credit line: **IMF PortWatch (IMF and University of Oxford), data adapted**; the
 item's own recommended citation is "Sources: UN Global Platform; IMF PortWatch (portwatch.imf.org)" (the UN Global Platform
@@ -523,13 +527,13 @@ to the unit each file states; and the tonnes are PortWatch's estimate, made from
 entering and leaving the port boundary, not a customs or port-authority statistic. What the atlas does not publish or keep:
 no daily row, no vessel, no position or track, no time finer than a day. No row of the table is kept in the repository (no
 file under `pipeline/cache/`, nothing under `raw/`) or as a workflow artifact: the published weekly files are the only state
-that the weekly step reads back. Pace: the same as for the chokepoint table, one request at a time with a pause of 8 to 14
+that the weekly step will read back. Pace: the same as for the chokepoint table, one request at a time with a pause of 8 to 14
 seconds before the next (the script's reading of the owner's rule of 25 November 2026, not his figure), the first load in
-small sittings and each weekly run reading only recent weeks of the ports and a longer stretch of a part of them in turn; the
+small sittings; the weekly step that will follow reads only recent weeks of the ports and a longer stretch of a part of them in turn; the
 counts of requests are those of the script and of `docs/UPDATING.md`. The terms are those quoted above, with the same two
 open points (PortWatch is not named among the page's examples of statistical data; the sentence on bulk download), which
-now cover the chokepoint series, the ports database and the port series alike. The CSV of a port series is offered as the CSV
-of a chokepoint series is, with its source and licence columns, because the registry licence text of the three PortWatch
+now cover the chokepoint series, the ports database and the port series alike. The CSV of a port series will be offered as the CSV
+of a chokepoint series is (no page offers it yet), with its source and licence columns, because the registry licence text of the three PortWatch
 entries opens with the same words: a choice made without the owner, listed in PROGRESS.md (he was asked how PortWatch is read
 by script, not about the CSV).
 
@@ -537,7 +541,7 @@ Ports database. The ports of the infrastructure layer take their position and UN
 database (ArcGIS item "Ports", PortWatch_ports_database), whose licence field points to the same IMF terms of use as
 the chokepoint tables (read on 23 November 2026). The atlas keeps the identity of each port (PortWatch port id, name,
 country, UN/LOCODE, position and page id) in `pipeline/cache/portwatch_ports.csv`, published in the repository with
-this credit, and links each port asset to its PortWatch page. No vessel count or traffic figure of the database is
+this credit; a port asset whose cited page is its PortWatch page links to it, the others cite another page. No vessel count or traffic figure of the database is
 kept or shown. Credit line: **IMF PortWatch (IMF and University of Oxford), ports database, data adapted.**
 
 ### Baltic Exchange
@@ -601,4 +605,5 @@ heading and the release.
   ODbL's share-alike clause, or should be re-sourced.
 - Terms of the Norwegian Offshore Directorate, Natural Resources Canada, Wilhelmsen and Cochilco.
 - The terms of use, and the edition, of the World Port Index file used: the statement read is on the 2017 edition of the
-  publication and not on the file, and the publisher's page held no text in the archived copies.
+  publication and not on the file, the publisher's page held no text in the archived copies, and the file is the Internet Archive's
+  copy of 29 September 2026, for which no terms of the archive's own were read.

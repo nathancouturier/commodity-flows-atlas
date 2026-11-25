@@ -49,10 +49,14 @@ def stamp(iso):
     return iso + "T19:30:00Z"
 
 
+def the_workflow_reads_the_port_series():
+    """True when the workflow of the PortWatch job has a step that runs the script of the port series."""
+    return "fetch_portwatch_port_traffic" in read(".github", "workflows", "update-portwatch.yml")
+
+
 class Registry(unittest.TestCase):
     def test_the_port_series_has_an_entry_with_the_dataset_name_and_the_address_of_its_item(self):
         s = REGISTRY[NEW]
-        self.assertEqual(s["update"], "weekly")
         self.assertEqual(s["publisher"], "IMF and University of Oxford")
         self.assertIn("Daily_Ports_Data", s["name"])
         # the item the licence field was read on: its address is the one the service answered to on 25 November 2026
@@ -61,6 +65,36 @@ class Registry(unittest.TestCase):
         self.assertIn("Daily_Ports_Data/FeatureServer", s["access"])
         for field in ("name", "publisher", "url", "licence", "update", "access", "use"):
             self.assertTrue(str(s.get(field) or "").strip(), field)
+
+    def test_the_texts_say_weekly_only_when_a_scheduled_step_reads_the_port_series_and_say_what_is_true_today_before(self):
+        """The weekly wording comes back with the step that makes it true, and not before: the Sources window shows `update`."""
+        s = REGISTRY[NEW]
+        notice = flat(read("NOTICE.md"))
+        i = notice.index("Port traffic. For the ports of the infrastructure layer")
+        para = notice[i:notice.index("Ports database. The ports of the infrastructure layer", i)]
+        if the_workflow_reads_the_port_series():
+            self.assertEqual(s["update"], "weekly")
+            self.assertIn("weekly run", s["access"])
+            return
+        self.assertNotEqual(s["update"], "weekly")
+        self.assertTrue(s["update"].startswith("by hand for now"), s["update"])
+        self.assertIn("no scheduled job reads this table yet", s["update"])
+        self.assertIn("The first load is made by hand in sittings of a few ports; no scheduled job reads this table yet.", s["access"])
+        self.assertIn("The files are being loaded and no page of the site shows them yet", s["use"])
+        for field in ("update", "access", "use"):
+            self.assertIsNone(re.search(r"weekly run|each week|every week|updated weekly|updates weekly", s[field], re.I), field)
+        self.assertNotIn("each weekly run", para)
+        self.assertIn("the weekly step that will follow reads only recent weeks", para)
+        self.assertIn("that the weekly step will read back", para)
+        self.assertIn("The CSV of a port series will be offered", para)
+        self.assertIn("no page of the site shows the series yet", para)
+        # the update guide says the same: no job, no page, the weekly step not in place, and no pointer to a section that is not there
+        guide = flat(read("docs", "UPDATING.md"))
+        j = guide.index("### Port traffic: the first load in sittings")
+        section = guide[j:guide.index("## Releasing", j)]
+        self.assertIn("no scheduled job runs the script", section)
+        self.assertIn("The weekly step is not in place", section)
+        self.assertNotIn("METHODOLOGY.md", section)
 
     def test_the_use_says_what_is_published_and_how_it_is_transformed(self):
         use = REGISTRY[NEW]["use"]
@@ -116,6 +150,10 @@ class Registry(unittest.TestCase):
                      "a choice made without the owner, listed in PROGRESS.md"):
             self.assertIn(text, para)
         self.assertIsNone(re.search(r"public domain|open licen[cs]e|free to reuse", para, re.I))
+        # the ports database paragraph links only the assets whose cited page is their PortWatch page, with no figure to go stale
+        db = notice[notice.index("Ports database. The ports of the infrastructure layer"):]
+        self.assertNotIn("links each port asset to its PortWatch page", db)
+        self.assertIn("a port asset whose cited page is its PortWatch page links to it, the others cite another page", db)
         # the paragraph on the terms and on the owner's decision is still there, untouched
         self.assertIn("The owner's decision of 25 November 2026: the atlas keeps reading PortWatch as a person would", notice)
 

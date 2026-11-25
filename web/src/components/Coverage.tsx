@@ -4,7 +4,7 @@
  * to the address.
  */
 import { Fragment } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
+import { useEffect, useRef, useState } from 'preact/hooks';
 import { commodities, loadOptional } from '../lib/data';
 import { FAMILY_LABEL } from '../lib/format';
 import { STATE_NAME, allCells, coverageCounts, reasonCounts, type CellState, type CoverageFile } from '../lib/coverage';
@@ -48,6 +48,9 @@ function ReasonRow(props: { id: string; page: string; block: string; state: Cell
 function Grid(props: { file: CoverageFile }) {
   const { file } = props;
   const [open, setOpen] = useState<string | null>(null);
+  // whether the open reason was opened by the keyboard: only that one closes when the focus moves on (a tap that opens a reason closes
+  // nothing by blurring, since the reason row under the tapped cell would shift the layout between the touch and the click)
+  const byKey = useRef(false);
   const cells = new Map<string, ReturnType<typeof allCells>[number]>();
   for (const c of allCells(file)) cells.set(`${c.page}|${c.block.id}`, c);
   const meta = commodities.value;
@@ -125,9 +128,21 @@ function Grid(props: { file: CoverageFile }) {
                               aria-controls={open === key ? `cov-reason-${r.id}` : undefined}
                               onFocus={(e) => {
                                 // the keyboard gets the reason on focus; a tap or a click opens it with the click below
-                                if (e.currentTarget.matches(':focus-visible')) setOpen(key);
+                                if (e.currentTarget.matches(':focus-visible')) {
+                                  byKey.current = true;
+                                  setOpen(key);
+                                }
                               }}
-                              onClick={(e) => setOpen(open === key && e.detail !== 0 ? null : key)}
+                              onBlur={(e) => {
+                                const to = e.relatedTarget;
+                                if (!byKey.current || (to instanceof Element && to.classList.contains('cov-btn'))) return;
+                                byKey.current = false;
+                                setOpen((o) => (o === key ? null : o));
+                              }}
+                              onClick={(e) => {
+                                if (e.detail !== 0) byKey.current = false;
+                                setOpen(open === key && e.detail !== 0 ? null : key);
+                              }}
                               onKeyDown={(e) => {
                                 if (e.key === 'Escape' && open) {
                                   // the first Escape closes the reason, not the window

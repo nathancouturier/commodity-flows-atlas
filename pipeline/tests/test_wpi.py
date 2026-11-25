@@ -214,6 +214,32 @@ class Rule(unittest.TestCase):
         m, _ = matches([atlas("testport", "Testport", 10.0, 10.0, "")], rows)
         self.assertEqual(m["testport"]["grade"], "doubtful")
 
+    def test_a_name_that_another_row_of_the_country_carries_within_the_twin_distance_makes_the_match_doubtful(self):
+        # the atlas's own case: a river port 9 km away and a row "... Oil Terminal" 27 km away carry the same name once the stop words are dropped
+        rows = [row(1, "Testport", 10.0 + km_north(9), 10.0), row(2, "Testport Oil Terminal", 10.0 + km_north(27), 10.0)]
+        m, _ = matches([atlas("testport", "Testport terminal", 10.0, 10.0, "")], rows)
+        self.assertEqual(m["testport"]["grade"], "doubtful")
+        self.assertEqual(m["testport"]["row"]["n"], 1)
+        self.assertEqual(m["testport"]["reasons"], ["two rows of the file carry the name within 60 km: no. 1 Testport at 9.0 km and no. 2 Testport Oil Terminal at 27.0 km"])
+        # the same row on its own is sure
+        m, _ = matches([atlas("testport", "Testport terminal", 10.0, 10.0, "")], rows[:1])
+        self.assertEqual((m["testport"]["grade"], m["testport"]["by"]), ("sure", "name"))
+
+    def test_the_twin_name_must_be_of_the_country_and_within_the_distance(self):
+        near = row(1, "Testport", 10.0 + km_north(9), 10.0)
+        for other in (row(2, "Testport Oil Terminal", 10.0 + km_north(27), 10.0, country="Bland"),
+                      row(3, "Testport Oil Terminal", 10.0 + km_north(X.NAME_TWIN_KM + 5), 10.0),
+                      row(4, "Different", 10.0 + km_north(27), 10.0)):
+            m, _ = matches([atlas("testport", "Testport terminal", 10.0, 10.0, "")], [near, other])
+            self.assertEqual(m["testport"]["grade"], "sure", other["Main Port Name"])
+        m, _ = matches([atlas("testport", "Testport terminal", 10.0, 10.0, "")], [near, row(2, "Testport Oil Terminal", 10.0 + km_north(X.NAME_TWIN_KM - 3), 10.0)])
+        self.assertEqual(m["testport"]["grade"], "doubtful")
+
+    def test_a_match_by_code_does_not_look_for_a_twin_name(self):
+        rows = [row(1, "Testport", 10.0 + km_north(9), 10.0, "AATST"), row(2, "Testport Oil Terminal", 10.0 + km_north(27), 10.0)]
+        m, _ = matches([atlas("testport", "Testport terminal", 10.0, 10.0, "AATST")], rows)
+        self.assertEqual((m["testport"]["grade"], m["testport"]["by"]), ("sure", "code"))
+
     def test_a_port_without_a_locode_is_matched_by_name_only(self):
         p = atlas("testport", "Testport", 10.0, 10.0, "")
         del p["locode"]
@@ -338,6 +364,51 @@ class FromRaw(unittest.TestCase):
                 if x is not w and x["cty"] == p["c"]:
                     self.assertGreaterEqual(X.hav(p["lat"], p["lon"], x["lat"], x["lon"]), d - X.NEARER_MARGIN_KM, f"{c['port']}: no. {x['n']} {x['name']}")
 
+    def test_no_published_match_by_name_has_another_row_of_the_name_within_the_twin_distance(self):
+        with open(RAW, encoding="utf-8-sig", newline="") as f:
+            rows = X.read_rows(f.read())
+        ctry = X.Countries(load_json("data", "countries", "index.json"))
+        for r in rows:
+            r["cty"], r["names"] = ctry.of_row(r), X.row_names(r)
+        ports = {p["id"]: p for p in X.atlas_ports()}
+        for c in cache_rows():
+            if c["by"] != "name":
+                continue
+            p, heads = ports[c["port"]], X.atlas_heads(ports[c["port"]]["name"])
+            for x in rows:
+                if x["cty"] == p["c"] and heads & x["names"] and (x["n"], x["name"]) != (int(c["wpi"]), c["name"]):
+                    self.assertGreater(X.hav(p["lat"], p["lon"], x["lat"], x["lon"]), X.NAME_TWIN_KM, f"{c['port']}: no. {x['n']} {x['name']}")
+
+    def test_the_grades_of_the_ports_that_the_twin_rule_changed_are_forcados_only(self):
+        # the ports whose grade changes when the twin distance is taken to zero are the ports the rule holds back: one
+        with open(RAW, encoding="utf-8-sig", newline="") as f:
+            text = f.read()
+
+        def grades():
+            return {m["id"]: m["grade"] for m in X.build(X.atlas_ports(), X.read_rows(text), X.Countries(load_json("data", "countries", "index.json")), X.REVIEW)[2]}
+
+        saved = X.NAME_TWIN_KM
+        try:
+            X.NAME_TWIN_KM = 0.0
+            without = grades()
+        finally:
+            X.NAME_TWIN_KM = saved
+        now = grades()
+        self.assertEqual({k for k in now if now[k] != without[k]}, {"forcados"})
+        self.assertEqual((without["forcados"], now["forcados"]), ("sure", "doubtful"))
+
+    def test_the_lng_depths_of_the_file_are_not_on_the_floors_of_the_key_as_the_four_others_are(self):
+        floors = {float(f) for f in re.findall(r"\{ code: '[a-z]', from: ([\d.]+), to: [\d.]+ \}", read_text("web", "src", "lib", "wpi.ts"))} | {23.2}
+        floors.discard(0.0)
+        with open(RAW, encoding="utf-8-sig", newline="") as f:
+            rows = X.read_rows(f.read())
+        share = lambda k: sum(1 for w in rows if w[k] in floors) / sum(1 for w in rows if w[k])  # noqa: E731
+        for k in ("chan", "anch", "pier", "oil"):
+            self.assertGreater(share(k), 0.85, k)
+        self.assertLess(share("lng"), 0.1)
+        self.assertEqual(sum(1 for w in rows if w["lng"]), 22)
+        self.assertEqual(sum(1 for w in rows if w["lng"] in floors), 1)
+
     def test_the_file_matches_the_atlas_at_the_distances_the_meta_gives(self):
         meta = load_json("pipeline", "cache", "wpi_meta.json")
         kept = max((float(r["km"]), r["port"]) for r in cache_rows() if r["by"] == "code")
@@ -355,12 +426,22 @@ class Guards(unittest.TestCase):
     def ports_for(self, rows):
         return [atlas(f"p{r['World Port Index Number'][:-2]}", r["Main Port Name"], float(r["Latitude"]), 10.0, r["UN/LOCODE"].replace(" ", "")) for r in rows]
 
-    def run_extract(self, rows, ports=None, prev=None, accept=False, review=None, header=None, tmp=None):
+    def run_extract(self, rows, ports=None, prev=None, accept=False, review=None, header=None, tmp=None, dates=None):
+        """A run of the extractor on a fixture file. After a previous run (`prev`) the dates are typed anew, as a refresh does, unless `dates` says
+        which (downloaded, captured) the run has."""
         with tempfile.TemporaryDirectory() as tmp:
             path = os.path.join(tmp, "raw.csv")
             with open(path, "w", encoding="utf-8", newline="") as f:
                 f.write(csv_text(rows, header))
-            return X.extract(path, ports or self.ports_for(rows), COUNTRIES, review or {}, *(prev or (None, None)), accept=accept)
+            saved = (X.DOWNLOADED, X.CAPTURED)
+            if dates is not None:
+                X.DOWNLOADED, X.CAPTURED = dates
+            elif prev:
+                X.DOWNLOADED, X.CAPTURED = "2099-01-01", "2099-01-02"
+            try:
+                return X.extract(path, ports or self.ports_for(rows), COUNTRIES, review or {}, *(prev or (None, None)), accept=accept)
+            finally:
+                X.DOWNLOADED, X.CAPTURED = saved
 
     def previous(self, rows, **kw):
         text, meta, _ = self.run_extract(rows, **kw)
@@ -484,6 +565,48 @@ class Guards(unittest.TestCase):
         with self.assertRaises(X.Stop):
             self.run_extract(self.base_rows(3), header=["OID_"] + FILE_COLUMNS[1:], accept=True)
 
+    def test_a_new_file_with_the_dates_of_the_last_one_stops_unless_accepted(self):
+        rows = self.base_rows(10)
+        prev = self.previous(rows)
+        other = [dict(r, **{"Channel Depth (m)": "12.5"}) for r in rows]
+        same = (prev[1]["downloaded"], prev[1]["captured"])
+        self.assertIsNotNone(same[1], "the fixture run has the extractor's capture date")
+        with self.assertRaisesRegex(X.Stop, r"the file changed but DOWNLOADED and CAPTURED were not edited"):
+            self.run_extract(other, prev=prev, dates=same)
+        text, meta, _ = self.run_extract(other, prev=prev, dates=same, accept=True)
+        self.assertEqual(meta["downloaded"], same[0])
+
+    def test_a_new_file_with_one_date_typed_and_the_other_forgotten_stops_naming_it(self):
+        rows = self.base_rows(10)
+        prev = self.previous(rows)
+        other = [dict(r, **{"Channel Depth (m)": "12.5"}) for r in rows]
+        d, c = prev[1]["downloaded"], prev[1]["captured"]
+        with self.assertRaisesRegex(X.Stop, r"the file changed but DOWNLOADED was not edited"):
+            self.run_extract(other, prev=prev, dates=(d, "2099-01-02"))
+        with self.assertRaisesRegex(X.Stop, r"the file changed but CAPTURED was not edited"):
+            self.run_extract(other, prev=prev, dates=("2099-01-01", c))
+
+    def test_a_new_file_with_both_dates_typed_passes_and_so_does_one_from_the_publisher(self):
+        rows = self.base_rows(10)
+        prev = self.previous(rows)
+        other = [dict(r, **{"Channel Depth (m)": "12.5"}) for r in rows]
+        text, meta, _ = self.run_extract(other, prev=prev)
+        self.assertEqual((meta["downloaded"], meta["captured"]), ("2099-01-01", "2099-01-02"))
+        # a file from the publisher itself has no capture date, and None again is not a date that was forgotten
+        first = self.run_extract(rows, prev=prev, dates=("2099-01-01", None))
+        self.assertIsNone(first[1]["captured"])
+        self.assertIsNone(first[1]["captured_from"])
+        later = self.run_extract(other, prev=(first[0], first[1]), dates=("2099-02-01", None))
+        self.assertEqual(later[1]["downloaded"], "2099-02-01")
+        with self.assertRaisesRegex(X.Stop, r"the file changed but DOWNLOADED was not edited"):
+            self.run_extract(other, prev=(first[0], first[1]), dates=("2099-01-01", None))
+
+    def test_the_same_file_read_again_needs_no_new_date(self):
+        rows = self.base_rows(10)
+        prev = self.previous(rows)
+        text, meta, _ = self.run_extract(rows, prev=prev, dates=(prev[1]["downloaded"], prev[1]["captured"]))
+        self.assertEqual(meta["downloaded"], prev[1]["downloaded"])
+
     def test_a_stopped_run_writes_nothing(self):
         with tempfile.TemporaryDirectory() as tmp:
             raw, cache_csv, cache_meta = (os.path.join(tmp, n) for n in ("raw.csv", "wpi_ports.csv", "wpi_meta.json"))
@@ -542,6 +665,34 @@ class Vessel(unittest.TestCase):
         self.assertIsNone(X.plausible(1000.0, X.BEAM_MAX_M))
         self.assertIn("no length", X.plausible(0.0, 40.0))
 
+    def test_the_draught_may_not_be_above_its_share_of_the_length(self):
+        self.assertIsNone(X.plausible(300.0, 0.0, 300.0 * X.DRAFT_MAX_RATIO))
+        self.assertEqual(X.plausible(300.0, 0.0, 300.0 * X.DRAFT_MAX_RATIO + 0.1), f"the draught is above {X.DRAFT_MAX_RATIO:.0%} of the length")
+        self.assertEqual(X.plausible(275.0, 0.0, 275.0), f"the draught is above {X.DRAFT_MAX_RATIO:.0%} of the length")
+        self.assertIsNone(X.plausible(300.0, 50.0, 15.0))
+        self.assertIsNone(X.plausible(0.0, 0.0, 15.0), "a draught with no length cannot be compared and passes: it is no beam")
+        self.assertIsNone(X.plausible(300.0, 50.0))
+        self.assertIn("beam", X.plausible(100.0, 90.0, 9.0), "the beam is judged first")
+
+    def test_a_draught_as_long_as_the_ship_holds_back_its_group_only(self):
+        rows = [row(1, "Testport", 10.0, 10.0, "AATST", **{"Maximum Vessel Length (m)": "366.5", "Maximum Vessel Beam (m)": "51.2", "Maximum Vessel Draft (m)": "16.0",
+                                                           "Offshore Maximum Vessel Length (m)": "275.0", "Offshore Maximum Vessel Draft (m)": "275.0"})]
+        p = [atlas("testport", "Testport", 10.0, 10.0, "AATST")]
+        out, held, _ = X.build(p, X.read_rows(csv_text(rows)), X.Countries(COUNTRIES), {})
+        r = out[0]
+        self.assertEqual((r["loa"], r["beam"], r["draft"]), ("366.5", "51.2", "16"))
+        self.assertEqual((r["oloa"], r["obeam"], r["odraft"]), ("", "", ""))
+        self.assertEqual(held, [{"id": "testport", "group": "offshore", "reason": f"the draught is above {X.DRAFT_MAX_RATIO:.0%} of the length"}])
+
+    def test_the_draught_ratio_is_read_from_the_file_the_meta_records(self):
+        rows = [row(i, f"Place{i}", 10.0 + i, 10.0, f"AAP{i:02d}"[:5], **{"Maximum Vessel Length (m)": "200.0", "Maximum Vessel Draft (m)": str(10.0 * i)}) for i in range(1, 6)]
+        rows.append(row(9, "Twin", 30.0, 10.0, "AATWN", **{"Offshore Maximum Vessel Length (m)": "100.0", "Offshore Maximum Vessel Draft (m)": "100.0"}))
+        b = X.draft_basis(X.read_rows(csv_text(rows)))
+        self.assertEqual(b["pairs"], 6)
+        self.assertEqual(b["median"], 0.175)
+        self.assertEqual(b["largest_kept"], {"wpi": 5, "name": "Place5", "group": "maximum", "ratio": 0.25})
+        self.assertEqual(b["above"], [{"wpi": 9, "name": "Twin", "group": "offshore", "ratio": 1.0}])
+
     def test_an_implausible_group_is_emptied_whole_and_listed_and_the_depths_stay(self):
         rows = [row(1, "Testport", 10.0, 10.0, "AATST", **{"Maximum Vessel Length (m)": "100.0", "Maximum Vessel Beam (m)": "90.0", "Maximum Vessel Draft (m)": "9.0",
                                                            "Offshore Maximum Vessel Length (m)": "300.0", "Offshore Maximum Vessel Beam (m)": "50.0"})]
@@ -564,9 +715,9 @@ class Vessel(unittest.TestCase):
     def test_the_cache_holds_no_implausible_vessel_and_every_held_port_is_empty(self):
         meta, rows = load_json("pipeline", "cache", "wpi_meta.json"), {r["port"]: r for r in cache_rows()}
         for r in rows.values():
-            loa, beam = float(r["loa"] or 0), float(r["beam"] or 0)
-            self.assertIsNone(X.plausible(loa, beam), r["port"])
-            self.assertIsNone(X.plausible(float(r["oloa"] or 0), float(r["obeam"] or 0)), r["port"])
+            loa, beam, draft = float(r["loa"] or 0), float(r["beam"] or 0), float(r["draft"] or 0)
+            self.assertIsNone(X.plausible(loa, beam, draft), r["port"])
+            self.assertIsNone(X.plausible(float(r["oloa"] or 0), float(r["obeam"] or 0), float(r["odraft"] or 0)), r["port"])
         for h in meta["held_vessel"]:
             self.assertIn(h["id"], rows)
             keys = ("loa", "beam", "draft") if h["group"] == "maximum" else ("oloa", "obeam", "odraft")
@@ -621,6 +772,27 @@ class Meta(unittest.TestCase):
         self.assertEqual(m["terms_scope"], "2017 PDF, 26th edition")
         self.assertEqual(m["source"], "nga-wpi")
         self.assertIn(m["source"], {s["id"] for s in load_json("data", "sources.json")})
+
+    def test_the_archived_copy_is_recorded_with_its_day_and_its_address(self):
+        m = self.meta
+        self.assertEqual((m["captured"], m["captured_from"]), (X.CAPTURED, X.CAPTURED_FROM))
+        self.assertEqual(m["captured"], "2026-09-29")
+        # the address is the archive's capture of that day of the publisher's download address, and the day is the one in the address
+        self.assertRegex(m["captured_from"], r"^https://web\.archive\.org/web/20260929\d{6}id_/https://msi\.nga\.mil/api/publications/download\?")
+        self.assertIn(m["captured"].replace("-", ""), m["captured_from"])
+        self.assertLess(m["captured"], m["downloaded"])
+
+    def test_the_basis_of_the_draught_ratio_is_in_the_meta_and_holds_back_one_group(self):
+        b = self.meta["rule_basis"]["draft_max_ratio"]
+        self.assertEqual(self.meta["rule"]["draft_max_ratio"], X.DRAFT_MAX_RATIO)
+        self.assertGreater(b["pairs"], 800)
+        self.assertLess(b["median"], 0.1)
+        self.assertLessEqual(b["largest_kept"]["ratio"], X.DRAFT_MAX_RATIO)
+        self.assertLess(b["largest_kept"]["ratio"], X.DRAFT_MAX_RATIO * 0.8, "the ratio sits well above the largest one kept")
+        self.assertEqual([(a["name"], a["group"]) for a in b["above"]], [("Tema", "offshore")])
+        self.assertTrue(all(a["ratio"] > X.DRAFT_MAX_RATIO for a in b["above"]))
+        held = [h for h in self.meta["held_vessel"] if "draught" in h["reason"]]
+        self.assertEqual([(h["id"], h["group"]) for h in held], [("tema", "offshore")])
 
     def test_the_download_date_is_the_owners_and_the_edition_is_not_made_up(self):
         self.assertEqual(self.meta["downloaded"], "2026-11-24")
@@ -754,6 +926,16 @@ class Registry(unittest.TestCase):
         self.assertIn("edition of the file used is not stated", t)
         self.assertIn("twenty-sixth edition (2017)", t)
 
+    def test_the_licence_says_the_file_is_an_archived_copy_and_claims_no_terms_of_the_archive(self):
+        t = self.src["licence"]
+        self.assertIn(f"the Internet Archive's copy, captured on {long_date(X.CAPTURED)}, of the publisher's download address", t)
+        self.assertIn("no terms of the Internet Archive's own for that file were read (none is claimed)", t)
+        self.assertIn("terms to be confirmed", t)
+        a = self.src["access"]
+        self.assertIn(X.CAPTURED_FROM, a)
+        self.assertIn(f"captured on {long_date(X.CAPTURED)}", a)
+        self.assertNotRegex(a, r"(?i)downloaded by a person from msi\.nga\.mil")
+
     def test_the_sentence_is_quoted_as_the_meta_records_it_with_its_address_and_date(self):
         t = self.src["licence"]
         self.assertIn(self.meta["terms_quote"], t)
@@ -851,8 +1033,10 @@ class DataFile(unittest.TestCase):
         self.assertEqual(sorted(col for _, col in W.KEYS), sorted(c for c in CACHE_HEADER if c != "port"))
 
     def test_the_top_level_is_the_source_the_month_and_the_edition(self):
-        self.assertEqual(list(self.doc), ["s", "read", "edition", "ports"])
+        self.assertEqual(list(self.doc), ["s", "read", "captured", "edition", "ports"])
         self.assertEqual(self.doc["s"], self.meta["source"])
+        self.assertEqual(self.doc["captured"], self.meta["captured"])
+        self.assertRegex(self.doc["captured"], r"^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01])$")
         self.assertIn(self.doc["s"], {s["id"] for s in load_json("data", "sources.json")})
         self.assertEqual(self.doc["read"], self.meta["downloaded"][:7])
         self.assertRegex(self.doc["read"], r"^\d{4}-(0[1-9]|1[0-2])$")
@@ -928,6 +1112,21 @@ class DataFile(unittest.TestCase):
                     self.assertIn(length, e, pid)
                     self.assertIsNone(X.plausible(e[length], e[beam]), pid)
 
+    def test_no_port_shows_a_draught_the_check_refuses(self):
+        for pid, e in self.doc["ports"].items():
+            for length, beam, draft in (("loa", "beam", "draft"), ("oloa", "obeam", "odraft")):
+                self.assertIsNone(X.plausible(e.get(length, 0), e.get(beam, 0), e.get(draft, 0)), pid)
+
+    def test_tema_keeps_its_berth_figures_and_loses_its_offshore_group_and_forcados_has_no_entry(self):
+        tema = self.doc["ports"]["tema"]
+        self.assertTrue(all(k in tema for k in ("loa", "beam", "draft")))
+        self.assertFalse(any(k in tema for k in ("oloa", "obeam", "odraft")))
+        self.assertIn({"id": "tema", "group": "offshore", "reason": f"the draught is above {X.DRAFT_MAX_RATIO:.0%} of the length"}, self.meta["held_vessel"])
+        self.assertNotIn({"id": "tema", "group": "maximum"}, [{k: h[k] for k in ("id", "group")} for h in self.meta["held_vessel"]])
+        self.assertNotIn("forcados", self.doc["ports"])
+        d = next(x for x in self.meta["doubtful"] if x["id"] == "forcados")
+        self.assertRegex(d["reason"], r"^two rows of the file carry the name within 60 km: no\. \d+ Forcados at 9\.1 km and no\. \d+ Forcados Oil Terminal at 27\.5 km$")
+
     def test_the_file_is_small_and_measured(self):
         n = os.path.getsize(os.path.join(ROOT, "data", "infrastructure", "wpi.json"))
         self.assertLess(n, 60_000)
@@ -958,6 +1157,16 @@ class BuilderStops(unittest.TestCase):
     def test_the_edition_typed_in_the_meta_goes_through_and_the_month_is_the_download_months(self):
         doc = self.build(self.good_rows(), fixture_meta(edition="a typed edition", downloaded="2027-01-31"))
         self.assertEqual((doc["edition"], doc["read"]), ("a typed edition", "2027-01"))
+
+    def test_the_capture_day_of_an_archived_copy_goes_through_beside_the_month_and_a_file_from_the_publisher_has_none(self):
+        doc = self.build(self.good_rows(), fixture_meta(captured="2026-09-29"))
+        self.assertEqual(list(doc), ["s", "read", "captured", "edition", "ports"])
+        self.assertEqual((doc["read"], doc["captured"]), ("2026-11", "2026-09-29"))
+        for meta in (fixture_meta(), fixture_meta(captured=None)):
+            self.assertNotIn("captured", self.build(self.good_rows(), meta))
+        for bad in ("2026-09", "2026-13-01", "29 September 2026", ""):
+            with self.assertRaisesRegex(W.Stop, "captured"):
+                self.build(self.good_rows(), fixture_meta(captured=bad))
 
     def stops(self, pattern, rows=None, **kw):
         with self.assertRaisesRegex(W.Stop, pattern):
@@ -1164,6 +1373,11 @@ def updating_block():
     return t[a:t.index("\n## ", a)]
 
 
+def long_date(day):
+    y, m, d = day.split("-")
+    return f"{int(d)} {['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'][int(m) - 1]} {y}"
+
+
 def about_text():
     return flat(read_text("web", "src", "components", "AboutDialog.tsx"))
 
@@ -1218,6 +1432,65 @@ class Documents(unittest.TestCase):
         self.assertIn(f"by more than {g(r['nearer_margin_km'])} km: a port of several terminals", m)
         self.assertIn(f"between {g(r['name_km'])} and {g(r['name_far_km'])} km away", m)
         self.assertIn(f"more than {g(r['beam_max_ratio'] * 100)}% of its length or more than {g(r['beam_max_m'])} m", m)
+        self.assertIn(f"its draught is more than {g(r['draft_max_ratio'] * 100)}% of its length", m)
+        self.assertIn(f"carries an equal name within {g(r['name_twin_km'])} km", m)
+        self.assertNotIn("it looks at the beam only", m)
+
+    def test_the_basis_of_the_draught_ratio_is_the_meta_files(self):
+        b = self.meta["rule_basis"]["draft_max_ratio"]
+        self.assertIn(f"of the {b['pairs']} groups of its rows that give a length and a draught, the median is {b['median']} of the length and the largest "
+                      f"is {b['largest_kept']['ratio']} apart from Tema's {b['above'][0]['ratio']:.2f}", self.m)
+        self.assertEqual([a["name"] for a in b["above"]], ["Tema"])
+
+    def test_the_example_of_forcados_is_the_meta_file(self):
+        d = next(x for x in self.meta["doubtful"] if x["id"] == "forcados")
+        km = re.findall(r"at (\d+\.\d) km", d["reason"])
+        self.assertEqual(len(km), 2)
+        self.assertIn(f"a river port Forcados {km[0]} km away and a row Forcados Oil Terminal {km[1]} km away", self.m)
+        self.assertNotIn("forcados", self.wpi["ports"])
+
+    def test_the_disagreeing_figures_are_counted_by_the_rule_the_methodology_states(self):
+        key = {float(a): (float(b) if b != "null" else None) for a, b in re.findall(r"from: ([\d.]+), to: ([\d.]+|null)", read_text("web", "src", "lib", "wpi.ts"))}
+        ports = set()
+        for pid, e in self.wpi["ports"].items():
+            printed = [(key[e[k]] if e[k] in key and key[e[k]] is not None else (float("inf") if e[k] in key and key[e[k]] is None and e[k] > 0 else e[k]))
+                       for k in ("chan", "anch", "pier", "oil") if k in e] + ([e["lng"]] if "lng" in e else [])
+            if printed and any(k in e and e[k] > max(printed) + e.get("tide", 0) for k in ("draft", "odraft")):
+                ports.add(pid)
+        self.assertEqual(int(re.search(r"In (\d+) ports a maximum vessel's draught is above the deepest depth printed", self.m).group(1)), len(ports))
+        self.assertGreater(len(ports), 0)
+        self.assertIn("the upper edge of a band counts as printed; the top band has none", self.m)
+
+    def test_the_lng_depth_is_no_band_in_the_methodology(self):
+        self.assertIn("The LNG terminal depth is a column of the CSV that the 2017 edition does not have", self.m)
+        self.assertIn("one of the 22 the file gives sits on a floor of the key", self.m)
+        self.assertIn("never as a band", self.m)
+        self.assertNotIn("for the oil terminal and the LNG terminal", self.m)
+        self.assertIn('for the oil terminal, "The greatest depth at chart datum will be shown"', self.m)
+
+    def test_every_text_that_tells_where_the_file_came_from_says_it_is_the_archived_copy(self):
+        day = long_date(X.CAPTURED)
+        self.assertIsNotNone(X.CAPTURED)
+        self.assertEqual(self.meta["captured"], X.CAPTURED)
+        texts = {"METHODOLOGY.md": self.m, "NOTICE.md": next(b for b in blocks_naming_the_source(read_text("NOTICE.md")) if b.startswith("- **World Port Index (Pub. 150)")),
+                 "docs/UPDATING.md": flat(updating_block()), "pipeline/infrastructure/README.md": flat(read_text("pipeline", "infrastructure", "README.md")),
+                 "DATA_SOURCES.md": next(x for x in flat(read_text("DATA_SOURCES.md")).split(" - **") if x.startswith("NGA World Port Index")),
+                 "extract_wpi.py": flat(X.__doc__)}
+        for name, t in texts.items():
+            self.assertIn(day, t, name)
+            self.assertIn("Internet Archive", t, name)
+        self.assertIn(X.CAPTURED_FROM, flat(read_text("NOTICE.md")))
+        # no document says the file was downloaded from the publisher's page while the file is the archive's copy
+        for name in ("METHODOLOGY.md", "NOTICE.md", "docs/UPDATING.md", "pipeline/infrastructure/README.md", "DATA_SOURCES.md", "data/sources.json"):
+            text = read_text(*name.split("/"))
+            for b in blocks_naming_the_source(text, by_line=name == "DATA_SOURCES.md"):
+                self.assertNotRegex(b, r"(?i)\bdownloaded?s?\b[^.;]{0,90}\bfrom (?:the )?(?:<?(?:https://)?msi\.nga\.mil|publisher'?s? page)", f"{name}: {b[:120]}")
+        for name in ("METHODOLOGY.md", "docs/UPDATING.md", "pipeline/infrastructure/README.md"):
+            self.assertRegex(texts[name], r"(?i)neither an edition nor a date inside it|no edition and no date inside it|holds no date inside it", name)
+        src = read_text("pipeline", "infrastructure", "extract_wpi.py")
+        comment = next(line for line in src.splitlines() if line.startswith("DOWNLOADED ="))
+        self.assertIn("Internet Archive", comment)
+        self.assertNotIn("the file holds no date", comment)
 
     def test_the_sixteen_bands_are_the_formatters(self):
         key = read_text("web", "src", "lib", "wpi.ts")
@@ -1319,7 +1592,7 @@ class Documents(unittest.TestCase):
     # --- docs/UPDATING.md
     def test_the_updating_section_names_the_constants_the_guards_and_the_three_files(self):
         u = flat(updating_block())
-        for name in ("DOWNLOADED", "EDITION", "EDITION_PAGE", "TERMS_QUOTE", "TERMS_PAGE", "TERMS_READ_ON", "TERMS_SCOPE"):
+        for name in ("DOWNLOADED", "CAPTURED", "CAPTURED_FROM", "EDITION", "EDITION_PAGE", "TERMS_QUOTE", "TERMS_PAGE", "TERMS_READ_ON", "TERMS_SCOPE"):
             self.assertTrue(hasattr(X, name), name)
             self.assertIn(f"`{name}`", u)
         for path in ("pipeline/infrastructure/extract_wpi.py", "pipeline/infrastructure/wpi_limits.py", "pipeline/cache/wpi_ports.csv",

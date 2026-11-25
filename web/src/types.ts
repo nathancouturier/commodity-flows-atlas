@@ -1336,10 +1336,15 @@ export interface WpiEntry {
   tideRes?: 'Yes' | 'No';
 }
 
-/** data/infrastructure/wpi.json: `read` is the month the atlas read the file; `edition` is the publication's own, or null when it is not stated. */
+/**
+ * data/infrastructure/wpi.json: `read` is the month the atlas read the file; `captured` the day the Internet Archive captured the
+ * publisher's address that the file is a copy of (absent when the file comes from the publisher itself); `edition` is the
+ * publication's own, or null when it is not stated.
+ */
 export interface WpiFile {
   s: string;
   read: string;
+  captured?: string;
   edition: string | null;
   ports: Record<string, WpiEntry>;
 }

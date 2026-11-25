@@ -82,7 +82,7 @@ jobs:
         timeout-minutes: 15
         env:
           # the tests of the coverage matrix against the data warn instead of failing in the checks of a scheduled update:
-          # a file of metadata never keeps data from being published
+          # they do not keep data from being published; a page that lost a block is refused by the data guard, not here
           COVERAGE_CHECKS: ${{ inputs.soft == true && 'warn' || 'fail' }}
         # the tests that read raw downloads (raw/, not in git) skip themselves on a fresh clone
         run: python -m unittest discover -s pipeline/tests -p "test_*.py"

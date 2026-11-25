@@ -9,8 +9,10 @@ port of the atlas, with the columns the site prints. Writes the two tracked cach
     pipeline/cache/wpi_meta.json    the file read (name, hash, rows), the rule and its numbers, the counts, the doubtful and absent matches
                                     with their reasons, the ports whose maximum vessel is held back, the terms found and where
 
-The file is downloaded by a person from the publisher's page, never by a script: this program downloads nothing and its readers name no
-other path under raw/ than the one file. The file holds neither an edition nor a date, so the two are typed here (EDITION, DOWNLOADED).
+The file is taken by a person, never by a script: this program downloads nothing and its readers name no other path under raw/ than the one file.
+The file read on 24 November 2026 is the Internet Archive's copy, captured on 29 September 2026, of the publisher's download address (the
+publisher's site was in maintenance). The file holds neither an edition nor a date: the day it was taken, the date of the archived copy and its
+address are typed here (DOWNLOADED, CAPTURED, CAPTURED_FROM), and the edition when a page states one (EDITION).
 
 Matching an atlas port to a row of the file (the numbers are constants below and are written to the meta file):
   sure by code   the atlas UN/LOCODE is carried by exactly one row of the file, the code's two letters and the row's country are the port's
@@ -21,18 +23,22 @@ Matching an atlas port to a row of the file (the numbers are constants below and
   in both cases the match is sure only if no other row of the same country lies nearer to the atlas point than the matched row by more
   than NEARER_MARGIN_KM (a port with several entries, a city harbour and its terminals, would otherwise get the figures of the wrong one);
   doubtful       a code several rows share, a code row too far or of another country, a name several rows carry, a name between NAME_KM and
-                 NAME_FAR_KM, a nearer row, or a row within NAMELESS_KM with no code or name in common. Never published;
+                 NAME_FAR_KM, a nearer row, a match by name when another row of the same country carries an equal name within NAME_TWIN_KM
+                 (the atlas's Forcados terminal and the file's river port Forcados and Forcados Oil Terminal), or a row within NAMELESS_KM
+                 with no code or name in common. Never published;
   none           no candidate.
 REVIEW is a short table written by a person who opened the two rows: it promotes a doubtful match with a reason that can be checked, or holds
 a sure one. A promoted row is stored with `by` review and its reason; a held one is doubtful.
 
-The maximum vessel figures of a port are held back (meta.held_vessel) when they are not plausible as a ship: a beam above BEAM_MAX_RATIO of the
-length or above BEAM_MAX_M, or a beam with no length to compare it with. It is a check on the publication's figures, not an estimate.
+The maximum vessel figures of a group (berths, offshore berths) of a port are held back (meta.held_vessel) when they are not plausible as a ship: a
+beam above BEAM_MAX_RATIO of the length or above BEAM_MAX_M, a beam with no length to compare it with, or a draught above DRAFT_MAX_RATIO of the
+length. It is a check on the publication's figures, not an estimate.
 
 Guards (nothing is written, the exit status is not 0, the message says why): a column of COLUMNS missing from the header; a value that is not a
 number or is negative, a position outside the globe, a class the site does not know; a row of REVIEW that the file no longer has; a published row
 whose country is not the port's. And, unless --accept: fewer rows than ROWS_MIN of the last file read; fewer published ports than the last
-cache by more than PUBLISHED_DROP; more than CHANGED_SHARE of the published ports with a figure that moved by more than CHANGED_BY.
+cache by more than PUBLISHED_DROP; more than CHANGED_SHARE of the published ports with a figure that moved by more than CHANGED_BY; a file whose
+hash is not the last one's while DOWNLOADED (or CAPTURED) is still the last one's, which is a refresh that forgot to type the date.
 """
 import argparse
 import csv
@@ -54,7 +60,12 @@ PORTS_GEOJSON = os.path.join(ROOT, "data", "infrastructure", "ports.geojson")
 COUNTRIES = os.path.join(ROOT, "data", "countries", "index.json")
 
 SOURCE = "nga-wpi"
-DOWNLOADED = "2026-11-24"  # the day the owner downloaded the file by hand; the file's modification time agrees; the file holds no date
+DOWNLOADED = "2026-11-24"  # the day the owner took the file by hand (from the Internet Archive's copy, see CAPTURED); the file's modification time agrees
+# The date the Internet Archive captured the publisher's download address (the day in its address), or None when the file comes from the publisher itself.
+# The owner's record of the hand-over is raw/DOWNLOAD_REPORT.md; the file holds no date of its own.
+CAPTURED = "2026-09-29"
+CAPTURED_FROM = ("https://web.archive.org/web/20260929232408id_/https://msi.nga.mil/api/publications/download?type=view"
+                 "&key=16920959%2FSFH00000%2FUpdatedPub150.csv")
 EDITION = None  # the edition as the publisher's page states it, typed at the download; None until read
 EDITION_PAGE = None  # the address of the page that states it
 # What was read about the terms, by someone. A sentence on the 26th edition of 2017, not on the CSV used here, whose edition is not stated.
@@ -70,19 +81,22 @@ CODE_KM = 15.0
 NAME_KM = 15.0
 NAMELESS_KM = 10.0
 NAME_FAR_KM = 40.0
+NAME_TWIN_KM = 60.0
 NEARER_MARGIN_KM = 2.0
 STOP_WORDS = ["port", "of", "de", "do", "da", "terminal", "terminals", "oil", "marine", "offshore", "term", "harbour", "harbor", "ko", "gang", "hang",
               "city", "the"]
 BEAM_MAX_RATIO = 0.4
 BEAM_MAX_M = 70.0
+DRAFT_MAX_RATIO = 0.25
 # guards on a new file
 ROWS_MIN = 0.95
 PUBLISHED_DROP = 5
 CHANGED_SHARE = 0.20
 CHANGED_BY = 0.25
 
-RULE = {"code_km": CODE_KM, "name_km": NAME_KM, "nameless_km": NAMELESS_KM, "name_far_km": NAME_FAR_KM, "nearer_margin_km": NEARER_MARGIN_KM,
-        "stop_words": STOP_WORDS, "beam_max_ratio": BEAM_MAX_RATIO, "beam_max_m": BEAM_MAX_M}
+RULE = {"code_km": CODE_KM, "name_km": NAME_KM, "nameless_km": NAMELESS_KM, "name_far_km": NAME_FAR_KM, "name_twin_km": NAME_TWIN_KM,
+        "nearer_margin_km": NEARER_MARGIN_KM, "stop_words": STOP_WORDS, "beam_max_ratio": BEAM_MAX_RATIO, "beam_max_m": BEAM_MAX_M,
+        "draft_max_ratio": DRAFT_MAX_RATIO}
 
 # file column -> (key of the cache, kind). Number: metres, a 0 or a blank is "not stated". Class and flag: as listed, "Unknown" and blank are left out.
 NUMBERS = {
@@ -270,11 +284,20 @@ def match(ports, rows, countries):
         if sure:
             w, by = sure
             nearer = sorted((x for x in rows if x is not w and x["cty"] == p["c"] and x["d"] < w["d"] - NEARER_MARGIN_KM), key=lambda x: x["d"])
-            if nearer:
-                x = nearer[0]
+            # a name that another row of the country carries too, beyond NAME_KM: the row found is one of two of the same name
+            twins = sorted((x for x in rows if x is not w and by == "name" and x["cty"] == p["c"] and heads & x["names"] and x["d"] <= NAME_TWIN_KM),
+                           key=lambda x: x["d"])
+            if nearer or twins:
                 rec.update(grade="doubtful", row=w, d=w["d"])
-                rec["reasons"].append(f"another row of the country is nearer to the atlas point: no. {x['n']} {x['name']}, {x['d']:.1f} km, against "
-                                      f"{w['d']:.1f} km for no. {w['n']} {w['name']}" + (f" ({len(nearer)} rows nearer)" if len(nearer) > 1 else ""))
+                if nearer:
+                    x = nearer[0]
+                    rec["reasons"].append(f"another row of the country is nearer to the atlas point: no. {x['n']} {x['name']}, {x['d']:.1f} km, against "
+                                          f"{w['d']:.1f} km for no. {w['n']} {w['name']}" + (f" ({len(nearer)} rows nearer)" if len(nearer) > 1 else ""))
+                if twins:
+                    both = sorted(twins + [w], key=lambda x: x["d"])
+                    n = {2: "two", 3: "three", 4: "four"}.get(len(both), str(len(both)))
+                    rec["reasons"].append(f"{n} rows of the file carry the name within {NAME_TWIN_KM:g} km: " + ", ".join(
+                        f"no. {x['n']} {x['name']} at {x['d']:.1f} km" for x in both[:-1]) + f" and no. {both[-1]['n']} {both[-1]['name']} at {both[-1]['d']:.1f} km")
             else:
                 rec.update(grade="sure", by=by, row=w, d=w["d"])
         else:
@@ -343,9 +366,10 @@ def apply_review(matches, rows, review):
 
 
 # ------------------------------------------------------------------------------------------------------------------------------ the rows of the cache
-def plausible(loa, beam):
-    """The maximum vessel of a port as a ship: the beam within BEAM_MAX_RATIO of the length and under BEAM_MAX_M; a beam with no length cannot be
-    checked and is held back. A length alone passes. Returns None when plausible, else the reason."""
+def plausible(loa, beam, draft=0.0):
+    """The maximum vessel of a port as a ship: the beam within BEAM_MAX_RATIO of the length and under BEAM_MAX_M, the draught within DRAFT_MAX_RATIO
+    of the length; a beam with no length cannot be checked and is held back. A length alone, or a length and a draught in proportion, passes.
+    Returns None when plausible, else the reason."""
     if beam and not loa:
         return "a beam is given with no length to compare it with"
     if beam and loa:
@@ -353,6 +377,8 @@ def plausible(loa, beam):
             return f"the beam is above {BEAM_MAX_M:g} m"
         if beam > BEAM_MAX_RATIO * loa:
             return f"the beam is above {BEAM_MAX_RATIO:.0%} of the length"
+    if draft and loa and draft > DRAFT_MAX_RATIO * loa:
+        return f"the draught is above {DRAFT_MAX_RATIO:.0%} of the length"
     return None
 
 
@@ -364,7 +390,7 @@ def cache_row(pid, m):
         r[k] = fmt(w[k]) if w[k] else ""
     held = []
     for group, keys in (("maximum", ("loa", "beam", "draft")), ("offshore", ("oloa", "obeam", "odraft"))):
-        why = plausible(w[keys[0]], w[keys[1]])
+        why = plausible(w[keys[0]], w[keys[1]], w[keys[2]])
         if why:
             held.append({"id": pid, "group": group, "reason": why})
             for k in keys:
@@ -453,6 +479,23 @@ def atlas_ports(path=PORTS_GEOJSON):
     return out
 
 
+def draft_basis(rows):
+    """Where DRAFT_MAX_RATIO comes from: the draught over the length of every group (berths, offshore berths) of every row of the file that gives both."""
+    pairs = []
+    for w in rows:
+        for group, (l, d) in (("maximum", ("loa", "draft")), ("offshore", ("oloa", "odraft"))):
+            if w[l] and w[d]:
+                pairs.append((w[d] / w[l], w["n"], w["name"], group))
+    pairs.sort(key=lambda x: (x[0], x[1]))
+    ratios = [x[0] for x in pairs]
+    mid = len(ratios) // 2
+    median = None if not ratios else ratios[mid] if len(ratios) % 2 else (ratios[mid - 1] + ratios[mid]) / 2
+    kept = [x for x in pairs if x[0] <= DRAFT_MAX_RATIO]
+    shown = lambda x: {"wpi": x[1], "name": x[2], "group": x[3], "ratio": round(x[0], 3)}  # noqa: E731
+    return {"pairs": len(pairs), "median": median and round(median, 3), "largest_kept": kept and shown(kept[-1]),
+            "above": [shown(x) for x in reversed(pairs) if x[0] > DRAFT_MAX_RATIO]}
+
+
 def extract(raw_path, ports, countries, review, prev_csv=None, prev_meta=None, accept=False):
     """The cache as (csv text, meta dict, report lines) from the raw file; raises Stop on a guard."""
     with open(raw_path, encoding="utf-8-sig", newline="") as f:
@@ -462,6 +505,12 @@ def extract(raw_path, ports, countries, review, prev_csv=None, prev_meta=None, a
     out, held, matches = build(ports, rows, ctry, review)
     check_countries(out, matches, ctry)
     stops, report = compare(read_cache_csv(prev_csv) if prev_csv else [], prev_meta, out, len(rows))
+    if prev_meta and prev_meta["file"]["sha256"] != sha256(raw_path):
+        # a CAPTURED of None (the file comes from the publisher itself) is not a date that was forgotten
+        same = [name for name, now, before in (("DOWNLOADED", DOWNLOADED, prev_meta.get("downloaded")), ("CAPTURED", CAPTURED, prev_meta.get("captured")))
+                if now and now == before]
+        if same:
+            stops.append("the file changed but " + " and ".join(same) + (" was" if len(same) == 1 else " were") + " not edited")
     if stops and not accept:
         raise Stop("; ".join(stops) + " (run again with --accept if the change is real)")
     counts = {"sure_code": sum(1 for r in out if r["by"] == "code"), "sure_name": sum(1 for r in out if r["by"] == "name"),
@@ -472,7 +521,8 @@ def extract(raw_path, ports, countries, review, prev_csv=None, prev_meta=None, a
     refused = min((m for m in matches if m.get("far_code")), key=lambda m: m["d"], default=None)
     basis = {"code_km": "the farthest code match kept and the nearest code match refused for its distance",
              "farthest_kept": kept and {"id": kept["id"], "km": round(kept["d"], 1)},
-             "nearest_refused": refused and {"id": refused["id"], "km": round(refused["d"], 1)}}
+             "nearest_refused": refused and {"id": refused["id"], "km": round(refused["d"], 1)},
+             "draft_max_ratio": draft_basis(rows)}
     why_of = {m["id"]: m["why"] for m in matches if m.get("by") == "review" and m["grade"] == "sure"}
     doubtful = []
     for m in matches:
@@ -484,7 +534,7 @@ def extract(raw_path, ports, countries, review, prev_csv=None, prev_meta=None, a
     meta = {
         "file": {"name": os.path.basename(raw_path), "sha256": sha256(raw_path), "bytes": os.path.getsize(raw_path), "rows": len(rows),
                  "columns": len(next(csv.reader(io.StringIO(text))))},
-        "source": SOURCE, "downloaded": DOWNLOADED, "edition": EDITION, "edition_page": EDITION_PAGE,
+        "source": SOURCE, "downloaded": DOWNLOADED, "captured": CAPTURED, "captured_from": CAPTURED_FROM if CAPTURED else None, "edition": EDITION, "edition_page": EDITION_PAGE,
         "terms_quote": TERMS_QUOTE, "terms_page": TERMS_PAGE, "terms_read_on": TERMS_READ_ON, "terms_scope": TERMS_SCOPE,
         "rule": RULE, "rule_basis": basis, "counts": counts,
         "review": {pid: ({"action": "promote", "wpi": e["wpi"], "name": e["name"], "why": why_of[pid]} if e["action"] == "promote" else

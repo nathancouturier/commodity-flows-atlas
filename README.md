@@ -12,12 +12,14 @@ agriculture — and of **freight**, the shipping that moves them.
   Handysize, VLCC to MR, LNG and LPG carriers), Baltic Exchange benchmark routes and other
   heavy-traffic routes, chokepoints and the alternative routings used when they close, how route
   shares changed over 20 years. A **Route finder** in the same panel gives the route and vessel
-  class for a commodity and a pair of countries.
+  class for a commodity and a pair of countries. Most route pages have a **Voyage calculator**
+  that works out the days, the fuel, the freight that covers a hire and the time-charter equivalent from figures the visitor types.
 - **Country profiles**: ranked key exports, imports and production shares, main mines,
   fields, refineries and companies.
 - **Commodity pages**: production, reserves, consumption, exports, imports, main flows,
   main producers, processors and trading houses, and long price histories (**Prices**).
-- **Infrastructure**: major mines, fields, refineries, LNG terminals, pipelines, smelters and ports.
+- **Infrastructure**: major mines, fields, refineries, LNG terminals, pipelines, smelters and ports,
+  with the depths and largest vessel of a port from the World Port Index on its page.
 
 Every figure carries its source and year (hover it, or see the detail panel).
 No live vessel positions are used. Credits and licences are in the About window (Sources and
@@ -31,6 +33,7 @@ Notices tabs) and in [`NOTICE.md`](NOTICE.md).
 | `web/scripts/validate-data.mjs` | Checks the data files (source ids, shapes, references between files, ranges) before an update is kept; `guard-data.mjs` compares an update with the last commit |
 | `data/` | Processed, versioned data (JSON) served by the site. The shapes are the interfaces of `web/src/types.ts`; `data/sources.json` is the source registry and `data/_status/` records every update run |
 | `pipeline/` | Scripts that download and process the public sources into `data/`; `pipeline/cache/` holds the reduced BACI trade table and other tracked caches (the PortWatch daily table in `pipeline/cache/portwatch/` is an ignored working file, not published) |
+| `.github/ISSUE_TEMPLATE/` | The form that the "Report an error" button opens; reports arrive as issues of the repository ([`docs/UPDATING.md`](docs/UPDATING.md), "Reports from visitors") |
 | `.github/workflows/` | Site deployment, the checks (`ci.yml`) and the scheduled data refresh jobs; how they work and what is done by hand: [`docs/UPDATING.md`](docs/UPDATING.md) |
 | `DATA_SOURCES.md` | Every source, its licence, update cadence and how it is fetched (generated from `data/sources.json`) |
 | `METHODOLOGY.md` | How the figures are built: cleaning and checks of the customs data, sea or overland, lanes, ports and routes, shares, estimates and conversions |
