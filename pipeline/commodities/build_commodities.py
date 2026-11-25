@@ -1098,6 +1098,7 @@ class Baci:
                 notes.append("sea through a foreign port (not specified)")
             elif kind == "mixed" and not mode_all and MD.known_split(r["o"], r["d"], g, BACI_YEAR):
                 ks = MD.known_split(r["o"], r["d"], g, BACI_YEAR)
+                f["seaShare"] = round(ks[0], 2)  # the share the note below prints
                 # the figure of the row is the pair in all modes; its lane is the part by sea (the other part is read as overland)
                 notes.append(f"the figure is for all modes of transport, {_fmts(r['t'] * ks[0] / div, u)} of it by sea (the lane) and {_fmts(r['t'] * (1 - ks[0]) / div, u)} read as overland. "
                              + MD.split_note(ks[0], ks[1], BACI_YEAR, _fmts(r["t"] / div, u), (g, r["o"], r["d"])))
@@ -3120,7 +3121,7 @@ CENSUS_LICENCE = ("U.S. Census Bureau Public-Use Statement (own estimates from t
                   "should cite the Census Bureau as the source of the original data only.\" and \"Conclusions drawn from any analysis of these data are the sole "
                   "responsibility of the performing party.\" The data-products page says that all international trade data products previously available by "
                   "subscription are now available to the public at no cost. No statement of copyright was found on the pages read (that page and \"Policies and "
-                  "Notices\"). The atlas publishes no row of the Census file, only an estimate of its own made from the data. Not endorsed or certified by the Census Bureau")
+                  "Notices\"). The site publishes no row of the Census file and offers none for download: it prints an estimate of its own made from the data and a few totals of the file by product and country (quantity, weight by vessel), each credited to the Census Bureau, and the repository keeps a small cache of those totals. Not endorsed or certified by the Census Bureau")
 DISR_LICENCE = ("CC BY 4.0 (Creative Commons Attribution 4.0 International, as the About sheet of the workbook states); attribution as it asks: \"Department of "
                 "Industry, Science, and Resources, Commonwealth of Australia Resources and Energy Quarterly, December 2025.\"")
 
@@ -3187,7 +3188,7 @@ def update_sources():
          "update": "annual (one call per year)",
          "access": "Public preview endpoint, no key, one call per year, two minutes apart, by hand; the few figures the page prints are kept in "
                    "pipeline/cache/comtrade_tin_china.json, the answers stay in raw/ and are never fetched by a scheduled job",
-         "use": "China's declared imports of tin ores and concentrates by origin (the tin page), and the flow Myanmar to China that CEPII BACI lacks"},
+         "use": "China's declared imports of tin ores and concentrates by origin (the tin page), and the flow Myanmar to China that CEPII BACI records at under 2 kt a year (the atlas's extract has no row for it in 2021, 2022 and 2024)"},
         {"id": "census-exports", "name": "US Census Bureau, USA Trade Online: export detail file (EXDB), December 2024",
          "publisher": "U.S. Census Bureau, Foreign Trade Division", "url": "https://www.census.gov/foreign-trade/data/dataproducts.html",
          "licence": CENSUS_LICENCE,

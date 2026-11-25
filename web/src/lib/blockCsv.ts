@@ -8,6 +8,7 @@ import { countryName, sourceLabel } from './data';
 import { sig2 } from './format';
 import { ATLAS_LICENCE, downloadCsv, licenceColumn, licenceOf, licenceTexts, publisherOf, slug, sourceColumn, sourceName, toCsv } from './csv';
 import { licenceShort } from './licence';
+import { mixedModeText } from './flowMode';
 
 type Cell = string | number | null | undefined;
 
@@ -38,7 +39,7 @@ export function downloadFlows(commodity: string, title: string, flows: Flow[]) {
       const licence = own
         ? lic(`${ATLAS_LICENCE}; computed from ${inputs.map((x) => `${publisherOf(x)}: ${licenceShort(licenceOf(x))}`).join('; ') || 'the sources named in the note'}`)
         : lic(...licenceTexts([f.s]));
-      const mode = f.mode === 'mixed' ? 'sea and overland, split not known' : (f.mode ?? 'not modelled');
+      const mode = f.mode === 'mixed' ? mixedModeText(f) : (f.mode ?? 'not modelled');
       return [
         commodity, title, i + 1, f.o, countryName(f.o), f.d, countryName(f.d), f.y, f.est ? sig2(f.v) : f.v, f.u,
         f.transit ? `${mode}, via a port of ${countryName(f.transit.c)}` : mode, f.est ? 'Atlas estimate' : own ? 'Atlas conversion' : '', f.n ?? '', source, licence,

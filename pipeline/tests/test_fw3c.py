@@ -79,6 +79,65 @@ class CensusRegistry(unittest.TestCase):
         self.assertNotRegex(t, r"(?i)public domain")
         self.assertNotIn("no copyright is claimed", t)
 
+    def test_the_text_says_what_the_site_prints_and_the_repository_keeps(self):
+        t = self.src["licence"]
+        self.assertIn("The site publishes no row of the Census file and offers none for download: it prints an estimate of its own made from the data and a few totals "
+                      "of the file by product and country (quantity, weight by vessel), each credited to the Census Bureau, and the repository keeps a small cache of those totals.", t)
+        self.assertNotIn("The atlas publishes no row", t)
+        notice = " ".join(read("NOTICE.md").split())
+        self.assertIn("The site publishes no row of the file and offers none for download", notice)
+        self.assertIn("the repository keeps a small cache of those totals", notice)
+        cache = json.loads(read("pipeline", "cache", "us_lpg_volumes.json"))  # the cache the sentence speaks of
+        self.assertIn("census", cache)
+
+    def test_no_text_of_the_repository_calls_the_census_file_public_domain(self):
+        """Every file (code, tests, texts, data): no sentence of an item that speaks of the Census file says "public domain" of it. The EIA files are EIA's own, and a
+        sentence that names EIA is left out; "no public domain" says the opposite."""
+        about_the_file = re.compile(r"(?i)export detail file|USA Trade Online|EXDB|census-exports|Census file|Census Bureau's file")
+        negated = re.compile(r"(?i)\bno public domain")
+        domain = re.compile(r"(?i)public[\s-]domain")
+        item_start = re.compile(r"^\s*(?:[-*]\s|\d+\.\s)")
+
+        def bad(text):
+            items, cur = [], []
+            for line in text.splitlines():
+                if not line.strip() or item_start.match(line):
+                    if cur:
+                        items.append(" ".join(cur))
+                    cur = [line.strip()] if line.strip() else []
+                else:
+                    cur.append(line.strip())
+            if cur:
+                items.append(" ".join(cur))
+            out = []
+            for item in items:
+                if not about_the_file.search(item):
+                    continue
+                for sentence in re.split(r"(?<=[.;])\s+", item):
+                    if domain.search(negated.sub("", sentence)) and not re.search(r"EIA|Energy Information Administration", sentence):
+                        out.append(sentence[:120])
+            return out
+        found = []
+        skip = {".git", "node_modules", "raw", ".venv", "dist"}
+        me = os.path.abspath(__file__)
+        for base, dirs, files in os.walk(ROOT):
+            dirs[:] = [d for d in dirs if d not in skip]
+            for name in files:
+                path = os.path.join(base, name)
+                if os.path.abspath(path) == me or name.endswith((".gz", ".png", ".zip", ".xlsx", ".woff2", ".pbf", ".ico", ".jpg", ".lock")) or name == "licence.test.mjs":
+                    continue
+                try:
+                    with open(path, encoding="utf-8") as fh:
+                        text = fh.read()
+                except (UnicodeDecodeError, OSError):
+                    continue
+                if name.endswith(".json"):
+                    found += [(os.path.relpath(path, ROOT), s) for v in strings(json.loads(text) if text.strip() else "") for s in bad(v)]
+                else:
+                    found += [(os.path.relpath(path, ROOT), s) for s in bad(text)]
+        self.assertEqual(found, [])
+        self.assertTrue(bad("  * US Census Bureau, USA Trade Online export detail file (EXDB2412.ZIP): the quantity. The file gives a weight. Public domain."))  # the test sees the old docstring
+
     def test_data_sources_carries_the_same_text(self):
         self.assertIn(self.src["licence"], read("DATA_SOURCES.md"))
 
@@ -213,6 +272,48 @@ class TheExtractOfBaci(unittest.TestCase):
     def test_the_break_note_says_the_extract_has_no_row_in_2016(self):
         n = load("freight", "lanes", "tin-ore.json")["yearNotes"]["2017"]
         self.assertIn("the pair is the atlas's extract of CEPII BACI up to 2016 (no row in the extract in 2016)", n)
+
+    def test_each_year_note_says_what_the_extract_holds_for_the_pair_that_year(self):
+        """The clause of the tin year notes is built from the row the declaration replaces: its tonnes, or that the extract has no row."""
+        extract = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz"))
+        t = extract[(extract["group"] == "tin-ore") & (extract["o"] == "MMR") & (extract["d"] == "CHN")].groupby("year")["t"].sum()
+        notes = load("freight", "lanes", "tin-ore.json")["yearNotes"]
+        with_row = no_row = 0
+        for y in range(2017, 2025):
+            note = notes[str(y)]
+            if y in t.index:
+                with_row += 1
+                self.assertIn(f"the atlas's extract of CEPII BACI has {t[y]:,.0f} t for the pair in {y}, which the declaration replaces", note, y)
+                self.assertNotIn("has no row for the pair", note, y)
+            else:
+                no_row += 1
+                self.assertIn(f"the atlas's extract of CEPII BACI has no row for the pair in {y} (the extract drops flows under 1,000 t and USD 1 million)", note, y)
+                self.assertNotIn("t for the pair in", note, y)
+            self.assertNotIn("not in the atlas's extract", note, y)
+        self.assertGreater(with_row, 0)
+        self.assertGreater(no_row, 0)
+
+    def test_the_route_finder_makes_no_claim_on_the_extract(self):
+        src = read("web", "src", "components", "RouteFinder.tsx")
+        self.assertNotIn("not in the atlas's extract", src)
+
+    def test_the_comtrade_text_says_what_the_extract_and_the_file_hold(self):
+        """The registry text, DATA_SOURCES.md and the heading of rule 11 give the extract's rows of the pair (at under 2 kt a year; no row in some years)."""
+        extract = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz"))
+        t = extract[(extract["group"] == "tin-ore") & (extract["o"] == "MMR") & (extract["d"] == "CHN") & (extract["year"] >= 2017)].groupby("year")["t"].sum()
+        self.assertLess(t.max(), 2000)
+        self.assertGreaterEqual(t.max(), 1000)  # "under 2 kt" and not "under 1 kt"
+        gone = sorted(set(range(2017, 2025)) - set(t.index))
+        self.assertEqual(gone, [2021, 2022, 2024])
+        want = "that CEPII BACI records at under 2 kt a year (the atlas's extract has no row for it in 2021, 2022 and 2024"
+        use = [s["use"] for s in load("sources.json") if s["id"] == "comtrade"][0]
+        self.assertIn(want, use)
+        self.assertNotIn("BACI lacks", use)
+        self.assertIn(want, " ".join(read("DATA_SOURCES.md").split()))
+        self.assertNotIn("BACI lacks", read("DATA_SOURCES.md"))
+        heading = [ln for ln in read("METHODOLOGY.md").splitlines() if "tin ores and concentrates from Myanmar to China**" in ln]
+        self.assertEqual(len(heading), 1)
+        self.assertIn("CEPII BACI records at under 2 kt a year (the atlas's extract has no row for the pair in 2021, 2022 and 2024)", heading[0])
 
     def test_the_cleaning_rule_gives_what_the_cache_holds(self):
         """The docstring of clean.py rule 11 gives the range of the extract's tonnes for the pair in 2017 to 2024."""

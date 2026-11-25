@@ -402,7 +402,7 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
 - **US Census Bureau** (the LPG page): the USA Trade Online export detail file (EXDB, December 2024), for the quantity and the vessel shipping weight of LPG
   exports to Mexico, Canada and three Asian buyers. The Census Bureau's Public-Use Statement (https://www.census.gov/about/policies/citation.html, page last revised
   24 February 2026) says that "Data users who create their own estimates using data from disseminated tables and other data should cite the Census Bureau as the source of the
-  original data only." The atlas publishes an estimate of its own made from this file, citing the Census Bureau as the source of the original data, and no row of the file; the pages
+  original data only." The site publishes no row of the file and offers none for download: it prints an estimate of its own made from the data, citing the Census Bureau as the source of the original data, and a few totals of the file by product and country (quantity, weight by vessel), each credited to the Census Bureau, and the repository keeps a small cache of those totals; the pages
   read state no copyright and no public domain. The figures derived from it are the atlas's and are not endorsed or certified by the Census Bureau. EIA's exports by destination (propane and butanes, public domain) give the volumes of the years before.
 - **Wikidata** (points of a few assets): CC0 1.0, no credit required.
 - **Australian Bureau of Statistics** (the article on Australian lithium exports cited on the lithium page): CC BY 4.0.

@@ -174,6 +174,8 @@ export interface Flow {
   est?: boolean;
   /** the estimate is made from a volume in the United States' own export statistics, not from the declared value */
   estBy?: 'volume';
+  /** share by sea (0 to 1) of a mixed flow whose split by mode a source measures for the year `y` (the note gives the source); the other part is read as overland */
+  seaShare?: number;
   /** the estimate was above the customs gross weight and is capped there: `v` is the cap, printed as it is */
   cap?: boolean;
   /** declared customs value of the flow (USD) and its unit value (USD per tonne; none where the tonnage is an Atlas estimate from the value) */

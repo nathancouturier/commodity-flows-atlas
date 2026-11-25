@@ -112,7 +112,7 @@ class TinAddedFlow(unittest.TestCase):
         notes = load("freight", "lanes", "tin-ore.json")["yearNotes"]
         self.assertIn("breaks between 2016 and 2017", notes["2017"])
         for y in range(2017, 2025):
-            self.assertIn("from China's import declaration (UN Comtrade; not in the atlas's extract of CEPII BACI, which drops flows under 1,000 t and USD 1 million)", notes[str(y)])
+            self.assertIn("from China's import declaration (UN Comtrade; the atlas's extract of CEPII BACI has ", notes[str(y)])  # what it has, year by year: TheExtractOfBaci in test_fw3c
             self.assertIn("All modes: includes Myanmar to China", notes[str(y)])  # the pair is overland: it is in the all-modes total, not in the seaborne figure
             self.assertIn("(overland: not in the seaborne figure)", notes[str(y)])
         self.assertNotIn("Myanmar: 0.00131 Mt in 2016", " ".join(notes.values()))  # the 2017 figure of Comtrade is no customs anomaly of BACI

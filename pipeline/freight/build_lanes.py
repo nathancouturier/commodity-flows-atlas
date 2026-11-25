@@ -994,9 +994,10 @@ def main():
             for r in z.itertuples():
                 # the seaborne figure holds the row only when the pair is by sea: an overland pair is in the all-modes total, and the note says so
                 where = {"land": "overland", "mixed": "sea and overland, split not known"}.get(r.mode)
-                txt = ((f"All modes: includes {K._name(o_)} to {K._name(d_)}, {_mt(r.t / 1e6)} ({where}: not in the seaborne figure)" if where
+                c_ = customs[(customs["group"] == group) & (customs["o"] == o_) & (customs["d"] == d_) & (customs["year"] == r.year)]["t"]
+                txt =((f"All modes: includes {K._name(o_)} to {K._name(d_)}, {_mt(r.t / 1e6)} ({where}: not in the seaborne figure)" if where
                         else f"Includes {K._name(o_)} to {K._name(d_)}, {_mt(r.t / 1e6)}")
-                       + f", from {K._name(d_)}'s import declaration (UN Comtrade; not in the atlas's extract of CEPII BACI, which drops flows under 1,000 t and USD 1 million)")
+                       + f", from {K._name(d_)}'s import declaration (UN Comtrade; {comtrade_tin.extract_clause(int(r.year), float(c_.sum()) if len(c_) else None)})")
                 if r.year == z["year"].min() and r.year - 1 in years:
                     before = g[(g["o"] == o_) & (g["d"] == d_) & (g["year"] == r.year - 1)]["t"].sum()
                     txt += (f". The all-modes series breaks between {r.year - 1} and {r.year}: the pair is the atlas's extract of CEPII BACI up to {r.year - 1} "

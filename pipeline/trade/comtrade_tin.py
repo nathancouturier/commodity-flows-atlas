@@ -29,7 +29,7 @@ URL = "https://comtradeapi.un.org/public/v1/preview/C/A/HS"
 CHINA, MYANMAR, WORLD = 156, 104, 0
 TOP = 5
 
-# Added flows (rule 11 of clean.py): (group, exporter, importer) -> what the importer declares and CEPII BACI lacks. The flow is taken from
+# Added flows (rule 11 of clean.py): (group, exporter, importer) -> what the importer declares and CEPII BACI records at under 2 kt a year. The flow is taken from
 # China's import declaration in every year of the cache; a year where the customs table has the pair at under REPLACE_BELOW of the declared
 # tonnage has that row replaced, a year with no row gets one. Pair by pair: nothing else is added.
 ADDED_FLOWS = {("tin-ore", "MMR", "CHN"): "myanmar"}
@@ -114,6 +114,13 @@ def declared(year, key="myanmar"):
 
 def years():
     return sorted(int(y) for y in load()["years"])
+
+
+def extract_clause(year, customs_t):
+    """What the atlas's extract of CEPII BACI holds for the pair in a year, as the year notes of the lane file say it. customs_t: its tonnes (None when it has no row)."""
+    if customs_t:
+        return f"the atlas's extract of CEPII BACI has {customs_t:,.0f} t for the pair in {year}, which the declaration replaces"
+    return f"the atlas's extract of CEPII BACI has no row for the pair in {year} (the extract drops flows under 1,000 t and USD 1 million)"
 
 
 def note(year, customs_t):

@@ -10,7 +10,9 @@ What the cache holds (only what the pages print):
     of the series: the volume of the pair in all modes of transport, from the Census Bureau's customs data. Public domain.
   * US Census Bureau, USA Trade Online export detail file (EXDB2412.ZIP, December 2024: the year-to-date fields are calendar 2024):
     for the pairs of PAIRS, the quantity in cubic metres of each Schedule B code of LPG (271112, 271113), the shipping weight of the
-    cargo that went by vessel and the value. The file gives a weight for vessel and air cargo only, and no total weight. Public domain.
+    cargo that went by vessel and the value. The file gives a weight for vessel and air cargo only, and no total weight.
+    U.S. Census Bureau Public-Use Statement: own estimates from the data, with the Census Bureau cited as the source of the original data
+    (registry entry census-exports).
 
 CEPII BACI reports the tonnage of the pair United States to Mexico in 2021 to 2024 at 0.76 to 0.98 times the volume in cubic metres of the
 United States' own statistics (measure() gives each year), 1.5 to 1.9 times the tonnage that this volume gives at the density of the cargo,

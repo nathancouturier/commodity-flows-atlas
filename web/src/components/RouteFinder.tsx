@@ -89,7 +89,7 @@ const KIND_HINT: Record<Pair['kind'], string> = { sea: '', transit: '', mixed: '
 const shortSource = (id: string) => sourceLabel(id).split(/ \(|: /)[0];
 /** Where a row's figure comes from, for the overland sentence: a row the atlas adds from the importer's declaration is not in the customs file. */
 const rowSource = (pair: Pair, y: number) =>
-  pair.added ? `${shortSource(pair.added)}, ${countryName(pair.d)}'s import declaration ${y}; not in the atlas's extract of CEPII BACI, which drops flows under 1,000 t and USD 1 million` : `CEPII BACI ${y}`;
+  pair.added ? `${shortSource(pair.added)}, ${countryName(pair.d)}'s import declaration ${y}, which replaces the customs file's figure for the pair` : `CEPII BACI ${y}`;
 
 type Loaded = { k: string; files: PairsFile[]; pairs: Pair[] };
 
