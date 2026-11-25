@@ -16,6 +16,9 @@
  *    that name a customs group with a pairs file) has no pair in common with another generated route, and its distance,
  *    vessel class, ports and passages (`via`, `viaAlt`) are those of the largest pair of its corridor in the pairs table;
  *    every corridor entry names its customs group (`g`) or the groups of its commodity (`gs`);
+ *  - vessel classes (freight/vessel-classes.json): a `std` that gives speed or fuel gives both, a laden and a ballast figure each, finite
+ *    and above 0, with a source id of sources.json and a year; a `bench` names a class that exists and has a standard vessel with speed
+ *    and fuel (the voyage calculator of the route pages reads both);
  *  - events (freight/events.json): unique ids, a date, every chokepoint, commodity, country and asset an event names
  *    exists in the atlas (the commodity catalogue, the country index, the infrastructure files); an optional date of
  *    check, other source pages (`also`) and price series (`series`: a commodity of the atlas and a series of prices/index.json
@@ -264,9 +267,40 @@ export function validateFreight(root, errors) {
     if (off.length) bad(file, `${off.length} row(s) where bit 2 of f disagrees with the main lanes of lanes/${group}.json: ${off.slice(0, 5).join(', ')}`);
   }
   validateRoutes(read('freight/routes.json'), pairDocs, chokepoints, bad);
+  validateVesselClasses(read('freight/vessel-classes.json'), read('sources.json'), bad);
   validateEvents(root, errors, { read, list, chokepoints, knownCountries });
   // a port that no gateway row sources (the typical ports of the older tables) is allowed with s = null, and said once
   if (unsourced.size) console.warn(`freight: ${unsourced.size} lane ports have no source yet (s = null): ${[...unsourced].sort().slice(0, 12).join(', ')}...`);
+}
+
+/**
+ * The standard vessels of the classes (see the header): the voyage calculator reads the speed and the fuel of a class's `std`, or of the
+ * class its `bench` names. Checked only when the file exists; the source ids only when data/sources.json exists.
+ */
+function validateVesselClasses(classes, sources, bad) {
+  if (classes == null) return;
+  if (!Array.isArray(classes)) return bad('vessel-classes.json', 'is not a list');
+  const byId = new Map(classes.map((c) => [c?.id, c]));
+  const sourceIds = Array.isArray(sources) ? new Set(sources.map((x) => x?.id)) : null;
+  const legs = (o) => !!o && typeof o === 'object' && ['laden', 'ballast'].every((k) => typeof o[k] === 'number' && Number.isFinite(o[k]) && o[k] > 0);
+  const complete = (std) => legs(std?.speed) && legs(std?.cons);
+  for (const c of classes) {
+    const at = `class ${c?.id}`;
+    const std = c?.std;
+    if (std && (std.speed !== undefined || std.cons !== undefined)) {
+      for (const k of ['speed', 'cons']) {
+        if (std[k] === undefined) bad('vessel-classes.json', `${at}: std gives ${k === 'speed' ? 'fuel' : 'speed'} but no ${k === 'speed' ? 'speed' : 'fuel (cons)'}`);
+        else if (!legs(std[k])) bad('vessel-classes.json', `${at}: std.${k} needs a laden and a ballast figure, finite and above 0`);
+      }
+      if (typeof std.s !== 'string' || !std.s || (sourceIds && !sourceIds.has(std.s))) bad('vessel-classes.json', `${at}: std.s "${std.s}" is not a source id of sources.json`);
+      if (!Number.isInteger(std.y)) bad('vessel-classes.json', `${at}: std has no year (y)`);
+    }
+    if (c?.bench !== undefined) {
+      const named = byId.get(c.bench?.id);
+      if (!named) bad('vessel-classes.json', `${at}: bench names "${c.bench?.id}", which is not a class`);
+      else if (!complete(named.std)) bad('vessel-classes.json', `${at}: bench names ${named.id}, which has no standard vessel with speed and fuel`);
+    }
+  }
 }
 
 /** Routes (see the header). Checked only when the file exists; the comparison with the pairs table only for a group that has a pairs file. */

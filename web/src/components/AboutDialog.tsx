@@ -7,15 +7,14 @@ import type { ComponentChildren } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { load, sources } from '../lib/data';
 import { ESTIMATE_DEFINITION } from '../lib/freight';
-import { BUILD, fmtDate, loadChanges, loadStatus, loadVintages, type Changes, type Freshness, type StatusView } from '../lib/status';
+import { BUILD, RELEASE, fmtDate, loadChanges, loadStatus, loadVintages, type Changes, type Freshness, type StatusView } from '../lib/status';
 import type { Alert } from '../types';
 import { aboutTab, closeAbout, type AboutTab } from './AboutHost';
 import { CloseIcon, Skeleton } from './ui';
 import { WhatChanged } from './WhatChanged';
 import { Calendar, FamilySummary } from './AboutFresh';
-
-const REPO = 'https://github.com/nathancouturier/commodity-flows-atlas';
-const DOC = `${REPO}/blob/main/`;
+import { ReportLink } from './ReportLink';
+import { DOC, REPO } from '../lib/links';
 
 const TABS: { id: AboutTab; label: string }[] = [
   { id: 'about', label: 'About' },
@@ -48,6 +47,11 @@ function AboutTabView(props: { changes: Changes | null | undefined }) {
   const n = Object.keys(sources.value).filter((id) => id !== 'atlas').length;
   return (
     <>
+      {RELEASE.number && /^\d{4}-\d{2}-\d{2}$/.test(RELEASE.date) && (
+        <p class="muted small about-release">
+          Release {RELEASE.number}, {longDate(RELEASE.date)} · <Ext href={`${DOC}CHANGELOG.md`}>Release notes</Ext>
+        </p>
+      )}
       <WhatChanged changes={props.changes} />
       <h3>What the atlas is</h3>
       <p>
@@ -369,7 +373,9 @@ function MethodTabView() {
           <small>The repository on GitHub</small>
         </li>
         <li>
-          <Ext href={`${REPO}/issues`}>Report an error</Ext>
+          <ReportLink about>
+            Report an error<span aria-hidden="true"> ↗</span>
+          </ReportLink>
           <small>Open an issue on GitHub</small>
         </li>
       </ul>
@@ -561,7 +567,9 @@ export default function AboutDialog() {
           )}
         </div>
         <footer class="about-foot">
-          <Ext href={`${REPO}/issues`}>Report an error</Ext>
+          <ReportLink about>
+            Report an error<span aria-hidden="true"> ↗</span>
+          </ReportLink>
           <Ext href={`${DOC}METHODOLOGY.md`}>Methodology</Ext>
           <Ext href={REPO}>Source code</Ext>
         </footer>

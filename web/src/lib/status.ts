@@ -256,11 +256,19 @@ export async function loadVintages(): Promise<Record<string, string>> {
 
 declare const __BUILD_COMMIT__: string | undefined;
 declare const __BUILD_DATE__: string | undefined;
+declare const __RELEASE_NUMBER__: string | undefined;
+declare const __RELEASE_DATE__: string | undefined;
 
 /** Commit and date of the site build (set by vite.config.ts; empty when unknown). */
 export const BUILD = {
   commit: typeof __BUILD_COMMIT__ === 'string' ? __BUILD_COMMIT__ : '',
   date: typeof __BUILD_DATE__ === 'string' ? __BUILD_DATE__ : '',
+};
+
+/** Number and date (YYYY-MM-DD) of the published release (release.json, read by vite.config.ts; empty when unknown). */
+export const RELEASE = {
+  number: typeof __RELEASE_NUMBER__ === 'string' ? __RELEASE_NUMBER__ : '',
+  date: typeof __RELEASE_DATE__ === 'string' ? __RELEASE_DATE__ : '',
 };
 
 // ---------------------------------------------------------------- what changed and the calendar

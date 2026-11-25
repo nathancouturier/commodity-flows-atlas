@@ -63,6 +63,8 @@ function write(root, d) {
   put('freight/lanes/coal.json', d.lane);
   put(`freight/pairs/${d.pairsFile ?? 'coal'}.json`, d.pairs);
   if (d.routes) put('freight/routes.json', d.routes);
+  if (d.classes) put('freight/vessel-classes.json', d.classes);
+  if (d.sources) put('sources.json', d.sources);
   if (d.events) put('freight/events.json', d.events);
   if (d.alerts) put('freight/alerts.json', d.alerts);
   if (d.commodities) put('commodities/index.json', d.commodities);
@@ -317,6 +319,28 @@ test('a benchmark whose unnamed cargo is read in cargoNote passes', () => {
 });
 rejects('a benchmark whose unnamed cargo has no reading in cargoNote', withRoutes((d) => d.routes.push(bench())), 'cargoNote does not give');
 rejects('a definition without the year of its document', withRoutes((d) => d.routes.push(bench({ y: undefined }, { cargoNote: "atlas's reading" }))), 'no year of its document');
+// ---- the standard vessels of the classes (the voyage calculator reads them)
+const STD = () => ({ speed: { laden: 14, ballast: 14 }, cons: { laden: 52, ballast: 44 }, n: 'x', s: 'baltic', y: 2026 });
+const withClasses = (mutate) => (d) => {
+  d.sources = [{ id: 'baltic' }, { id: 'atlas' }];
+  d.classes = [{ id: 'big', std: STD() }, { id: 'bigger', bench: { id: 'big', n: 'Benchmarks: the big routes' } }, { id: 'odd', std: { dwt: 400000, s: 'atlas', y: 2026, n: 'x' } }];
+  mutate?.(d);
+};
+test('vessel classes with a standard vessel, a bench and a std of dimensions only pass', () => {
+  const { errors, status } = run(withClasses());
+  assert.deepEqual(errors, []);
+  assert.equal(status, 0);
+});
+rejects('a standard vessel with a missing ballast speed', withClasses((d) => delete d.classes[0].std.speed.ballast), 'class big: std.speed needs a laden and a ballast figure');
+rejects('a standard vessel with a zero fuel figure', withClasses((d) => (d.classes[0].std.cons.laden = 0)), 'class big: std.cons needs');
+rejects('a standard vessel with a fuel figure that is not a number', withClasses((d) => (d.classes[0].std.cons.ballast = '44')), 'class big: std.cons needs');
+rejects('a standard vessel with speed and no fuel', withClasses((d) => delete d.classes[0].std.cons), 'std gives speed but no fuel');
+rejects('a standard vessel with fuel and no speed', withClasses((d) => delete d.classes[0].std.speed), 'std gives fuel but no speed');
+rejects('a standard vessel whose source is not in sources.json', withClasses((d) => (d.classes[0].std.s = 'nobody')), 'std.s "nobody"');
+rejects('a standard vessel with no year', withClasses((d) => (d.classes[0].std.y = '2026')), 'std has no year');
+rejects('a bench that names a class that does not exist', withClasses((d) => (d.classes[1].bench.id = 'nowhere')), 'bench names "nowhere"');
+rejects('a bench that names a class with no standard vessel', withClasses((d) => (d.classes[1].bench.id = 'odd')), 'bench names odd');
+rejects('a bench whose class lost the legs of its standard vessel', withClasses((d) => delete d.classes[0].std.cons.laden), 'bench names big');
 
 if (failed) {
   console.error(`\n${failed} test(s) failed`);

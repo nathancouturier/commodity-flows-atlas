@@ -70,7 +70,7 @@ export function Section(props: { title: ComponentChildren; children: ComponentCh
 }
 
 /** The atlas's own figures (source id `atlas`) are explained in the Method tab of the About window, not on an outside page. */
-function MethodLink(props: { label: string }) {
+export function MethodLink(props: { label: string }) {
   return (
     <button class="src-method" title="How the atlas computes its own figures: the Method tab of About" onClick={(e) => openAbout('method', e.currentTarget)}>
       {props.label}

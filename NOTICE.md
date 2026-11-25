@@ -507,6 +507,10 @@ Not investment advice. Routes, lanes and distances are schematic and must not be
 provided as is, without warranty of any kind. The full text is in the "Disclaimer" section of
 [README.md](README.md) and in the About window of the site.
 
+A report opened through the site is a public issue of the repository under GitHub's terms: the site sends nothing to
+GitHub until the visitor clicks "Report an error", and then only the address of the page, what is selected on it, its
+heading and the release.
+
 ## Questions of terms still open
 
 - The licence of the documentation (README, METHODOLOGY, DATA_SOURCES, this file) has not been decided.

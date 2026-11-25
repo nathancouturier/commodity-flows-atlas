@@ -35,6 +35,8 @@ Notices tabs) and in [`NOTICE.md`](NOTICE.md).
 | `DATA_SOURCES.md` | Every source, its licence, update cadence and how it is fetched (generated from `data/sources.json`) |
 | `METHODOLOGY.md` | How the figures are built: cleaning and checks of the customs data, sea or overland, lanes, ports and routes, shares, estimates and conversions |
 | `NOTICE.md`, `THIRD-PARTY-NOTICES.md` | Licences of the data and credits; licences of the packages and fonts |
+| `release.json` | The number and the date of the published release, shown in the About window; bumped at each release ([`docs/UPDATING.md`](docs/UPDATING.md), "Releasing") |
+| `CHANGELOG.md` | What a visitor sees changed, release by release |
 | `PROGRESS.md` | Build progress and open questions |
 
 ## Running locally

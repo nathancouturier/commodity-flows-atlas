@@ -114,6 +114,23 @@ for a scheduled run, to the person who last changed its schedule.
   branch runs nothing.
 - **Cancelled runs** (a waiting run replaced by a newer one in the `data-update` group) are not failures.
 
+## Reports from visitors
+
+The "Report an error" button in the header of every page, and the link of the same name in the About window (twice),
+open GitHub's new-issue form of this repository (`.github/ISSUE_TEMPLATE/report-an-error.yml`), filled in by the
+browser with the address of the page, what is selected on it, the page's heading and the release. The site sends
+nothing to GitHub before the click. A GitHub account is needed to submit: the form is GitHub's.
+
+- **Where they arrive.** As ordinary issues, titled "Error: <page>", which GitHub e-mails to the people who watch
+  the repository. A report is not a failed job and no job reads it: the jobs find their own issues by the label
+  `data-update` and an exact title, and a report carries neither.
+- **No label.** The form has no `labels:` key and the address never carries `labels=` (GitHub answers 404 to a visitor
+  who may not label), because the repository has no label for reports and none is created for them. The label
+  `data-update` is the jobs' and is never used for a report. `pipeline/tests/test_governance.py` fails if the form
+  names a label.
+- **No promise.** Nobody promises a delay of answer, and nothing answers, labels or closes a report by itself: the
+  owner reads the reports and closes the issues.
+
 ## Keeping the schedules alive
 
 GitHub disables the scheduled workflows of a public repository after 60 days without activity in it. **This is an
@@ -219,6 +236,28 @@ files do not have. From the repository root, with `raw/` on disk:
    `pipeline/common/notice_lists.py` (they rewrite `DATA_SOURCES.md` and the lists of `NOTICE.md`), `node web/scripts/validate-data.mjs`, and the unit suite.
    The words that describe each source under the block ("by destination as the file gives it", "by destination country") come from the definition in
    the meta file, and the test of the definitions reads it there.
+
+## Releasing
+
+A release is a state of the code and of the hand-made layers that the owner decides to number. The weekly and monthly
+data updates are not releases. The release shown in the About window ("Release N, date") is not the date of the data:
+the dates of the data updates, which the window shows apart, are the sources'. No git tag and no GitHub release is made.
+What a release does today, in this order:
+
+1. **The account.** `PROGRESS.md` gets a section "<Ordinal> release (<date>): what changed".
+2. **`CHANGELOG.md`.** One entry at the top, `## Release <N> (<YYYY-MM-DD>)`, written from that section in the words of a
+   visitor (what one sees added, changed or corrected on the site), with `### Added`, `### Changed` and `### Corrected`
+   as needed. A figure goes in only if it is in `PROGRESS.md` and the site shows it as such: check it in `data/`.
+3. **`release.json`.** The change that publishes a release bumps it: `{ "release": <N>, "date": "<YYYY-MM-DD>" }`, the
+   same number and date as the entry. `web/vite.config.ts` reads it at build and the About window shows the number
+   and date with a link to `CHANGELOG.md`. `pipeline/tests/test_governance.py` fails when the file, the changelog and
+   the sections of `PROGRESS.md` do not agree.
+4. **The routes and lanes that stay.** Once the site is published, `pipeline/freight/release_ids.py` writes
+   `pipeline/freight/released_ids.json` (the section "At each release" above gives the command).
+5. **The checks.** `.github/workflows/ci.yml` runs the type check, the node tests, `node web/scripts/validate-data.mjs`,
+   the Python unit suite, the production build and `npm run check-size`; `deploy.yml` calls it and publishes nothing
+   unless all pass.
+6. **The push.** A push to `main` runs `deploy.yml`, which builds the site and publishes it on GitHub Pages.
 
 ## A site that refuses the downloader
 

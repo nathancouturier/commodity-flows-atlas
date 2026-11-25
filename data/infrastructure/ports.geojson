@@ -12,6 +12,7 @@
     ],
     "c": "AUS",
     "locode": "AUPHE",
+    "portwatch": "port955",
     "operator": "Pilbara Ports Authority",
     "output": {
      "v": 580.4,
@@ -75,6 +76,7 @@
     ],
     "c": "AUS",
     "locode": "AUDAM",
+    "portwatch": "port276",
     "operator": "Pilbara Ports Authority",
     "capacity": {
      "v": 140,
@@ -108,6 +110,7 @@
     ],
     "c": "BRA",
     "locode": "BRTUB",
+    "portwatch": "port1328",
     "operator": "Vale",
     "output": {
      "v": 103.9,
@@ -143,6 +146,7 @@
     ],
     "c": "CAN",
     "locode": "CASEI",
+    "portwatch": "port1181",
     "operator": "Port of Sept-Iles",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -171,6 +175,7 @@
     ],
     "c": "NOR",
     "locode": "NONVK",
+    "portwatch": "port796",
     "operator": "Port of Narvik",
     "capacity": {
      "v": 16,
@@ -204,6 +209,7 @@
     ],
     "c": "AUS",
     "locode": "AUNTL",
+    "portwatch": "port816",
     "operator": "Port of Newcastle",
     "output": {
      "v": 149,
@@ -249,6 +255,7 @@
     ],
     "c": "AUS",
     "locode": "AUHPT",
+    "portwatch": "port458",
     "operator": "North Queensland Bulk Ports / Dalrymple Bay Infrastructure",
     "output": {
      "v": 97,
@@ -288,6 +295,7 @@
     ],
     "c": "AUS",
     "locode": "AUGLT",
+    "portwatch": "port398",
     "operator": "Gladstone Ports Corporation",
     "output": {
      "v": 117.4,
@@ -329,6 +337,7 @@
     ],
     "c": "ZAF",
     "locode": "ZARCB",
+    "portwatch": "port1099",
     "operator": "RBCT",
     "output": {
      "v": 57.66,
@@ -397,6 +406,7 @@
     ],
     "c": "CHN",
     "locode": "CNTAO",
+    "portwatch": "port1069",
     "operator": "Qingdao Port Group",
     "output": {
      "v": 657.5,
@@ -432,6 +442,7 @@
     ],
     "c": "CHN",
     "locode": "CNRZH",
+    "portwatch": "port1105",
     "operator": "Rizhao Port",
     "output": {
      "v": 570.6,
@@ -540,6 +551,7 @@
     ],
     "c": "NLD",
     "locode": "NLRTM",
+    "portwatch": "port1114",
     "operator": "Port of Rotterdam Authority",
     "output": {
      "v": 428.4,
@@ -589,6 +601,7 @@
     ],
     "c": "SAU",
     "locode": "SARTA",
+    "portwatch": "port1091",
     "operator": "Saudi Aramco",
     "status": "operating",
     "statusAsOf": "2026-06",
@@ -618,6 +631,7 @@
     ],
     "c": "IRQ",
     "locode": "IQBOT",
+    "portwatch": "port2479",
     "operator": "Basra Oil Company",
     "capacity": {
      "v": 3300,
@@ -658,6 +672,7 @@
     ],
     "c": "ARE",
     "locode": "AEFJR",
+    "portwatch": "port362",
     "operator": "Port of Fujairah / Fujairah Oil Terminal",
     "status": "not-stated",
     "note": "Terminal that bypasses the Strait of Hormuz, fed by the ADCOP pipeline. One of the largest bunker fuel ports in the world, with a growing crude oil trading and storage role (Asharq Al-Awsat).",
@@ -694,6 +709,7 @@
     ],
     "c": "SGP",
     "locode": "SGSIN",
+    "portwatch": "port1201",
     "operator": "Maritime and Port Authority of Singapore",
     "output": {
      "v": 614.3,
@@ -739,6 +755,7 @@
     ],
     "c": "USA",
     "locode": "USCRP",
+    "portwatch": "port264",
     "operator": "Port of Corpus Christi Authority",
     "output": {
      "v": 203.4,
@@ -775,6 +792,7 @@
     ],
     "c": "USA",
     "locode": "USHOU",
+    "portwatch": "port481",
     "operator": "Port Houston",
     "output": {
      "v": 54.5,
@@ -813,6 +831,7 @@
     ],
     "c": "BRA",
     "locode": "BRSSZ",
+    "portwatch": "port1160",
     "operator": "Santos Port Authority",
     "output": {
      "v": 186.4,
@@ -852,6 +871,7 @@
     ],
     "c": "BRA",
     "locode": "BRPNG",
+    "portwatch": "port885",
     "operator": "Portos do Parana",
     "output": {
      "v": 73.5,
@@ -928,6 +948,7 @@
     ],
     "c": "CAN",
     "locode": "CAVAN",
+    "portwatch": "port1350",
     "operator": "Vancouver Fraser Port Authority",
     "output": {
      "v": 170.4,
@@ -971,6 +992,7 @@
     ],
     "c": "UKR",
     "locode": "UAODS",
+    "portwatch": "port843",
     "operator": "Ukrainian Sea Ports Authority",
     "status": "not-stated",
     "note": "Grain terminals in the north of the port; stated annual traffic capacity of 40 Mt, of which 15 Mt dry bulk (undated).",
@@ -999,6 +1021,7 @@
     ],
     "c": "UKR",
     "locode": "UAILK",
+    "portwatch": "port489",
     "operator": "Ukrainian Sea Ports Authority",
     "status": "not-stated",
     "note": "Black Sea grain export corridor port. The point is the city of Chornomorsk.",
@@ -1027,6 +1050,7 @@
     ],
     "c": "ROU",
     "locode": "ROCND",
+    "portwatch": "port260",
     "operator": "Constanta Port Administration",
     "capacity": {
      "v": 5,
@@ -1062,6 +1086,7 @@
     ],
     "c": "RUS",
     "locode": "RUNVS",
+    "portwatch": "port833",
     "operator": "Novorossiysk Sea Port; Sheskharis oil terminal run by Transneft",
     "status": "damaged",
     "statusAsOf": "2025-11",
@@ -1112,6 +1137,7 @@
     ],
     "c": "GHA",
     "locode": "GHTEM",
+    "portwatch": "port1282",
     "operator": "Ghana Ports and Harbours Authority",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -1140,6 +1166,7 @@
     ],
     "c": "MYS",
     "locode": "MYPKG",
+    "portwatch": "port960",
     "operator": "Klang Port Authority",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -1168,6 +1195,7 @@
     ],
     "c": "BRA",
     "locode": "BRITQ",
+    "portwatch": "port506",
     "operator": "Maranhao Port Administration",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -1207,6 +1235,7 @@
     ],
     "c": "ARG",
     "locode": "ARUPR",
+    "portwatch": "port1108",
     "operator": "Rosario Port",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -1235,6 +1264,7 @@
     ],
     "c": "MAR",
     "locode": "MAJFL",
+    "portwatch": "port319",
     "operator": "OCP Group",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -1263,6 +1293,7 @@
     ],
     "c": "IDN",
     "locode": "IDBLW",
+    "portwatch": "port139",
     "operator": "Pelindo",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -1291,6 +1322,7 @@
     ],
     "c": "MYS",
     "locode": "MYPGU",
+    "portwatch": "port523",
     "operator": "Johor Port",
     "status": "operating",
     "statusAsOf": "2026-11",

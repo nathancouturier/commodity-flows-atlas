@@ -137,7 +137,7 @@
   "licence": "The site's terms restrict copying and sharing. Clause 5.1 of the Baltic Exchange Terms and Conditions: no part of the website or its content \"may be copied or reproduced (except for your personal use), shared with third parties, reverse engineered, reverse assembled, or used to create any derivative work (whether in physical or electronic form) without the prior written consent of the Baltic\". The atlas states route definitions and standard-vessel figures as facts, in its own words, each with a link to the document; it shows no index value (index values are proprietary); it offers no download of this material; it is not affiliated with the Baltic Exchange",
   "update": "n/a",
   "access": "Web pages, read by hand",
-  "use": "Names and definitions of the benchmark routes and the standard vessels of the dry, tanker and gas time-charter routes; no index value"
+  "use": "Names and definitions of the benchmark routes and the standard vessels of the dry, tanker and gas time-charter routes; no index value. The speed and fuel of a standard vessel also start the fields of the voyage calculator of the route pages, a calculation made in the visitor's browser on figures the visitor types, which gives no market rate and no Baltic Exchange value; the atlas stores and publishes no figure derived from them"
  },
  {
   "id": "eurostat-searoute",
@@ -157,7 +157,7 @@
   "licence": "CC BY 4.0 (attribution: Commodity Flows Atlas)",
   "update": "rebuilt with each data refresh",
   "access": "Computed by the pipeline builders at each rebuild; method in METHODOLOGY.md",
-  "use": "Route and chokepoint shares, vessel-class tonne-mile shares, laden days, lane and route geometry"
+  "use": "Route and chokepoint shares, vessel-class tonne-mile shares, laden days, lane and route geometry; the starting ballast distance, and the ballast and laden speed where a class has no standard vessel, in the voyage calculator of the route pages"
  },
  {
   "id": "eia-chokepoints",

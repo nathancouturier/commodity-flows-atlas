@@ -1,0 +1,39 @@
+/* Voyage calculator of the route pages: a two-column form, the two results in the tiles of the page, the breakdown. Tokens come from tokens.css. */
+
+.vy { display: grid; gap: 10px; }
+.vy-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.vy-f { min-width: 0; align-content: end; line-height: 1.25; overflow-wrap: anywhere; }
+.vy-wide { grid-column: 1 / -1; }
+.vy-in { min-width: 0; font-family: var(--font-num); }
+select.vy-in { font-family: inherit; }
+/* a typed figure the calculation cannot use: the border takes the warning colour of the site's other forms, no message */
+.vy-bad { border-color: var(--chokepoint); }
+/* the laden distance is the routing's: a value with the look of the fields */
+.vy-val {
+  padding: 7px 8px;
+  border: 1px solid transparent;
+  font-family: var(--font-num);
+  font-size: var(--fs-sm);
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--ink-0);
+}
+.vy-links { margin-top: -2px; }
+.vy .kpis { margin-top: 0; }
+.vy-ft { margin-top: 0; }
+.vy-ft .ft-k { overflow-wrap: anywhere; }
+.vy .src-line { margin-top: 0; }
+.vy-note { line-height: 1.4; }
+.vy-note .src-method { padding: 0; font: inherit; color: var(--ink-2); text-decoration: underline; text-underline-offset: 2px; cursor: pointer; }
+
+/* a phone does not zoom on focus at 16 px; a finger gets the same height as the other controls */
+@media (max-width: 1024px), (pointer: coarse) {
+  .vy-in, .vy-val { font-size: 16px; }
+}
+@media (pointer: coarse) {
+  .vy-in, .vy-val { min-height: 40px; }
+  .vy-val { display: flex; align-items: center; }
+}
+@media (max-width: 320px) {
+  .vy-grid { grid-template-columns: minmax(0, 1fr); }
+}

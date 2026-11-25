@@ -13,6 +13,7 @@ import { EventList } from '../EventList';
 import { RoutePorts } from './RoutePorts';
 import { routeGroups } from '../../lib/infra';
 import { RouteRates } from './RouteRates';
+import { RouteVoyage } from './RouteVoyage';
 
 export default function RouteView({ id }: { id: string }) {
   useFreightCatalogue();
@@ -176,6 +177,7 @@ function Body({ r }: { r: Route }) {
             <SourceLine s={r.historySrc} y={`${r.history[0].y}–${r.history[r.history.length - 1].y}`} n={r.historyNote} />
           </Section>
         )}
+        <RouteVoyage r={r} />
         <RouteRates r={r} />
         {r.notes && (
           <Section fold title="Notes">

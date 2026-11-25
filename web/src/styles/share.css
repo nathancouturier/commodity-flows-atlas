@@ -1,4 +1,4 @@
-/* "Copy link" and "Copy citation" in the header of the detail panel (DetailActions.tsx) */
+/* "Copy link", "Copy citation" and "Report an error" in the header of the detail panel (DetailActions.tsx) */
 .detail-actions {
   position: absolute;
   z-index: 5; /* above the positioned .detail-head, like the close button */
@@ -48,7 +48,7 @@
 }
 /* the kicker line of a page is the one the buttons stand on: it wraps before it reaches them */
 .detail-head .detail-kicker {
-  padding-right: 56px;
+  padding-right: 86px;
 }
 @media (max-width: 1024px) {
   .detail-actions {
@@ -62,6 +62,6 @@
     height: 34px;
   }
   .detail-head .detail-kicker {
-    padding-right: 68px;
+    padding-right: 102px;
   }
 }

@@ -1,0 +1,27 @@
+name: Report an error
+description: Something on the atlas is wrong or out of date.
+title: "Error: "
+body:
+  - type: input
+    id: page
+    attributes:
+      label: Page address
+  - type: input
+    id: object
+    attributes:
+      label: What was selected
+  - type: input
+    id: version
+    attributes:
+      label: Version
+  - type: textarea
+    id: what
+    attributes:
+      label: What is wrong
+      description: The figure or text, and what it should be.
+    validations:
+      required: true
+  - type: textarea
+    id: source
+    attributes:
+      label: A page that shows the right figure

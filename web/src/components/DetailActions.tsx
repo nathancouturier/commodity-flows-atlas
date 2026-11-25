@@ -1,7 +1,8 @@
-/** "Copy link" and "Copy citation", in the header of the detail panel. */
+/** "Copy link", "Copy citation" and "Report an error", in the header of the detail panel. */
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { citationOf, copyText } from '../lib/cite';
 import { selection } from '../lib/store';
+import { ReportLink } from './ReportLink';
 import '../styles/share.css';
 
 type Done = 'link' | 'citation' | 'failed' | null;
@@ -15,6 +16,13 @@ const LinkIcon = () => (
 const QuoteIcon = () => (
   <svg viewBox="0 0 14 14" aria-hidden="true">
     <path d="M1.8 10.6V6.5C1.8 4.5 2.9 3.2 4.9 2.8l.3 1.1C4.2 4.3 3.7 4.9 3.7 5.7h1.8v4.9zM7.8 10.6V6.5C7.8 4.5 8.9 3.2 10.9 2.8l.3 1.1c-1 .4-1.5 1-1.5 1.8h1.8v4.9z" fill="currentColor" />
+  </svg>
+);
+
+// a flag on a pole, drawn like the two icons above
+const FlagIcon = () => (
+  <svg viewBox="0 0 14 14" aria-hidden="true">
+    <path d="M3 12.4V1.9M3 2.6h7.2l-1.5 2.6 1.5 2.6H3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" />
   </svg>
 );
 
@@ -40,13 +48,16 @@ export function DetailActions({ panel }: { panel: { current: HTMLElement | null 
     timer.current = window.setTimeout(() => setDone(null), 2200);
   };
   return (
-    <div class="detail-actions" role="group" aria-label="Share this page">
+    <div class="detail-actions" role="group" aria-label="Page actions">
       <button class="da-btn" onClick={() => copy('link')} aria-label="Copy link" title="Copy link: the address of this page">
         {done === 'link' ? <CheckIcon /> : <LinkIcon />}
       </button>
       <button class="da-btn" onClick={() => copy('citation')} aria-label="Copy citation" title="Copy citation (the sources of the blocks open on the page)">
         {done === 'citation' ? <CheckIcon /> : <QuoteIcon />}
       </button>
+      <ReportLink class="da-btn" label="Report an error on this page" tip="Report an error: opens a GitHub issue form with the address of this page">
+        <FlagIcon />
+      </ReportLink>
       <span class={`da-tip${done === 'failed' ? ' bad' : ''}`} role="status">
         {done === 'failed' ? 'Could not copy' : done === 'link' ? 'Link copied' : done === 'citation' ? 'Citation copied' : ''}
       </span>

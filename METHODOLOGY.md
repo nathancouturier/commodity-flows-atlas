@@ -819,7 +819,8 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   it. The indices and averages a benchmark weighs in come from `baltic_indices.json` (members and weights as
   published); the route page lists the members and, when the atlas lacks some of them, the share of the weight it has.
   No index value is stored or shown. "Laden days" is the drawn distance divided by the class's assumed laden speed: no
-  port time, no canal wait, no ballast leg; the route page shows the duration of the definition beside it when the
+  port time, no canal wait, no ballast leg (the voyage calculator of a route page counts its sea days at the standard
+  vessel's speed, with the fuel of that speed; see "Voyage calculator" below); the route page shows the duration of the definition beside it when the
   definition gives one (time-charter trips and round voyages). A time-charter benchmark whose definition names no
   cargo has no corridor and says so; its line is a laden leg chosen by the atlas or the trace of another route (a
   "stand-in"), and its note says which. The definition says only what the document says: most dirty-tanker
@@ -840,6 +841,115 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   gives its reason and, where a page was read, the page. The size ranges are conventional industry
   ranges, not a single authoritative table; `pipeline/freight/NOTES_routes.md` lists the pages read for the
   benchmark definitions and what they could not settle.
+
+### Voyage calculator
+
+A route page that describes a laden voyage has a folded block "Voyage calculator" (`web/src/components/views/RouteVoyage.tsx`,
+the arithmetic in `web/src/lib/voyage.ts`). It is a calculation on figures the visitor types. It is not a market rate, not a
+quote and not a Baltic Exchange assessment, and the atlas stores and publishes no result of it. It runs in the visitor's
+browser on files the page has already loaded: it adds no request, no data file and no scheduled job. What the visitor types
+stays in the memory of the page, by route, until the page is reloaded; it is written neither to the address of the page nor
+to the browser's storage, so a copied link carries none of it. It gives two results: the freight, in USD a tonne, that covers
+a hire the visitor types, and the time-charter equivalent, in USD a day, of a freight the visitor types.
+
+The formulas, with Q the cargo (t), Dl and Db the laden and ballast distances (nm), vl and vb the speeds (kn), cl and cb the
+fuel a day (t), P the port and canal days, Fp the port fuel (t), p the bunker price (USD/t), H the hire (USD/day) and F the
+freight (USD/t). One knot is one nautical mile an hour.
+
+```
+Sl = Dl / (24 * vl)             laden sea days
+Sb = Db / (24 * vb)             ballast sea days (0 when Db is 0)
+T = Sl + Sb + P                 round-voyage days
+M = cl * Sl + cb * Sb + Fp      tonnes of fuel
+B = M * p                       bunker cost, USD
+X = tolls + portcosts           canal tolls and port costs, USD
+freight = (H * T + B + X) / Q   the freight that covers the hire H, USD/t
+TCE = (F * Q - B - X) / T       the time-charter equivalent of the freight F, USD/day
+```
+
+A result is empty when one of its inputs is empty or is not a number above zero. A ballast distance of 0 needs no ballast speed
+and no ballast fuel. Port and canal days, port fuel, canal tolls and port costs may be zero. A time-charter equivalent below
+zero is shown with a minus sign. Without a cargo size the two results are empty and the days, the fuel and the bunker cost are
+still given; without a bunker price the results are empty and the days and the fuel are still given.
+
+Which routes have the block. A route has none when it is: a round-voyage benchmark; a time-charter trip, a benchmark defined
+from delivery to redelivery with a duration; a trip drawn as its laden leg; a stand-in trace or an ended benchmark; a container
+route (freight is per TEU, with no standard vessel). For the first four the distance of the page is not the voyage the
+benchmark defines, or the benchmark no longer exists, and the calculator would answer another question than the page asks.
+The number of routes that have a block is not written here: it moves with the routes, and a test compares the reasons with the
+code.
+
+What each field starts from. Every default has its source and its year beside it in the block, and a field that no file holds
+and the atlas does not supply starts empty.
+- Cargo, t: the parcel of the benchmark definition, when the definition gives it in tonnes (source and year of the definition);
+  else empty (a route whose definition gives the capacity of its carrier, not a cargo, has none).
+- Laden distance, nm: the distance of the routing chosen, as the Distance tile shows it (the SeaRoute network, no year). The
+  routing is the main one or an alternative that has a distance of its own; the parallel passages listed beside a route have
+  none and are not offered. The distance is shown, not typed.
+- Ballast distance, nm: the laden distance of the routing chosen, an Atlas estimate (source id `atlas`, no year): the ship is
+  taken to return in ballast by the same routing. The benchmark definitions give no ballast leg. It is wrong for a backhaul and
+  differs from the Baltic's own time-charter equivalent, which counts a ballast leg from a named starting place to the loading
+  port. The visitor types another distance, or 0.
+- Speeds and fuel, kn and t a day: the speed and the fuel of the Baltic Exchange's standard vessel of the class, laden and in
+  ballast, as the class page states them (`std` in `vessel-classes.json`: source, year and page there). The figures are those of
+  the speed shown: nothing is scaled when the visitor changes a speed, because the atlas holds one speed and one fuel line for
+  each standard vessel; a visitor who types another speed types the fuel that goes with it. Only the fuel-oil figure is used.
+  A class that has no standard vessel of its own takes that of the class its benchmark names (Supramax: Ultramax; Panamax:
+  Kamsarmax; Newcastlemax: Capesize), and the block says which. A class with none (the mid-size gas carrier, the chemical
+  tanker) takes the laden speed assumed for the class, the one the page's laden days use (Atlas assumption), the same speed in
+  ballast (Atlas estimate), and no fuel. The LNG carrier takes its speed but no fuel: the Baltic's LNG benchmark carrier burns
+  its cargo (Guide to Market Benchmarks, version 7.09), and the fuel-oil figure on the class page would mislead.
+  All of these figures are read through one function (`standardVessel`), so that a single line switches them off.
+- No default: port and canal days, port fuel, bunker price, port costs, canal tolls, hire, freight. They are typed. The
+  atlas stores no bunker price and no rate: the sources of the kind are proprietary (see "Freight rates that are not stored",
+  section 7).
+
+The sea days of the block (distance over the standard vessel's speed) differ on purpose from the "Laden days" of the page
+(distance over the speed assumed for the class): the first goes with the fuel figure of the standard vessel, the second is a
+class assumption, and each says which it is.
+
+Counted as zero when empty: port and canal days, port fuel, canal tolls, port costs. The block names the ones that are empty.
+Not counted, unless the visitor puts them into the port costs: a weather allowance, commissions, insurance, demurrage and
+despatch, off-hire, charges for emissions or ballast water, dues of passages other than the canals (the Turkish straits, for
+example, which are a passage of some routes), the fuel of idle days outside the port fuel typed, and gas oil if a description
+gives any. Port fuel is typed in tonnes and counted at the bunker price. The Baltic Exchange's own time-charter equivalent
+(Guide to Market Benchmarks, Appendix 3) counts fuel burned in port, a weather allowance and commissions, with the port costs
+and the voyage costs it lists; this calculator counts only what is typed, and its result is not that value, whatever it is named.
+A standard vessel is the Baltic's reference ship, not the ship of any real voyage.
+
+Canal tolls. The field "Canal tolls, round voyage, USD" appears when the routing chosen crosses the Suez or the Panama Canal
+(the routing chosen, not the parallel passages listed beside it), and the visitor types the tolls of the whole round voyage.
+No toll figure is held or copied. The Panama Canal Authority's tariff
+(https://pancanal.com/en/maritime-services/maritime-tariff/) depends on the size category of the vessel and the locks used,
+and differs for a vessel in ballast. The Suez Canal Authority's tolls table
+(https://www.suezcanal.gov.eg/English/Navigation/Tolls/Pages/TollsTable.aspx) loads its rows for a chosen category and dates,
+says that the rates apply "according to the vessel's actual condition upon transit", and refers to rebates published by
+circular. The atlas holds neither a size category nor a rebate. Neither site states that its tariff may be republished: the
+Panama Canal Authority's Terms of Use (https://pancanal.com/en/terms-of-use/, read on 25 November 2026) say that "their
+copying, distribution, transmission, reproduction or publication for commercial or lucrative purposes is prohibited" and that
+their use for such purposes "requires prior express authorization from the Panama Canal Authority"; the Suez Canal Authority's
+pages carry the line "Copyright 2017 | All Right Reserved Suez Canal Authority" (read on 25 November 2026) and state no terms
+of reuse. The atlas links the two pages from the field and credits them in NOTICE.md; they are linked, not copied, and they are
+not entries of the registry of sources, which lists the sources of figures.
+
+The Baltic Exchange's terms and this use. The calculator computes, in the visitor's browser, with the speed and the fuel of the
+Baltic standard vessels that the class pages already state; the atlas stores no figure derived from them, shows no index value
+and offers no download. It is a new use of figures the atlas already states as facts, and the decision of 24 November 2026 on
+the Baltic Exchange's facts covers the facts shown on the site, not a computation with them: this use is a choice made without
+the owner, listed in PROGRESS.md. What the Baltic's pages say, read on 25 November 2026: clause 5.1 of its Terms and Conditions
+(https://www.balticexchange.com/en/site-services/terms-and-conditions.html) says that no part of the website or its content "may
+be copied or reproduced (except for your personal use), shared with third parties, reverse engineered, reverse assembled, or used
+to create any derivative work (whether in physical or electronic form) without the prior written consent of the Baltic except to
+the extent specifically permitted under the terms of the level of your subscription for Baltic Data as set out in the Baltic Data
+Policy". The Data Policy (https://www.balticexchange.com/en/site-services/data-policy.html) describes Baltic Data as "a range of
+indices and other market data produced by the Baltic" and says that the holder of a licence shall not "display Baltic Data on any
+intranet or public website" and shall not "use ... Baltic Data to create derived data, including pricing data or other information
+that would be created in whole or in part from Baltic Data" (clauses 2.2.3 and 2.3.3, and 4.2 for a client of a channel partner).
+Neither page says whether the descriptions of the standard vessels are Baltic Data, or whether a reader without a licence is bound
+by the policy: that is not settled. If the owner answers that the calculator may not use them, one line (`standardVessel`) leaves
+the speed and fuel fields empty. The `baltic` entry of the registry names this use.
+- The block says "not a Baltic Exchange assessment", and its tiles are named "Freight to cover the hire" and "Time-charter
+  equivalent" of the figure typed; they cite no source because they are calculations.
 
 ## 4. Vessel classes per lane
 
@@ -905,7 +1015,7 @@ for dry bulk from its dry services page, for tankers and gas carriers from its G
 7.09, December 2025), stated as facts in the atlas's words with a link to the page (the Baltic Exchange's site terms
 restrict copying; see the `baltic` entry of DATA_SOURCES.md). The Suezmax adds the beam of Wikipedia's typical ship;
 the VLOC, which has no Baltic standard vessel, shows the typical ship of its Wikipedia article. Laden days use the assumed laden service speed of the class, not the
-standard vessel's speed. A class page lists the routes of its class, ended benchmarks last, then, under "Also served
+standard vessel's speed; the voyage calculator of the route pages takes the standard vessel's speed with its fuel figure ("Voyage calculator" in section 3). A class page lists the routes of its class, ended benchmarks last, then, under "Also served
 by", routes of another class that it also serves (the Kamsarmax benchmarks on the Panamax page, the palm oil route on
 the chemical tanker page); choosing a class in the side panel shows both. The world fleet is UNCTADstat's count by ship type
 (oil tankers, bulk carriers, container ships), rebuilt by `pipeline/freight/fleet.py`: it covers every ship of the
@@ -1281,7 +1391,8 @@ totals of the series by year are the same for every country: they are in one fil
   the API of its time-series site asks every service that uses it to notify the Bank by e-mail; the
   dry bulk and tanker route pages link to them ("Ocean freight transportation (except Ocean tankers)",
   "Ocean tankers").
-  Every route page says that Baltic assessments are proprietary and links to the Baltic Exchange.
+  Every route page says that Baltic assessments are proprietary and links to the Baltic Exchange. The voyage calculator
+  of the route pages stores no rate either: its freight and hire are typed by the visitor and are not kept (section 3).
 - Annual prices: USGS Mineral Commodity Summaries 2026, rows "Price" of the Salient Statistics
   (lithium carbonate, manganese ore CIF China, rare-earth oxides, bauxite and alumina "average unit
   value of imports, free alongside ship (f.a.s.)", cobalt, palladium, rhodium): one value a year,
@@ -2057,3 +2168,16 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
 - **Country pages and search.** A country page lists the companies headquartered there, the shipping companies with
   their segment. The search finds a company by its name and opens the commodity page of its first commodity, or the
   vessel class page of its first class, with the companies unfolded on its row.
+
+## 13. Reports, releases, review and coverage
+
+- **Reports.** The "Report an error" button in the header of each page, and the link of the same name in the About
+  window, open the new-issue form of the repository (`.github/ISSUE_TEMPLATE/report-an-error.yml`). The browser fills
+  it in with the address of the page, what is selected on it (its kind and id, as the address writes them), the
+  page's heading and the release and build running; nothing is sent to GitHub before the click and the site stores
+  nothing. A GitHub account is needed to submit, which is GitHub's rule, and a report is a public issue. The form
+  puts no label on the issue: the address never carries one, because GitHub refuses the address of a visitor who may
+  not label, and the label `data-update` is used only by the update jobs for their own issues. The atlas states no
+  time of answer; the owner of the repository closes the reports. The address is capped at 2,000 characters, an
+  Atlas assumption (GitHub gives no figure): past it, the page address keeps only the keys that define the page
+  (family, commodity, colouring, year, selection, company, route finder) and is cut if that is still too long.
