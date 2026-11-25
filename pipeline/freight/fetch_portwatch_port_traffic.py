@@ -44,9 +44,11 @@ Checks  a page without the expected fields or with a value that is not a number 
         than at the last run is refused; a deep pass that finds the older weeks of more than a tenth of the ports changed by
         more than a quarter ("history revised: run --full") is refused; a file the site's rules would refuse is never
         written; the folder may not exceed SIZE_STOP_KB. The quota answer of the service ("API calls quota exceeded ...
-        Retry after 60 sec", or HTTP 429) is waited out once (QUOTA_WAIT_S) and the request asked once more, a second refusal
-        stops the run; no request follows a quota answer sooner than that, and any other failure is asked again after a pause
-        of PAUSE_S, ATTEMPTS requests in all. A page counts as followed by more rows when the service says so or when it is
+        Retry after 60 sec", or HTTP 429) is waited out once per page (QUOTA_WAIT_S) and that page asked once more, a second
+        refusal of the same page stops the run; no request follows a quota answer sooner than that, and any other failure is
+        asked again after a pause of PAUSE_S, ATTEMPTS requests in all. The time limit of a weekly run (RUN_LIMIT_S) is checked
+        before every request: a wait that began before the limit can end after it (by at most QUOTA_WAIT_S), and no request
+        follows the limit. A page counts as followed by more rows when the service says so or when it is
         full (PAGE rows). A first-load port whose last week starts more than FIRST_LOAD_LAG_DAYS before the newest of the
         sitting is not written (it stays pending; the port and both dates are printed).
 Status  a weekly run records its success or its failure for ``portwatch-port-traffic`` in data/_status/updates.json; a run

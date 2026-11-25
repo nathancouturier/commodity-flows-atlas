@@ -3,7 +3,7 @@ The World Port Index (Publication 150 of the US National Geospatial-Intelligence
 port of the atlas, with the columns the site prints. Writes the two tracked cache files that the builder of the data file reads:
 
     .venv/bin/python -I pipeline/infrastructure/extract_wpi.py            # needs raw/nga/UpdatedPub150.csv; without it the cache is left as it is
-    .venv/bin/python -I pipeline/infrastructure/extract_wpi.py --accept   # also accepts a change that a guard below stopped
+    .venv/bin/python -I pipeline/infrastructure/extract_wpi.py --accept   # also accepts a change that a guard on the size of the change stopped
 
     pipeline/cache/wpi_ports.csv    one row per port with a sure match, the columns the site prints (HEADER), sorted by port
     pipeline/cache/wpi_meta.json    the file read (name, hash, rows), the rule and its numbers, the counts, the doubtful and absent matches
@@ -36,9 +36,11 @@ length. It is a check on the publication's figures, not an estimate.
 
 Guards (nothing is written, the exit status is not 0, the message says why): a column of COLUMNS missing from the header; a value that is not a
 number or is negative, a position outside the globe, a class the site does not know; a row of REVIEW that the file no longer has; a published row
-whose country is not the port's. And, unless --accept: fewer rows than ROWS_MIN of the last file read; fewer published ports than the last
-cache by more than PUBLISHED_DROP; more than CHANGED_SHARE of the published ports with a figure that moved by more than CHANGED_BY; a file whose
-hash is not the last one's while DOWNLOADED (or CAPTURED) is still the last one's, which is a refresh that forgot to type the date.
+whose country is not the port's. Two guards on the dates typed at the download stop whatever --accept says, before any other and on their own
+(check_dates): a file whose hash is not the last one's while DOWNLOADED (or CAPTURED) is still the last one's, which is a refresh that forgot to type
+the date; and a CAPTURED whose eight digits are not in CAPTURED_FROM (or a CAPTURED_FROM that is None while CAPTURED is not, or the reverse). And,
+unless --accept: fewer rows than ROWS_MIN of the last file read; fewer published ports than the last cache by more than PUBLISHED_DROP; more than
+CHANGED_SHARE of the published ports with a figure that moved by more than CHANGED_BY.
 """
 import argparse
 import csv
@@ -496,8 +498,28 @@ def draft_basis(rows):
             "above": [shown(x) for x in reversed(pairs) if x[0] > DRAFT_MAX_RATIO]}
 
 
+def check_dates(raw_path, prev_meta):
+    """The two guards on what a person types at a download; they stop whatever --accept says, before any other, and on their own.
+    The archived address says the day it was captured, so CAPTURED is tied to it; a file that changed with a date left as it was is a refresh that forgot to type it."""
+    if CAPTURED is None and CAPTURED_FROM is not None:
+        raise Stop("CAPTURED_FROM is typed but CAPTURED is None: type the capture day in CAPTURED, or set CAPTURED_FROM to None for a file from the publisher itself")
+    if CAPTURED is not None:
+        if CAPTURED_FROM is None:
+            raise Stop(f"CAPTURED is {CAPTURED} but CAPTURED_FROM is None: type the archived address in CAPTURED_FROM")
+        if CAPTURED.replace("-", "") not in CAPTURED_FROM:
+            raise Stop(f"CAPTURED ({CAPTURED}) is not the day of the address in CAPTURED_FROM (its eight digits {CAPTURED.replace('-', '')} are not in it): edit one of the two")
+    if prev_meta and prev_meta["file"]["sha256"] != sha256(raw_path):
+        # a CAPTURED of None (the file comes from the publisher itself) is not a date that was forgotten
+        same = [name for name, now, before in (("DOWNLOADED", DOWNLOADED, prev_meta.get("downloaded")), ("CAPTURED", CAPTURED, prev_meta.get("captured")))
+                if now and now == before]
+        if same:
+            raise Stop("the file changed but " + " and ".join(same) + (" was" if len(same) == 1 else " were") + " not edited: type the date of the new file in "
+                       + (" and ".join(same)) + " at the head of pipeline/infrastructure/extract_wpi.py")
+
+
 def extract(raw_path, ports, countries, review, prev_csv=None, prev_meta=None, accept=False):
     """The cache as (csv text, meta dict, report lines) from the raw file; raises Stop on a guard."""
+    check_dates(raw_path, prev_meta)
     with open(raw_path, encoding="utf-8-sig", newline="") as f:
         text = f.read()
     rows = read_rows(text)
@@ -505,12 +527,6 @@ def extract(raw_path, ports, countries, review, prev_csv=None, prev_meta=None, a
     out, held, matches = build(ports, rows, ctry, review)
     check_countries(out, matches, ctry)
     stops, report = compare(read_cache_csv(prev_csv) if prev_csv else [], prev_meta, out, len(rows))
-    if prev_meta and prev_meta["file"]["sha256"] != sha256(raw_path):
-        # a CAPTURED of None (the file comes from the publisher itself) is not a date that was forgotten
-        same = [name for name, now, before in (("DOWNLOADED", DOWNLOADED, prev_meta.get("downloaded")), ("CAPTURED", CAPTURED, prev_meta.get("captured")))
-                if now and now == before]
-        if same:
-            stops.append("the file changed but " + " and ".join(same) + (" was" if len(same) == 1 else " were") + " not edited")
     if stops and not accept:
         raise Stop("; ".join(stops) + " (run again with --accept if the change is real)")
     counts = {"sure_code": sum(1 for r in out if r["by"] == "code"), "sure_name": sum(1 for r in out if r["by"] == "name"),

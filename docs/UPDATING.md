@@ -322,9 +322,10 @@ file holds no date inside it, so `CAPTURED` and `CAPTURED_FROM` say which copy i
    its review table is gone from the file, or a published row is of another country. It stops unless `--accept` is given when the file has fewer than
    95% of the rows of the last one, more than 5 ports fewer are published, or more than 20% of the ports kept show a figure that moved by more than 25% (a re-coded
    scale). Read its message, and its report (ports gained and lost, rows changed, the counts, the ports whose maximum vessel is held back); run it again with
-   `--accept` only when the change is real. It also stops, whatever else is true, when the file is not the one of the meta file and
-   `DOWNLOADED` (or `CAPTURED`, when it is not `None`) is still the meta file's: the date of the new file was not typed. Without the raw file it
-   prints one line and does nothing.
+   `--accept` only when the change is real. Two stops come before all the others, on their own, and `--accept` does not pass them: the file is not
+   the one of the meta file and `DOWNLOADED` (or `CAPTURED`, when it is not `None`) is still the meta file's (the date of the new file was not typed;
+   the message names the constant to edit); and the eight digits of `CAPTURED` are not in `CAPTURED_FROM`, or one of the two is `None` and not the
+   other (the archived address says the day it was captured). Without the raw file it prints one line and does nothing.
 4. **Look at what moved.** A port that fell out of the matches, a port in `doubtful` in the meta whose reason is "another row is nearer", and a promotion of the
    review table (`REVIEW`, each with a sentence written after opening the two rows, and a position check that stops the run) are to be read by a person: open the
    two rows again before keeping a promotion, and leave a match doubtful when it cannot be checked.
@@ -364,6 +365,12 @@ the series. Both come with the next release.
    the ports that returned no rows, and how far the rounding moves the 52-week sums of each port (the rule keeps it within 0.5%; `ROUNDING OVER 0.5%` would be a defect).
    A sitting records its success in `data/_status/updates.json`, and the staleness check judges the source from its first entry on (stale after 16 days
    without a success): no entry of this source is published before the weekly step exists.
+4. Once the load is complete, check what the 21-day rule does not see. A port is judged against the newest last week of its own sitting, at the end of a
+   sitting that runs to its end or stops on the size stop (and then only against the ports it had read); a sitting that ends in an error (after its first
+   port, say) leaves the ports it had written unjudged, so a file that ends early can stay. Check that every file ends within 21 days of the newest
+   (it prints the newest day and the files that end more than 21 days before it; the list must be empty):
+   `.venv/bin/python -I -c "import glob,json,datetime as d; f={p:d.date.fromisoformat(json.load(open(p))['y']) for p in glob.glob('data/freight/port-traffic/port*.json')}; n=max(f.values()); print(n, sorted(p for p,v in f.items() if (n-v).days>21))"`.
+   A file in the list is read again with `--full <id>`.
 
 `index.json` is `{checked, none, pending}`, written by the script and checked by the validator, which asks of every `portwatch` id of the port assets a
 file, an entry of `none` or an entry of `pending`, and of no id more than one of them:

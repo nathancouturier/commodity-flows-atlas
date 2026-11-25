@@ -65,9 +65,10 @@ answer, and a status entry that would have turned "stale" if it were published b
 - A commodity page says, in a folded section, which blocks it cannot have and why. The blocks that are missing
   are shown in the Quality tab only.
 - The table is built from the data files by `pipeline/commodities/build_coverage.py`, rebuilt by the annual job
-  after the pages, and checked: a page that loses a block it had at this release stops the publication (a
-  scheduled update is stopped by its guard, which the "accept large moves" box overrides); a typed reason that
-  the data contradict never stops an update, the data win and a warning says so.
+  after the pages, and checked: a page that loses a block it had at this release fails the checks of a push,
+  and the next annual update, which rebuilds the table, is refused by its guard (the "accept large moves" box
+  overrides it); a typed reason that the data contradict never stops an update, the data win and a warning
+  says so.
 - No reason of the kind "not available for free" is typed yet: none meets the rule of a publisher's page read
   plus the alternatives tried. The table therefore says "missing" where a later release may say "no free
   source" (audit point A-078).
@@ -99,8 +100,8 @@ answer, and a status entry that would have turned "stale" if it were published b
   (channel, anchorage, cargo pier, oil terminal, LNG terminal), the maximum vessel (length, beam, draught, at
   the berths and offshore), tidal range, harbour size and type, and pilotage, as Publication 150 of the US
   National Geospatial-Intelligence Agency gives them. Four of the depths are printed as the bands of the
-  publication's own key ("14.0 to 15.2 m", "23.2 m or more"); the LNG terminal depth, a column the key does
-  not cover, is printed as given. The figures are the publication's, shown beside the limits of the page each
+  publication's own key ("14.0 to 15.2 m", "23.2 m or more"); the LNG terminal depth, whose values in the
+  file are not on the key's grid, is printed as given. The figures are the publication's, shown beside the limits of the page each
   port cites and never merged with them; "Largest class" is unchanged.
 - A port has the block only when its entry is surely the same place: 115 by UN/LOCODE, 18 by name
   and country, 5 after a review written in the code. 36 doubtful matches and 16 ports without an
@@ -110,7 +111,7 @@ answer, and a status entry that would have turned "stale" if it were published b
 - The maximum vessel is held back where the publication's own figures cannot be a ship's: six ports for the
   beam (above 40% of the length or above 70 m, or given with no length) and Tema's offshore figures, a draught
   of 275 m for a length of 275 m (a draught above a quarter of the length is held back; the largest ratio among
-  the 846 other pairs of the file is 0.18). Rows that pass these checks are shown as given, even where the
+  the other 845 pairs of the file is 0.18). Rows that pass these checks are shown as given, even where the
   figures of one entry disagree with one another (four ports by one stated rule: a maximum draught above the
   deepest depth printed plus the tidal range, at Hay Point, Santos, Seria and Ust-Luga).
 - The file is the Internet Archive's copy, captured on 29 September 2026, of the publisher's download address:
@@ -1039,9 +1040,9 @@ These were needed to finish the work; each is reversible.
      LNG, a fertiliser has no crop balance), each typed once in `pipeline/commodities/coverage_reasons.json`.
      "Routes" counts the generated corridors as well as the benchmark routes. A commodity page lists the
      blocks that cannot apply to it and not those that are missing (one constant, `SHOW_MISSING_ON_PAGES`,
-     turns them on). A page that loses a block it had makes the update guard refuse the scheduled update that
-     removed it, until someone accepts it ("accept large moves") and lowers the floor by hand; a warning in
-     place of the refusal is a one-line change.
+     turns them on). A page that loses a block it had makes the update guard refuse the next annual update (the
+     job that rebuilds the table), whichever job removed the block, until someone accepts it ("accept large
+     moves") and lowers the floor by hand; a warning in place of the refusal is a one-line change.
    - **Voyage calculator.** It computes with the speed and fuel of the Baltic standard vessels that the class
      pages already state. The owner's decision of 24 November covers the facts shown on the site, not a
      calculation with them, and neither the Baltic Exchange's terms (clause 5.1) nor its Data Policy (clauses
@@ -1110,8 +1111,8 @@ These were needed to finish the work; each is reversible.
   refined products to Singapore), 5.5 Mt for which no page supports a port on the right coast.
 - World Port Index: 52 of the 190 ports have no block (36 doubtful matches, 16 without an entry);
   7 of the doubtful have another entry of the country nearer than the matched one (Coveñas, Amsterdam, Lagos,
-  Portland, Mumbai, Ain Sokhna, Arzew) and Rotterdam is refused for distance. The depths are bands of the key of
-  the 2017 edition; the edition of the file is not stated. Some rows are shown as the publication gives them
+  Portland, Mumbai, Ain Sokhna, Arzew) and Rotterdam is refused for distance. Four of the depths are bands of the
+  key of the 2017 edition; the edition of the file is not stated. Some rows are shown as the publication gives them
   although their own figures disagree with one another (a maximum draught above the deepest depth printed plus
   the tide, at Hay Point, Santos, Seria and Ust-Luga; a beam of 68 m for a length of 210 m at Ulsan; an
   anchorage of 54 m at Tema). A sure match is the same place, not always the same extent as the atlas's asset.
@@ -1282,8 +1283,8 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
 31. **What a commodity page should hold** (audit point M-116). The Quality tab shows which of eleven blocks each
     page has; which are the minimum for every page? Should a page also list its missing blocks (today only
     those that cannot apply)? Do the ten reasons read right?
-32. **A page that loses a block** stops the scheduled update that removed it until someone accepts it. Keep the
-    refusal, or publish the update and only warn?
+32. **A page that loses a block** stops the next annual update (the one that rebuilds the table), whichever
+    job removed the block, until someone accepts it. Keep the refusal, or publish the update and only warn?
 33. **PortWatch ports.** May two assets share one PortWatch port (Ponta da Madeira with Itaqui, the CPC terminal
     with Novorossiysk, Westridge with Vancouver)? Is 8 to 14 seconds between two requests slow enough for the
     rule of 25 November?

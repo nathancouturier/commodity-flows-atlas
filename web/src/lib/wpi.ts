@@ -18,9 +18,10 @@ import type { WpiEntry } from '../types';
  *
  * The edition of the file the atlas reads is not stated. That most of its depths sit on the floors of this key
  * (scripts/wpi.test.mjs counts them) is evidence that it is the same key, not proof; a value off these floors is a
- * newer, finer figure and is printed as it is. The key covers the four depths its item 11 explains; that edition has no LNG
- * terminal column, and the LNG depths of the file are not on its floors (scripts/wpi.test.mjs counts them), so that depth
- * is printed as the file gives it, never as a band.
+ * newer, finer figure and is printed as it is. The lead sentence of item 11 names four depths and the printed table of
+ * that edition has no LNG column (its sub-item e describes the LNG terminal depth); the LNG depths of the file are not on
+ * its floors (1 of 22, counted on the raw file by pipeline/tests/test_wpi.py), so that depth is printed as the file gives
+ * it, never as a band.
  */
 export const WPI_DEPTH_KEY: readonly { code: string; from: number; to: number | null }[] = [
   { code: 'a', from: 23.2, to: null },

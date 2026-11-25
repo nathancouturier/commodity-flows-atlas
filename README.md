@@ -18,8 +18,9 @@ agriculture — and of **freight**, the shipping that moves them.
   fields, refineries and companies.
 - **Commodity pages**: production, reserves, consumption, exports, imports, main flows,
   main producers, processors and trading houses, and long price histories (**Prices**).
-- **Infrastructure**: major mines, fields, refineries, LNG terminals, pipelines, smelters and ports,
-  with the depths and largest vessel of a port from the World Port Index on its page.
+- **Infrastructure**: major mines, fields, refineries, LNG terminals, pipelines, smelters and ports;
+  a port that has an entry in the World Port Index also shows its depths, its harbour and, where the publication gives one,
+  its largest vessel.
 
 Every figure carries its source and year (hover it, or see the detail panel).
 No live vessel positions are used. Credits and licences are in the About window (Sources and

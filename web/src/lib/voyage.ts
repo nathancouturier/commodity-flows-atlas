@@ -80,10 +80,10 @@ export function voyageEligible(r: Route): boolean {
 // ------------------------------------------------------------------ the standard vessel
 
 /**
- * Classes whose benchmark is priced on a fuel other than fuel oil, so that a fuel-oil figure beside the speed would mislead:
- * the Baltic's BLNG1-174 to BLNG3-174 are defined for a carrier "burning LNG fuel" (Guide to Market Benchmarks, version 7.09,
- * which gives a fuel-oil and an LNG figure for the same ship), and the atlas holds the fuel-oil figure only. Its speed is a
- * default; its fuel fields start empty.
+ * Classes whose standard vessel burns a fuel other than fuel oil, so that a fuel-oil figure beside the speed would not describe
+ * it: the standard vessel of the LNG class is the Baltic's LNG carrier of 174,000 cbm, whose benchmarks BLNG1-174 to BLNG3-174
+ * are defined for a carrier "burning LNG fuel" (Guide to Market Benchmarks, version 7.09, which gives a fuel-oil and an LNG
+ * figure for the same ship), and the atlas holds the fuel-oil figure only. Its speed is a default; its fuel fields start empty.
  */
 const NO_FUEL_DEFAULT = new Set(['lng']);
 

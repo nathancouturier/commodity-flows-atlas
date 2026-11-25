@@ -637,20 +637,30 @@ class UpdateJobs(unittest.TestCase):
 
     def test_no_text_says_that_the_coverage_tables_never_stop_an_update(self):
         """The guard refuses an update in which a page loses a block of the floor, and every path of the job is then
-        discarded: the four texts that speak of it must not say that nothing can stop an update."""
-        wrong = re.compile(r"neither table can stop|never keeps? data from being published|no hand-typed table can stop", re.I)
+        discarded: the texts that speak of it must not say that nothing can stop an update. Each of the four texts
+        below held a sentence of this pattern before it was corrected; the METHODOLOGY paragraph never did, so it is
+        held to what it must say instead."""
+        wrong = re.compile(r"neither table can stop|never keeps? data from being published|no hand-typed table can stop"
+                           r"|tables,? which never stops? the update", re.I)
         coverage = re.search(r"- \*\*Coverage\.\*\*.*?(?:\n\n|\Z)", read("METHODOLOGY.md"), re.S)
         self.assertTrue(coverage, "the coverage paragraph of section 13 is not found")
         texts = {
             "docs/UPDATING.md": read("docs", "UPDATING.md"),
             ".github/workflows/ci.yml": read(".github", "workflows", "ci.yml"),
             "drift() of test_governance.py": inspect.getdoc(drift),
-            "METHODOLOGY.md, coverage paragraph": coverage.group(0),
+            "pipeline/annual/update_annual.py": read("pipeline", "annual", "update_annual.py"),
         }
         for name, text in texts.items():
             self.assertIsNone(wrong.search(text), f"{name} says that nothing can stop an update")
         self.assertIn("guard", texts["drift() of test_governance.py"])
-        self.assertIn("guard", texts["METHODOLOGY.md, coverage paragraph"])
+        self.assertIn("the floor can refuse one, through the guard", texts["pipeline/annual/update_annual.py"])
+        self.assertIsNone(wrong.search(coverage.group(0)))
+        self.assertIn("refused by the update guard", " ".join(coverage.group(0).split()))
+        # the pattern does catch the sentences it was written for
+        for old in ("Neither table can stop an update", "a file of metadata never keeps data from being published",
+                    "rests on two hand-typed tables, which never stop the update"):
+            self.assertTrue(wrong.search(old), old)
+        self.assertIsNone(wrong.search("two hand-typed tables: a typed reason never stops the update, and the floor can refuse one"))
 
 
 if __name__ == "__main__":

@@ -29,9 +29,10 @@ own try block with a backup of its outputs that is restored on failure:
   geo/adjacency.py -> build_lanes.py -> build_freight.py ; commodities/build_commodities.py (if present) ;
   commodities/build_coverage.py (after any step above ran, or when its last run failed) ;
   build_profiles.py (if present) ; prices/build_prices.py (after a new USGS edition: its annual prices)
-The coverage matrix (data/coverage.json) follows the pages and rests on two hand-typed tables, which never stop the update:
-a typed reason that the data now contradict is a warning of the run (the data win), a failed step keeps the previous file, and
-the file is kept only when it has its shape (web/scripts/validate-coverage.mjs). A page that lost a block it had is refused
+The coverage matrix (data/coverage.json) follows the pages and rests on two hand-typed tables: a typed reason never stops
+the update, and the floor can refuse one, through the guard. A typed reason that the data now contradict is a warning of
+the run (the data win), a failed step keeps the previous file, and the file is kept only when it has its shape
+(web/scripts/validate-coverage.mjs). A page that lost a block it had is refused
 by the guard of the finish action (web/scripts/guard-data.mjs), which "accept large moves" overrides.
 When the freight step fails after a new BACI cache was installed, the old cache is put back, the version it was
 built from is the one recorded again, and the two steps that depend on the lanes do not run (each is recorded as

@@ -77,7 +77,8 @@ releases: the About window's "What changed" lists them. The full account of each
   Guide to Market Benchmarks (version 7.09). Each has a definition table (vessel, cargo and quantity, load and
   discharge, index, status and document); an ended route says when it ended and links to its successor.
 - Vessel classes: a chemical tanker class for vegetable oils (20 classes in all); 14 classes show a standard vessel
-  with its source and year, and each class has a "World fleet" block from UNCTADstat.
+  with its source and year, and 16 classes show the world fleet of their ship type from UNCTADstat (ships, deadweight,
+  average age).
 - 154 more ports (190 in all) and a new type, storage hub (Cushing, Mont Belvieu). 20 ports have published limits, and
   a largest vessel class where a page gives a dimension of a ship.
 - Companies: 156 more entries (403 for 269 companies in all), and 85 more figures dated from the company's own report

@@ -408,6 +408,9 @@ class FromRaw(unittest.TestCase):
         self.assertLess(share("lng"), 0.1)
         self.assertEqual(sum(1 for w in rows if w["lng"]), 22)
         self.assertEqual(sum(1 for w in rows if w["lng"] in floors), 1)
+        # the two bounds METHODOLOGY.md prints for the four other depths ("88 to 92 in a hundred")
+        shares = [share(k) * 100 for k in ("chan", "anch", "pier", "oil")]
+        self.assertIn(f"against {round(min(shares))} to {round(max(shares))} in a hundred of each of the four other", read_text("METHODOLOGY.md"))
 
     def test_the_file_matches_the_atlas_at_the_distances_the_meta_gives(self):
         meta = load_json("pipeline", "cache", "wpi_meta.json")
@@ -433,15 +436,15 @@ class Guards(unittest.TestCase):
             path = os.path.join(tmp, "raw.csv")
             with open(path, "w", encoding="utf-8", newline="") as f:
                 f.write(csv_text(rows, header))
-            saved = (X.DOWNLOADED, X.CAPTURED)
-            if dates is not None:
-                X.DOWNLOADED, X.CAPTURED = dates
-            elif prev:
-                X.DOWNLOADED, X.CAPTURED = "2099-01-01", "2099-01-02"
+            saved = (X.DOWNLOADED, X.CAPTURED, X.CAPTURED_FROM)
+            if dates is not None or prev:
+                X.DOWNLOADED, X.CAPTURED = dates if dates is not None else ("2099-01-01", "2099-01-02")
+                # the address carries the capture day, as the guard on the two requires
+                X.CAPTURED_FROM = None if X.CAPTURED is None else f"https://web.archive.org/web/{X.CAPTURED.replace('-', '')}000000id_/https://example.invalid/file.csv"
             try:
                 return X.extract(path, ports or self.ports_for(rows), COUNTRIES, review or {}, *(prev or (None, None)), accept=accept)
             finally:
-                X.DOWNLOADED, X.CAPTURED = saved
+                X.DOWNLOADED, X.CAPTURED, X.CAPTURED_FROM = saved
 
     def previous(self, rows, **kw):
         text, meta, _ = self.run_extract(rows, **kw)
@@ -565,16 +568,51 @@ class Guards(unittest.TestCase):
         with self.assertRaises(X.Stop):
             self.run_extract(self.base_rows(3), header=["OID_"] + FILE_COLUMNS[1:], accept=True)
 
-    def test_a_new_file_with_the_dates_of_the_last_one_stops_unless_accepted(self):
+    def test_a_new_file_with_the_dates_of_the_last_one_stops_even_when_accepted(self):
         rows = self.base_rows(10)
         prev = self.previous(rows)
         other = [dict(r, **{"Channel Depth (m)": "12.5"}) for r in rows]
         same = (prev[1]["downloaded"], prev[1]["captured"])
         self.assertIsNotNone(same[1], "the fixture run has the extractor's capture date")
-        with self.assertRaisesRegex(X.Stop, r"the file changed but DOWNLOADED and CAPTURED were not edited"):
-            self.run_extract(other, prev=prev, dates=same)
-        text, meta, _ = self.run_extract(other, prev=prev, dates=same, accept=True)
-        self.assertEqual(meta["downloaded"], same[0])
+        for accept in (False, True):
+            with self.assertRaisesRegex(X.Stop, r"the file changed but DOWNLOADED and CAPTURED were not edited") as cm:
+                self.run_extract(other, prev=prev, dates=same, accept=accept)
+            self.assertNotIn("accept", str(cm.exception))
+            self.assertIn("DOWNLOADED and CAPTURED", str(cm.exception).split(": ", 1)[1])
+        # the stop comes on its own, before the guards on the size of the change
+        few = [dict(r, **{"Channel Depth (m)": "12.5"}) for r in rows[:3]]
+        with self.assertRaises(X.Stop) as cm:
+            self.run_extract(few, ports=self.ports_for(rows), prev=prev, dates=same, accept=True)
+        self.assertEqual(str(cm.exception).count("; "), 0)
+        self.assertNotIn("rows against", str(cm.exception))
+        # with the dates typed, the same file is accepted again
+        text, meta, _ = self.run_extract(other, prev=prev, dates=("2099-01-01", "2099-01-02"))
+        self.assertEqual(meta["downloaded"], "2099-01-01")
+
+    def test_the_capture_day_and_the_archived_address_agree_whatever_accept_says(self):
+        rows = self.base_rows(3)
+        saved = (X.CAPTURED, X.CAPTURED_FROM)
+        good = "https://web.archive.org/web/20260929232408id_/https://example.invalid/file.csv"
+        try:
+            for captured, address, message in (
+                    ("2026-09-29", None, r"CAPTURED is 2026-09-29 but CAPTURED_FROM is None"),
+                    ("2026-09-30", good, r"CAPTURED \(2026-09-30\) is not the day of the address in CAPTURED_FROM"),
+                    (None, good, r"CAPTURED_FROM is typed but CAPTURED is None")):
+                for accept in (False, True):
+                    X.CAPTURED, X.CAPTURED_FROM = captured, address
+                    with self.assertRaisesRegex(X.Stop, message) as cm:
+                        self.run_extract(rows, accept=accept)
+                    self.assertNotIn("accept", str(cm.exception))
+            X.CAPTURED, X.CAPTURED_FROM = "2026-09-29", good
+            self.run_extract(rows)
+            X.CAPTURED, X.CAPTURED_FROM = None, None
+            self.run_extract(rows)
+        finally:
+            X.CAPTURED, X.CAPTURED_FROM = saved
+
+    def test_the_constants_of_the_extractor_pass_their_own_guard(self):
+        self.assertIsNotNone(X.CAPTURED)
+        self.assertIn(X.CAPTURED.replace("-", ""), X.CAPTURED_FROM)
 
     def test_a_new_file_with_one_date_typed_and_the_other_forgotten_stops_naming_it(self):
         rows = self.base_rows(10)
@@ -1462,7 +1500,8 @@ class Documents(unittest.TestCase):
         self.assertIn("the upper edge of a band counts as printed; the top band has none", self.m)
 
     def test_the_lng_depth_is_no_band_in_the_methodology(self):
-        self.assertIn("The LNG terminal depth is a column of the CSV that the 2017 edition does not have", self.m)
+        self.assertIn('for the LNG terminal, the same words ("The greatest depth at chart datum will be shown": sub-item e of item 11, whose lead sentence names the four other depths only', " ".join(self.m.split()))
+        self.assertNotIn("2017 edition does not have", " ".join(self.m.split()))
         self.assertIn("one of the 22 the file gives sits on a floor of the key", self.m)
         self.assertIn("never as a band", self.m)
         self.assertNotIn("for the oil terminal and the LNG terminal", self.m)

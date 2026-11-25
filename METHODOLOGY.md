@@ -900,8 +900,9 @@ and the atlas does not supply starts empty.
   ballast (Atlas estimate), and no fuel. The LNG carrier takes its speed but no fuel: the benchmarks the atlas shows, BLNG1-174 to
   BLNG3-174, are defined for a carrier "burning LNG fuel" (Guide to Market Benchmarks, version 7.09; the older BLNG1 to BLNG3
   say "burning marine fuel oil to reposition"). The guide gives two figures for the same ship, tonnes of marine fuel oil and
-  cubic metres of LNG a day; the atlas holds the fuel-oil figure only, and a fuel-oil figure beside a route priced on LNG
-  fuel would mislead.
+  cubic metres of LNG a day; the atlas holds the fuel-oil figure only, and a fuel-oil figure would not describe a ship that
+  burns LNG: the standard vessel of the class is the Baltic's LNG carrier of 174,000 cbm, whose benchmarks are defined
+  "burning LNG fuel", so the fuel fields start empty.
   All of these figures are read through one function (`standardVessel`), so that a single line switches them off.
 - No default: port and canal days, port fuel, bunker price, port costs, canal tolls, hire, freight. They are typed. The
   atlas stores no bunker price and no rate: the sources of the kind are proprietary (see "Freight rates that are not stored",
@@ -2176,10 +2177,11 @@ meters" and "Depths refer to chart datum"; a code "means a least depth of 31 fee
 great as 36 feet (11.0 meters)". What each depth is: for the channel, "The controlling depth of the principal or deepest
 channel at chart datum is given"; for the anchorage, "the least depth in the best or principal anchorage"; for the cargo
 pier, "The greatest depth at chart datum alongside the respective wharf/pier is given", the deepest pier where there are
-several; for the oil terminal, "The greatest depth at chart datum will be shown". The LNG terminal depth is a column of the
-CSV that the 2017 edition does not have, and its values are not on that key's grid (one of the 22 the file gives sits on a
-floor of the key, against nine in ten of each of the four depths above): the page prints it as the file gives it, never as a
-band. For the four depths, the page prints a
+several; for the oil terminal, "The greatest depth at chart datum will be shown"; for the LNG terminal, the
+same words ("The greatest depth at chart datum will be shown": sub-item e of item 11, whose lead sentence names the four
+other depths only, and the printed table of that edition has no LNG column). The LNG depths of the file are not on the
+key's grid (one of the 22 the file gives sits on a floor of the key, against 88 to 92 in a hundred of each of the four other
+depths): the page prints them as the file gives them, never as a band. For the four depths, the page prints a
 value that is the lower edge of a band of the key as that band ("14.0 to 15.2 m"), the top band, which has no upper edge,
 as "23.2 m or more", and a value off the edges as it is given ("16.1 m"); it never prints a zero. The sixteen bands are
 typed once, in `web/src/lib/wpi.ts`, with the address of the archived copy of the publication they were read in and the
