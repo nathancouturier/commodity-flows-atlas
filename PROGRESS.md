@@ -32,7 +32,9 @@ reviewers on the release candidate (17 findings, 7 of them important: a download
 the candidate had lost, one rounding, and sentences that said more than the files; no wrong figure), a
 correction package of twelve points, two reviewers on it (11 findings, 3 of them important: a label that said
 "split not known" where the split is known, a note of the tin page that was wrong for five years, a comment in
-the code that called the Census file public domain), a package of ten points, and one reviewer on those (3 findings, 1 of them important: a text of the Route finder's list that was still cut at 1440 px), corrected by the orchestrator and checked in the browser.
+the code that gave the Census file terms that no page states), a package of ten points, and one reviewer on
+those (3 findings, 1 of them important: a text of the Route finder's list that was still cut at 1440 px),
+corrected by the orchestrator and checked in the browser.
 
 ### LPG from the United States to Mexico
 
@@ -867,8 +869,8 @@ These were needed to finish the work; each is reversible.
    - Two sentences without a source were removed rather than kept: that the customs district of Norfolk covers
      Hampton Roads, and a combined share of the world for the two coal sources.
    - **The U.S. Census Bureau's terms.** Two pages of census.gov were read on 25 November 2026 ("Citing our Data,
-     Tools, Technical Documents and Research", revised 24 February 2026, and "Policies and Notices"): neither
-     states a copyright or the public domain. The first has a Public-Use Statement: "Data users who create their
+     Tools, Technical Documents and Research", revised 24 February 2026, and "Policies and Notices"): they
+     state no copyright and no public domain. The first has a Public-Use Statement: "Data users who create their
      own estimates using data from disseminated tables and other data should cite the Census Bureau as the
      source of the original data only." The atlas reads it as the permission to publish, and to let a visitor
      download, its own estimate made from the Census quantity (LPG from the United States to Mexico), with the
@@ -1048,7 +1050,7 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
     corridors enter only where the cap (120 for the earlier groups) has room. With the corrected LPG total, a
     Mediterranean LPG corridor would qualify and has no place. Raise the cap by one, let a new corridor replace
     the smallest released route of its group, or leave it?
-27. **The U.S. Census Bureau's terms.** No page of census.gov read states a copyright or the public domain. The
+27. **The U.S. Census Bureau's terms.** The pages of census.gov that were read state no copyright and no public domain. The
     atlas relies on the Census Bureau's Public-Use Statement (a user's own estimates from its data, with the
     Census Bureau cited as the source of the original data) to publish its estimate of LPG from the United
     States to Mexico and to offer the CSV of that page's flows. Is that reading acceptable, or should the CSV
