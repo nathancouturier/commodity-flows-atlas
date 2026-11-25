@@ -97,7 +97,7 @@
   "licence": "IMF terms of use for statistical data: attribution to the IMF, transformations stated, commercial reuse needs IMF permission; no Creative Commons licence stated. Credit: IMF PortWatch (IMF and University of Oxford), data adapted",
   "update": "weekly",
   "access": "ArcGIS feature service Daily_Chokepoints_Data, paged; each week only the days after the last one stored, the whole table once a month. One request at a time, 8 to 14 seconds apart: the script's reading of the owner's rule of 25 November 2026 to read PortWatch slowly and in small pieces. The verbatim daily rows are a working file kept between runs outside git, not published",
-  "use": "Chokepoint transit counts and trade volume estimates since 2019, published only as the atlas's own weekly averages, a 28-day average and comparisons with the same days a year earlier and the 2023 average"
+  "use": "Chokepoint transit counts and trade volume estimates since 2019, published only as the atlas's own weekly averages, a 28-day average and comparisons with the same days a year earlier and the 2023 average; for tankers and dry bulk carriers at the five passages with the most estimated cargo of the type, the vessel transits and the estimated cargo of the last four weeks against the same four weeks a year earlier, rebuilt each week from those weekly averages (a ship-type digest, data/freight/market-now.json)"
  },
  {
   "id": "portwatch-ports",
@@ -148,6 +148,26 @@
   "update": "n/a",
   "access": "Web pages, read by hand",
   "use": "Names and definitions of the benchmark routes and the standard vessels of the dry, tanker and gas time-charter routes; no index value. The speed and fuel of a standard vessel also start the fields of the voyage calculator of the route pages, a calculation made in the visitor's browser on figures the visitor types, which gives no market rate and no Baltic Exchange value; the atlas stores and publishes no figure derived from them"
+ },
+ {
+  "id": "sse",
+  "name": "Shanghai Shipping Exchange freight indices (China Import Dry Bulk Freight Index, China Import Crude Oil Tanker Freight Index)",
+  "publisher": "Shanghai Shipping Exchange",
+  "url": "https://en.sse.net.cn/",
+  "licence": "No licence is stated on the pages read. The only statement on them is the footer: \"© 2001-2026 Shanghai Shipping Exchange Institute(Prep.) All Rights Reserved.\" (https://en.sse.net.cn/, read 25 November 2026; spacing normalised). The index pages read (https://en.sse.net.cn/indices/cdfinew2.jsp and https://en.sse.net.cn/indices/ctfinew2.jsp, read 25 November 2026) fill their tables by script and no value was read. The atlas links to the publisher and shows no value of these indices; it offers no download of this material",
+  "update": "n/a",
+  "access": "Web pages, read by hand; nothing is fetched",
+  "use": "Named, with a link to the publisher, among the freight indices the atlas does not use: the China Import Dry Bulk Freight Index (CDFI) and the China Import Crude Oil Tanker Freight Index (CTFI) measure freight into China only; no value is stored or shown"
+ },
+ {
+  "id": "usda-ams",
+  "name": "USDA Agricultural Marketing Service, Grain Transportation Report datasets (weekly grain vessel line-up, grain ocean freight rates)",
+  "publisher": "USDA Agricultural Marketing Service",
+  "url": "https://www.ams.usda.gov/services/transportation-analysis/gtr-datasets",
+  "licence": "No licence is stated for the AgTransport datasets: their metadata gives the attribution \"USDA Agricultural Marketing Service\" and no licence field (https://agtransport.usda.gov/api/views/vh5k-mnyv.json, read 25 November 2026). The privacy page of the AMS web site says: \"Information presented on the AMS web site is considered public information and may be distributed or copied. Use of appropriate byline/photo/image credits is requested.\" (https://www.ams.usda.gov/about-ams/privacy, read 25 November 2026); it names the AMS web site, not the AgTransport host. The page of the datasets says: \"These data series are aggregated from non-confidential and non-copyrighted sources.\" (https://www.ams.usda.gov/services/transportation-analysis/gtr-datasets, read 25 November 2026), and gives \"SOURCE: O'Neil Commodity Consulting\" for the grain vessel rates, U.S. to Japan; the AgTransport table of those rates gives the attribution \"O'Neil Commodity Consulting\" and no licence field (https://agtransport.usda.gov/api/views/ehs5-yac3.json, read 25 November 2026). The atlas does not read the privacy page as covering rates credited to a private firm. It links to the publisher and shows no value of either series; it offers no download of this material",
+  "update": "n/a",
+  "access": "Web pages, read by hand; nothing is fetched",
+  "use": "Named, with a link to the publisher, as the source of the weekly number of grain vessels loading at the U.S. Gulf and Pacific Northwest ports and of the grain ocean freight rates, which the atlas does not use; no value is stored or shown"
  },
  {
   "id": "eurostat-searoute",

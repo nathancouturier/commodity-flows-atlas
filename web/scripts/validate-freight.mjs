@@ -25,7 +25,12 @@
  *    that is of that commodity);
  *  - alerts (freight/alerts.json): unique ids, an optional date of check (`checked`: only a text that was read against its
  *    source carries one), an event that exists (and, when it lists several in `events`, events that exist, the main one first), passages that exist, a severity from the list, a PortWatch figure per
- *    passage with its date, derived commodities and countries that exist, and a reason on every override.
+ *    passage with its date, derived commodities and countries that exist, and a reason on every override;
+ *  - the freight market digest (freight/market-now.json, written by pipeline/freight/build_market_now.py): its shape only, which is never
+ *    stricter than the builder, which is the guard (a rule here discards the whole weekly update): exactly the keys the page reads, the source
+ *    id of the registry, two ISO dates 364 days apart, five rows of distinct ids for each of the two ship types, every figure a finite number
+ *    that is not negative, the ranking figure not increasing down a list (two passages may print the same one). No rule reads chokepoints.json:
+ *    a passage that the catalogue does not hold is a page that says so, not a reason to refuse the week's data.
  * Called by validate-data.mjs; `node validate-freight.mjs [data folder]` runs it alone.
  * A tree from before the pairs table (no data/freight/pairs folder) is checked by the rules that its lane files
  * can meet; once the folder exists every lane file must also meet the rules of the new shape.
@@ -269,6 +274,8 @@ export function validateFreight(root, errors) {
   validateRoutes(read('freight/routes.json'), pairDocs, chokepoints, bad);
   validateVesselClasses(read('freight/vessel-classes.json'), read('sources.json'), bad);
   validateEvents(root, errors, { read, list, chokepoints, knownCountries });
+  if (read('freight/market-now.json') === null && fs.existsSync(path.join(root, 'freight/market-now.json'))) errors.push('freight/market-now.json: unreadable');
+  else validateMarketNow(read('freight/market-now.json'), read('sources.json'), errors);
   // a port that no gateway row sources (the typical ports of the older tables) is allowed with s = null, and said once
   if (unsourced.size) console.warn(`freight: ${unsourced.size} lane ports have no source yet (s = null): ${[...unsourced].sort().slice(0, 12).join(', ')}...`);
 }
@@ -487,6 +494,54 @@ function validateEvents(root, errors, { read, list, chokepoints, knownCountries 
       if (a.override !== undefined && !a.override?.reason) bad('alerts.json', `${at}: an override needs a reason`);
       if (a.override !== undefined) ids('alerts.json', at, a.override.addCountries, knownCountries, 'override.addCountries');
     }
+  }
+}
+
+const MARKET_KEYS = ['s', 'to', 'yearAgoTo', 'weeks', 'days', 'rankWeeks', 'unit', 'mtUnit', 'types'];
+const MARKET_ROW_KEYS = ['id', 'now', 'ago', 'mt', 'rankMt'];
+const MARKET_TYPES = ['tanker', 'dry'];
+const MARKET_ROWS = 5;
+const isoDay = (v) => (typeof v === 'string' && ISO_DATE.test(v) && new Date(`${v}T00:00:00Z`).toISOString().slice(0, 10) === v ? Date.parse(`${v}T00:00:00Z`) : NaN);
+const figure = (v) => typeof v === 'number' && Number.isFinite(v) && v >= 0;
+const sameKeys = (o, keys) => o !== null && typeof o === 'object' && !Array.isArray(o) && Object.keys(o).length === keys.length && keys.every((k) => k in o);
+
+/** The digest of the freight market page (see the header): shape only. ``doc`` is null when the file is absent. */
+function validateMarketNow(doc, sources, errors) {
+  if (doc === null) return;
+  const bad = (msg) => errors.push(`freight/market-now.json: ${msg}`);
+  if (!sameKeys(doc, MARKET_KEYS)) {
+    const keys = doc && typeof doc === 'object' && !Array.isArray(doc) ? Object.keys(doc) : [];
+    return bad(`must be an object with exactly the keys ${MARKET_KEYS.join(', ')} (it has ${keys.join(', ') || 'none'})`);
+  }
+  if (typeof doc.s !== 'string' || !doc.s || (Array.isArray(sources) && !sources.some((x) => x.id === doc.s))) bad(`s "${doc.s}" is not a source id of sources.json`);
+  const to = isoDay(doc.to);
+  const ago = isoDay(doc.yearAgoTo);
+  if (Number.isNaN(to)) bad(`to "${doc.to}" is not a date (YYYY-MM-DD)`);
+  if (Number.isNaN(ago)) bad(`yearAgoTo "${doc.yearAgoTo}" is not a date (YYYY-MM-DD)`);
+  if (!Number.isNaN(to) && !Number.isNaN(ago) && to - ago !== 364 * 86400000) bad(`to ${doc.to} and yearAgoTo ${doc.yearAgoTo} are not 364 days apart`);
+  if (doc.weeks !== 4 || doc.days !== 28 || doc.rankWeeks !== 52) bad(`weeks, days and rankWeeks must be 4, 28 and 52 (they are ${doc.weeks}, ${doc.days} and ${doc.rankWeeks})`);
+  for (const k of ['unit', 'mtUnit']) if (typeof doc[k] !== 'string' || !doc[k]) bad(`${k} must be a text`);
+  if (!sameKeys(doc.types, MARKET_TYPES)) return bad(`types must have exactly the ship types ${MARKET_TYPES.join(' and ')}`);
+  for (const t of MARKET_TYPES) {
+    const rows = doc.types[t];
+    if (!Array.isArray(rows) || rows.length !== MARKET_ROWS) {
+      bad(`types.${t} must be a list of ${MARKET_ROWS} rows`);
+      continue;
+    }
+    const ids = new Set();
+    rows.forEach((r, i) => {
+      const at = `types.${t}[${i}]`;
+      if (!sameKeys(r, MARKET_ROW_KEYS)) return bad(`${at} must have exactly the keys ${MARKET_ROW_KEYS.join(', ')}`);
+      if (typeof r.id !== 'string' || !r.id) bad(`${at}: no id`);
+      else if (ids.has(r.id)) bad(`${at}: passage ${r.id} appears twice in the list`);
+      ids.add(r.id);
+      if (!sameKeys(r.mt, ['now', 'ago'])) bad(`${at}.mt must have exactly now and ago`);
+      for (const [k, v] of [['now', r.now], ['ago', r.ago], ['rankMt', r.rankMt], ['mt.now', r.mt?.now], ['mt.ago', r.mt?.ago]]) {
+        if (!figure(v)) bad(`${at}.${k}: ${JSON.stringify(v)} is not a finite number that is 0 or more`);
+      }
+      // the figures are rounded to three significant figures, so two passages may print the same one: ties are allowed
+      if (i > 0 && figure(r.rankMt) && figure(rows[i - 1]?.rankMt) && r.rankMt > rows[i - 1].rankMt) bad(`${at}: rankMt ${r.rankMt} is larger than the one above it (${rows[i - 1].rankMt}): the list is not in order`);
+    });
   }
 }
 

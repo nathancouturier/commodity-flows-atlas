@@ -48,6 +48,7 @@ step "routes, chokepoints, vessel classes, port index" "$PY" pipeline/freight/bu
 step "largest vessel class of each port with published limits" "$PY" pipeline/infrastructure/port_limits.py
 step "World Port Index entries of the ports (from the tracked cache)" "$PY" pipeline/infrastructure/wpi_limits.py
 step "alert banners" "$PY" pipeline/freight/build_alerts.py
+step "freight market digest (from the weekly chokepoint series, no network)" "$PY" pipeline/freight/build_market_now.py
 step "companies files from the hand-curated lists" "$PY" pipeline/companies/build_companies.py
 step "commodity pages" "$PY" pipeline/commodities/build_commodities.py
 step "coverage of the commodity pages" "$PY" pipeline/commodities/build_coverage.py

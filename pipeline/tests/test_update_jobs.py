@@ -608,7 +608,7 @@ class PortStepInTheJob(unittest.TestCase):
     def test_the_limit_of_the_job_holds_the_limits_of_its_steps_and_fifteen_minutes_more(self):
         limits = [int(x["timeout-minutes"]) for x in self.steps if "timeout-minutes" in x]
         self.assertGreaterEqual(len(limits), 7)
-        self.assertEqual(sum(limits), 10 + 5 + 25 + 15 + 1 + 5 + 5)
+        self.assertEqual(sum(limits), 10 + 5 + 25 + 15 + 1 + 5 + 5 + 5)
         self.assertGreaterEqual(self.job_limit, sum(limits) + 15, "a job limit that is hit is a red run and an e-mail")
         # the other PortWatch step of the job keeps the limit it had
         self.assertEqual(self.step("fetch")["timeout-minutes"], "25")
@@ -630,7 +630,7 @@ class PortStepInTheJob(unittest.TestCase):
                 self.assertEqual(x.get("continue-on-error"), "true", x.get("name"))
 
     def test_the_finish_step_records_commits_and_validates_the_port_series_with_the_other_sources(self):
-        self.assertIn('sources: "portwatch portwatch-port-traffic build-alerts build-changes"', self.wf)
+        self.assertIn('sources: "portwatch portwatch-port-traffic build-alerts build-market-now build-changes"', self.wf)
         paths = re.search(r'^\s+paths: "([^"]+)"', self.wf, re.M).group(1).split()
         self.assertIn("data/freight/port-traffic", paths)
         self.assertIn("data/freight/portwatch", paths)
@@ -641,7 +641,7 @@ class PortStepInTheJob(unittest.TestCase):
         self.assertIn("${{ steps.fetch.outcome }} portwatch", lines)
         # every step that has an id has its outcome line: a step that does not finish is recorded as failed
         self.assertEqual(sorted(re.search(r"steps\.(\w+)\.outcome", ln).group(1) for ln in lines),
-                         sorted(x["id"] for x in self.steps if x.get("id") in ("fetch", "ports", "alerts", "changes")))
+                         sorted(x["id"] for x in self.steps if x.get("id") in ("fetch", "ports", "alerts", "market", "changes")))
         # the calendar of the About window names the sources of the job as the finish step does
         import changes
         self.assertEqual(set(changes.JOBS["update-portwatch"]), {"portwatch", "portwatch-port-traffic"})
@@ -748,7 +748,7 @@ class PortStepInTheJob(unittest.TestCase):
     def finish(self, outcomes, paths=None):
         """Run the finish action's shell: record, validate, discard, commit. ``outcomes`` {step id: outcome}. Returns what it decided."""
         steps_arg = re.search(r"steps: \|\n((?:\s+\$\{\{.*\n)+)", self.wf).group(1)
-        steps_arg = re.sub(r"\$\{\{ steps\.(\w+)\.outcome \}\}", lambda m: outcomes[m.group(1)], steps_arg)
+        steps_arg = re.sub(r"\$\{\{ steps\.(\w+)\.outcome \}\}", lambda m: outcomes.get(m.group(1), "success"), steps_arg)
         steps_arg = "\n".join(ln.strip() for ln in steps_arg.split("\n"))
         sources = re.search(r'^\s+sources: "([^"]+)"', self.wf, re.M).group(1)
         paths = paths or re.search(r'^\s+paths: "([^"]+)"', self.wf, re.M).group(1)
@@ -856,7 +856,7 @@ class PortStepInTheJob(unittest.TestCase):
         with open(path, encoding="utf-8") as fh:
             self.assertNotIn("updated_by_the_test", fh.read(), "the chokepoint update was discarded with the rest")
         st = json.loads(self.remote_file("data/_status/updates.json"))["sources"]
-        for source in ("portwatch", self.PORTS, "build-alerts", "build-changes"):
+        for source in ("portwatch", self.PORTS, "build-alerts", "build-market-now", "build-changes"):
             self.assertEqual(st[source]["consecutive_failures"], 1, source)
             self.assertTrue(st[source]["last_error"].startswith("update discarded: data validation failed"), source)
 

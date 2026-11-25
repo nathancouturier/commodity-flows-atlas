@@ -419,7 +419,9 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
   (the note of the series names them), which is not endorsed or certified by the Federal Reserve Bank of St. Louis.
 - **Federal Reserve Bank of Dallas**: Index of global real economic activity (Kilian 2009, 2019), reproduced under the
   Bank's terms of use ("may be made without limitation as to quantity, provided it is not distributed for the purpose
-  of private gain and is appropriately credited to the Bank").
+  of private gain and is appropriately credited to the Bank"). The "Freight market now" page prints it with the Bank's credit, the citation the Bank's page of the index gives
+  (Kilian 2009, with the correction discussed in Kilian 2019) and the Bank's own words that the index "may be viewed as a proxy for the volume of shipping in global industrial
+  commodity markets" (https://www.dallasfed.org/research/igrea, read 25 November 2026), and says that it is not a freight rate.
 - **Federal Reserve Bank of New York**: Federal Reserve Bank of New York, Global Supply Chain Pressure Index,
   https://www.newyorkfed.org/research/policy/gscpi. Content from the New York Fed subject to the Terms of Use at
   newyorkfed.org. The GSCPI is not an official estimate of the Federal Reserve Bank of New York, its President, the
@@ -466,6 +468,8 @@ verdict (redistribute, cite a few facts, link only).
 |---|---|
 | IMF PortWatch | Only the atlas's own weekly averages and comparisons are published, with credit (and, for the ports, weekly sums, see below); the daily rows are a working file kept out of git. The identity and position of about 2,000 ports (ports database) are kept and used with credit. See below. |
 | Baltic Exchange route names and definitions | Names and codes of the benchmark routes and their public definitions are used as facts. No index value or rate is shown. Not affiliated with the Baltic Exchange. |
+| Shanghai Shipping Exchange indices | Two index pages are linked from the "Freight market now" page; no value is stored or shown. The only statement read on its pages is the footer "All Rights Reserved". See below. |
+| USDA Agricultural Marketing Service (weekly grain vessel line-up, grain ocean freight rates) | The datasets page is linked from the "Freight market now" page; no value is stored or shown. The sentences read are quoted below. |
 | GIIGNL and other association reports | A few cited figures with attribution. No table, text or file is redistributed. |
 | World Steel Association, World Gold Council, International Cocoa Organization, International Gas Union | One world total each (crude steel production, gold mine production, cocoa bean production, LNG trade), with publisher, year and link, beside the atlas's own table. Their tables are not copied. |
 | Natural Resources Canada (conversion factors), Wilhelmsen (LPG carrier sizes) | A conversion factor and a size band, cited with attribution. Reuse terms to be confirmed. |
@@ -485,6 +489,19 @@ trade volume carried, a 28-day average, and the comparisons built from them (the
 year earlier and against the 2023 average, on the alert banners and in the "What changed" digest). They are a
 transformation of the daily data, and are described as such in `data/sources.json` and METHODOLOGY.md: "Atlas weekly
 averages of IMF PortWatch daily counts". Nothing else leaves the atlas: the daily rows are not in the repository.
+
+Freight market now. The page of that name and its file, `data/freight/market-now.json`, add one more transformation of the same weekly
+averages, built each week by the PortWatch job from the weekly files already published, with no request to PortWatch or to any other site.
+What it publishes, for tankers and for dry bulk carriers at five passages each: the vessel transits and PortWatch's estimate of the cargo over the last
+four complete weeks (28 days) and over the same four weeks a year earlier, and the change between them. The transformation, stated as the IMF's terms
+ask: the weekly means of the atlas's weekly series (vessels a day, one decimal; Mt a day) are multiplied by 7 and added over the four weeks, as whole
+vessels and to three significant figures; the five passages of each ship type are the five with the most estimated cargo of that type over the 52 weeks that end
+with the year-earlier window, a rule of the atlas and not of PortWatch; a ship that crosses several passages is counted at each of them, and no total is made. The ship classes are
+PortWatch's own, which its item "Daily_Chokepoints_Data" lists (container, dry bulk, general cargo, ro-ro and tanker) and does not define; the atlas does not say whether gas carriers
+are among the tankers and shows no gas carrier figure. The credit line is the one above, **IMF PortWatch (IMF and University of Oxford), data adapted**, and each list of the page
+carries it in the registry's name of the source with the dates of the two windows. The owner's decision of 25 November 2026 quoted below
+concerns how PortWatch is read; this page adds no reading of it. The CC BY 4.0 release does not extend IMF's rights to these figures either. The method is in METHODOLOGY.md,
+section 5, "Freight market now".
 
 What the atlas keeps and does not publish: the verbatim daily table (about 80,000 rows, fifteen fields of the PortWatch
 table) is a working file, `pipeline/cache/portwatch/daily_<year>.csv.gz`, ignored by git. It is there so that each weekly
@@ -578,6 +595,27 @@ without the owner, listed in PROGRESS.md. What the Baltic Exchange's pages say, 
 
 Neither page says whether the descriptions of the standard vessels are Baltic Data, or whether a reader without a licence is
 bound by the policy: that is not settled. The method is in METHODOLOGY.md, section 3, "Voyage calculator".
+
+The "Freight market now" page links to the Baltic Exchange's page of indices (the address of the registry entry `baltic`) and shows no value of them.
+
+### Shanghai Shipping Exchange and USDA Agricultural Marketing Service (linked, no value shown)
+
+The "Freight market now" page links to three publications and shows no value of any of them: the China Import Dry Bulk Freight Index and the China Import Crude Oil
+Tanker Freight Index of the Shanghai Shipping Exchange (registry id `sse`), and the weekly grain vessel line-up and the grain ocean freight rates of the USDA
+Agricultural Marketing Service (`usda-ams`). Nothing of them is fetched, stored or offered for download, and a link has no source line. What the pages say, read on 25 November 2026:
+
+- Shanghai Shipping Exchange, home page (https://en.sse.net.cn/): "© 2001-2026 Shanghai Shipping Exchange Institute(Prep.) All Rights Reserved." (spacing
+  normalised). It is the only statement read on its pages; the list of indices and the two index pages
+  (https://en.sse.net.cn/indices/cdfinew2.jsp and https://en.sse.net.cn/indices/ctfinew2.jsp) carry it too. The home page has a block headed laws that links to a page of laws and regulations, which was not read, and no page
+  of terms was read. The index pages fill their tables by script and no value was read. The two indices measure freight into China only.
+- USDA Agricultural Marketing Service, privacy page of its web site (https://www.ams.usda.gov/about-ams/privacy): "Information presented on the AMS web site is
+  considered public information and may be distributed or copied. Use of appropriate byline/photo/image credits is requested." It names the AMS web site and not the AgTransport host
+  (agtransport.usda.gov), whose tables carry the attribution "USDA Agricultural Marketing Service" for the vessel line-up and "O'Neil Commodity Consulting" for the grain vessel rates, and no licence
+  field (https://agtransport.usda.gov/api/views/vh5k-mnyv.json and https://agtransport.usda.gov/api/views/ehs5-yac3.json).
+- USDA Agricultural Marketing Service, datasets of the Grain Transportation Report (https://www.ams.usda.gov/services/transportation-analysis/gtr-datasets): "These data series
+  are aggregated from non-confidential and non-copyrighted sources." and, for the grain vessel rates, U.S. to Japan, "SOURCE: O'Neil Commodity Consulting".
+
+The atlas does not read the privacy sentence as covering rates credited to a private firm. Neither publisher is affiliated with the atlas or endorses it. The registry entries state the same sentences.
 
 ### Canal authorities (toll tariffs)
 

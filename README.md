@@ -11,7 +11,8 @@ agriculture — and of **freight**, the shipping that moves them.
 - **Freight**, in the side panel under "Routes by vessel class": vessel classes (Capesize to
   Handysize, VLCC to MR, LNG and LPG carriers), Baltic Exchange benchmark routes and other
   heavy-traffic routes, chokepoints and the alternative routings used when they close, how route
-  shares changed over 20 years. A **Route finder** in the same panel gives the route and vessel
+  shares changed over 20 years. A **Freight market now** page gives, for tankers and for dry bulk carriers at five passages each, the vessel transits and
+  the estimated cargo of the last four weeks against the same weeks a year earlier, beside two indicators that are not freight rates. A **Route finder** in the same panel gives the route and vessel
   class for a commodity and a pair of countries. Most route pages have a **Voyage calculator**
   that works out the days, the fuel, the freight that covers a hire and the time-charter equivalent from figures the visitor types.
 - **Country profiles**: ranked key exports, imports and production shares, main mines,

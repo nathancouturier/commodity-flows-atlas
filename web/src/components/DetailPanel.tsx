@@ -20,6 +20,7 @@ const VesselView = lazy(() => import('./views/VesselView'));
 const InfraView = lazy(() => import('./views/InfraView'));
 const EventView = lazy(() => import('./views/EventView'));
 const BoardView = lazy(() => import('./views/BoardView'));
+const FreightNowView = lazy(() => import('./views/FreightNowView'));
 const GenericView = lazy(() => import('./views/GenericView'));
 
 /** A link to a commodity or a country the atlas does not have: say so, instead of an empty page. */
@@ -177,6 +178,8 @@ export function DetailPanel() {
               <VesselView id={s.id} />
             ) : s.kind === 'event' ? (
               <EventView id={s.id} />
+            ) : s.kind === 'board' && s.id === 'freight-now' ? (
+              <FreightNowView />
             ) : s.kind === 'board' ? (
               <BoardView id={s.id} />
             ) : (

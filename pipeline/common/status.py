@@ -46,8 +46,12 @@ ALERT_AFTER = 3
 # two runs, so a second run would fail the same way, a month later.
 MONTHLY_SOURCES = ("usda-psd", "usgs-mcs", "eia-intl", "baci", "faostat-wna")
 BUILD_STEPS = ("build-freight", "build-alerts", "build-commodities", "build-monthly", "build-coverage", "build-profiles",
-               "build-prices", "build-changes")
-ALERT_AFTER_SOURCE = {**{s: 2 for s in MONTHLY_SOURCES}, **{s: 1 for s in BUILD_STEPS}}
+               "build-prices", "build-changes", "build-market-now")
+# The freight market digest is a build step that runs every week on files that change every week: a refusal because a PortWatch
+# week was short heals itself with the next week's files, so it alerts after three failed runs, as a weekly source does, not at its
+# first (the argument above is for steps whose inputs do not change from one run to the next).
+WEEKLY_BUILD_STEPS = ("build-market-now",)
+ALERT_AFTER_SOURCE = {**{s: 2 for s in MONTHLY_SOURCES}, **{s: 1 for s in BUILD_STEPS if s not in WEEKLY_BUILD_STEPS}}
 
 
 def _now():

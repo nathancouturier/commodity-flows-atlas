@@ -1,0 +1,90 @@
+/* Freight market now: the row of the side panel that opens the page, and the rows of the page */
+
+.fn-entry {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  padding: 7px 10px;
+  border: 1px solid var(--hairline-strong);
+  border-radius: var(--r-sm);
+  background: var(--panel-raised);
+  color: var(--ink-0);
+  font-size: var(--fs-sm);
+  font-weight: 550;
+  text-align: left;
+}
+.fn-entry:hover,
+.fn-entry[aria-pressed='true'] {
+  background: var(--land-hover);
+}
+.fn-entry[aria-pressed='true'] {
+  border-color: var(--accent);
+}
+/* an arrow where the dropdowns have a chevron: the row opens a page, not a list */
+.fn-entry::after {
+  content: '';
+  margin: 0 3px 0 auto;
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid var(--ink-2);
+  border-bottom: 1.5px solid var(--ink-2);
+  transform: rotate(-45deg);
+}
+@media (pointer: coarse) {
+  .fn-entry {
+    min-height: 34px;
+  }
+}
+
+.fn-window,
+.fn-none {
+  margin: 8px 0 0;
+}
+.fn-rule {
+  margin: 0 0 4px;
+}
+.fn-classes {
+  margin: 8px 0 0;
+}
+.fn-row {
+  display: block;
+  width: 100%;
+  padding: 7px 8px;
+  border-radius: var(--r-sm);
+  text-align: left;
+  color: var(--ink-1);
+  font-size: var(--fs-md);
+  overflow-wrap: anywhere;
+}
+/* a passage that the atlas has no page for is text, not a button */
+div.fn-row {
+  cursor: default;
+}
+.fn-name {
+  display: block;
+}
+.fn-fig > span {
+  display: block;
+}
+
+.fn-ind {
+  margin-top: 4px;
+}
+.fn-link {
+  padding: 5px 8px;
+  font-size: var(--fs-md);
+  overflow-wrap: anywhere;
+}
+.fn-link a {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+.fn-link a:hover {
+  color: var(--ink-0);
+}
+.fn-pub {
+  display: block;
+}

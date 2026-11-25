@@ -4,6 +4,17 @@ What a visitor sees changed on the site, release by release, newest first. The w
 releases: the About window's "What changed" lists them. The full account of each release is in
 [`PROGRESS.md`](PROGRESS.md).
 
+## Release 10 (2026-11-26)
+
+### Added
+- Freight market now: a page opened from a new row under "Routes by vessel class". For tankers and for dry bulk
+  carriers it gives the five passages with the most cargo of that ship type, with the vessels that crossed each and
+  PortWatch's estimate of their cargo over the last four weeks against the same four weeks a year earlier. Below, the
+  Dallas Fed index of global real economic activity and the BLS deep-sea freight producer price index, each marked as
+  not a freight rate, and links to the Baltic Exchange, the Shanghai Shipping Exchange and the USDA grain vessel
+  line-up and grain ocean rates, of which no value is shown.
+- The About window lists the Shanghai Shipping Exchange and the USDA Agricultural Marketing Service among the sources.
+
 ## Release 9 (2026-11-25)
 
 ### Added

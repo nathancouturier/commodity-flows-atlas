@@ -1,0 +1,52 @@
+{
+ "about": "Quotations of a few sentences, with their address and the day they were read, from pages of the Shanghai Shipping Exchange and of the USDA Agricultural Marketing Service, and two fields of the metadata of AgTransport tables, kept so that the texts of data/sources.json (the entries sse and usda-ams) can be compared with them on every machine. Nothing else of those pages is copied here; their text belongs to their publishers. Spacing is normalised: runs of white space are one space.",
+ "read": "2026-11-25",
+ "quotations": [
+  {
+   "key": "sse-footer",
+   "registry": "sse",
+   "address": "https://en.sse.net.cn/",
+   "kind": "page text",
+   "quotation": "© 2001-2026 Shanghai Shipping Exchange Institute(Prep.) All Rights Reserved."
+  },
+  {
+   "key": "ams-privacy-public-information",
+   "registry": "usda-ams",
+   "address": "https://www.ams.usda.gov/about-ams/privacy",
+   "kind": "page text",
+   "quotation": "Information presented on the AMS web site is considered public information and may be distributed or copied. Use of appropriate byline/photo/image credits is requested."
+  },
+  {
+   "key": "ams-datasets-non-copyrighted",
+   "registry": "usda-ams",
+   "address": "https://www.ams.usda.gov/services/transportation-analysis/gtr-datasets",
+   "kind": "page text",
+   "quotation": "These data series are aggregated from non-confidential and non-copyrighted sources."
+  },
+  {
+   "key": "ams-datasets-vessel-rates-source",
+   "registry": "usda-ams",
+   "address": "https://www.ams.usda.gov/services/transportation-analysis/gtr-datasets",
+   "kind": "page text",
+   "quotation": "SOURCE: O'Neil Commodity Consulting"
+  },
+  {
+   "key": "agtransport-vessel-loading-attribution",
+   "registry": "usda-ams",
+   "address": "https://agtransport.usda.gov/api/views/vh5k-mnyv.json",
+   "kind": "metadata field",
+   "field": "attribution",
+   "quotation": "USDA Agricultural Marketing Service",
+   "absent_field": "license"
+  },
+  {
+   "key": "agtransport-vessel-rates-attribution",
+   "registry": "usda-ams",
+   "address": "https://agtransport.usda.gov/api/views/ehs5-yac3.json",
+   "kind": "metadata field",
+   "field": "attribution",
+   "quotation": "O'Neil Commodity Consulting",
+   "absent_field": "license"
+  }
+ ]
+}

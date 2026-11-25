@@ -1,0 +1,35 @@
+{
+ "about": "Quotations of a few sentences, with their address and the day they were read, from the text of the ArcGIS item \"Daily_Chokepoints_Data\" of IMF PortWatch, from the Federal Reserve Bank of Dallas's page of the index of global real economic activity and from the Baltic Exchange's Terms and Conditions, kept so that the sentences that METHODOLOGY.md and NOTICE.md quote about the Freight market now page can be compared with them on every machine. The quotations of the Shanghai Shipping Exchange and of the USDA Agricultural Marketing Service are in link_only_sources_quotations.json. Nothing else of those pages is copied here; their text belongs to their publishers. Spacing is normalised: runs of white space are one space.",
+ "read": "2026-11-25",
+ "item_name": "Daily_Chokepoints_Data",
+ "quotations": [
+  {
+   "key": "portwatch-ship-categories",
+   "registry": "portwatch",
+   "address": "https://www.arcgis.com/sharing/rest/content/items/3da2b9ca97684916b75c4013f95d18ab?f=json",
+   "kind": "item text",
+   "quotation": "all the indicators are available by 5 main ship categories: container, dry bulk, general cargo, ro-ro and tanker"
+  },
+  {
+   "key": "portwatch-chokepoint-trade-estimate",
+   "registry": "portwatch",
+   "address": "https://www.arcgis.com/sharing/rest/content/items/3da2b9ca97684916b75c4013f95d18ab?f=json",
+   "kind": "item text",
+   "quotation": "we use the vessel information (length, width, draft, capacity, block coefficient) to estimate the payload (or utilization rate) of the vessel when transiting through the chokepoint"
+  },
+  {
+   "key": "dallasfed-proxy",
+   "registry": "dallasfed",
+   "address": "https://www.dallasfed.org/research/igrea",
+   "kind": "page text",
+   "quotation": "derived from a panel of dollar-denominated global bulk dry cargo shipping rates and may be viewed as a proxy for the volume of shipping in global industrial commodity markets"
+  },
+  {
+   "key": "baltic-terms-clause-5-1",
+   "registry": "baltic",
+   "address": "https://www.balticexchange.com/en/site-services/terms-and-conditions.html",
+   "kind": "page text",
+   "quotation": "may be copied or reproduced (except for your personal use), shared with third parties, reverse engineered, reverse assembled, or used to create any derivative work (whether in physical or electronic form) without the prior written consent of the Baltic"
+  }
+ ]
+}

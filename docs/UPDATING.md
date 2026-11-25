@@ -9,7 +9,7 @@ one GitHub issue.
 | Workflow | When (UTC) | What |
 |---|---|---|
 | `update-prices.yml` | Wednesdays 21:43, Thursdays 09:43 | World Bank Pink Sheet, EIA daily spot prices, freight indicators -> `data/prices` |
-| `update-portwatch.yml` | Wednesdays 19:17 | IMF PortWatch chokepoint transits -> `data/freight/portwatch`; then the weekly port traffic -> `data/freight/port-traffic` (a second step of the same job, see "Port traffic" below); then the alert banners |
+| `update-portwatch.yml` | Wednesdays 19:17 | IMF PortWatch chokepoint transits -> `data/freight/portwatch`; then the weekly port traffic -> `data/freight/port-traffic` (a second step of the same job, see "Port traffic" below); then the alert banners and the freight market digest (`data/freight/market-now.json`, no network, see "Freight market digest" below) |
 | `update-annual.yml` | the 15th, 22:17 | USDA PSD, USGS MCS, EIA INTL, FAOSTAT and WNA (every 80 days), a check of the CEPII BACI version, then the rebuilds that depend on them |
 | `check-staleness.yml` | Mondays 13:37 | compares each source with its cadence; opens "Data stale: <source>" |
 | `watch-releases.yml` | the 3rd, 14:41 | compares the yearly pages read by hand with the release recorded; opens "New release available: <id>" |
@@ -48,7 +48,7 @@ an issue with the label `data-update` when it repeats:
 | What | Recorded as | Issue |
 |---|---|---|
 | a source fails (download refused, file malformed, a column, commodity or series missing) | a failure of that source; the previous files are kept | "Data update failing: <source>" after 3 runs in a row for a weekly source, 2 for a monthly one |
-| a build step fails (`build-freight`, `build-commodities`, `build-coverage`, ...) | a failure of the step; its previous outputs are restored (for `build-coverage`: the previous `data/coverage.json`; the other steps still run) | at the first failure |
+| a build step fails (`build-freight`, `build-commodities`, `build-coverage`, ...) | a failure of the step; its previous outputs are restored (for `build-coverage`: the previous `data/coverage.json`; the other steps still run) | at the first failure (`build-market-now`: after 3 runs in a row, see "Freight market digest") |
 | a step times out, crashes (an import error after a failed `pip install`) or is cancelled | the finish action records a failure for each source the step had begun and not recorded (`status.py interrupted`); when it had begun none, for each source it always runs | as above |
 | the data checks refuse the result (`web/scripts/validate-data.mjs`, or `guard-data.mjs`: see "The before-and-after guard" below; the guard's coverage rule is one of them: a page that lost a block of `coverage_floor.json`, see "The coverage matrix") | the whole update is discarded, path by path; a failure of every source of the job, so that its builds run again. If the checks still fail after the discard, nothing is committed, not even the failure | one "Data update discarded by the data checks", with the output of the checks (at once when nothing could be committed) |
 | the update cannot be pushed (a conflict with a newer commit, or a refused push) | the update is dropped; a failure of every source of the job, pushed alone | one "Data update not pushed" (at once when not even the failure could be pushed) |
@@ -461,6 +461,32 @@ A run that reads no port in full leaves `index.json` byte-identical when nothing
 The port page (the "Weekly port traffic" block, `PortTrafficSection.tsx`) reads `index.json` first and asks for a port's file only when the port is in
 neither list: for a port in `none` or in `pending` it shows nothing. What the block shows, and the rules of the weekly sums, the pairing of the ports and
 the revisions, are in METHODOLOGY.md (section 5, "Port traffic").
+
+### Freight market digest: the last build step of the PortWatch job
+
+`pipeline/freight/build_market_now.py` writes `data/freight/market-now.json` (about 1 kB): for tankers and for dry bulk carriers, the five
+passages with the most estimated cargo of that ship type over the 52 weeks that end a year back, with the vessel transits and PortWatch's
+estimated cargo (Mt) over the last four complete weeks (28 days) and over the same four weeks 364 days earlier, the window of the alert banners.
+The method is in METHODOLOGY.md. **It uses no network and reads nothing but `data/freight/portwatch/*.json`**: no download, no request to
+PortWatch, no `raw/` folder, no daily table, no `chokepoints.json`. It therefore runs on a fresh clone and on the runners of GitHub as it is
+(`pipeline/bootstrap.sh` runs it after the alert banners).
+
+**Where it is.** `update-portwatch.yml` runs it after the alert banners and before the digest of changes (`id: market`, `continue-on-error`, 5
+minutes). Its place relative to the port step does not matter: it reads the chokepoint files, which the chokepoint step has written, and the port
+step does not touch them. The finish step records it as source `build-market-now`, validates the file (`web/scripts/validate-freight.mjs`: the
+shape only) and commits `data/freight/market-now.json` with the other paths of the job. The annual job has no step for it: it rebuilds neither
+the weekly series nor anything this file holds.
+
+**When it fails.** The step never fails the job. It refuses, keeps the previous file, records a failure of `build-market-now` and exits 0 when: a
+weekly file is not the one its name says, has no `vol` block or lists of different lengths, does not start on a Monday, holds a value that is not a
+finite number or is negative, or has a week missing or extra (the weeks are taken by date, rebuilt from `start`: a week dropped by the weekly
+series would otherwise shift every later value by one week); fewer than five weekly files exist, or one does not reach back 104 weeks; the new
+digest would end on a date earlier than the file published. The file is not rewritten when its content is the same, so a week without new data
+makes no commit. After three failed runs in a row (not at the first, which is the rule of the other build steps: its inputs change every week and
+a short week heals with the next) "Data update failing: build-market-now" opens, with the last error. The usual cause is a week that PortWatch
+did not deliver: look at `data/freight/portwatch` (the last `y` of each file, and the number of weeks since `start`); the next weekly run
+rebuilds the digest from the files it finds. The digest has no source of its own in the staleness check: it follows `portwatch`, whose last day
+it carries as `to`.
 
 ## Releasing
 

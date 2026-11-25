@@ -13,9 +13,13 @@
 # docs/UPDATING.md says what it asks for and in how many requests: never more than its MAX_REQUESTS, not counting a request
 # repeated after an error). It writes nothing that the data checks refuse, and
 # a failure of that step costs the chokepoint update nothing: both are recorded and committed apart, by the same finish step.
+# Two later steps use no network: they rebuild, from the weekly chokepoint files already in the job, the alert banners and the
+# freight market digest (data/freight/market-now.json: tankers and dry bulk at the five passages with
+# the most cargo, the last four weeks against the same weeks a year earlier). The digest comes after the banners and after the
+# port step because it reads only the chokepoint files, which the chokepoint step has just written; the port step cannot change it.
 # Never fails because a source is down: each step is continue-on-error, invalid data is discarded, a step that did not
 # finish is recorded as failed, and the owner is alerted by one GitHub issue per source (after 3 failed runs in a row,
-# at the first failure of the alert banners).
+# at the first failure of the alert banners; the digest, whose inputs change every week, waits for three like a source).
 name: Update PortWatch
 
 on:
@@ -37,10 +41,10 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    # the limits of the steps add up to 66 minutes (10 + 5 + 25 + 15 + 1 + 5 + 5); the checkout, the setups, the finish step and
+    # the limits of the steps add up to 71 minutes (10 + 5 + 25 + 15 + 1 + 5 + 5 + 5); the checkout, the setups, the finish step and
     # the artifact upload have none, so the job gets 15 minutes more: a job limit that is hit is a red run and an e-mail
     # (pipeline/tests/test_update_jobs.py keeps it at the sum plus 15)
-    timeout-minutes: 81
+    timeout-minutes: 86
     outputs:
       deploy: ${{ steps.finish.outputs.deploy }}
     steps:
@@ -91,6 +95,12 @@ jobs:
         continue-on-error: true
         timeout-minutes: 5
         run: python pipeline/freight/build_alerts.py
+      - name: Rebuild the freight market digest from the new series
+        id: market
+        continue-on-error: true
+        timeout-minutes: 5
+        # no network: it reads data/freight/portwatch only, and keeps the previous file when a series does not hold together
+        run: python pipeline/freight/build_market_now.py
       - name: Update the "what changed" digest and feed
         id: changes
         continue-on-error: true
@@ -100,13 +110,14 @@ jobs:
         id: finish
         uses: ./.github/actions/finish-data-update
         with:
-          sources: "portwatch portwatch-port-traffic build-alerts build-changes"
-          paths: "data/freight/portwatch data/freight/port-traffic data/freight/chokepoints.json data/freight/alerts.json data/_status web/public/changes.atom"
+          sources: "portwatch portwatch-port-traffic build-alerts build-market-now build-changes"
+          paths: "data/freight/portwatch data/freight/port-traffic data/freight/chokepoints.json data/freight/alerts.json data/freight/market-now.json data/_status web/public/changes.atom"
           message: "data: update PortWatch chokepoint transits and port traffic"
           steps: |
             ${{ steps.fetch.outcome }} portwatch
             ${{ steps.ports.outcome }} portwatch-port-traffic
             ${{ steps.alerts.outcome }} build-alerts
+            ${{ steps.market.outcome }} build-market-now
             ${{ steps.changes.outcome }} build-changes
           since: ${{ steps.start.outputs.t }}
       - name: Keep the PortWatch daily table for the next run

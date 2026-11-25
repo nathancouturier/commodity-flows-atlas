@@ -1,6 +1,6 @@
 # Commodity Flows Atlas: progress
 
-_Last updated: 2026-11-25, after the ninth release of audit fixes_
+_Last updated: 2026-11-26, after the tenth release of audit fixes_
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
@@ -19,8 +19,74 @@ released. This file is updated at each release.
 | 3 | Wrong figures per commodity (gas, LNG, copper, precious metals, lithium, nickel, steel, fertilisers, cocoa) | corrections done, released on 23 November; the points that needed a new source (LPG from the United States to Mexico, tin ores from Myanmar, the steel and LNG cross-checks, metallurgical coal by pair of countries) in the seventh release, on 25 November. Left: the lanes and route shares of metallurgical coal, thermal coal by destination |
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
-| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). A release number with release notes, a way to report an error, a coverage table of the commodity pages, a voyage calculator on the route pages and port facts from the World Port Index (eighth release, 25 November). Weekly traffic per port from IMF PortWatch, loaded little by little and slowly as the owner decided on 25 November, shown on the port pages and read each week by the PortWatch job (ninth release, 25 November). Designed, built next: a block on the state of the freight market. Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
-| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, 2,018 and 165 at the ninth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The two weekly update jobs ran on GitHub in their new form for the first time on 25 November 2026 and ended green; they were started by hand, because GitHub had not started the scheduled run an hour after its time (see the ninth release and the known limits) |
+| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). A release number with release notes, a way to report an error, a coverage table of the commodity pages, a voyage calculator on the route pages and port facts from the World Port Index (eighth release, 25 November). Weekly traffic per port from IMF PortWatch, loaded little by little and slowly as the owner decided on 25 November, shown on the port pages and read each week by the PortWatch job (ninth release, 25 November). A page on the state of the freight market, as far as free and republishable data go (tenth release, 26 November). Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, 2,018 and 165 at the ninth, 2,084 and 191 at the tenth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The two weekly update jobs ran on GitHub in their new form for the first time on 25 November 2026 and ended green; they were started by hand, because GitHub had not started the scheduled run an hour after its time (see the ninth release and the known limits) |
+
+## Tenth release (26 November 2026): what changed
+
+One addition of wave 6 (audit point A-028): a page that says what the atlas can say of the freight market today,
+from data that are free and may be republished. Its design was read by a critic before anything was built (five
+points of the critique changed it, the largest: the weekly grain vessel line-up of the USDA was wrongly said to
+have no permission of reuse, see below). Four packages built it in one chain. REVIEW-TO-WRITE
+
+### The page "Freight market now"
+
+- It opens from one new row under "Routes by vessel class", while the Freight view is open
+  (`#f=freight&sel=board:freight-now`). The Freight dropdown and "Routes by vessel class" are unchanged.
+- **Two lists, tankers and dry bulk carriers**, each of five passages: the vessels that crossed the passage and
+  PortWatch's estimate of their cargo over the last four complete weeks (28 days, to 22 November 2026 today)
+  against the same four weeks a year earlier, with the change. Today: tankers at the Strait of Hormuz, 22
+  transits against 1,211 (down 98.2%); at the Luzon Strait, 953 against 566 (up 68.4%); dry bulk carriers at the
+  Bohai Strait, 2,373 against 2,750 (down 13.7%). The figures are totals over the 28 days, the scale of the
+  status board of the passages.
+- The five passages of each list are those with the most estimated cargo of the ship type over the 52 weeks that
+  end a year before the window: a rule of the atlas, not of PortWatch, ranked a year back so that a collapse this
+  year (Hormuz) does not remove the passage that explains the market. A ship that crosses several passages is
+  counted at each: the rows are not added and there is no world total.
+- **Two indicators, neither a freight rate**, read from the price files the site already has: the Dallas Fed's
+  index of global real economic activity (43.29% deviation from trend in October 2026; no change in percent is
+  printed for a deviation from a trend) and the BLS producer price index of deep-sea freight (572.97 in October
+  2026, up 36.2% on the year). Each opens in the price drawer.
+- **Five links, no value shown**: the Baltic Exchange's indices, the Shanghai Shipping Exchange's two indices of
+  freight into China, and the USDA Agricultural Marketing Service's weekly grain vessel line-up and grain ocean
+  rates.
+- What the page does not show, and says so: no freight rate, no Baltic value, no figure for gas carriers.
+  PortWatch's item lists five ship classes (container, dry bulk, general cargo, ro-ro and tanker) and defines
+  none, so the atlas cannot say whether gas carriers are in its tanker class.
+- When the digest cannot be read, one muted line replaces the two lists and the rest of the page stays.
+
+### The digest and the weekly job
+
+- The figures of the two lists are in one small file (`data/freight/market-now.json`, about 1 kB), built by
+  `pipeline/freight/build_market_now.py` from the weekly passage files already in the repository: no request to
+  PortWatch or to anyone. Weeks are taken by their dates, not by their position in a file, and a file with a
+  week missing is refused.
+- It is the last build step of the weekly PortWatch job. A refusal (a series that does not hold together, fewer
+  than five passages, a date earlier than the stored one, a value that is not a number) keeps the previous file,
+  is recorded, and cannot turn the job red; an issue opens after three failed runs in a row, as for a weekly
+  source. The validator checks the shape of the file only, so that a secondary file can never discard the
+  weekly update.
+
+### Texts and terms
+
+- METHODOLOGY (section 5) states every rule of the digest and of the page; `NOTICE.md` says what the page takes
+  from IMF PortWatch (no new request; the transformation stated) and what it only links to.
+- Two publishers enter the registry as links only, with the sentences read on their pages on 25 November 2026:
+  the Shanghai Shipping Exchange (its pages say "All Rights Reserved" and state no licence) and the USDA
+  Agricultural Marketing Service. The AMS says of its web site: "Information presented on the AMS web site is
+  considered public information and may be distributed or copied. Use of appropriate byline/photo/image credits
+  is requested." The design had concluded that no page allowed reuse; the critic found this page. The weekly
+  vessel line-up is also published as a file on that web site: a later release can show it, credited, from
+  there. The grain ocean rates stay a link: the AMS credits them to a private firm.
+- Two older sentences of METHODOLOGY said more than the atlas had read ("no freight rate ... is both free and
+  republishable"; several publishers' values called "proprietary"): they now say what the atlas read.
+
+### Checks
+
+- 2,084 unit tests (2,018 at the ninth release) and 191 web tests (165), all passing without the raw downloads
+  and with the variables a GitHub machine sets; a second run of every builder changes no file; the checks of
+  GitHub rehearsed on a fresh clone. The script of the site stands at 560 of its 600 kB (the page is a separate
+  piece of 9 kB, loaded when it is opened).
 
 ## Ninth release (25 November 2026): what changed
 
@@ -1299,13 +1365,25 @@ These were needed to finish the work; each is reversible.
      small pieces, not for this figure.
    - **What the registry says of the rhythm** of the port table: "daily rows; rhythm not stated by the
      publisher; read weekly by the atlas", because no page read states how often PortWatch updates it.
+15. Tenth release, each reversible:
+   - **The page and its entry**: a page of the detail panel, opened from one row under "Routes by vessel
+     class", not a block inside the side panel.
+   - **Five passages, four weeks, 52 weeks**, and the rule that ranks the passages (the estimated cargo of the
+     ship type over the 52 weeks that end a year before the window).
+   - **Totals over 28 days**, the scale of the status board of the passages, not vessels a day.
+   - **The alert of the new build step after three failed runs**, as a weekly source, where the other build
+     steps alert at their first failure.
+   - **Links only** for the Shanghai Shipping Exchange, the USDA's grain ocean rates and, in this release, the
+     USDA's weekly grain vessel line-up (the AMS sentence would allow showing it from the AMS web site's file).
+   - **Two older sentences of METHODOLOGY reworded** so that they speak of what the atlas read.
 
 ## Known limits
 
 - Baltic Exchange index values are proprietary and are not shown.
 - **GitHub has not started a scheduled run in this repository yet.** The two weekly jobs ran in their reworked
-  form on 25 November 2026, started by hand, and ended green (see the ninth release). The scheduled run of the
-  PortWatch job had not started an hour after its time, and whether GitHub starts the scheduled runs of this
+  form on 25 November 2026, started by hand, and ended green (see the ninth release). Neither scheduled run of
+  that evening (PortWatch at 19:17 UTC, prices at 21:43 UTC) had started an hour after its time, and whether
+  GitHub starts the scheduled runs of this
   repository at all is not known: the next are the prices job on Thursday 26 November at 09:43 UTC and the
   freshness check on Monday 30 November at 13:37 UTC. Until one has started by itself, the weekly jobs may have
   to be started by hand, and the freshness check, which is itself scheduled, cannot be relied on to say so.
@@ -1319,6 +1397,14 @@ These were needed to finish the work; each is reversible.
   is to be looked at.
 - No freight rate in USD per tonne and no Baltic value: the atlas has routes, definitions and two long
   indicators, not rates.
+- Freight market now: the page gives activity at passages and two indicators, not rates; its five passages per
+  ship type are a rule of the atlas and leave out a passage that carried little a year ago; a ship that crosses
+  several passages is counted at each; no figure for gas carriers (PortWatch defines none of its five ship
+  classes); the weekly grain vessel line-up of the USDA is linked, not shown yet. The new step of the PortWatch
+  job has not run on GitHub.
+- `NOTICE.md` calls the publications of the USGS and of the USDA "public domain" as it does the EIA's: a quoted
+  page supports it for the EIA only (its "Copyrights and Reuse" page). The pages of the USGS and of the USDA
+  Foreign Agricultural Service are still to be read and quoted.
 - Events: 37 of the 80 events still cite a Wikipedia article as one of their pages; one (the cobalt export
   suspension of the Democratic Republic of the Congo) rests on a trade-press page that asks for a free account
   after three articles.
@@ -1541,7 +1627,18 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
     may not exceed 3,500 kB; at the growth measured it warns in 2028 and would stop in 2029: raise the limit when
     the warning comes, or now? (d) Is "retrying" the right word for a source whose first runs fail, before it is
     called stale?
-35. The choices listed above, each reversible.
+35. **Freight market now.** (a) Show the USDA's weekly count of grain vessels (US Gulf, Pacific Northwest) on
+    the page, taken from the file on the AMS web site and credited, on the AMS sentence quoted in the tenth
+    release? (Planned as the next addition to the page unless the owner objects.) (b) "Copy citation" names the
+    Dallas Fed's index by its registry name, which does not hold the Bank's name (the page and the About window
+    do): rename the entry? (c) Rows per port (tanker and dry bulk cargo at a few named ports, from the weekly
+    port series) on the same page?
+36. **GitHub's scheduled runs.** If the scheduled jobs do not start by themselves in the coming days: a
+    temporary workflow that only prints the time four times an hour would tell quickly whether GitHub starts
+    scheduled runs here at all (prepared, not added: adding it is the owner's call); and if the cause is that
+    every commit to the workflow files was made under a name that is no GitHub account, a commit by the owner
+    that touches the schedule line would make him the user the schedule is attached to.
+37. The choices listed above, each reversible.
 
 ## Update jobs
 

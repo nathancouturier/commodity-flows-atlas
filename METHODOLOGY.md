@@ -1274,6 +1274,87 @@ type, not one commercial class, whose fleet, age and orderbook are not published
   "Details", with the note that the passages are on the same routes and the shares are not additive. The weekly job runs the builder after the PortWatch update and the annual job after the
   freight build. A threshold is never a reason to open an issue: the severity changes on the banner
   and the build prints the change.
+- **Freight market now** (the page `#sel=board:freight-now`, opened from the row of that name under "Routes by vessel class" while the
+  Freight view is open; `pipeline/freight/build_market_now.py`, `data/freight/market-now.json`). For dry bulk carriers and for tankers the page
+  lists five passages each, with the vessel transits and IMF PortWatch's estimate of the cargo over the last four complete weeks (28 days)
+  against the same four weeks a year earlier, and the change; below them it shows two indicators from the price files and five links. It
+  shows no freight rate, no Baltic Exchange value and no gas carrier figure, and no world total. The digest is arithmetic on the weekly chokepoint series
+  of IMF PortWatch, credited to it (source id `portwatch`, "data adapted") and not marked "Atlas estimate". The method below is the atlas's
+  own, a choice made without the owner, listed in `PROGRESS.md`. The assumptions, in the order the builder applies them:
+  - **Input.** Only the weekly files `data/freight/portwatch/<passage>.json` that `build_portwatch.py` writes: no network, no daily table, nothing
+    under `raw/` or `pipeline/cache/`. The digest holds no name: the page takes the atlas's name of each passage from `chokepoints.json` and,
+    for a passage the catalogue lacks, prints its id and no link.
+  - **Weeks are taken by date, never by position.** A weekly file gives its first week (`start`, a Monday) and one value a week: the date of
+    each week is rebuilt from it, and a file whose number of values does not match its dates (a week that went missing would move every later
+    value by one week) is refused. A week is the calendar week from Monday to Sunday, as in the weekly series.
+  - **The last complete week.** For a file it is the week that ends on the last Sunday not after the file's last day, so the partial week at the
+    end is left out. `to`, the date the page prints, is the earliest of those Sundays over all the files: a series that lags dates the digest
+    earlier, it does not stop it.
+  - **The windows.** The four weeks that end on `to` (28 days, the window of the alert banners), and the same four weeks 52 weeks (364 days,
+    the same weekdays) earlier, which end on `yearAgoTo`.
+  - **The totals.** For a passage and a ship type the weekly means (vessels a day, which `build_portwatch.py` rounds to 0.1) times 7, summed over
+    the four weeks, as whole vessels with a half rounded up; and the same on PortWatch's estimate of the cargo (Mt a day, weekly means to four
+    decimals), written to three significant figures. The arithmetic is in decimals, so that a half is never decided by a binary rounding. The totals
+    agree with the 28-day comparison of the alert banners (all ships) except for the rounding of the weekly means to 0.1 vessels a day;
+    a test holds the gap to a bound.
+  - **Which five.** The five passages with the most estimated cargo of the ship type over the 52 weeks that end with the year-earlier window
+    (`rankMt`, Mt, three significant figures; a tie goes by id). They are ranked a year back so that a collapse this year does not remove the
+    passage that explains the market. This is a rule of the atlas, not of PortWatch, and the page says so above each list; a
+    passage that matters this year and carried little a year ago is not shown; one passage can be in both lists. Five passages, four weeks and
+    52 weeks are the atlas's choices.
+  - **Counting.** A ship that crosses several passages is counted at each of them: the rows are not added, the page says so, and it has no
+    world total (the weekly series hold none).
+  - **Ship classes.** PortWatch's text for its chokepoint table (the ArcGIS item "Daily_Chokepoints_Data",
+    https://www.arcgis.com/sharing/rest/content/items/3da2b9ca97684916b75c4013f95d18ab?f=json, read 25 November 2026) says that "all the
+    indicators are available by 5 main ship categories: container, dry bulk, general cargo, ro-ro and tanker", and does not define any of them;
+    it does not mention gas, LNG or LPG carriers. The page therefore says that the atlas cannot tell whether gas carriers are in PortWatch's tanker
+    class, that the tanker figures may include them, and shows no gas carrier figure. The atlas's own convention of comparing LNG and LPG carriers with
+    the tankers of PortWatch in its passage estimates (section 4) is its assumption, not a statement of PortWatch. The cargo is what PortWatch says
+    it is: "we use the vessel information (length, width, draft, capacity, block coefficient) to estimate the payload (or utilization rate) of the
+    vessel when transiting through the chokepoint" (same text), an estimate and not a customs statistic.
+  - **What the page prints.** The change is (now - ago) / ago on the whole vessels and on the three-figure cargo, with one decimal and a true
+    minus. A fall that one decimal would round to 100% while ships remain reads −99.9%: −100% is printed only when nothing is left. There is
+    no change in per cent where the year-earlier figure is zero (a dash). A cargo under 0.05 Mt, the status board's limit, is printed "under 0.05 Mt" and has no
+    figure, and its change is a bound ("down more than N%"). The page prints the dates of both windows, the unit words of the status board
+    and the source line of IMF PortWatch with the transformation, "weekly averages of PortWatch's daily counts, times 7 and summed over the four weeks".
+  - **Refusals.** The builder keeps the previous file, records the failure as `build-market-now` and ends with exit code 0, so a data job never
+    fails because of it, when: a file is not the series its name says or has no estimated cargo; its lists are missing or of different lengths;
+    its first week is not a Monday; a value is not a finite number or is negative; a week is missing or extra; a series does not reach back far
+    enough; fewer than five series exist; or `to` is earlier than the one published. The file is not rewritten when its content is the same, so a week
+    without new data makes no commit. The step alerts after three failed runs in a row, as a weekly source does: it runs on inputs that change every week,
+    and a short PortWatch week heals with the next one. The validator of the data checks the shape only (keys, five rows a type, finite numbers
+    that are not negative, two dates 364 days apart, the ranking figure not increasing) and reads no other file, so that it is never stricter than the
+    builder. The step is the last build step of the weekly PortWatch job; the annual job rebuilds neither the weekly series nor this file. The digest
+    has no freshness entry of its own: it follows `portwatch`, and its own date is `to`. With the file missing or unreadable the page prints
+    one line, "No traffic figures are available.", and keeps the indicators and the links.
+  - **The two indicators** are series of the price files shown as they are (`igrea-m` and `freight-ppi-m`, section 7), and neither is a freight
+    rate. The index of global real economic activity (Federal Reserve Bank of Dallas, for dry bulk) is, in the Bank's words on its page of the
+    index (https://www.dallasfed.org/research/igrea, read 25 November 2026), "derived from a panel of dollar-denominated global bulk dry cargo
+    shipping rates and may be viewed as a proxy for the volume of shipping in global industrial commodity markets": a deflated, detrended measure
+    of activity in percent deviation from trend, built on rates. The page cites Kilian (2009) with the correction of Kilian (2019), as the Bank does.
+    The producer price index of deep-sea freight (U.S. Bureau of Labor Statistics, for all ships, June 1988 = 100) measures the prices that US
+    deep-sea carriers receive, not a spot rate. The value of the same month a year earlier is found by its date; the change on one year is the
+    price board's own figure for the series and a deviation from a trend has none; the mark "late" is the price board's (a monthly series is late
+    from the 15th of the second month after its last month). The Global Supply Chain Pressure Index is not shown: its own description says that it
+    combines the Baltic Dry Index, the Harpex index and air freight costs with survey components (section 7).
+  - **Links, no value.** The page links to, and shows no value of, the Baltic Exchange indices (registry `baltic`), the China Import Dry Bulk Freight Index
+    and the China Import Crude Oil Tanker Freight Index of the Shanghai Shipping Exchange (`sse`) and the weekly grain vessel line-up and the grain
+    ocean freight rates of the USDA Agricultural Marketing Service (`usda-ams`). A link is not cited: it has no source line and no date. What the pages
+    say, read on 25 November 2026. Baltic Exchange, clause 5.1 of its Terms and Conditions
+    (https://www.balticexchange.com/en/site-services/terms-and-conditions.html): no part of the website or its content "may be copied or reproduced
+    (except for your personal use), shared with third parties, reverse engineered, reverse assembled, or used to create any derivative work (whether in
+    physical or electronic form) without the prior written consent of the Baltic"; the link is to its page of indices (https://www.balticexchange.com/en/data-services/market-information0/indices.html). Shanghai Shipping Exchange:
+    the only statement read on its pages is the footer "© 2001-2026 Shanghai Shipping Exchange Institute(Prep.) All Rights Reserved." (https://en.sse.net.cn/,
+    spacing normalised), which the list of indices and the two index pages (https://en.sse.net.cn/indices/cdfinew2.jsp and
+    https://en.sse.net.cn/indices/ctfinew2.jsp) carry too; the home page has a block headed laws that links to a page of laws and regulations, which was not read, and no page of terms was read.
+    The index pages fill their tables by script, so no value was read; both indices measure freight into China only. USDA Agricultural Marketing Service: its privacy page (https://www.ams.usda.gov/about-ams/privacy) says "Information
+    presented on the AMS web site is considered public information and may be distributed or copied. Use of appropriate byline/photo/image credits is
+    requested." It names the AMS web site, not the AgTransport host (agtransport.usda.gov) whose tables carry the vessel line-up and the rates, and those
+    tables state the attribution "USDA Agricultural Marketing Service" (line-up) and "O'Neil Commodity Consulting" (rates) and no licence field
+    (https://agtransport.usda.gov/api/views/vh5k-mnyv.json and https://agtransport.usda.gov/api/views/ehs5-yac3.json). The page of the datasets
+    (https://www.ams.usda.gov/services/transportation-analysis/gtr-datasets) says "These data series are aggregated from non-confidential and
+    non-copyrighted sources." and gives "SOURCE: O'Neil Commodity Consulting" for the grain vessel rates, U.S. to Japan. The atlas does not read the
+    privacy sentence as covering rates credited to a private firm, and it shows neither series: the line-up and the rates are links, to the AMS page of the datasets.
 - **Events** carry `commodities`, `countries` and `assets` when their own text (title, summary,
   impact, and the names of the assets they link to) names them, by whole words (`pipeline/freight/event_links.py`
   is the rule; the tests check every event against it: "tin" is not "tinplate", "gas" is not
@@ -1441,9 +1522,9 @@ totals of the series by year are the same for every country: they are in one fil
   read are served with the site, and no button offers a CSV file or a copy of them (the owner decided on 25 November 2026 to
   keep these series, saying where they come from: see "Decisions of the owner" in PROGRESS.md); the quotations and the
   addresses are in the registry entry `eia-spot` (terms to be confirmed).
-- Freight (the "Freight" family of the price drawer and the board): no freight rate is shown, because
-  none is both free and republishable. Three indicators are, each taken from its publisher and each
-  labelled for what it is (`pipeline/prices/freight_indicators.py`):
+- Freight (the "Freight" family of the price drawer and the board): the atlas shows no freight rate: none
+  of the sources it has read is both free and open to republication. Three indicators are shown, each taken
+  from its publisher and each labelled for what it is (`pipeline/prices/freight_indicators.py`):
   - US deep-sea freight services, producer price index (U.S. Bureau of Labor Statistics, series
     PCU483111483111, June 1988 = 100, not seasonally adjusted, monthly). It measures the prices US
     deep-sea carriers receive; it is not a spot rate and moves far less than the Baltic indices: +0.7%
@@ -1467,9 +1548,12 @@ totals of the series by year are the same for every country: they are in one fil
     standard deviations from its average: it combines the Baltic Dry Index, the Harpex container index
     and BLS air freight costs with PMI supply-chain components. Its last months are revised.
   The board shows no change in percent for the two deviation measures (a value that crosses zero has
-  none). A series that stops advancing raises the "late series" failure of its source.
-- Freight rates that are not stored. Baltic Exchange, Shanghai Shipping Exchange, Clarksons, Platts,
-  Argus and Ship & Bunker values are proprietary. The USDA Agricultural Marketing Service publishes
+  none). A series that stops advancing raises the "late series" failure of its source. The Freight market now page (section 5) shows the first two
+  of these three, with the value of the same month a year earlier, and says that neither is a freight rate.
+- Freight rates that are not stored. The atlas stores no value of the Baltic Exchange (its terms restrict
+  the copying of its content: NOTICE.md), of the Shanghai Shipping Exchange (the pages read say "All Rights
+  Reserved" and state no licence) or of Clarksons, Platts, Argus and Ship & Bunker, for which it has read no
+  terms that allow republication. The USDA Agricultural Marketing Service publishes
   free grain ocean rates on its AgTransport platform: US Gulf and Pacific Northwest to Japan (dataset
   ehs5-yac3, source "O'Neil Commodity Consulting"), Brazilian ports to Shanghai and Hamburg (j6ns-hzra,
   source University of São Paulo ESALQ and USDA), Ukrainian ports to Egypt and other buyers (2n8s-739j,
@@ -1483,7 +1567,10 @@ totals of the series by year are the same for every country: they are in one fil
   dry bulk and tanker route pages link to them ("Ocean freight transportation (except Ocean tankers)",
   "Ocean tankers").
   Every route page says that Baltic assessments are proprietary and links to the Baltic Exchange. The voyage calculator
-  of the route pages stores no rate either: its freight and hire are typed by the visitor and are not kept (section 3).
+  of the route pages stores no rate either: its freight and hire are typed by the visitor and are not kept (section 3). The Freight market now page
+  links to the Baltic Exchange indices, to the two China import indices of the Shanghai Shipping Exchange and to the weekly grain vessel line-up and the grain
+  ocean freight rates of the USDA Agricultural Marketing Service, and shows no value of them; the sentences read on their pages are in section 5, under
+  "Freight market now".
 - Annual prices: USGS Mineral Commodity Summaries 2026, rows "Price" of the Salient Statistics
   (lithium carbonate, manganese ore CIF China, rare-earth oxides, bauxite and alumina "average unit
   value of imports, free alongside ship (f.a.s.)", cobalt, palladium, rhodium): one value a year,

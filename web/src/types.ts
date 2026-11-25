@@ -1445,3 +1445,29 @@ export interface PriceSeries {
   d?: number[];
   v: (number | null)[];
 }
+
+/** One passage of the freight market digest: vessels and estimated cargo over 28 days, now and a year earlier. */
+export interface MarketNowRow {
+  id: string;
+  /** vessel transits of the ship type in the window (whole vessels) */
+  now: number;
+  ago: number;
+  /** PortWatch's estimated cargo of the ship type, Mt over the window (three significant figures) */
+  mt: { now: number; ago: number };
+  /** the cargo of the ship type over the 52 weeks that end with the year-earlier window: what ranks the passage (Mt) */
+  rankMt: number;
+}
+
+/** data/freight/market-now.json — tankers and dry bulk carriers at the five passages with the most cargo of the type (weekly job, from the portwatch files). */
+export interface MarketNow {
+  s: string;
+  /** last day (a Sunday) of the window; the year-earlier window ends on `yearAgoTo`, 364 days before */
+  to: string;
+  yearAgoTo: string;
+  weeks: number;
+  days: number;
+  rankWeeks: number;
+  unit: string;
+  mtUnit: string;
+  types: { tanker: MarketNowRow[]; dry: MarketNowRow[] };
+}

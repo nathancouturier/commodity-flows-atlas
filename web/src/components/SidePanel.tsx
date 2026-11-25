@@ -29,6 +29,7 @@ import {
 } from '../lib/store';
 import { FAMILY_COLOR, FAMILY_LABEL } from '../lib/format';
 import { LANE_GROUPS, SEGMENT_COLOR, SEGMENT_LABEL, loadRoutes, openVesselClass, routeMatches, segmentOf, vesselClassList, vesselName, finderCommodity } from '../lib/freight';
+import '../styles/freight-now.css';
 import { RouteFinderSlot } from './RouteFinder';
 import { LayerSwitches, InfraTypeChips } from './LayerSwitches';
 import { flyToWorld } from '../map/controller';
@@ -113,6 +114,7 @@ export function SidePanel() {
       <div class="panel-scroll" id="controls-body">
         <CommoditySection current={current} />
         <FreightSection />
+        <FreightNowEntry />
         <div class="panel-block">
           <Dropdown name="Route finder" stack value={<RouteFinderSummary />} open={routeFinderOpen.value} onToggle={(o) => (routeFinderOpen.value = o)}>
             <RouteFinderSlot always />
@@ -379,6 +381,20 @@ function FreightSection() {
         </div>
         {freight && <RouteList />}
       </Dropdown>
+    </div>
+  );
+}
+
+/** One row under Routes by vessel class, on the Freight view or while its page is open: a click opens the Freight market now page, a second click closes it. */
+function FreightNowEntry() {
+  const sel = selection.value;
+  const open = sel?.kind === 'board' && sel.id === 'freight-now';
+  if (family.value !== 'freight' && !open) return null;
+  return (
+    <div class="panel-block">
+      <button class="fn-entry" aria-pressed={open} onClick={() => select(open ? null : { kind: 'board', id: 'freight-now' })}>
+        Freight market now
+      </button>
     </div>
   );
 }

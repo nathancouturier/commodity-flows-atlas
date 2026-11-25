@@ -69,6 +69,7 @@ function write(root, d) {
   if (d.alerts) put('freight/alerts.json', d.alerts);
   if (d.commodities) put('commodities/index.json', d.commodities);
   if (d.prices) put('prices/index.json', d.prices);
+  if (d.market) put('freight/market-now.json', d.market);
   if (d.assets) put('infrastructure/ports.geojson', { type: 'FeatureCollection', features: d.assets.map((id) => ({ properties: { id } })) });
 }
 
@@ -341,6 +342,90 @@ rejects('a standard vessel with no year', withClasses((d) => (d.classes[0].std.y
 rejects('a bench that names a class that does not exist', withClasses((d) => (d.classes[1].bench.id = 'nowhere')), 'bench names "nowhere"');
 rejects('a bench that names a class with no standard vessel', withClasses((d) => (d.classes[1].bench.id = 'odd')), 'bench names odd');
 rejects('a bench whose class lost the legs of its standard vessel', withClasses((d) => delete d.classes[0].std.cons.laden), 'bench names big');
+
+// ---- the digest of the freight market page: its shape only, never stricter than the builder (a rule here discards the whole weekly update)
+const marketRow = (id, rank) => ({ id, now: 1200, ago: 1500, mt: { now: 40.5, ago: 52.1 }, rankMt: rank });
+const market = () => ({
+  s: 'portwatch', to: '2026-11-22', yearAgoTo: '2025-11-23', weeks: 4, days: 28, rankWeeks: 52,
+  unit: 'vessel transits in 28 days', mtUnit: 'Mt of estimated cargo in 28 days',
+  // passages that chokepoints.json of base() does not hold: the digest is checked on its own
+  types: {
+    tanker: ['p1', 'p2', 'p3', 'p4', 'p5'].map((id, i) => marketRow(id, 900 - 100 * i)),
+    dry: ['p6', 'p2', 'p7', 'p8', 'p9'].map((id, i) => marketRow(id, 800 - 100 * i)),
+  },
+});
+const withMarket = (mutate) => (d) => {
+  d.sources = [{ id: 'portwatch' }, { id: 'atlas' }];
+  d.market = market();
+  mutate?.(d.market, d);
+};
+test('a valid digest passes, whatever the chokepoint file holds', () => {
+  const { errors, status } = run(withMarket());
+  assert.deepEqual(errors, []);
+  assert.equal(status, 0);
+});
+test('a folder with no digest passes: the file is checked only when it exists', () => {
+  assert.deepEqual(run().errors, []);
+});
+test('a tie in the ranking figure is accepted: the figures are rounded to three significant figures', () => {
+  const { errors, status } = run(withMarket((m) => {
+    m.types.tanker[1].rankMt = m.types.tanker[0].rankMt;
+    m.types.tanker[4].rankMt = m.types.tanker[3].rankMt;
+  }));
+  assert.deepEqual(errors, []);
+  assert.equal(status, 0);
+});
+test('a passage that chokepoints.json does not hold is accepted: the page says so, the week\'s data is not discarded', () => {
+  const { errors, status } = run(withMarket((m) => {
+    m.types.tanker[0].id = 'renamed-last-month';
+  }));
+  assert.deepEqual(errors, []);
+  assert.equal(status, 0);
+});
+test('a passage in both lists, a figure of 0 and a whole-tonne cargo are accepted', () => {
+  const { errors } = run(withMarket((m) => {
+    m.types.tanker[0].mt = { now: 0, ago: 1280 };
+    m.types.tanker[0].now = 0;
+  }));
+  assert.deepEqual(errors, []);
+});
+const market_rejects = (name, mutate, expected) => rejects(name, withMarket(mutate), expected);
+market_rejects('a digest whose source is not in the registry', (m) => (m.s = 'nobody'), 's "nobody" is not a source id');
+market_rejects('a date that is not ISO', (m) => (m.to = '22 Nov 2026'), 'to "22 Nov 2026" is not a date');
+market_rejects('a date that does not exist', (m) => (m.yearAgoTo = '2025-02-30'), 'yearAgoTo "2025-02-30" is not a date');
+market_rejects('two dates 363 days apart', (m) => (m.yearAgoTo = '2025-11-24'), 'are not 364 days apart');
+market_rejects('a window of three weeks', (m) => (m.weeks = 3), 'weeks, days and rankWeeks must be 4, 28 and 52');
+market_rejects('a window of 27 days', (m) => (m.days = 27), 'weeks, days and rankWeeks must be 4, 28 and 52');
+market_rejects('a unit that is not a text', (m) => (m.unit = 28), 'unit must be a text');
+market_rejects('an unknown key', (m) => (m.generated = '2026-11-25'), 'exactly the keys');
+market_rejects('a missing key', (m) => delete m.mtUnit, 'exactly the keys');
+market_rejects('a name in a row (the atlas names are read from chokepoints.json by the page)', (m) => (m.types.dry[0].name = 'Bohai Strait'), 'types.dry[0] must have exactly the keys');
+market_rejects('a gas list', (m) => (m.types.gas = []), 'types must have exactly the ship types tanker and dry');
+market_rejects('a list of four passages', (m) => m.types.tanker.pop(), 'types.tanker must be a list of 5 rows');
+market_rejects('a list of six passages', (m) => m.types.dry.push(marketRow('p10', 1)), 'types.dry must be a list of 5 rows');
+market_rejects('a passage twice in a list', (m) => (m.types.tanker[3].id = 'p1'), 'passage p1 appears twice');
+market_rejects('a row without an id', (m) => (m.types.tanker[2].id = ''), 'types.tanker[2]: no id');
+market_rejects('a negative count', (m) => (m.types.tanker[0].now = -1), 'types.tanker[0].now: -1 is not a finite number');
+market_rejects('a count that is a text', (m) => (m.types.tanker[0].ago = '1500'), 'types.tanker[0].ago: "1500"');
+market_rejects('a cargo that is not a number (null: NaN in a JSON file)', (m) => (m.types.dry[1].mt.now = null), 'types.dry[1].mt.now: null');
+market_rejects('a negative cargo a year back', (m) => (m.types.dry[1].mt.ago = -0.5), 'types.dry[1].mt.ago: -0.5');
+market_rejects('a cargo block with a third key', (m) => (m.types.dry[1].mt.avg = 3), 'types.dry[1].mt must have exactly now and ago');
+market_rejects('a ranking figure that is missing', (m) => (m.types.tanker[4].rankMt = null), 'types.tanker[4].rankMt: null');
+market_rejects('a ranking figure that increases down the list', (m) => (m.types.tanker[2].rankMt = 950), 'rankMt 950 is larger than the one above it');
+market_rejects('a digest that is not an object', (m, d) => (d.market = [1, 2]), 'must be an object with exactly the keys');
+test('a digest file that is not JSON is reported', () => {
+  const root = fs.mkdtempSync(path.join(os.tmpdir(), 'freight-validate-'));
+  try {
+    const d = base();
+    write(root, d);
+    fs.writeFileSync(path.join(root, 'freight/market-now.json'), '{"s":');
+    const errors = [];
+    validateFreight(root, errors);
+    assert.ok(errors.some((e) => e.includes('freight/market-now.json: unreadable')), JSON.stringify(errors));
+  } finally {
+    fs.rmSync(root, { recursive: true, force: true });
+  }
+});
 
 if (failed) {
   console.error(`\n${failed} test(s) failed`);
