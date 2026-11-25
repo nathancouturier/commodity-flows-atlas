@@ -69,18 +69,6 @@
   "to": "2026-10",
   "moves": [
    {
-    "id": "igrea-m",
-    "name": "Index of global real economic activity (Dallas Fed, Kilian)",
-    "k": "freight",
-    "unit": "% deviation from trend",
-    "s": "dallasfed",
-    "from": "2026-09",
-    "to": "2026-10",
-    "v0": 63.949083,
-    "v1": 43.287061,
-    "pct": -32.3
-   },
-   {
     "id": "ttf-m",
     "name": "Natural gas, Europe (World Bank series; Dutch TTF hub basis in recent years)",
     "k": "natural-gas",
@@ -127,6 +115,18 @@
     "v0": 1784.0,
     "v1": 1621.0,
     "pct": -9.1
+   },
+   {
+    "id": "ng-index-m",
+    "name": "Natural gas price index (Europe, US, Japan LNG)",
+    "k": "index",
+    "unit": "index (2010 = 100)",
+    "s": "wb-pink",
+    "from": "2026-09",
+    "to": "2026-10",
+    "v0": 167.7,
+    "v1": 182.7,
+    "pct": 8.9
    }
   ],
   "refused": []
@@ -260,7 +260,8 @@
     }
    ],
    "sources": [
-    "portwatch"
+    "portwatch",
+    "portwatch-port-traffic"
    ]
   },
   {
@@ -324,11 +325,11 @@
    "t": "2026-11-25T20:38:17Z",
    "title": "Price moves, week to 24 Nov 2026",
    "lines": [
-    "Jet fuel (kerosene), US Gulf Coast, daily spot: −9.7% in the week to 24 Nov 2026 (3.76 to 3.40 USD/gal; eia-spot)",
-    "No. 2 heating oil, New York Harbor, daily spot: −9.0% in the week to 24 Nov 2026 (3.96 to 3.60 USD/gal; eia-spot)",
-    "WTI crude, daily spot (Cushing): −8.1% in the week to 24 Nov 2026 (89.53 to 82.24 USD/bbl; eia-spot)",
-    "Ultra-low sulphur diesel, New York Harbor, daily spot: −7.3% in the week to 24 Nov 2026 (4.09 to 3.79 USD/gal; eia-spot)",
-    "Henry Hub natural gas, daily spot: +6.5% in the week to 24 Nov 2026 (3.10 to 3.30 USD/MMBtu; eia-spot)"
+    "Jet fuel (kerosene), US Gulf Coast, daily spot: −9.7% in the week to 24 Nov 2026 (3.76 to 3.40 USD/gal; EIA, source: Refinitiv)",
+    "No. 2 heating oil, New York Harbor, daily spot: −9.0% in the week to 24 Nov 2026 (3.96 to 3.60 USD/gal; EIA, source: Refinitiv)",
+    "WTI crude, daily spot (Cushing): −8.1% in the week to 24 Nov 2026 (89.53 to 82.24 USD/bbl; EIA, source: Refinitiv)",
+    "Ultra-low sulphur diesel, New York Harbor, daily spot: −7.3% in the week to 24 Nov 2026 (4.09 to 3.79 USD/gal; EIA, source: Refinitiv)",
+    "Henry Hub natural gas, daily spot: +6.5% in the week to 24 Nov 2026 (3.10 to 3.30 USD/MMBtu; EIA, source: Refinitiv)"
    ]
   },
   {
@@ -350,11 +351,11 @@
    "t": "2026-11-23T06:24:48Z",
    "title": "Price moves, week to 17 Nov 2026",
    "lines": [
-    "Jet fuel (kerosene), US Gulf Coast, daily spot: −5.5% in the week to 17 Nov 2026 (3.98 to 3.76 USD/gal; eia-spot)",
-    "Propane, Mont Belvieu, daily spot: −4.9% in the week to 17 Nov 2026 (1.07 to 1.02 USD/gal; eia-spot)",
-    "Gasoline, New York Harbor, daily spot: −3.6% in the week to 17 Nov 2026 (2.42 to 2.33 USD/gal; eia-spot)",
-    "Henry Hub natural gas, daily spot: +3.3% in the week to 17 Nov 2026 (3.00 to 3.10 USD/MMBtu; eia-spot)",
-    "Brent crude, daily spot (FOB): +3.1% in the week to 17 Nov 2026 (90.16 to 92.94 USD/bbl; eia-spot)"
+    "Jet fuel (kerosene), US Gulf Coast, daily spot: −5.5% in the week to 17 Nov 2026 (3.98 to 3.76 USD/gal; EIA, source: Refinitiv)",
+    "Propane, Mont Belvieu, daily spot: −4.9% in the week to 17 Nov 2026 (1.07 to 1.02 USD/gal; EIA, source: Refinitiv)",
+    "Gasoline, New York Harbor, daily spot: −3.6% in the week to 17 Nov 2026 (2.42 to 2.33 USD/gal; EIA, source: Refinitiv)",
+    "Henry Hub natural gas, daily spot: +3.3% in the week to 17 Nov 2026 (3.00 to 3.10 USD/MMBtu; EIA, source: Refinitiv)",
+    "Brent crude, daily spot (FOB): +3.1% in the week to 17 Nov 2026 (90.16 to 92.94 USD/bbl; EIA, source: Refinitiv)"
    ]
   },
   {
@@ -376,11 +377,11 @@
    "t": "2026-11-23T06:24:48Z",
    "title": "Monthly prices for Oct 2026",
    "lines": [
-    "Natural gas, Europe (World Bank series; Dutch TTF hub basis in recent years): +12.1% in Oct 2026 (25.42 to 28.50 USD/MMBtu; wb-pink)",
-    "Silver: −11.8% in Oct 2026 (64.60 to 57.00 USD/troy oz; wb-pink)",
-    "Dubai crude: +10.1% in Oct 2026 (93.30 to 102.7 USD/bbl; wb-pink)",
-    "Platinum: −9.1% in Oct 2026 (1,784 to 1,621 USD/troy oz; wb-pink)",
-    "Natural gas price index (Europe, US, Japan LNG): +8.9% in Oct 2026 (167.7 to 182.7 index (2010 = 100); wb-pink)"
+    "Natural gas, Europe (World Bank series; Dutch TTF hub basis in recent years): +12.1% in Oct 2026 (25.42 to 28.50 USD/MMBtu; World Bank)",
+    "Silver: −11.8% in Oct 2026 (64.60 to 57.00 USD/troy oz; World Bank)",
+    "Dubai crude: +10.1% in Oct 2026 (93.30 to 102.7 USD/bbl; World Bank)",
+    "Platinum: −9.1% in Oct 2026 (1,784 to 1,621 USD/troy oz; World Bank)",
+    "Natural gas price index (Europe, US, Japan LNG): +8.9% in Oct 2026 (167.7 to 182.7 index (2010 = 100); World Bank)"
    ]
   }
  ],

@@ -4,7 +4,7 @@ What a visitor sees changed on the site, release by release, newest first. The w
 releases: the About window's "What changed" lists them. The full account of each release is in
 [`PROGRESS.md`](PROGRESS.md).
 
-## Release 9 (2026-11-26)
+## Release 9 (2026-11-25)
 
 ### Added
 - Port pages: a block "Weekly port traffic" on the 163 ports that IMF PortWatch counts and the atlas could pair with

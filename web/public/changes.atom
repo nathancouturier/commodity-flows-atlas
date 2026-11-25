@@ -24,11 +24,11 @@ IMF PortWatch chokepoint transits (Atlas weekly averages of IMF PortWatch daily 
     <id>tag:nathancouturier.github.io,2026:commodity-flows-atlas:2026-11-25-prices</id>
     <updated>2026-11-25T20:38:17Z</updated>
     <link rel="alternate" type="text/html" href="https://nathancouturier.github.io/commodity-flows-atlas/"/>
-    <content type="text">Jet fuel (kerosene), US Gulf Coast, daily spot: −9.7% in the week to 24 Nov 2026 (3.76 to 3.40 USD/gal; eia-spot)
-No. 2 heating oil, New York Harbor, daily spot: −9.0% in the week to 24 Nov 2026 (3.96 to 3.60 USD/gal; eia-spot)
-WTI crude, daily spot (Cushing): −8.1% in the week to 24 Nov 2026 (89.53 to 82.24 USD/bbl; eia-spot)
-Ultra-low sulphur diesel, New York Harbor, daily spot: −7.3% in the week to 24 Nov 2026 (4.09 to 3.79 USD/gal; eia-spot)
-Henry Hub natural gas, daily spot: +6.5% in the week to 24 Nov 2026 (3.10 to 3.30 USD/MMBtu; eia-spot)</content>
+    <content type="text">Jet fuel (kerosene), US Gulf Coast, daily spot: −9.7% in the week to 24 Nov 2026 (3.76 to 3.40 USD/gal; EIA, source: Refinitiv)
+No. 2 heating oil, New York Harbor, daily spot: −9.0% in the week to 24 Nov 2026 (3.96 to 3.60 USD/gal; EIA, source: Refinitiv)
+WTI crude, daily spot (Cushing): −8.1% in the week to 24 Nov 2026 (89.53 to 82.24 USD/bbl; EIA, source: Refinitiv)
+Ultra-low sulphur diesel, New York Harbor, daily spot: −7.3% in the week to 24 Nov 2026 (4.09 to 3.79 USD/gal; EIA, source: Refinitiv)
+Henry Hub natural gas, daily spot: +6.5% in the week to 24 Nov 2026 (3.10 to 3.30 USD/MMBtu; EIA, source: Refinitiv)</content>
   </entry>
   <entry>
     <title>Chokepoint traffic to 22 Nov 2026</title>

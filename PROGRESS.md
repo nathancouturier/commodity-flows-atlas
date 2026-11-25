@@ -1,6 +1,6 @@
 # Commodity Flows Atlas: progress
 
-_Last updated: 2026-11-26, after the ninth release of audit fixes_
+_Last updated: 2026-11-25, after the ninth release of audit fixes_
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
@@ -19,10 +19,10 @@ released. This file is updated at each release.
 | 3 | Wrong figures per commodity (gas, LNG, copper, precious metals, lithium, nickel, steel, fertilisers, cocoa) | corrections done, released on 23 November; the points that needed a new source (LPG from the United States to Mexico, tin ores from Myanmar, the steel and LNG cross-checks, metallurgical coal by pair of countries) in the seventh release, on 25 November. Left: the lanes and route shares of metallurgical coal, thermal coal by destination |
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
-| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). A release number with release notes, a way to report an error, a coverage table of the commodity pages, a voyage calculator on the route pages and port facts from the World Port Index (eighth release, 25 November). Weekly traffic per port from IMF PortWatch, loaded little by little and slowly as the owner decided on 25 November, shown on the port pages and read each week by the PortWatch job (ninth release, 26 November). Designed, built next: a block on the state of the freight market. Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
-| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, 2,018 and 165 at the ninth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
+| 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). A release number with release notes, a way to report an error, a coverage table of the commodity pages, a voyage calculator on the route pages and port facts from the World Port Index (eighth release, 25 November). Weekly traffic per port from IMF PortWatch, loaded little by little and slowly as the owner decided on 25 November, shown on the port pages and read each week by the PortWatch job (ninth release, 25 November). Designed, built next: a block on the state of the freight market. Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, 2,018 and 165 at the ninth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The two weekly update jobs ran on GitHub in their new form for the first time on 25 November 2026 and ended green; they were started by hand, because GitHub had not started the scheduled run an hour after its time (see the ninth release and the known limits) |
 
-## Ninth release (26 November 2026): what changed
+## Ninth release (25 November 2026): what changed
 
 Weekly traffic per port from IMF PortWatch (audit point A-036): the series are on the port pages and the weekly
 job reads them. The groundwork was in the eighth release; three packages built the rest (the block of the port
@@ -118,7 +118,7 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
 
 - 2,018 unit tests (1,899 at the eighth release) and 165 web tests (138), all passing without the raw
   downloads; a second run of every builder changes no file; the checks of GitHub reproduced on a fresh clone;
-  five browser suites on the production build; LIVE-TO-WRITE targeted checks, in which every figure of the block is
+  five browser suites on the production build; 79 targeted checks, in which every figure of the block is
   recounted from the files.
 - Every page of the eighth release read again in a browser and compared with the candidate, 1,398 pages: 1,201
   are identical; 34 (four commodity pages and thirty events) differ only by the new credit of the EIA's daily
@@ -165,7 +165,18 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   script) and undid it; the folder was then compared with the committed state and was identical, and the checks
   that count for publication run on a fresh clone of the commit. And the weekly step was built before the first
   scheduled run of the job in its present form (25 November, 19:17 UTC) had been seen: nothing of it was
-  published before that run, RUNSEEN-TO-WRITE
+  published before that run.
+- **The two weekly jobs ran on GitHub for the first time in their reworked form on 25 November 2026**, on the
+  code of the eighth release, and both ended green. GitHub did not start the scheduled run of the PortWatch job:
+  an hour after 19:17 UTC nothing had started, and no scheduled run has ever started in this repository. Both
+  jobs were therefore started by hand, PortWatch at 20:19 UTC and prices at 20:37 UTC. The PortWatch job, with
+  no table from an earlier run, read the whole table again (80,724 rows in 7 minutes 39 seconds, one request at
+  a time), wrote the week to 22 November, rebuilt the three alert banners, passed the checks and republished the
+  site. The prices job brought the EIA's daily prices to 24 November and read the World Bank, the Dallas Fed and
+  the New York Fed; the BLS answered without a key. No issue was opened. Both commits are in this release. The
+  digest those runs wrote showed two defects that this release corrects (the Dallas Fed index among the monthly
+  moves with a percent change; the registry's ids in the feed): they were on the public site between the runs
+  and this release.
 
 ## Eighth release (25 November 2026): what changed
 
@@ -945,7 +956,8 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
     as an issue.
   - **BLS.** The owner opened the BLS copyright page in a browser and reports "Public Domain: Citation
     Requested", the terms the registry already quoted from FRED's page of the series. A free BLS key is created
-    only if the keyless quota fails on GitHub (known after the first scheduled run).
+    only if the keyless quota fails on GitHub: it did not on 25 November 2026 (the BLS answered the job without
+    a key), so none is asked for now.
   - **SEC EDGAR.** The owner accepts that a contact address is sent to the SEC, and to nobody else, when its
     filings are read. He set it himself as an environment variable (`SEC_CONTACT_EMAIL`) that the reading
     script takes its `User-Agent` from; the address is written in no file of the repository. The company
@@ -1124,9 +1136,9 @@ These were needed to finish the work; each is reversible.
    - Companies: a figure covers one commodity only (a volume that covers several is in the text); a share in
      `parent` is the one the cited page states; a former owner is not matched to an asset. Sanction marks come
      from OFAC and UK notices only.
-   - Freight indicators: the published BLS series is still the copy taken earlier through FRED, because the BLS
-     refused every request on the days of the work (quota without a key); its note says so and the weekly job
-     replaces it as the BLS answers.
+   - Freight indicators: the years 1988 to 2023 of the published BLS series are still the copy taken earlier
+     through FRED, because the BLS refused every request on the days of the work (quota without a key) and did
+     not give those years to the job of 25 November 2026; its note says so, and 2024 to 2026 come from the BLS.
    - Update jobs: the checks do not run on a push to a working branch; Dependabot pull requests are switched off
      (`open-pull-requests-limit: 0`); the downloader identifies itself as `data-update-script/1.0
      (python-requests)`; the yearly downloads are kept between runs as a workflow artifact for 90 days; the guard
@@ -1281,13 +1293,20 @@ These were needed to finish the work; each is reversible.
 ## Known limits
 
 - Baltic Exchange index values are proprietary and are not shown.
-- **None of the reworked update jobs has run on GitHub yet.** They were tested with simulated repositories, a
-  mocked GitHub and a fresh clone under Python 3.12; the first real runs are the PortWatch job (Wednesday 25
-  November 2026, 19:17 UTC) and the prices job (the same day, 21:43 UTC). What only a real run can confirm is
-  listed in `docs/UPDATING.md`. Before the sixth release the price build was run as the job runs it, without
-  the annual files that GitHub does not have: the 154 series came out identical, in the same order.
-- The BLS freight series is still the copy taken through FRED until the BLS API answers; if the keyless quota is
-  always exhausted on GitHub's shared addresses, the series stops advancing and an issue opens after three runs.
+- **GitHub has not started a scheduled run in this repository yet.** The two weekly jobs ran in their reworked
+  form on 25 November 2026, started by hand, and ended green (see the ninth release). The scheduled run of the
+  PortWatch job had not started an hour after its time, and whether GitHub starts the scheduled runs of this
+  repository at all is not known: the next are the prices job on Thursday 26 November at 09:43 UTC and the
+  freshness check on Monday 30 November at 13:37 UTC. Until one has started by itself, the weekly jobs may have
+  to be started by hand, and the freshness check, which is itself scheduled, cannot be relied on to say so.
+  The yearly job (the 15th of the month) and the port step of the PortWatch job (first run: Wednesday 2
+  December 2026) have not run on GitHub yet; they were tested with simulated repositories, a mocked GitHub and
+  a fresh clone under Python 3.12.
+- The BLS answered the job of 25 November 2026 without a key, and the freight series now takes 2024 to 2026
+  from the BLS itself. The older years were asked for and not given (asked for 1988 to 1997, the service
+  returned 2024 to 2026: the script refused them): 1988 to 2023 are still the values retrieved through FRED,
+  and the note of the series says so. Whether a free key, or another form of request, brings them from the BLS
+  is to be looked at.
 - No freight rate in USD per tonne and no Baltic value: the atlas has routes, definitions and two long
   indicators, not rates.
 - Events: 37 of the 80 events still cite a Wikipedia article as one of their pages; one (the cobalt export
@@ -1393,9 +1412,10 @@ These were needed to finish the work; each is reversible.
 Decisions that weigh most, first. (The questions on the Baltic Exchange's terms, on GitHub issues, on the BLS
 copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decisions of the owner".)
 
-1. **The BLS key.** If the keyless quota of the BLS API stays exhausted on GitHub's shared addresses, the
-   freight producer price series needs a free BLS registration key, which only the owner can create. The first
-   scheduled run (Wednesday 25 November 2026, 21:43 UTC) will tell.
+1. **The BLS key.** Answered by the run of 25 November 2026: the BLS answered the job without a key and the
+   series advances, so no key is needed for the weekly update. Open: the years 1988 to 2023 still come through
+   FRED (the keyless request for older years was not honoured); a free BLS registration key, which only the
+   owner can create, may bring them from the BLS itself. Worth it?
 2. **Russian fertilisers leave from the Baltic for every destination.** Russian urea, DAP and potash of the
    earlier releases, and now ammonia, UAN, phosphoric acid and sulphur, load at Ust-Luga whatever the buyer
    (Russian sulphur to China is drawn round Europe and through Suez, 12,300 nm). A coast rule (Black Sea ports
