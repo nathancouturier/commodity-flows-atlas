@@ -314,7 +314,7 @@ class G9Methodology(unittest.TestCase):
         for f in glob.glob(os.path.join(DATA, "freight", "lanes", "*.json")):
             d = load(f)
             est[d["group"]] = 100 * (d.get("est") or 0)
-        named = {"copper-ore": "33.0%", "potassium-sulphate": "10.8%", "wheat": "8.0%", "sulphur": "2.0%", "crude-oil": "1.8%", "lpg": "1.3%", "dri": "1.2%"}
+        named = {"copper-ore": "33.0%", "potassium-sulphate": "10.8%", "wheat": "8.0%", "sulphur": "2.0%", "crude-oil": "1.8%", "lpg": "4.2%", "dri": "1.2%"}  # LPG 1.3% in the released file (the seventh release)
         for g, share in named.items():
             self.assertEqual(f"{est[g]:.1f}%", share, g)
             self.assertIn(share, self.text)

@@ -277,7 +277,7 @@ export function EnergyMonthly({ id }: { id: string }) {
         <Section fold latest title="Crude oil production by month" aside={<span class="year-tag">{monthName(m.production.to)}</span>}>
           <LatestTable block={m.production} rows={m.production.rows} lead={m.production.world ? [{ ...m.production.world, name: 'World' }] : []} label="kb/d" />
           <div class="muted small mo-note">
-            Latest month of each producer against its {m.production.baseYear} average, from EIA's monthly series (crude oil including lease condensate). Click a producer to open its page.
+            Latest month of each producer against its {m.production.baseYear} average, from EIA's monthly series (crude oil including lease condensate).
           </div>
           <MonthlyCsv m={m} title="Crude oil production by month" parts={[{ ...m.production, rows: [...(m.production.world ? [{ ...m.production.world, name: 'World' }] : []), ...m.production.rows] }]} />
           <SourceLine s={m.s} y={`monthly, to ${monthName(m.production.to)}`} />

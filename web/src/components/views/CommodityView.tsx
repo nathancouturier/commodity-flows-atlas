@@ -9,7 +9,7 @@ import { FAMILY_COLOR, FAMILY_LABEL, atlasKind, fig as fmtFig, fmt, fmtEst, fmtF
 import { GROUP_LABEL, LANE_GROUPS, loadCaveats, loadLaneFile, loadPairs } from '../../lib/freight';
 import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
-import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, RowBtn, ModeBadge, EstMark, FoldNote, AlertBanners, shortSource } from '../ui';
+import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, SourcesLine, RowBtn, ModeBadge, EstMark, FoldNote, AlertBanners, shortSource } from '../ui';
 import { CompanyRows, linkedCompany } from '../Companies';
 import LaneTable, { estimatedShare, yearNote } from '../LaneTable';
 import { EventList } from '../EventList';
@@ -40,8 +40,9 @@ function usePriceDrawer(id: string): { open: () => void; none: boolean } {
   return { open: () => openPrices({ commodity: id }), none: figures !== null && !figures[id] };
 }
 
-/** Customs codes do not separate thermal from metallurgical coal: the flows of both coal pages are all coal. */
-const isCoal = (id: string) => id === 'thermal-coal' || id === 'met-coal';
+/** Customs codes do not separate thermal from metallurgical coal: the flows of the Thermal coal page are all coal.
+ * The Metallurgical coal page lists the exporters' own statistics of metallurgical coal instead (data/commodities/met-coal.json). */
+const isAllCoal = (id: string) => id === 'thermal-coal';
 
 type CompanyMap = Record<string, { producers?: Company[]; processors?: Company[]; traders?: Company[] }>;
 
@@ -243,6 +244,9 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean
   const caveats = useLoaded<CaveatsFile>(() => (needCaveats ? loadCaveats() : Promise.resolve(null)), [props.id, needCaveats]);
   // the footer names the customs source; flows re-based by the atlas say so on their own row
   const first = rows.find((f) => f.s !== 'atlas') ?? rows[0];
+  // a list whose rows come from more than one source (the Metallurgical coal page: two exporters' own statistics) names the source of each row
+  // and every source in the footer; a list with one source is drawn as before
+  const several = new Set(props.flows.filter((f) => f.s !== 'atlas').map((f) => f.s)).size > 1;
   const anyEst = rows.some((f) => f.est);
   // a reporting gap printed in full above (Gap in the customs record) or under an earlier row gets a pointer, not the text again
   const caveatText = (i: number): string | undefined => {
@@ -272,7 +276,7 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean
                   {f.mode ? <ModeBadge mode={f.mode} via={via ?? undefined} /> : <span class="muted-cap">mode not modelled</span>}
                   {f.transit && <span class="mode-via"> via {via}</span>}
                   {props.tag && <span class="muted-cap"> {props.tag}</span>}
-                  {f.est ? <EstMark /> : f.s === 'atlas' && f.s !== first.s && <span class="muted-cap"> {shortSource(f.s)}</span>}
+                  {f.est ? <EstMark /> : (f.s === 'atlas' ? f.s !== first.s : several) && <span class="muted-cap"> {shortSource(f.s)}</span>}
                   {opens && <span class="sr-only"> · {opens}</span>}
                 </>
               }
@@ -298,7 +302,8 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean
           title="Every flow of this table with its year, source and licence, as a CSV file"
         />
       </div>
-      {first && <SourceLine s={first.s} y={first.y} n={`bilateral flows, all transport modes${anyEst ? '; an Atlas estimate is a tonnage computed from the declared value, shown to two significant digits' : ''}`} />}
+      {several && <SourcesLine items={props.flows} n="bilateral flows, each exporter's own statistics; the sources are not added to one another" />}
+      {!several && first && <SourceLine s={first.s} y={first.y} n={`bilateral flows, all transport modes${anyEst ? '; an Atlas estimate is a tonnage computed from the declared value, shown to two significant digits' : ''}`} />}
     </>
   );
 }
@@ -615,7 +620,7 @@ export default function CommodityView({ id }: { id: string }) {
             <AgriBlocks d={d} color={color} part="gaps" />
             {d.flows && d.flows.length > 0 && (
               <Section title={sectionTitle(d, 'flows', 'Main flows')} aside={<YearTag y={d.flows[0].y} />}>
-                <FlowRows id={id} flows={d.flows} tag={isCoal(id) ? 'all coal' : undefined} all={flowsAll} setAll={setFlowsAll} gaps={gapTexts} />
+                <FlowRows id={id} flows={d.flows} tag={isAllCoal(id) ? 'all coal' : undefined} all={flowsAll} setAll={setFlowsAll} gaps={gapTexts} />
               </Section>
             )}
             <LaneSummary id={id} color={color} />

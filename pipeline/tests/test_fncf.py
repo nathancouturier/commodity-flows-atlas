@@ -316,7 +316,10 @@ def _released_routes():
 
 class F5ReleasedRoutes(unittest.TestCase):
     # the released routes that end, with the reason: the corridor of each was a French one, and the French ports changed it
+    # (the seventh release) gen-sugar-sea-sea leaves the cap of 122 generated routes: the LPG seaborne total grows by 3.8 Mt (the part by sea of the United States to
+    # Mexico pair), the generated LPG corridors that reach the target share of it are one more (gen-lpg-med-med), and the cap takes the last route of the list
     ENDED = {
+        "gen-sugar-sea-sea": "the cap of 122 generated routes: one more LPG corridor is needed to reach the target share of the larger LPG seaborne total (gen-lpg-med-med)",
         "gen-steel-med-nw-europe": "its corridor was French steel from the Mediterranean to North-West Europe: France loads steel at Le Havre for North-West Europe",
         "gen-wheat-med-waf": "its corridor was French wheat from the Mediterranean to West Africa: France loads wheat at Rouen or La Pallice for West Africa",
     }
@@ -343,7 +346,8 @@ class F5ReleasedRoutes(unittest.TestCase):
         self.assertEqual(GR.TOTAL_CAP, 122)
         self.assertEqual(GR.GROUP_CAP_MORE, {"wheat": 13})
         now = {r["id"] for r in load(DATA, "freight", "routes.json")}
-        self.assertIn("gen-sugar-sea-sea", now)
+        self.assertNotIn("gen-sugar-sea-sea", now)  # see ENDED
+        self.assertIn("gen-lpg-med-med", now)
         self.assertIn("gen-wheat-canada-west-r-east-asia", now)
         later = set().union(*(gs for gs, _ in GR.LATER_GROUPS))
         gen = [r for r in load(DATA, "freight", "routes.json") if r.get("generated") and r["cargoes"][0] not in later]

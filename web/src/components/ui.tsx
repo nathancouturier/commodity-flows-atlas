@@ -119,6 +119,7 @@ const SHORT_SOURCE: Record<string, string> = {
   'operator-reports': 'operator reports',
   'eia-refinery-capacity': 'EIA',
   'giignl-2026': 'GIIGNL',
+  'qld-coal-sales': 'Queensland Government',
   'trade-press': 'trade press',
   wikipedia: 'Wikipedia',
 };

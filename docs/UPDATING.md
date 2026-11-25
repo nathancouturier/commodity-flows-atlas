@@ -163,6 +163,25 @@ updated, and the issue closes. Not watched, because there is no fixed page to wa
 fiscal-year results (a new press release each year, after the fiscal year ends on 30 September) and the Baltic
 Exchange route changes (circulars). Look for them each autumn.
 
+### Metallurgical coal by pair of countries (by hand, when the Queensland file or EIA's coal file is newer)
+
+The Main flows block of the Metallurgical coal page reads `pipeline/cache/metcoal_pairs.csv`, `metcoal_ports.csv` and
+`metcoal_meta.json`, which no scheduled job refreshes and no staleness entry watches. The page refuses to be built for a
+customs year that the cache does not hold (`pipeline/trade/metcoal.py` raises), so a new BACI year stops the commodity
+build until the cache is renewed. From the repository root, with `raw/` on disk:
+
+1. Queensland: download the workbook "Quarterly Coal Sales" of the dataset "Quarterly coal reports"
+   (<https://www.data.qld.gov.au/dataset/quarterly-coal-reports>) in a browser (the site refuses scripts) and put it in
+   `raw/australia/queensland-sales/coal-sales-data-2010-2026.xlsx` (the extractor reads that name: change `RAW_QLD` in
+   `pipeline/trade/extract_metcoal.py` when the file is renamed).
+2. United States: download <https://www.eia.gov/opendata/bulk/COAL.zip> into `raw/eia/coal/COAL.zip` (the `Last-Modified`
+   date of the file is the `file_date` of the meta file: write it in `EIA_FILE_DATE` of `extract_metcoal.py`). Read the site's robots file
+   first; one request, no more.
+3. `.venv/bin/python -I pipeline/trade/extract_metcoal.py`, then `pipeline/commodities/build_commodities.py` and the
+   tests. The extractor stops when a destination is not a country of the atlas, when Queensland's country and port sheets
+   differ by a tonne in 2022 or later, when EIA's destinations or districts do not add to its world row within 0.5%,
+   or when a 2024 figure it quotes changes. With a file missing it leaves that source's rows as they are.
+
 ## A site that refuses the downloader
 
 The downloader (`pipeline/common/fetch.py`) identifies itself plainly, with the one constant `USER_AGENT`

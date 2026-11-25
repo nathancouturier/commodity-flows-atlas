@@ -17,6 +17,8 @@ const ALIASES = new Function(`return ${literal.slice(literal.indexOf('= {') + 2,
 // the tie among the five fertiliser pages is read from the source as well (FNCI, GV8B.5)
 const pagesLiteral = src.slice(src.indexOf('const FERTILISER_PAGES'), src.indexOf('/** Trade names of the products'));
 const FERTILISER_PAGES = new Function(`return ${pagesLiteral.slice(pagesLiteral.indexOf('= [') + 2, pagesLiteral.lastIndexOf('];') + 1)}`)();
+// and the words it is for (the matcher names no commodity: the words ride on the item)
+const TIE_FOR = new Function(`return ${src.slice(src.indexOf('item.tieFor = ') + 14, src.indexOf(']', src.indexOf('item.tieFor = ')) + 1)}`)();
 const index = JSON.parse(fs.readFileSync(path.join(here, '../../data/commodities/index.json'), 'utf8'));
 const items = (Array.isArray(index) ? index : index.commodities).map((c) => ({
   kind: 'commodity',
@@ -24,6 +26,7 @@ const items = (Array.isArray(index) ? index : index.commodities).map((c) => ({
   label: c.name,
   order: c.rank,
   tie: FERTILISER_PAGES.indexOf(c.id) >= 0 ? FERTILISER_PAGES.indexOf(c.id) : undefined,
+  tieFor: FERTILISER_PAGES.indexOf(c.id) >= 0 ? TIE_FOR : undefined,
   d: prepare([c.name, ...(ALIASES[c.id] ?? [])], [c.id], [c.family, 'commodity']),
 }));
 const find = (q) => matchKind(tokens(q), items, 'commodity').map((m) => m.item.id);
@@ -162,6 +165,32 @@ test('"fertiliser" and "fertilizer" give the five pages in the order of the seab
   for (const [q, id] of [['potash', 'potash'], ['DAP', 'phosphate'], ['sulfur', 'sulphur'], ['NPK', 'npk']]) assert.deepEqual(find(q).slice(0, 1), [id], q);
   // the tie decides nothing among pages that do not match alike, and nothing without a query
   assert.deepEqual(matchKind([], items, 'commodity').map((m) => m.item.id).filter((id) => FERTILISER_PAGES.includes(id)), ['potash', 'phosphate', 'urea', 'sulphur', 'npk']);
+});
+
+// review GV9B.1: the tie is for the queries "fertiliser" and "fertilizer" and their beginnings of four letters or more, and for no other
+test('the tie is read from the source: the words fertiliser and fertilizer, and the matcher names no commodity', () => {
+  assert.deepEqual(TIE_FOR, ['fertiliser', 'fertilizer']);
+  const matcher = fs.readFileSync(path.join(here, '../src/lib/searchMatch.ts'), 'utf8');
+  for (const id of FERTILISER_PAGES) assert.ok(!matcher.includes(`'${id}'`), `${id} is named in searchMatch.ts`);
+});
+
+test('"sulfate" and "sulphate" give the same first page, as before the tie: potash', () => {
+  for (const q of ['sulfate', 'sulphate', 'sulfa', 'potassium sulphate', 'SOP']) assert.deepEqual(find(q).slice(0, 1), ['potash'], q);
+  assert.deepEqual(find('sulfate'), find('sulphate'));
+});
+
+test('the fertiliser tie applies to the beginnings of the two words of four letters or more, and to no other query', () => {
+  const firstUrea = (q) => assert.deepEqual(find(q).slice(0, 5), FERTILISER_PAGES, q);
+  for (const q of ['fert', 'ferti', 'fertil', 'fertilis', 'fertiliser', 'fertiliz', 'fertilizer']) firstUrea(q);
+  // three letters or two words: no tie
+  const noTie = items.map((i) => ({ ...i, tie: undefined }));
+  const same = (q) => assert.deepEqual(matchKind(tokens(q), items, 'commodity').map((m) => m.item.id), matchKind(tokens(q), noTie, 'commodity').map((m) => m.item.id), q);
+  for (const q of ['fer', 'fe', 'sulfate', 'sulphate', 'so', 'su', 'sulf', 'co', 'com', 'mo', 'softs', 'fertiliser urea', 'potassium fertiliser']) same(q);
+  // every beginning of every name or alias of the catalogue, up to five letters, but the fertiliser words: the tie changes nothing
+  const words = new Set();
+  for (const c of items) for (const w of [c.label, ...(ALIASES[c.id] ?? []), c.id]) for (const t of tokens(w)) for (let k = 2; k <= Math.min(5, t.length); k++) words.add(t.slice(0, k));
+  const fert = (q) => q.length >= 4 && TIE_FOR.some((w) => w.startsWith(q));
+  for (const q of words) if (!fert(q)) same(q);
 });
 
 test('the other queries of the review keep their first page: HMS, moly, sulfur, canola oil, lentils', () => {

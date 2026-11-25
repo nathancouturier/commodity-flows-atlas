@@ -63,6 +63,8 @@ export interface Item {
   order: string | number;
   /** among equal matches of a query, lower first (see Matchable) */
   tie?: number;
+  /** the words the tie is for (see Matchable) */
+  tieFor?: string[];
   open: () => void;
 }
 
@@ -131,7 +133,7 @@ const COUNTRY_ALIASES: Record<string, string[]> = {
   MKD: ['macedonia'],
 };
 
-/** The five fertiliser pages, by the seaborne tonnage of their groups in the pairs files (2024): the order of "fertiliser" and "fertilizer", which every page matches alike. */
+/** The five fertiliser pages, by the seaborne tonnage of their groups in the pairs files (2024): the order of "fertiliser" and "fertilizer" (and of their beginnings of four letters or more), which every page matches alike. */
 const FERTILISER_PAGES = ['urea', 'phosphate', 'potash', 'sulphur', 'npk'];
 
 /** Trade names of the products that a commodity page holds besides the one in its name (the fertiliser pages hold several customs groups). */
@@ -270,7 +272,10 @@ async function build(): Promise<Item[]> {
   for (const c of commodities.value) {
     const item = make('commodity', c.id, c.name, FAMILY_LABEL[c.family], prepare([c.name, ...(COMMODITY_ALIASES[c.id] ?? [])], [c.id], [FAMILY_LABEL[c.family], 'commodity']), c.rank, () => openCommodity(c.id));
     const at = FERTILISER_PAGES.indexOf(c.id);
-    if (at >= 0) item.tie = at;
+    if (at >= 0) {
+      item.tie = at;
+      item.tieFor = ['fertiliser', 'fertilizer'];
+    }
     out.push(item);
   }
   for (const c of Object.values(countries.value)) {

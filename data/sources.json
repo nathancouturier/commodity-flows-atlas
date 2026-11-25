@@ -595,5 +595,25 @@
   "update": "annual (release of 30 October 2026)",
   "access": "Web pages read by hand, the history page of each series; a small cache holds the series of Mexico and Canada (pipeline/trade/us_lpg.py)",
   "use": "Volume of United States LPG exports to Mexico and Canada, 2004 to 2025, to date the break in the customs tonnage of the pair United States to Mexico"
+ },
+ {
+  "id": "qld-coal-sales",
+  "name": "Quarterly coal reports: Quarterly Coal Sales (Queensland coal exports by destination, by port and by coal type)",
+  "publisher": "Queensland Government, Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development",
+  "url": "https://www.data.qld.gov.au/dataset/quarterly-coal-reports",
+  "licence": "CC BY 4.0 (Creative Commons Attribution 4.0, as the dataset page states); credit as the workbook's About sheet gives it: \"Source: Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development (NRMMRRD)\"; the sheet adds that the data may be revised and that derived conclusions and analysis are not attributable to the Department",
+  "update": "quarterly (the workbook read: data through to 30 June 2026, current as at October 2026)",
+  "access": "Workbook coal-sales-data-2010-2026.xlsx downloaded by hand (the site refuses scripted downloads); read by pipeline/trade/extract_metcoal.py into small tracked files in pipeline/cache, never by a scheduled job",
+  "use": "Metallurgical coal (hard coking, semi-soft coking and PCI) sold to export by Queensland producers, by first destination and by port, on the Metallurgical coal page"
+ },
+ {
+  "id": "eia-coal",
+  "name": "EIA Coal data: U.S. coal exports by rank, destination and customs district (bulk file COAL.zip)",
+  "publisher": "U.S. Energy Information Administration",
+  "url": "https://www.eia.gov/opendata/bulk/COAL.zip",
+  "licence": "Public domain (US Government); acknowledgment: \"Source: U.S. Energy Information Administration\"",
+  "update": "quarterly and annual (the file read is dated 1 October 2026)",
+  "access": "Bulk file COAL.zip downloaded by hand, series COAL.EXPORT_QTY read by pipeline/trade/extract_metcoal.py into small tracked files in pipeline/cache, never by a scheduled job",
+  "use": "Exports of metallurgical coal of the United States by destination and customs district, on the Metallurgical coal page"
  }
 ]

@@ -24,8 +24,9 @@ is called one where it is shown. The figures below are those of the build from C
 - **Commodity groups**: HS six-digit codes are grouped per commodity in
   `pipeline/trade/hs_map.py` (e.g. coal = 2701.11 + 2701.12 + 2701.19).
 - **Known limits of customs data**
-  - HS codes do not separate thermal from metallurgical coal; the coal lanes cover both.
-    Metallurgical coal production and trade by country come from EIA, which does split them.
+  - HS codes do not separate thermal from metallurgical coal; the coal lanes and the customs flows of both coal pages
+    cover both. Metallurgical coal production and trade by country come from EIA, which does split them, and the
+    Metallurgical coal page's Main flows come from two exporters' own statistics, not from customs data (section 10).
   - HS 1992 has a single code for all refined petroleum products (2710.00).
   - Copper concentrate tonnage is reported inconsistently (gross weight or copper content): see
     rule 8 below.
@@ -193,12 +194,13 @@ is called one where it is shown. The figures below are those of the build from C
   file's `estY` gives that share for every year), a
   ranked table's note when it is 1% or more of world tonnage (from 10%, "includes an Atlas
   estimate", and the world total keeps three significant digits); a country row of which half or
-  more is estimated is itself labelled "Atlas estimate" (with the source id `atlas`). In 2024, 195
-  rows and 74.4 Mt of the lane groups (0.90% of their 8,294 Mt) are estimated (the sea and transit pairs of the pairs files with the flag "estimated from value"); the largest are crude
+  more is estimated is itself labelled "Atlas estimate" (with the source id `atlas`). In 2024, 196
+  rows and 78.2 Mt of the lane groups (0.94% of their 8,298 Mt) are estimated (the sea and transit pairs of the pairs files with the flag "estimated from value"); the largest are crude
   oil United Arab Emirates → Thailand (24.5 Mt), wheat Russia → Egypt (11.1 Mt) and copper
   concentrate Chile → China (8.24 Mt). The share of each lane group's 2024 seaborne tonnes that is
-  estimated is the field `est` of its lane file: 33.0% for copper concentrate, 10.8% for potassium sulphate, 8.0% for wheat, 2.0% for
-  sulphur, 1.8% for crude oil, 1.3% for LPG, 1.2% for direct-reduced iron, under 1% for every other group.
+  estimated is the field `est` of its lane file: 33.0% for copper concentrate, 10.8% for potassium sulphate, 8.0% for wheat, 4.2% for LPG (1.3% in the
+  released file: the part by sea of the United States → Mexico pair, an estimate from a volume, is now in the seaborne tonnes), 2.0% for
+  sulphur, 1.8% for crude oil, 1.2% for direct-reduced iron, under 1% for every other group.
 - **History rule** (`clean.history_flags`). A year of a pair's 2005–2024 series is blanked only on
   evidence: when rule 7 flagged it, or when it is a sharp one-year change (below 35% or above 2.8×
   both neighbouring years, by more than 2 Mt) whose unit value is off by more than 2.5 times against
@@ -297,7 +299,8 @@ seaborne totals, the lane shares and the chokepoint shares.
    Russia → China 236.2 Mt, the United States → Mexico 57.1 Mt, Mexico → the United States 10.9 Mt,
    France → Spain 2.7 Mt, China → Russia 2.6 Mt, Spain → France 0.2 Mt; by group, crude oil 108.5 Mt,
    coal 95.1 Mt, refined products 55.4 Mt, LPG 9.8 Mt, corn 9.1 Mt, iron ore 9.1 Mt. With the minor
-   metals, the mixed pairs hold 310.2 Mt on 63 pairs in 2024. Belarus → China potash is not a mixed
+   metals, the mixed pairs hold 310.2 Mt on 63 pairs in 2024. Since the seventh release the 2024 LPG pair United States → Mexico is no longer mixed: its 9.33 Mt reported are 5.28 Mt,
+   of which 3.81 Mt by sea and 1.47 Mt overland (`KNOWN_SPLIT`, below). Belarus → China potash is not a mixed
    pair: package L1 had made it one, and the review of that package (fixed in package FL1) returned it
    to the seaborne pairs, because the pages bound the rail share: Kommersant, reported by Reform.news
    in March 2026, gives 9% of the 11.6 Mt Belarus exported through Russia in 2025 as rail to China and
@@ -354,6 +357,11 @@ URL, returned with the mode; an entry without a URL is an unsourced assumption. 
   the chokepoint estimates, the corridor volumes and the country pages read it) and 1.47 Mt overland (mode land), after the checks and the caveats,
   which read the pair as one row. The lane keeps its history in all modes, as the years before, and its note says the share, its source and that the
   other years are customs totals with the split not known. The rest is read as overland; the file does not say which mode carried it.
+  The pairs file keeps one row for the pair, the part by sea, and lists the overland part (`rest`), which the country pages count as land. The sea part raises the 2024
+  seaborne LPG total from 125.8 to 129.6 Mt: the corridor shares of the LPG routes and the shares of the 13 LPG passage estimates fall by 0.1 to 1.0 points (Panama
+  33.1% to 32.1%, Malacca 15.2% to 14.8%) with the tonnages unchanged, one more generated LPG corridor (Mediterranean) is needed to reach the target share of the
+  total, the cap of 122 generated routes then takes the last route of the list, `gen-sugar-sea-sea`, and the smallest main LPG lane (Qatar → Philippines) leaves the
+  main set under its cap.
 - Overland blocs (`BLOCS`): Europe (with Russia, Belarus, Ukraine, Moldova and Turkey), the
   1520 mm broad-gauge rail network (the former Soviet Union, Finland, Mongolia, and Poland as an
   assumption), Southern, East and West Africa, South America, South Asia, mainland Southeast Asia,
@@ -369,9 +377,9 @@ Tokelau, the former Netherlands Antilles, Serbia and Montenegro, Mayotte and the
 Islands, all coastal, and the pseudo-place "Asia, not specified". The site names them from
 `data/countries/places.json` and shows them as plain text, not as country pages.
 
-**2024 by mode** (71 lane groups, 36,071 pairs, 9,659.0 Mt): sea 8,108.5 Mt (25,922 pairs), sea via a
+**2024 by mode** (71 lane groups, 36,072 pairs, 9,659.0 Mt): sea 8,108.5 Mt (25,922 pairs), sea via a
 transit port 185.5 Mt (2,725 pairs), sea and overland 317.5 Mt (109 pairs), land 1,047.5 Mt (7,315
-pairs). Seaborne: 8,294.0 Mt. (69 groups, 35,456 pairs and 9,640.5 Mt before the two fertiliser groups of package FNCB
+pairs). Seaborne: 8,297.8 Mt. (69 groups, 35,456 pairs and 9,640.5 Mt before the two fertiliser groups of package FNCB
 (ammonium nitrate with limestone and the two-nutrient compounds) were added, 60 groups, 32,475 pairs and 9,436.0 Mt before the nine groups of metal bulks of
 package NC3 were added, 52 groups, 29,135 pairs and 9,303.6 Mt before the eight groups of grains, oilseeds
 and pulses, 42 groups, 25,847 pairs and 9,154.1 Mt before the ten groups of fertilisers
@@ -476,7 +484,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - The map draws the main set when no year is chosen, and every lane with a figure in a chosen
     past year. The Route finder, the lane table, the lane counters and the country pages use the
     main set.
-  - 2024: 3,734 main seaborne lanes, 58 mixed lanes and 572 history lanes over 71 groups (3,657, 58 and 557 over 69
+  - 2024: 3,734 main seaborne lanes, 57 mixed lanes and 572 history lanes over 71 groups (3,657, 58 and 557 over 69
     groups before the two fertiliser groups of package FNCB; 3,317, 57 and 469
     over 60 groups before the metal bulks; 3,001, 42
     and 387 over 52 groups before the grains, oilseeds and pulses; 2,617, 35 and 271 over 42 groups before the
@@ -493,7 +501,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
     `build_lanes.py`) so that their main set reaches 63% of their seaborne tonnes; the other ferro-alloys (the alloys of seven
     customs codes, 0.58 Mt by sea or via a transit port over 396 pairs, of 0.69 Mt over 483 pairs in all modes: from the cleaned frame that the lane builder reads, with the mode rule of the other ferro-alloys, since this group has no pairs file) would need more than sixty lanes for 63% and have tables and no lanes. Where trade is spread over thousands of pairs, the pairs table answers.
 - **The pairs table** (`data/freight/pairs/<group>.json`) holds every pair of the latest year that
-  the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 36,071 pairs in
+  the customs extract keeps (1,000 t or USD 1 million and more), whatever its mode: 36,072 pairs in
   2024. Each row gives the tonnage (kt: whole above 1 Mt, one decimal below), the mode, the two
   ports, the distance, the primary vessel class, the passages it has to cross and those it may
   cross (bit masks over the file's list of gates), and flags: tonnage estimated from value, caveat,
@@ -539,7 +547,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - "nearest seaport" (also shown as "no source page yet").
 
   Share of 2024 pair-end tonnage as published in the pairs files (each seaborne pair counted at its
-  two ends, 16,588 Mt; a port keeps the weakest basis of its uses in the file, for each role, and a
+  two ends, 16,596 Mt; a port keeps the weakest basis of its uses in the file, for each role, and a
   transit port is one more port): page names the cargo 67.3%, port used before 22.5%, general port
   5.7%, nearest seaport 2.2%, other direction 1.1%, page names the plant 0.5%, no port (not routed) 0.7% (recomputed before
   the sixth release, from the pairs files, when the refinery row of Si Racha took the plant basis as well; after package FNCH, when the four refinery rows of products loading, Pengerang, Port Dickson, Mumbai and Vadinar, took it, they were 67.3%, 22.5%, 5.7%, 2.2%, 1.1%, 0.4% and 0.7% of 16,588 Mt; after package FNCF they were 67.6%, 22.5%, 5.7%, 2.2%, 1.1%, 0.2% and 0.7% of 16,588 Mt; after package FNCE they were 67.6%, 22.5%, 5.7%, 2.2%, 1.1%, 0.2% and 0.7% of 16,591 Mt; after package FNCA they were 67.8%, 22.5%, 5.6%, 2.2%, 1.1% and 0.7% of 16,565 Mt, with no
@@ -689,7 +697,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   carriers; and 17 kn for LNG carriers and container ships. These are Atlas assumptions, published
   with each class (`vessel-classes.json`, source id `atlas`).
 - **Generated corridors** (`pipeline/freight/generated_routes.py`, called by `build_freight.py`). The 133 hand-written
-  routes name 43.5% of the 8,294 Mt of 2024 seaborne tonnes of the 71 customs groups. For the rest, the pairs table
+  routes name 43.5% of the 8,298 Mt of 2024 seaborne tonnes of the 71 customs groups. For the rest, the pairs table
   is grouped, for each group, into corridors: the freight zone of the typical loading port and the zone of the typical
   discharge port of each routed seaborne pair (a port with no zone in the pairs file takes the zone of the nearest port
   that has one, the same country first: only the name of a corridor depends on it). The corridors that no hand-written
@@ -991,7 +999,7 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     gives the ratio of the two for crude oil, at 7.33 barrels per tonne: 0.70 for Hormuz and Malacca
     in 2024, 1.24 for Suez and 1.37 for Bab el-Mandeb (where the atlas keeps the normal itinerary).
   - 2024 examples: Hormuz crude oil at least 27.2% (509 Mt) and up to 40.1% (751 Mt, not capped: it is under PortWatch's 915 Mt of tankers; Saudi
-    crude for westbound buyers and Emirati crude may load outside the strait); Hormuz LPG 32.3%;
+    crude for westbound buyers and Emirati crude may load outside the strait); Hormuz LPG 31.3% (32.3% in the released file: its 40.6 Mt are the same, the seaborne LPG total grows by 3.8 Mt);
     Malacca crude 31.0% to 41.9%.
   - The cargo table of a chokepoint page lists these pairs one by one (commodity, origin,
     destination, Mt), from the pairs files, with the pairs that may use the passage marked "may
@@ -1898,6 +1906,42 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     oil by country (refined products), nuclear generating capacity (uranium), metallurgical coke production and
     trade (metallurgical coal), and in a note the world coal production by rank (the four ranks and metallurgical
     coal add up to EIA's world total).
+  - *Metallurgical coal by pair of countries* (the "Main flows" block of the Metallurgical coal page). The customs group
+    `coal` holds every kind of coal (HS 2701) and is not split, reduced or renamed. Until the seventh release the
+    block listed that group for five exporters (Australia to Japan 108.97 Mt, Russia to China 95.07 Mt, Australia to
+    China 83.82 Mt, Mongolia to China 82.91 Mt) and called it all coal; it now lists metallurgical coal from the two
+    exporters whose own statistics give it by destination, each row with its source, in the year of the customs data
+    (2024): **Queensland** (Australia), the producers' sales to export of hard coking, semi-soft coking and PCI coal by
+    first destination, summed from the four quarters of the workbook "Quarterly Coal Sales" of the Queensland
+    Government (136.99 Mt to 31 countries in 2024; CC BY 4.0, credit and disclaimer in the page's note and in
+    `NOTICE.md`); and the **United States**, the exports of rank "metallurgical" as declared to the Census Bureau, as
+    EIA's bulk file COAL.zip publishes them in short tons, converted at `TONNES_PER_SHORT_TON` (51.33 Mt to 34
+    countries in 2024, public domain). A row is a destination of at least 1,000 t: 63 rows, 31 and 32. The United
+    States rows carry their customs districts of loading. The rule that PCI (pulverised coal for injection) is
+    metallurgical is the atlas's: the Queensland workbook has no such column, holds PCI inside semi-soft coking
+    coal before 2022 and reports it apart from 2022, so only the sum of the three types is continuous across the
+    change (136.4 Mt to the named destinations in 2022 against 141.9 Mt in 2021, whereas semi-soft coking alone falls from
+    40.9 to 12.5 Mt); the cache keeps the coal types apart. EIA's file does not define the rank. The two exporters count differently from each other,
+    from EIA International (the tables of the page: Australia 171.1 Mt and the United States 51.3 Mt in 2024) and
+    from customs data, so the flows of the two are never added to one another, and the page prints no total of
+    them. They are **not a part of the customs flows** of the Thermal coal page and are not subtracted from them: the
+    first destination of the exporter is not the customs partner (Queensland sells 1.66 Mt to Singapore against
+    0.14 Mt of customs coal; 7 of its 31 pairs and 7 of the 32 United States pairs exceed the customs record of
+    all coal), and customs coal less the exporter's metallurgical figure is not the exporter's thermal coal: for
+    Australia to India customs data record 58.24 Mt of all coal, Queensland sold 35.42 Mt of metallurgical coal, and
+    the difference, 22.82 Mt, is six times Australia's own figure for thermal coal to India in the Resources and
+    Energy Quarterly of December 2025 (3.78 Mt, table 41). The Queensland rows are 80% of EIA International's Australian figure (New
+    South Wales has no destinations in the file) and the EIA rows 100% of its United States figure. Mongolia,
+    Russia, Canada and Mozambique, which export metallurgical coal, have no source by destination among those the
+    atlas has read: their coal by pair stays on the Thermal coal page as all coal, where each row is tagged "all
+    coal". The rows no longer open a lane page, because the lanes of the page are customs data for all coal and
+    coke (a lane of the layer is a later piece of work). The cache is `pipeline/cache/metcoal_pairs.csv`,
+    `metcoal_ports.csv` and `metcoal_meta.json`, written by `pipeline/trade/extract_metcoal.py` from the two files in
+    `raw/` (checks that stop it: Queensland's country and port sheets equal to the tonne in 2022 to 2025; EIA's
+    destinations and districts within 0.5% of its world row in every year kept, 2010 to 2025; the 2024 totals),
+    and read by `pipeline/trade/metcoal.py`, which raises for a year the cache does not hold. Both files are
+    downloaded by hand and refreshed by hand (`docs/UPDATING.md`): no scheduled job reads them, and the page says the
+    dates of the Queensland file ("Data through to 30 June 2026", "Current as at October 2026").
 
 ## 11. Infrastructure layer
 

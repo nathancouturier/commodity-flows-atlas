@@ -69,7 +69,7 @@ export function arc(a: [number, number], b: [number, number], bow = 0.14, n = 48
 function label(f: Flow, name: string): string {
   return (
     `<div><b>${esc(countryName(f.o))} → ${esc(countryName(f.d))}</b> · ${esc(name)}</div>` +
-    `<div class="num">${fmtEst(f.v, f.est)} ${esc(f.u)}${f.est ? ' · Atlas estimate' : ''} · ${MODE_WORD[f.mode ?? 'land'] ?? 'overland'} (customs)</div>` +
+    `<div class="num">${fmtEst(f.v, f.est)} ${esc(f.u)}${f.est ? ' · Atlas estimate' : ''} · ${MODE_WORD[f.mode ?? 'land'] ?? 'overland'}${f.usd != null ? ' (customs)' : ''}</div>` +
     `<div class="src-line">${esc(sourceLabel(f.s))} · ${esc(String(f.y))}</div>`
   );
 }

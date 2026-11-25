@@ -1,0 +1,464 @@
+{
+ "eia-coal": {
+  "address": "https://www.eia.gov/opendata/bulk/COAL.zip",
+  "checks": {
+   "2010-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 56113816
+   },
+   "2010-STM": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 25601859
+   },
+   "2011-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 69531678
+   },
+   "2011-STM": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 37726883
+   },
+   "2012-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 69875978
+   },
+   "2012-STM": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 55869684
+   },
+   "2013-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 65678865
+   },
+   "2013-STM": {
+    "destinations_gap": 120,
+    "districts_gap": 0,
+    "world_short_tons": 51980403
+   },
+   "2014-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 60070856
+   },
+   "2014-STM": {
+    "destinations_gap": 1764,
+    "districts_gap": 35,
+    "world_short_tons": 37185890
+   },
+   "2015-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 46006859
+   },
+   "2015-STM": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 27951029
+   },
+   "2016-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 40930235
+   },
+   "2016-STM": {
+    "destinations_gap": 730,
+    "districts_gap": 69,
+    "world_short_tons": 19340782
+   },
+   "2017-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 54349241
+   },
+   "2017-STM": {
+    "destinations_gap": 128942,
+    "districts_gap": 54,
+    "world_short_tons": 42595878
+   },
+   "2018-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 62150435
+   },
+   "2018-STM": {
+    "destinations_gap": 128742,
+    "districts_gap": 45,
+    "world_short_tons": 54093637
+   },
+   "2019-MET": {
+    "destinations_gap": 66744,
+    "districts_gap": 0,
+    "world_short_tons": 52915560
+   },
+   "2019-STM": {
+    "destinations_gap": 160422,
+    "districts_gap": 0,
+    "world_short_tons": 40849091
+   },
+   "2020-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 42009845
+   },
+   "2020-STM": {
+    "destinations_gap": 89578,
+    "districts_gap": 0,
+    "world_short_tons": 27056725
+   },
+   "2021-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 44970245
+   },
+   "2021-STM": {
+    "destinations_gap": 130980,
+    "districts_gap": 0,
+    "world_short_tons": 40145113
+   },
+   "2022-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 46477903
+   },
+   "2022-STM": {
+    "destinations_gap": 17,
+    "districts_gap": 0,
+    "world_short_tons": 39477833
+   },
+   "2023-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 51081759
+   },
+   "2023-STM": {
+    "destinations_gap": 24152,
+    "districts_gap": 0,
+    "world_short_tons": 49126304
+   },
+   "2024-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 56586866
+   },
+   "2024-STM": {
+    "destinations_gap": 27596,
+    "districts_gap": 0,
+    "world_short_tons": 51739517
+   },
+   "2025-MET": {
+    "destinations_gap": 0,
+    "districts_gap": 0,
+    "world_short_tons": 50118026
+   },
+   "2025-STM": {
+    "destinations_gap": 27564,
+    "districts_gap": 0,
+    "world_short_tons": 42481219
+   }
+  },
+  "credit": "Source: U.S. Energy Information Administration",
+  "dataset": "COAL.zip, annual series COAL.EXPORT_QTY.<rank>-<destination>-<customs district>.A",
+  "definition": "Exports of coal of rank \"metallurgical\" as declared at export, by destination country, in short tons converted to metric tonnes; the file does not define the rank. The rank \"steam coal\" is kept apart",
+  "exporter": "USA",
+  "file": {
+   "bytes": 14522219,
+   "name": "COAL.zip",
+   "sha256": "a02eeaae9e7eeb15317bb707c95fc74fe6fd261813ff6e78ec125f36cd06a417"
+  },
+  "file_date": "2026-10-01",
+  "id": "eia-coal",
+  "licence": "Public domain (US Government)",
+  "name": "U.S. coal exports by rank, destination and customs district (EIA bulk file COAL)",
+  "outside_atlas": {
+   "2021-thermal": {
+    "Guadeloupe": 18394.0
+   }
+  },
+  "publisher": "U.S. Energy Information Administration; underlying source: U.S. Census Bureau, Monthly Report EM 545",
+  "series_last_updated": [
+   "2026-09-28T16:28:08-04:00"
+  ],
+  "source_of_series": [
+   "EIA, U.S. Energy Information Administration; U.S. Census Bureau"
+  ],
+  "tonnes_per_short_ton": 0.90718474,
+  "totals": {
+   "2010-metallurgical": {
+    "short_tons": 56113816,
+    "tonnes": 50905598
+   },
+   "2010-thermal": {
+    "short_tons": 25601859,
+    "tonnes": 23225616
+   },
+   "2011-metallurgical": {
+    "short_tons": 69531678,
+    "tonnes": 63078077
+   },
+   "2011-thermal": {
+    "short_tons": 37726883,
+    "tonnes": 34225253
+   },
+   "2012-metallurgical": {
+    "short_tons": 69875978,
+    "tonnes": 63390421
+   },
+   "2012-thermal": {
+    "short_tons": 55869684,
+    "tonnes": 50684125
+   },
+   "2013-metallurgical": {
+    "short_tons": 65678865,
+    "tonnes": 59582864
+   },
+   "2013-thermal": {
+    "short_tons": 51980403,
+    "tonnes": 47155828
+   },
+   "2014-metallurgical": {
+    "short_tons": 60070856,
+    "tonnes": 54495364
+   },
+   "2014-thermal": {
+    "short_tons": 37185890,
+    "tonnes": 33734472
+   },
+   "2015-metallurgical": {
+    "short_tons": 46006859,
+    "tonnes": 41736720
+   },
+   "2015-thermal": {
+    "short_tons": 27951029,
+    "tonnes": 25356747
+   },
+   "2016-metallurgical": {
+    "short_tons": 40930235,
+    "tonnes": 37131285
+   },
+   "2016-thermal": {
+    "short_tons": 19340782,
+    "tonnes": 17545662
+   },
+   "2017-metallurgical": {
+    "short_tons": 54349241,
+    "tonnes": 49304802
+   },
+   "2017-thermal": {
+    "short_tons": 42595878,
+    "tonnes": 38642331
+   },
+   "2018-metallurgical": {
+    "short_tons": 62150435,
+    "tonnes": 56381926
+   },
+   "2018-thermal": {
+    "short_tons": 54093637,
+    "tonnes": 49072922
+   },
+   "2019-metallurgical": {
+    "short_tons": 52915560,
+    "tonnes": 48004189
+   },
+   "2019-thermal": {
+    "short_tons": 40849091,
+    "tonnes": 37057672
+   },
+   "2020-metallurgical": {
+    "short_tons": 42009845,
+    "tonnes": 38110690
+   },
+   "2020-thermal": {
+    "short_tons": 27056725,
+    "tonnes": 24545448
+   },
+   "2021-metallurgical": {
+    "short_tons": 44970245,
+    "tonnes": 40796320
+   },
+   "2021-thermal": {
+    "short_tons": 40145113,
+    "tonnes": 36419034
+   },
+   "2022-metallurgical": {
+    "short_tons": 46477903,
+    "tonnes": 42164044
+   },
+   "2022-thermal": {
+    "short_tons": 39477833,
+    "tonnes": 35813688
+   },
+   "2023-metallurgical": {
+    "short_tons": 51081759,
+    "tonnes": 46340592
+   },
+   "2023-thermal": {
+    "short_tons": 49126304,
+    "tonnes": 44566633
+   },
+   "2024-metallurgical": {
+    "short_tons": 56586866,
+    "tonnes": 51334741
+   },
+   "2024-thermal": {
+    "short_tons": 51739517,
+    "tonnes": 46937300
+   },
+   "2025-metallurgical": {
+    "short_tons": 50118026,
+    "tonnes": 45466308
+   },
+   "2025-thermal": {
+    "short_tons": 42481219,
+    "tonnes": 38538314
+   }
+  },
+  "years": [
+   2010,
+   2011,
+   2012,
+   2013,
+   2014,
+   2015,
+   2016,
+   2017,
+   2018,
+   2019,
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ]
+ },
+ "qld-coal-sales": {
+  "address": "https://www.data.qld.gov.au/dataset/quarterly-coal-reports",
+  "credit": "Source: Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development (NRMMRRD)",
+  "current_as_at": "Current as at October 2026",
+  "data_through": "Data through to 30 June 2026",
+  "dataset": "Quarterly coal reports, workbook \"Quarterly Coal Sales\" (coal-sales-data-2010-2026.xlsx), sheets \"Export by country and coal type\" and \"Export by port and coal type\"",
+  "definition": "Sales to export of hard coking, semi-soft coking and PCI coal by the producers of Queensland, in tonnes, by first destination; the calendar year is the sum of its four quarters. Queensland only: New South Wales has no destinations in the file. Before 2022 PCI is inside semi-soft coking coal",
+  "disclaimer": "Derived conclusions and analysis generated from this data are not to be considered attributable to the Department.",
+  "excluded_years": [
+   2026
+  ],
+  "exporter": "AUS",
+  "file": {
+   "bytes": 649578,
+   "name": "coal-sales-data-2010-2026.xlsx",
+   "sha256": "2e612a46f2ab25aca9bf059db77a1f40ac634ab05bd2a42d92a19b275b3d40c9"
+  },
+  "id": "qld-coal-sales",
+  "licence": "Creative Commons Attribution 4.0 (CC BY 4.0)",
+  "name": "Queensland coal sales to export, by destination and by port",
+  "pci_note": "Prior to 2022, PCI was included and reported as an aggregated figure within the Semi-Soft Coking coal category in sales tables. In addition, the domestic sales are aggregated across all industries prior to 2022 Q1.",
+  "port_gap_country_minus_port": {
+   "2010-metallurgical": 0,
+   "2010-thermal": 0,
+   "2011-metallurgical": 0,
+   "2011-thermal": 0,
+   "2012-metallurgical": 0,
+   "2012-thermal": 0,
+   "2013-metallurgical": 0,
+   "2013-thermal": 0,
+   "2014-metallurgical": 0,
+   "2014-thermal": 0,
+   "2015-metallurgical": 0,
+   "2015-thermal": 0,
+   "2016-metallurgical": 0,
+   "2016-thermal": 0,
+   "2017-metallurgical": 0,
+   "2017-thermal": 0,
+   "2018-metallurgical": 0,
+   "2018-thermal": 0,
+   "2019-metallurgical": 0,
+   "2019-thermal": 0,
+   "2020-metallurgical": 0,
+   "2020-thermal": 0,
+   "2021-metallurgical": 0,
+   "2021-thermal": 0,
+   "2022-metallurgical": 0,
+   "2022-thermal": 0,
+   "2023-metallurgical": 0,
+   "2023-thermal": 0,
+   "2024-metallurgical": 0,
+   "2024-thermal": 0,
+   "2025-metallurgical": 0,
+   "2025-thermal": 0
+  },
+  "publisher": "Queensland Government, Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development (NRMMRRD)",
+  "revised": "Please note that the data may be revised to incorporate new and resubmitted data provided to the Department.",
+  "rule": "metallurgical = hard coking + semi-soft coking + PCI; thermal = thermal coal (the workbook has no such column: the rule is the atlas's)",
+  "totals": {
+   "2010-metallurgical": 130556481,
+   "2010-thermal": 55404079,
+   "2011-metallurgical": 109146409,
+   "2011-thermal": 44015852,
+   "2012-metallurgical": 119619425,
+   "2012-thermal": 48200092,
+   "2013-metallurgical": 142308120,
+   "2013-thermal": 53729319,
+   "2014-metallurgical": 160384528,
+   "2014-thermal": 54787755,
+   "2015-metallurgical": 160331970,
+   "2015-thermal": 58307945,
+   "2016-metallurgical": 159698204,
+   "2016-thermal": 60702555,
+   "2017-metallurgical": 151526052,
+   "2017-thermal": 58654392,
+   "2018-metallurgical": 157491306,
+   "2018-thermal": 65812848,
+   "2019-metallurgical": 159014993,
+   "2019-thermal": 61787154,
+   "2020-metallurgical": 151911981,
+   "2020-thermal": 52523554,
+   "2021-metallurgical": 143216238,
+   "2021-thermal": 52604149,
+   "2022-metallurgical": 136449536,
+   "2022-thermal": 56327847,
+   "2023-metallurgical": 133260788,
+   "2023-thermal": 66725633,
+   "2024-metallurgical": 136985537,
+   "2024-thermal": 67497241,
+   "2025-metallurgical": 131508829,
+   "2025-thermal": 68682534
+  },
+  "unallocated": {
+   "2017-metallurgical": 136787,
+   "2017-thermal": 30000,
+   "2018-metallurgical": 1807579,
+   "2018-thermal": 520680,
+   "2019-metallurgical": 2526264,
+   "2019-thermal": 473038,
+   "2020-metallurgical": 1200714,
+   "2020-thermal": 106420,
+   "2021-metallurgical": 1350348,
+   "2021-thermal": 669605
+  },
+  "years": [
+   2010,
+   2011,
+   2012,
+   2013,
+   2014,
+   2015,
+   2016,
+   2017,
+   2018,
+   2019,
+   2020,
+   2021,
+   2022,
+   2023,
+   2024,
+   2025
+  ]
+ }
+}

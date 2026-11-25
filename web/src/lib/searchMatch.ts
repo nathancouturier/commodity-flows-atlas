@@ -188,9 +188,14 @@ export interface Matchable {
   d: Searchable;
   /** position in the kind's own order (a list with no query) */
   order: string | number;
-  /** among items that match a query equally well, the one with the lower number comes first (default 0); the list with no query ignores it */
+  /** among items that match a query equally well, the one with the lower number comes first (default 0); only for a query that is one of the words in `tieFor`; the list with no query ignores it */
   tie?: number;
+  /** the words `tie` is for: a typed word of four letters or more that is the beginning of one of them is a query the tie applies to */
+  tieFor?: string[];
 }
+
+/** The tie of an item for this query: 0 unless the query is one word of four letters or more that is the beginning of one of the words the item's tie is for. */
+const tieOf = (q: string[], it: Matchable): number => (q.length === 1 && q[0].length >= 4 && it.tieFor?.some((w) => w.startsWith(q[0])) ? (it.tie ?? 0) : 0);
 
 /**
  * The items of one kind that match, best first; with no query, the kind's own order. An item that has every typed word whole comes
@@ -206,7 +211,7 @@ export function matchKind<T extends Matchable>(q: string[], items: T[], kind: st
   }
   return out.sort(
     (a, b) =>
-      (q.length ? Number(b.whole) - Number(a.whole) || b.tier - a.tier || b.s - a.s || (a.item.tie ?? 0) - (b.item.tie ?? 0) : 0) || (a.item.order < b.item.order ? -1 : a.item.order > b.item.order ? 1 : 0) || a.item.label.localeCompare(b.item.label),
+      (q.length ? Number(b.whole) - Number(a.whole) || b.tier - a.tier || b.s - a.s || tieOf(q, a.item) - tieOf(q, b.item) : 0) || (a.item.order < b.item.order ? -1 : a.item.order > b.item.order ? 1 : 0) || a.item.label.localeCompare(b.item.label),
   );
 }
 

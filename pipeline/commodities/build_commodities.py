@@ -153,6 +153,7 @@ import modes as MD  # noqa: E402  (the mode rule of the lanes: sea, transit, mix
 import us_lpg  # noqa: E402  (United States LPG exports to Mexico and Canada: EIA volumes and the Census Bureau's export file)
 import aus_req_lng  # noqa: E402  (Australia's LNG exports by market, Resources and Energy Quarterly: the LNG page's cross-check)
 import comtrade_tin  # noqa: E402  (China's declared imports of tin ores and concentrates, UN Comtrade: the tin page's table)
+import metcoal  # noqa: E402  (metallurgical coal by pair from the exporters' own statistics: the Metallurgical coal page's Main flows)
 import ports as PT  # noqa: E402  (sourced transit ports of landlocked countries)
 import vessel_rules as VR  # noqa: E402
 from build_lanes import FIRST_YEAR as LANE_FIRST_YEAR  # noqa: E402  (first year a page supports the reading of a group, with the reason)
@@ -2089,9 +2090,7 @@ def main():
             d["consumption"] = eia.ranked(("130-2", "MT"), "Mt", 1e-3, "metallurgical coal consumption; 1000 metric tons converted to Mt")
             d["exports"] = eia.ranked(("130-4", "MT"), "Mt", 1e-3, "metallurgical coal exports; 1000 metric tons converted to Mt")
             d["imports"] = eia.ranked(("130-3", "MT"), "Mt", 1e-3, "metallurgical coal imports; 1000 metric tons converted to Mt")
-            d["flows"] = baci.flows("coal", "Mt", 1e6, only_exporters=["AUS", "USA", "CAN", "MNG", "RUS"],
-                                    n_all="all coal (HS 2701) from a main metallurgical-coal exporter; thermal and metallurgical not separated")
-            disc.extend(baci.last_susp)
+            d["flows"], flow_notes = met_coal_flows(baci, eia, d["exports"]["y"])
             summ(d, "production", d["production"])
             summ(d, "consumption", d["consumption"])
             summ(d, "exports", d["exports"])
@@ -2101,16 +2100,14 @@ def main():
             for sec, key in (("production", ("21-1", "MT")), ("exports", ("21-4", "MT")), ("imports", ("21-3", "MT"))):
                 t = eia.ranked(key, "Mt", 1e-3, f"metallurgical coke {sec}; 1000 metric tons converted to Mt")
                 extra_first.append({"key": f"coke-{sec}", "title": f"Metallurgical coke {'producers' if sec == 'production' else sec[:-1] + 'ers'}, EIA {t['y']}", "table": t})
-            name_it(d, "flows", f"Main flows — all coal, customs data {BACI_YEAR}")
+            name_it(d, "flows", f"Main flows — metallurgical coal, exporters' statistics {BACI_YEAR}")
             notes.append(_note_group(baci, "coke", "Coke and semi-coke (HS 270400, customs data)") + " The tables of customs coke follow the EIA tables of metallurgical coke: the two sources "
                          "differ in what they count (EIA's coke is metallurgical coke by country; HS 2704 is every coke and semi-coke of coal, lignite or peat) and are not added. "
                          "Customs coke is not in the coal tables above, whose code list is the coal codes only, and the coal lanes do not hold it: the coke lanes are listed apart.")
             left_out = _left_out_note(baci, "coke")
             if left_out:
                 notes.append(left_out)
-            notes += [f"Flows are BACI coal flows (HS 2701) from {_and([cname(c) for c in ('AUS', 'USA', 'CAN', 'MNG', 'RUS')])}: HS 2701 does not separate thermal from metallurgical coal, so the volumes include thermal coal.",
-                      "Seaborne total omitted: the lane file covers all coal and cannot be split.",
-                      "Exports/imports tables are EIA metallurgical coal (not BACI)."]
+            notes += flow_notes + ["Exports/imports tables are EIA metallurgical coal (not BACI)."]
         elif cid == "uranium":
             d["production"] = wna_uranium()
             g = add_baci_trade(d, cid, notes, disc)
@@ -3105,6 +3102,10 @@ IGU_LICENCE = ("Copyright International Gas Union; one world total is cited, wit
 DISR_LICENCE = ("CC BY 4.0 (Creative Commons Attribution 4.0 International, as the About sheet of the workbook states); attribution as it asks: \"Department of "
                 "Industry, Science, and Resources, Commonwealth of Australia Resources and Energy Quarterly, December 2025.\"")
 
+QLD_COAL_LICENCE = ("CC BY 4.0 (Creative Commons Attribution 4.0, as the dataset page states); credit as the workbook's About sheet gives it: \"Source: Department of Natural "
+                    "Resources and Mines, Manufacturing and Regional and Rural Development (NRMMRRD)\"; the sheet adds that the data may be revised and that derived "
+                    "conclusions and analysis are not attributable to the Department")
+
 # worldsteel: the clause that keeps its country tables out of the atlas (terms of use, full version, read on 24 November 2026)
 WORLDSTEEL_LICENCE = ("Copyright World Steel Association; one world total is cited, with its edition, and none of its tables is copied. Article 6.1 of the "
                       "worldsteel Terms of Use: its websites and components \"may not be reproduced, used or distributed without the prior written consent "
@@ -3177,6 +3178,20 @@ def update_sources():
          "licence": "Public domain (US Government)", "update": "annual (release of 30 October 2026)",
          "access": "Web pages read by hand, the history page of each series; a small cache holds the series of Mexico and Canada (pipeline/trade/us_lpg.py)",
          "use": "Volume of United States LPG exports to Mexico and Canada, 2004 to 2025, to date the break in the customs tonnage of the pair United States to Mexico"},
+        {"id": "qld-coal-sales", "name": "Quarterly coal reports: Quarterly Coal Sales (Queensland coal exports by destination, by port and by coal type)",
+         "publisher": "Queensland Government, Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development",
+         "url": "https://www.data.qld.gov.au/dataset/quarterly-coal-reports", "licence": QLD_COAL_LICENCE,
+         "update": "quarterly (the workbook read: data through to 30 June 2026, current as at October 2026)",
+         "access": "Workbook coal-sales-data-2010-2026.xlsx downloaded by hand (the site refuses scripted downloads); read by pipeline/trade/extract_metcoal.py into small "
+                   "tracked files in pipeline/cache, never by a scheduled job",
+         "use": "Metallurgical coal (hard coking, semi-soft coking and PCI) sold to export by Queensland producers, by first destination and by port, on the Metallurgical coal page"},
+        {"id": "eia-coal", "name": "EIA Coal data: U.S. coal exports by rank, destination and customs district (bulk file COAL.zip)",
+         "publisher": "U.S. Energy Information Administration",
+         "url": "https://www.eia.gov/opendata/bulk/COAL.zip", "licence": "Public domain (US Government); acknowledgment: \"Source: U.S. Energy Information Administration\"",
+         "update": "quarterly and annual (the file read is dated 1 October 2026)",
+         "access": "Bulk file COAL.zip downloaded by hand, series COAL.EXPORT_QTY read by pipeline/trade/extract_metcoal.py into small tracked files in pipeline/cache, "
+                   "never by a scheduled job",
+         "use": "Exports of metallurgical coal of the United States by destination and customs district, on the Metallurgical coal page"},
         {"id": "wilhelmsen-lpg-sizes", "name": "Wilhelmsen: LPG vessel management (size categories of LPG carriers)", "publisher": "Wilh. Wilhelmsen",
          "url": "https://wilhelmsen.com/ship-management/technical-management/lpg-vessel-management", "licence": "Public web page; a size band is cited with attribution (terms to be confirmed)",
          "update": "irregular", "access": "Web page, read by hand", "use": "Size band of the mid-size gas carrier class"},
@@ -3443,6 +3458,121 @@ GAS_FACTOR = (f"1 Mt of LNG = {BCF_PER_MT_LNG:.2f} bcf = {BCM_PER_MT_LNG:.2f} bc
 EIA_RUSSIA_URL = "https://www.eia.gov/international/analysis/country/RUS"
 EIA_RUSSIA = {"rank": "fourth-largest", "total_year": 2023, "total_mbd": 1.9, "share_year": 2024,
               "shares": [("Türkiye", 17), ("China", 11), ("Singapore", 8), ("the United Arab Emirates", 8), ("India", 8), ("Brazil", 8)]}
+
+
+MET_FLOW_MIN = 1000  # tonnes: a pair below it is not a flow of the page (the threshold of the customs extract)
+MET_TYPE_NAME = {"hard-coking": "hard coking", "semi-soft": "semi-soft coking", "pci": "PCI"}
+MET_SOURCE_LABEL = {"qld-coal-sales": "Queensland", "eia-coal": "the United States"}
+MET_INTL_MIN_MT = 5  # a producing exporter of this page's EIA table, at least this many Mt in the year, with no source by destination: named in the note
+
+
+def _iso_date(s):
+    """2026-10-01 -> 1 October 2026"""
+    y, m, d = (int(x) for x in s.split("-"))
+    return f"{d} {MONTHS[m - 1]} {y}"
+
+
+def met_coal_flows(baci, eia, intl_year):
+    """The Main flows block of the Metallurgical coal page: metallurgical coal by pair of countries from the exporters' own statistics, not from
+    customs data (whose coal group is all coal and is not touched): Queensland's sales to export by first destination (Australia) and the exports
+    of rank metallurgical in the Census Bureau's declarations as EIA publishes them (the United States), the year of the customs data. One row per
+    destination of at least MET_FLOW_MIN tonnes, each row with its own source. Nothing is added across the two sources and nothing is subtracted
+    from the customs coal. Returns (flows, notes)."""
+    y = BACI_YEAR
+    qld, us = "qld-coal-sales", "eia-coal"
+    pq, pu = metcoal.pairs(qld, y), metcoal.pairs(us, y)
+    mq, mu = metcoal.meta(qld), metcoal.meta(us)
+    flows = []
+    for src, o, pr in ((qld, "AUS", pq), (us, "USA", pu)):
+        for dest, t in pr.items():
+            if t < MET_FLOW_MIN:
+                continue
+            kind, transit = baci.mode(o, dest, "coal")
+            f = {"o": o, "d": dest, "v": rnd(t / 1e6), "u": "Mt", "y": y, "s": src}
+            if kind:
+                f["mode"] = "sea" if kind == "transit" else kind
+                if transit:
+                    f["transit"] = transit
+            if src == qld:
+                ct = metcoal.coal_types(src, y, dest)
+                n = ("Queensland producers' sales to export of metallurgical coal, first destination: "
+                     + ", ".join(f"{MET_TYPE_NAME[k]} {_fmts(ct[k] / 1e6, 'Mt')}" for k in MET_TYPE_NAME if ct.get(k)))
+            else:
+                ds = sorted(metcoal.districts(src, y, dest).items(), key=lambda kv: -kv[1])
+                n = "exports of rank metallurgical as declared at export (U.S. Census Bureau, through EIA)"
+                if ds:
+                    n += "; loaded in the customs districts of " + ", ".join(f"{k} {_fmts(v / 1e6, 'Mt')}" for k, v in ds[:4]) + (f" and {len(ds) - 4} more" if len(ds) > 4 else "")
+            if kind == "transit" and not transit:
+                n += "; sea through a foreign port (not specified)"
+            elif kind == "mixed":
+                n += "; this trade moves both by sea and overland and the split is not known"
+            f["n"] = n
+            flows.append(f)
+    flows.sort(key=lambda f: -f["v"])
+    tq, tu = sum(pq.values()), sum(pu.values())
+    shown = lambda src: sum(f["v"] for f in flows if f["s"] == src)  # noqa: E731
+    n_q, n_u = sum(1 for f in flows if f["s"] == qld), sum(1 for f in flows if f["s"] == us)
+    ct = {k: sum(metcoal.coal_types(qld, y, d).get(k, 0) for d in pq) for k in MET_TYPE_NAME}
+    notes = []
+    # 1. Australia
+    ally = mq["totals"][f"{y + 1}-metallurgical"] if f"{y + 1}-metallurgical" in mq["totals"] else None
+    notes.append(
+        f"Australia, {y}: Queensland producers' sales to export of metallurgical coal by first destination, {_fmt(tq / 1e6)} Mt to {len(pq)} countries ("
+        + ", ".join(f"{MET_TYPE_NAME[k]} {_fmt(v / 1e6)} Mt" for k, v in ct.items()) + f"), the sum of the four quarters of {y}, from the Queensland Government's "
+        "Quarterly Coal Sales (Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development; CC BY 4.0). PCI, pulverised coal for "
+        "injection, is counted as metallurgical; before 2022 the file holds it inside semi-soft coking coal. The workbook is downloaded by hand and is not refreshed "
+        f"by the scheduled updates: it reads \"{mq['data_through']}\" and \"{mq['current_as_at']}\", and its About sheet says that the data may be revised. "
+        f"The figures are the atlas's sums of the quarters; the About sheet adds: \"{mq['disclaimer']}\""
+        + (f" Queensland's total of {y + 1}: {_fmt(ally / 1e6)} Mt." if ally else ""))
+    # 2. Queensland ports
+    pp = sorted(metcoal.ports(qld, y).items(), key=lambda kv: -kv[1])
+    notes.append(f"Queensland loads this coal at {_and([f'{k} {_fmt(v / 1e6)} Mt' for k, v in pp])} in {y} (the file names Hay Point and Dalrymple Bay as two ports). "
+                 "The Queensland file gives the port of loading in total and the destination in total: it has no port by destination.")
+    # 3. United States
+    st = mu["totals"][f"{y}-metallurgical"]["short_tons"]
+    du = sorted(metcoal.ports(us, y).items(), key=lambda kv: -kv[1])
+    can = metcoal.districts(us, y, "CAN")
+    notes.append(
+        f"United States, {y}: exports of rank metallurgical as declared at export (U.S. Census Bureau, Monthly Report EM 545) to {len(pu)} countries, {_fmt(tu / 1e6)} Mt "
+        f"({st / 1e6:.2f} million short tons at {CN.TONNES_PER_SHORT_TON} t per short ton), from EIA's file of coal exports. The file does not define the rank. By customs district: "
+        + ", ".join(f"{k} {_fmt(v / 1e6)} Mt" for k, v in du[:5]) + "; the customs district of Norfolk covers Hampton Roads"
+        + (f"; of the {_fmt(pu.get('CAN', 0) / 1e6)} Mt to Canada, {_fmt(can.get('Buffalo, NY', 0) / 1e6)} Mt left through Buffalo, NY" if can.get("Buffalo, NY") else "")
+        + f". The file is dated {_iso_date(mu['file_date'])}; its description says that the figures of the latest period are preliminary estimates, final by the fall that follows the year "
+        f"(the file's latest year is {max(mu['years'])}). Source: U.S. Energy Information Administration.")
+    # 4. first destination is not the buyer
+    cu = baci.group("coal").groupby(["o", "d"])["t"].sum()
+    above = []
+    for o, pr in (("AUS", pq), ("USA", pu)):
+        for dest, t in pr.items():
+            if t >= MET_FLOW_MIN and t > float(cu.get((o, dest), 0)):
+                above.append((o, dest, t, float(cu.get((o, dest), 0))))
+    big = max(above, key=lambda r: r[2] - r[3])
+    iq, cq = pq.get("IND", 0), float(cu.get(("AUS", "IND"), 0))
+    notes.append(
+        f"First destination is not always the buyer: {sum(1 for r in above if r[0] == 'AUS')} of the {n_q} Queensland pairs and {sum(1 for r in above if r[0] == 'USA')} of the {n_u} "
+        f"United States pairs are above the customs record of all coal for the same pair in {y}; the largest gap is {cname(big[0])} to {cname(big[1])}, {_fmt(big[2] / 1e6)} Mt "
+        f"against {_fmt(big[3] / 1e6)} Mt in customs data. The flows above are not a part of the customs flows of the Thermal coal page and are not subtracted from them: "
+        f"for Australia to India the customs data record {_fmt(cq / 1e6)} Mt of all coal and Queensland {_fmt(iq / 1e6)} Mt of metallurgical coal, and the difference "
+        f"({_fmt((cq - iq) / 1e6)} Mt) is not the thermal coal of that pair.")
+    # 5. what is covered, each exporter against EIA International's own figure
+    intl = eia.s[("130-4", "MT")]
+    mt = lambda g: intl[g][y] / 1e3  # noqa: E731
+    prod = eia.s[("130-1", "MT")]  # an exporter that mines it: the Netherlands re-exports and has no production
+    others = sorted(((g, mt(g)) for g in intl if g not in ("WORL", "AUS", "USA") and intl[g].get(y, 0) / 1e3 >= MET_INTL_MIN_MT and cname(g) != g
+                     and prod.get(g, {}).get(y, 0) > 0), key=lambda r: -r[1])
+    notes.append(
+        f"What these flows cover, {y}: EIA International gives metallurgical coal exports of {_fmt(mt('AUS'))} Mt for Australia and {_fmt(mt('USA'))} Mt for the United States, of "
+        f"{_fmt(mt('WORL'))} Mt in the world. The Queensland rows are {shown(qld) / mt('AUS'):.0%} of the Australian figure (New South Wales has no destinations in the Queensland file), "
+        f"the EIA rows {shown(us) / mt('USA'):.0%} of the United States figure. No free source loaded gives destinations for "
+        + _and([f"{cname(g)} ({_fmt(v)} Mt)" for g, v in others]) + ": their coal by pair is on the Thermal coal page, all types together.")
+    # 6. definitions and years
+    notes.append(
+        f"Three definitions of metallurgical coal are on this page and are not added to one another: the tables above are EIA International, {intl_year}, whole countries, all destinations; "
+        f"the Queensland rows are sales by Queensland producers with PCI included; the United States rows are exports by rank as declared. The flows are those of {y}, the year of the "
+        f"customs data, beside tables of {intl_year}.")
+    # 7. the lanes
+    notes.append("The seaborne lanes of this page are customs data for all coal, and coke: they are not the flows above.")
+    return flows, notes
 
 
 def lng_own_statistics(baci):

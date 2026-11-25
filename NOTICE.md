@@ -38,7 +38,8 @@ It does not cover data. Data files kept in the repository follow the terms of th
   `sea_flows.csv.gz`, `mixed_flows.csv.gz`, `seaborne_totals.json`, `baci_rice_forms.csv` and `baci_country_codes.csv` are
   derived from CEPII BACI (Etalab Open Licence 2.0); `faostat_cocoa_production.csv`, `faostat_eu_crops.csv` (crop production
   of the 27 member states of the European Union and the world, FAOSTAT QCL) and
-  `faostat_fertilizer_production.csv` are FAOSTAT data (CC BY 4.0); `wna_uranium.json` is World Nuclear Association data
+  `faostat_fertilizer_production.csv` are FAOSTAT data (CC BY 4.0); `metcoal_pairs.csv`, `metcoal_ports.csv` and `metcoal_meta.json` hold the Queensland
+  Government's coal sales (CC BY 4.0) and EIA's exports of United States coal (public domain), credited below; `wna_uranium.json` is World Nuclear Association data
   (terms to be confirmed); `adjacency.json` is derived from Natural Earth (public domain); `geom_cache.json` and
   `route_cache.json` hold computed routes (see the next section); `trade_checks.json` holds the findings of the atlas's
   checks, which quote CEPII BACI, USDA PSD, EIA, USGS and IMF PortWatch figures under the terms of each.
@@ -381,6 +382,13 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
   acknowledgment ("Source: U.S. Energy Information Administration"). The EIA material used includes the International
   Energy Data, the country analysis briefs (refinery towns and ports of entry of the gateway tables, the Saudi coast
   rule), the company-level crude and products imports, the refinery capacity report and the natural gas data.
+- **Queensland Government** (the Metallurgical coal page): the dataset "Quarterly coal reports", workbook "Quarterly Coal Sales" (exports by country and
+  by port), CC BY 4.0. Credit as the workbook gives it: "Source: Department of Natural Resources and Mines, Manufacturing and Regional and Rural
+  Development (NRMMRRD)". The workbook reads "Data through to 30 June 2026" and "Current as at October 2026", and says that the data may be revised and
+  that "Derived conclusions and analysis generated from this data are not to be considered attributable to the Department": the figures of the page are the
+  atlas's sums of its quarters. The workbook is downloaded by hand (the site refuses scripts) and is not refreshed by the scheduled updates.
+- **EIA coal exports** (the Metallurgical coal page): the bulk file COAL.zip (exports by rank, destination and customs district; underlying source: U.S.
+  Census Bureau, Monthly Report EM 545), public domain. "Source: U.S. Energy Information Administration", file dated 1 October 2026.
 - **Wikidata** (points of a few assets): CC0 1.0, no credit required.
 - **Australian Bureau of Statistics** (the article on Australian lithium exports cited on the lithium page): CC BY 4.0.
 - **U.S. Bureau of Labor Statistics**: the deep-sea freight producer price index (series PCU483111483111), public domain
