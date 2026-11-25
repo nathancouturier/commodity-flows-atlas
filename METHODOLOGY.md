@@ -910,9 +910,8 @@ class assumption, and each says which it is.
 
 Counted as zero when empty: port and canal days, port fuel, canal tolls, port costs. The block names the ones that are empty.
 Not counted, unless the visitor puts them into the port costs: a weather allowance, commissions, insurance, demurrage and
-despatch, off-hire, charges for emissions or ballast water, dues of passages other than the canals (the Turkish straits, for
-example, which are a passage of some routes), the fuel of idle days outside the port fuel typed, and gas oil if a description
-gives any. Port fuel is typed in tonnes and counted at the bunker price. The Baltic Exchange's own time-charter equivalent
+despatch, off-hire, charges for emissions or ballast water, dues of passages other than the two canals (the Turkish straits,
+for example, which some routes cross), and any gas oil that a standard vessel's description adds to its fuel oil. Port fuel is typed in tonnes and counted at the bunker price. The Baltic Exchange's own time-charter equivalent
 (Guide to Market Benchmarks, Appendix 3) counts fuel burned in port, a weather allowance and commissions, with the port costs
 and the voyage costs it lists; this calculator counts only what is typed, and its result is not that value, whatever it is named.
 A standard vessel is the Baltic's reference ship, not the ship of any real voyage.
@@ -923,13 +922,13 @@ No toll figure is held or copied. The Panama Canal Authority's tariff
 (https://pancanal.com/en/maritime-services/maritime-tariff/) depends on the size category of the vessel and the locks used,
 and differs for a vessel in ballast. The Suez Canal Authority's tolls table
 (https://www.suezcanal.gov.eg/English/Navigation/Tolls/Pages/TollsTable.aspx) loads its rows for a chosen category and dates,
-says that the rates apply "according to the vessel's actual condition upon transit", and refers to rebates published by
-circular. The atlas holds neither a size category nor a rebate. Neither site states that its tariff may be republished: the
+says that the rates apply "according to the vessel's actual condition upon transit", and lists periodical circulars that renew
+the rates of categories of vessel. The atlas holds neither a size category nor the circulars in force. Neither site states that its tariff may be republished: the
 Panama Canal Authority's Terms of Use (https://pancanal.com/en/terms-of-use/, read on 25 November 2026) say that "their
 copying, distribution, transmission, reproduction or publication for commercial or lucrative purposes is prohibited" and that
 their use for such purposes "requires prior express authorization from the Panama Canal Authority"; the Suez Canal Authority's
-pages carry the line "Copyright 2017 | All Right Reserved Suez Canal Authority" (read on 25 November 2026) and state no terms
-of reuse. The atlas links the two pages from the field and credits them in NOTICE.md; they are linked, not copied, and they are
+pages carry the line "Copyright 2017 | All Right Reserved Suez Canal Authority" (read on 25 November 2026), and no page read
+states terms of reuse. The atlas links the two pages from the field and credits them in NOTICE.md; they are linked, not copied, and they are
 not entries of the registry of sources, which lists the sources of figures.
 
 The Baltic Exchange's terms and this use. The calculator computes, in the visitor's browser, with the speed and the fuel of the
@@ -941,10 +940,11 @@ the owner, listed in PROGRESS.md. What the Baltic's pages say, read on 25 Novemb
 be copied or reproduced (except for your personal use), shared with third parties, reverse engineered, reverse assembled, or used
 to create any derivative work (whether in physical or electronic form) without the prior written consent of the Baltic except to
 the extent specifically permitted under the terms of the level of your subscription for Baltic Data as set out in the Baltic Data
-Policy". The Data Policy (https://www.balticexchange.com/en/site-services/data-policy.html) describes Baltic Data as "a range of
-indices and other market data produced by the Baltic" and says that the holder of a licence shall not "display Baltic Data on any
-intranet or public website" and shall not "use ... Baltic Data to create derived data, including pricing data or other information
-that would be created in whole or in part from Baltic Data" (clauses 2.2.3 and 2.3.3, and 4.2 for a client of a channel partner).
+Policy". The Data Policy (https://www.balticexchange.com/en/site-services/data-policy.html) says that its subscribers "have access
+to a range of indices and other market data produced by the Baltic" (clause 1.2), and that the holder of a licence shall not
+"display Baltic Data on any intranet or public website" and shall not "use ... Baltic Data to create derived data, including
+pricing data or other information that would be created in whole or in part from Baltic Data" (clauses 2.2.3 and 2.3.3; clause 4.2
+says the same of a client of a channel partner).
 Neither page says whether the descriptions of the standard vessels are Baltic Data, or whether a reader without a licence is bound
 by the policy: that is not settled. If the owner answers that the calculator may not use them, one line (`standardVessel`) leaves
 the speed and fuel fields empty. The `baltic` entry of the registry names this use.
