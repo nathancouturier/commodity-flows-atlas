@@ -84,8 +84,9 @@ are not refreshed by a scheduled job.
 ## Sources considered and not used
 
 - **Baltic Exchange indices** (BDI, BCI, TD3C rates and others): proprietary, not free.
-- **UN Comtrade API**: free tier needs a key and has low limits. BACI already reconciles the same
-  data.
+- **UN Comtrade full API**: the free tier needs a key and has low limits, and BACI already reconciles the same data. What is used is the public
+  preview of the service (no key, one call per year, by hand), for China's declared imports of tin ores and concentrates and the flow of tin ore from
+  Myanmar to China that BACI lacks (registry id `comtrade`, listed above); no other flow is read from it and no answer is published as a file.
 - **Energy Institute Statistical Review**: free, but the download page blocks automated access
   (HTTP 403). EIA international data covers the same series.
 - **NGA World Port Index**: the server returned HTTP 503, so it is registered (`nga-wpi`) but not used.

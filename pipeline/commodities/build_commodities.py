@@ -936,7 +936,7 @@ class Baci:
                 j = json.load(open(os.path.join(ld, f), encoding="utf-8"))
                 # flows link to the lanes of the main set only (a history lane has no latest-year flow)
                 self.lanes[j["group"]] = {"ids": {l["id"] for l in j["lanes"] if l["set"] == "main"}, "seaborne": j["seaborne"],
-                                          "mixed": j.get("mixed"), "est": j.get("est"), "years": j["years"], "unit": j["unit"], "y": j["y"]}
+                                          "mixed": j.get("mixed"), "est": j.get("est"), "estVol": j.get("estVol"), "breakNote": j.get("breakNote"), "years": j["years"], "unit": j["unit"], "y": j["y"]}
         try:
             self.caveats = json.load(open(os.path.join(DATA, "freight", "caveats.json"), encoding="utf-8"))
         except (OSError, ValueError):
@@ -1009,12 +1009,14 @@ class Baci:
             by_volume = bool(r["t"]) and r["tv"] / r["t"] >= es / 2  # most of the estimate is a volume of the United States' own statistics
             if mostly and by_volume:
                 note = (note + "; " if note else "") + (f"Atlas estimate: {es * 100:.0f}% of this tonnage is estimated from the volume in the United States' own export statistics "
-                                                        f"(customs declared {_fmts(r['t0e'] / div, u)} for these flows, the volume in cubic metres read as tonnes; see the notes of the page)")
+                                                        f"(customs declared {_fmts(r['t0e'] / div, u)} for these flows: {us_lpg.CAUSE}; see the notes of the page)")
             elif mostly:  # most of the tonnage is the atlas's own estimate (GW3.3): said first, with the method in a few words
                 note = (note + "; " if note else "") + (f"Atlas estimate: {es * 100:.0f}% of this tonnage is estimated from the declared value "
                                                         f"(customs declared {_fmts(r['t0e'] / div, u)} for these flows; declared value divided by a reference unit value, see the notes of the page)")
             elif es >= 0.10:
-                note = (note + "; " if note else "") + (f"{es * 100:.0f}% of tonnage estimated from the volume in the United States' own export statistics" if by_volume
+                vs_row = r["tv"] / r["t"] if r["t"] else 0  # the part estimated from a volume (rule 10), the rest from the declared value
+                note = (note + "; " if note else "") + (f"{es * 100:.0f}% of tonnage estimated: {vs_row * 100:.0f}% from the volume in the United States' own export statistics"
+                                                        + (f", {(es - vs_row) * 100:.0f}% from value" if es - vs_row >= 0.005 else "") if vs_row >= 0.005
                                                         else f"{es * 100:.0f}% of tonnage estimated from value")
             ss = r["ts"] / r["t"] if r["t"] else 0
             if ss >= 0.10:
@@ -1096,12 +1098,16 @@ class Baci:
                 notes.append("sea through a foreign port (not specified)")
             elif kind == "mixed" and not mode_all and MD.known_split(r["o"], r["d"], g, BACI_YEAR):
                 ks = MD.known_split(r["o"], r["d"], g, BACI_YEAR)
-                notes.append("customs total for all modes: " + MD.split_note(ks[0], ks[1], BACI_YEAR, _fmts(r["t"] / div, u)))
+                # the figure of the row is the pair in all modes; its lane is the part by sea (the other part is read as overland)
+                notes.append(f"the figure is for all modes of transport, {_fmts(r['t'] * ks[0] / div, u)} of it by sea (the lane) and {_fmts(r['t'] * (1 - ks[0]) / div, u)} read as overland. "
+                             + MD.split_note(ks[0], ks[1], BACI_YEAR, _fmts(r["t"] / div, u)))
             elif kind == "mixed" and not mode_all:
                 notes.append("customs total for all modes: this trade moves both by sea and overland and the split is not known")
             if r["est"]:
                 # an Atlas estimate: the tonnage is computed from the declared value (pipeline/trade/clean.py)
                 f["s"], f["est"] = "atlas", True
+                if "est-volume" in str(r.get("flag") or ""):
+                    f["estBy"] = "volume"  # made from a volume in the United States' own export statistics, not from the declared value (rule 10)
                 if r.get("capped") is True or r.get("capped") == True:  # noqa: E712 (a missing value of another group is NaN)
                     f["cap"], f["v"] = True, rnd(r["t"] / div)
                 notes.append(r["enote"] if isinstance(r.get("enote"), str) and r["enote"] else "Atlas estimate: tonnage estimated from declared value")
@@ -1148,7 +1154,12 @@ class Baci:
         if mx and mx >= MIXED_MIN_MT * (1000 if u == "kt" else 1):
             n += f"; {_fmts(mx, u, under=0.05)} that move both by sea and overland (split not known) are not in it"
         if lg.get("est") and lg["est"] >= 0.01:
-            n += f"; {lg['est'] * 100:.0f}% of this tonnage estimated from value"
+            vol = lg.get("estVol") or 0  # the part made from a volume in the United States' own export statistics (rule 10)
+            n += (f"; {lg['est'] * 100:.0f}% of this tonnage is an Atlas estimate: {vol * 100:.0f}% from a volume in the United States' own export statistics"
+                  + (f", {(lg['est'] - vol) * 100:.0f}% from value" if lg["est"] - vol >= 0.005 else "") if vol >= 0.005
+                  else f"; {lg['est'] * 100:.0f}% of this tonnage estimated from value")
+        if lg.get("breakNote"):
+            n += "; " + lg["breakNote"]
         if label:
             n += "; " + label
         return fig(v, u, lg["y"], "baci", n)
@@ -2342,11 +2353,10 @@ def main():
             notes.append("Trade tables are zinc ores and concentrates in gross weight (Mt); production and reserves are contained zinc (kt Zn).")
         elif cid == "lead":
             notes.append(_note_group(baci, "lead-metal", "Unwrought lead (HS 7801)"))
-            notes.append("Trade tables are lead ores and concentrates in gross weight (Mt); production and reserves are contained lead (kt Pb). No lead lanes exist (no seaborne figure).")
+            notes.append("Trade tables are lead ores and concentrates in gross weight (Mt); production and reserves are contained lead (kt Pb).")
         elif cid == "tin":
             notes.append(_note_group(baci, "tin-ore", "Tin ores and concentrates (HS 2609)"))
-            notes.append("Trade tables are unwrought tin (HS 8001, alloyed or not; waste and scrap, HS 8002, are not included) in kt; production and reserves are contained tin (t Sn). "
-                         "No tin lanes exist (no seaborne figure).")
+            notes.append("Trade tables are unwrought tin (HS 8001, alloyed or not; waste and scrap, HS 8002, are not included) in kt; production and reserves are contained tin (t Sn).")
             ranks = [r["c"] for r in d["production"]["rows"]]
             if "MMR" in ranks:
                 mmr = d["production"]["rows"][ranks.index("MMR")]["v"]
@@ -2393,6 +2403,7 @@ def main():
                 st, sv = sp["t"].sum() / allc["t"].sum(), sp["usd"].sum() / allc["usd"].sum()
                 t, _ = baci.ranked("spodumene", "exports", *MT, f"HS {code} rows to China only", digits=3)
                 t["s"] = "atlas"
+                t["shareOf"] = "these exports to China"  # the total is the rows of the table, not the world's exports of the code
                 pages = [f"{cname(c)}: {ABS_LITHIUM}" if c == "AUS" else f"{cname(c)}: {SPODUMENE_PAGES[c][0]} ({SPODUMENE_PAGES[c][1]}, {SPODUMENE_PAGES[c][2]})"
                          for c in exporters]
                 t["n"] = (f"Atlas estimate: spodumene concentrate has no customs code of its own; it is read from HS {code} ('mineral substances not elsewhere "
@@ -2913,7 +2924,10 @@ def _note_group(baci, g, label):
     world = sum(ex.values())
     unit_n = "Mt"
     names = ", ".join(f"{cname(baci.iso(c))} {v:.2f} Mt" for c, v in top)
-    return (f"{label}, {BACI_YEAR} (CEPII BACI): world {world:.2f} Mt gross weight; top exporters {names}.")
+    grp = baci.group(g)
+    added = grp[grp["flag"] == "added"]  # flows the atlas takes from the importer's declaration (rule 11 of clean.py)
+    src = "CEPII BACI" + "".join(f", with {cname(baci.iso(r.o))} to {cname(baci.iso(r.d))} from UN Comtrade" for r in added.itertuples())
+    return (f"{label}, {BACI_YEAR} ({src}): world {world:.2f} Mt gross weight; top exporters {names}.")
 
 
 def _compare(kind, eia, key, factor, baci, group, div, unit, label, year, tol=0.10):
@@ -3590,13 +3604,16 @@ def lng_own_statistics(baci):
              f"Customs data (CEPII BACI): {_fmt(exp['AUS'])} Mt, {share(a['total'], exp['AUS'])}.")
     r_us = ("USA", us_mt, f"EIA, liquefied U.S. natural gas exports (series {EIA_US_LNG['series']}, public domain): {EIA_US_LNG['mmcf'] / 1e3:,.0f} bcf in {y}, "
             f"converted at {BCF_PER_MT_LNG:.2f} bcf per Mt (Atlas conversion). Customs data (CEPII BACI): {_fmt(exp['USA'])} Mt, {share(us_mt, exp['USA'])}.")
-    own = ranked([r_aus, r_us], y, "atlas",  "Mt", digits=3,
+    own = ranked([r_aus, r_us], y, "disr-req", "Mt", digits=3,
                  n=("Exports of LNG as the exporting country's own statistics give them, beside the customs figure of each (CEPII BACI): Australia's "
                     "Resources and Energy Quarterly, and the United States' EIA series converted to tonnes. A cross-check of the customs tables, not a ranking: "
                     "the atlas has found no open source for the other exporters. The definitions differ (the customs figures are the reconciled declarations of "
                     "the exporter and the importer), and the customs tables of this page stay as they are"))
     own["norank"] = True
+    # each row has its own source: the department's figure for Australia; for the United States the atlas's conversion of EIA's volume, EIA being the source of the volume
+    own["srcs"] = ["disr-req", "eia-ng"]
     for r in own["rows"]:
+        r["s"] = "eia-ng" if r["c"] == "USA" else "disr-req"
         if r["c"] == "USA":
             r["conv"] = True
     own["conv"] = "the United States row is an Atlas conversion of EIA's volume of gas in billion cubic feet, at the factor named in its note"
@@ -3606,6 +3623,7 @@ def lng_own_statistics(baci):
                    f"(fixed, not re-ranked each year); the other markets are not given by the source. {a['total_note'].replace('n ', 'Footnote n: ', 1)} "
                    f"{a['table_source']} Attribution: {a['attribution']}"))
     mk["norank"] = True
+    mk["shareOf"] = "Australia's exports"  # the total is Australia's exports, not the world's
     tables = [{"key": "lng-own-statistics", "title": f"Exports in the exporting country's own statistics, {y} (a cross-check, not a ranking)", "table": own},
               {"key": "lng-australia-markets", "title": f"Australia's LNG exports by market, {y} (Resources and Energy Quarterly)", "table": mk}]
     notes = [f"Own statistics against customs: Australia's Resources and Energy Quarterly gives {_fmt(a['total'])} Mt of LNG exports in {y} against {_fmt(exp['AUS'])} Mt in the customs "
@@ -3633,6 +3651,7 @@ def tin_china_declared(baci):
                       f"from {x['world']['origins']} origins; the table lists the five largest and Myanmar"
                       + ("; Comtrade's total for the year is an estimate (the origins add up to it)" if x["world"]["est"] else "") + ". Source: UN Comtrade"))
         t["norank"] = True
+        t["shareOf"] = "China's declared imports"  # the total is China's imports, not the world's
         return set_basis(t, "ores and concentrates, net weight declared by China")
 
     t = table(y)
@@ -3675,20 +3694,24 @@ def lpg_us_notes(baci):
     fixed = sorted(int(y) for y in lp[(lp["d"] == "MEX") & (lp["flag"] == "est-volume")]["year"])
     ok = [y for y in range(2004, min(fixed)) if row("MEX", y) is not None and us_lpg.estimate("MEX", y)]
     ratio = [row("MEX", y)["t0"] / us_lpg.estimate("MEX", y)["t"] for y in ok]
+    meas = {y: us_lpg.measure("MEX", y, row("MEX", y)["t0"]) for y in fixed}
+    per_m3, per_t = {y: m["per_m3"] for y, m in meas.items()}, {y: m["per_t"] for y, m in meas.items()}
     notes = [
         "United States to Mexico: " + "; ".join(f"{y} {_fmt(row('MEX', y)['t0'] / 1e6)} Mt in CEPII BACI, {_fmt(row('MEX', y)['t'] / 1e6)} Mt here" for y in fixed)
-        + f". From {fixed[0]} the customs tonnage of the pair is the volume of the cargo in cubic metres, a volume read as tonnes being a plausible cause (not established here): "
-        f"in {max(fixed) - 1} it is {_fmt(row('MEX', max(fixed) - 1)['t0'] / 1e6)} Mt for {_fmt(us_lpg.estimate('MEX', max(fixed) - 1)['m3'] / 1e3)} million m3 in EIA's exports "
-        f"of propane and butanes to Mexico, its unit value ({row('MEX', max(fixed))['uvp']:,.0f} USD/t in {max(fixed)}) is {row('MEX', max(fixed))['uvp'] / (row('MEX', max(fixed))['uv'] * 1000):.2f} "
-        f"times the group's median unit value, and the US Census Bureau's export detail file gives {_fmt(sum(c['pairs']['MEX']['qty_m3'].values()) / 1e6)} million m3 in {c['year']}. "
+        + f". From {fixed[0]} the customs tonnage of the pair is {min(per_m3.values()):.2f} to {max(per_m3.values()):.2f} times the volume in cubic metres of the United States' own "
+        f"statistics ({', '.join(f'{y} {v:.2f}' for y, v in per_m3.items())}) and {min(per_t.values()):.1f} to {max(per_t.values()):.1f} times the tonnage that this volume gives at the "
+        f"density of the cargo (the volume is EIA's exports of propane and butanes to Mexico, {_fmt(us_lpg.estimate('MEX', max(fixed) - 1)['m3'] / 1e3)} million m3 in {max(fixed) - 1}, and the "
+        f"US Census Bureau's export detail file, {_fmt(sum(c['pairs']['MEX']['qty_m3'].values()) / 1e6)} million m3 in {c['year']}). Its unit value "
+        f"({row('MEX', max(fixed))['uvp']:,.0f} USD/t in {max(fixed)}) is {row('MEX', max(fixed))['uvp'] / (row('MEX', max(fixed))['uv'] * 1000):.2f} times the group's median unit value. "
+        f"{us_lpg.CAUSE[0].upper() + us_lpg.CAUSE[1:]}. "
         "The tonnage of these years is the volume of the United States' own statistics (EIA's propane, normal butane and isobutane exports, which come from the Census Bureau's "
         f"customs data) times the density of the cargo in the Census file ({c['density_kg_m3']['2711120010']:.0f} kg/m3 for propane, {c['density_kg_m3']['2711130000']:.0f} for butanes), an Atlas estimate; "
         f"in {c['year']} it is the Census file's own quantity. From 2004 to {min(fixed) - 1} the customs tonnage is {min(ratio):.1f} to {max(ratio):.1f} times the tonnage from EIA's volumes: "
         "it is left as reported. 2002 and 2003 cannot be checked (EIA's series start in 2004) and are left as reported.",
         f"United States to Mexico, mode: in {c['year']} the Census file gives a shipping weight for the cargo that went by vessel only, {_fmt(c['pairs']['MEX']['vessel_t'] / 1e6)} Mt, "
         f"{c['pairs']['MEX']['vessel_t'] / c['pairs']['MEX']['total_t']:.0%} of the pair's {_fmt(c['pairs']['MEX']['total_t'] / 1e6)} Mt (the file gives no total weight: the total is its "
-        "quantity times its density); the atlas reads the rest as overland, and the lane of the pair is that sea share. The other years of the pair stay customs totals for all modes, "
-        "with the split not known.",
+        "quantity times its density); the file does not name the modes of the rest, and the atlas reads it as overland (rail, road and pipeline), so the lane of the pair is the share by sea. "
+        "The other years of the pair stay customs totals for all modes, with the split not known.",
     ]
     can = [(y, row("CAN", y)) for y in range(2004, BACI_YEAR + 1) if row("CAN", y) is not None and us_lpg.estimate("CAN", y)]
     r_before = [r["t0"] / us_lpg.estimate("CAN", y)["t"] for y, r in can if y < 2015]

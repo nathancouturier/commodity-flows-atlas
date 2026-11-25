@@ -43,6 +43,8 @@ export interface LaneRow {
   /** share of the group's seaborne tonnes, 0..1; null for a lane that is not all sea */
   share: number | null;
   est: boolean;
+  /** source id of the volume behind an estimate made from a volume in the United States' own export statistics (not from the declared value) */
+  estSrc?: string;
   /**
    * tonnes of the year shown minus those of the year before (`hist`; a year with no figure and no flag counts as 0, the
    * lane starts or stops), null for the first year and when either year has no customs record or a hidden figure
@@ -54,6 +56,10 @@ export interface LaneRow {
   chgCheck: boolean;
   /** the year of the two that has no customs record or whose figure is hidden as suspect (then `chg` is null) */
   chgGap: number | null;
+  /** the lane is the part by sea of a pair whose split is known (`Lane.histAll`): its history, so the change on the year and a past year's figure, is in all modes */
+  allModes: boolean;
+  /** the figure itself is all modes: a past year of such a lane (the latest year's figure is the part by sea) */
+  vAllModes: boolean;
   kind: 'sea' | 'transit' | 'mixed';
   /** transit port names, for a landlocked end (two when both ends are landlocked) */
   transit: string[];
@@ -104,7 +110,7 @@ export function laneRows(files: LaneFile[], yr: number | null): { rows: LaneRow[
         v = l.hist[at] ?? null;
         if (!v || v <= 0) continue;
         const tot = f.seaborne[at];
-        share = mixed || !tot ? null : v / tot;
+        share = mixed || l.histAll || !tot ? null : v / tot;
         est = l.histFlags?.[String(yr)] === 'est';
       } else {
         if (l.set === 'history') continue;
@@ -141,6 +147,9 @@ export function laneRows(files: LaneFile[], yr: number | null): { rows: LaneRow[
         chgEst,
         chgCheck,
         chgGap,
+        estSrc: est ? l.histSrc?.[String(at >= 0 ? yr : f.y)] : undefined,
+        allModes: !!l.histAll,
+        vAllModes: !!l.histAll && at >= 0,
         kind: mixed ? 'mixed' : l.transit ? 'transit' : 'sea',
         transit: transitNames(l, f),
         cls: l.vclass[0] ?? null,
@@ -165,7 +174,25 @@ export function estimatedShare(f: LaneFile, yr: number | null): { share: number;
 }
 
 /** The sentence the builder puts in a year's note for the estimated tonnage: the table footer says it when the share is 1% or more. */
-const EST_YEAR_NOTE = /\s*Includes [\d.,]+ \S+ of Atlas estimates \([^)]*\): tonnage estimated from declared value\.?/;
+const EST_YEAR_NOTE = /\s*Includes [\d.,]+ \S+ of Atlas estimates \([^)]*\): tonnage estimated from (?:declared value|a volume[^()]*\([^)]*\)(?: and from declared value \([^)]*\))?)\.?/;
+
+/** The part of the estimated share (`estimatedShare`) that is made from a volume in the United States' own export statistics, 0 when none is. */
+export function estimatedVolume(f: LaneFile, year: number): number {
+  const i = f.years.indexOf(year);
+  return f.estVolY?.[i] ?? (year === f.y ? f.estVol : undefined) ?? 0;
+}
+
+/** What the estimated share is made from, in words: the two bases (a volume of the United States' own statistics, the declared value) told apart. */
+export function estimateBasis(share: number, volume: number): string {
+  if (volume <= 0) return 'estimated from the declared value';
+  const value = share - volume;
+  return `an Atlas estimate: ${pct(volume)} from a volume in the United States' own export statistics${value >= 0.005 ? `, ${pct(value)} from the declared value` : ''}`;
+}
+
+/** The sentence of a lane file that says where a pair enters the seaborne series from a year (its split by mode is known for some years only), for the latest year. */
+export function breakSentence(f: LaneFile, yr: number | null): string | null {
+  return f.breakNote && (yr == null || yr === f.y) ? `${f.breakNote}.` : null;
+}
 
 /** A year note of a lane file, without the estimate sentence when the lane table's footer carries it. */
 export function yearNote(f: LaneFile, yr: number | null): string | undefined {
@@ -244,8 +271,8 @@ export function lanesCsv(rows: LaneRow[], rest: RestRow[]): string {
         r.v == null ? '' : r.est ? sig2(r.v) : r.v, r.u,
         r.share == null ? '' : (r.share * 100).toFixed(2),
         MODE_TEXT[r.kind], r.transit.join(' and '), r.cls ? vesselName(r.cls) : '', r.nm || '',
-        names(r.via).join('; '), r.viaAlt.map(altText).join('; '), r.est ? 'yes' : '', r.est ? EST_SOURCE : sourceLabel(r.s),
-        r.est ? `${ATLAS_LICENCE}; computed from CEPII BACI data (${licenceOf('baci')})` : licenceOf(r.s),
+        names(r.via).join('; '), r.viaAlt.map(altText).join('; '), r.est ? 'yes' : '', r.est ? (r.estSrc ? `Atlas estimate (a volume: ${sourceLabel(r.estSrc)})` : EST_SOURCE) : sourceLabel(r.s),
+        r.est ? `${ATLAS_LICENCE}; computed from ${r.estSrc ? `${sourceLabel(r.estSrc)} (${licenceOf(r.estSrc)})` : `CEPII BACI data (${licenceOf('baci')})`}` : licenceOf(r.s),
       ].map(csvCell).join(','),
     );
   }
@@ -296,16 +323,17 @@ function LaneLine({ r }: { r: LaneRow }) {
       </span>
       <span class="lt-fig num">
         {r.v == null ? '—' : `${fmtEst(r.v, r.est)} ${r.u}`}
-        <small>{r.share == null ? (r.kind === 'mixed' ? 'all modes' : '—') : pct(r.share, true)}</small>
+        <small>{r.share == null ? (r.kind === 'mixed' || r.vAllModes ? 'all modes' : '—') : pct(r.share, true)}</small>
         {r.chg != null && (
           <small
             class={`lt-chg ${r.chg > 0 ? 'up' : r.chg < 0 ? 'down' : ''}`}
-            title={`Change from ${r.prevY}${r.chgEst ? '; an Atlas estimate in one of the two years' : ''}${r.chgCheck ? '; a figure of one of the two years is flagged by a check (see the lane)' : ''}`}
+            title={`Change from ${r.prevY}${r.allModes ? ', all modes of transport in both years (the figure above is the part by sea)' : ''}${r.chgEst ? '; an Atlas estimate in one of the two years' : ''}${r.chgCheck ? '; a figure of one of the two years is flagged by a check (see the lane)' : ''}`}
           >
             {r.chg > 0 ? '+' : r.chg < 0 ? '−' : '±'}
             {fmtEst(Math.abs(r.chg), r.chgEst)} vs {r.prevY}
             {r.chgEst ? ' (est.)' : ''}
             {r.chgCheck ? ' (check)' : ''}
+            {r.allModes ? ' (all modes)' : ''}
           </small>
         )}
         {r.chgGap != null && (
@@ -339,8 +367,13 @@ export default function LaneTable(props: { files: LaneFile[]; yr: number | null;
   // how much of each group's seaborne total of the year shown is an Atlas estimate
   const estimated = props.files.flatMap((f) => {
     const e = estimatedShare(f, props.yr);
-    return e ? [`${props.files.length > 1 ? `${GROUP_LABEL[f.group] ?? f.label ?? f.group}: ` : ''}${pct(e.share)} of the ${e.year} seaborne tonnage is estimated from the declared value (Atlas estimate).`] : [];
+    if (!e) return [];
+    const vol = estimatedVolume(f, e.year);
+    const who = props.files.length > 1 ? `${GROUP_LABEL[f.group] ?? f.label ?? f.group}: ` : '';
+    return [vol > 0 ? `${who}${pct(e.share)} of the ${e.year} seaborne tonnage is ${estimateBasis(e.share, vol)}.` : `${who}${pct(e.share)} of the ${e.year} seaborne tonnage is estimated from the declared value (Atlas estimate).`];
   });
+  // a pair whose split by mode is known for the latest year only enters the seaborne series that year
+  const breaks = props.files.flatMap((f) => breakSentence(f, props.yr) ?? []);
   const sort = (k: SortKey, text: boolean) => {
     if (k === key) setDir((dir * -1) as 1 | -1);
     else {
@@ -414,6 +447,7 @@ export default function LaneTable(props: { files: LaneFile[]; yr: number | null;
                 .filter(Boolean)
                 .join(' '),
           ...estimated,
+          ...breaks,
         ]
           .filter(Boolean)
           .join(' ')}

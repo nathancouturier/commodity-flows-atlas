@@ -58,7 +58,10 @@ function laneLabel(lane: Lane, file: LaneFile, v: number | null, yr: number | nu
   const shown = past ? yr : lane.flow.y;
   const est = past ? lane.histFlags?.[String(yr)] === 'est' : laneEst(lane);
   const mixed = lane.mode === 'mixed';
-  const share = mixed ? null : past ? (v && file.seaborne[i] ? v / file.seaborne[i] : null) : lane.share;
+  // the history of a pair whose split by mode is known is in all modes: a past year is no share of the seaborne trade
+  const allModes = !!lane.histAll && past;
+  const share = mixed || allModes ? null : past ? (v && file.seaborne[i] ? v / file.seaborne[i] : null) : lane.share;
+  const volSrc = est ? lane.histSrc?.[String(shown)] : undefined; // an estimate made from a volume of the United States' own statistics, not from the declared value
   const name = file.label || commodityMeta(lane.k)?.name || lane.k;
   const via = lane.via.length ? ` · via ${lane.via.map((c) => esc(chokepointName(c))).join(', ')}` : '';
   const vessel = lane.vclass.length ? `${esc(vesselName(lane.vclass[0]))} (typical) · ` : '';
@@ -66,7 +69,7 @@ function laneLabel(lane: Lane, file: LaneFile, v: number | null, yr: number | nu
   const transitPorts = [lane.transit, lane.transit2].filter((t): t is NonNullable<typeof t> => !!t).map((t) => esc(file.ports[t.port]?.name ?? t.port));
   const transit = transitPorts.length ? `<div class="muted">Sea via ${transitPorts.join(' and ')}</div>` : '';
   const figure = `${fmtEst(v, est)} ${esc(lane.flow.u)}`;
-  const tail = mixed ? ' · by sea and overland (split not known)' : ` · ${pct(share, (v ?? 0) > 0)} of seaborne trade`;
+  const tail = mixed ? ' · by sea and overland (split not known)' : allModes ? ' · all modes' : ` · ${pct(share, (v ?? 0) > 0)} of seaborne trade`;
   return (
     `<div><b>${esc(countryName(lane.o))} → ${esc(countryName(lane.d))}</b> · ${esc(name)}</div>` +
     (v != null && v > 0
@@ -74,7 +77,7 @@ function laneLabel(lane: Lane, file: LaneFile, v: number | null, yr: number | nu
       : `<div class="num">No figure for ${shown}</div>`) +
     transit +
     `<div class="muted">${vessel}${fmt(lane.days)} days${via}</div>` +
-    `<div class="src-line">${esc(est ? `${sourceLabel(file.s)}, declared value` : sourceLabel(past ? file.s : lane.flow.s))} · ${esc(String(shown))}</div>`
+    `<div class="src-line">${esc(est ? (volSrc ? `${sourceLabel(volSrc)}, volume` : `${sourceLabel(file.s)}, declared value`) : sourceLabel(past ? file.s : lane.flow.s))} · ${esc(String(shown))}</div>`
   );
 }
 

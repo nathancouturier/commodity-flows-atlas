@@ -11,7 +11,7 @@ import { layers, select, toggleLayer, year } from '../../lib/store';
 import { infraMatches, loadInfra, type InfraFeature } from '../../map/modules/infrastructure';
 import { Section, Placeholder, Skeleton, Kpi, RankedBars, SourceLine, SourcesLine, RowBtn, ModeBadge, EstMark, FoldNote, AlertBanners, shortSource } from '../ui';
 import { CompanyRows, linkedCompany } from '../Companies';
-import LaneTable, { estimatedShare, yearNote } from '../LaneTable';
+import LaneTable, { estimateBasis, estimatedShare, estimatedVolume, yearNote } from '../LaneTable';
 import { EventList } from '../EventList';
 import { openCommodity, useLoaded } from './shared';
 import { InfraList } from './InfraList';
@@ -248,6 +248,8 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean
   // and every source in the footer; a list with one source is drawn as before
   const several = new Set(props.flows.filter((f) => f.s !== 'atlas').map((f) => f.s)).size > 1;
   const anyEst = rows.some((f) => f.est);
+  // the two bases of an Atlas estimate are told apart: a volume in the United States' own export statistics, the declared value
+  const estBases = [rows.some((f) => f.est && f.estBy === 'volume') && "a volume in the United States' own export statistics", rows.some((f) => f.est && f.estBy !== 'volume') && 'the declared value'].filter(Boolean).join(' or ');
   // a reporting gap printed in full above (Gap in the customs record) or under an earlier row gets a pointer, not the text again
   const caveatText = (i: number): string | undefined => {
     const t = caveats?.[rows[i].caveat!]?.text;
@@ -303,7 +305,7 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean
         />
       </div>
       {several && <SourcesLine items={props.flows} n="bilateral flows, each exporter's own statistics; the sources are not added to one another" />}
-      {!several && first && <SourceLine s={first.s} y={first.y} n={`bilateral flows, all transport modes${anyEst ? '; an Atlas estimate is a tonnage computed from the declared value, shown to two significant digits' : ''}`} />}
+      {!several && first && <SourceLine s={first.s} y={first.y} n={`bilateral flows, all transport modes${anyEst ? `; an Atlas estimate is a tonnage computed from ${estBases}, shown to two significant digits` : ''}`} />}
     </>
   );
 }
@@ -353,11 +355,13 @@ function seaborneAt(f: Fig | undefined, file: LaneFile | null | undefined, yr: n
   const est = estimatedShare(file, yr);
   const bare = (f.n ?? '')
     .replace(/; [\d.,]+ \S+ that move both by sea and overland \(split not known\) are not in it/, '')
-    .replace(/; [\d.]+% of this tonnage estimated from value/, '');
+    .replace(/; [\d.]+% of this tonnage (?:estimated from value|is an Atlas estimate: [^;]*)/, '')
+    .replace(/; \d{4} includes [^;]*\(split by mode known for \d{4} only[^)]*\)/, '');
   // each clause is added for the year shown, whether or not the note of the latest year had one
   const add = (base: string, clause: string) => (!clause ? base : base ? base.replace(/(\.?)$/, `; ${clause}$1`) : clause);
   const withMixed = add(bare, mixedShown(mixed, file.unit) ? `${fmt(mixed)} ${file.unit} that move both by sea and overland (split not known) are not in it` : '');
-  const withEst = add(withMixed, est ? `${pct(est.share)} of this tonnage estimated from value` : '');
+  const estVol = est ? estimatedVolume(file, est.year) : 0;
+  const withEst = add(withMixed, est ? (estVol > 0 ? `${pct(est.share)} of this tonnage is ${estimateBasis(est.share, estVol)}` : `${pct(est.share)} of this tonnage estimated from value`) : '');
   return { ...f, v: file.seaborne[i], y: yr, n: withEst || undefined };
 }
 

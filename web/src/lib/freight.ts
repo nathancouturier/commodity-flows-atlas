@@ -150,6 +150,12 @@ export interface Pair {
   lane: boolean;
   /** a check flags the pair (a large change against the previous year, or against a national statistic) */
   flagged: boolean;
+  /** with `est`: the tonnage is made from a volume in the United States' own export statistics, not from the declared value */
+  estVolume: boolean;
+  /** source id of a row the atlas adds from the importer's own declaration (not in the customs file), else null */
+  added: string | null;
+  /** kt of the pair that did not go by sea, when its split by mode is known (the row's `kt` is then the part by sea), else 0 */
+  restKt: number;
 }
 
 /** Gate ids of a bit mask (bit i = gates[i]). Masks are at most 31 bits wide, so they stay in JavaScript's 32-bit integers. */
@@ -179,6 +185,7 @@ export function maskGates(mask: number, gates: string[]): string[] {
 
 /** Decode the rows of a pairs file (columns are found by name, so their order may change). */
 export function decodePairs(file: PairsFile): Pair[] {
+  const rest = new Map((file.rest ?? []).map(([o, d, kt]) => [`${o}-${d}`, kt]));
   const ix = Object.fromEntries(file.cols.map((c, i) => [c, i]));
   // a port row carries its basis as a loading port (fifth element) and as a discharging port (sixth); an older
   // file has one basis for both
@@ -209,6 +216,9 @@ export function decodePairs(file: PairsFile): Pair[] {
       caveat: !!(f & 2),
       lane: !!(f & 4),
       flagged: !!(f & 8),
+      estVolume: !!(f & 32),
+      added: f & 16 ? (file.added?.[`${r[ix.o]}-${r[ix.d]}`] ?? null) : null,
+      restKt: rest.get(`${r[ix.o]}-${r[ix.d]}`) ?? 0,
     };
   });
 }

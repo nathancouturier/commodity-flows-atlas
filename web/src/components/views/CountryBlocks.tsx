@@ -207,7 +207,7 @@ function PartnerLine({ x, title, who }: { x: ProfilePartners; title: string; who
         ))}
         {x.n > x.rows.length && <span class="muted"> · {x.n} in all</span>}
         <span class="cp-hhi muted"> · {hhiText(x, who)}{x.basis ? `; shares of ${x.basis}` : ''}</span>
-        {x.est && x.estShare != null && <span class="muted"> · {pct(x.estShare, true)} of it is an Atlas estimate from the declared value</span>}
+        {x.est && x.estShare != null && <span class="muted"> · {pct(x.estShare, true)} of it is an Atlas estimate{shareBasisText(x.estShare, x.estVolShare)}</span>}
       </span>
     </div>
   );
@@ -322,6 +322,14 @@ function Passages({ via }: { via: Passage[] }) {
 /** What a port marked "no source page yet" means (its title, and the words under the block). */
 const NO_PAGE = 'the atlas has not yet read a page that names this cargo at this port';
 
+/** What the part of a partner table or of a country's freight tonnes that is an Atlas estimate is made from: the declared value, a volume in the United States' own export statistics, or both. */
+function shareBasisText(est: number, vol: number | undefined, fmtv: (v: number) => string = (v) => pct(v, true)): string {
+  if (!vol) return ' from the declared value';
+  if (vol >= est - 1e-4) return " from a volume in the United States' own export statistics";
+  return `: ${fmtv(vol)} from a volume in the United States' own export statistics, ${fmtv(est - vol)} from the declared value`;
+}
+const estBasisText = (estKt: number, volKt?: number) => shareBasisText(estKt, volKt, (v) => `${fmt(v / 1000)} Mt`);
+
 function FreightRow({ x, side }: { x: FreightProduct; side: 'exports' | 'imports' }) {
   const via = (x.via ?? []).slice(0, 4);
   return (
@@ -333,7 +341,12 @@ function FreightRow({ x, side }: { x: FreightProduct; side: 'exports' | 'imports
       </div>
       <div class="cp-sub">
         {modeText(x)}
-        {x.s !== 'atlas' && x.estKt != null && x.estKt > 0 && <span class="muted"> · {fmt(x.estKt / 1000)} Mt of it is an Atlas estimate from the declared value</span>}
+        {x.s !== 'atlas' && x.estKt != null && x.estKt > 0 && (
+          <span class="muted"> · {fmt(x.estKt / 1000)} Mt of it is an Atlas estimate{estBasisText(x.estKt, x.estVolKt)}</span>
+        )}
+        {x.added != null && x.added.kt > 0 && (
+          <span class="muted"> · {fmt(x.added.kt / 1000)} Mt of it is not in the customs file: the atlas takes it from the importer's own declaration ({shortSource(x.added.s)})</span>
+        )}
       </div>
       {x.ports && x.ports.length > 0 && (
         <div class="cp-sub">

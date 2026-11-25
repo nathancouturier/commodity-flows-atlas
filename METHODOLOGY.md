@@ -145,12 +145,16 @@ is called one where it is shown. The figures below are those of the build from C
      `pipeline/commodities/QA.md` with the rows of rule 6, and the lithium page and the lane file's year
      notes say which flows are left out and why. On the 2002–2024 cache the rule drops 33 rows in 15 years;
      in 2024 the two flows above, 15.1 kt of the 504.3 kt of the group.
-  10. **A volume read as tonnes: LPG from the United States to Mexico** (`us_lpg.CORRECTED`, flag `est-volume`). CEPII BACI gives
-     9.33 Mt for this pair in 2024 at 252 USD/t, 0.39 times the group's median unit value; the US Census Bureau's export detail file
-     (EXDB, December 2024) gives 9.36 million m3 of propane for it, and the customs tonnage of 2023 (9.74 Mt) is EIA's volume of propane exported
-     to Mexico that year (9.75 million m3). The customs tonnage of these years is the volume in cubic metres read as tonnes: a plausible
-     cause, not established. EIA's exports by destination (propane, normal butane, isobutane, in thousand barrels a day, from the Census Bureau's
-     customs data) run from 2004: from 2004 to 2020 the customs tonnage of the pair is 0.6 to 1.2 times the tonnage of EIA's volumes at the density
+  10. **A tonnage far above the volume: LPG from the United States to Mexico** (`us_lpg.CORRECTED`, flag `est-volume`). CEPII BACI gives
+     9.33 Mt for this pair in 2024 at 252 USD/t, 0.39 times the group's median unit value. The US Census Bureau's export detail file
+     (EXDB, December 2024) gives, for exports to Mexico in 2024, 9.36 million m3 under code 2711120010 (propane of 90% purity or more, domestic
+     exports; 9.38 million m3 with the foreign exports of the code), 0.88 million m3 under 2711120020 (other propane) and 0.17 million m3 of butanes
+     (2711130000): 10.26 million m3 of propane and 10.43 million m3 of propane and butanes. The customs tonnage is 0.76 (2021), 0.76 (2022), 0.98 (2023)
+     and 0.90 (2024) times the volume in cubic metres of the United States' own statistics (EIA's exports by destination for the first three
+     years, 9.75, 10.33 and 9.98 million m3 of propane and butanes; the Census quantity of 10.43 million m3 for 2024), and 1.51, 1.48, 1.92 and
+     1.77 times the tonnage that this volume gives at the density of the cargo. A volume in cubic metres read as tonnes, for part or all of the
+     declarations, is a plausible cause: it is not established here. EIA's exports by destination (propane, normal butane, isobutane, in thousand barrels a day, from the Census Bureau's
+     customs data) run from 2004: from 2004 to 2020 the customs tonnage of the pair is 0.7 to 1.2 times the tonnage of EIA's volumes at the density
      of the cargo, and its unit value 0.5 to 1.4 times the group's; in 2021 to 2024 it is 1.5 to 1.9 times and 0.39 to 0.56 times. The tonnage of
      2021, 2022, 2023 and 2024 is therefore replaced by the volume of the United States' own statistics times the density of the cargo (an Atlas
      estimate, source id `atlas`, the note of the row gives both figures): EIA's volumes for 2021 to 2023, the Census file's own quantity for
@@ -174,7 +178,10 @@ is called one where it is shown. The figures below are those of the build from C
      The cause of the gap is not established. The atlas takes the flow from China's declaration, year by year, pair by pair: a year in which the
      customs file holds under a tenth of the declared tonnage has its row added or replaced (2023: 161 t replaced by 180.5 kt), the value being
      the CIF value that China declares, and each row says in its note that it comes from China's import declaration, UN Comtrade, and not from CEPII
-     BACI. It is a declared figure, not an estimate (`imputed` false, no "Atlas estimate" mark). Only this pair is listed; every other cell where
+     BACI. The row is flagged in the pairs file (bit 4 of `f`, the source id in `added`), the Route finder, the country pages of Myanmar and China and the year
+     notes of the lane file say where it comes from, and the checks of `pipeline/trade/checks.py` read the customs file as BACI has it (the added rows left
+     out and the rows they replaced put back), so that no note compares a figure of UN Comtrade with BACI's neighbouring years as if it were BACI's.
+     It is a declared figure, not an estimate (`imputed` false, no "Atlas estimate" mark). Only this pair is listed; every other cell where
      the two sources differ (Brazil in 2023 and 2024, DR Congo's value in 2022, Bolivia) is left as BACI has it. The years before 2017 keep
      BACI's figures: the answer of 2016 carries no net weight, and the years before were not loaded, so the series of the pair breaks between 2016
      and 2017. Myanmar to China moves overland (the countries share a border and neither is landlocked): no sea lane and no passage. Myanmar's
@@ -354,8 +361,12 @@ URL, returned with the mode; an entry without a URL is an unsourced assumption. 
   sea is 72% (by value, 72%: the file's vessel value over its total value, which does not need the density). `mode_of(o, d, group, year)` returns it
   for that year only; the lane builders cut the pair into two rows that add up to its tonnage, 3.81 Mt by sea (mode sea: the lane, the seaborne totals,
   the chokepoint estimates, the corridor volumes and the country pages read it) and 1.47 Mt overland (mode land), after the checks and the caveats,
-  which read the pair as one row. The lane keeps its history in all modes, as the years before, and its note says the share, its source and that the
-  other years are customs totals with the split not known. The rest is read as overland; the file does not say which mode carried it.
+  which read the pair as one row. The lane keeps its history in all modes, as the years before (its chart, its change on the year and a past year's figure say "all modes"), and its note
+  says the share, its source and that the other years are customs totals with the split not known. Because the split is known for 2024 only, the seaborne LPG
+  series breaks between 2023 and 2024 (3.81 Mt of the rise from 117.0 to 129.7 Mt is this pair moving from the mixed series to the sea series): the lane
+  file's `breakNote`, built from the data, says so where the seaborne figure and the lane table's footer are printed. The estimated share of the seaborne
+  tonnage tells the two bases apart (`estVol`, from a volume in the United States' own export statistics, against the rest, from the declared value), as
+  the history chart's notes do (`histVolume`) and as the source line under it, which names the Census Bureau and EIA for the years of the estimate (`histSrc`). The rest is read as overland; the file does not say which mode carried it.
   The pairs file keeps one row for the pair, the part by sea, and lists the overland part (`rest`), which the country pages count as land. The sea part raises the 2024
   seaborne LPG total from 125.8 to 129.6 Mt: the corridor shares of the LPG routes and the shares of the 13 LPG passage estimates fall by 0.1 to 1.0 points (Panama
   33.1% to 32.1%, Malacca 15.2% to 14.8%) with the tonnages unchanged, one more generated LPG corridor (Mediterranean) is needed to reach the target share of the

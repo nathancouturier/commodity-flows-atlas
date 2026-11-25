@@ -47,19 +47,20 @@ Rules
      is misdeclared; no source says so). The rule is applied here, after the other rules and with their group median,
      so that lanes, pairs, commodity pages, chokepoint estimates and country profiles read one frame.
 
-  10. Volume read as tonnes (audit C-031): the pairs and years of us_lpg.CORRECTED (the United States' LPG to Mexico, 2021 to 2024) have
+  10. A tonnage far above the volume (audit C-031): the pairs and years of us_lpg.CORRECTED (the United States' LPG to Mexico, 2021 to 2024) have
      their tonnage replaced by the all-modes volume of the United States' own statistics (EIA's exports by destination, and the
      US Census Bureau's export detail file for 2024) times the density of the cargo ("est-volume", an Atlas estimate). CEPII BACI's tonnage
-     of these years is the volume in cubic metres (EIA's propane volume to Mexico in 2023 is 9.749 million m3, the customs tonnage
-     9.742 Mt) and its unit value falls to under 0.6 of the group's; in the years before it is in line with the volume at the density
-     (pipeline/trade/us_lpg.py). A year of the pair that the table does not list is not corrected. The estimate is made after the other
+     of these years is 0.76 to 0.98 times that volume in cubic metres and 1.5 to 1.9 times the tonnage it gives at the density, and its unit value
+     falls to under 0.6 of the group's; in the years before it is in line with the volume at the density (us_lpg.measure gives each year; a volume
+     read as tonnes is a plausible cause, not established: us_lpg.CAUSE). A year of the pair that the table does not list is not corrected. The estimate is made after the other
      rules, so that the group references of the rules above are the ones of the reported figures.
 
   11. Flows the importer declares and the reconciled file lacks (audit C-042): the pairs of comtrade_tin.ADDED_FLOWS (Myanmar to China, tin
      ores and concentrates) are taken from China's import declaration, UN Comtrade, in every year of pipeline/cache/comtrade_tin_china.json:
      CEPII BACI has 39 to 737 t a year for the pair against 76 to 292 kt declared. A year where the customs table holds under a tenth of the
      declared tonnage has its row replaced, a year with no row gets one ("added", imputed = False: a declared figure, not an estimate; its
-     source is UN Comtrade and the note says so). The group's references are the ones of the rows of the customs table.
+     source is UN Comtrade and the note says so). The group's references are the ones of the rows of the customs table. The checks of checks.py read
+     the customs file as it is (customs_frame: the added rows out, the rows they replaced back), so that none compares a Comtrade figure with BACI's years.
 
 Every row whose tonnage is estimated (rules 2, 3, 4, 7, 8, 10) has imputed = True and a note in `enote` that
 starts with "Atlas estimate" and gives the method, the declared value and the tonnage reported.
@@ -278,7 +279,7 @@ def _notes(df, nb):
 
 def _added(df):
     """Rule 11: the flows of comtrade_tin.ADDED_FLOWS, from China's import declaration, in the years of its cache."""
-    new, drop = [], []
+    new, drop, held = [], [], []
     for (g, o, d) in comtrade_tin.ADDED_FLOWS:
         if not (df["group"] == g).any():  # a frame without the group (a test frame, another builder's subset) gets nothing added
             continue
@@ -291,6 +292,7 @@ def _added(df):
             if have is not None and have >= comtrade_tin.REPLACE_BELOW * dec["t"]:
                 continue
             drop += list(df.index[m])
+            held.append(df.loc[m])
             ref = df.loc[(df["group"] == g) & (df["year"] == y), "uv"].dropna()
             uv = float(ref.iloc[0]) if len(ref) else float("nan")
             usd = dec["usd"] / 1000  # thousand USD, as the cache of BACI
@@ -299,10 +301,18 @@ def _added(df):
                         "uvp": uvp, "uv": uv, "uvr": usd / dec["t"] / uv if uv == uv else float("nan"), "uve": float("nan"),
                         "enote": comtrade_tin.note(y, have)})
     if not new:
-        return df
+        return df, df.iloc[0:0]
     df = df.drop(index=drop)
     add = pd.DataFrame(new, index=range(int(df.index.max()) + 1, int(df.index.max()) + 1 + len(new)))
-    return pd.concat([df, add])
+    return pd.concat([df, add]), (pd.concat(held) if held else df.iloc[0:0])
+
+
+def customs_frame(df):
+    """The frame as the customs file has it: the rows that rule 11 added are out and the customs rows it replaced are back. The checks
+    (checks.py) read this frame, so that no note compares a figure of UN Comtrade with CEPII BACI's neighbouring years as if it were BACI's."""
+    held = df.attrs.get("replaced")  # records, with the index of the row in the column "index" (a frame in `attrs` breaks pandas' own comparisons)
+    out = df[df["flag"] != "added"]
+    return pd.concat([out, pd.DataFrame(held).set_index("index")]).sort_index() if held else out
 
 
 def year_list(ys):
@@ -478,7 +488,7 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
     cut = df[low]
     df = df[~low].copy()
     df["enote"] = _notes(df, nb).reindex(df.index)
-    df = _added(df)
+    df, replaced = _added(df)
 
     del LAST_DROPPED[:]
     if len(dropped):
@@ -498,6 +508,7 @@ def clean(df: pd.DataFrame, lpg_dedup=None, bulk_repair=None) -> pd.DataFrame:
                                  "rule": "misclassified", "reason": r.why})
     df.attrs["dropped"] = [dict(r) for r in LAST_DROPPED]
     df.attrs["peer"] = {key: v for key, v in PEER_RATIO.items()}
+    df.attrs["replaced"] = replaced.rename_axis("index").reset_index().to_dict("records")  # the customs rows that rule 11 replaced (customs_frame)
     return df
 
 

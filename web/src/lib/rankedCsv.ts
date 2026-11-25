@@ -30,7 +30,7 @@ const inputsOf = (note: string): string[] => INPUTS.filter(([re]) => re.test(not
 
 /** The registry sources a CSV of this table rests on: the table's own, and for an Atlas estimate or conversion the sources it is computed from. */
 export function rankedSources(data: Ranked): string[] {
-  return [...new Set([data.s, ...(atlasKind(data) ? inputsOf(data.n ?? '') : [])])];
+  return [...new Set([data.s, ...(data.srcs ?? []), ...(atlasKind(data) ? inputsOf(data.n ?? '') : [])])];
 }
 
 /** The note of an Atlas estimate or conversion, as the page prints it, without the caveat the page shows apart. */
@@ -46,7 +46,7 @@ export function rankedCsv(data: Ranked, title: string): { file: string; text: st
   const world = data.world;
   const commodity = pageCommodity();
   // the table is shares of the world, or (the EU member states) of the total of the 27: the column and the total row say which
-  const head = ['commodity', 'table', 'rank', 'country_code', 'country', 'year', 'value', 'unit', eu ? 'share_of_eu_total_pct' : 'share_of_world_pct', 'estimate', 'note', 'source', 'licence'];
+  const head = ['commodity', 'table', 'rank', 'country_code', 'country', 'year', 'value', 'unit', eu ? 'share_of_eu_total_pct' : data.shareOf ? 'share_of_total_pct' : 'share_of_world_pct', 'estimate', 'note', 'source', 'licence'];
   const share = (v: number) => (world ? ((v / world) * 100).toFixed(2) : '');
   const method = kind ? methodOf(data) : '';
   const inputs = kind ? inputsOf(data.n ?? '') : [];
@@ -55,7 +55,8 @@ export function rankedCsv(data: Ranked, title: string): { file: string; text: st
   // what the page says of the year: the forecast of a marketing year in progress, the estimate of the one before
   const year = data.yk ? `${data.y} ${data.yk}` : data.y;
   const out: (string | number | null)[][] = [];
-  const line = (rank: number | '', iso: string, name: string, v: number, est: boolean, note: string, conv = false) => {
+  const line = (rank: number | '', iso: string, name: string, v: number, est: boolean, note: string, conv = false, rowSrc?: string) => {
+    const own_s = rowSrc ?? data.s; // a table whose rows come from different sources (`srcs`): each row's own
     const own = est || kind === 'est';
     // a row the atlas estimated inside another source's table: say so in both columns, and give the atlas licence too
     const rowEst = est && kind !== 'est';
@@ -66,22 +67,22 @@ export function rankedCsv(data: Ranked, title: string): { file: string; text: st
     const [full, short] = kind
       ? [`${ATLAS_LICENCE}; ${kind === 'conv' ? 'converted' : 'computed'} from ${inputs.map((i) => `${publisherOf(i)}: ${licenceShort(licenceOf(i))}`).join('; ') || 'the sources named in the note'}`, undefined]
       : rowEst
-        ? licenceTexts([data.s], `; the estimate: ${ATLAS_LICENCE}`)
+        ? licenceTexts([own_s], `; the estimate: ${ATLAS_LICENCE}`)
         : rowConv
-          ? licenceTexts([data.s], `; the conversion: ${ATLAS_LICENCE}`)
-          : licenceTexts([data.s]);
+          ? licenceTexts([own_s], `; the conversion: ${ATLAS_LICENCE}`)
+          : licenceTexts([own_s]);
     out.push([
       commodity, title, rank, iso, name, year, own ? sig2(v) : v, data.u, share(v), own ? 'Atlas estimate' : kind === 'conv' || rowConv ? 'Atlas conversion' : '', text,
       src(
         kind
           ? sourceName('atlas', `${kind === 'conv' ? 'converted' : 'computed'} from ${inputs.map(sourceLabel).join(' and ') || 'the sources named in the note'}`)
-          : sourceName(data.s, rowEst ? 'row is an Atlas estimate' : rowConv ? 'row is an Atlas conversion' : undefined),
+          : sourceName(own_s, rowEst ? 'row is an Atlas estimate' : rowConv ? 'row is an Atlas conversion' : undefined),
         kind ? sourceName('atlas') : undefined,
       ),
       lic(full, short),
     ]);
   };
-  data.rows.forEach((r, i) => line(i + 1, r.c, r.name ?? countryName(r.c), r.v, !!r.est, r.n ?? '', !!r.conv));
+  data.rows.forEach((r, i) => line(i + 1, r.c, r.name ?? countryName(r.c), r.v, !!r.est, r.n ?? '', !!r.conv, r.s));
   const other = data.other && data.other > 0 ? data.other : 0;
   if (other) line('', '', 'Other countries (as published)', other, false, "the source's own line");
   // what the world total holds beyond the rows and that line, when it is 0.05% of the world or more (as the table prints it)
@@ -89,7 +90,7 @@ export function rankedCsv(data: Ranked, title: string): { file: string; text: st
   if (world && gap > world * 5e-4) line('', '', 'Not given by country', gap, false, eu ? 'the EU total minus the member states listed' : 'the world total minus the countries listed');
   // the total row also carries the warning that holds for the whole table (trade hubs, re-exports), which the page prints apart from the note
   const base = eu ? 'sum of the 27 member states, the base of the shares' : 'sum the shares are of';
-  if (world) line('', eu ? 'EU27' : 'WLD', eu ? 'EU total' : 'World', world, false, [base, data.caveat].filter(Boolean).join(' | '), !!data.convWorld);
+  if (world) line('', eu ? 'EU27' : data.shareOf ? 'TOTAL' : 'WLD', eu ? 'EU total' : (data.shareOf ?? 'World'), world, false, [base, data.caveat].filter(Boolean).join(' | '), !!data.convWorld);
   // the title of a table often ends with its year ("Apparent consumption, 2024 (Atlas estimate)"): the file name does not say it twice
   const name = [commodity, title || 'table', title.includes(String(data.y)) ? '' : data.y].filter((x) => x !== '').join(' ');
   return { file: `commodity-flows-atlas-${slug(name)}.csv`, text: toCsv(head, out) };

@@ -52,7 +52,11 @@ export interface Ranked {
   /** world total in the same unit, if known (from the same source) */
   world?: number;
   /** `name`: the source's entity of a past year when it is not the usual one (tableAt: "EU-25") */
-  rows: { c: Iso3; v: number; n?: string; est?: boolean; conv?: boolean; name?: string; usd?: number; uv?: number }[];
+  rows: { c: Iso3; v: number; n?: string; est?: boolean; conv?: boolean; name?: string; usd?: number; uv?: number; s?: string }[];
+  /** the total the shares are of, when it is not the world's ("China's declared imports", "Australia's exports"); absent: the world */
+  shareOf?: string;
+  /** the sources of a table whose rows come from different ones (each row names its own in `s`); the table's `s` is the first */
+  srcs?: string[];
   /** what the atlas converted in this table (a row with `conv` is an Atlas conversion of the source's figure), and `convWorld`: the world total too */
   conv?: string;
   convWorld?: boolean;
@@ -168,6 +172,8 @@ export interface Flow {
   transit?: LaneTransit;
   /** the tonnage is an Atlas estimate (computed from the declared value), source id `atlas` */
   est?: boolean;
+  /** the estimate is made from a volume in the United States' own export statistics, not from the declared value */
+  estBy?: 'volume';
   /** the estimate was above the customs gross weight and is capped there: `v` is the cap, printed as it is */
   cap?: boolean;
   /** declared customs value of the flow (USD) and its unit value (USD per tonne; none where the tonnage is an Atlas estimate from the value) */
@@ -469,6 +475,8 @@ export interface ProfilePartners {
   s: string;
   est?: boolean;
   estShare?: number;
+  /** of `estShare`, the part made from a volume in the United States' own export statistics (the rest is from the declared value) */
+  estVolShare?: number;
   /** "declared value" when the shares are of value, not tonnes (precious metals) */
   basis?: string;
 }
@@ -506,6 +514,10 @@ export interface FreightProduct {
   est?: boolean;
   /** kt of `kt` that are an Atlas estimate from the declared value, when only a part of the group's tonnes is */
   estKt?: number;
+  /** of `estKt`, the kt made from a volume in the United States' own export statistics (the rest is from the declared value) */
+  estVolKt?: number;
+  /** kt of `kt` that the atlas adds from the importer's own declaration (not in the customs file), and the source id of that figure */
+  added?: { kt: number; s: string };
   /** `atlas` when the tonnes of the whole group are an Atlas estimate (spodumene); absent when they are the block's source */
   s?: string;
   seaKt?: number;
@@ -1067,6 +1079,12 @@ export interface Lane {
   /** flag and note per year (keys are years) */
   histFlags?: Record<string, HistFlag>;
   histNotes?: Record<string, string>;
+  /** the years of `histFlags` marked `est` whose tonnage is made from a volume in the United States' own export statistics, not from the declared value */
+  histVolume?: string[];
+  /** the source id of the volume of each of those years (the chart's source line names them) */
+  histSrc?: Record<string, string>;
+  /** `hist` is the pair in all modes, while the lane's own tonnage is its share by sea (a pair whose split by mode is known) */
+  histAll?: boolean;
   /** id in data/freight/caveats.json */
   caveat?: string;
   /** geometry [lon, lat][]; longitudes are unwrapped (may exceed ±180) */
@@ -1100,6 +1118,11 @@ export interface LaneFile {
   est?: number;
   /** the same share for every year of `years` */
   estY?: number[];
+  /** of `est` and `estY`, the part made from a volume in the United States' own export statistics (the rest is from the declared value); absent when none is */
+  estVol?: number;
+  estVolY?: (number | null)[];
+  /** where a pair whose split by mode is known for some years only enters the seaborne series: one sentence, built from the data */
+  breakNote?: string;
   coverage?: { lanes: number; share: number };
   /** per exporter: seaborne tonnes not on a main lane, the number of pairs and, of those tonnes, the part that is an Atlas estimate */
   rest?: { o: Iso3; v: number; n: number; est?: number }[];
@@ -1113,7 +1136,8 @@ export interface LaneFile {
  * transit port, 2 mixed, 3 land), load and dis (index in `ports`, -1 when not routed), nm (distance of the
  * main route), cls (index in `classes`, -1 none), via and alt (bit masks over `gates`: passages every option
  * has to cross, and passages only some options cross), f (bit 0 tonnage estimated from value, bit 1 a caveat
- * applies, bit 2 a main lane exists, bit 3 a check flags the pair).
+ * applies, bit 2 a main lane exists, bit 3 a check flags the pair, bit 4 the row is added from the importer's declaration, bit 5 with bit 0:
+ * the estimate is made from a volume in the United States' own export statistics, not from the declared value).
  */
 export interface PairsFile {
   group: string;
@@ -1129,8 +1153,12 @@ export interface PairsFile {
   bases?: string[];
   /** the ports of the file that are up a river, by code: the distance of every pair through them includes the leg */
   rivers?: Record<string, PortRiver>;
-  /** for estimated or checked pairs that have no lane: the note the lane would carry, keyed "<o>-<d>" */
+  /** for estimated, checked or added pairs that have no lane: the note the lane would carry, keyed "<o>-<d>" */
   notes?: Record<string, string>;
+  /** the pairs the atlas adds from the importer's own declaration (bit 4 of `f`), keyed "<o>-<d>": the source id of the row, which is not the file's */
+  added?: Record<string, string>;
+  /** a pair whose split by mode is known has its row for the part by sea; the rest of its tonnage went overland: [o, d, kt] */
+  rest?: [Iso3, Iso3, number][];
   classes: string[];
   /** chokepoint ids, bit order of the `via` and `alt` masks (at most 31) */
   gates: string[];

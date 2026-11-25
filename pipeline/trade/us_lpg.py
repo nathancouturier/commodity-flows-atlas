@@ -12,11 +12,12 @@ What the cache holds (only what the pages print):
     for the pairs of PAIRS, the quantity in cubic metres of each Schedule B code of LPG (271112, 271113), the shipping weight of the
     cargo that went by vessel and the value. The file gives a weight for vessel and air cargo only, and no total weight. Public domain.
 
-CEPII BACI reports the tonnage of the pair United States to Mexico in 2021 to 2024 as a figure that is the volume in cubic metres
-(the customs tonnage of 2023, 9.742 Mt, is EIA's propane volume to Mexico, 9.749 million m3; the 2024 figure, 9.332 Mt, is the Census
-quantity of propane, 9.365 million m3), read as tonnes: its unit value falls to 0.39 to 0.56 of the group's, and the tonnage to 1.5 to 2
-times the volume at the density of the cargo. Before 2021 the tonnage is in line with the volume at that density (0.6 to 1.2 times).
-The correction replaces the tonnage of those years by the volume times the density, an Atlas estimate (CORRECTED).
+CEPII BACI reports the tonnage of the pair United States to Mexico in 2021 to 2024 at 0.76 to 0.98 times the volume in cubic metres of the
+United States' own statistics (measure() gives each year), 1.5 to 1.9 times the tonnage that this volume gives at the density of the cargo,
+and its unit value falls to 0.39 to 0.56 of the group's. A volume read as tonnes, for part or all of the declarations, is a plausible
+cause of such a tonnage (CAUSE): it is not established here. Before 2021 the tonnage is in line with the volume at the density (0.7 to 1.2
+times the tonnage the volume gives). The correction replaces the tonnage of those years by the volume times the density, an Atlas estimate
+(CORRECTED).
 """
 import csv
 import html
@@ -46,6 +47,10 @@ EIA_SERIES = {
 PAIRS = {"MEX": "2010", "CAN": "1220", "JPN": "5880", "CHN": "5700", "KOR": "5800"}
 CODES = {"2711120010": "propane", "2711120020": "propane", "2711130000": "butanes"}
 CENSUS_YEAR = 2024
+# the registry id (data/sources.json) of the volume behind an estimate, by the "source" that estimate() returns
+SOURCE_ID = {"census": "census-exports", "eia": "eia-exports-destination"}
+# the reading of the error as the pages print it: a reading, not a finding
+CAUSE = "a volume in cubic metres read as tonnes, for part or all of the declarations, is a plausible cause, not established here"
 
 # Corrections of the customs tonnage (rule 10 of clean.py): (group, exporter, importer) -> years. The tonnage of these pair-years
 # is replaced by the all-modes volume of the United States' own statistics, at the density of the cargo.
@@ -198,9 +203,18 @@ def sea_share(iso, year):
     return p["vessel_t"] / p["total_t"]
 
 
+def measure(iso, year, reported_t):
+    """What the customs tonnage is against the volume of the United States' own statistics: `per_m3`, the tonnes of the customs figure per
+    cubic metre of the volume, and `per_t`, the customs tonnage over the tonnage that the volume gives at the density of the cargo. `m3`:
+    the volume, thousand m3."""
+    e = estimate(iso, year)
+    return {"per_m3": reported_t / (e["m3"] * 1e3), "per_t": reported_t / e["t"], "m3": e["m3"], "source": e["source"]}
+
+
 def note(iso, year, reported_t, usd, ref_uv):
     """Text of `enote` of a corrected row. ref_uv: the group's median unit value of the year, USD per tonne."""
     e = estimate(iso, year)
+    m = measure(iso, year, reported_t)
     c = load()["census"]
     dens = f"{c['density_kg_m3']['2711120010']:.0f} kg/m3 for propane and {c['density_kg_m3']['2711130000']:.0f} for butanes"
     if e["source"] == "census":
@@ -212,8 +226,8 @@ def note(iso, year, reported_t, usd, ref_uv):
                f"detail file for {c['year']} ({dens})")
     uv = usd / reported_t
     return (f"Atlas estimate: CEPII BACI reports {reported_t / 1e6:.2f} Mt for USD {usd / 1e6:,.0f} million ({uv:,.0f} USD/t, {uv / ref_uv:.2f} times the "
-            f"{year} median unit value of LPG), a tonnage that equals the volume of the cargo in cubic metres: a volume read as tonnes is a "
-            f"plausible cause, not established here; tonnage = {src}")
+            f"{year} median unit value of LPG); this customs tonnage is {m['per_t']:.2f} times the tonnage that the United States' own volume gives at the "
+            f"density of the cargo and {m['per_m3']:.2f} times that volume in cubic metres ({CAUSE}); tonnage = {src}")
 
 
 if __name__ == "__main__":

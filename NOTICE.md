@@ -39,7 +39,10 @@ It does not cover data. Data files kept in the repository follow the terms of th
   derived from CEPII BACI (Etalab Open Licence 2.0); `faostat_cocoa_production.csv`, `faostat_eu_crops.csv` (crop production
   of the 27 member states of the European Union and the world, FAOSTAT QCL) and
   `faostat_fertilizer_production.csv` are FAOSTAT data (CC BY 4.0); `metcoal_pairs.csv`, `metcoal_ports.csv` and `metcoal_meta.json` hold the Queensland
-  Government's coal sales (CC BY 4.0) and EIA's exports of United States coal (public domain), credited below; `wna_uranium.json` is World Nuclear Association data
+  Government's coal sales (CC BY 4.0) and EIA's exports of United States coal (public domain), credited below; `us_lpg_volumes.json` holds figures of
+  the US Census Bureau's export detail file and of EIA's exports by destination (public domain), `comtrade_tin_china.json` the few figures of UN Comtrade that
+  the tin page prints ("Source: UN Comtrade", no answer of the service is published) and `aus_req_lng.json` one table of the Australian Department of
+  Industry, Science and Resources' Resources and Energy Quarterly (CC BY 4.0), all three credited below; `wna_uranium.json` is World Nuclear Association data
   (terms to be confirmed); `adjacency.json` is derived from Natural Earth (public domain); `geom_cache.json` and
   `route_cache.json` hold computed routes (see the next section); `trade_checks.json` holds the findings of the atlas's
   checks, which quote CEPII BACI, USDA PSD, EIA, USGS and IMF PortWatch figures under the terms of each.
@@ -389,6 +392,16 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
   atlas's sums of its quarters. The workbook is downloaded by hand (the site refuses scripts) and is not refreshed by the scheduled updates.
 - **EIA coal exports** (the Metallurgical coal page): the bulk file COAL.zip (exports by rank, destination and customs district; underlying source: U.S.
   Census Bureau, Monthly Report EM 545), public domain. "Source: U.S. Energy Information Administration", file dated 1 October 2026.
+- **Department of Industry, Science and Resources, Commonwealth of Australia** (the LNG page): table 41 of the historical data workbook of the Resources and Energy
+  Quarterly, December 2025, CC BY 4.0 as the About sheet of the workbook states. Credit as the department asks: "Department of Industry, Science, and
+  Resources, Commonwealth of Australia Resources and Energy Quarterly, December 2025." The workbook is downloaded by hand (the site refuses scripts) and is not
+  refreshed by the scheduled updates.
+- **UN Comtrade** (the tin page, and the flow of tin ores from Myanmar to China): China's imports of tin ores and concentrates (HS 260900), read from the public
+  preview of the service. Credit: "Source: UN Comtrade." UN Comtrade's policy on re-dissemination allows the publication of limited amounts of its data in a few
+  tables, graphs and visualisations without permission; the atlas prints a few figures with that credit and publishes none of the answers as a file.
+- **US Census Bureau** (the LPG page): the USA Trade Online export detail file (EXDB, December 2024), for the quantity and the vessel shipping weight of LPG
+  exports to Mexico, Canada and three Asian buyers. US Government data, no copyright is claimed; the figures derived from it are the atlas's and are not
+  endorsed or certified by the Census Bureau. EIA's exports by destination (propane and butanes, public domain) give the volumes of the years before.
 - **Wikidata** (points of a few assets): CC0 1.0, no credit required.
 - **Australian Bureau of Statistics** (the article on Australian lithium exports cited on the lithium page): CC BY 4.0.
 - **U.S. Bureau of Labor Statistics**: the deep-sea freight producer price index (series PCU483111483111), public domain

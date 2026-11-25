@@ -600,9 +600,21 @@ def load(path=TRADE_CHECKS):
         return []
 
 
+def order_key(r):
+    """The place of a record in trade_checks.json: by check (K1, K2, ... K10, in that order), group, year, origin (or the country, or the
+    passage), destination, then the rest of the record, so that the file is the same whichever builder wrote it last and in whatever order
+    the checks found their records (the file is tracked: a second run of the builders must not change it)."""
+    chk = str(r.get("check") or "")
+    num = int(chk[1:]) if chk[1:].isdigit() else 10 ** 6
+    y = r.get("year")
+    return (num, chk, str(r.get("group") or ""), y if isinstance(y, int) else 0, str(r.get("o") or r.get("country") or r.get("chokepoint") or ""),
+            str(r.get("d") or ""), json.dumps(r, sort_keys=True, ensure_ascii=False))
+
+
 def save(records, ran, year, path=TRADE_CHECKS):
-    """Writes trade_checks.json, keeping the previous records of the checks that did not run (single writer: build_lanes.py)."""
-    recs = merge(load(path), records, ran)
+    """Writes trade_checks.json, keeping the previous records of the checks that did not run (single writer: build_lanes.py).
+    The records are written in the fixed order of order_key()."""
+    recs = sorted(merge(load(path), records, ran), key=order_key)
     with open(path, "w", encoding="utf-8") as f:
         json.dump({"year": int(year), "findings": recs}, f, ensure_ascii=False, indent=0)
     return recs

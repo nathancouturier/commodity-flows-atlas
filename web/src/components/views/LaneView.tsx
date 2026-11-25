@@ -6,7 +6,7 @@ import { fmt, fmtEst, fmtFlow, pct, FAMILY_COLOR } from '../../lib/format';
 import { LANE_GROUPS, corridorHas, lacksSpeed, laneChipLabels, laneEst, laneGroup, laneShare, loadCaveats, loadLaneFile, loadRoutes, transitWho, vesselById } from '../../lib/freight';
 import { flyToLine } from '../../map/controller';
 import { select, year } from '../../lib/store';
-import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners, WayBack } from '../ui';
+import { Section, SourceLine, SourcesLine, Kpi, Skeleton, Placeholder, AlertBanners, WayBack } from '../ui';
 import { AltBox, CommodityChips, HistoryChart, PortSource, RiverNotes, ViaSection, VesselChip, openCommodity, publisher, useFreightCatalogue, useLoaded } from './shared';
 import '../../styles/lane-engine.css';
 
@@ -20,10 +20,13 @@ const flagYears = (flags: Record<string, HistFlag> | undefined, f: HistFlag) =>
 function HistFlagNotes({ lane }: { lane: Lane }) {
   const flags = lane.histFlags;
   const notes = lane.histNotes ?? {};
-  const est = flagYears(flags, 'est');
+  // the years estimated from a volume in the United States' own export statistics are told apart from those estimated from the declared value
+  const fromVolume = flagYears(flags, 'est').filter((y) => lane.histVolume?.includes(y));
+  const est = flagYears(flags, 'est').filter((y) => !fromVolume.includes(y));
   const nodata = flagYears(flags, 'nodata');
   const kept = flagYears(flags, 'kept');
   const lines: [string | null, string][] = [];
+  if (fromVolume.length) lines.push(['Atlas estimate', `tonnage computed from a volume in the United States' own export statistics (all modes): ${fromVolume.join(', ')}`]);
   if (est.length) lines.push(['Atlas estimate', `tonnage computed from the declared value: ${est.join(', ')}`]);
   for (const y of flagYears(flags, 'suspect')) lines.push([null, notes[y] ?? `${y}: the declared value does not fit the tonnage; not shown`]);
   // a year can lack a figure because customs data hold none, or because the atlas does not read the series before a
@@ -97,10 +100,11 @@ export default function LaneView({ id }: { id: string }) {
   // an estimated tonnage is an Atlas estimate: labelled as one and printed with two significant digits
   const est = past ? lane.histFlags?.[String(yr)] === 'est' : laneEst(lane);
   const seaV = past ? file.seaborne[yi] : null;
-  const share = past ? (flowV != null && seaV ? flowV / seaV : null) : laneShare(lane, file);
+  // the history of a pair whose split by mode is known is in all modes: its figure of a past year is no share of the seaborne trade
+  const share = past ? (flowV != null && seaV && !lane.histAll ? flowV / seaV : null) : laneShare(lane, file);
   const shareY = past ? yr! : file.y;
   const noFigure = !flowV;
-  const flowLabel = `Flow${mixed ? ', all modes' : ''} · ${flowY}`;
+  const flowLabel = `Flow${mixed || (lane.histAll && past) ? ', all modes' : lane.histAll ? ', by sea' : ''} · ${flowY}`;
   const caveat = lane.caveat ? caveats?.[lane.caveat] : undefined;
   // sea through a foreign port: one transit port, or two when both ends are landlocked (loading end first)
   const transits: { t: LaneTransit; end: string | null }[] = [];
@@ -153,7 +157,7 @@ export default function LaneView({ id }: { id: string }) {
           ) : (
             <Kpi label={flowLabel} f={past ? { v: flowV, u: file.unit, y: flowY, s: file.s } : lane.flow} value={`${fmtFlow(flowV, file.unit)} ${file.unit}`} note={n} span={!!n} />
           )}
-          {!mixed && !noFigure && (
+          {!mixed && !noFigure && !(lane.histAll && past) && (
             <Kpi label="Share of seaborne trade" value={pct(share, (flowV ?? 0) > 0)} sub={`${pub} · ${shareY}`} title={`Share of seaborne ${groupName} trade (${file.s}, ${shareY}); Atlas calc`} />
           )}
           {lane.shareDest != null && !noFigure && !lane.flow.est && (
@@ -224,10 +228,18 @@ export default function LaneView({ id }: { id: string }) {
         <ViaSection from={loadP[0] ?? countryName(lane.o)} to={disP[0] ?? countryName(lane.d)} via={lane.via} viaAlt={lane.viaAlt} />
         <AltBox alts={lane.alts} alt={lane.alt} note={lane.altNote} />
         {lane.hist.length > 1 && (
-          <Section title={`Volume ${file.years[0]}–${file.years[file.years.length - 1]}`}>
+          <Section title={`Volume ${file.years[0]}–${file.years[file.years.length - 1]}${lane.histAll ? ', all modes' : ''}`}>
             <HistoryChart years={file.years} values={lane.hist} unit={file.unit} color={color} flags={lane.histFlags} allEst={file.s === 'atlas'} />
             <HistFlagNotes lane={lane} />
-            <SourceLine s={file.s} y={`${file.years[0]}–${file.years[file.years.length - 1]}`} n={lane.histNote && !lane.histFlags ? `${file.unit} · ${lane.histNote}` : file.unit} />
+            {lane.histSrc ? (
+              // the estimated years are the atlas's own figures made from other sources: they are named beside the customs file
+              <SourcesLine
+                items={[{ s: file.s, y: `${file.years[0]}–${file.years[file.years.length - 1]}` }, ...Object.entries(lane.histSrc).map(([y, s]) => ({ s, y }))]}
+                n={`${file.unit}${lane.histAll ? ', all modes of transport' : ''}`}
+              />
+            ) : (
+              <SourceLine s={file.s} y={`${file.years[0]}–${file.years[file.years.length - 1]}`} n={lane.histNote && !lane.histFlags ? `${file.unit} · ${lane.histNote}` : file.unit} />
+            )}
           </Section>
         )}
         {matching.length > 0 && (

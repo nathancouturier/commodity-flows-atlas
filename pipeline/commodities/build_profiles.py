@@ -464,14 +464,16 @@ def hhi(shares):
 
 def partner_table(df, side, value=False):
     """{country: [(partner, amount, est), ...] largest first} of one product, for customers (side "o": the country exports)
-    or suppliers (side "d")."""
+    or suppliers (side "d"). The third element is 0 for a customs figure, 1 for an Atlas estimate made from the declared value and 2 for one
+    made from a volume in the United States' own export statistics (a pairs file's bit 5)."""
     other = "d" if side == "o" else "o"
     col = "usd" if value else "t"
-    g = df.groupby([side, other]).agg(v=(col, "sum"), est=("est", "max")).reset_index()
+    df = df.assign(estv=df["est"] & df["estvol"]) if "estvol" in df else df.assign(estv=False)
+    g = df.groupby([side, other]).agg(v=(col, "sum"), est=("est", "max"), estv=("estv", "max")).reset_index()
     out = defaultdict(list)
-    for a, b, v, e in zip(g[side], g[other], g["v"], g["est"]):
+    for a, b, v, e, ev in zip(g[side], g[other], g["v"], g["est"], g["estv"]):
         if v > 0:
-            out[a].append((b, float(v), bool(e)))
+            out[a].append((b, float(v), 2 if ev else int(bool(e))))
     for a in out:
         out[a].sort(key=lambda x: -x[1])
     return out
@@ -489,6 +491,9 @@ def partner_rows(rows):
     if est:
         out["est"] = True
         out["estShare"] = round(est / tot, 4)
+        vol = sum(v for _, v, e in rows if e == 2)  # of the estimate, the part made from a volume (the rest is from the declared value)
+        if vol:
+            out["estVolShare"] = round(vol / tot, 4)
     return out
 
 
@@ -755,6 +760,8 @@ def main():
         df = pd.DataFrame(rows)
         df["t"] = df["kt"] * 1000.0
         df["est"] = (df["f"].astype(int) & 1).astype(bool)
+        df["estvol"] = (df["f"].astype(int) & 32).astype(bool)  # build_lanes.F_VOLUME: the estimate is made from a volume, not from the declared value
+        df["added"] = (df["f"].astype(int) & 16).astype(bool)  # a row the atlas adds from the importer's own declaration (build_lanes.F_ADDED)
         pair_frames[pf["group"]] = df
         pair_meta[pf["group"]] = pf
     other_groups = sorted(set(GROUP_K) - set(pair_frames))
@@ -873,6 +880,12 @@ def main():
                      **({"est": True} if whole or bool(mine["est"].any()) else {}), **({"s": "atlas"} if whole else {})}
                 if not whole and bool(mine["est"].any()):  # a total with an estimated part prints in full and says how much (GR4S.12)
                     x["estKt"] = round(float(mine.loc[mine["est"], "kt"].sum()), 1)
+                    if bool(mine["estvol"].any()):
+                        x["estVolKt"] = round(float(mine.loc[mine["est"] & mine["estvol"], "kt"].sum()), 1)
+                if bool(mine["added"].any()):  # part of the total is not in the customs file: it comes from the importer's declaration
+                    am = mine[mine["added"]]
+                    src = sorted({pf["added"][f"{o}-{d}"] for o, d in zip(am["o"], am["d"])})
+                    x["added"] = {"kt": round(float(am["kt"].sum()), 1), "s": src[0]}
                 if sea > 0:
                     routed = sea_rows[sea_rows[port_col] >= 0]
                     unrouted = sea - float(routed["kt"].sum())

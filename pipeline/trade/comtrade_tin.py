@@ -33,6 +33,7 @@ TOP = 5
 # China's import declaration in every year of the cache; a year where the customs table has the pair at under REPLACE_BELOW of the declared
 # tonnage has that row replaced, a year with no row gets one. Pair by pair: nothing else is added.
 ADDED_FLOWS = {("tin-ore", "MMR", "CHN"): "myanmar"}
+SOURCE_ID = "comtrade"  # the registry id (data/sources.json) of the rows rule 11 adds
 REPLACE_BELOW = 0.1  # the customs row is replaced where it holds less than this share of the declared tonnage
 
 
@@ -120,8 +121,8 @@ def note(year, customs_t):
     d = load()
     x = d["years"][str(year)]["myanmar"]
     est = ", a net weight that Comtrade estimated" if x["est"] else ""
-    have = f"CEPII BACI has {customs_t:,.0f} t for the pair" if customs_t else "the pair is not in CEPII BACI's table"
-    return (f"Added from China's import declaration, UN Comtrade (HS 260900, {year}): {x['t']:,.0f} t, CIF USD {x['usd'] / 1e6:,.0f} million{est}; "
+    have = f"CEPII BACI has {customs_t:,.0f} t for the pair" if customs_t else "CEPII BACI has no row for the pair"
+    return (f"Added from China's import declaration (UN Comtrade, HS 260900, {year}); not in CEPII BACI: {x['t']:,.0f} t, CIF USD {x['usd'] / 1e6:,.0f} million{est}; "
             f"{have}. Source: UN Comtrade")
 
 

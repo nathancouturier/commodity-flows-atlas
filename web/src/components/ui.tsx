@@ -119,6 +119,7 @@ const SHORT_SOURCE: Record<string, string> = {
   'operator-reports': 'operator reports',
   'eia-refinery-capacity': 'EIA',
   'giignl-2026': 'GIIGNL',
+  'census-exports': 'US Census Bureau',
   'qld-coal-sales': 'Queensland Government',
   'trade-press': 'trade press',
   wikipedia: 'Wikipedia',
@@ -650,7 +651,7 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
   const share = (p: string) => (
     <>
       <small>{p}</small>
-      <span class="sr-only"> of {data.scope === 'EU' ? 'the EU total' : 'world'}</span>
+      <span class="sr-only"> of {data.scope === 'EU' ? 'the EU total' : (data.shareOf ?? 'world')}</span>
     </>
   );
   const tr = hist ? ' has-trend' : '';
@@ -667,7 +668,7 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
     <div>
       {hist && wFirst >= 0 && (
         <div class="bar-world" title={`World total by year, ${hist.u}: ${hist.world.map((v, i) => `${hist.labels?.[i] ?? hist.years[i]} ${fmt(v)}`).join(', ')}`}>
-          <span>World, {hist.labels?.[wFirst] ?? hist.years[wFirst]} to {hist.labels?.[hist.years.length - 1] ?? hist.years[hist.years.length - 1]}</span>
+          <span>{data.shareOf ? data.shareOf[0].toUpperCase() + data.shareOf.slice(1) : 'World'}, {hist.labels?.[wFirst] ?? hist.years[wFirst]} to {hist.labels?.[hist.years.length - 1] ?? hist.years[hist.years.length - 1]}</span>
           <TrendLine vals={trendOf(hist).vals} at={trendAt} w={64} h={16} />
           <span class="num">
             {fmt(hist.world[wFirst])} → {fmt(hist.world[hist.world.length - 1])} {hist.u}
@@ -752,12 +753,12 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
         )}
         <CsvAction sources={rankedSources(data)} onClick={(e) => downloadRanked(data, e.currentTarget)} title="Every row of this table with its year, source and licence, as a CSV file" />
       </div>
-      <SourceLine
+      {data.srcs ? <SourcesLine items={data.srcs.map((s) => ({ s, y: data.y }))} n={`${props.unitLabel ?? data.u}${data.n && !longNote ? ' · ' + data.n : ''}`} /> : <SourceLine
         s={data.s}
         y={data.y}
-        n={`${props.unitLabel ?? data.u}${world ? ` · ${data.scope === 'EU' ? 'EU total' : 'world'} ${val(world)} ${data.u}` : ''}${published != null ? ` (the source publishes ${fmt(published)} ${data.u}; shares are of the sum of its lines)` : ''}${data.n && !longNote ? ' · ' + data.n : ''}`}
+        n={`${props.unitLabel ?? data.u}${world ? ` · ${data.scope === 'EU' ? 'EU total' : (data.shareOf ?? 'world')} ${val(world)} ${data.u}` : ''}${published != null ? ` (the source publishes ${fmt(published)} ${data.u}; shares are of the sum of its lines)` : ''}${data.n && !longNote ? ' · ' + data.n : ''}`}
         mark={kind === 'est' ? <EstMark /> : kind === 'conv' ? <EstMark label="Atlas conversion" title={CONV_TITLE} /> : data.conv ? <EstMark label="Atlas conversion" title={`${data.conv}: ${CONV_TITLE}`} /> : undefined}
-      />
+      />}
       {/* a long note folds to three lines and opens on a tap, as the estimate notes do */}
       {longNote && <FoldNote class="src-line" style={{ marginTop: '2px' }} text={data.n} />}
     </div>

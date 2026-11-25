@@ -270,7 +270,7 @@ KnownSplit = namedtuple("KnownSplit", "key what source url")
 KNOWN_SPLIT = {
     ("lpg", "USA", "MEX"): KnownSplit(
         "MEX", "vessel shipping weight over the pair's estimated tonnage, both from the US Census Bureau's export detail file; the file gives no "
-        "weight for the other modes and does not name them, and the rest is read as overland (rail, truck and pipeline across the border)",
+        "weight for the other modes and does not name them, and the rest is read as overland (rail, road and pipeline across the border)",
         "census-exports", "https://www.census.gov/foreign-trade/reference/products/layouts/exdb.html"),
 }
 

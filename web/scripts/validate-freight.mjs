@@ -8,7 +8,9 @@
  *  - pairs (data/freight/pairs/<group>.json): at most 31 gates, all of them chokepoints, every row as long as `cols`,
  *    mode in 0..3, port and class indexes in range, passage masks inside the gate list, country codes known to the atlas
  *    (countries/index.json and places.json), bit 2 of `f` set exactly when the group's lane file has a main lane for the pair,
- *    sea and transit tonnes adding up to `seaborne` (within 0.1%), the optional `bases` and `notes` well formed.
+ *    sea and transit tonnes adding up to `seaborne` (within 0.1%), the optional `bases` and `notes` well formed, `f` below 64 (bit 4: a row
+ *    added from the importer's own declaration, which `added` then names with its source id; bit 5: an estimate made from a volume),
+ *    the optional `rest` (the overland part of a pair whose split by mode is known) naming pairs that have a row.
  *  - routes (freight/routes.json): unique ids, every passage named in `via` and `viaAlt` is a chokepoint; a generated corridor
  *    route (`generated`: id "gen-...", never a benchmark, source "atlas", a note that says how it was made, corridor entries
  *    that name a customs group with a pairs file) has no pair in common with another generated route, and its distance,
@@ -168,7 +170,7 @@ export function validateFreight(root, errors) {
       int('cls', -1, doc.classes.length - 1);
       int('via', 0, range - 1);
       int('alt', 0, range - 1);
-      int('f', 0, 15);
+      int('f', 0, 63);
       int('nm', 0, 1e6);
       const kt = r[ix.kt];
       if (typeof kt !== 'number' || !(kt >= 0)) bad(file, `${at}: kt = ${kt} is not a tonnage`);
@@ -186,6 +188,19 @@ export function validateFreight(root, errors) {
       const keys = new Set(doc.rows.map((r) => `${r?.[ix.o]}-${r?.[ix.d]}`));
       if (!doc.notes || typeof doc.notes !== 'object' || Array.isArray(doc.notes)) bad(file, 'notes is not an object');
       else for (const [k, v] of Object.entries(doc.notes)) if (!keys.has(k) || typeof v !== 'string' || !v) bad(file, `note "${k}": no row for that pair, or the text is empty`);
+    }
+    // bit 4 of `f` (a row added from the importer's own declaration) and the `added` list say the same thing; its source is a source id
+    const addedRows = new Set(doc.rows.filter((r) => Array.isArray(r) && Number(r[ix.f]) & 16).map((r) => `${r[ix.o]}-${r[ix.d]}`));
+    if (doc.added !== undefined && (!doc.added || typeof doc.added !== 'object' || Array.isArray(doc.added))) bad(file, 'added is not an object');
+    else {
+      const named = Object.keys(doc.added ?? {});
+      for (const k of addedRows) if (!named.includes(k)) bad(file, `row ${k} is flagged as added (bit 4 of f) but has no source in added`);
+      for (const k of named) if (!addedRows.has(k) || typeof doc.added[k] !== 'string' || !doc.added[k]) bad(file, `added "${k}": no flagged row for that pair, or the source id is empty`);
+    }
+    if (doc.rest !== undefined) {
+      const keys = new Set(doc.rows.map((r) => `${r?.[ix.o]}-${r?.[ix.d]}`));
+      if (!Array.isArray(doc.rest)) bad(file, 'rest is not a list');
+      else for (const x of doc.rest) if (!Array.isArray(x) || x.length !== 3 || !keys.has(`${x[0]}-${x[1]}`) || typeof x[2] !== 'number' || !(x[2] >= 0)) bad(file, `rest entry ${JSON.stringify(x)} is not [origin, destination, kt] of a pair that has a row`);
     }
     pairDocs.set(f.replace(/\.json$/, ''), { file, doc, ix });
     if (errors.length > 200) return;

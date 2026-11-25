@@ -131,6 +131,19 @@ rejects('a class index out of range', (d) => (d.pairs.rows[0][7] = 3), 'cls = 3'
 rejects('a mode out of range', (d) => (d.pairs.rows[0][3] = 4), 'm = 4');
 rejects('a mask wider than the gate list', (d) => (d.pairs.rows[0][8] = 8), 'via = 8');
 rejects('a row shorter than the columns', (d) => d.pairs.rows[0].pop(), 'values for 11 columns');
+rejects('bits of f above 5', (d) => (d.pairs.rows[0][10] = 64), 'f = 64');
+// ---- rows added from the importer's own declaration (bit 4 of f) and the overland part of a pair cut by mode
+test('a row added from a declaration, with its source, and a rest list pass', () => {
+  const { errors } = run((d) => {
+    d.pairs.rows[1][10] = 16;
+    d.pairs.added = { 'MNG-CHN': 'comtrade' };
+    d.pairs.rest = [['AUS', 'CHN', 300]];
+  });
+  assert.deepEqual(errors, []);
+});
+rejects('a row flagged as added with no source', (d) => (d.pairs.rows[1][10] = 16), 'has no source in added');
+rejects('an added source for a row that is not flagged', (d) => (d.pairs.added = { 'MNG-CHN': 'comtrade' }), 'no flagged row for that pair');
+rejects('a rest entry for a pair with no row', (d) => (d.pairs.rest = [['AUS', 'MNG', 3]]), 'rest entry');
 // ---- the note of a ship type, written once on the passage (GV6D.1)
 const withTypeNote = (extra = {}) => (d) => {
   d.chokepoints[0].estimates = [{ k: 'coal', p: 'coal', f: { v: 1, u: '%', y: 2024, s: 'atlas', n: 'at least 1 Mt of 2 Mt of seaborne coal' }, mt: [1, 1] }];

@@ -177,13 +177,15 @@ A new group meets these, in the order of the files above:
 
 ## 8. A pair or a year that another source corrects (since the seventh release)
 Three listed tables of the trade layer move a customs figure on the evidence of another free source; each is explicit, pair by pair, and each row says so in its note.
-- **Tonnage replaced** (`us_lpg.CORRECTED`, cleaning rule 10): a pair-year whose customs tonnage is the volume read as tonnes (LPG, United States to Mexico). Read the
+- **Tonnage replaced** (`us_lpg.CORRECTED`, cleaning rule 10): a pair-year whose customs tonnage is far above the volume of the exporter's own statistics (LPG, United States to Mexico; a volume read as tonnes is a plausible cause, never stated as established). Read the
   other source's series for every year first (`pipeline/trade/us_lpg.py`: its cache holds only what the page prints), correct only the years where the tonnage and
   the unit value both leave the range of the years before, and say in the page which years are corrected and which could not be checked. A pair checked and left
   alone (Canada) gets its note too.
 - **Flow added** (`comtrade_tin.ADDED_FLOWS`, cleaning rule 11): a flow that the importer declares and the reconciled file lacks (tin concentrate, Myanmar to China). The
   row is flagged `added`, is not an estimate, carries the source's attribution in its note and moves with the mode rules (overland: no lane). A figure of UN
-  Comtrade is printed in a few small tables only, with "Source: UN Comtrade"; its answers stay in raw/.
+  Comtrade is printed in a few small tables only, with "Source: UN Comtrade"; its answers stay in raw/. Every place that carries the pair says what it is: bit 4 of `f` and the
+  `added` list of the pairs file (the Route finder and the country pages read them), the lane file's year notes, the commodity page's notes (`_note_group`), and the checks
+  read `clean.customs_frame` (the file as the customs source has it), never the frame with the added rows. A table whose total is not the world's carries `shareOf`.
 - **Split known** (`modes.KNOWN_SPLIT`): a mixed pair-year whose share by sea a source measures. `modes.mode_of(o, d, group, year)` returns the share for that year;
   `build_lanes.split_known` cuts the row into a sea row and an overland row after the checks, in `build_lanes.py` and in `build_freight.frame()`, so that the lane, the
   seaborne totals, the passage estimates and the country pages read the share; the page's flow note says it (`modes.split_note`).

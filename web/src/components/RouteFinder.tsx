@@ -8,7 +8,7 @@
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { batch } from '@preact/signals';
 import type { CaveatsFile, Lane, LaneFile, PairsFile, PortRef, Route } from '../types';
-import { commodityMeta, countryName } from '../lib/data';
+import { commodityMeta, countryName, sourceLabel } from '../lib/data';
 import {
   GROUP_LABEL,
   LANE_GROUPS,
@@ -85,6 +85,11 @@ function tonnage(kt: number, est = false, group?: string): string {
 /** Groups whose pairs file holds under 1 Mt of seaborne trade (filled as the files load). */
 const SMALL_GROUPS = new Set<string>();
 const KIND_HINT: Record<Pair['kind'], string> = { sea: '', transit: '', mixed: 'sea + overland', land: 'overland' };
+/** The name of a source without its description ("UN Comtrade (public preview): China's imports..." is "UN Comtrade"). */
+const shortSource = (id: string) => sourceLabel(id).split(/ \(|: /)[0];
+/** Where a row's figure comes from, for the overland sentence: a row the atlas adds from the importer's declaration is not in the customs file. */
+const rowSource = (pair: Pair, y: number) =>
+  pair.added ? `${shortSource(pair.added)}, ${countryName(pair.d)}'s import declaration ${y}; not in CEPII BACI` : `CEPII BACI ${y}`;
 
 type Loaded = { k: string; files: PairsFile[]; pairs: Pair[] };
 
@@ -339,7 +344,7 @@ export function RouteFinder() {
           <option value="">Select {otherName}…</option>
           {counterparts.map((p) => (
             <option value={`${p.group}:${otherOf(p)}`}>
-              {[countryName(otherOf(p)), multi ? (GROUP_LABEL[p.group] ?? p.group) : '', tonnage(p.kt, p.est, p.group), KIND_HINT[p.kind]].filter(Boolean).join(' · ')}
+              {[countryName(otherOf(p)), multi ? (GROUP_LABEL[p.group] ?? p.group) : '', tonnage(p.kt, p.est, p.group), p.restKt > 0 ? 'by sea' : KIND_HINT[p.kind]].filter(Boolean).join(' · ')}
             </option>
           ))}
           {absent.map((a) => (
@@ -451,7 +456,7 @@ function Answer({
       <div class="rf-card">
         {title}
         <p class="rf-empty">
-          Recorded as overland or pipeline trade: <span class="num">{tonnage(pair.kt, est, pair.group)}</span> (CEPII BACI {pf.y}).
+          Recorded as overland or pipeline trade: <span class="num">{tonnage(pair.kt, est, pair.group)}</span> ({rowSource(pair, pf.y)}).
         </p>
         <Notes pair={pair} pf={pf} lane={lane} caveats={caveats} est={est} />
       </div>
@@ -512,13 +517,18 @@ function Answer({
       <dl class="rf-stats">
         <div>
           <dt>
-            {kind === 'mixed' ? 'Flow, all modes' : 'Flow'}
+            {kind === 'mixed' ? 'Flow, all modes' : pair.restKt > 0 ? 'Flow, by sea' : 'Flow'}
             {est && <em class="rf-est">Atlas estimate</em>}
           </dt>
           <dd class="num">
             {tonnage(kt, est, pair.group)}
             <small> · {vy}</small>
           </dd>
+          {pair.restKt > 0 && (
+            <small class="rf-small">
+              Part by sea of {tonnage(kt + pair.restKt, est, pair.group)} in all modes; the other {tonnage(pair.restKt, false, pair.group)} is read as overland (rail, road or pipeline).
+            </small>
+          )}
         </div>
         {share != null && (
           <div>
@@ -710,6 +720,7 @@ function Notes({ pair, pf, lane, caveats, est }: { pair: Pair; pf: PairsFile; la
           <span>{cav.text}</span>
         </div>
       )}
+      {pair.added && note && <p class="rf-small">{note}</p>}
       {est && (
         <p class="rf-small">
           {note?.startsWith('Atlas estimate')

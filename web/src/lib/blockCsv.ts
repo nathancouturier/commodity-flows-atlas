@@ -13,8 +13,13 @@ type Cell = string | number | null | undefined;
 
 const file = (parts: (string | number | undefined)[]) => `commodity-flows-atlas-${slug(parts.filter((x) => x !== undefined && x !== '').join(' '))}.csv`;
 
-/** The sources an Atlas estimate rests on, named in its note: the flows' estimates are computed from BACI's declared values. */
-const inputsOf = (note?: string) => (/\bBACI\b/.test(note ?? '') ? ['baci'] : []);
+/** The sources an Atlas estimate rests on, named in its note: the flows' estimates are computed from BACI's declared values, or (the United States' LPG
+ * to Mexico) from a volume of the US Census Bureau and EIA. */
+const inputsOf = (note?: string) => [
+  ...(/\bBACI\b/.test(note ?? '') ? ['baci'] : []),
+  ...(/Census Bureau/.test(note ?? '') ? ['census-exports'] : []),
+  ...(/\bEIA\b/.test(note ?? '') ? ['eia-exports-destination'] : []),
+];
 
 /** The registry ids the rows of a flows table rest on: their own, and the inputs of an Atlas estimate. */
 export const flowSources = (flows: Flow[]) => [...new Set(flows.flatMap((f) => [f.s, ...(f.s === 'atlas' ? inputsOf(f.n) : [])]))];

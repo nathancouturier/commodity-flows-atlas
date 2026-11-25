@@ -53,9 +53,11 @@ import vessel_rules as VR  # noqa: E402
 sys.path.insert(0, os.path.join(HERE, "..", "trade"))
 import caveats as CV  # noqa: E402
 import checks as K  # noqa: E402
+import comtrade_tin  # noqa: E402  (the rows that clean.py rule 11 adds, and their source id)
+import us_lpg  # noqa: E402  (the volumes behind rule 10 of clean.py, and the words that say what is and is not known of them)
 sys.path.insert(0, os.path.join(HERE, ".."))
 from common import constants as CN  # noqa: E402  (the Earth radius and the nautical mile, with the page that gives each)
-from clean import LAST_DROPPED, LITHIUM_MIN_UV, clean as clean_baci, despike, history_flags  # noqa: E402,F401  (despike: used by build_freight.py)
+from clean import LAST_DROPPED, LITHIUM_MIN_UV, clean as clean_baci, customs_frame, despike, history_flags  # noqa: E402,F401  (despike: used by build_freight.py)
 
 ROOT = os.path.abspath(os.path.join(HERE, "..", ".."))
 CACHE = os.path.join(ROOT, "pipeline", "cache")
@@ -199,7 +201,8 @@ MIN_NM = 50  # a route shorter than this is not drawn (same port area)
 
 # pairs table: m codes and f bits (plan 2.3)
 M_CODE = {"sea": 0, "transit": 1, "mixed": 2, "land": 3}
-F_EST, F_CAVEAT, F_LANE, F_CHECK = 1, 2, 4, 8
+F_EST, F_CAVEAT, F_LANE, F_CHECK, F_ADDED, F_VOLUME = 1, 2, 4, 8, 16, 32
+# F_ADDED: the row is added from the importer's own declaration (clean.py rule 11); F_VOLUME: with F_EST, the tonnage is made from a volume (rule 10), not from the declared value
 PAIR_CHECKS = ("K2", "K8")  # checks whose finding on a pair of the latest year sets bit 3
 
 
@@ -659,6 +662,7 @@ def main():
     df = df[df["group"].isin(GROUPS)]
     df = clean_baci(df)  # shared rules: Taiwan code, tonnage repair, Qatari LPG, bulk unit values (pipeline/trade/clean.py)
     print("tonnage estimated from value:", int(df["imputed"].sum()), "flows")
+    customs = customs_frame(df)  # the file as CEPII BACI has it, for the checks (rule 11 of clean.py adds rows from another source)
     df = df.reset_index(drop=True)
 
     # mode of every pair in every year (an LNG terminal counts from its opening year)
@@ -685,6 +689,8 @@ def main():
     mixed[cols].round({"t": 0}).to_csv(os.path.join(CACHE, "mixed_flows.csv.gz"), index=False, compression=gz)
     totals = sea.groupby(["group", "year"])["t"].sum()
     est_tot = sea[sea["imputed"].astype(bool)].groupby(["group", "year"])["t"].sum()  # Atlas estimates in the seaborne totals
+    # the part of them that is estimated from a volume in the United States' own export statistics (rule 10 of clean.py), not from the declared value
+    estv_tot = sea[sea["imputed"].astype(bool) & sea["flag"].str.contains("est-volume", na=False)].groupby(["group", "year"])["t"].sum()
     mtot = mixed.groupby(["group", "year"])["t"].sum()
     world = df.groupby(["group", "year"])["t"].sum()
     write_json(os.path.join(CACHE, "seaborne_totals.json"),
@@ -693,7 +699,7 @@ def main():
 
     # checks (single writer of trade_checks.json) and caveats
     ran = set()
-    findings = K.run(whole, latest, ran=ran)
+    findings = K.run(customs, latest, ran=ran)
     active = keep_caveats(CV.build(whole, findings, latest), previous_caveats(CAVEATS_OUT), ran)
     write_json(CAVEATS_OUT, active)
     write_json(ZONES_OUT, P.zones())
@@ -708,9 +714,11 @@ def main():
         year_notes[r["group"]][r["year"]].append(None)  # summarised below
     for r in whole[whole["flag"].str.contains("est-volume", na=False)].itertuples():
         if r.group in GROUPS:
+            m = us_lpg.measure(r.d, int(r.year), r.t0)
             year_notes[r.group][int(r.year)].append(
-                f"{K._name(r.o)} to {K._name(r.d)}: the customs tonnage of {_mt(r.t0 / 1e6)} is the volume in cubic metres read as tonnes; "
-                f"replaced by {_mt(r.t / 1e6)}, an Atlas estimate from the United States' own export statistics (see the lane's note)")
+                f"{K._name(r.o)} to {K._name(r.d)}: the customs tonnage of {_mt(r.t0 / 1e6)} is {m['per_m3']:.2f} times the volume in cubic metres of the "
+                f"United States' own export statistics and {m['per_t']:.2f} times the tonnage that this volume gives at the density of the cargo; "
+                f"replaced by {_mt(r.t / 1e6)}, an Atlas estimate from that volume ({us_lpg.CAUSE}; see the lane's note)")
     detour_in = []
 
     os.makedirs(OUT, exist_ok=True)
@@ -879,6 +887,13 @@ def main():
                 lane["histFlags"] = flags
             if notes:
                 lane["histNotes"] = notes
+            vol_years = [str(y) for y, x in zip(years, series) if x is not None and x.flag == "est-volume" and flags.get(str(y)) == "est"]
+            if vol_years:
+                # the years estimated from a volume (not the declared value), and the source of each volume: the chart's source line names them
+                lane["histVolume"] = vol_years
+                lane["histSrc"] = {y: us_lpg.SOURCE_ID[us_lpg.estimate(d, int(y))["source"]] for y in vol_years}
+            if r_latest is not None and r_latest.split == "sea":
+                lane["histAll"] = True  # the history is the pair in all modes: the lane's own tonnage is its share by sea
             hn = hist_note({k: v for k, v in flags.items() if v != "kept" and not (first and int(k) < first[0])}, years,
                            {str(y) for y, x in zip(years, series) if x is not None and x.flag == "est-volume"})
             if first:
@@ -918,6 +933,7 @@ def main():
                 if r.imputed:
                     rest[r.o][2] += r.t
         est_t = gy[gy["mode"].isin(["sea", "transit"]) & gy["imputed"]]["t"].sum()
+        estv_t = gy[gy["mode"].isin(["sea", "transit"]) & gy["imputed"] & gy["flag"].str.contains("est-volume", na=False)]["t"].sum()
         yn = {}
         for y, texts in sorted(year_notes[group].items()):
             parts = [x for x in texts if x]
@@ -935,16 +951,38 @@ def main():
                 yn[str(y)] = ". ".join(p[0].upper() + p[1:].rstrip(".") for p in parts)
         # share of each year's seaborne tonnes that is an Atlas estimate, and a line for the years where it shows
         est_y = [round(est_tot.get((group, y), 0) / sea_tot[y], 3) if sea_tot[y] else 0 for y in years]
+        estv_y = [round(estv_tot.get((group, y), 0) / sea_tot[y], 3) if sea_tot[y] else 0 for y in years]
         if first:
             est_y = [None if y < first[0] else v for y, v in zip(years, est_y)]
         for y, share in zip(years, est_y):
             if share is None:
                 continue
             e = est_tot.get((group, y), 0)
+            ev = estv_tot.get((group, y), 0)
             if share >= EST_NOTE_MIN:  # on the published share, so that every year it marks has its line
-                txt = (f"Includes {_mt(e / 1e6)} of Atlas estimates ({e / sea_tot[y]:.1%} of the year's seaborne tonnes): "
-                       "tonnage estimated from declared value")
+                # where part of the estimate is made from a volume (rule 10), the two bases are told apart
+                how = ("tonnage estimated from declared value" if ev <= 0 else
+                       f"tonnage estimated from a volume in the United States' own export statistics ({_mt(ev / 1e6)})"
+                       + (f" and from declared value ({_mt((e - ev) / 1e6)})" if e - ev >= 5e3 else ""))
+                txt = f"Includes {_mt(e / 1e6)} of Atlas estimates ({e / sea_tot[y]:.1%} of the year's seaborne tonnes): {how}"
                 yn[str(y)] = (yn[str(y)] + ". " if str(y) in yn else "") + txt
+        # the rows added from the importer's own declaration (clean.py rule 11): said in each year they are in, and where the series starts
+        add = g[g["flag"] == "added"].sort_values(["o", "d", "year"])
+        for (o_, d_), z in add.groupby(["o", "d"], sort=True):
+            for r in z.itertuples():
+                txt = (f"Includes {K._name(o_)} to {K._name(d_)}, {_mt(r.t / 1e6)}, from {K._name(d_)}'s import declaration (UN Comtrade; not in CEPII BACI)")
+                if r.year == z["year"].min() and r.year - 1 in years:
+                    before = g[(g["o"] == o_) & (g["d"] == d_) & (g["year"] == r.year - 1)]["t"].sum()
+                    txt += (f". The all-modes series breaks between {r.year - 1} and {r.year}: the pair is CEPII BACI's figure up to {r.year - 1} "
+                            f"({_mt(before / 1e6) + f' in {r.year - 1}' if before else f'no row in {r.year - 1}'}) and {K._name(d_)}'s declaration from {r.year}")
+                yn[str(int(r.year))] = (yn[str(int(r.year))] + ". " if str(int(r.year)) in yn else "") + txt
+        # a pair whose split by mode is known for some years only (split_known) enters the seaborne series in those years: said once, for the table and the figure
+        brk = []
+        for (o_, d_), z in g[g["split"] == "sea"].groupby(["o", "d"], sort=True):
+            ys_ = sorted(int(y) for y in z["year"])
+            tl = float(z[z["year"] == ys_[-1]]["t"].sum())
+            brk.append(f"{ys_[-1]} includes {_mt(tl / 1e6)} from {K._name(o_)} to {K._name(d_)}, read as sea (split by mode known "
+                       + (f"for {ys_[0]} only" if len(ys_) == 1 else f"from {ys_[0]}") + ": the earlier years hold the pair in the mixed series)")
         rep = g[g["flag"].str.contains("uv-repair", na=False) | g["flag"].str.contains("uv-suspect-t", na=False)]
         for y, z in rep.groupby("year"):
             if y < LATEST_MIN_YEAR:
@@ -975,6 +1013,9 @@ def main():
             "yearNotes": dict(sorted(yn.items())),
             "est": round(est_t / tot_latest, 4),
             "estY": est_y,
+            # the part of the estimated tonnes that is made from a volume in the United States' own export statistics, not from the declared value
+            **({"estVol": round(estv_t / tot_latest, 4), "estVolY": [None if v is None else e for v, e in zip(est_y, estv_y)]} if estv_t > 0 else {}),
+            **({"breakNote": "; ".join(brk)} if brk else {}),
             "coverage": {"lanes": len(main), "share": round(main_t / tot_latest, 4)},
             "rest": [{"o": o, "v": round(v / div, nd), "n": n, **({"est": float(f"{e / div:.3g}")} if e > 0 else {})}
                      for o, (v, n, e) in sorted(rest.items(), key=lambda x: -x[1][0])],
@@ -988,14 +1029,18 @@ def main():
         landlocked = set()  # ends of routed rows that reach the sea through a foreign port and have no coast
         lane_pairs = set(main) | set(mixed_l)
         rest_rows = []  # the overland part of the pairs that split_known cut: the row of the pair carries the part by sea
+        added = {}  # the pairs added from another source than the customs file: "<o>-<d>" -> source id
         for r in gy.itertuples(index=False):
             if r.split == "rest":
                 rest_rows.append([r.o, r.d, kt(r.t)])
                 continue
             rec = routed.get((r.o, r.d)) if r.mode != "land" else None
-            f = (F_EST if r.imputed else 0) | (F_CAVEAT if CV.lookup(active, group, r.o, r.d) else 0)
+            f = (F_EST if r.imputed else 0) | (F_VOLUME if r.imputed and r.flag == "est-volume" else 0) | (F_CAVEAT if CV.lookup(active, group, r.o, r.d) else 0)
             f |= (F_LANE if (r.o, r.d) in lane_pairs else 0) | (F_CHECK if (group, r.o, r.d) in pair_check else 0)
-            if f & (F_EST | F_CHECK) and not f & F_LANE:
+            if r.flag == "added":
+                f |= F_ADDED
+                added[f"{r.o}-{r.d}"] = comtrade_tin.SOURCE_ID
+            if f & (F_EST | F_CHECK | F_ADDED) and not f & F_LANE:
                 # the note the lane would carry, for the pairs that have none (Route finder)
                 fn = flow_notes(r, r.mode, pair_check.get((group, r.o, r.d)), k2.get((group, r.o, r.d, latest)),
                                 pipelines_on(r.o, r.d, group) if r.mode == "mixed" else ())
@@ -1046,6 +1091,8 @@ def main():
             # a pair whose split by mode is known has its row for the part by sea; the rest of its tonnage went overland (the file's country pages count it so)
             **({"rest": rest_rows} if rest_rows else {}),
             "notes": pnotes,
+            # the rows that the atlas adds from the importer's own declaration (bit 4 of `f`): the source of each, which is not the file's
+            **({"added": added} if added else {}),
             # the ends above with no coast at all; another end whose port lies in a third country has a coast (DR Congo)
             "landlocked": sorted(landlocked),
         }
