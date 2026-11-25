@@ -150,6 +150,10 @@ corrected by the orchestrator and checked in the browser.
   script. It was run again on a copy of the sixth release and on this one: 16 of 16 on both.
 - The container that runs the work restarted once during the night: nothing was lost but a package four
   minutes old, which was started again.
+- Published on 25 November 2026 at 07:41 UTC (commit `82db1e5`): the checks and the deployment ran green on
+  GitHub in under five minutes, then 56 targeted checks and 19 general ones passed on the public site. The list
+  of released route and lane ids was renewed from that commit (the same 168 generated routes and 3,792 main
+  lanes).
 
 ## Sixth release (24 November 2026): what changed
 
