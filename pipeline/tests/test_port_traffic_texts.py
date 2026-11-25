@@ -198,7 +198,7 @@ class SourceLine(unittest.TestCase):
     def test_the_clauses_are_those_of_the_item_and_come_in_this_order(self):
         section = flat(read("web", "src", "components", "views", "PortTrafficSection.tsx"))
         clauses = ["weekly sums of daily figures",
-                   "a call is a ship entering PortWatch's own boundary of the port, which is not always this asset's (PortWatch leaves out calls of less than 5 hours with no change of draught)",
+                   "a call is a ship entering PortWatch's own boundary of the port, which is not always this asset's (PortWatch leaves out calls with a turnaround time of less than 5 hours and no change of draught between this port and the next)",
                    "tonnes are PortWatch's estimates from each ship's size and draught, not a port statistic",
                    "ships are counted from their AIS signals: PortWatch notes that"]
         at = [section.index(c) for c in clauses]
@@ -334,10 +334,11 @@ class Quotes(unittest.TestCase):
             self.assertIn(f"It is {cargo} (which is the focus of our study) entering a country\u2019s port", item_text())
 
     def test_the_block_says_the_short_calls_are_left_out_as_the_item_does(self):
-        """The source line says in a few words what the quotation of the paragraph says: calls of under 5 hours with no change of draught are excluded."""
+        """The source line says in its own words what the quotation of the paragraph says, and no less: a turnaround time of less than 5 hours
+        and no change of draught between the port and the next one."""
         fixture_text = fixture()["quotations"]["port_call"]
         self.assertIn("Port calls with a turnaround time of less than 5 hours and no draft change between the current and next port are excluded", fixture_text)
-        self.assertIn("(PortWatch leaves out calls of less than 5 hours with no change of draught)",
+        self.assertIn("(PortWatch leaves out calls with a turnaround time of less than 5 hours and no change of draught between this port and the next)",
                       flat(read("web", "src", "components", "views", "PortTrafficSection.tsx")))
         self.assertIn("and the exclusion of short calls, under every series", method_bullet())
 

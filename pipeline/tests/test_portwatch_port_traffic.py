@@ -1804,17 +1804,18 @@ class Retries(Env):
         def close(self):
             pass
 
-    def on_clock(self, answer, limit_s=None, pause_first=False, pages=1, carry_on=False):
+    def on_clock(self, answer, limit_s=None, pause_first=False, pages=1, carry_on=False, takes=None):
         """``pages`` calls of ``Reader.page`` (the last outcome is returned; the loop stops at the first exception) whose n-th request
         (from 1) is answered by ``answer(n)`` (a Resp). Returns (outcome, starts): the rows or the exception, and the time each
         request started on the virtual clock; ``self.clock_at_end`` is the clock when the calls ended. With ``carry_on`` a failed call is
-        followed by the next one (the take-back loop of a run asks for every port that is left, whatever happened to the one before)."""
+        followed by the next one (the take-back loop of a run asks for every port that is left, whatever happened to the one before).
+        ``takes(n)`` is the time the n-th request takes on the virtual clock (half a second when not given)."""
         clock, starts = [1000.0], []
 
         class Session:
             def request(self, *a, **kw):
                 starts.append(clock[0])
-                clock[0] += 0.5
+                clock[0] += takes(len(starts)) if takes else 0.5
                 return answer(len(starts))
         saved = (F._sess, dict(F._last_hit))
         try:
@@ -1952,6 +1953,12 @@ class Retries(Env):
         out, starts = self.on_clock(lambda n: self.Resp(200, self.GOOD), limit_s=0, pages=2, carry_on=True)
         self.assertIsInstance(out, S.TimeUp)
         self.assertLessEqual(self.clock_at_end - 1000.0, FP.PAUSE_S[1] + 1)
+        # a request that fails after the limit has passed (a slow answer) is not followed by a pause either
+        with mock.patch.object(S.random, "uniform", lambda a, b: b):
+            out, starts = self.on_clock(lambda n: self.Resp(503), limit_s=limit, takes=lambda n: limit + 10.0)
+        self.assertIsInstance(out, S.TimeUp)
+        self.assertEqual(len(starts), 1)
+        self.assertLessEqual(self.clock_at_end - 1000.0, limit + 10.0 + 0.001, "the run ends when the late answer comes: no pause after it")
 
     def test_a_service_that_fails_otherwise_is_asked_four_times_never_less_than_the_least_pause_apart(self):
         self.start(n_ports=1)

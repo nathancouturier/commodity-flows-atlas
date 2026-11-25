@@ -121,8 +121,8 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   five browser suites on the production build; LIVE-TO-WRITE targeted checks, in which every figure of the block is
   recounted from the files.
 - Four reviewers read a frozen copy of the candidate before anything was published: 31 findings, 11 of them
-  important, none on a figure of the data files (two minor ones on how the readout of the port chart printed
-  a zero and a week without data, and the count of requests that the texts stated). The weekly step: the texts said 23 or 24 requests in a normal
+  important, none on a figure of the data files (two minor ones were on how the readout of the port chart
+  printed a zero and a week without data). The weekly step: the texts said 23 or 24 requests in a normal
   week where a chain of weekly runs would have asked for 29 or 30 (20 ports of a request made two pages); nothing
   paced its first request after the last request of the chokepoint step; its bound of 42 did not count one check;
   a quota answer given as HTTP 429 with its delay in the body was asked again within seconds. The block: two
@@ -141,7 +141,10 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   other words than "quota" is waited out as a quota answer; no pause begins after the time limit of a run; the
   Dallas Fed index, a deviation from a trend, is no longer listed among the price moves with a percent change;
   the page's description for search engines no longer gives one licence for the whole of the data. A last
-  reader then verified these corrections on a frozen copy.
+  reader then verified these corrections on a frozen copy: all fifteen held, and its three small remarks were
+  applied (after a request that fails once the time limit has passed, no pause begins either; the block says of
+  the calls PortWatch leaves out what PortWatch's own sentence says, a turnaround time of less than five hours
+  and no change of draught between the port and the next; one sentence of this file).
 - The quotations of the EIA's pages that the registry holds were read a second time on 25 November 2026, by a
   reader that had not seen the first reading: the five sentences of the definitions page, of "Copyrights and
   Reuse" and of the open-data page are word for word, and the terms of the EIA's interface name no third party.
@@ -153,7 +156,10 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   frozen copy. Two correction packages worked in the same tree at once although the brief of one said it was
   alone: neither undid the other's edits, and every check was run again on the whole afterwards. A command typed
   in an empty folder made the package runner download a build tool into the machine's own cache, outside the
-  repository; nothing of it is in the repository or was run. And the weekly step was built before the first
+  repository; nothing of it is in the repository or was run. The last reader, by a mistaken path, wrote for a
+  few minutes in the working folder instead of its own copy (links, two copied folders, one changed line of a
+  script) and undid it; the folder was then compared with the committed state and was identical, and the checks
+  that count for publication run on a fresh clone of the commit. And the weekly step was built before the first
   scheduled run of the job in its present form (25 November, 19:17 UTC) had been seen: nothing of it was
   published before that run, RUNSEEN-TO-WRITE
 

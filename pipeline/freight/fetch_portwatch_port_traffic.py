@@ -175,6 +175,7 @@ class Reader:
                 failures += 1
                 if failures >= ATTEMPTS:
                     raise fetch.FetchError(f"{why} after {ATTEMPTS} attempts")
+                self.check_time()   # a request that failed after the limit had passed is not followed by a pause
                 time.sleep(random.uniform(*PAUSE_S))
 
     def page(self, where, offset, order, allowed):
