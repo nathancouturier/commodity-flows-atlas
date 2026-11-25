@@ -47,7 +47,8 @@ export function licenceAllows(text: string | null | undefined): boolean {
 /** The licence's short name ("Public domain", "CC BY 4.0"), or the first words of the text when it names none. */
 export function licenceShort(text: string | null | undefined): string {
   const t = (text ?? '').trim();
-  for (const p of PERMISSION) {
+  // a text that is no permission is never shortened to the name of one it quotes ("public domain" in a sentence of the publisher's)
+  for (const p of NO_PERMISSION.some((re) => re.test(t)) ? [] : PERMISSION) {
     const m = t.match(p.re);
     if (m) return p.short(m);
   }

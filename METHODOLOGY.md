@@ -1426,7 +1426,12 @@ totals of the series by year are the same for every country: they are in one fil
   monthly series of the IMF, which has both, is not loaded (a new source: an open question for the owner). Sunflower oil, which had no page, is on the
   sunflower page; the rapeseed page keeps the rapeseed oil series, and both pages say that the price is the oil's.
 - Daily prices: EIA spot series (Brent, WTI, Henry Hub, New York Harbor gasoline, ULSD and heating
-  oil, US Gulf jet fuel, Mont Belvieu propane).
+  oil, US Gulf jet fuel, Mont Belvieu propane). The EIA's table page of the petroleum spot prices reads "Source: Refinitiv" under
+  the table and its natural gas definitions page gives "Spot Price: Refinitiv, an LSEG business." (read on 25 November 2026); no
+  page read says whether these prices may be redistributed, whatever the EIA's sentence on its own publications. The atlas
+  therefore credits them as "EIA (source: Refinitiv)" and offers no file of them (the owner decided on 25 November 2026 to
+  keep these series, saying where they come from: see "Decisions of the owner" in PROGRESS.md); the quotations and the
+  addresses are in the registry entry `eia-spot` (terms to be confirmed).
 - Freight (the "Freight" family of the price drawer and the board): no freight rate is shown, because
   none is both free and republishable. Three indicators are, each taken from its publisher and each
   labelled for what it is (`pipeline/prices/freight_indicators.py`):

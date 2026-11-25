@@ -13,11 +13,11 @@
     <id>tag:nathancouturier.github.io,2026:commodity-flows-atlas:2026-11-23-prices</id>
     <updated>2026-11-23T06:24:48Z</updated>
     <link rel="alternate" type="text/html" href="https://nathancouturier.github.io/commodity-flows-atlas/"/>
-    <content type="text">Jet fuel (kerosene), US Gulf Coast, daily spot: −5.5% in the week to 17 Nov 2026 (3.98 to 3.76 USD/gal; eia-spot)
-Propane, Mont Belvieu, daily spot: −4.9% in the week to 17 Nov 2026 (1.07 to 1.02 USD/gal; eia-spot)
-Gasoline, New York Harbor, daily spot: −3.6% in the week to 17 Nov 2026 (2.42 to 2.33 USD/gal; eia-spot)
-Henry Hub natural gas, daily spot: +3.3% in the week to 17 Nov 2026 (3.00 to 3.10 USD/MMBtu; eia-spot)
-Brent crude, daily spot (FOB): +3.1% in the week to 17 Nov 2026 (90.16 to 92.94 USD/bbl; eia-spot)</content>
+    <content type="text">Jet fuel (kerosene), US Gulf Coast, daily spot: −5.5% in the week to 17 Nov 2026 (3.98 to 3.76 USD/gal; EIA, source: Refinitiv)
+Propane, Mont Belvieu, daily spot: −4.9% in the week to 17 Nov 2026 (1.07 to 1.02 USD/gal; EIA, source: Refinitiv)
+Gasoline, New York Harbor, daily spot: −3.6% in the week to 17 Nov 2026 (2.42 to 2.33 USD/gal; EIA, source: Refinitiv)
+Henry Hub natural gas, daily spot: +3.3% in the week to 17 Nov 2026 (3.00 to 3.10 USD/MMBtu; EIA, source: Refinitiv)
+Brent crude, daily spot (FOB): +3.1% in the week to 17 Nov 2026 (90.16 to 92.94 USD/bbl; EIA, source: Refinitiv)</content>
   </entry>
   <entry>
     <title>Chokepoint traffic to 15 Nov 2026</title>

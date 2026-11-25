@@ -55,7 +55,7 @@ export function FamilySummary(props: { status: StatusView; vintages: Record<stri
         const runs = rs
           .map((r) => {
             const to = dataTo(r, vintages);
-            return to ? `${to} (${shortSource(r.sources[0])})` : null;
+            return to ? `${to} (${shortSource(r.sources[0]).replace(/\s*\((.*)\)$/, ', $1')})` : null;
           })
           .filter(Boolean);
         const upd = latest(rs.map((r) => r.checked));

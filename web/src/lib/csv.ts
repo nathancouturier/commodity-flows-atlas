@@ -35,12 +35,15 @@ export const licenceTexts = (ids: string[], suffix = ''): [string, string] => [
 /** Who publishes a source, as the registry says it, up to its first colon or bracket ("U.S. Geological Survey"). */
 export const publisherOf = (id: string): string => (id === 'atlas' ? 'Commodity Flows Atlas' : (sources.value[id]?.publisher ?? id)).split(/[:(]/)[0].trim();
 
+/** What the "No download" line calls a source whose publisher also gives data that may be offered: the publisher's name alone would say the wrong thing. */
+const REFUSED_AS: Record<string, string> = { 'eia-spot': 'the EIA spot prices (source: Refinitiv)' };
+
 /** Publishers whose licence text states no permission to reuse their data: with any of them among `ids`, no CSV is offered. */
 export function termsNotConfirmed(ids: string[]): string[] {
   const out: string[] = [];
   for (const id of new Set(ids)) {
     if (licenceAllows(licenceOf(id))) continue;
-    const who = publisherOf(id);
+    const who = REFUSED_AS[id] ?? publisherOf(id);
     if (!out.includes(who)) out.push(who);
   }
   return out;

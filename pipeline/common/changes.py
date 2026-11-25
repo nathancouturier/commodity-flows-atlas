@@ -242,11 +242,15 @@ def jobs(workflows=os.path.join(ROOT, ".github", "workflows")):
 
 
 # ----------------------------------------------------------------------------- entries and feed
+# how the feed words a source of a price move: the id is the default; the EIA's spot prices carry the source the EIA gives for them
+SOURCE_WORDS = {"eia-spot": "EIA, source: Refinitiv"}
+
+
 def lines_prices(block, label):
     out = []
     for r in block["moves"]:
         when = f"in the week to {day_label(r['to'])}" if label == "week" else f"in {day_label(r['to'])}"
-        out.append(f"{r['name']}: {signed(r['pct'])} {when} ({num(r['v0'])} to {num(r['v1'])} {r['unit']}; {r['s']})")
+        out.append(f"{r['name']}: {signed(r['pct'])} {when} ({num(r['v0'])} to {num(r['v1'])} {r['unit']}; {SOURCE_WORDS.get(r['s'], r['s'])})")
     return out
 
 

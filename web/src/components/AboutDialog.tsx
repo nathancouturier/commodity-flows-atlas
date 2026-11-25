@@ -188,6 +188,12 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
           <b>Monthly prices.</b> World Bank Commodity Price Data (The Pink Sheet), World Bank{lic('wb-pink') ? `, ${lic('wb-pink')}` : ''}.
         </li>
         <li>
+          <b>Daily prices.</b> Spot prices of petroleum and natural gas from the{' '}
+          <Ext href={sources.value['eia-spot']?.url ?? 'https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm'}>U.S. Energy Information Administration</Ext>, which gives
+          Refinitiv as their source. No page read says whether they may be redistributed (terms to be confirmed): the atlas shows them with that credit and
+          offers no file of them (see the table above).
+        </li>
+        <li>
           <b>Chokepoint traffic.</b> IMF PortWatch, <Ext href="https://portwatch.imf.org/">portwatch.imf.org</Ext>
           {lic('portwatch') ? `. ${lic('portwatch')}` : ''}.
         </li>

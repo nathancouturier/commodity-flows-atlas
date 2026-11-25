@@ -107,7 +107,7 @@ const SHORT_SOURCE: Record<string, string> = {
   'usgs-mcs': 'USGS',
   'usda-psd': 'USDA',
   'eia-intl': 'EIA',
-  'eia-spot': 'EIA',
+  'eia-spot': 'EIA (source: Refinitiv)',
   'eia-tie': 'EIA',
   'eia-chokepoints': 'EIA',
   'wb-pink': 'World Bank',

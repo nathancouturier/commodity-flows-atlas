@@ -37,7 +37,7 @@ const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../d
 const registry = JSON.parse(fs.readFileSync(path.join(root, 'sources.json'), 'utf8'));
 const allowed = new Set([
   'naturalearth', 'usgs-mcs', 'usgs-myb', 'baci', 'wb-pink', 'bls', 'dallasfed', 'nyfed', 'usda-psd', 'portwatch', 'portwatch-ports', 'portwatch-port-traffic', 'atlas', 'eia-chokepoints', 'eia-tie',
-  'eia-spot', 'eia-intl', 'faostat', 'wikipedia', 'wikipedia-vessel-classes', 'vessel-size-conventions', 'eia-ng', 'eia-cab-russia',
+  'eia-intl', 'faostat', 'wikipedia', 'wikipedia-vessel-classes', 'vessel-size-conventions', 'eia-ng', 'eia-cab-russia',
   'eia-refinery-capacity', 'eia-storage-capacity', 'unctadstat-fleet', 'eia-dpr', 'eia-todayinenergy', 'openstreetmap', 'wikidata', 'faostat-rfb', 'eia-cab', 'eia-company-imports',
   'eia-exports-destination', 'disr-req', 'qld-coal-sales', 'eia-coal',
   // the Census Bureau's Public-Use Statement allows an estimate of one's own made from the data, citing the Census Bureau as the source of the original data
@@ -57,6 +57,46 @@ const wpi = registry.find((s) => s.id === 'nga-wpi');
 assert.ok(wpi && refused.includes('nga-wpi'));
 assert.ok(/terms to be confirmed/.test(wpi.licence) && /not read/.test(wpi.licence));
 assert.ok(!/public domain|open licen[cs]e|free to reuse/i.test(wpi.licence), 'the World Port Index licence text must not say public domain, open or free to reuse');
+
+// The EIA's daily spot prices: the EIA's pages give Refinitiv as their source and no page read says whether they may be redistributed, so the
+// registry says what was read and "terms to be confirmed", no text calls them public domain and no file of them is offered. The quotations are
+// those of the pages read on 25 November 2026, each typed here once and compared with the registry text.
+const spot = registry.find((s) => s.id === 'eia-spot');
+assert.ok(spot && refused.includes('eia-spot'), 'eia-spot: no permission, so no file');
+assert.equal(licenceAllows(spot.licence), false);
+assert.ok(spot.licence.trimEnd().endsWith('(terms to be confirmed)'), 'eia-spot: the text ends with "(terms to be confirmed)"');
+assert.ok(/^Not settled/.test(spot.licence), 'eia-spot: the text starts with what is not settled');
+assert.ok(spot.licence.includes('Refinitiv, an LSEG business'), 'eia-spot: names Refinitiv as the natural gas page writes it');
+for (const q of [
+  'https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm',
+  '"Source: Refinitiv"',
+  '"Updates occur daily"',
+  'https://www.eia.gov/dnav/ng/TblDefs/ng_pri_fut_tbldef2.asp',
+  '"Spot Price: Refinitiv, an LSEG business."',
+  'https://www.eia.gov/about/copyrights_reuse.php',
+  '"U.S. government publications are in the public domain and are not subject to copyright protection."',
+  '"You may use and/or distribute any of our data, files, databases, reports, graphs, charts, and other information products that are on our website or that you receive through our email distribution service."',
+  '"information resources contributed or licensed by private individuals, companies, or organizations that may be protected by U.S. and foreign copyright laws"',
+  '"Transmission or reproduction of protected items beyond that allowed by fair use as defined in the copyright laws requires the written permission of the copyright owners."',
+  'https://www.eia.gov/opendata/',
+  '"EIA data is provided free of charge and should be used in compliance with our Copyrights and Reuse Policy."',
+  'https://www.eia.gov/opendata/terms-of-service.php',
+  '"Source: U.S. Energy Information Administration"',
+  '25 November 2026',
+]) assert.ok(spot.licence.includes(q), `eia-spot: the licence text holds ${q}`);
+assert.ok(/EIA's sentence on its own publications, not a statement about these prices/.test(spot.licence), 'eia-spot: the quoted sentence is said to be EIA\'s on its own publications');
+assert.ok(!/public domain/i.test(spot.licence.replace('"U.S. government publications are in the public domain and are not subject to copyright protection."', '')), 'eia-spot: "public domain" appears only inside the quotation of the EIA\'s sentence');
+assert.ok(!/decided|accepted/i.test(spot.licence), 'eia-spot: nobody decided anything, a page was read');
+assert.ok(/Refinitiv/.test(spot.name) && /Refinitiv/.test(spot.use), 'eia-spot: the name and the use say that the EIA gives Refinitiv as the source');
+assert.ok(!/public domain/i.test(`${spot.name} ${spot.use}`));
+// a text refused for its terms is never shortened to the name of a permission it quotes
+assert.notEqual(licenceShort(spot.licence), 'Public domain');
+assert.equal(licenceShort('Not settled: "public domain" is quoted here (terms to be confirmed)').startsWith('Not settled'), true);
+// the other EIA entries are the EIA's own statistics and keep their text and their permission
+for (const id of ['eia-intl', 'eia-ng', 'eia-tie', 'eia-chokepoints']) {
+  const e = registry.find((s) => s.id === id);
+  assert.ok(e && licenceAllows(e.licence) && !/Refinitiv/.test(`${e.name} ${e.use}`), `${id} stays an EIA statistic with a permission`);
+}
 
 // The three PortWatch entries carry the same permission, so that the CSV of a port series is offered as the CSV of a chokepoint series is: the IMF's
 // special terms for statistical data, which the atlas applies to PortWatch (the page lists examples and does not name it). None says that the data

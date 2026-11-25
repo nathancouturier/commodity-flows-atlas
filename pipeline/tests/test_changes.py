@@ -62,6 +62,16 @@ class PriceMoves(unittest.TestCase):
             self.assertEqual(monthly["moves"][0]["pct"], round(100 * (12 / 9 - 1), 1))  # Oct against Sep
             self.assertEqual(monthly["moves"][0]["from"], "2026-09")
 
+    def test_the_feed_names_the_source_the_eia_gives_for_its_spot_prices(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            prices_folder(tmp)
+            weekly, monthly = C.price_moves(tmp)
+            lines = C.lines_prices(weekly, "week")
+            self.assertTrue(lines and all(l.endswith("; EIA, source: Refinitiv)") for l in lines), lines)
+            self.assertFalse(any("eia-spot" in l for l in lines))
+            # a source without a word of its own is named by its id
+            self.assertTrue(all("; " in l for l in C.lines_prices(monthly, "month")))
+
     def test_a_series_without_a_quote_a_week_before_is_left_out(self):
         with tempfile.TemporaryDirectory() as tmp:
             write(tmp, "index", [{"id": "n-d", "name": "N", "k": "k", "unit": "USD", "freq": "D", "s": "s", "start": "x", "end": "x"}])

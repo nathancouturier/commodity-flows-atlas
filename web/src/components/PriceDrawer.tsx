@@ -8,7 +8,7 @@ import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { commodity, priceDrawer, priceSeries, priceView, select } from '../lib/store';
 import { commodityMeta, sourceLabel } from '../lib/data';
 import { FAMILY_COLOR, TOUCH } from '../lib/format';
-import { downloadPrices, priceSources } from '../lib/pricesCsv';
+import { downloadPrices, offeredPrices, priceSources } from '../lib/pricesCsv';
 import { CsvAction } from './CsvAction';
 import { loadEvents } from '../lib/freight';
 import { eventShownForAny, useAlertEvents } from '../lib/events';
@@ -268,6 +268,8 @@ export function PriceDrawer() {
   // ---- derived chart data
   const ready = data.length > 0;
   const merged = useMemo(() => (ready ? mergeSeries(data) : null), [data, ready]);
+  // the file holds the series whose source states a permission to reuse its data: the daily EIA spot prices stay on the chart and are left out of it
+  const fileOf = useMemo(() => offeredPrices(data), [data]);
   const colors = useMemo(() => pickColors(data.map((d) => d.meta)), [data]);
   // two axes carry two units; with a third, the series are indexed rather than sharing an axis with an unrelated unit
   const unitCount = new Set(data.map((d) => d.meta.unit)).size;
@@ -598,11 +600,17 @@ export function PriceDrawer() {
               </button>
               <CsvAction
                 class="pd-add pd-board-btn"
-                sources={priceSources(data)}
+                sources={priceSources(fileOf.offered.length ? fileOf.offered : data)}
                 disabled={!merged || !win}
-                onClick={() => merged && win && downloadPrices(data, win.min, win.max)}
-                title="The series shown, over the period shown, with their source and licence, as a CSV file (values as published, not indexed)"
-              />
+                onClick={() => merged && win && downloadPrices(fileOf.offered, win.min, win.max)}
+                title={
+                  fileOf.withheld.length
+                    ? `${fileOf.offered.map((d) => d.meta.name).join(', ')}, over the period shown, with source and licence, as a CSV file (values as published, not indexed). Left out: ${fileOf.withheld.map((d) => d.meta.name).join(', ')}, because the licence of their source states no permission to reuse its data (see Sources in About)`
+                    : 'The series shown, over the period shown, with their source and licence, as a CSV file (values as published, not indexed)'
+                }
+              >
+                {fileOf.withheld.length ? `CSV · ${fileOf.offered.length} of ${data.length}` : undefined}
+              </CsvAction>
               <div class="tc-ranges" role="group" aria-label="Time range">
                 {shown.map((r) => (
                   <button

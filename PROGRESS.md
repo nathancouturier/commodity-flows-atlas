@@ -41,7 +41,10 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   compare them with, the port's own figure (throughput, capacity) or the World Port Index block of the same page.
 - **A series can read far below the port's real traffic.** PortWatch counts ships from their AIS signals and
   says itself that "ships can turn off their AIS transponder to avoid being detected". The block prints these
-  words under every series and corrects nothing. In the last 52 weeks PortWatch gives 2 calls at Odesa and at Surigao City, 3 at Chornomorsk, 5 at Pivdennyi, 23 at Jask, 33 at Sullom Voe and 41 at Kharg Island.
+  words under every series and corrects nothing. The lowest series of the atlas, in the 52 weeks to
+  15 November 2026: 2 calls at Odesa and at Surigao City, 3 at Chornomorsk, 5 at Pivdennyi, 23 at Jask, 33 at
+  Sullom Voe, 41 at Kharg Island. The atlas cannot tell, port by port, whether ships that sent no signal, the
+  boundary PortWatch draws for the port, or little traffic explains a low count.
 - The series is that of PortWatch's port, which is not always the atlas's asset: the block names PortWatch's port
   where its name differs, and three pairings carry a sentence typed for them (Rosario: PortWatch's port is the
   municipal port, the asset the up-river complex; Richards Bay: the whole port, the asset its coal terminal; Ras
@@ -56,11 +59,14 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   again every four weeks: 23 or 24 requests in a normal week and never more than 42, one at a time, 8 to 14
   seconds apart (the script's reading of the owner's "slowly"), in at most 12 minutes. The step may fail without
   costing the chokepoint update, and cannot turn the job red. Its first run is that of Wednesday 2 December 2026.
-- The first load was made by hand on 25 November 2026, in eleven sittings of at most 15 ports, twenty minutes
-  apart, one request at a time: LOADSTATE-TO-WRITE
+- The first load was made by hand on 25 November 2026, after a proof on five ports: twelve sittings of at most
+  15 ports, twenty minutes apart or more, one request at a time (549 requests in all; the first fifteen ports
+  were read twice, the rounding rule having changed in between). All 163 ports have a file of 410 weeks, from
+  the week of 7 January 2019 to the week that ended on 15 November 2026; none returned no rows, and none has a
+  week missing.
 - A weekly file can only grow: the update guard refuses a port file that loses weeks, changes a week older than
   the year the job reads again, or disappears ("accept large moves" overrides it). A run that reaches nine tenths
-  of the folder's size limit (3,500 kB; FOLDERKB-TO-WRITE kB today, about 6.5 kB more each week) says so long before the
+  of the folder's size limit (3,500 kB; 2,679 kB today, about 6.5 kB more each week) says so long before the
   limit refuses it.
 - The common downloader now waits out the delay a service names in a quota answer (the delay plus five seconds)
   and stops at a second such answer, for every script: the chokepoint script and the others no longer ask again
@@ -113,9 +119,9 @@ answer, and a status entry that would have turned "stale" if it were published b
   selected on it, its heading and the release. Nothing is sent to GitHub before the click; a GitHub account is
   needed to submit; a report arrives as an ordinary issue, without a label, and no job reads it.
   `docs/UPDATING.md` says how reports are handled, and promises no delay.
-- Not tested against GitHub itself, because the checks send no request there: what a visitor without an
-  account sees at the form, and the longest address the form accepts (the address is cut at 2,000 characters,
-  an Atlas assumption).
+- The checks send no request to GitHub. The owner tried the button himself on 25 November 2026 and reports
+  that it works. Not tested: the longest address the form accepts (the address is cut at 2,000 characters, an
+  Atlas assumption).
 
 ### What each commodity page holds
 
@@ -886,6 +892,21 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
   pages and never less than 8 seconds between two requests (a test keeps it from being made faster), NOTICE.md
   quotes the terms and the decision, and the weekly traffic per port will be loaded the same way, a few ports
   at a time.
+- 25 November 2026, three answers:
+  - **EIA daily spot prices.** The owner opened the EIA's table of petroleum spot prices in a browser and read
+    the line under it: "Source: Refinitiv". The EIA's definitions page of the natural gas prices gives "Spot
+    Price: Refinitiv, an LSEG business." No page read says whether prices credited to Refinitiv may be
+    redistributed (the EIA's "Copyrights and Reuse" page lets anyone "use and/or distribute any of our data" and
+    says that "protected items" need "the written permission of the copyright owners"). Asked whether to keep the
+    eight daily series, credited to the EIA with Refinitiv named as its source and without their CSV download,
+    or to remove them, the owner answered: keep them, saying where they come from. Done in the ninth release;
+    the registry says "terms to be confirmed" and no text calls these series public domain any more.
+  - **"Report an error".** The owner tried the button and reports that it works.
+  - **The World Port Index's page.** The owner opened the publisher's page again on 25 November 2026 and sent
+    what it shows: "MSI IS CURRENTLY UNDER MAINTENANCE", with "Please take advantage of the helpful resources
+    linked here", among them a link "World Port Index CSV"; no terms of use, no copyright notice and no edition
+    are on the page. The terms of the file therefore stay "to be confirmed"; the publisher's own file can
+    replace the Internet Archive's copy when the owner downloads it from that link.
 
 ## Choices made without the owner, to confirm
 
@@ -1226,10 +1247,13 @@ These were needed to finish the work; each is reversible.
   and the fuel is typed; a route with a status note on the Strait of Hormuz computes on its normal routing.
 - Coverage table: no block is marked "not available for free" yet; aluminium, zinc, lead, tin, cobalt and rare
   earths show their routes as missing, because a named route is expected wherever lanes exist.
-- "Report an error" was not tested against GitHub itself (the checks send no request there).
+- "Report an error": the owner tried it and it works; the longest address GitHub's form accepts is not known
+  (the atlas cuts the address at 2,000 characters).
 - Weekly traffic per port: 27 ports have no PortWatch port (18 that the rule cannot pair, 9 without one within
-  15 km). PortWatch's port is not always the asset (see the three sentences of the block). A series reads low
-  where ships switch their transponder off: in the last 52 weeks PortWatch gives 2 calls at Odesa, 3 at Chornomorsk, 5 at Pivdennyi, 23 at Jask and 41 at Kharg Island. Revisions that PortWatch makes to weeks older than the
+  15 km). PortWatch's port is not always the asset (see the three sentences of the block). Some series read
+  very low (2 calls in a year at Odesa, 3 at Chornomorsk, 5 at Pivdennyi, 23 at Jask, 41 at Kharg Island):
+  PortWatch says that ships can switch their transponder off, and the atlas cannot tell that cause from a narrow
+  port boundary or from little traffic. Revisions that PortWatch makes to weeks older than the
   year the job reads again are not seen (a port can be read again in full by hand). The weekly step has not run on
   GitHub yet (first run: Wednesday 2 December 2026); the freshness table shows the source from that run on.
 - The weekly PortWatch job still reads its whole chokepoint table again every four weeks (about 41 requests, 8 to
@@ -1362,21 +1386,19 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
     Census Bureau cited as the source of the original data) to publish its estimate of LPG from the United
     States to Mexico and to offer the CSV of that page's flows. Is that reading acceptable, or should the CSV
     be withheld (the figures and their sources would stay on the page)?
-28. **EIA daily spot prices.** EIA's "Copyrights and Reuse" page (read on 25 November 2026) says: "U.S. government
-    publications are in the public domain and are not subject to copyright protection", "You may use and/or
-    distribute any of our data, files, databases, reports, graphs, charts, and other information products that
-    are on our website", and, under "Protected materials", that material contributed or licensed by others may
-    be protected. Of the eight spot files the atlas downloads, one names "U.S. Energy Information
-    Administration" as its source, seven leave the cell empty, and none names a third party. The table page of
-    the series (https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm) is drawn by script and could not be read by
-    the machine: would the owner open it in a browser and read the "Source" line under the table?
-29. **The World Port Index.** The file is the Internet Archive's copy of 29 September 2026, taken while the
-    publisher's site was in maintenance. When the site answers again: what does the publication's page say of
-    its terms of use (does it carry "NO COPYRIGHT CLAIMED UNDER TITLE 17 U.S.C." as the 2017 edition does), and
-    which edition or date does it show? Until then the block is shown with credit and a link, without download.
-    Should its source line give the date of the copy (the choice made) or the month the atlas read it?
-    Should the maximum vessel held back for seven ports be printed as listed? Should the rows whose own figures
-    disagree with one another be held back too?
+28. **EIA daily spot prices** (answered on 25 November 2026: kept, with Refinitiv named as the source the EIA
+    gives, and without download; see "Decisions of the owner"). Left open: asking the EIA whether its tables of
+    spot prices may be redistributed, which is the only thing that would bring the CSV of these eight series
+    back.
+29. **The World Port Index.** The file is the Internet Archive's copy of 29 September 2026. The publisher's
+    page was still in maintenance on 25 November 2026 and offers a link "World Port Index CSV" without terms of
+    use or edition: would the owner download the file from that link, so that the publisher's own file replaces
+    the archived copy? When the full page is back: what does it say of its terms of use (does it carry "NO
+    COPYRIGHT CLAIMED UNDER TITLE 17 U.S.C." as the 2017 edition does), and which edition or date does it show?
+    Until then the block is shown with credit and a link, without download. Should its source line give the
+    date of the copy (the choice made) or the month the atlas read it? Should the maximum vessel held back for
+    seven ports be printed as listed? Should the rows whose own figures disagree with one another be held back
+    too?
 30. **The voyage calculator and the Baltic Exchange.** May it start from the speed and fuel of the Baltic
     standard vessels that the class pages already state (the default followed), or should those fields start
     empty? Should the two canal authorities be asked for permission to link their tariff pages (not asked)?
@@ -1388,9 +1410,9 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
 33. **PortWatch ports.** May two assets share one PortWatch port (Ponta da Madeira with Itaqui, the CPC terminal
     with Novorossiysk, Westridge with Vancouver)? Is 8 to 14 seconds between two requests slow enough for the
     rule of 25 November?
-34. **Weekly port traffic.** (a) Some series read far below the port's real traffic because ships switch their
-    transponder off (Odesa, Chornomorsk, Pivdennyi, Kharg Island, Jask): the block shows them as PortWatch
-    publishes them, with PortWatch's own warning. Keep them, or hide a series under a number of calls to be
+34. **Weekly port traffic.** (a) Some series read very low (Odesa, Chornomorsk, Pivdennyi, Kharg Island, Jask),
+    probably because ships there switch their transponder off, which no page read establishes port by port: the
+    block shows them as PortWatch publishes them, with PortWatch's own warning. Keep them, or hide a series under a number of calls to be
     chosen? (b) 27 ports have no series (18 that no rule can pair, 9 without a PortWatch port within 15 km): leave
     them so, or pair them by hand, port by port, from PortWatch's own pages? (c) The folder of the weekly files
     may not exceed 3,500 kB; at the growth measured it warns in 2028 and would stop in 2029: raise the limit when

@@ -2020,7 +2020,14 @@ class AsTheWorkflowCallsIt(unittest.TestCase):
         self.assertEqual(r.returncode, 0, r.stderr)
         n = len(P.port_ids())
         self.assertIn(f"port traffic: {n} ports", r.stdout)
-        self.assertIn("in full: 15 ports", r.stdout)
+        # the sitting planned is what the folder still lacks, 15 ports at most: nothing once the first load is complete
+        with open(os.path.join(ROOT, "data", "freight", "port-traffic", "index.json"), encoding="utf-8") as fh:
+            pending = len(json.load(fh).get("pending") or [])
+        if pending:
+            self.assertIn(f"in full: {min(pending, 15)} ports", r.stdout)
+        else:
+            self.assertNotIn("in full: 15 ports", r.stdout)
+            self.assertRegex(r.stdout, r"in full 0\b|in full: 0 ports|nothing to read|no port without a file")
         self.assertIn(f"a weekly run for all {n} ports asks for", r.stdout)
         self.assertEqual(r.stderr, "")
 
