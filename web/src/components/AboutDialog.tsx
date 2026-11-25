@@ -345,6 +345,10 @@ function MethodTabView() {
           largest pair of each corridor. They are not market benchmarks.
         </li>
         <li>
+          The voyage calculator of a route page is a calculation on figures the visitor types, with the route's distance and the speed and fuel of the Baltic
+          standard vessel as starting values. It is not a market rate and not a Baltic Exchange assessment, and nothing typed is saved.
+        </li>
+        <li>
           Figures computed by the atlas, such as route and chokepoint shares, are labelled "Atlas estimate". So is a tonnage that customs data lack and
           the atlas computed from the declared value, or (LPG from the United States to Mexico) from a volume in the United States' own export statistics; it is shown to two significant digits.
         </li>

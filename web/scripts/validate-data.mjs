@@ -29,7 +29,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { validateFreight } from './validate-freight.mjs';
 import { validatePorts } from './validate-ports.mjs';
-import { validateInfra, summariseWarnings } from './validate-infra.mjs';
+import { validateInfra, validateWpi, summariseWarnings } from './validate-infra.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../data');
 const sources = new Set(JSON.parse(fs.readFileSync(path.join(root, 'sources.json'), 'utf8')).map((s) => s.id));
@@ -594,6 +594,7 @@ validateFreight(root, errors);
 validatePorts(root, errors);
 const infraWarnings = [];
 await validateInfra(root, errors, infraWarnings);
+validateWpi(root, errors, infraWarnings);
 if (infraWarnings.length) console.warn(summariseWarnings(infraWarnings));
 if (errors.length) {
   console.error(errors.slice(0, 50).join('\n'));

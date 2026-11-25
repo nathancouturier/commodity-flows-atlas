@@ -10,7 +10,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { validateInfra } from './validate-infra.mjs';
+import { validateInfra, validateWpi } from './validate-infra.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const realData = path.resolve(here, '../../data');
@@ -64,11 +64,15 @@ function folder(mutate, place = true) {
   return dir;
 }
 
-async function run(mutate, tolerateOldShape = false, place = true) {
+// a PortWatch ports table of three rows (the name of one is quoted and holds a comma): port88 and port89 in Peru, port90 in Chile
+const portTable = path.join(fs.mkdtempSync(path.join(os.tmpdir(), 'infra-table-')), 'portwatch_ports.csv');
+fs.writeFileSync(portTable, 'portid,name,iso3,locode,lat,lon,pageid\nport88,Matarani,PER,PEMRI,-17.0,-72.1,a\nport89,"Callao, Lima",PER,PECLL,-12.0,-77.1,b\nport90,Antofagasta,CHL,CLANF,-23.6,-70.4,c\n');
+
+async function run(mutate, tolerateOldShape = false, place = true, extra = {}) {
   const dir = folder(mutate, place);
   const errors = [];
   const warnings = [];
-  await validateInfra(dir, errors, warnings, { tolerateOldShape });
+  await validateInfra(dir, errors, warnings, { tolerateOldShape, portwatchPorts: portTable, ...extra });
   fs.rmSync(dir, { recursive: true, force: true });
   return { errors, warnings, all: [...errors, ...warnings].join('\n') };
 }
@@ -264,6 +268,8 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
   const cases = {
     'bad locode': [{ locode: 'RU PRI' }, /"locode" must be/],
     'bad portwatch id': [{ portwatch: '1020' }, /"portwatch" must be/],
+    'portwatch id not in the table': [{ portwatch: 'port999' }, /port999 is not in the PortWatch ports table/],
+    'portwatch id of another country': [{ portwatch: 'port90' }, /port90 is a port of CHL, the asset is in PER/],
     'limits without a figure': [{ limits: { n: 'x', s: 'wikipedia', url: lim.url } }, /limits give none/],
     'draught in feet': [{ limits: { ...lim, draught: 45 } }, /not in metres/],
     'limits without n': [{ limits: { ...lim, n: '' } }, /limits\.n must say/],
@@ -290,6 +296,16 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
     const r = await run((fs) => (fs[0] = feat(port(extra), [-72.1, -17.0])));
     assert.ok(r.errors.some((e) => re.test(e)), `${name}: expected an error matching ${re}, got ${JSON.stringify(r.errors)}`);
   }
+  // a PortWatch port serves one asset; a quoted name in the table does not shift its columns; no table, no check and a warning
+  const twice = await run((fs) => {
+    fs[0] = feat(port({ portwatch: 'port89' }), [-72.1, -17.0]);
+    fs.push(feat(port({ id: 'port-two', name: 'Port two', portwatch: 'port89' }), [-72.2, -17.0]));
+  });
+  assert.equal(twice.errors.length, 1, twice.all);
+  assert.match(twice.errors[0], /port-two: "portwatch" port89 is also the id of port-test/);
+  const noTable = await run((fs) => (fs[0] = feat(port({ portwatch: 'port999' }), [-72.1, -17.0])), false, true, { portwatchPorts: path.join(os.tmpdir(), 'no-such-table.csv') });
+  assert.deepEqual(noTable.errors, [], noTable.all);
+  assert.ok(noTable.warnings.some((w) => /PortWatch ports table .* not available/.test(w)), noTable.all);
   // limits belong to a port
   const onMine = await run((fs) => (fs[0].properties.limits = lim));
   assert.ok(onMine.errors.some((e) => /"limits" belong to a port/.test(e)), onMine.all);
@@ -305,6 +321,96 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
   // an island oil terminal may stand offshore, like an LNG terminal
   const offshore = await run((fs) => (fs[0] = feat(port(), [-73.2, -17.8])));
   assert.deepEqual(offshore.errors, [], offshore.all);
+}
+
+// infrastructure/wpi.json: a good file passes; each rule has a case; an entry must be a port of ports.geojson
+{
+  const good = () => ({
+    s: 'nga-wpi',
+    read: '2026-11',
+    edition: null,
+    ports: {
+      'port-one': { n: 100, name: 'Port One', lc: 'AAONE', by: 'code', km: 1.2, size: 'Medium', type: 'River (Natural)', tide: 3, chan: 14, anch: 4.9, loa: 340, beam: 60, draft: 11.8, pilot: 'Yes', tideRes: 'No' },
+      'port-two': { n: 200, name: 'Port Two', by: 'review', km: 6, why: 'a sentence', oil: 23.2 },
+    },
+  });
+  const wpiRun = (mutate, { file = true, ports = ['port-one', 'port-two'], registry = ['nga-wpi'] } = {}) => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'wpi-test-'));
+    fs.mkdirSync(path.join(dir, 'infrastructure'));
+    const features = ports.map((id) => feat({ id, name: id, type: 'port' }));
+    features.push(feat({ id: 'mine-one', name: 'mine-one', type: 'mine' }));
+    fs.writeFileSync(path.join(dir, 'infrastructure/ports.geojson'), JSON.stringify({ type: 'FeatureCollection', features }));
+    fs.writeFileSync(path.join(dir, 'sources.json'), JSON.stringify(registry.map((id) => ({ id }))));
+    const doc = good();
+    const text = mutate?.(doc);
+    if (file) fs.writeFileSync(path.join(dir, 'infrastructure/wpi.json'), text?.raw !== undefined ? text.raw : JSON.stringify(doc));
+    const errors = [];
+    const warnings = [];
+    validateWpi(dir, errors, warnings);
+    fs.rmSync(dir, { recursive: true, force: true });
+    return { errors, warnings, all: [...errors, ...warnings].join('\n') };
+  };
+  const ok = wpiRun();
+  assert.deepEqual(ok.errors, [], ok.all);
+  assert.deepEqual(ok.warnings, []);
+  const one = (d) => d.ports['port-one'];
+  const wpiBreaks = {
+    'not JSON': [() => ({ raw: '{"s":' }), /invalid JSON/],
+    'not an object': [() => ({ raw: '[]' }), /not an object/],
+    'unknown top-level key': [(d) => (d.y = 2026), /unknown key "y"/],
+    'source is another id': [(d) => (d.s = 'wikipedia'), /"s" must be "nga-wpi"/],
+    'no month': [(d) => (d.read = '2026'), /"read" must be a month/],
+    'a month out of range': [(d) => (d.read = '2026-13'), /"read" must be a month/],
+    'empty edition': [(d) => (d.edition = ' '), /"edition"/],
+    'ports is a list': [(d) => (d.ports = []), /"ports" must be an object/],
+    'no entry': [(d) => (d.ports = {}), /"ports" is empty/],
+    'an id that is not a port id': [(d) => (d.ports['Port One'] = d.ports['port-two']), /not a port id/],
+    'a feature that is not a port': [(d) => (d.ports['mine-one'] = d.ports['port-two']), /ports\.mine-one: not a port of ports\.geojson/],
+    'an id that is not in ports.geojson': [(d) => (d.ports['port-three'] = d.ports['port-two']), /ports\.port-three: not a port of ports\.geojson/],
+    'an entry that is not an object': [(d) => (d.ports['port-two'] = 5), /not an object/],
+    'a key s on an entry': [(d) => (one(d).s = 'nga-wpi'), /unknown key "s"/],
+    'a key y on an entry': [(d) => (one(d).y = 2026), /unknown key "y"/],
+    'a key v on an entry': [(d) => (one(d).v = 14), /unknown key "v"/],
+    'a key of a column that is not read': [(d) => (one(d).facilities = 'Yes'), /unknown key "facilities"/],
+    'no entry number': [(d) => delete one(d).n, /"n" must be/],
+    'an entry number that is not an integer': [(d) => (one(d).n = 100.5), /"n" must be/],
+    'a number as text': [(d) => (one(d).n = '100'), /"n" must be/],
+    'no name': [(d) => delete one(d).name, /"name"/],
+    'a name with a double space': [(d) => (one(d).name = 'Port  One'), /"name"/],
+    'a code of the wrong shape': [(d) => (one(d).lc = 'AA ONE'), /"lc"/],
+    'a match that is none of the three': [(d) => (one(d).by = 'position'), /"by" must be/],
+    'no distance': [(d) => delete one(d).km, /"km"/],
+    'a negative distance': [(d) => (one(d).km = -1), /"km"/],
+    'a reason on a match by code': [(d) => (one(d).why = 'a sentence'), /"why" is given if and only if/],
+    'a review without a reason': [(d) => delete d.ports['port-two'].why, /"why" is given if and only if/],
+    'an empty reason': [(d) => (d.ports['port-two'].why = ' '), /"why" must be a text/],
+    'a size outside the classes': [(d) => (one(d).size = 'Huge'), /"size" must be/],
+    'an empty type': [(d) => (one(d).type = ''), /"type" must be a text/],
+    'pilotage as Unknown': [(d) => (one(d).pilot = 'Unknown'), /"pilot" must be Yes or No/],
+    'a tide flag as true': [(d) => (one(d).tideRes = true), /"tideRes" must be Yes or No/],
+    'a zero depth': [(d) => (one(d).chan = 0), /"chan" must be a positive number/],
+    'a negative figure': [(d) => (one(d).draft = -11.8), /"draft" must be a positive number/],
+    'a null figure': [(d) => (one(d).anch = null), /"anch" must be a positive number/],
+    'a figure as text': [(d) => (one(d).loa = '340'), /"loa" must be a positive number/],
+    'a figure above 1,000': [(d) => (one(d).oil = 1200), /"oil" must be a positive number of at most 1000/],
+    'a tidal range alone': [(d) => ((d.ports['port-two'] = { n: 200, name: 'Port Two', by: 'code', km: 1, tide: 3 }), 0), /no depth and no maximum vessel figure/],
+  };
+  for (const [name, [mutate, re]] of Object.entries(wpiBreaks)) {
+    const r = wpiRun(mutate);
+    assert.ok(r.errors.some((e) => re.test(e)), `wpi ${name}: expected an error matching ${re}, got ${JSON.stringify(r.errors)}`);
+  }
+  // the source must be in the registry; a missing file is a warning, never an error; nothing is stored for a port that has no entry
+  const noRegistry = wpiRun(null, { registry: ['wikipedia'] });
+  assert.ok(noRegistry.errors.some((e) => /"s" nga-wpi is not in sources\.json/.test(e)), noRegistry.all);
+  const missing = wpiRun(null, { file: false });
+  assert.deepEqual(missing.errors, []);
+  assert.ok(missing.warnings.some((w) => /wpi\.json: the file is not there/.test(w)), missing.all);
+  const fewer = wpiRun(null, { ports: ['port-one'] });
+  assert.ok(fewer.errors.some((e) => /ports\.port-two: not a port of ports\.geojson/.test(e)), fewer.all);
+  // the real file passes against the real data folder
+  const real = [];
+  validateWpi(realData, real, []);
+  assert.deepEqual(real, []);
 }
 
 console.log('validate-infra tests passed');

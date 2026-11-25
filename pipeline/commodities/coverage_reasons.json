@@ -1,0 +1,113 @@
+{
+ "version": 1,
+ "entries": [
+  {
+   "id": "reserves-agricultural",
+   "blocks": ["reserves"],
+   "pages": ["wheat", "corn", "barley", "sorghum", "soybeans", "soymeal", "soyoil", "rice", "pulses", "sugar", "coffee", "cocoa", "cotton", "palm-oil", "sunflower", "rapeseed"],
+   "status": "na",
+   "reason": "Reserves count what lies in the ground. This is grown and harvested again, so none is counted.",
+   "evidence": [
+    {"file": "data/commodities/soybeans.json", "text": "Brazil/Argentina harvest early 2027, US harvest autumn 2026"},
+    {"file": "data/commodities/barley.json", "text": "USDA PSD gives production, use, trade and stocks of marketing years"}
+   ]
+  },
+  {
+   "id": "reserves-refined",
+   "blocks": ["reserves"],
+   "pages": ["refined-products", "lpg", "lng"],
+   "status": "na",
+   "reason": "Reserves are counted for crude oil and natural gas, not for what is refined, separated or liquefied from them.",
+   "evidence": [
+    {"file": "data/commodities/refined-products.json", "text": "Production by country is EIA's refined petroleum products production"},
+    {"file": "data/commodities/lng.json", "text": "liquefaction output is not in the loaded sources"}
+   ]
+  },
+  {
+   "id": "reserves-made-from-ore",
+   "blocks": ["reserves"],
+   "pages": ["steel", "pig-iron", "aluminium", "ferro-alloys"],
+   "status": "na",
+   "reason": "Reserves are counted for the ore in the ground, not for the metal or the alloy made from it.",
+   "evidence": [
+    {"file": "data/commodities/aluminium.json", "text": "Bauxite reserves are under 'bauxite'."},
+    {"file": "data/commodities/pig-iron.json", "text": "iron ore reduced in lumps, pellets or similar forms"}
+   ]
+  },
+  {
+   "id": "reserves-scrap",
+   "blocks": ["reserves"],
+   "pages": ["ferrous-scrap"],
+   "status": "na",
+   "reason": "Scrap is recovered from used metal, not mined: there is no deposit to count.",
+   "evidence": [
+    {"file": "data/commodities/ferrous-scrap.json", "text": "the whole heading of ferrous waste and scrap"}
+   ]
+  },
+  {
+   "id": "reserves-urea",
+   "blocks": ["reserves"],
+   "pages": ["urea"],
+   "status": "na",
+   "reason": "Urea is made in plants from ammonia: no deposit is counted for it.",
+   "evidence": [
+    {"file": "data/commodities/urea.json", "text": "the feedstock of urea and of the other nitrogen fertilisers"}
+   ]
+  },
+  {
+   "id": "reserves-compound-fertiliser",
+   "blocks": ["reserves"],
+   "pages": ["npk"],
+   "status": "na",
+   "reason": "A compound fertiliser is made in plants: reserves are counted for phosphate rock and potash, on their own pages.",
+   "evidence": [
+    {"file": "data/commodities/npk.json", "text": "fertilisers containing the three fertilising elements nitrogen, phosphorus and potassium"},
+    {"file": "data/commodities/phosphate.json", "text": "the compound fertilisers, with two or three nutrients, are on the NPK page"}
+   ]
+  },
+  {
+   "id": "lanes-by-air",
+   "blocks": ["lanes"],
+   "pages": ["gold", "silver", "pgm"],
+   "status": "na",
+   "reason": "These metals move mostly by air, so the atlas draws no sea lanes for them.",
+   "evidence": [
+    {"file": "PROGRESS.md", "text": "platinum-group metals are not drawn (they move mostly by air)"},
+    {"file": "PROGRESS.md", "text": "move mostly by air: no air arc is drawn"}
+   ]
+  },
+  {
+   "id": "lanes-gas",
+   "blocks": ["lanes"],
+   "pages": ["natural-gas"],
+   "status": "na",
+   "reason": "Gas is traded by pipeline, or by sea as LNG: the sea lanes are on the LNG page.",
+   "evidence": [
+    {"file": "data/commodities/natural-gas.json", "text": "pipeline and LNG together"},
+    {"file": "data/commodities/natural-gas.json", "text": "LNG by pair is on the LNG page"}
+   ]
+  },
+  {
+   "id": "routes-no-lanes",
+   "blocks": ["routes"],
+   "pages": ["natural-gas", "gold", "silver", "pgm"],
+   "status": "na",
+   "reason": "No sea lanes are drawn for it, so there is no sea route.",
+   "evidence": [
+    {"file": "PROGRESS.md", "text": "move mostly by air: no air arc is drawn"},
+    {"file": "data/commodities/natural-gas.json", "text": "LNG by pair is on the LNG page"}
+   ]
+  },
+  {
+   "id": "balance-fertiliser",
+   "blocks": ["balance"],
+   "pages": ["potash", "phosphate", "urea", "sulphur", "npk"],
+   "status": "na",
+   "reason": "The balance of stocks and use is a table of crops; a fertiliser is not a crop.",
+   "evidence": [
+    {"file": "data/commodities/barley.json", "text": "USDA PSD gives production, use, trade and stocks of marketing years"},
+    {"file": "data/commodities/urea.json", "text": "FAOSTAT's 2024 urea table"}
+   ]
+  }
+ ]
+}

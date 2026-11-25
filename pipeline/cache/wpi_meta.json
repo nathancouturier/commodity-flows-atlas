@@ -1,0 +1,546 @@
+{
+ "file": {
+  "name": "UpdatedPub150.csv",
+  "sha256": "315644f1e77966291633145fd351c2762b37702d115926b9ed074b39e8e21667",
+  "bytes": 3508891,
+  "rows": 3807,
+  "columns": 109
+ },
+ "source": "nga-wpi",
+ "downloaded": "2026-11-24",
+ "edition": null,
+ "edition_page": null,
+ "terms_quote": "© COPYRIGHT 2017 BY THE UNITED STATES GOVERNMENT / NO COPYRIGHT CLAIMED UNDER TITLE 17 U.S.C.",
+ "terms_page": "https://web.archive.org/web/20170829062601if_/http://msi.nga.mil/MSISiteContent/StaticFiles/NAV_PUBS/WPI/Pub150bk.pdf",
+ "terms_read_on": "2026-11-25",
+ "terms_scope": "2017 PDF, 26th edition",
+ "rule": {
+  "code_km": 15.0,
+  "name_km": 15.0,
+  "nameless_km": 10.0,
+  "name_far_km": 40.0,
+  "nearer_margin_km": 2.0,
+  "stop_words": [
+   "port",
+   "of",
+   "de",
+   "do",
+   "da",
+   "terminal",
+   "terminals",
+   "oil",
+   "marine",
+   "offshore",
+   "term",
+   "harbour",
+   "harbor",
+   "ko",
+   "gang",
+   "hang",
+   "city",
+   "the"
+  ],
+  "beam_max_ratio": 0.4,
+  "beam_max_m": 70.0
+ },
+ "rule_basis": {
+  "code_km": "the farthest code match kept and the nearest code match refused for its distance",
+  "farthest_kept": {
+   "id": "shanghai",
+   "km": 14.0
+  },
+  "nearest_refused": {
+   "id": "new-york-new-jersey",
+   "km": 15.6
+  }
+ },
+ "counts": {
+  "sure_code": 115,
+  "sure_name": 19,
+  "sure_review": 5,
+  "doubtful": 35,
+  "none": 16,
+  "ports": 190
+ },
+ "review": {
+  "basrah-oil-terminal": {
+   "action": "promote",
+   "wpi": 48392,
+   "name": "Al-Basra Oil Terminal",
+   "why": "Atlas point 29.68 N, 48.80 E, row no. 48392 Al-Basra Oil Terminal at 29.68 N, 48.82 E. The row's main name is the atlas port's name in another spelling (its alternate name is Mina Al Bakr Terminal); the next row of the country, Khawr Al Amaya, is a separate terminal."
+  },
+  "fujairah": {
+   "action": "promote",
+   "wpi": 48262,
+   "name": "Al Fujayrah",
+   "why": "Atlas point 25.12 N, 56.36 E, row no. 48262 Al Fujayrah at 25.17 N, 56.37 E. The names are two spellings of Fujairah (the row's alternate name is Fujayrah Harbor) and the next row of the country, Khawr Fakkan, is another port; the page the atlas cites is about the Fujairah oil terminal and the entry is the harbour."
+  },
+  "loop": {
+   "action": "promote",
+   "wpi": 8980,
+   "name": "Loop Terminal",
+   "why": "Atlas point 28.89 N, 90.03 W, row no. 8980 Loop Terminal at 28.88 N, 90.02 W. The atlas port is the Louisiana Offshore Oil Port (LOOP) and the row is Loop Terminal; the next row of the country, Grand Isle, is another place."
+  },
+  "los-angeles-long-beach": {
+   "action": "hold",
+   "why": "the file has one row for each of the two harbours, Los Angeles and Long Beach, with different channel depths; a single entry would show the figures of one of them for a port that counts both"
+  },
+  "pivdennyi": {
+   "action": "promote",
+   "wpi": 43655,
+   "name": "Yuzhnyy",
+   "why": "Atlas point 46.63 N, 31.02 E, row no. 43655 Yuzhnyy at 46.60 N, 31.02 E. Yuzhnyy is the Russian spelling of the Ukrainian Pivdennyi (the atlas note gives the PortWatch code UAYUZ for the port); the next row of the country, Odesa, is another port."
+  },
+  "rosario-up-river": {
+   "action": "hold",
+   "why": "the atlas port is the up-river hub of several terminals (its note) and the row is the port of the city of Rosario"
+  },
+  "ruwais": {
+   "action": "promote",
+   "wpi": 48282,
+   "name": "Jabal Az Zannah/ruways",
+   "why": "Atlas point 24.13 N, 52.71 E, row no. 48282 Jabal Az Zannah/ruways at 24.20 N, 52.70 E. The atlas note says the PortWatch database lists the port as Jabal Az Zannah-Ruways, and the row carries the same two names (alternate name Jabal Dhanna/ruways); the next row of the country, Mubarraz Oil Terminal, is another port."
+  }
+ },
+ "doubtful": [
+  {
+   "id": "rotterdam",
+   "reason": "the row lies 24.2 km from the atlas point",
+   "candidate": {
+    "wpi": 31140,
+    "name": "Rotterdam",
+    "km": 24.2
+   }
+  },
+  {
+   "id": "singapore",
+   "reason": "position only: no code or name in common (3 row(s) within 10 km)",
+   "candidate": {
+    "wpi": 50000,
+    "name": "Keppel - (East Singapore)",
+    "km": 2.4
+   }
+  },
+  {
+   "id": "south-louisiana",
+   "reason": "the row lies 34.2 km from the atlas point",
+   "candidate": {
+    "wpi": 8860,
+    "name": "New Orleans",
+    "km": 34.2
+   }
+  },
+  {
+   "id": "chornomorsk",
+   "reason": "2 rows of the file share the code UAILK",
+   "candidate": {
+    "wpi": 43645,
+    "name": "Illichivsk",
+    "km": 0.6
+   }
+  },
+  {
+   "id": "rosario-up-river",
+   "reason": "the atlas port is the up-river hub of several terminals (its note) and the row is the port of the city of Rosario",
+   "candidate": {
+    "wpi": 13630,
+    "name": "Rosario",
+    "km": 2.7
+   }
+  },
+  {
+   "id": "bonny",
+   "reason": "2 rows of the file share the code NGBON",
+   "candidate": {
+    "wpi": 46205,
+    "name": "Bonny",
+    "km": 3.4
+   }
+  },
+  {
+   "id": "covenas",
+   "reason": "another row of the country is nearer to the atlas point: no. 11900 Covenas, 2.2 km, against 11.3 km for no. 11901 Covenas Offshore Term.",
+   "candidate": {
+    "wpi": 11901,
+    "name": "Covenas Offshore Term.",
+    "km": 11.3
+   }
+  },
+  {
+   "id": "amsterdam",
+   "reason": "another row of the country is nearer to the atlas point: no. 31050 Zaandam, 2.7 km, against 7.3 km for no. 31060 Amsterdam",
+   "candidate": {
+    "wpi": 31060,
+    "name": "Amsterdam",
+    "km": 7.3
+   }
+  },
+  {
+   "id": "ceyhan",
+   "reason": "position only: no code or name in common (2 row(s) within 10 km)",
+   "candidate": {
+    "wpi": 44870,
+    "name": "Botas",
+    "km": 1.5
+   }
+  },
+  {
+   "id": "los-angeles-long-beach",
+   "reason": "the file has one row for each of the two harbours, Los Angeles and Long Beach, with different channel depths; a single entry would show the figures of one of them for a port that counts both",
+   "candidate": {
+    "wpi": 16080,
+    "name": "Los Angeles",
+    "km": 0.9
+   }
+  },
+  {
+   "id": "jubail",
+   "reason": "position only: no code or name in common (1 row(s) within 10 km)",
+   "candidate": {
+    "wpi": 48338,
+    "name": "Al Jubayl",
+    "km": 3.1
+   }
+  },
+  {
+   "id": "new-york-new-jersey",
+   "reason": "the row lies 15.6 km from the atlas point",
+   "candidate": {
+    "wpi": 7640,
+    "name": "New York City",
+    "km": 15.6
+   }
+  },
+  {
+   "id": "lagos",
+   "reason": "another row of the country is nearer to the atlas point: no. 46131 Tin Can Island, 2.2 km, against 9.0 km for no. 46130 Lagos",
+   "candidate": {
+    "wpi": 46130,
+    "name": "Lagos",
+    "km": 9.0
+   }
+  },
+  {
+   "id": "guangzhou",
+   "reason": "position only: no code or name in common (3 row(s) within 10 km)",
+   "candidate": {
+    "wpi": 57825,
+    "name": "Huangpuxingang",
+    "km": 3.0
+   }
+  },
+  {
+   "id": "fangcheng",
+   "reason": "the row lies 15.2 km from the atlas point",
+   "candidate": {
+    "wpi": 57745,
+    "name": "Fang-Cheng",
+    "km": 15.2
+   }
+  },
+  {
+   "id": "krishnapatnam",
+   "reason": "2 rows of the file share the code INKRI",
+   "candidate": {
+    "wpi": 49457,
+    "name": "Krishnapatnam",
+    "km": 2.0
+   }
+  },
+  {
+   "id": "visakhapatnam",
+   "reason": "position only: no code or name in common (2 row(s) within 10 km)",
+   "candidate": {
+    "wpi": 49479,
+    "name": "Gangavaram",
+    "km": 3.1
+   }
+  },
+  {
+   "id": "portland-oregon",
+   "reason": "another row of the country is nearer to the atlas point: no. 16950 Vancouver, 5.9 km, against 10.2 km for no. 16940 Portland",
+   "candidate": {
+    "wpi": 16940,
+    "name": "Portland",
+    "km": 10.2
+   }
+  },
+  {
+   "id": "mumbai",
+   "reason": "another row of the country is nearer to the atlas point: no. 48845 Jawaharlal Nehru Port (Nhava Shiva), 3.8 km, against 9.4 km for no. 48840 Mumbai (Bombay)",
+   "candidate": {
+    "wpi": 48840,
+    "name": "Mumbai (Bombay)",
+    "km": 9.4
+   }
+  },
+  {
+   "id": "st-petersburg",
+   "reason": "2 rows of the file share the code RULED",
+   "candidate": {
+    "wpi": 28370,
+    "name": "Sankt-Peterburg",
+    "km": 11.1
+   }
+  },
+  {
+   "id": "kozmino",
+   "reason": "position only: no code or name in common (1 row(s) within 10 km)",
+   "candidate": {
+    "wpi": 60725,
+    "name": "Vostochnyy",
+    "km": 5.0
+   }
+  },
+  {
+   "id": "ponta-da-madeira",
+   "reason": "position only: no code or name in common (1 row(s) within 10 km)",
+   "candidate": {
+    "wpi": 12585,
+    "name": "Itaqui",
+    "km": 0.4
+   }
+  },
+  {
+   "id": "yanbu",
+   "reason": "position only: no code or name in common (2 row(s) within 10 km)",
+   "candidate": {
+    "wpi": 48121,
+    "name": "King Fahd Port",
+    "km": 5.6
+   }
+  },
+  {
+   "id": "pengerang",
+   "reason": "the row lies 620.0 km from the atlas point",
+   "candidate": {
+    "wpi": 49850,
+    "name": "Pulau Pinang",
+    "km": 620.0
+   }
+  },
+  {
+   "id": "bandar-imam-khomeini",
+   "reason": "position only: no code or name in common (1 row(s) within 10 km)",
+   "candidate": {
+    "wpi": 48460,
+    "name": "Bandar Khomeyni",
+    "km": 1.5
+   }
+  },
+  {
+   "id": "manzanillo-colon",
+   "reason": "position only: no code or name in common (3 row(s) within 10 km)",
+   "candidate": {
+    "wpi": 9865,
+    "name": "Puerto Colon",
+    "km": 0.2
+   }
+  },
+  {
+   "id": "valdez",
+   "reason": "2 rows of the country carry the name within 15 km",
+   "candidate": {
+    "wpi": 19660,
+    "name": "Valdez Marine Terminal",
+    "km": 1.0
+   }
+  },
+  {
+   "id": "westridge",
+   "reason": "position only: no code or name in common (1 row(s) within 10 km)",
+   "candidate": {
+    "wpi": 18160,
+    "name": "Port Moody",
+    "km": 5.2
+   }
+  },
+  {
+   "id": "sidi-kerir",
+   "reason": "position only: no code or name in common (1 row(s) within 10 km)",
+   "candidate": {
+    "wpi": 45172,
+    "name": "Sidi Kerir (Kurayr)",
+    "km": 6.6
+   }
+  },
+  {
+   "id": "ain-sokhna",
+   "reason": "another row of the country is nearer to the atlas point: no. 48030 North Ain Sukhna Port, 1.3 km, against 4.2 km for no. 48035 Sokhna Port Gas Tanker Terminal",
+   "candidate": {
+    "wpi": 48035,
+    "name": "Sokhna Port Gas Tanker Terminal",
+    "km": 4.2
+   }
+  },
+  {
+   "id": "ras-lanuf",
+   "reason": "position only: no code or name in common (1 row(s) within 10 km)",
+   "candidate": {
+    "wpi": 45295,
+    "name": "Al Burayqah",
+    "km": 1.1
+   }
+  },
+  {
+   "id": "qua-iboe",
+   "reason": "the name is found 35.1 km from the atlas point",
+   "candidate": {
+    "wpi": 46195,
+    "name": "Qua Iboe Oil Terminal",
+    "km": 35.1
+   }
+  },
+  {
+   "id": "arzew",
+   "reason": "another row of the country is nearer to the atlas point: no. 45635 Arzew El Djedid, 1.6 km, against 4.5 km for no. 45630 Arzew",
+   "candidate": {
+    "wpi": 45630,
+    "name": "Arzew",
+    "km": 4.5
+   }
+  },
+  {
+   "id": "zirku-island",
+   "reason": "2 rows of the file share the code AEZUR",
+   "candidate": {
+    "wpi": 48267,
+    "name": "Zirkuh Oil Field",
+    "km": 3.2
+   }
+  },
+  {
+   "id": "dunkirk",
+   "reason": "2 rows of the file share the code FRDKK",
+   "candidate": {
+    "wpi": 35732,
+    "name": "Dunkerque Port Ouest",
+    "km": 7.7
+   }
+  }
+ ],
+ "none": [
+  {
+   "id": "caofeidian",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "ningbo-zhoushan",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "yeosu",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "morebaya",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "majishan",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "tubay",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "dongying",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "acu",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "juaymah",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "taman",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "cpc-terminal",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "tanjung-bara",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "itaguai",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "huanghua",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "abbot-point",
+   "reason": "no row of the file by code, by name or by position"
+  },
+  {
+   "id": "roberts-bank",
+   "reason": "no row of the file by code, by name or by position"
+  }
+ ],
+ "held_vessel": [
+  {
+   "id": "busan",
+   "group": "maximum",
+   "reason": "the beam is above 40% of the length"
+  },
+  {
+   "id": "kaohsiung",
+   "group": "maximum",
+   "reason": "the beam is above 70 m"
+  },
+  {
+   "id": "pohang",
+   "group": "maximum",
+   "reason": "the beam is above 40% of the length"
+  },
+  {
+   "id": "manila",
+   "group": "maximum",
+   "reason": "a beam is given with no length to compare it with"
+  },
+  {
+   "id": "antofagasta",
+   "group": "maximum",
+   "reason": "a beam is given with no length to compare it with"
+  },
+  {
+   "id": "pontianak",
+   "group": "maximum",
+   "reason": "a beam is given with no length to compare it with"
+  }
+ ],
+ "columns_used": [
+  "World Port Index Number",
+  "Main Port Name",
+  "Alternate Port Name",
+  "UN/LOCODE",
+  "Country Code",
+  "Latitude",
+  "Longitude",
+  "Tidal Range (m)",
+  "Channel Depth (m)",
+  "Anchorage Depth (m)",
+  "Cargo Pier Depth (m)",
+  "Oil Terminal Depth (m)",
+  "Liquified Natural Gas Terminal Depth (m)",
+  "Maximum Vessel Length (m)",
+  "Maximum Vessel Beam (m)",
+  "Maximum Vessel Draft (m)",
+  "Offshore Maximum Vessel Length (m)",
+  "Offshore Maximum Vessel Beam (m)",
+  "Offshore Maximum Vessel Draft (m)",
+  "Harbor Size",
+  "Harbor Type",
+  "Pilotage - Compulsory",
+  "Entrance Restriction - Tide"
+ ],
+ "published": 139
+}

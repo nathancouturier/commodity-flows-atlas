@@ -36,6 +36,8 @@ DAY_LAG = 21
 TRACKED = {
     "eia-spot": ("day", WEEKLY),
     "portwatch": ("day", WEEKLY),
+    # the weekly port series (one file per port): nothing is said until the first load has recorded the source
+    "portwatch-port-traffic": ("day", WEEKLY),
     "wb-pink": ("month", WEEKLY),
     # the three freight indicators of the weekly prices job (pipeline/prices/freight_indicators.py), monthly series
     "bls": ("month", WEEKLY),

@@ -19,11 +19,13 @@
  *  - `coord` is required; a pipeline has `cs`, starting with its country `c`; a feature sits in the file of its type;
  *    a unit fits the type (a refinery in kb/d, an LNG terminal in Mtpa, ...); a status "not-stated" has no `statusAsOf`;
  *    `capacity.planned`, when present, is `true` and belongs to a capacity;
- *  - ports: `locode` is a five-character code and `portwatch` a PortWatch port id; `limits` (a port only) give at least
+ *  - ports: `locode` is a five-character code and `portwatch` a PortWatch port id that is a row of
+ *    pipeline/cache/portwatch_ports.csv, in the asset's country, and used by one asset only; `limits` (a port only) give at least
  *    one of draught, loa, beam (metres) and dwt, with `n`, `s`, `url` and an optional year, `seg` (a segment), `cls` (a
  *    class of that segment), `depth` (true: the draught is a water depth) and `at` (the berth); `maxClass` needs `limits`,
  *    names vessel classes of freight/vessel-classes.json by segment and says its method in `n`; `prices` are ids of
- *    prices/index.json.
+ *    prices/index.json;
+ *  - infrastructure/wpi.json (validateWpi, a file of its own, not one of the eight): see the function.
  *
  * Every finding about the shape of a feature is an error. Only INFRA_OLD_SHAPE=1 (or `{ tolerateOldShape: true }`)
  * makes a file that is still in the old shape (a feature-level `y`, or no `read`) produce warnings instead, for a
@@ -139,13 +141,31 @@ export function kmToCountry(polys, x, y, limit = NEAR_KM) {
   return best;
 }
 
+/** The ports of pipeline/cache/portwatch_ports.csv as a map of port id to ISO3 country; null when the file cannot be read. */
+function portwatchPorts(file) {
+  let text;
+  try {
+    text = fs.readFileSync(file, 'utf8');
+  } catch {
+    return null;
+  }
+  const rows = new Map();
+  for (const line of text.split(/\r?\n/).slice(1)) {
+    // portid,name,iso3,locode,lat,lon,pageid; the name may be quoted and hold commas
+    const m = line.match(/^([^,]+),(?:"(?:[^"]|"")*"|[^,]*),([^,]*),/);
+    if (m) rows.set(m[1], m[2]);
+  }
+  return rows;
+}
+
 // ---------------------------------------------------------------- the checks
 
 /**
  * @param root data folder
  * @param errors array that receives the errors
  * @param warnings array that receives the warnings
- * @param opts { tolerateOldShape } a file in the old shape gives warnings, not errors (default: INFRA_OLD_SHAPE=1)
+ * @param opts { tolerateOldShape } a file in the old shape gives warnings, not errors (default: INFRA_OLD_SHAPE=1);
+ *             { portwatchPorts } the PortWatch ports table the `portwatch` ids are read against (default: ../pipeline/cache/portwatch_ports.csv)
  */
 export async function validateInfra(root, errors, warnings, opts = {}) {
   const tolerateOldShape = opts.tolerateOldShape ?? process.env.INFRA_OLD_SHAPE === '1';
@@ -167,6 +187,9 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
   const polys = await countryRings(root, warnings);
   const maxYear = new Date().getFullYear() + 1;
   const seen = new Map();
+  const portwatchRows = portwatchPorts(opts.portwatchPorts ?? path.join(root, '../pipeline/cache/portwatch_ports.csv'));
+  const portwatchUsed = new Map();
+  let portwatchUnchecked = false;
   let skipped = new Set();
   let legacyFiles = 0;
 
@@ -257,6 +280,14 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
       if (p.locode !== undefined && !(typeof p.locode === 'string' && LOCODE.test(p.locode))) shape(`${at}: "locode" must be a five-character code (country + place, "RUPRI")`);
       else if (p.locode !== undefined && p.locode.slice(0, 2) === 'XX') shape(`${at}: "locode" has no country`);
       if (p.portwatch !== undefined && !(typeof p.portwatch === 'string' && PORTWATCH_ID.test(p.portwatch))) shape(`${at}: "portwatch" must be a PortWatch port id ("port1020")`);
+      else if (p.portwatch !== undefined) {
+        // one PortWatch port serves one asset; the id is a row of the ports table, in the asset's country
+        if (portwatchUsed.has(p.portwatch)) shape(`${at}: "portwatch" ${p.portwatch} is also the id of ${portwatchUsed.get(p.portwatch)}: a PortWatch port serves one asset`);
+        else portwatchUsed.set(p.portwatch, at);
+        if (!portwatchRows) portwatchUnchecked = true;
+        else if (!portwatchRows.has(p.portwatch)) shape(`${at}: "portwatch" ${p.portwatch} is not in the PortWatch ports table (pipeline/cache/portwatch_ports.csv)`);
+        else if (portwatchRows.get(p.portwatch) !== p.c) shape(`${at}: "portwatch" ${p.portwatch} is a port of ${portwatchRows.get(p.portwatch)}, the asset is in ${p.c}`);
+      }
       if (p.limits !== undefined) {
         const l = p.limits;
         if (p.type !== 'port') shape(`${at}: "limits" belong to a port`);
@@ -347,8 +378,92 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
       }
     }
   }
+  if (portwatchUnchecked) warnings.push('infrastructure: the PortWatch ports table (pipeline/cache/portwatch_ports.csv) is not available, the "portwatch" ids are not checked against it');
   if (skipped.size) warnings.push(`infrastructure: no polygon for ${[...skipped].sort().join(', ')}: the country check is skipped for these`);
   if (legacyFiles && tolerateOldShape) warnings.push(`infrastructure: ${legacyFiles} of ${FILES.length} files are still in the old shape (INFRA_OLD_SHAPE=1 is set)`);
+}
+
+const WPI_ID = /^[a-z0-9-]+$/;
+const WPI_TOP = ['s', 'read', 'edition', 'ports'];
+const WPI_KEYS = ['n', 'name', 'lc', 'by', 'km', 'why', 'size', 'type', 'tide', 'chan', 'anch', 'pier', 'oil', 'lng', 'loa', 'beam', 'draft', 'oloa', 'obeam', 'odraft', 'pilot', 'tideRes'];
+const WPI_FIGURES = ['tide', 'chan', 'anch', 'pier', 'oil', 'lng', 'loa', 'beam', 'draft', 'oloa', 'obeam', 'odraft'];
+const WPI_LIMITS = WPI_FIGURES.filter((k) => k !== 'tide'); // an entry needs one of these: a depth or a maximum vessel
+const WPI_MAX = 1000; // metres; the largest depth in the file is an offshore water depth of a few hundred
+const WPI_SIZES = ['Very Small', 'Small', 'Medium', 'Large'];
+
+/**
+ * infrastructure/wpi.json, the World Port Index entry of each port that has one (built by pipeline/infrastructure/wpi_limits.py,
+ * loaded by the port panel when it opens). Its shape, and that each entry belongs to a port asset of ports.geojson: `s` is
+ * the registry's `nga-wpi`, `read` a month, `edition` text or null; an entry has the publication's number `n` (a positive
+ * integer) and its `name`, `by` (code, name or review), `km`, and `why` if and only if `by` is review; the figures are
+ * positive numbers up to 1,000; `size` is one of the publication's classes, `pilot` and `tideRes` are Yes or No; at least
+ * one depth or maximum-vessel figure; no other key (a key `s`, `y` or `v` would be read as a source and a figure).
+ * A missing file is a warning: the panel then shows no block.
+ */
+export function validateWpi(root, errors, warnings = []) {
+  const file = path.join(root, 'infrastructure', 'wpi.json');
+  const bad = (msg) => errors.push(`infrastructure/wpi.json: ${msg}`);
+  if (!fs.existsSync(file)) {
+    warnings.push('infrastructure/wpi.json: the file is not there, the port panels show no World Port Index block');
+    return;
+  }
+  let doc;
+  try {
+    doc = JSON.parse(fs.readFileSync(file, 'utf8'));
+  } catch (e) {
+    bad(`invalid JSON (${e.message})`);
+    return;
+  }
+  if (!doc || typeof doc !== 'object' || Array.isArray(doc)) return bad('not an object');
+  for (const k of Object.keys(doc)) if (!WPI_TOP.includes(k)) bad(`unknown key "${k}"`);
+  let registry = [];
+  try {
+    registry = JSON.parse(fs.readFileSync(path.join(root, 'sources.json'), 'utf8')).map((s) => s.id);
+  } catch {
+    bad('sources.json cannot be read');
+  }
+  if (doc.s !== 'nga-wpi') bad(`"s" must be "nga-wpi", not ${JSON.stringify(doc.s)}`);
+  else if (!registry.includes(doc.s)) bad(`"s" ${doc.s} is not in sources.json`);
+  if (!(typeof doc.read === 'string' && /^\d{4}-(0[1-9]|1[0-2])$/.test(doc.read))) bad(`"read" must be a month YYYY-MM, not ${JSON.stringify(doc.read)}`);
+  if (!(doc.edition === null || (typeof doc.edition === 'string' && doc.edition.trim() !== ''))) bad('"edition" must be null or a text');
+  let ports = null;
+  try {
+    ports = new Set(
+      JSON.parse(fs.readFileSync(path.join(root, 'infrastructure', 'ports.geojson'), 'utf8'))
+        .features.filter((f) => f.properties?.type === 'port')
+        .map((f) => f.properties.id),
+    );
+  } catch {
+    bad('infrastructure/ports.geojson cannot be read, so the entries cannot be checked against it');
+  }
+  const entries = doc.ports;
+  if (!entries || typeof entries !== 'object' || Array.isArray(entries)) return bad('"ports" must be an object');
+  if (!Object.keys(entries).length) bad('"ports" is empty');
+  for (const [id, e] of Object.entries(entries)) {
+    const at = `ports.${id}`;
+    if (!WPI_ID.test(id)) bad(`${at}: not a port id`);
+    else if (ports && !ports.has(id)) bad(`${at}: not a port of ports.geojson`);
+    if (!e || typeof e !== 'object' || Array.isArray(e)) {
+      bad(`${at}: not an object`);
+      continue;
+    }
+    for (const k of Object.keys(e)) if (!WPI_KEYS.includes(k)) bad(`${at}: unknown key "${k}"`);
+    if (!(Number.isInteger(e.n) && e.n > 0)) bad(`${at}: "n" must be the publication's entry number, a positive integer`);
+    if (!(typeof e.name === 'string' && e.name !== '' && e.name === e.name.trim().replace(/\s+/g, ' '))) bad(`${at}: "name" must be a text with no leading, trailing or double space`);
+    if (e.lc !== undefined && !(typeof e.lc === 'string' && /^[A-Z]{2}[A-Z0-9]{3}$/.test(e.lc))) bad(`${at}: "lc" must be a five-character UN/LOCODE`);
+    if (!['code', 'name', 'review'].includes(e.by)) bad(`${at}: "by" must be code, name or review`);
+    if (!(typeof e.km === 'number' && Number.isFinite(e.km) && e.km >= 0)) bad(`${at}: "km" must be a number of at least 0`);
+    if ((e.by === 'review') !== (e.why !== undefined)) bad(`${at}: "why" is given if and only if "by" is review`);
+    if (e.why !== undefined && !(typeof e.why === 'string' && e.why.trim() !== '')) bad(`${at}: "why" must be a text`);
+    if (e.size !== undefined && !WPI_SIZES.includes(e.size)) bad(`${at}: "size" must be one of ${WPI_SIZES.join(', ')}`);
+    if (e.type !== undefined && !(typeof e.type === 'string' && e.type.trim() !== '')) bad(`${at}: "type" must be a text`);
+    for (const k of ['pilot', 'tideRes']) if (e[k] !== undefined && !['Yes', 'No'].includes(e[k])) bad(`${at}: "${k}" must be Yes or No`);
+    for (const k of WPI_FIGURES) {
+      if (e[k] === undefined) continue;
+      if (!(typeof e[k] === 'number' && Number.isFinite(e[k]) && e[k] > 0 && e[k] <= WPI_MAX)) bad(`${at}: "${k}" must be a positive number of at most ${WPI_MAX}, not ${JSON.stringify(e[k])}`);
+    }
+    if (!WPI_LIMITS.some((k) => e[k] !== undefined)) bad(`${at}: no depth and no maximum vessel figure`);
+  }
 }
 
 /** Warnings as a short text: the count per kind of message, then a few examples. */
@@ -368,6 +483,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const errors = [];
   const warnings = [];
   await validateInfra(root, errors, warnings);
+  validateWpi(root, errors, warnings);
   if (warnings.length) console.warn(summariseWarnings(warnings, process.env.ALL ? warnings.length : 6));
   if (errors.length) {
     console.error(errors.slice(0, 50).join('\n'));

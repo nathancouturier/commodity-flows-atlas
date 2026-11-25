@@ -21,6 +21,7 @@ below. The atlas shows each figure with the source it came from and the year it 
 | `smelters.geojson` | `smelter` (smelters and metal refineries) |
 | `ports.geojson` | `port` |
 | `storage.geojson` | `storage` (an inland or coastal storage hub that is not a port: Cushing, Mont Belvieu) |
+| `wpi.json` | not a feature file: the World Port Index entry of each port that has one, built from `pipeline/cache/` (see "World Port Index entries" below) |
 
 The source ids these files use (`wikipedia`, `giignl-2026`, `eia-refinery-capacity`, `eia-dpr`, `eia-todayinenergy`, `operator-reports`, `port-authorities`,
 `trade-press`, `usgs-myb`, `portwatch-ports`, `eia-storage-capacity`) are registered in `data/sources.json`, which is the one list of sources: the site reads it and
@@ -54,7 +55,7 @@ figures; what another page supplies (operator, status, a production figure) is n
 | `note` | text | Reader-facing text only: no working notes ("via search summary", "figures were stripped", "latest on page"). |
 | `product`, `length_km` | text, number | Pipelines: what they carry and their length. The site shows both. |
 | `locode` | text | Ports: the code of the place in the trade engine (`pipeline/freight/ports.py`, the key of its table): the UN/LOCODE without its space ("RUPRI"), or the engine's own code for a terminal that has none. A route port, a lane port and the asset are then one place: the route page links the port to the asset, the asset page lists the lanes of its code, and the search finds the place as the asset. Where the engine does not know the place, the UN/LOCODE of the PortWatch database. |
-| `portwatch` | text | Ports: the IMF PortWatch port id ("port1020"), for a later join with PortWatch's port traffic. |
+| `portwatch` | text | Ports: the IMF PortWatch port id ("port1020"), the row of `pipeline/cache/portwatch_ports.csv` that is this port, for the join with PortWatch's port traffic. A port takes the position of its row (and has the id) when the table gave its position; for any other port `pipeline/infrastructure/portwatch_pairs.py` gives the id by one rule, never by hand: a row of the same country, at most 15 km from the point, whose UN/LOCODE equals the port's `locode` (the nearest where several share it) or, failing that, whose name equals the port's once accents, parentheses and the words port, terminal, harbor, oil, marine, of, de and international are removed. A nearer row of another name, or a name with a parenthesis in the table, pairs nothing. One PortWatch port serves one asset: where two assets would take the same row, neither new one takes it. `python pipeline/infrastructure/portwatch_pairs.py --report` prints the pair of every port, or why it has none (the ports it cannot pair, those with no row within 15 km); `--apply` inserts the ids the rule gives, as lines of the file. `validate-infra.mjs` checks that the id is a row of the table, in the port's country, used once. |
 | `limits` | `{draught?, loa?, beam?, dwt?, depth?, seg?, cls?, at?, n, s, url, y?}` | Ports: what a page states as the largest ship or the deepest berth, in metres (draught, length overall, beam) and deadweight tonnes. `n` says which berth or channel and at which tide when stated, `s` and `url` the page, `y` the year of the statement when the page gives one. At least one of the four figures. A water depth is entered as `draught` with `depth: true` and `n` saying "depth" (the page then labels it "Depth"). Only the page's maximum is entered: a stated minimum (the least depth of a channel) is never a limit. `seg` (`dry`, `tanker` or `gas`) when the page states the limits for one kind of berth (an oil berth of a port that also loads grain); `cls`, a class id of `data/freight/vessel-classes.json`, when the page itself names the class the berths take ("for Capesize ships"); `at`, a short name of the berth or terminal when the limits are not the whole port's ("Jurong Port bulk berths"), shown on each tile. |
 | `maxClass` | `{dry?, tanker?, gas?, n}`; each segment is `{classes: [{id, orLarger?, by, basis}]}` | Ports: the class of the atlas that each segment of the port can take by its `limits`, written by `pipeline/infrastructure/port_limits.py` (never by hand). An Atlas estimate, shown as "largest class by the published limits; derived by the atlas"; `n` gives the method. Two rules. **By deadweight**: the class whose size band (`size.min` to `size.max` of `pipeline/freight/vessel_classes.json`, in dwt) holds the deadweight limit, the upper edge in and the lower edge out; above the band of the largest class of the segment it is that class "or larger" (`orLarger`); not above the smallest band, no class at all. Where bands overlap (Newcastlemax across Capesize and VLOC; Aframax and LR2 on one band) the widest band is the class, so Newcastlemax is never chosen and, on a tie, the class listed first stands. A class measured in cbm or TEU has no deadweight band. **By dimensions**: when the page gives a draught, a length or a beam (a water depth, `depth`, counts only as an upper bound of the draught), the largest class of the segment whose standard vessel (`std`) is no larger in every one of those dimensions that both give; a class whose standard vessel has none of them is not compared and `n` names it. Both rules give the same class, or only one applies: one entry, with its basis (`by` "By deadweight", "By the 14 m draught", `basis` one sentence). They disagree: two entries and no single class (Taman: VLOC by deadweight, Ultramax by the 14 m draught). A class named by the page (`limits.cls`) overrides; `limits.seg` restricts the segment; no class from a depth or a draught alone (the page must give a deadweight, a length or a beam). |
 | `prices` | list of ids | The price series of `data/prices/index.json` quoted at this place (Cushing: WTI), whatever their basis (FOB, CIF or spot at a hub): the page lists them under "Price series quoted at this place". |
@@ -187,8 +188,49 @@ give it, for the search.
 Positions and UN/LOCODEs come from the IMF PortWatch ports database (`pipeline/cache/portwatch_ports.csv`, downloaded
 once by `pipeline/infrastructure/fetch_portwatch_ports.py`; IMF terms, credited in NOTICE.md); a port that PortWatch
 does not list takes its position from OpenStreetMap or from the Wikipedia article of the terminal, and its note says
-which. The NGA World Port Index, which would give the limits of most ports, could not be downloaded (HTTP 503 in
-November 2026); the limits of a port come from the page its `limits.url` names.
+which. The limits of a port (`limits`) come from the page its `limits.url` names; the World Port Index entry of a port is
+a separate file, described next, and the two are never merged.
+
+## World Port Index entries (`wpi.json`)
+
+`data/infrastructure/wpi.json` holds, for each port asset that has a sure match, the entry of the World Port Index
+(Publication 150 of the US National Geospatial-Intelligence Agency) that the port panel prints in a block of its own, beside
+the limits of the page and under its own source. It is not a feature file: it is not one of the eight files above, the
+infrastructure checks do not read it as one, and the map never loads it (the panel fetches it when a port opens). It is not
+merged with `limits`, and no `maxClass` is derived from it.
+
+| Step | What | Where |
+|---|---|---|
+| 1 | A person downloads the CSV from the publisher's page into `raw/nga/UpdatedPub150.csv` (`raw/` is not tracked). The file holds no edition and no date, so the day it was taken and the edition, when the page states one, are typed in the extractor (`DOWNLOADED`, `EDITION`, `EDITION_PAGE`). | by hand, never by a scheduled job |
+| 2 | `.venv/bin/python -I pipeline/infrastructure/extract_wpi.py` matches the atlas's ports to the rows of the file and keeps 23 of its 109 columns for the matching ports: `pipeline/cache/wpi_ports.csv` and `pipeline/cache/wpi_meta.json` (the file's hash, the rule with its numbers, the counts, the doubtful and absent ports with their reasons, the ports whose maximum vessel is held back, the terms found). It downloads nothing; without the raw file it prints one line and leaves the cache as it is. | needs `raw/` |
+| 3 | `.venv/bin/python -I pipeline/infrastructure/wpi_limits.py` writes `data/infrastructure/wpi.json` from the two cache files alone (and the ids of `ports.geojson`). It names no path under `raw/`, stops without writing when the cache is not what the extractor writes, and gives the same bytes when run twice. | runs anywhere; `bootstrap.sh` runs it after `port_limits.py` |
+
+The three files, the cache, the meta and `wpi.json`, are one unit: they are committed together, and a change of the terms
+holds all three back, not `wpi.json` alone.
+
+The file is `{s, read, edition, ports}`: `s` is the source id (`nga-wpi`), `read` the month the file was taken (the file has no
+date of its own), `edition` the text typed at the download or `null`, `ports` an object keyed by the port asset's id. An entry
+has the publication's own `name` and number `n` for the place, its UN/LOCODE `lc` when the row has one, how the entry was
+matched (`by`: `code`, `name` or `review`; `km`, the distance from the atlas point; `why`, a sentence, if and only if the
+match was reviewed), and the columns read: `size` and `type` (the publication's classes for the harbour), `tide` (tidal range),
+the four depths `chan`, `anch`, `pier`, `oil` and `lng` (the LNG terminal), the maximum vessel `loa`, `beam`, `draft`, the same
+for offshore berths `oloa`, `obeam`, `odraft`, and the flags `pilot` (pilotage compulsory) and `tideRes` (entrance restricted
+by the tide), `Yes` or `No`. A figure is a positive number as the file gives it (a depth is one of the publication's bands; the
+page prints it as a band, this file does not turn it into text); one the file does not state is absent, never `0` or `null`; a
+flag the file marks "Unknown" is absent. The keys `s`, `y` and `v` are not used on an entry: the data check reads them as a
+source id and a figure. An entry has at least one depth or maximum-vessel figure, and a port whose match is doubtful, or has
+no match, has no entry (the counts are in `pipeline/cache/wpi_meta.json`, not typed here).
+
+The match rule is in the docstring and the constants of `extract_wpi.py` and is written to the meta. A match by UN/LOCODE or
+by name is sure only if no other row of the same country lies nearer to the atlas point than the matched row by more than a
+margin; otherwise it is doubtful. `REVIEW`, a short table of the extractor, promotes a doubtful match or holds a sure one,
+each with a sentence written by a person who opened the two rows. A maximum vessel that is not plausible as a ship (a beam
+above 40% of the length or above 70 m, or a beam with no length) is left out of its port's entry and listed in the meta
+(`held_vessel`); it is a check on the publication's figures, not an estimate. The match rule, the review table and the
+equality of the cache with the raw file can only be tested where `raw/` exists; the other tests run without it.
+
+`validate-infra.mjs` checks the shape of the file and that every entry is a port of `ports.geojson` (`validateWpi`, also
+called by `validate-data.mjs`); a missing file is a warning, since the panel then shows no block.
 
 ## What is not here
 

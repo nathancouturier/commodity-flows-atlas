@@ -180,6 +180,15 @@ updated, and the issue closes. Not watched, because there is no fixed page to wa
 fiscal-year results (a new press release each year, after the fiscal year ends on 30 September) and the Baltic
 Exchange route changes (circulars). Look for them each autumn.
 
+The standard-vessel figures (speed and fuel a day, laden and in ballast, in the `std` of each class of
+`pipeline/freight/vessel_classes.json`, copied into `data/freight/vessel-classes.json` by `build_freight.py`) are read by hand,
+from the Baltic Exchange's dry services page for the dry classes and from its Guide to Market Benchmarks for tankers and gas
+carriers. Nothing watches them. Re-read them each January, with the circulars, and whenever a circular changes a standard vessel
+(the Capesize vessel moved to 182,000 dwt on 2 January 2026): the figure, its year (`std.y`) and the sentence of `std.n`. The class
+page states them, and the voyage calculator of the route pages (`web/src/lib/voyage.ts`) starts its speed and fuel fields from
+them, so a changed figure moves the defaults of the calculator at the next build. `node web/scripts/validate-freight.mjs` fails
+a standard vessel that gives the speed or the fuel for one leg only, or whose `bench` names a class that has none.
+
 ### At each release: the routes and lanes that stay
 
 A generated route and a main lane of the last release are never put out by a cap: they stay while their corridor or their pair still exists in the

@@ -36,7 +36,7 @@ assert.equal(licenceShort('Etalab Open Licence 2.0'), 'Etalab Open Licence 2.0')
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../data');
 const registry = JSON.parse(fs.readFileSync(path.join(root, 'sources.json'), 'utf8'));
 const allowed = new Set([
-  'naturalearth', 'usgs-mcs', 'usgs-myb', 'baci', 'wb-pink', 'bls', 'dallasfed', 'nyfed', 'usda-psd', 'portwatch', 'portwatch-ports', 'nga-wpi', 'atlas', 'eia-chokepoints', 'eia-tie',
+  'naturalearth', 'usgs-mcs', 'usgs-myb', 'baci', 'wb-pink', 'bls', 'dallasfed', 'nyfed', 'usda-psd', 'portwatch', 'portwatch-ports', 'portwatch-port-traffic', 'atlas', 'eia-chokepoints', 'eia-tie',
   'eia-spot', 'eia-intl', 'faostat', 'wikipedia', 'wikipedia-vessel-classes', 'vessel-size-conventions', 'eia-ng', 'eia-cab-russia',
   'eia-refinery-capacity', 'eia-storage-capacity', 'unctadstat-fleet', 'eia-dpr', 'eia-todayinenergy', 'openstreetmap', 'wikidata', 'faostat-rfb', 'eia-cab', 'eia-company-imports',
   'eia-exports-destination', 'disr-req', 'qld-coal-sales', 'eia-coal',
@@ -52,6 +52,34 @@ for (const s of registry) {
 }
 // the World Nuclear Association table is one that is not offered
 assert.ok(refused.includes('wna'));
+// the World Port Index: the terms of the file used were not read, so its figures are cited and never offered as a file, and no text says "public domain" of it
+const wpi = registry.find((s) => s.id === 'nga-wpi');
+assert.ok(wpi && refused.includes('nga-wpi'));
+assert.ok(/terms to be confirmed/.test(wpi.licence) && /not read/.test(wpi.licence));
+assert.ok(!/public domain|open licen[cs]e|free to reuse/i.test(wpi.licence), 'the World Port Index licence text must not say public domain, open or free to reuse');
+
+// The three PortWatch entries carry the same permission, so that the CSV of a port series is offered as the CSV of a chokepoint series is: the IMF's
+// special terms for statistical data, which the atlas applies to PortWatch (the page lists examples and does not name it). None says that the data
+// are in the public domain, openly licensed or free to reuse; the port series also states the sentence on bulk download and that applying the terms is the atlas's reading.
+const pw = ['portwatch', 'portwatch-ports', 'portwatch-port-traffic'].map((id) => {
+  const s = registry.find((x) => x.id === id);
+  assert.ok(s, `${id} is in the registry`);
+  return s;
+});
+for (const s of pw) {
+  assert.ok(licenceAllows(s.licence), `${s.id} must carry the IMF permission`);
+  assert.equal(licenceShort(s.licence), 'IMF terms of use for statistical data', s.id);
+  assert.ok(s.licence.startsWith('IMF terms of use for statistical data'), `${s.id} licence text starts with the words of the IMF permission`);
+  assert.ok(/commercial reuse needs IMF permission/.test(s.licence) && /no Creative Commons licence stated/i.test(s.licence), `${s.id} states the commercial limit and that no Creative Commons licence is stated`);
+  assert.ok(/IMF PortWatch \(IMF and University of Oxford\)/.test(s.licence), `${s.id} carries the credit words`);
+  assert.ok(!/public domain|open licen[cs]e|\bCC BY|\bCC0\b|free to reuse/i.test(s.licence), `${s.id}: the IMF data are not called public domain, openly licensed, CC BY or free to reuse`);
+}
+const traffic = pw[2];
+assert.ok(/prohibits bulk download of information by automated technology without explicit permission/.test(traffic.licence), 'the port series quotes the IMF sentence on bulk download');
+assert.ok(/does not name PortWatch/.test(traffic.licence) && /atlas's reading/.test(traffic.licence));
+assert.ok(/Copyright-and-Terms/.test(traffic.licence) && /25 November 2026/.test(traffic.licence), 'the port series cites the page and the date it was read');
+assert.ok(/Daily_Ports_Data/.test(traffic.name) && /83b1bbc7b3354c5fb1f40673bb8f852e/.test(traffic.url), 'the port series carries the dataset name and the address of its item');
+assert.equal(traffic.update, 'weekly');
 
 // The Public-Use Statement of the Census Bureau covers an estimate made from its data, not a row of its file: no table or file of the site
 // may carry a row whose own source (`s`) is census-exports. The estimate names it as an input only (the lanes' histSrc, a note).

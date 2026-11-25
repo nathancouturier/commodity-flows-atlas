@@ -88,6 +88,7 @@ const TRACKED: Tracked[] = [
   { key: 'dallasfed', sources: ['dallasfed'], kind: 'month', maxAge: WEEKLY },
   { key: 'nyfed', sources: ['nyfed'], kind: 'month', maxAge: WEEKLY },
   { key: 'portwatch', sources: ['portwatch'], kind: 'day', maxAge: WEEKLY },
+  { key: 'portwatch-port-traffic', sources: ['portwatch-port-traffic'], kind: 'day', maxAge: WEEKLY },
   { key: 'baci', sources: ['baci'], kind: 'year', maxAge: MONTHLY, manual: true },
   { key: 'usgs-mcs', sources: ['usgs-mcs'], kind: 'edition', maxAge: MONTHLY },
   { key: 'usda-psd', sources: ['usda-psd'], kind: 'marketing-year', maxAge: MONTHLY },

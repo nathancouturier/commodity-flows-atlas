@@ -430,7 +430,7 @@ verdict (redistribute, cite a few facts, link only).
 
 | Source | Position |
 |---|---|
-| IMF PortWatch | Only the atlas's own weekly averages and comparisons are published, with credit; the daily rows are a working file kept out of git. The identity and position of about 2,000 ports (ports database) are kept and used with credit. See below. |
+| IMF PortWatch | Only the atlas's own weekly averages and comparisons are published, with credit (and, for the ports, weekly sums, see below); the daily rows are a working file kept out of git. The identity and position of about 2,000 ports (ports database) are kept and used with credit. See below. |
 | Baltic Exchange route names and definitions | Names and codes of the benchmark routes and their public definitions are used as facts. No index value or rate is shown. Not affiliated with the Baltic Exchange. |
 | GIIGNL and other association reports | A few cited figures with attribution. No table, text or file is redistributed. |
 | World Steel Association, World Gold Council, International Cocoa Organization, International Gas Union | One world total each (crude steel production, gold mine production, cocoa bean production, LNG trade), with publisher, year and link, beside the atlas's own table. Their tables are not copied. |
@@ -438,7 +438,7 @@ verdict (redistribute, cite a few facts, link only).
 | Norwegian Offshore Directorate (FactMaps) | The outline and status of two fields, cited with attribution. Its licence page could not be read: terms not read. |
 | Cochilco (Chilean copper export tables) | Used only to check the atlas's estimate of Chilean copper concentrate (METHODOLOGY.md, section 1); none of its figures is published. Licence not confirmed. |
 | Press reports (Bloomberg via gCaptain, Cyprus Mail, GMK Center and others) | Short facts with a link to the article. No article text is copied. |
-| Panama Canal Authority, Suez Canal Authority, port authorities | Published statistics and transit limits are cited as facts with attribution. No licence is stated on the pages; terms to be confirmed. |
+| Panama Canal Authority, Suez Canal Authority, port authorities | Published statistics and transit limits are cited as facts with attribution. No licence is stated on the pages; terms to be confirmed. Their toll tariffs are linked from the voyage calculator of the route pages and not copied (see below). |
 | Company reports | Facts cited with a link to the report. |
 | World Nuclear Association | Annual uranium production figures cited with attribution. Terms to be confirmed. |
 
@@ -486,6 +486,30 @@ the owner's.
 The CC BY 4.0 release of the atlas's own figures does not extend IMF's rights: the weekly averages stay subject to
 the IMF conditions above.
 
+Port traffic. For the ports of the infrastructure layer that have a PortWatch port, the atlas builds a weekly series from
+PortWatch's daily table of port calls and estimated trade volumes (ArcGIS item "Daily_Ports_Data", registry id
+`portwatch-port-traffic`; the licence field of the item points to the same IMF terms of use as the two other PortWatch items,
+read in the item's metadata on 25 November 2026). What the atlas publishes of it, in `data/freight/port-traffic/` (one file
+per PortWatch port, written by the series' first load): the weekly sums, Monday to Sunday and complete weeks only, of the
+daily port calls and of PortWatch's estimated import and export tonnes, by ship type (tanker, dry bulk, container, and other,
+which is general cargo and ro-ro together). Credit line: **IMF PortWatch (IMF and University of Oxford), data adapted**; the
+item's own recommended citation is "Sources: UN Global Platform; IMF PortWatch (portwatch.imf.org)" (the UN Global Platform
+supplies the ship signals: nothing of it is taken). The transformation, stated as the IMF's terms ask: the daily figures are
+added into weeks; the atlas adds the ship types itself and does not use the table's own total columns; the tonnes are rounded
+to the unit each file states; and the tonnes are PortWatch's estimate, made from each ship's dimensions and draught on
+entering and leaving the port boundary, not a customs or port-authority statistic. What the atlas does not publish or keep:
+no daily row, no vessel, no position or track, no time finer than a day. No row of the table is kept in the repository (no
+file under `pipeline/cache/`, nothing under `raw/`) or as a workflow artifact: the published weekly files are the only state
+that the weekly step reads back. Pace: the same as for the chokepoint table, one request at a time with a pause of 8 to 14
+seconds before the next (the script's reading of the owner's rule of 25 November 2026, not his figure), the first load in
+small sittings and each weekly run reading only recent weeks of the ports and a longer stretch of a part of them in turn; the
+counts of requests are those of the script and of `docs/UPDATING.md`. The terms are those quoted above, with the same two
+open points (PortWatch is not named among the page's examples of statistical data; the sentence on bulk download), which
+now cover the chokepoint series, the ports database and the port series alike. The CSV of a port series is offered as the CSV
+of a chokepoint series is, with its source and licence columns, because the registry licence text of the three PortWatch
+entries opens with the same words: a choice made without the owner, listed in PROGRESS.md (he was asked how PortWatch is read
+by script, not about the CSV).
+
 Ports database. The ports of the infrastructure layer take their position and UN/LOCODE from the PortWatch ports
 database (ArcGIS item "Ports", PortWatch_ports_database), whose licence field points to the same IMF terms of use as
 the chokepoint tables (read on 23 November 2026). The atlas keeps the identity of each port (PortWatch port id, name,
@@ -500,6 +524,38 @@ C3, TD3C, BLNG1), their definitions and the standard vessels are taken from the 
 Benchmarks (version 7.09, December 2025), its service pages and its circulars, stated as facts in the atlas's own
 words; the pages read are listed in `pipeline/freight/NOTES_routes.md`. The Baltic
 indices and rate assessments are proprietary and are not shown.
+
+The voyage calculator of the route pages computes, in the visitor's browser, with the speed and fuel of the standard vessels
+that the class pages already state, on figures the visitor types. The atlas stores and publishes no figure derived from them,
+and what the calculator gives is not a Baltic Exchange value. This is a new use of figures already on the site, and a choice made
+without the owner, listed in PROGRESS.md. What the Baltic Exchange's pages say, read on 25 November 2026:
+
+- Terms and Conditions, clause 5.1 (https://www.balticexchange.com/en/site-services/terms-and-conditions.html): no part of the
+  website or its content "may be copied or reproduced (except for your personal use), shared with third parties, reverse
+  engineered, reverse assembled, or used to create any derivative work (whether in physical or electronic form) without the
+  prior written consent of the Baltic except to the extent specifically permitted under the terms of the level of your
+  subscription for Baltic Data as set out in the Baltic Data Policy".
+- Data Policy (https://www.balticexchange.com/en/site-services/data-policy.html): subscribers "have access to a range of
+  indices and other market data produced by the Baltic" (clause 1.2); the holder of a Restricted Baltic Data Licence shall not
+  "display Baltic Data on any intranet or public website" and shall not "use or permit their clients to use Baltic Data to create
+  derived data, including pricing data or other information that would be created in whole or in part from Baltic Data" (clause
+  2.2.3; clauses 2.3.3 and 4.2 are close in wording).
+
+Neither page says whether the descriptions of the standard vessels are Baltic Data, or whether a reader without a licence is
+bound by the policy: that is not settled. The method is in METHODOLOGY.md, section 3, "Voyage calculator".
+
+### Canal authorities (toll tariffs)
+
+The voyage calculator has a field for the canal tolls of a round voyage, which the visitor types. Beside it, when the routing
+chosen crosses the canal, it links the Panama Canal Authority's tariff
+(https://pancanal.com/en/maritime-services/maritime-tariff/) and the Suez Canal Authority's tolls table
+(https://www.suezcanal.gov.eg/English/Navigation/Tolls/Pages/TollsTable.aspx). No figure of either tariff is copied, stored or
+shown: the pages are credited as linked, not copied, and they are not entries of the registry of sources, which lists the
+sources of figures. Read on 25 November 2026: the Panama Canal Authority's Terms of Use (https://pancanal.com/en/terms-of-use/)
+say that "their copying, distribution, transmission, reproduction or publication for commercial or lucrative purposes is
+prohibited" and that their use for such purposes "requires prior express authorization from the Panama Canal Authority"; the
+Suez Canal Authority's pages carry "Copyright 2017 | All Right Reserved Suez Canal Authority" and no page read states terms of
+reuse. Terms to be confirmed.
 
 ## Use of the data
 

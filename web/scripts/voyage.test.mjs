@@ -24,7 +24,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
-import { emptyInputs, formatDays, formatUsd, MARKET_FIELDS, OPTIONAL_FIELDS, parseField, parseNumber, routingOptions, standardVessel, tollCanals, voyage, voyageDefaults, voyageEligible } from '../src/lib/voyage.ts';
+import { emptyInputs, FIELD_LABEL, formatDays, formatUsd, MARKET_FIELDS, OPTIONAL_FIELDS, parseField, parseNumber, routingOptions, standardVessel, tollCanals, voyage, voyageDefaults, voyageEligible } from '../src/lib/voyage.ts';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const data = (rel) => JSON.parse(fs.readFileSync(path.join(here, '../../data', rel), 'utf8'));
@@ -429,4 +429,139 @@ test('the block says it is a calculation, has no placeholder text, and its resul
   for (const tile of tiles) assert.ok(!/\b(?:s|y|f)=/.test(tile), `a result tile cites a source: ${tile}`);
   // a toll figure is never typed into the block: the canal authorities' own pages are linked, nothing else is
   assert.deepEqual([...text.matchAll(/https?:\/\/[^'"\s]+/g)].map((m) => new URL(m[0]).hostname).sort(), ['pancanal.com', 'www.suezcanal.gov.eg']);
+});
+
+// ---- the method text and the credits say what the code does
+// METHODOLOGY.md ("Voyage calculator"), NOTICE.md, the registry and the About window are read here, so that a change of the code
+// that the texts do not follow fails this file.
+const root = path.join(here, '../..');
+const read = (rel) => fs.readFileSync(path.join(root, rel), 'utf8');
+const oneLine = (s) => s.replace(/\s+/g, ' ');
+const methodText = (() => {
+  const m = read('METHODOLOGY.md');
+  const start = m.indexOf('\n### Voyage calculator\n');
+  assert.ok(start > 0, 'METHODOLOGY.md has the subsection "Voyage calculator"');
+  const end = m.indexOf('\n## ', start);
+  return m.slice(start, end);
+})();
+const methodFlat = oneLine(methodText);
+/** The name a field has in a sentence: its label up to the first comma, in lower case ("Canal tolls, round voyage, USD" is "canal tolls"). */
+const nameOf = (f) => FIELD_LABEL[f].split(',')[0].toLowerCase();
+const listAfter = (re) => {
+  const m = re.exec(methodFlat);
+  assert.ok(m, `the method text has ${re}`);
+  return m[1].split(/, /);
+};
+
+test('the formulas of the method text, evaluated, give the results of the code', () => {
+  const block = /```\n([\s\S]*?)```/.exec(methodText);
+  assert.ok(block, 'a block of formulas');
+  const r = route('C3');
+  // the figures typed into the test's calculator, with a toll so that the term is not zero
+  const i = { ...voyageDefaults(r, null, classes).values, ...TYPED, tollsUsd: 250000 };
+  const vars = { Q: i.cargoT, Dl: i.ladenNm, Db: i.ballastNm, vl: i.ladenKn, vb: i.ballastKn, cl: i.ladenFuel, cb: i.ballastFuel, P: i.portDays,
+    Fp: i.portFuelT, p: i.bunkerUsdPerT, H: i.hireUsdPerDay, F: i.freightUsdPerT, tolls: i.tollsUsd, portcosts: i.portCostsUsd };
+  const got = {};
+  let lines = 0;
+  for (const line of block[1].split('\n').filter((l) => l.trim())) {
+    const m = /^(\w+)\s*=\s*(.+?)(?:\s{2,}\S.*)?$/.exec(line);
+    assert.ok(m, `a formula line: ${line}`);
+    const scope = { ...vars, ...got };
+    got[m[1]] = new Function(...Object.keys(scope), `return (${m[2]});`)(...Object.values(scope));
+    lines++;
+  }
+  assert.equal(lines, 8, 'eight formulas');
+  const res = voyage(i);
+  near(got.Sl, res.ladenDays, 'Sl');
+  near(got.Sb, res.ballastDays, 'Sb');
+  near(got.T, res.days, 'T');
+  near(got.M, res.fuelT, 'M');
+  near(got.B, res.bunkersUsd, 'B');
+  near(got.X, res.extrasUsd, 'X');
+  near(got.freight, res.freight.usdPerT, 'freight');
+  near(got.TCE, res.tce.usdPerDay, 'TCE');
+});
+
+test('the method text lists what is counted as zero and what has no default as the code does', () => {
+  assert.deepEqual(listAfter(/Counted as zero when empty: ([^.]+)\./), OPTIONAL_FIELDS.map(nameOf));
+  assert.deepEqual(listAfter(/No default: ([^.]+)\. They are typed/), MARKET_FIELDS.map(nameOf));
+  // what the form shows as not entered is the same list, minus the tolls of a route that crosses no canal
+  const r = eligible.find((x) => voyageDefaults(x, null, classes).canals.length === 0);
+  assert.deepEqual(voyage(voyageDefaults(r, null, classes).values, OPTIONAL_FIELDS.filter((f) => f !== 'tollsUsd')).excluded, ['portDays', 'portFuelT', 'portCostsUsd']);
+});
+
+test('the reasons a route has no block, in the method text, are the ones the code applies', () => {
+  const m = /A route has none when it is: (.+?) \(freight is per TEU/.exec(methodFlat);
+  assert.ok(m, 'the sentence of the reasons');
+  const reasons = m[1].split('; ');
+  const REASON = [
+    [/round-voyage/, (r) => r.roundVoyage],
+    [/time-charter trip/, (r) => r.definition?.tc || r.definition?.duration],
+    [/drawn as its laden leg/, (r) => r.drawnAs],
+    [/stand-in trace or an ended benchmark/, (r) => r.standIn || r.discontinued],
+  ];
+  assert.equal(reasons.length, REASON.length + 1, 'five reasons, the container route last');
+  REASON.forEach(([re], k) => assert.match(reasons[k], re));
+  assert.match(m[1].split('; ').at(-1), /container/);
+  const named = (r) => REASON.some(([, f]) => f(r)) || r.vclass === 'container';
+  for (const r of routes) assert.equal(voyageEligible(r), !named(r), `${r.id}: eligible exactly when none of the reasons of the text holds`);
+  for (const [re, f] of REASON) assert.ok(routes.some(f), `a route of the reason ${re}`);
+  assert.ok(routes.some((r) => r.vclass === 'container'));
+});
+
+test('the standard vessels the method text names are the ones the code uses', () => {
+  // the class that takes the standard vessel of another
+  const pairs = classes
+    .filter((c) => c.bench && !legs(c.std) && legs(classOf(c.bench.id)?.std))
+    .map((c) => `${c.name}: ${classOf(c.bench.id).name}`)
+    .sort();
+  assert.deepEqual(listAfter(/takes that of the class its benchmark names \(([^)]+)\)/)[0].split('; ').sort(), pairs);
+  // the classes whose standard vessel gives a speed and no fuel default
+  const noFuel = classes.filter((c) => { const v = standardVessel({ vclass: c.id }, classes); return v && !v.fuel; }).map((c) => c.id);
+  assert.deepEqual(noFuel, ['lng']);
+  assert.ok(methodFlat.includes('The LNG carrier takes its speed but no fuel'));
+  // the classes of eligible routes with no standard vessel at all
+  const none = [...new Set(eligible.filter((r) => !standardVessel(r, classes)).map((r) => classOf(r.vclass).name.toLowerCase()))].sort();
+  assert.ok(none.length > 0);
+  const m = /\(the ([^)]+)\) takes the laden speed assumed/.exec(methodFlat);
+  assert.ok(m, 'the sentence of the classes with none');
+  assert.deepEqual(m[1].split(/, the /).sort(), none);
+});
+
+test('the texts say it is not a market rate, not a quote and not a Baltic Exchange assessment, as the block does', () => {
+  const block = read('web/src/components/views/RouteVoyage.tsx');
+  assert.ok(block.includes('not a market rate or a quote, and not a Baltic Exchange assessment'));
+  assert.ok(methodFlat.includes('not a market rate, not a quote and not a Baltic Exchange assessment'));
+  assert.ok(methodFlat.includes('"Freight to cover the hire" and "Time-charter equivalent"'));
+  for (const label of ['Freight to cover the hire', 'Time-charter equivalent']) assert.ok(block.includes(`label="${label}"`), label);
+  const about = oneLine(read('web/src/components/AboutDialog.tsx'));
+  assert.ok(about.includes('The voyage calculator of a route page is a calculation on figures the visitor types'));
+  assert.ok(about.includes('not a market rate and not a Baltic Exchange assessment'));
+});
+
+test('the canal authorities are credited where the block links them, and are not entries of the registry', () => {
+  const block = read('web/src/components/views/RouteVoyage.tsx');
+  const urls = [block.match(/SUEZ_URL = '([^']+)'/)[1], block.match(/PANAMA_URL = '([^']+)'/)[1]];
+  const notice = oneLine(read('NOTICE.md'));
+  for (const url of urls) {
+    assert.ok(notice.includes(url), `NOTICE.md credits ${url}`);
+    assert.ok(methodFlat.includes(url), `the method text names ${url}`);
+  }
+  // linked pages are not sources of figures: the registry counts every entry as one in the About window
+  const registry = data('sources.json');
+  for (const s of registry) assert.ok(!urls.includes(s.url), `${s.id} is a linked page`);
+  // no toll figure is typed in the code, the texts or the registry for them: the pages are linked, not copied
+  assert.ok(!/\$\s?\d/.test(oneLine(methodText.split('Canal tolls.')[1].split('The Baltic Exchange')[0])));
+});
+
+test('the registry entry of the Baltic Exchange names the calculator and keeps the clause of its terms', () => {
+  const baltic = data('sources.json').find((s) => s.id === 'baltic');
+  assert.match(baltic.use, /voyage calculator/);
+  assert.match(baltic.use, /stores and publishes no figure derived/);
+  assert.ok(baltic.licence.includes('without the prior written consent of the Baltic'));
+  assert.match(data('sources.json').find((s) => s.id === 'atlas').use, /voyage calculator/);
+  const notice = oneLine(read('NOTICE.md'));
+  for (const clause of ['clause 5.1', 'Data Policy', 'read on 25 November 2026', 'that is not settled', 'a choice made without the owner, listed in PROGRESS.md']) {
+    assert.ok(notice.includes(clause) || methodFlat.includes(clause), `NOTICE.md or the method text says "${clause}"`);
+  }
 });

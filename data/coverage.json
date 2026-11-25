@@ -1,0 +1,1015 @@
+{
+ "version": 1,
+ "release": 7,
+ "blocks": [
+  {
+   "id": "production",
+   "label": "Production",
+   "text": "A production table with at least one row."
+  },
+  {
+   "id": "reserves",
+   "label": "Reserves",
+   "text": "A reserves table with at least one row."
+  },
+  {
+   "id": "consumption",
+   "label": "Consumption",
+   "text": "A consumption table with at least one row."
+  },
+  {
+   "id": "trade",
+   "label": "Trade",
+   "text": "An exports table and an imports table, each with at least one row."
+  },
+  {
+   "id": "lanes",
+   "label": "Lanes",
+   "text": "At least one sea lane."
+  },
+  {
+   "id": "routes",
+   "label": "Routes",
+   "text": "At least one route that carries the commodity. It counts the Atlas corridors generated from customs pairs as well as the benchmark routes and the routes written by hand."
+  },
+  {
+   "id": "price",
+   "label": "Price",
+   "text": "At least one price series."
+  },
+  {
+   "id": "assets",
+   "label": "Assets",
+   "text": "At least one infrastructure asset."
+  },
+  {
+   "id": "companies",
+   "label": "Companies",
+   "text": "At least one company entry."
+  },
+  {
+   "id": "monthly",
+   "label": "Monthly",
+   "text": "A monthly series.",
+   "families": [
+    "energy"
+   ]
+  },
+  {
+   "id": "balance",
+   "label": "Balance",
+   "text": "A balance of stocks and use, with at least one row.",
+   "families": [
+    "softs"
+   ]
+  }
+ ],
+ "reasons": {
+  "reserves-agricultural": {
+   "st": "na",
+   "t": "Reserves count what lies in the ground. This is grown and harvested again, so none is counted."
+  },
+  "reserves-refined": {
+   "st": "na",
+   "t": "Reserves are counted for crude oil and natural gas, not for what is refined, separated or liquefied from them."
+  },
+  "reserves-made-from-ore": {
+   "st": "na",
+   "t": "Reserves are counted for the ore in the ground, not for the metal or the alloy made from it."
+  },
+  "reserves-scrap": {
+   "st": "na",
+   "t": "Scrap is recovered from used metal, not mined: there is no deposit to count."
+  },
+  "reserves-urea": {
+   "st": "na",
+   "t": "Urea is made in plants from ammonia: no deposit is counted for it."
+  },
+  "reserves-compound-fertiliser": {
+   "st": "na",
+   "t": "A compound fertiliser is made in plants: reserves are counted for phosphate rock and potash, on their own pages."
+  },
+  "lanes-by-air": {
+   "st": "na",
+   "t": "These metals move mostly by air, so the atlas draws no sea lanes for them."
+  },
+  "lanes-gas": {
+   "st": "na",
+   "t": "Gas is traded by pipeline, or by sea as LNG: the sea lanes are on the LNG page."
+  },
+  "routes-no-lanes": {
+   "st": "na",
+   "t": "No sea lanes are drawn for it, so there is no sea route."
+  },
+  "balance-fertiliser": {
+   "st": "na",
+   "t": "The balance of stocks and use is a table of crops; a fertiliser is not a crop."
+  }
+ },
+ "pages": [
+  {
+   "id": "crude-oil",
+   "cells": {
+    "production": "p",
+    "reserves": "m",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "monthly": "p"
+   }
+  },
+  {
+   "id": "refined-products",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-refined",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "monthly": "p"
+   }
+  },
+  {
+   "id": "lng",
+   "cells": {
+    "production": "m",
+    "reserves": "na:reserves-refined",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "monthly": "m"
+   }
+  },
+  {
+   "id": "natural-gas",
+   "cells": {
+    "production": "p",
+    "reserves": "m",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "na:lanes-gas",
+    "routes": "na:routes-no-lanes",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "monthly": "m"
+   }
+  },
+  {
+   "id": "lpg",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-refined",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "monthly": "p"
+   }
+  },
+  {
+   "id": "thermal-coal",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "monthly": "m"
+   }
+  },
+  {
+   "id": "uranium",
+   "cells": {
+    "production": "p",
+    "reserves": "m",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "m",
+    "routes": "m",
+    "price": "m",
+    "assets": "p",
+    "companies": "p",
+    "monthly": "m"
+   }
+  },
+  {
+   "id": "iron-ore",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "met-coal",
+   "cells": {
+    "production": "p",
+    "reserves": "m",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "m",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "steel",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-made-from-ore",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "m",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "ferrous-scrap",
+   "cells": {
+    "production": "m",
+    "reserves": "na:reserves-scrap",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "m",
+    "companies": "m"
+   }
+  },
+  {
+   "id": "pig-iron",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-made-from-ore",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "m",
+    "assets": "m",
+    "companies": "m"
+   }
+  },
+  {
+   "id": "copper",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "aluminium",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-made-from-ore",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "m",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "bauxite",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "nickel",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "zinc",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "m",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "lead",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "m",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "tin",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "m",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "lithium",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "cobalt",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "m",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "rare-earths",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "m",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "manganese",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "chromium",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "m",
+    "companies": "m"
+   }
+  },
+  {
+   "id": "ferro-alloys",
+   "cells": {
+    "production": "m",
+    "reserves": "na:reserves-made-from-ore",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "m",
+    "companies": "m"
+   }
+  },
+  {
+   "id": "molybdenum",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "m",
+    "routes": "m",
+    "price": "p",
+    "assets": "m",
+    "companies": "m"
+   }
+  },
+  {
+   "id": "graphite",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "m",
+    "routes": "m",
+    "price": "p",
+    "assets": "m",
+    "companies": "m"
+   }
+  },
+  {
+   "id": "gold",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "na:lanes-by-air",
+    "routes": "na:routes-no-lanes",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "silver",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "na:lanes-by-air",
+    "routes": "na:routes-no-lanes",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "pgm",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "na:lanes-by-air",
+    "routes": "na:routes-no-lanes",
+    "price": "p",
+    "assets": "p",
+    "companies": "p"
+   }
+  },
+  {
+   "id": "wheat",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "corn",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "barley",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "m",
+    "companies": "m",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "sorghum",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "m",
+    "companies": "m",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "soybeans",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "soymeal",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "soyoil",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "rice",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "pulses",
+   "cells": {
+    "production": "m",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "m",
+    "assets": "m",
+    "companies": "m",
+    "balance": "m"
+   }
+  },
+  {
+   "id": "sugar",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "coffee",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "cocoa",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "m"
+   }
+  },
+  {
+   "id": "cotton",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "palm-oil",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "sunflower",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "m",
+    "companies": "m",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "rapeseed",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-agricultural",
+    "consumption": "p",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "p"
+   }
+  },
+  {
+   "id": "potash",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "na:balance-fertiliser"
+   }
+  },
+  {
+   "id": "phosphate",
+   "cells": {
+    "production": "p",
+    "reserves": "p",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "na:balance-fertiliser"
+   }
+  },
+  {
+   "id": "urea",
+   "cells": {
+    "production": "p",
+    "reserves": "na:reserves-urea",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "p",
+    "companies": "p",
+    "balance": "na:balance-fertiliser"
+   }
+  },
+  {
+   "id": "sulphur",
+   "cells": {
+    "production": "p",
+    "reserves": "m",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "p",
+    "assets": "m",
+    "companies": "m",
+    "balance": "na:balance-fertiliser"
+   }
+  },
+  {
+   "id": "npk",
+   "cells": {
+    "production": "m",
+    "reserves": "na:reserves-compound-fertiliser",
+    "consumption": "m",
+    "trade": "p",
+    "lanes": "p",
+    "routes": "p",
+    "price": "m",
+    "assets": "m",
+    "companies": "m",
+    "balance": "na:balance-fertiliser"
+   }
+  }
+ ],
+ "work": {
+  "crude-oil": [
+   "reserves"
+  ],
+  "iron-ore": [
+   "consumption"
+  ],
+  "thermal-coal": [
+   "monthly"
+  ],
+  "lng": [
+   "production",
+   "consumption",
+   "monthly"
+  ],
+  "steel": [
+   "price"
+  ],
+  "bauxite": [
+   "consumption"
+  ],
+  "ferrous-scrap": [
+   "production",
+   "consumption",
+   "assets",
+   "companies"
+  ],
+  "nickel": [
+   "consumption"
+  ],
+  "urea": [
+   "consumption"
+  ],
+  "sulphur": [
+   "reserves",
+   "consumption",
+   "assets",
+   "companies"
+  ],
+  "manganese": [
+   "consumption"
+  ],
+  "potash": [
+   "consumption"
+  ],
+  "phosphate": [
+   "consumption"
+  ],
+  "barley": [
+   "assets",
+   "companies"
+  ],
+  "met-coal": [
+   "reserves",
+   "price"
+  ],
+  "aluminium": [
+   "routes"
+  ],
+  "chromium": [
+   "consumption",
+   "assets",
+   "companies"
+  ],
+  "pulses": [
+   "production",
+   "consumption",
+   "price",
+   "assets",
+   "companies",
+   "balance"
+  ],
+  "npk": [
+   "production",
+   "consumption",
+   "price",
+   "assets",
+   "companies"
+  ],
+  "pig-iron": [
+   "consumption",
+   "price",
+   "assets",
+   "companies"
+  ],
+  "sorghum": [
+   "assets",
+   "companies"
+  ],
+  "zinc": [
+   "consumption",
+   "routes"
+  ],
+  "ferro-alloys": [
+   "production",
+   "consumption",
+   "assets",
+   "companies"
+  ],
+  "cocoa": [
+   "consumption",
+   "balance"
+  ],
+  "lead": [
+   "consumption",
+   "routes"
+  ],
+  "sunflower": [
+   "assets",
+   "companies"
+  ],
+  "cobalt": [
+   "consumption",
+   "routes"
+  ],
+  "lithium": [
+   "consumption"
+  ],
+  "tin": [
+   "consumption",
+   "routes"
+  ],
+  "rare-earths": [
+   "consumption",
+   "routes"
+  ],
+  "natural-gas": [
+   "reserves",
+   "monthly"
+  ],
+  "uranium": [
+   "reserves",
+   "consumption",
+   "lanes",
+   "routes",
+   "price",
+   "monthly"
+  ],
+  "molybdenum": [
+   "consumption",
+   "lanes",
+   "routes",
+   "assets",
+   "companies"
+  ],
+  "graphite": [
+   "consumption",
+   "lanes",
+   "routes",
+   "assets",
+   "companies"
+  ],
+  "gold": [
+   "consumption"
+  ],
+  "silver": [
+   "consumption"
+  ],
+  "pgm": [
+   "consumption"
+  ]
+ }
+}

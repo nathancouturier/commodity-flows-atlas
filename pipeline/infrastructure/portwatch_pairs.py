@@ -34,6 +34,9 @@ import re
 import sys
 import unicodedata
 
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), ".."))
+from common import constants as CN  # noqa: E402  (the Earth radius, with the page that gives it)
+
 ROOT = os.path.abspath(os.path.join(os.path.dirname(os.path.abspath(__file__)), "..", ".."))
 PORTS = os.path.join(ROOT, "data", "infrastructure", "ports.geojson")
 TABLE = os.path.join(ROOT, "pipeline", "cache", "portwatch_ports.csv")
@@ -42,10 +45,10 @@ STOP_WORDS = r"\b(port|of|de|terminal|harbor|oil|marine|international)\b"
 
 
 def km_between(lat1, lon1, lat2, lon2):
-    """Great-circle distance in km (haversine, Earth radius 6371 km)."""
+    """Great-circle distance in km (haversine, with the mean Earth radius of common/constants.py)."""
     p = math.pi / 180
     x = math.sin((lat2 - lat1) * p / 2) ** 2 + math.cos(lat1 * p) * math.cos(lat2 * p) * math.sin((lon2 - lon1) * p / 2) ** 2
-    return 2 * 6371 * math.asin(math.sqrt(x))
+    return 2 * CN.EARTH_RADIUS_KM * math.asin(math.sqrt(x))
 
 
 def norm(name):

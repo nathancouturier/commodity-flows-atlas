@@ -96,7 +96,7 @@
   "url": "https://portwatch.imf.org/",
   "licence": "IMF terms of use for statistical data: attribution to the IMF, transformations stated, commercial reuse needs IMF permission; no Creative Commons licence stated. Credit: IMF PortWatch (IMF and University of Oxford), data adapted",
   "update": "weekly",
-  "access": "ArcGIS feature service Daily_Chokepoints_Data, paged; each week only the days after the last one stored, the whole table once a month. The verbatim daily rows are a working file kept between runs outside git, not published",
+  "access": "ArcGIS feature service Daily_Chokepoints_Data, paged; each week only the days after the last one stored, the whole table once a month. One request at a time, 8 to 14 seconds apart: the script's reading of the owner's rule of 25 November 2026 to read PortWatch slowly and in small pieces. The verbatim daily rows are a working file kept between runs outside git, not published",
   "use": "Chokepoint transit counts and trade volume estimates since 2019, published only as the atlas's own weekly averages, a 28-day average and comparisons with the same days a year earlier and the 2023 average"
  },
  {
@@ -106,8 +106,18 @@
   "url": "https://portwatch.imf.org/",
   "licence": "IMF terms of use for statistical data (the same as the chokepoint tables): attribution to the IMF, transformations stated, commercial reuse needs IMF permission; no Creative Commons licence stated. Credit: IMF PortWatch (IMF and University of Oxford)",
   "update": "irregular",
-  "access": "ArcGIS feature service PortWatch_ports_database, downloaded once by pipeline/infrastructure/fetch_portwatch_ports.py; the port id, name, country, UN/LOCODE, position and page id of each port are kept in pipeline/cache/portwatch_ports.csv",
+  "access": "ArcGIS feature service PortWatch_ports_database, downloaded once by pipeline/infrastructure/fetch_portwatch_ports.py, one request at a time and at least 8 seconds apart (the script's reading of the owner's rule of 25 November 2026 to read PortWatch slowly and in small pieces); the port id, name, country, UN/LOCODE, position and page id of each port are kept in pipeline/cache/portwatch_ports.csv",
   "use": "Ports of the infrastructure layer: position and UN/LOCODE, and the link to each port's PortWatch page. No vessel count or traffic figure is used"
+ },
+ {
+  "id": "portwatch-port-traffic",
+  "name": "IMF PortWatch port calls and estimated trade volumes (Daily_Ports_Data; Atlas weekly sums of IMF PortWatch daily figures)",
+  "publisher": "IMF and University of Oxford",
+  "url": "https://www.arcgis.com/sharing/rest/content/items/83b1bbc7b3354c5fb1f40673bb8f852e?f=json",
+  "licence": "IMF terms of use for statistical data (the same as the chokepoint tables and the ports database): the IMF's page (https://www.imf.org/en/About/Copyright-and-Terms, read 25 November 2026) allows the reuse of \"published statistical data produced or curated by the IMF\" with attribution to the IMF as the source and an explicit statement of any transformation; commercial reuse needs IMF permission. The page lists examples and does not name PortWatch: applying these terms to PortWatch is the atlas's reading, not a sentence of the page. The page also says that the IMF \"prohibits bulk download of information by automated technology without explicit permission\"; the owner decided on 25 November 2026 that the atlas reads PortWatch slowly, in small pieces, one request at a time, and credits it (NOTICE.md). No Creative Commons licence stated. Credit: IMF PortWatch (IMF and University of Oxford), data adapted; the item's recommended citation is \"Sources: UN Global Platform; IMF PortWatch (portwatch.imf.org)\"",
+  "update": "weekly",
+  "access": "ArcGIS feature service Daily_Ports_Data (item 83b1bbc7b3354c5fb1f40673bb8f852e, https://services9.arcgis.com/weJ1QsnbMYJlCHdG/arcgis/rest/services/Daily_Ports_Data/FeatureServer), asked for one port or a few ports at a time, one request at a time, 8 to 14 seconds apart (the script's reading of the owner's rule of 25 November 2026). The first load is made in sittings of a few ports, and each weekly run reads the recent weeks of every port and a longer stretch of part of the ports in turn. No daily row is kept in the repository, in a cache or as a workflow artifact",
+  "use": "Weekly port calls and PortWatch's estimated import and export tonnes of each port of the infrastructure layer that has a PortWatch port, by ship type (tanker, dry bulk, container, other = general cargo and ro-ro), published only as the atlas's own weekly sums: Monday to Sunday, complete weeks only, the types added by the atlas and not taken from the source's total columns, tonnes rounded to the unit each file states"
  },
  {
   "id": "eia-storage-capacity",
@@ -124,10 +134,10 @@
   "name": "World Port Index (Pub. 150)",
   "publisher": "US National Geospatial-Intelligence Agency",
   "url": "https://msi.nga.mil/Publications/WPI",
-  "licence": "Public domain (US Government)",
-  "update": "irregular",
-  "access": "Not used: the download (UpdatedPub150.csv) answered HTTP 503 on 22 and 23 November 2026",
-  "use": "Nothing; port coordinates come from UN/LOCODE through searoute"
+  "licence": "Terms of the file used not read: the publisher's site (msi.nga.mil) was in maintenance on 24 and 25 November 2026 and its page of the publication holds no text in the archived copies. The title page of the twenty-sixth edition (2017) of Publication 150 carries \"© COPYRIGHT 2017 BY THE UNITED STATES GOVERNMENT / NO COPYRIGHT CLAIMED UNDER TITLE 17 U.S.C.\" (archived PDF, https://web.archive.org/web/20170829062601if_/http://msi.nga.mil/MSISiteContent/StaticFiles/NAV_PUBS/WPI/Pub150bk.pdf, read 25 November 2026); the edition of the file used is not stated (terms to be confirmed)",
+  "update": "irregular (no edition or date inside the file)",
+  "access": "Downloaded by a person from msi.nga.mil/Publications/WPI (UpdatedPub150.csv, taken on 24 November 2026), never by a scheduled job; pipeline/infrastructure/extract_wpi.py keeps 23 of the 109 columns, for the ports that match, in pipeline/cache/wpi_ports.csv",
+  "use": "Port facts of the entry that matches a port: depths, maximum vessel size, harbour size and type, tidal range and pilotage, for the port panel beside the limits of the page cited (never merged)"
  },
  {
   "id": "baltic",
