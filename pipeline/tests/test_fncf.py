@@ -61,7 +61,8 @@ def digest(obj):
 
 def decoded_rows(doc, skip=("FRA",)):
     """The rows of a pairs file with ports, classes and passages by name, the pairs that touch `skip` left out, sorted. The caveat bit of the
-    flags (a note on the pair) is not a change of its port, class, distance or passages."""
+    flags (a note on the pair), the bit of a row added from the importer's declaration and the bit of an estimate made from a volume are not a change
+    of its port, class, distance or passages."""
     ports, classes, gates = doc["ports"], doc.get("classes") or [], doc.get("gates") or []
     ix = {c: i for i, c in enumerate(doc["cols"])}
     out = []
@@ -75,7 +76,7 @@ def decoded_rows(doc, skip=("FRA",)):
             elif c == "cls":
                 row.append(classes[v] if v >= 0 else None)
             elif c == "f":
-                row.append(v & ~2)
+                row.append(v & ~(2 | 16 | 32))
             elif c in ("via", "alt"):
                 row.append([g for i, g in enumerate(gates) if (v >> i) & 1])
             else:
@@ -315,11 +316,8 @@ def _released_routes():
 
 
 class F5ReleasedRoutes(unittest.TestCase):
-    # the released routes that end, with the reason: the corridor of each was a French one, and the French ports changed it
-    # (the seventh release) gen-sugar-sea-sea leaves the cap of 122 generated routes: the LPG seaborne total grows by 3.8 Mt (the part by sea of the United States to
-    # Mexico pair), the generated LPG corridors that reach the target share of it are one more (gen-lpg-med-med), and the cap takes the last route of the list
+    # the routes of the fifth release that end, with the reason: the corridor of each was a French one, and the French ports changed it
     ENDED = {
-        "gen-sugar-sea-sea": "the cap of 122 generated routes: one more LPG corridor is needed to reach the target share of the larger LPG seaborne total (gen-lpg-med-med)",
         "gen-steel-med-nw-europe": "its corridor was French steel from the Mediterranean to North-West Europe: France loads steel at Le Havre for North-West Europe",
         "gen-wheat-med-waf": "its corridor was French wheat from the Mediterranean to West Africa: France loads wheat at Rouen or La Pallice for West Africa",
     }
@@ -342,16 +340,26 @@ class F5ReleasedRoutes(unittest.TestCase):
                 n += 1
         self.assertGreater(n, 100)
 
-    def test_the_cap_of_the_first_package_gives_back_what_the_cap_of_120_took(self):
-        self.assertEqual(GR.TOTAL_CAP, 122)
-        self.assertEqual(GR.GROUP_CAP_MORE, {"wheat": 13})
+    def test_the_caps_are_what_they_were_and_no_route_of_the_last_release_needs_a_raise(self):
+        """The released routes stay whatever the caps (generated_routes.select_group, `keep`): the cap of the whole atlas is 120 again and wheat has no
+        thirteenth corridor by exception, and the routes that the two raises had saved are there."""
+        self.assertEqual(GR.TOTAL_CAP, 120)
+        self.assertFalse(hasattr(GR, "GROUP_CAP_MORE"))
         now = {r["id"] for r in load(DATA, "freight", "routes.json")}
-        self.assertNotIn("gen-sugar-sea-sea", now)  # see ENDED
-        self.assertIn("gen-lpg-med-med", now)
+        self.assertIn("gen-sugar-sea-sea", now)  # left the routes when the LPG tonnage was corrected, with the cap of 122
         self.assertIn("gen-wheat-canada-west-r-east-asia", now)
-        later = set().union(*(gs for gs, _ in GR.LATER_GROUPS))
-        gen = [r for r in load(DATA, "freight", "routes.json") if r.get("generated") and r["cargoes"][0] not in later]
-        self.assertEqual(len(gen) - sum(1 for r in gen if re.match(r"gen-(" + "|".join(sorted(later)) + r")-", r["id"])), GR.TOTAL_CAP)
+        wheat = [i for i in now if i.startswith("gen-wheat-")]
+        self.assertEqual(len(wheat), 13)
+        later_free = [r for r in load(DATA, "freight", "routes.json") if r.get("generated") and not GR.is_later_route(r["id"])]
+        released_first = [i for i in GR.released_routes() if not GR.is_later_route(i)]
+        self.assertEqual(len(later_free), max(GR.TOTAL_CAP, len(released_first)), "the released routes first, the new corridors in the places the cap leaves")
+
+    def test_every_generated_route_of_the_last_release_is_still_there(self):
+        """B3: the list of the released ids (released_ids.json) is the routes.json of the release; each stays while its corridor exists."""
+        ids = GR.released_routes()
+        self.assertGreater(len(ids), 100)
+        now = {r["id"] for r in load(DATA, "freight", "routes.json")}
+        self.assertEqual(sorted(ids - now), [])
 
     def test_the_cap_order_is_the_same_below_the_cap(self):
         """The first corridors of the groups are kept first and the others by their tonnes: a larger cap only adds the next ones."""
@@ -627,13 +635,9 @@ class F7MozambiqueCoke(unittest.TestCase):
 
     @staticmethod
     def _written_as(written, true):
-        """Whether the whole number `written` is the ratio `true` at the precision of its writing: rounded to the unit, or to two significant digits
-        when it ends in a zero (the reason says "240 times" for 242.8)."""
-        def rnd(x, sig=None):
-            if sig:
-                x = float(f"{x:.{sig - 1}e}")
-            return int(x + 0.5)
-        return written == rnd(true) or (written % 10 == 0 and written == rnd(true, 2))
+        """Whether the whole number `written` is the ratio `true` rounded to the unit: no looser reading for a number that ends in a zero (a reason
+        that said "240 times" for 242.8 passed, and "45 to 200" would have passed for 201.4)."""
+        return written == int(true + 0.5)
 
     def test_a_ratio_quoted_in_a_reason_is_recomputed_from_the_other_years_of_the_pair(self):
         """FNCI follow-up (GV9B.3): "45 to 204 times theirs" was 45 to 201 in the cache. The ratios that a reason gives between the value of the year and the
@@ -641,6 +645,7 @@ class F7MozambiqueCoke(unittest.TestCase):
         median of theirs") are recomputed from the cache."""
         import pandas as pd
         import clean as C
+        C_KEEP = C.KEEP_REPORTED
         df = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz"))
         words = {"two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10}
         n = 0
@@ -669,7 +674,9 @@ class F7MozambiqueCoke(unittest.TestCase):
         self.assertGreaterEqual(n, 6)
         # the check itself: the slip of the review is caught, the reason as written passes
         self.assertTrue(self._written_as(201, 201.42) and not self._written_as(204, 201.42))
-        self.assertTrue(self._written_as(240, 242.8) and not self._written_as(250, 242.8) and not self._written_as(81, 83.4))
+        self.assertTrue(self._written_as(243, 242.8) and not self._written_as(240, 242.8) and not self._written_as(250, 242.8) and not self._written_as(81, 83.4))
+        self.assertFalse(self._written_as(200, 201.4), "a number that ends in a zero is not read loosely")
+        self.assertIn("243 times that year's", C_KEEP[("barley", "ARE", "ROU", 2022)])
 
 
 class F8GapNote(unittest.TestCase):

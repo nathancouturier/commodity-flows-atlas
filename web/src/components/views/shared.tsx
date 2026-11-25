@@ -244,7 +244,8 @@ const FLAG_TITLE: Partial<Record<HistFlag, string>> = {
 const DAY = 86400;
 
 /** Annual history bars (2005-2024 style). `flags` marks the years that are estimated, checked or have no figure. */
-export function HistoryChart(props: { years: number[]; values: (number | null)[]; unit: string; color?: string; label?: string; flags?: Record<string, HistFlag>; allEst?: boolean }) {
+/** `volumeYears`: the estimated years whose tonnage is made from a volume in the United States' own export statistics, not from the declared value. */
+export function HistoryChart(props: { years: number[]; values: (number | null)[]; unit: string; color?: string; label?: string; flags?: Record<string, HistFlag>; allEst?: boolean; volumeYears?: string[] }) {
   const x = useMemo(() => props.years.map((y) => Date.UTC(y, 0, 1) / 1000), [props.years]);
   const series = useMemo(
     () => [{ label: props.label ?? 'Volume', values: props.values, color: props.color ?? '#3ee6ff' }],
@@ -254,13 +255,13 @@ export function HistoryChart(props: { years: number[]; values: (number | null)[]
   const markers = useMemo<TimeMarker[] | undefined>(() => {
     const out: TimeMarker[] = [];
     for (const [y, f] of Object.entries(props.flags ?? {})) {
-      const title = FLAG_TITLE[f];
+      const title = f === 'est' && props.volumeYears?.includes(y) ? "Atlas estimate (tonnage from a volume in the United States' own export statistics)" : FLAG_TITLE[f];
       if (!title) continue;
       const t = Date.UTC(Number(y), 0, 1) / 1000;
       out.push({ t: t - 182 * DAY, end: t + 182 * DAY, title: `${y}: ${title}`, subtle: true, color: f === 'est' ? '#ffb547' : '#8aa0b8' });
     }
     return out.length ? out : undefined;
-  }, [props.flags]);
+  }, [props.flags, props.volumeYears]);
   // the readout prints an estimated year with the two significant digits the lane figure has; in a group that is an
   // Atlas estimate as a whole (allEst) every year is one
   const estimated = useMemo(() => props.years.map((y) => !!props.allEst || props.flags?.[String(y)] === 'est'), [props.years, props.flags, props.allEst]);

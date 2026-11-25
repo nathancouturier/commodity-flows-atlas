@@ -100,7 +100,8 @@ def read_queensland(path, names):
     through = next(a for a in about if a.startswith("Data through to"))
     current = next(a for a in about if a.startswith("Current as at"))
     revised = next(a for a in about if a.startswith("Please note that the data may be revised"))
-    disclaimer = re.search(r"Derived conclusions and analysis[^.]*\.", next(a for a in about if "Derived conclusions and analysis" in a)).group(0)
+    disclaimer_full = next(a for a in about if "Derived conclusions and analysis" in a)
+    disclaimer = re.search(r"Derived conclusions and analysis[^.]*\.", disclaimer_full).group(0)
     pci_note = next(a for a in about if a.startswith("Prior to 2022, PCI was included"))
     assert "Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development (NRMMRRD)" in credit, credit
 
@@ -149,7 +150,7 @@ def read_queensland(path, names):
         "dataset": "Quarterly coal reports, workbook \"Quarterly Coal Sales\" (coal-sales-data-2010-2026.xlsx), sheets \"Export by country and coal type\" and \"Export by port and coal type\"",
         "publisher": "Queensland Government, Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development (NRMMRRD)",
         "address": "https://www.data.qld.gov.au/dataset/quarterly-coal-reports", "licence": "Creative Commons Attribution 4.0 (CC BY 4.0)",
-        "exporter": "AUS", "credit": credit, "data_through": through, "current_as_at": current, "revised": revised, "disclaimer": disclaimer, "pci_note": pci_note,
+        "exporter": "AUS", "credit": credit, "data_through": through, "current_as_at": current, "revised": revised, "disclaimer": disclaimer, "disclaimer_full": disclaimer_full, "pci_note": pci_note,
         "definition": "Sales to export of hard coking, semi-soft coking and PCI coal by the producers of Queensland, in tonnes, by first destination; the "
                       "calendar year is the sum of its four quarters. Queensland only: New South Wales has no destinations in the file. Before 2022 PCI is "
                       "inside semi-soft coking coal",
@@ -282,17 +283,43 @@ def write_csv(path, header, rows):
         w.writerows(rows)
 
 
+# The 2024 totals the page notes were written for (Queensland: tonnes; EIA: short tons). They are a guard against a changed definition (a coal type
+# or a rank that moved in the file), not against a revision: Queensland says that its data may be revised, and EIA that the latest year is
+# preliminary. A 2024 total that differs by more than GUARD_TOLERANCE stops the extraction; a smaller difference is printed and written to the
+# meta file (key guard_2024), and the extraction goes on.
+GUARD_2024 = {QLD: 136985537, EIA: 56586866}
+GUARD_UNIT = {QLD: "t", EIA: "short tons"}
+GUARD_TOLERANCE = 0.02
+
+
 def check_2024(pairs, meta):
-    """The figures the plan quotes for 2024: a reader that changes them has changed the definition."""
+    """Compare the 2024 totals of the metallurgical coal read with GUARD_2024. Stops beyond GUARD_TOLERANCE, with the message that says what to look at;
+    a smaller difference is printed and recorded in meta[src]["guard_2024"]."""
     def tot(src, kind, year=2024):
         return sum(r[6] for r in pairs if r[0] == src and r[3] == year and r[5] == kind)
-    if QLD in meta:
-        if tot(QLD, "metallurgical") != 136985537 and 2024 in meta[QLD]["years"]:
-            raise SystemExit(f"extract_metcoal: Queensland metallurgical 2024 is {tot(QLD, 'metallurgical'):,} t, expected 136,985,537 t")
+    for src in (QLD, EIA):
+        if src not in meta or 2024 not in meta[src]["years"]:
+            continue
+        read = tot(QLD, "metallurgical") if src == QLD else meta[EIA]["totals"]["2024-metallurgical"]["short_tons"]
+        ref = GUARD_2024[src]
+        diff = read / ref - 1
+        unit = GUARD_UNIT[src]
+        if abs(diff) > GUARD_TOLERANCE:
+            raise SystemExit(
+                f"extract_metcoal: the 2024 metallurgical total of {src} is {read:,} {unit}, {diff:+.1%} from the {ref:,} {unit} the guard holds (the limit is "
+                f"{GUARD_TOLERANCE:.0%}). A revision of the publisher rarely moves a year by that much: look first at what the file counts as metallurgical "
+                + ("(the coal types of the sheet 'Export by country and coal type', and where PCI is counted)" if src == QLD else
+                   "(the rank codes of the COAL.EXPORT_QTY series, MET and STM, and the unit)")
+                + f". If the new figure is right, change GUARD_2024[{src!r}] in pipeline/trade/extract_metcoal.py and say why in docs/UPDATING.md; nothing was written.")
+        if read != ref:
+            print(f"extract_metcoal: {src}: the 2024 metallurgical total is {read:,} {unit}, {diff:+.2%} from the {ref:,} the guard holds (within {GUARD_TOLERANCE:.0%}: "
+                  "a revision of the publisher; written to the meta file)")
+        meta[src]["guard_2024"] = {"reference": ref, "read": read, "unit": unit, "difference_pct": round(diff * 100, 3), "tolerance_pct": GUARD_TOLERANCE * 100}
     if EIA in meta and 2024 in meta[EIA]["years"]:
+        # the tonnes are the short tons at the file's factor: a rounding of a few tonnes at most
         st = meta[EIA]["totals"]["2024-metallurgical"]["short_tons"]
-        if st != 56586866 or abs(tot(EIA, "metallurgical") - 51334741) > 100:
-            raise SystemExit(f"extract_metcoal: EIA metallurgical 2024 is {st:,} short tons / {tot(EIA, 'metallurgical'):,} t, expected 56,586,866 / 51,334,741")
+        if abs(tot(EIA, "metallurgical") - st * meta[EIA]["tonnes_per_short_ton"]) > 100:
+            raise SystemExit(f"extract_metcoal: EIA metallurgical 2024 is {st:,} short tons but {tot(EIA, 'metallurgical'):,} t in the pairs: the conversion has changed")
 
 
 def main():

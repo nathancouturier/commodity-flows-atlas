@@ -120,6 +120,7 @@ const SHORT_SOURCE: Record<string, string> = {
   'eia-refinery-capacity': 'EIA',
   'giignl-2026': 'GIIGNL',
   'census-exports': 'US Census Bureau',
+  comtrade: 'UN Comtrade',
   'qld-coal-sales': 'Queensland Government',
   'trade-press': 'trade press',
   wikipedia: 'Wikipedia',

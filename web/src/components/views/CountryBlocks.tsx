@@ -409,6 +409,8 @@ export function FreightBlock({ p }: { p: CountryProfile }) {
   const capped = [...fr.exports, ...fr.imports, fr.exportsTotal, fr.importsTotal].some((x) => x?.via?.some((v) => v.capped));
   // a group whose tonnes are wholly the atlas's own estimate is not the customs source's figure: the source line says so
   const own = [...new Set([...fr.exports, ...fr.imports].filter((x) => x.s === 'atlas').map((x) => groupName(x.g, x.k)))];
+  // a group of which part of the tonnes is not in the customs file but in the importer's own declaration: the source line names that source too
+  const added = [...new Set([...fr.exports, ...fr.imports].filter((x) => x.added).map((x) => `${groupName(x.g, x.k)}: part of the tonnes from ${shortSource(x.added!.s)}`))];
   return (
     <FoldSection title="Freight" aside={<span class="muted num">{fr.exports.length + fr.imports.length} · {fr.y}</span>}>
       <FreightSide p={p} side="exports" />
@@ -424,7 +426,7 @@ export function FreightBlock({ p }: { p: CountryProfile }) {
       <SourceLine
         s={p.freight.s}
         y={p.freight.y}
-        n={`recorded pairs, all transport modes; ports, modes and routes: Atlas assumptions${own.length ? `; ${own.join(', ')}: tonnes are an Atlas estimate` : ''}`}
+        n={`recorded pairs, all transport modes; ports, modes and routes: Atlas assumptions${own.length ? `; ${own.join(', ')}: tonnes are an Atlas estimate` : ''}${added.length ? `; ${added.join(', ')}` : ''}`}
       />
     </FoldSection>
   );

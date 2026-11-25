@@ -613,23 +613,31 @@
    "title": "Exports in the exporting country's own statistics, 2024 (a cross-check, not a ranking)",
    "table": {
     "y": 2024,
-    "s": "atlas",
+    "s": "disr-req",
     "u": "Mt",
     "rows": [
      {
       "c": "USA",
       "v": 90.9,
       "n": "EIA, liquefied U.S. natural gas exports (series N9133US2, public domain): 4,367 bcf in 2024, converted at 48.03 bcf per Mt (Atlas conversion). Customs data (CEPII BACI): 73.3 Mt, 81% of the exporter's own figure.",
+      "s": "eia-ng",
+      "y": 2024,
       "conv": true
      },
      {
       "c": "AUS",
       "v": 81.2,
-      "n": "Department of Industry, Science and Resources, Resources and Energy Quarterly, December 2025, calendar year 2024: the department's estimate (footnote n of its table 41). Customs data (CEPII BACI): 78.7 Mt, 97% of the exporter's own figure."
+      "n": "Department of Industry, Science and Resources, Resources and Energy Quarterly, December 2025, calendar year 2024: the department's estimate (footnote n of its table 41). Customs data (CEPII BACI): 78.7 Mt, 97% of the exporter's own figure.",
+      "s": "disr-req",
+      "y": 2024
      }
     ],
     "n": "Exports of LNG as the exporting country's own statistics give them, beside the customs figure of each (CEPII BACI): Australia's Resources and Energy Quarterly, and the United States' EIA series converted to tonnes. A cross-check of the customs tables, not a ranking: the atlas has found no open source for the other exporters. The definitions differ (the customs figures are the reconciled declarations of the exporter and the importer), and the customs tables of this page stay as they are",
     "norank": true,
+    "srcs": [
+     "disr-req",
+     "eia-ng"
+    ],
     "conv": "the United States row is an Atlas conversion of EIA's volume of gas in billion cubic feet, at the factor named in its note"
    }
   },
@@ -669,7 +677,8 @@
      }
     ],
     "n": "Resources and Energy Quarterly, December 2025, table 41 (calendar year 2024, volume): the five principal markets that the table lists for LNG (fixed, not re-ranked each year); the other markets are not given by the source. Footnote n: Department of Industry, Science, and Resources estimates. Source: ABS, International Trade in Goods and Services, Australia, cat. no. 5368.0; International Trade Centre International Trade Statistics 2001–2021. Attribution: Department of Industry, Science, and Resources, Commonwealth of Australia Resources and Energy Quarterly, December 2025.",
-    "norank": true
+    "norank": true,
+    "shareOf": "Australia's exports"
    }
   }
  ],

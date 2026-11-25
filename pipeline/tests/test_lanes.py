@@ -791,14 +791,16 @@ class ReviewGE5(unittest.TestCase):
             keys = {f"{r[0]}-{r[1]}": r for r in p["rows"]}
             for k, text in notes.items():
                 r = keys[k]
-                self.assertTrue(r[10] & 9 and not r[10] & 4, (g, k))
+                self.assertTrue(r[10] & 25 and not r[10] & 4, (g, k))  # an estimate (1), a check (8) or a row added from the importer's declaration (16)
                 self.assertTrue(text, (g, k))
             for k, r in keys.items():
                 if r[10] & 1 and not r[10] & 4:
                     self.assertTrue(notes.get(k, "").startswith("Atlas estimate"), (g, k))
                     n += 1
-                if r[10] & 8 and not r[10] & 4:
+                if r[10] & 24 and not r[10] & 4:
                     self.assertIn(k, notes, (g, k))
+                if r[10] & 16:
+                    self.assertTrue(notes[k].startswith("Added from"), (g, k))
         self.assertGreater(n, 100)
 
 

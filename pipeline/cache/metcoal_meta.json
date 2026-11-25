@@ -173,6 +173,13 @@
    "sha256": "a02eeaae9e7eeb15317bb707c95fc74fe6fd261813ff6e78ec125f36cd06a417"
   },
   "file_date": "2026-10-01",
+  "guard_2024": {
+   "difference_pct": 0.0,
+   "read": 56586866,
+   "reference": 56586866,
+   "tolerance_pct": 2.0,
+   "unit": "short tons"
+  },
   "id": "eia-coal",
   "licence": "Public domain (US Government)",
   "name": "U.S. coal exports by rank, destination and customs district (EIA bulk file COAL)",
@@ -346,6 +353,7 @@
   "dataset": "Quarterly coal reports, workbook \"Quarterly Coal Sales\" (coal-sales-data-2010-2026.xlsx), sheets \"Export by country and coal type\" and \"Export by port and coal type\"",
   "definition": "Sales to export of hard coking, semi-soft coking and PCI coal by the producers of Queensland, in tonnes, by first destination; the calendar year is the sum of its four quarters. Queensland only: New South Wales has no destinations in the file. Before 2022 PCI is inside semi-soft coking coal",
   "disclaimer": "Derived conclusions and analysis generated from this data are not to be considered attributable to the Department.",
+  "disclaimer_full": "NRMMRRD has made a reasonable effort to ensure that the provided data is accurate and complete at the time of publishing. This information reflects data as reported to the Department and is a true and accurate representation of the data received. Authenticated information is only accurate as of the point in time of validation and verification. The Department is not responsible for data that is misrepresented, misinterpreted or altered in any way. Derived conclusions and analysis generated from this data are not to be considered attributable to the Department.",
   "excluded_years": [
    2026
   ],
@@ -354,6 +362,13 @@
    "bytes": 649578,
    "name": "coal-sales-data-2010-2026.xlsx",
    "sha256": "2e612a46f2ab25aca9bf059db77a1f40ac634ab05bd2a42d92a19b275b3d40c9"
+  },
+  "guard_2024": {
+   "difference_pct": 0.0,
+   "read": 136985537,
+   "reference": 136985537,
+   "tolerance_pct": 2.0,
+   "unit": "t"
   },
   "id": "qld-coal-sales",
   "licence": "Creative Commons Attribution 4.0 (CC BY 4.0)",

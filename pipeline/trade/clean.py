@@ -120,7 +120,7 @@ KEEP_REPORTED = {
     ("ammonium-nitrate", "FRA", "OMN", 2010): "tonnage in line with the pair's other years (1 to 4 kt); the value (USD 78 million) is 45 to 201 times theirs (USD 0.4 to 1.7 million)",
     ("dri", "CHN", "SAU", 2018): "no tonnage is recorded and the value (USD 60 million) is above that of every other year (USD 3.1 to 39.6 million); the estimate (181 kt) is 3.7 times the pair's largest year (48 kt)",
     ("dri", "CHN", "SAU", 2019): "no tonnage is recorded; the estimate (66 kt) is 1.4 times the pair's largest year (48 kt)",
-    ("barley", "ARE", "ROU", 2022): "tonnage in line with the pair's other year (1.1 kt); the value (USD 60 million) is 240 times that year's",
+    ("barley", "ARE", "ROU", 2022): "tonnage in line with the pair's other year (1.1 kt); the value (USD 60 million) is 243 times that year's",
     ("sulphur", "MYS", "KOR", 2003): "the pair's unit value is 1,089 to 1,447 USD/t in 2004 to 2007, 14 to 18 times the group median of 2003 (80): the estimate (121 kt) is 16 times the tonnage of 2004 (7.6 kt)",
     ("graphite", "JPN", "MEX", 2002): "the estimate (99 kt) would be the whole of Mexico's graphite imports of 2002 (102 kt, against 1 to 5 kt in every other year) and of Japan's exports (101 kt, against 0.7 to 7.3 kt)",
     ("ammonium-sulphate", "CHL", "AGO", 2014): "the estimate (99 kt) is Chile's only recorded export of the product and puts Angola's imports at 116 kt, against 5 to 58 kt in the other years",

@@ -847,6 +847,7 @@
     ],
     "n": "UN Comtrade (public preview), China as reporter, imports of HS 260900 (tin ores and concentrates), 2024: net weight as China declares it, from 30 origins; the table lists the five largest and Myanmar; Comtrade's total for the year is an estimate (the origins add up to it). Source: UN Comtrade",
     "norank": true,
+    "shareOf": "China's declared imports",
     "basis": "ores and concentrates, net weight declared by China"
    }
   }
@@ -1180,8 +1181,8 @@
   }
  },
  "notes": [
-  "Tin ores and concentrates (HS 2609), 2024 (CEPII BACI): world 0.20 Mt gross weight; top exporters Myanmar 0.08 Mt, DR Congo 0.03 Mt, Australia 0.02 Mt.",
-  "Trade tables are unwrought tin (HS 8001, alloyed or not; waste and scrap, HS 8002, are not included) in kt; production and reserves are contained tin (t Sn). No tin lanes exist (no seaborne figure).",
+  "Tin ores and concentrates (HS 2609), 2024 (CEPII BACI, with Myanmar to China from UN Comtrade): world 0.20 Mt gross weight; top exporters Myanmar 0.08 Mt, DR Congo 0.03 Mt, Australia 0.02 Mt.",
+  "Trade tables are unwrought tin (HS 8001, alloyed or not; waste and scrap, HS 8002, are not included) in kt; production and reserves are contained tin (t Sn).",
   "Myanmar ranks 8 in the USGS production table (12,000 t Sn in 2025); mining in Wa State, its main tin area, was suspended from 1 August 2023 (see the events).",
   "Tin ores and concentrates (HS 260900): China declares 76.5 kt from Myanmar in 2024, 180.5 kt in 2023 and 187.3 kt in 2022 (48% of its imports in 2024, the first origin in every year from 2017 to 2024), where the reconciled customs file the atlas uses, CEPII BACI, has at most 1.57 kt a year of this pair in 2017 to 2024 (its extract drops flows under 1,000 t and USD 1 million, so 2021 to 2022 and 2024 have no row there). The atlas therefore adds the flow from China's import declaration (UN Comtrade) to its customs table in 2017 to 2024: a listed correction, pair by pair (the Methodology, section 1, cleaning rule 11), flagged on each row. The flow moves overland: no sea lane, no passage. The declared figures are net weight and a CIF value, not BACI's reconciled figures, and the series of the customs tables starts from the declaration in 2017: the years before keep BACI's figures, so the series breaks between 2016 and 2017. UN Comtrade's answer for 2016 carries no net weight, only a quantity that it estimated (81.7 kt, of which 80.7 kt from Myanmar) and a value, so it is not used; the years before 2016 are not loaded.",
   "The table of China's declared imports shows the five largest origins and Myanmar for the year, and its history the same countries in each year. Its total is China's, not the world's, and Comtrade's total of some years is an estimate. It is a small part of the declaration, printed with the attribution Source: UN Comtrade; the answers are not published as files.",

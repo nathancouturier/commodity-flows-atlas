@@ -25,6 +25,7 @@ import { reportMonth } from '../CropBalance';
 import { CsvAction } from '../CsvAction';
 import { downloadFlows, flowSources } from '../../lib/blockCsv';
 import { mixedShown } from '../../lib/mixedShown';
+import { allCoalTag, hasSeveralSources, showsSourceTag } from '../../lib/flowSources';
 import { KINDS, allTables, coverText, listText, pageTables, sectionTitle, shortName, type Table } from '../../lib/commodityTables';
 
 /**
@@ -39,10 +40,6 @@ function usePriceDrawer(id: string): { open: () => void; none: boolean } {
   const figures = priceFigures.value;
   return { open: () => openPrices({ commodity: id }), none: figures !== null && !figures[id] };
 }
-
-/** Customs codes do not separate thermal from metallurgical coal: the flows of the Thermal coal page are all coal.
- * The Metallurgical coal page lists the exporters' own statistics of metallurgical coal instead (data/commodities/met-coal.json). */
-const isAllCoal = (id: string) => id === 'thermal-coal';
 
 type CompanyMap = Record<string, { producers?: Company[]; processors?: Company[]; traders?: Company[] }>;
 
@@ -234,7 +231,7 @@ function seenAbove(text: string, above: string[] | undefined): boolean {
   return !!above?.some((t) => t.includes(text));
 }
 
-function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean; setAll: (v: boolean) => void; gaps: string[] }) {
+function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean; setAll: (v: boolean) => void; gaps: string[]; defs?: string[] }) {
   const { all, setAll } = props;
   const sorted = [...props.flows].sort((a, b) => b.v - a.v);
   const rows = shownFlows(props.flows, all);
@@ -246,7 +243,7 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean
   const first = rows.find((f) => f.s !== 'atlas') ?? rows[0];
   // a list whose rows come from more than one source (the Metallurgical coal page: two exporters' own statistics) names the source of each row
   // and every source in the footer; a list with one source is drawn as before
-  const several = new Set(props.flows.filter((f) => f.s !== 'atlas').map((f) => f.s)).size > 1;
+  const several = hasSeveralSources(props.flows);
   const anyEst = rows.some((f) => f.est);
   // the two bases of an Atlas estimate are told apart: a volume in the United States' own export statistics, the declared value
   const estBases = [rows.some((f) => f.est && f.estBy === 'volume') && "a volume in the United States' own export statistics", rows.some((f) => f.est && f.estBy !== 'volume') && 'the declared value'].filter(Boolean).join(' or ');
@@ -278,7 +275,7 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean
                   {f.mode ? <ModeBadge mode={f.mode} via={via ?? undefined} /> : <span class="muted-cap">mode not modelled</span>}
                   {f.transit && <span class="mode-via"> via {via}</span>}
                   {props.tag && <span class="muted-cap"> {props.tag}</span>}
-                  {f.est ? <EstMark /> : (f.s === 'atlas' ? f.s !== first.s : several) && <span class="muted-cap"> {shortSource(f.s)}</span>}
+                  {f.est ? <EstMark /> : showsSourceTag(f, props.flows, rows) && <span class="muted-cap"> {shortSource(f.s)}</span>}
                   {opens && <span class="sr-only"> · {opens}</span>}
                 </>
               }
@@ -304,6 +301,7 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean
           title="Every flow of this table with its year, source and licence, as a CSV file"
         />
       </div>
+      {several && !!props.defs?.length && <div class="src-line">{props.defs.join(' ')}</div>}
       {several && <SourcesLine items={props.flows} n="bilateral flows, each exporter's own statistics; the sources are not added to one another" />}
       {!several && first && <SourceLine s={first.s} y={first.y} n={`bilateral flows, all transport modes${anyEst ? `; an Atlas estimate is a tonnage computed from ${estBases}, shown to two significant digits` : ''}`} />}
     </>
@@ -624,7 +622,7 @@ export default function CommodityView({ id }: { id: string }) {
             <AgriBlocks d={d} color={color} part="gaps" />
             {d.flows && d.flows.length > 0 && (
               <Section title={sectionTitle(d, 'flows', 'Main flows')} aside={<YearTag y={d.flows[0].y} />}>
-                <FlowRows id={id} flows={d.flows} tag={isAllCoal(id) ? 'all coal' : undefined} all={flowsAll} setAll={setFlowsAll} gaps={gapTexts} />
+                <FlowRows id={id} flows={d.flows} tag={allCoalTag(id)} all={flowsAll} setAll={setFlowsAll} gaps={gapTexts} defs={d.flowDefs} />
               </Section>
             )}
             <LaneSummary id={id} color={color} />

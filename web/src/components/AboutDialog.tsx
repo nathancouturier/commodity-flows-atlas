@@ -342,7 +342,7 @@ function MethodTabView() {
         </li>
         <li>
           Figures computed by the atlas, such as route and chokepoint shares, are labelled "Atlas estimate". So is a tonnage that customs data lack and
-          the atlas computed from the declared value; it is shown to two significant digits.
+          the atlas computed from the declared value, or (LPG from the United States to Mexico) from a volume in the United States' own export statistics; it is shown to two significant digits.
         </li>
         <li>When sources disagree, the official or primary source is shown and the difference is noted.</li>
       </ul>

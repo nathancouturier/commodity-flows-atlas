@@ -341,13 +341,13 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 - flag: Sunflower seed exports of Ukraine: 0.0937 Mt in 2021 against 0.235 Mt and 2.71 Mt in 2020 and 2022 (CEPII BACI)
 - flag: Iron ore exports of China: 9.99 Mt in 2020 against 2.26 Mt and 1.72 Mt in 2019 and 2021 (CEPII BACI)
 - flag: Sorghum exports of Australia: 0.19 Mt in 2020 against 0.099 Mt and 1.48 Mt in 2019 and 2021 (CEPII BACI)
+- flag: Tin ore exports of Brazil: 0.00173 Mt in 2020 against 0.002 Mt and 0.015 Mt in 2019 and 2021 (CEPII BACI)
 - flag: Sorghum exports of Sudan: 0.0729 Mt in 2018 against 0.48 Mt and 0.115 Mt in 2017 and 2019 (CEPII BACI)
 - flag: Sunflower seed exports of Russia: 0.0898 Mt in 2018 against 0.359 Mt and 0.673 Mt in 2017 and 2019 (CEPII BACI)
 - flag: Crude oil exports of Myanmar: 5.39 Mt in 2017 against 0.12 Mt and 0.158 Mt in 2016 and 2018 (CEPII BACI)
 - flag: Bauxite exports of Malaysia: 3.4 Mt in 2016 against 25.5 Mt and 3.15 Mt in 2015 and 2017 (CEPII BACI)
 - flag: Nickel intermediates exports of Papua New Guinea: 0.0291 Mt in 2016 against 0.103 Mt and 0.16 Mt in 2015 and 2017 (CEPII BACI)
 - flag: Sugar exports of Pakistan: 0.346 Mt in 2016 against 1.65 Mt and 1.55 Mt in 2015 and 2017 (CEPII BACI)
-- flag: Tin ore exports of Myanmar: 0.00131 Mt in 2016 against 0.001 Mt and 0.294 Mt in 2015 and 2017 (CEPII BACI)
 - flag: Bauxite exports of Malaysia: 25.5 Mt in 2015 against 3.42 Mt and 3.4 Mt in 2014 and 2016 (CEPII BACI)
 - flag: Nickel fe exports of Venezuela: 0.00641 Mt in 2013 against 0.039 Mt and 0.034 Mt in 2012 and 2014 (CEPII BACI)
 - flag: Tin ore exports of Myanmar: 0.0015 Mt in 2013 against 0.019 Mt and 0.002 Mt in 2012 and 2014 (CEPII BACI)
@@ -728,13 +728,13 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 | torres | dry | 24.1 | 42.3 | 42.5 | 49.0 (2025) | 0.49 | qa |
 | torres | tanker | 13.6 | 50.6 | 13.5 | 14.4 (2023) | 0.95 | flag |
 
-- Suez Canal, dry bulk: at least 312 Mt and up to 323 Mt of the atlas's seaborne groups in 2024, against 184 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 380 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
-- Suez Canal, tanker: at least 351 Mt and up to 361 Mt of the atlas's seaborne groups in 2024, against 226 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 452 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
 - Bab el-Mandeb, dry bulk: at least 301 Mt and up to 311 Mt of the atlas's seaborne groups in 2024, against 177 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 381 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
-- Bab el-Mandeb, tanker: at least 339 Mt and up to 406 Mt of the atlas's seaborne groups in 2024, against 212 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 473 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
 - Bab el-Mandeb, container, general cargo and ro-ro: at least 56.6 Mt and up to 58.8 Mt of the atlas's seaborne groups in 2024, against 36.5 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 390 Mt in 2019); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
+- Bab el-Mandeb, tanker: at least 339 Mt and up to 406 Mt of the atlas's seaborne groups in 2024, against 212 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 473 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
 - Turkish Straits (Bosphorus and Dardanelles), dry bulk: at least 207 Mt and up to 240 Mt of the atlas's seaborne groups in 2024, against 203 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 241 Mt in 2021); above PortWatch's 2024 volume and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it
 - Strait of Gibraltar, dry bulk: at least 394 Mt and up to 437 Mt of the atlas's seaborne groups in 2024, against 384 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 514 Mt in 2023); above PortWatch's 2024 volume and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it
+- Suez Canal, dry bulk: at least 312 Mt and up to 323 Mt of the atlas's seaborne groups in 2024, against 184 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 380 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
+- Suez Canal, tanker: at least 351 Mt and up to 361 Mt of the atlas's seaborne groups in 2024, against 226 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 452 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
 - Torres Strait, tanker: at least 13.6 Mt and up to 50.6 Mt of the atlas's seaborne groups in 2024, against 13.5 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 14.4 Mt in 2023); above PortWatch's 2024 volume and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it
 
 ### Parallel passages under other thresholds of the parallel rule (K9)
@@ -743,22 +743,22 @@ Recomputed with `routing.classify()` from the option distances cached by `build_
 
 | passage | 3% or 150 nm | 5% or 300 nm | 10% or 500 nm |
 |---|---|---|---|
+| Lombok Strait | 854.8 to 1,347 | 853.4 to 1,809 | 853.1 to 2,185 |
+| Luzon Strait | 34.4 to 2,607 | 34.2 to 3,030 | 34.1 to 3,039 |
 | Strait of Malacca | 1,194 to 2,387 | 1,108 to 2,392 | 707.1 to 2,392 |
 | Sunda Strait | 24.6 to 1,211 | 3.20 to 1,362 | 2.60 to 1,770 |
-| Lombok Strait | 854.8 to 1,347 | 853.4 to 1,809 | 853.1 to 2,185 |
 | Taiwan Strait | 470.0 to 2,963 | 58.5 to 2,963 | 49.5 to 2,963 |
-| Luzon Strait | 34.4 to 2,607 | 34.2 to 3,030 | 34.1 to 3,039 |
 
 ### EIA beside the atlas (crude oil)
 
+- Bab el-Mandeb, crude oil: EIA 2.4 mb/d (1H25, eia-chokepoints) is about 119 Mt a year at 7.33 barrels per tonne; the atlas gives at least 164 Mt and up to 223 Mt in 2024 (ratio of the 'at least' figure: 1.37)
+- Turkish Straits (Bosphorus and Dardanelles), crude oil: EIA 2.1 mb/d (1H25, eia-chokepoints) is about 105 Mt a year at 7.33 barrels per tonne; the atlas gives at least 64 Mt and up to 132 Mt in 2024 (ratio of the 'at least' figure: 0.61)
+- Cape of Good Hope, crude oil: EIA 6.1 mb/d (1H25, eia-chokepoints) is about 304 Mt a year at 7.33 barrels per tonne; the atlas gives at least 284 Mt and up to 284 Mt in 2024 (ratio of the 'at least' figure: 0.93)
+- Danish Straits, crude oil: EIA 2.7 mb/d (1H25, eia-chokepoints) is about 134 Mt a year at 7.33 barrels per tonne; the atlas gives at least 47 Mt and up to 139 Mt in 2024 (ratio of the 'at least' figure: 0.35)
 - Strait of Hormuz, crude oil: EIA 14.7 mb/d (1H25, eia-chokepoints) is about 732 Mt a year at 7.33 barrels per tonne; the atlas gives at least 509 Mt and up to 751 Mt in 2024 (ratio of the 'at least' figure: 0.70)
 - Strait of Malacca, crude oil: EIA 16.6 mb/d (1H25, eia-chokepoints) is about 826 Mt a year at 7.33 barrels per tonne; the atlas gives at least 582 Mt and up to 785 Mt in 2024 (ratio of the 'at least' figure: 0.70)
-- Suez Canal, crude oil: EIA 2.8 mb/d (1H25, eia-chokepoints) is about 139 Mt a year at 7.33 barrels per tonne; the atlas gives at least 173 Mt and up to 174 Mt in 2024 (ratio of the 'at least' figure: 1.24)
-- Bab el-Mandeb, crude oil: EIA 2.4 mb/d (1H25, eia-chokepoints) is about 119 Mt a year at 7.33 barrels per tonne; the atlas gives at least 164 Mt and up to 223 Mt in 2024 (ratio of the 'at least' figure: 1.37)
 - Panama Canal, crude oil: EIA 0.1 mb/d (FY2025, eia-chokepoints) is about 5.0 Mt a year at 7.33 barrels per tonne; the atlas gives at least 3.3 Mt and up to 44 Mt in 2024 (ratio of the 'at least' figure: 0.66)
-- Turkish Straits (Bosphorus and Dardanelles), crude oil: EIA 2.1 mb/d (1H25, eia-chokepoints) is about 105 Mt a year at 7.33 barrels per tonne; the atlas gives at least 64 Mt and up to 132 Mt in 2024 (ratio of the 'at least' figure: 0.61)
-- Danish Straits, crude oil: EIA 2.7 mb/d (1H25, eia-chokepoints) is about 134 Mt a year at 7.33 barrels per tonne; the atlas gives at least 47 Mt and up to 139 Mt in 2024 (ratio of the 'at least' figure: 0.35)
-- Cape of Good Hope, crude oil: EIA 6.1 mb/d (1H25, eia-chokepoints) is about 304 Mt a year at 7.33 barrels per tonne; the atlas gives at least 284 Mt and up to 284 Mt in 2024 (ratio of the 'at least' figure: 0.93)
+- Suez Canal, crude oil: EIA 2.8 mb/d (1H25, eia-chokepoints) is about 139 Mt a year at 7.33 barrels per tonne; the atlas gives at least 173 Mt and up to 174 Mt in 2024 (ratio of the 'at least' figure: 1.24)
 
 ## Importers in transit
 

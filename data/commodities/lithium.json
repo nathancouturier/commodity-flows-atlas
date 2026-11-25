@@ -504,6 +504,7 @@
      }
     ],
     "n": "Atlas estimate: spodumene concentrate has no customs code of its own; it is read from HS 253090 ('mineral substances not elsewhere specified'), keeping only the rows from Australia, Zimbabwe and Brazil to China, the exporters for which a page read by the atlas says they ship lithium concentrate to China (the pages are in the notes of the page): 30% of the tonnage and 67% of the value of the code in 2024. These rows may still hold other minerals. Customs gross weight of concentrate, not lithium content. CEPII BACI HS92 HS 253090 rows to China only, 2024, all transport modes, gross weight; world = sum of all reported flows in the Atlas BACI extract (flows below 1,000 t and 1 M USD omitted)",
+    "shareOf": "these exports to China",
     "basis": "concentrate, gross weight",
     "usd": 3721502000
    }

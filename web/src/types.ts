@@ -226,6 +226,8 @@ export interface CommodityData {
   exports?: Ranked;
   imports?: Ranked;
   flows?: Flow[];
+  /** one short sentence per source of a list of flows that come from several sources: what each figure counts (printed in the footer of the block) */
+  flowDefs?: string[];
   companies?: { producers?: Company[]; processors?: Company[]; traders?: Company[] };
   /** the United States as the USGS file states it: apparent consumption and net import reliance (published figures) */
   us?: UsFigures;

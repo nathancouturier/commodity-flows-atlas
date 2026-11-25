@@ -184,6 +184,20 @@ FLOOR = {"coffee": 0.02, "cocoa": 0.02, "cotton": 0.02, "nickel-int": 0.02, "cop
          # codes of different alloys) reach no coverage at a floor that leaves a readable set: they have tables and no lanes
          "ferro-manganese": 0.02, "silico-manganese": 0.02, "ferro-silicon": 0.005}
 FLOOR_DEFAULT = 0.05
+# A main lane of the last release (released_ids.json, written by release_ids.py at each release) stays in the main set while its pair is still a routed
+# seaborne pair at or above the floor, whatever the cap: the pairs that the cap had left out take the places that are left. Without it, a pair that
+# moved from the mixed lanes (which the cap does not count) to the sea lanes (United States to Mexico, LPG) pushed the last lane of the list out
+# (Qatar to the Philippines), although nothing on its side had moved.
+RELEASED_FILE = os.path.join(HERE, "released_ids.json")
+
+
+def released_main_lanes(group):
+    """{"o-d"} of the main lanes of a group in the last release; empty when the file is not there (a first release) or holds no such group."""
+    try:
+        with open(RELEASED_FILE, encoding="utf-8") as f:
+            return set(json.load(f)["main_lanes"].get(group, ()))
+    except OSError:
+        return set()
 # history set: the largest seaborne pairs of these years that are not in the main set (fixed early years, then the
 # three years before the latest, so that a new BACI year moves the window)
 HIST_EARLY = (2005, 2010, 2015, 2019)
@@ -759,14 +773,18 @@ def main():
                         unrouted_all[reason] += r.t
 
         # selection: main set (latest year, floor, cap), mixed lanes, history set
-        main, mixed_l = [], []
+        mixed_l, sea_l = [], []
         for r in gy.itertuples(index=False):
             if r.t < floor or (r.o, r.d) not in routed or r.split == "rest":
                 continue
             if r.mode == "mixed":
                 mixed_l.append((r.o, r.d))
-            elif len(main) < CAP[group]:
-                main.append((r.o, r.d))
+            else:
+                sea_l.append((r.o, r.d))
+        # the pairs of the last release's main set first, then the largest others up to the cap (the released ones count in it)
+        rel = released_main_lanes(group)
+        main = [k for k in sea_l if f"{k[0]}-{k[1]}" in rel]
+        main += [k for k in sea_l if f"{k[0]}-{k[1]}" not in rel][:max(0, CAP[group] - len(main))]
         mainset = set(main) | set(mixed_l)
         history, hist_t, hist_y = [], {}, {}
         gs = g[g["mode"].isin(["sea", "transit"])]

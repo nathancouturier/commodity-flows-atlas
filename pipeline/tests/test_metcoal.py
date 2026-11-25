@@ -3,18 +3,20 @@
 
 1  the tracked cache (pipeline/cache/metcoal_*.csv, metcoal_meta.json) and its totals
 2  the definition guard: PCI counted with the coking coals, or the series breaks in 2022
-3  the meta file: the credit words, the dates, the hash of the raw file
-4  the page: the flows of data/commodities/met-coal.json
-5  the notes of the page
+3  the meta file: the credit words, the dates, the hash of the raw file; the guard on the 2024 totals (a tolerance, not an exact figure)
+4  the page: the flows of data/commodities/met-coal.json and the definitions printed under them
+5  the notes of the page: every figure they print is recomputed here from the cache, and no other percentage is printed
 6  the registry: the two sources, their licence texts, DATA_SOURCES.md and NOTICE.md
 7  the layer is not a part of customs coal (why no builder may subtract one from the other)
 8  without raw/: the reader names no path under raw/, and the extractor leaves the cache as it is
-9  the web: the tag "all coal" on the Thermal coal page only, the sources of a list with several sources
+9  the web: the rules of the Main flows block are tested on fixtures in web/scripts/flow-sources.test.mjs (npm test)
 
 Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_*.py"
 No test reads raw/: they read the cache and the data files as the builders last wrote them.
 """
+import contextlib
 import csv
+import io
 import json
 import os
 import re
@@ -31,7 +33,9 @@ for sub in ("trade", "freight", "commodities"):
     sys.path.insert(0, os.path.join(ROOT, "pipeline", sub))
 sys.path.insert(0, os.path.join(ROOT, "pipeline"))
 
+import build_commodities as B  # noqa: E402
 import clean as C  # noqa: E402
+import extract_metcoal as X  # noqa: E402
 import metcoal  # noqa: E402
 from common import constants as CN  # noqa: E402
 
@@ -84,30 +88,28 @@ class Cache(unittest.TestCase):
         self.assertEqual(len({(r[0], r[1], r[2], r[3], r[4]) for r in d["pairs"]}), len(d["pairs"]), "one row per source, destination, year and coal type")
 
     def test_queensland_2024(self):
-        self.assertEqual(sum(metcoal.pairs(QLD, YEAR).values()), 136985537)
-        self.assertEqual(len(metcoal.pairs(QLD, YEAR)), 31)
-        ct = {k: sum(metcoal.coal_types(QLD, YEAR, d).get(k, 0) for d in metcoal.pairs(QLD, YEAR)) for k in ("hard-coking", "semi-soft", "pci")}
-        for k, mt in (("hard-coking", 91.927), ("pci", 34.583), ("semi-soft", 10.475)):
-            self.assertAlmostEqual(ct[k] / 1e6, mt, places=3)
+        # consistency of the cache with itself: the figures of the publisher are not typed here (a revision of the workbook changes them)
+        pairs = metcoal.pairs(QLD, YEAR)
+        ct = {k: sum(metcoal.coal_types(QLD, YEAR, d).get(k, 0) for d in pairs) for k in ("hard-coking", "semi-soft", "pci")}
+        self.assertEqual(sum(ct.values()), sum(pairs.values()), "the metallurgical coal is the three types, nothing else")
+        self.assertGreater(len(pairs), 20)
         ports = metcoal.ports(QLD, YEAR)
-        for name, mt in (("Dalrymple Bay", 41.564), ("Hay Point", 36.899), ("Gladstone Port", 43.331), ("Abbot Point", 15.192)):
-            self.assertAlmostEqual(ports[name] / 1e6, mt, places=3, msg=name)
+        self.assertEqual(sorted(ports), ["Abbot Point", "Dalrymple Bay", "Gladstone Port", "Hay Point"])
+        self.assertLessEqual(abs(sum(ports.values()) - sum(pairs.values()) - metcoal.meta(QLD)["unallocated"].get(f"{YEAR}-metallurgical", 0)), len(pairs))
 
     def test_eia_2024(self):
         m = metcoal.meta(EIA)["totals"][f"{YEAR}-metallurgical"]
-        self.assertEqual(m["short_tons"], 56586866)
-        self.assertEqual(m["tonnes"], 51334741)
         self.assertEqual(m["tonnes"], round(m["short_tons"] * CN.TONNES_PER_SHORT_TON), "the factor of common/constants.py")
         pairs = metcoal.pairs(EIA, YEAR)
-        self.assertEqual(len(pairs), 34)
         self.assertLessEqual(abs(sum(pairs.values()) - m["tonnes"]), len(pairs))  # each row is rounded to a tonne
-        self.assertEqual(sum(1 for t in pairs.values() if t >= 1000), 32)
         ds = metcoal.ports(EIA, YEAR)
-        for name, mt in (("Norfolk, VA", 30.128), ("Mobile, AL", 8.764), ("Baltimore, MD", 8.696), ("Buffalo, NY", 2.180), ("New Orleans, LA", 1.182)):
-            self.assertAlmostEqual(ds[name] / 1e6, mt, places=3, msg=name)
+        self.assertLessEqual(abs(sum(ds.values()) - m["tonnes"]), 0.005 * m["tonnes"])
+        for name in ("Norfolk, VA", "Mobile, AL", "Baltimore, MD", "Buffalo, NY", "New Orleans, LA"):
+            self.assertIn(name, ds)
+        self.assertGreater(ds["Norfolk, VA"], max(v for k, v in ds.items() if k != "Norfolk, VA"))
         ind, chn = metcoal.districts(EIA, YEAR, "IND"), metcoal.districts(EIA, YEAR, "CHN")
-        self.assertAlmostEqual(ind["Norfolk, VA"] / sum(ind.values()), 0.88, delta=0.01)
-        self.assertAlmostEqual(chn["Baltimore, MD"] / sum(chn.values()), 0.52, delta=0.01)
+        self.assertGreater(ind["Norfolk, VA"] / sum(ind.values()), 0.5)
+        self.assertGreater(chn["Baltimore, MD"] / sum(chn.values()), 0.3)
 
     def test_queensland_ports_add_to_the_pairs_2022_to_2025(self):
         for y in (2022, 2023, 2024, 2025):
@@ -154,6 +156,9 @@ class Meta(unittest.TestCase):
         self.assertIn("30 June 2026", m["data_through"])
         self.assertIn("may be revised", m["revised"])
         self.assertIn("not to be considered attributable to the Department", m["disclaimer"])
+        self.assertEqual(m["credit"], "Source: Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development (NRMMRRD)", "the About sheet's words")
+        self.assertTrue(m["disclaimer_full"].endswith(m["disclaimer"]), "the whole disclaimer of the About sheet ends with the sentence on derived conclusions")
+        self.assertIn("The Department is not responsible for data that is misrepresented, misinterpreted or altered in any way.", m["disclaimer_full"])
         self.assertRegex(m["file"]["sha256"], r"^[0-9a-f]{64}$")
         self.assertEqual(m["file"]["name"], "coal-sales-data-2010-2026.xlsx")
         self.assertEqual(m["excluded_years"], [2026], "2026 has two quarters: not a calendar year")
@@ -172,6 +177,45 @@ class Meta(unittest.TestCase):
             self.assertLessEqual(abs(v["destinations_gap"]) / v["world_short_tons"], 0.005, k)
             self.assertLessEqual(abs(v["districts_gap"]) / v["world_short_tons"], 0.005, k)
 
+    def test_the_guard_on_2024_is_a_tolerance_recorded_in_the_meta_file(self):
+        """The 2024 total is a guard against a changed definition, not against a revision (a new workbook may revise 2024)."""
+        for src in (QLD, EIA):
+            g = metcoal.meta(src)["guard_2024"]
+            self.assertEqual(g["reference"], X.GUARD_2024[src])
+            self.assertLessEqual(abs(g["read"] / g["reference"] - 1), X.GUARD_TOLERANCE, src)
+            self.assertAlmostEqual(g["difference_pct"], (g["read"] / g["reference"] - 1) * 100, places=3)
+        self.assertEqual(X.GUARD_TOLERANCE, 0.02)
+
+    def _guard(self, qld, eia):
+        """check_2024 on a cache whose 2024 totals are the given ones: returns (stops or None, meta)."""
+        pairs = [(QLD, "AUS", "IND", 2024, "hard-coking", "metallurgical", qld), (EIA, "USA", "IND", 2024, "metallurgical", "metallurgical", round(eia * CN.TONNES_PER_SHORT_TON))]
+        meta = {QLD: {"years": [2024]}, EIA: {"years": [2024], "tonnes_per_short_ton": CN.TONNES_PER_SHORT_TON, "totals": {"2024-metallurgical": {"short_tons": eia}}}}
+        try:
+            with contextlib.redirect_stdout(io.StringIO()):
+                X.check_2024(pairs, meta)
+        except SystemExit as e:
+            return str(e), meta
+        return None, meta
+
+    def test_a_revision_inside_the_tolerance_goes_on_and_is_written_to_the_meta_file(self):
+        stop, meta = self._guard(round(X.GUARD_2024[QLD] * 1.01), round(X.GUARD_2024[EIA] * 0.985))
+        self.assertIsNone(stop)
+        self.assertAlmostEqual(meta[QLD]["guard_2024"]["difference_pct"], 1.0, places=1)
+        self.assertAlmostEqual(meta[EIA]["guard_2024"]["difference_pct"], -1.5, places=1)
+        stop, meta = self._guard(X.GUARD_2024[QLD], X.GUARD_2024[EIA])
+        self.assertIsNone(stop)
+        self.assertEqual(meta[QLD]["guard_2024"]["difference_pct"], 0)
+
+    def test_a_change_beyond_the_tolerance_stops_with_what_to_look_at(self):
+        stop, _ = self._guard(round(X.GUARD_2024[QLD] * 1.03), X.GUARD_2024[EIA])
+        self.assertIn("qld-coal-sales", stop)
+        self.assertIn("+3.0%", stop)
+        self.assertIn("what the file counts as metallurgical", stop)
+        self.assertIn("GUARD_2024", stop)
+        stop, _ = self._guard(X.GUARD_2024[QLD], round(X.GUARD_2024[EIA] * 0.97))
+        self.assertIn("eia-coal", stop)
+        self.assertIn("rank codes", stop)
+
 
 class Page(unittest.TestCase):
     """4"""
@@ -182,7 +226,8 @@ class Page(unittest.TestCase):
         cls.fl = cls.d["flows"]
 
     def test_every_flow_is_an_exporter_statistic(self):
-        self.assertEqual(len(self.fl), 63)
+        listed = lambda src: sum(1 for t in metcoal.pairs(src, YEAR).values() if t >= B.MET_FLOW_MIN)  # noqa: E731
+        self.assertEqual(len(self.fl), listed(QLD) + listed(EIA))
         for f in self.fl:
             self.assertIn(f["s"], (QLD, EIA), f)
             self.assertIn(f["o"], ("AUS", "USA"), f)
@@ -195,17 +240,17 @@ class Page(unittest.TestCase):
 
     def test_figures(self):
         by = {(f["o"], f["d"]): f for f in self.fl}
-        self.assertEqual(by[("AUS", "IND")]["v"], 35.419)
-        self.assertEqual(by[("USA", "IND")]["v"], 9.292)
-        self.assertEqual(by[("AUS", "JPN")]["v"], 29.658)
-        self.assertEqual(max(self.fl, key=lambda f: f["v"])["d"], "IND")
+        for src, o in ((QLD, "AUS"), (EIA, "USA")):
+            for d, t in metcoal.pairs(src, YEAR).items():
+                if t >= B.MET_FLOW_MIN:
+                    self.assertEqual(by[(o, d)]["v"], B.rnd(t / 1e6), (o, d))
+        self.assertEqual(self.fl, sorted(self.fl, key=lambda f: -f["v"]))
 
     def test_flows_add_to_the_cache_totals_less_the_rows_under_1000_tonnes(self):
         for src, o in ((QLD, "AUS"), (EIA, "USA")):
             kept = sum(t for t in metcoal.pairs(src, YEAR).values() if t >= 1000)
             self.assertAlmostEqual(sum(f["v"] for f in self.fl if f["s"] == src), kept / 1e6, delta=0.0005 * len(metcoal.pairs(src, YEAR)))
-        self.assertEqual(sum(1 for f in self.fl if f["s"] == QLD), 31)
-        self.assertEqual(sum(1 for f in self.fl if f["s"] == EIA), 32)
+            self.assertEqual(sum(1 for f in self.fl if f["s"] == src), sum(1 for t in metcoal.pairs(src, YEAR).values() if t >= 1000))
 
     def test_title_mode_and_year(self):
         self.assertEqual(self.d["labels"]["flows"], f"Main flows — metallurgical coal, exporters' statistics {YEAR}")
@@ -214,12 +259,64 @@ class Page(unittest.TestCase):
         self.assertIn("Buffalo, NY", us_ca["n"])
         self.assertTrue(all(f.get("mode") for f in self.fl))
 
-    def test_the_rows_of_the_other_exporters_left_the_page_and_stay_on_the_thermal_coal_page(self):
+    def test_the_canada_row_says_that_its_districts_include_lake_ports_and_that_the_overland_arc_is_a_reading(self):
+        us_ca = next(f for f in self.fl if f["o"] == "USA" and f["d"] == "CAN")
+        districts = metcoal.districts(EIA, YEAR, "CAN")
+        for k in B.MET_LAKE_DISTRICTS:
+            self.assertIn(k, districts, "the lake ports the note names are districts of the file")
+            self.assertIn(k, us_ca["n"])
+        self.assertIn("ports of the Great Lakes", us_ca["n"])
+        self.assertIn("the file does not say by which mode", us_ca["n"])
+        self.assertIn("reads the pair as overland", us_ca["n"])
+        # a row of another destination does not carry the sentence
+        self.assertFalse([f for f in self.fl if f["d"] != "CAN" and "Great Lakes" in f.get("n", "")])
+
+    def test_the_definitions_are_printed_under_the_block_from_the_page_file(self):
+        defs = self.d["flowDefs"]
+        self.assertEqual(len(defs), 2, "one short sentence per source")
+        self.assertIn("Queensland only", defs[0])
+        for k in ("hard coking", "semi-soft coking", "PCI", "first destination"):
+            self.assertIn(k, defs[0])
+        self.assertIn("rank metallurgical as declared", defs[1])
+        self.assertIn("first destination", defs[1])
+        self.assertLess(len(" ".join(defs)), 300, "the block stays compact")
+        # the view prints them: from the page file, not from its own text
+        view = read("web", "src", "components", "views", "CommodityView.tsx")
+        self.assertIn("props.defs", view)
+        self.assertNotIn("Queensland only", view)
+
+    def test_the_exporters_without_a_source_by_destination_are_found_where_the_note_says(self):
+        """Note of the coverage: for each exporter it names, the place it gives for its coal by pair exists in the files (a flow of the
+        Thermal coal page, or the customs lanes of all coal), and no list of metallurgical coal holds it."""
         self.assertFalse({f["o"] for f in self.fl} - {"AUS", "USA"})
         th = load("commodities", "thermal-coal.json")
         self.assertEqual({f["s"] for f in th["flows"]}, {"baci"})
         self.assertEqual(th["labels"]["flows"], f"Main flows — all coal, customs data {YEAR}")
-        self.assertTrue({"MNG", "RUS"} <= {f["o"] for f in th["flows"]})
+        lanes = [ln for ln in load("freight", "lanes", "coal.json")["lanes"] if ln["set"] == "main"]
+        self.assertEqual(load("freight", "lanes", "coal.json")["label"], "Coal (all types)")
+        text = next(n for n in self.d["notes"] if n.startswith("What these flows cover"))
+        tail = text.split("list the customs lanes by sea. ")[1].rstrip(".")
+        named = {c: seg for c, seg in (x.split(": ", 1) for x in tail.split("; "))}
+        iso = {"Mongolia": "MNG", "Russia": "RUS", "Canada": "CAN", "Mozambique": "MOZ"}
+        self.assertEqual(set(named), set(iso), "the four exporters of the table with no source by destination")
+        for name, seg in named.items():
+            flows = [f for f in th["flows"] if f["o"] == iso[name]]
+            ln = [x for x in lanes if x["o"] == iso[name]]
+            m = re.search(r"(\d+) of the (\d+) Main flows of the Thermal coal page", seg)
+            self.assertEqual(bool(m), bool(flows), f"{name}: the note names the Thermal coal page exactly when it has a flow there")
+            if m:
+                self.assertEqual((int(m.group(1)), int(m.group(2))), (len(flows), len(th["flows"])), name)
+                for f in flows[:3]:
+                    self.assertIn(f"{B.cname(f['d'])} {B._fmt(f['v'])} Mt", seg, name)
+            m = re.search(r"(\d+) lanes of the lane tables of both coal pages", seg)
+            self.assertEqual(bool(m), bool(ln), f"{name}: the note names the lane tables exactly when it has a main lane there")
+            if m:
+                self.assertEqual(int(m.group(1)), len(ln), name)
+            self.assertTrue(m or flows, f"{name}: the note names a place")
+        # the two pages whose lane table the note names: the Seaborne lanes of both read the coal file
+        freight = read("web", "src", "lib", "freight.ts")
+        self.assertRegex(freight, r"'thermal-coal': \['coal'\]")
+        self.assertRegex(freight, r"'met-coal': \['coal', 'coke'\]")
 
 
 class Words(unittest.TestCase):
@@ -227,8 +324,20 @@ class Words(unittest.TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.notes = page()["notes"]
+        d = page()
+        cls.notes = d["notes"]
         cls.text = "\n".join(cls.notes)
+        # the notes the flows block writes: from the Australian note to the one on the lanes
+        i = next(k for k, n in enumerate(cls.notes) if n.startswith("Australia, "))
+        j = next(k for k, n in enumerate(cls.notes) if n.startswith("The seaborne lanes of this page"))
+        cls.flow_text = "\n".join(cls.notes[i:j + 1])
+        cls.shown = {src: sum(f["v"] for f in d["flows"] if f["s"] == src) for src in (QLD, EIA)}
+        t = load("commodities", "history", "met-coal.json")["t"]["exports"]
+        k = t["years"].index(YEAR)
+        cls.cover = {QLD: cls.shown[QLD] / t["c"]["AUS"][k], EIA: cls.shown[EIA] / t["c"]["USA"][k]}
+        raw = pd.read_csv(os.path.join(CACHE, "baci_flows.csv.gz"))
+        cl = C.clean(raw)
+        cls.cu = cl[(cl["group"] == "coal") & (cl["year"] == YEAR)].groupby(["o", "d"])["t"].sum()
 
     def test_definitions_dates_and_disclaimers(self):
         t = self.text
@@ -251,12 +360,78 @@ class Words(unittest.TestCase):
             self.assertIn(c, self.text.split("No free source loaded gives destinations for")[1])
         self.assertNotIn("Netherlands (", self.text.split("No free source loaded gives destinations for")[1], "the Netherlands re-exports: it mines nothing")
 
-    def test_no_sum_of_the_two_exporters_and_no_share_of_it(self):
+    def test_no_sum_of_the_two_exporters(self):
         both = (sum(metcoal.pairs(QLD, YEAR).values()) + sum(metcoal.pairs(EIA, YEAR).values())) / 1e6
-        self.assertAlmostEqual(both, 188.3, places=1)
-        for s in (f"{both:.1f}", f"{both:,.0f} Mt", "188"):
+        for s in (f"{both:.1f}", f"{both:,.0f} Mt", B._fmt(both)):
             self.assertNotIn(s, self.text)
-        self.assertNotRegex(self.text, r"\b(60|59|58|55)(\.\d)?%")
+
+    def test_no_percentage_but_the_two_coverages_the_builder_computes_from_the_cache(self):
+        """The rule: a percentage in the notes of the flows is one the builder computes from the cache, and each is recomputed here."""
+        got = re.findall(r"\d+(?:\.\d+)?%", self.flow_text)
+        self.assertEqual(sorted(got), sorted(f"{self.cover[k]:.0%}" for k in (QLD, EIA)), "the coverage of each exporter against EIA International, and nothing else")
+
+    def test_the_coverage_against_eia_international(self):
+        """EIA International's exports of metallurgical coal, the figures of the notes: read from the tracked series by year."""
+        t = load("commodities", "history", "met-coal.json")["t"]["exports"]
+        i = t["years"].index(YEAR)
+        aus, usa, world = t["c"]["AUS"][i], t["c"]["USA"][i], t["world"][i]
+        n = next(n for n in self.notes if n.startswith("What these flows cover"))
+        self.assertIn(f"exports of {B._fmt(aus)} Mt for Australia and {B._fmt(usa)} Mt for the United States, of {B._fmt(world)} Mt in the world", n)
+        self.assertEqual(self.cover[QLD], self.shown[QLD] / aus, "recomputed with the builder's arithmetic: the rows listed over the figure of EIA")
+        self.assertIn(f"The Queensland rows are {self.cover[QLD]:.0%} of the Australian figure", n)
+        self.assertIn(f"the EIA rows {self.cover[EIA]:.0%} of the United States figure", n)
+        # the exporters named with their figure are exporters of this table of EIA with at least B.MET_INTL_MIN_MT, in order of size
+        big = {B.cname(c): v[i] for c, v in t["c"].items() if c not in ("AUS", "USA") and (v[i] or 0) >= B.MET_INTL_MIN_MT and B.cname(c) != c}
+        named = n.split("No free source loaded gives destinations for ")[1].split(", and no list of metallurgical coal")[0]
+        items = re.findall(r"([A-Z][A-Za-z ]+?) \(([\d.,]+) Mt\)", named)
+        self.assertEqual({c for c, _ in items}, {"Mongolia", "Russia", "Canada", "Mozambique"})
+        for c, v in items:
+            self.assertEqual(v, B._fmt(big[c]), c)
+        self.assertEqual([v for _, v in items], sorted((v for _, v in items), key=lambda x: -float(x.replace(",", ""))), "largest first")
+
+    def test_the_counts_of_countries_and_the_queensland_total_of_the_next_year(self):
+        q = next(n for n in self.notes if n.startswith("Australia, "))
+        u = next(n for n in self.notes if n.startswith("United States, "))
+        for n, src in ((q, QLD), (u, EIA)):
+            allc, listed = len(metcoal.pairs(src, YEAR)), sum(1 for t in metcoal.pairs(src, YEAR).values() if t >= B.MET_FLOW_MIN)
+            self.assertIn(f"to {allc} countries", n)
+            sentence = f"{listed} of the {allc} countries have at least {B.MET_FLOW_MIN:,} t and are listed above"
+            (self.assertIn if listed != allc else self.assertNotIn)(sentence, n)
+        self.assertIn("34 countries", u)
+        self.assertIn("32 of the 34 countries", u, "the block lists 32 rows of the 34 countries: the two numbers and why")
+        total = metcoal.meta(QLD)["totals"][f"{YEAR + 1}-metallurgical"]
+        self.assertIn(f"Queensland's total of {YEAR + 1}: {B._fmt(total / 1e6)} Mt.", q)
+        self.assertEqual(total, sum(metcoal.pairs(QLD, YEAR + 1).values()))
+
+    def test_the_districts_of_the_notes_are_the_file_s_and_no_source_is_claimed_for_hampton_roads(self):
+        u = next(n for n in self.notes if n.startswith("United States, "))
+        du = sorted(metcoal.ports(EIA, YEAR).items(), key=lambda kv: -kv[1])
+        self.assertIn("By customs district, as the file names them: " + ", ".join(f"{k} {B._fmt(v / 1e6)} Mt" for k, v in du[:5]), u)
+        can = metcoal.districts(EIA, YEAR, "CAN")
+        self.assertIn(f"of the {B._fmt(metcoal.pairs(EIA, YEAR)['CAN'] / 1e6)} Mt to Canada, {B._fmt(can['Buffalo, NY'] / 1e6)} Mt left through Buffalo, NY", u)
+        self.assertIn("Cleveland, OH and Detroit, MI, ports of the Great Lakes", u)
+        self.assertNotIn("Hampton Roads", self.text, "no file on disk states it: only the district's name is printed")
+
+    def test_queensland_credit_and_disclaimer_in_the_publisher_s_words(self):
+        q = next(n for n in self.notes if n.startswith("Australia, "))
+        m = metcoal.meta(QLD)
+        self.assertIn(f'Credit as the workbook\'s About sheet gives it: "{m["credit"]}"', q)
+        self.assertIn(f'The disclaimer of the About sheet reads: "{m["disclaimer_full"]}"', q)
+        self.assertIn("(CC BY 4.0)", q)
+
+    def test_the_examples_of_the_first_destination_note_are_the_cache_s_figures(self):
+        """The India and Singapore examples, the largest gap and the counts of pairs above the customs record: the builder's arithmetic, here from the cache."""
+        n = next(n for n in self.notes if n.startswith("First destination is not always the buyer"))
+        above = [(o, d, t, float(self.cu.get((o, d), 0))) for o, src in (("AUS", QLD), ("USA", EIA)) for d, t in metcoal.pairs(src, YEAR).items()
+                 if t >= B.MET_FLOW_MIN and t > float(self.cu.get((o, d), 0))]
+        nq, nu = (sum(1 for t in metcoal.pairs(src, YEAR).values() if t >= B.MET_FLOW_MIN) for src in (QLD, EIA))
+        self.assertIn(f"{sum(1 for r in above if r[0] == 'AUS')} of the {nq} Queensland pairs and {sum(1 for r in above if r[0] == 'USA')} of the {nu} United States pairs", n)
+        big = max(above, key=lambda r: r[2] - r[3])
+        self.assertIn(f"the largest gap is {B.cname(big[0])} to {B.cname(big[1])}, {B._fmt(big[2] / 1e6)} Mt against {B._fmt(big[3] / 1e6)} Mt in customs data", n)
+        ind = metcoal.pairs(QLD, YEAR)["IND"]
+        cq = float(self.cu[("AUS", "IND")])
+        self.assertIn(f"customs data record {B._fmt(cq / 1e6)} Mt of all coal and Queensland {B._fmt(ind / 1e6)} Mt of metallurgical coal, and the difference ({B._fmt((cq - ind) / 1e6)} Mt)", n)
+        self.assertEqual(big[1], "SGP", "Singapore: the largest gap")
 
     def test_a_visitor_reads_no_pipeline_words(self):
         for w in ("cache", "builder", "raw", "extractor", "package"):
@@ -359,31 +534,6 @@ class WithoutRaw(unittest.TestCase):
             for n, b in before.items():
                 self.assertEqual(cached(os.path.join(tmp, "pipeline", "cache"), n), b, n)
                 self.assertEqual(cached(CACHE, n), b, "the copy is the tracked cache")
-
-
-class Web(unittest.TestCase):
-    """9: read from the source, as test_fncc.py does"""
-
-    @classmethod
-    def setUpClass(cls):
-        cls.view = read("web", "src", "components", "views", "CommodityView.tsx")
-
-    def test_the_tag_all_coal_is_the_thermal_coal_page_only(self):
-        self.assertIn("const isAllCoal = (id: string) => id === 'thermal-coal';", self.view)
-        self.assertIn("tag={isAllCoal(id) ? 'all coal' : undefined}", self.view)
-        self.assertNotIn("isCoal(", self.view)
-
-    def test_a_list_with_several_sources_names_them(self):
-        self.assertRegex(self.view, r"const several = new Set\(props\.flows\.filter\(\(f\) => f\.s !== 'atlas'\)\.map\(\(f\) => f\.s\)\)\.size > 1;")
-        self.assertIn("{several && <SourcesLine items={props.flows}", self.view)
-        self.assertIn("{!several && first && <SourceLine", self.view, "one source: the footer is as before")
-        self.assertIn("(f.s === 'atlas' ? f.s !== first.s : several)", self.view)
-        self.assertIn("'qld-coal-sales': 'Queensland Government'", read("web", "src", "components", "ui.tsx"))
-
-    def test_the_map_label_of_an_overland_arc_says_customs_only_for_a_customs_flow(self):
-        src = read("web", "src", "map", "modules", "landflows.ts")
-        self.assertIn("${f.usd != null ? ' (customs)' : ''}", src)
-        self.assertNotIn("'overland'} (customs)", src)
 
 
 if __name__ == "__main__":

@@ -526,7 +526,7 @@ function Answer({
           </dd>
           {pair.restKt > 0 && (
             <small class="rf-small">
-              Part by sea of {tonnage(kt + pair.restKt, est, pair.group)} in all modes; the other {tonnage(pair.restKt, false, pair.group)} is read as overland (rail, road or pipeline).
+              Part by sea of {tonnage(kt + pair.restKt, est, pair.group)} in all modes; the source gives the part by vessel only, and the other {tonnage(pair.restKt, false, pair.group)} is read as overland (rail, road or pipeline).
             </small>
           )}
         </div>

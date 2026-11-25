@@ -496,6 +496,7 @@
 "gen-steel-nw-europe-med",
 "gen-steel-sea-med",
 "gen-steel-black-sea-med",
+"gen-sugar-sea-sea",
 "gen-sulphur-meg-waf",
 "gen-sulphur-meg-n-china",
 "gen-sulphur-meg-sea",
@@ -1448,8 +1449,7 @@
 "routes": [
 "gen-ammonia-meg-waf",
 "gen-ammonia-meg-wc-india",
-"gen-lpg-nw-europe-nw-europe",
-"gen-lpg-med-med"
+"gen-lpg-nw-europe-nw-europe"
 ],
 "notes": "Band as a ship manager states it for its mid-size, fully refrigerated LPG ships (25,000 to 50,000 cbm); other published scales cut the gas-carrier classes differently. The typical size is the middle of the band, an Atlas convention: no typical size was read. The Atlas puts the class first on LPG lanes shorter than 1,000 nm, and on lanes under 3,000 nm that load less than one VLGC parcel a week (44 kt x 52); the two distances are Atlas assumptions. Speed: the class has none of its own, so the default speed the Atlas assumes for such a class applies (see the assumed laden service speed). The Atlas also puts it first on ammonia lanes (the Urea & nitrogen page), the VLGC second: ammonia is a refrigerated liquid carried in gas carriers like LPG. This is an Atlas assumption: no page was read for the class of ammonia lanes.",
 "s": "wilhelmsen-lpg-sizes",

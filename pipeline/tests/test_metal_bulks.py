@@ -286,9 +286,10 @@ class EngineTests(unittest.TestCase):
         gen = [r for r in routes if r.get("generated")]
         ids = [r["id"] for r in gen if r["id"].startswith(tuple(f"gen-{g}-" for g in LANES))]
         self.assertTrue(1 <= len(ids) <= 10, ids)
-        # the cap of the first package is 122 since FNCF (generated_routes.TOTAL_CAP: the two released routes that the cap of 120 gave up are back);
+        # the first package: the cap of 120, or the routes of the last release when they are more (they stay whatever the cap: generated_routes.select_group);
         # + the 6 routes of package FNCB (ammonium nitrate with limestone, the two-nutrient compounds)
-        self.assertEqual(len(gen), GR.TOTAL_CAP + 20 + 10 + len(ids) + 6)
+        first = max(GR.TOTAL_CAP, len([i for i in GR.released_routes() if not GR.is_later_route(i)]))
+        self.assertEqual(len(gen), first + 20 + 10 + len(ids) + 6)
         self.assertEqual(len({r["id"] for r in routes}), len(routes))
 
 

@@ -82,7 +82,8 @@ class C5BoardLine(unittest.TestCase):
     def test_the_board_counts_from_the_index_what_it_leaves_out(self):
         src = read("web", "src", "components", "PriceBoard.tsx")
         self.assertIn("idx.filter((m) => !m.hidden && m.stats && (m.closed || m.freq === 'A')).length", src)
-        self.assertIn("annual series and series their publisher stopped are not listed here", src)
+        self.assertIn("annual series and series their publisher stopped are not listed here: they open from the search, and from the page of their commodity where they have one.", src)
+        self.assertNotIn("they are on each commodity's page and in the search", src)  # the manufactures unit value index (muv-a) belongs to no commodity page
 
     def test_the_two_counts_cover_the_index(self):
         idx = load("data", "prices", "index.json")

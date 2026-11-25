@@ -229,7 +229,7 @@ export default function LaneView({ id }: { id: string }) {
         <AltBox alts={lane.alts} alt={lane.alt} note={lane.altNote} />
         {lane.hist.length > 1 && (
           <Section title={`Volume ${file.years[0]}–${file.years[file.years.length - 1]}${lane.histAll ? ', all modes' : ''}`}>
-            <HistoryChart years={file.years} values={lane.hist} unit={file.unit} color={color} flags={lane.histFlags} allEst={file.s === 'atlas'} />
+            <HistoryChart years={file.years} values={lane.hist} unit={file.unit} color={color} flags={lane.histFlags} allEst={file.s === 'atlas'} volumeYears={lane.histVolume} />
             <HistFlagNotes lane={lane} />
             {lane.histSrc ? (
               // the estimated years are the atlas's own figures made from other sources: they are named beside the customs file

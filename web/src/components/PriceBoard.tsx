@@ -236,7 +236,7 @@ export function PriceBoard(props: { onClose: () => void; onOpen: (id: string) =>
         )}{' '}
         · Changes are arithmetic on the published values ({andList(shownSources.map((x) => SOURCE_WORDS[x]?.values ?? sourceLabel(x)))}), each against the last
         observation on or before the same date; no reference, no figure{shown.some((m) => /deviation/i.test(m.unit)) ? ', and none for a deviation from a trend or an average, which crosses zero' : ''}. The 52-week bar is the last 12 months for monthly series.
-        {apart > 0 && ` ${apart} annual series and series their publisher stopped are not listed here: they are on each commodity's page and in the search.`}
+        {apart > 0 && ` ${apart} annual series and series their publisher stopped are not listed here: they open from the search, and from the page of their commodity where they have one.`}
       </div>
     </div>
   );

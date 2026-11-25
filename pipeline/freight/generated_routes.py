@@ -12,7 +12,9 @@ A generated route is the atlas's own corridor, never a market benchmark: its sou
 "gen-", and it carries `generated: true`. Its ports, class, distance and passages are those of the largest pair of its
 corridor, as the Route finder reads them (build_freight.py plans the route with the same call as build_lanes.py).
 """
+import json
 import math
+import os
 import re
 from collections import defaultdict
 
@@ -27,20 +29,14 @@ FLOOR_MT, FLOOR_SHARE = 0.5, 0.02
 # ... and at least this share of its own tonnes must be outside the hand-written corridors (else it is already named).
 MIN_NEW_SHARE = 0.5
 GROUP_CAP = 12
-# Groups that may keep one corridor more than GROUP_CAP (FNCF, review GV6A.3). Wheat had twelve corridors on the released site; once French wheat
-# loads at Rouen, two North-West European corridors (France to West Africa, and within North-West Europe) take places in the first twelve, one of
-# them in place of the Mediterranean corridor to West Africa that no longer exists, and the Canadian one (West Canada to East Asia, 3.8 Mt, a corridor
-# that has not changed) would be pushed out of the group by them, not by anything that moved on its own side.
-GROUP_CAP_MORE = {"wheat": 13}
 # Cap on the generated routes of the whole atlas: the map draws every route, so the count has to stay readable. When the
 # per-group lists exceed it, the first corridor of each group of AUDIT_GROUPS is kept first, then the corridors are taken
 # by their tonnes across groups (each group's in its own order), so that no corridor is left out for a smaller one of
 # another group (review GL1.8: three corridors of 1.1 to 1.5 Mt had given way to corridors of 0.5 Mt of small groups).
-# 120 on the released site; 122 since FNCF (review GV6A.3): with French grain, sugar and steel on their new ports, two corridors that the
-# release holds and that did not change (sugar within South-East Asia, 2.3 Mt, and with the wheat exception above wheat from West Canada to
-# East Asia, 3.8 Mt) came after the 120th by tonnes. Rebuilt at 121 the sugar corridor is still left out, at 122 every generated route of the
-# released site whose corridor still exists is generated again (two routes end with the French ports: gen-steel-med-nw-europe and gen-wheat-med-waf).
-TOTAL_CAP = 122
+# The caps never drop a route of the last release (RELEASED_FILE): such a route stays as long as its corridor still exists, and the caps
+# are what is left for the new ones. Before that rule the caps were 120 and 122, and moved up with each change of ranking that pushed a
+# published route out (sugar within South-East Asia, wheat from West Canada to East Asia).
+TOTAL_CAP = 120
 # The groups that the audit's entries on named routes name (M-030: crude oil, iron ore, coal, refined products, LNG, steel,
 # sugar, rice, manganese, alumina, rapeseed; M-031: sugar, rice, rapeseed, coffee, cocoa, cotton, phosphate rock, DAP, urea,
 # soybean meal, palm oil, corn, wheat, potash, soybeans).
@@ -61,6 +57,29 @@ LATER_GROUPS = [(frozenset({"potassium-sulphate", "monoammonium-phosphate", "sup
                            "ferro-silicon"}), 10),
                # review GNC1.4: the two fertiliser groups loaded after the first package, 6 routes in all
                (frozenset({"ammonium-nitrate-limestone", "npk-two-nutrient"}), 6)]
+
+# The ids of what the last release published (written by release_ids.py at each release): the generated routes that stay while their corridor exists.
+RELEASED_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "released_ids.json")
+
+
+def released_routes():
+    """frozenset of the generated route ids of the last release; empty when the file is not there (a first release)."""
+    try:
+        with open(RELEASED_FILE, encoding="utf-8") as f:
+            return frozenset(json.load(f)["generated_routes"])
+    except OSError:
+        return frozenset()
+
+
+def is_later_route(rid):
+    """Whether a generated route id is of a group of LATER_GROUPS (the groups with a cap of their own)."""
+    return any(rid.startswith(f"gen-{g}-") for gs, _ in LATER_GROUPS for g in gs)
+
+
+def route_id(group, a, b):
+    """Id of the generated route of a corridor: its group, exporting zone and importing zone (or region, "r:" written "r-")."""
+    return f"gen-{group}-{a}-{b.replace('r:', 'r-')}"
+
 
 # Importing end seen at a coarser level when no zone-to-zone corridor holds the tonnes: a region is a set of freight zones
 # (an Atlas grouping, listed here with the name each region takes in a route name).
@@ -144,11 +163,14 @@ def _candidates(rows, level, zone_of):
     return cells
 
 
-def select_group(group, p, ports, covered, zone, target=TARGET, excluded=frozenset()):
+def select_group(group, p, ports, covered, zone, target=TARGET, excluded=frozenset(), keep=frozenset()):
     """Corridors of one group, in the order they are chosen: [{level, a, b, rows, t, new}]. `p` is the decoded pairs file,
     `ports` its port table, `covered` {(group, o, d): [route ids]} of the hand-written routes. Only routed seaborne pairs
     take part: a pair with no gateway, or no sea route, has no ports to draw. `excluded` is {(group, o, d)} of the pairs that
-    no corridor takes (a landlocked trading centre as declared destination or origin, caveat kind "landlocked-centre")."""
+    no corridor takes (a landlocked trading centre as declared destination or origin, caveat kind "landlocked-centre").
+    `keep` is the set of the ids of the routes of the last release: a corridor of it that still holds at least FLOOR_MT of recorded seaborne
+    tonnes between its two ends is chosen first, whatever the caps and the other floors (`released` is true in its entry); the caps count it, so
+    the new corridors take the places that are left."""
     sea = p["seaborne"]
     rows, named = [], 0.0
     for r in p["rows"]:
@@ -162,11 +184,22 @@ def select_group(group, p, ports, covered, zone, target=TARGET, excluded=frozens
     chosen, taken = [], set()
     reached = named
     for level in (0, 1):
+        # the corridors of the last release that still exist come first: no floor of the share and no cap puts out a published route, and the new
+        # corridors below are chosen from the pairs they leave
+        left = [r for r in rows if id(r) not in taken]
+        for (a, b), rs in sorted(_candidates(left, level, zone).items(), key=lambda kv: (-sum(r["t"] for r in kv[1] if r["new"]), kv[0])):
+            tot = sum(r["t"] for r in rs)
+            if route_id(group, a, b) in keep and tot >= FLOOR_MT:
+                new = sum(r["t"] for r in rs if r["new"])
+                chosen.append({"level": level, "a": a, "b": b, "rows": rs, "t": tot, "new": new, "released": True})
+                taken.update(id(r) for r in rs)
+                reached += new
+    for level in (0, 1):
         left = [r for r in rows if id(r) not in taken]
         cells = _candidates(left, level, zone)
         ranked = sorted(cells.items(), key=lambda kv: (-sum(r["t"] for r in kv[1] if r["new"]), kv[0]))
         for (a, b), rs in ranked:
-            if reached >= target * sea or len(chosen) >= GROUP_CAP_MORE.get(group, GROUP_CAP):
+            if reached >= target * sea or len(chosen) >= GROUP_CAP:
                 return chosen
             tot, new = sum(r["t"] for r in rs), sum(r["t"] for r in rs if r["new"])
             if new < floor or new < MIN_NEW_SHARE * tot:
@@ -303,27 +336,41 @@ def cap_order(per_group, total_cap=TOTAL_CAP, first=AUDIT_GROUPS, second=frozens
     return order[:total_cap]
 
 
-def generate(pairs, ports_by_group, hand, zones, at, cargo_label, route_names, country, target=TARGET, total_cap=TOTAL_CAP, excluded=frozenset()):
+def generate(pairs, ports_by_group, hand, zones, at, cargo_label, route_names, country, target=TARGET, total_cap=TOTAL_CAP, excluded=frozenset(), released=None):
     """Route definitions of the generated corridors, and a report.
 
     pairs: decoded pairs files (build_freight.load_pairs, with `ports`); hand: {(group, o, d): [route ids]} of the
     hand-written routes still running; zones: zones.json; at(code): [lon, lat] of a port; cargo_label(group): (name for a route
     name, noun for a sentence) of the cargo; country(iso3): its name; route_names: {route id: name} of the hand-written
-    routes; excluded: {(group, o, d)} of the pairs that no corridor takes (select_group). Returns (defs, report). A def holds the fields of a routes_def.json entry plus `generated`, `_ports` (load and
+    routes; excluded: {(group, o, d)} of the pairs that no corridor takes (select_group); released: the ids of the generated routes of the last release
+    (released_routes() when None), which stay while their corridor exists and take places under the caps before the new corridors. Returns (defs, report). A def holds the fields of a routes_def.json entry plus `generated`, `_ports` (load and
     discharge port of the largest pair), `_pair` (group, exporter, importer, Mt of that pair) and `_nm` (its distance);
     build_freight.py plans and measures it like any other route. The report gives, for each group, its seaborne
     Mt, the share named by the hand-written routes, the share after the generated routes, the corridors the cap left out
     (`left`: name and Mt that no route names) and the reason when the target is not reached."""
     names = zone_names(zones)
     zone = zone_lookup(ports_by_group, at)
+    released = released_routes() if released is None else frozenset(released)
     per_group = {}
     for g in sorted(pairs):
-        per_group[g] = select_group(g, pairs[g], ports_by_group[g], hand, zone, target, excluded)
+        per_group[g] = select_group(g, pairs[g], ports_by_group[g], hand, zone, target, excluded, released)
     later = set().union(*(gs for gs, _ in LATER_GROUPS)) if LATER_GROUPS else set()
-    kept = {(g, i) for i, g in cap_order({g: c for g, c in per_group.items() if g not in later}, total_cap)}
+    # the routes of the last release that stay are kept whatever the caps; the new corridors (listed after them in each group) share the places that are
+    # left under the caps, and a group that keeps a released route no longer needs its first corridor to be kept first
+    n_rel = {g: sum(1 for c in cs if c.get("released")) for g, cs in per_group.items()}
+    kept = {(g, i) for g, cs in per_group.items() for i, c in enumerate(cs) if c.get("released")}
+
+    def new_only(groups):
+        return {g: per_group[g][n_rel[g]:] for g in per_group if g in groups}
+
+    def take(groups, cap, first, second=frozenset()):
+        free = max(0, cap - sum(n_rel[g] for g in groups if g in n_rel))
+        return {(g, n_rel[g] + i) for i, g in cap_order(new_only(groups), free, first=frozenset(g for g in first if n_rel.get(g, 0) == 0),
+                                                         second=frozenset(g for g in second if n_rel.get(g, 0) == 0))}
+    kept |= take({g for g in per_group if g not in later}, total_cap, AUDIT_GROUPS)
     for gs, cap in LATER_GROUPS:
         big = {g for g in gs if g in pairs and pairs[g]["seaborne"] > TWO_ROUTES_ABOVE_MT}
-        kept |= {(g, i) for i, g in cap_order({g: c for g, c in per_group.items() if g in gs}, cap, first=gs, second=big)}
+        kept |= take(set(gs), cap, gs, big)
     desc = {(g, i): _describe(g, pairs[g], c, ports_by_group[g], names, zone, country, cargo_label)
             for g, cs in per_group.items() for i, c in enumerate(cs)}
     # two routes of a group never share a name: the zone names tell them apart
@@ -375,12 +422,20 @@ def generate(pairs, ports_by_group, hand, zones, at, cargo_label, route_names, c
             if left:
                 why = (f"the cap of {next((cap for gs, cap in LATER_GROUPS if g in gs), total_cap)} generated routes "
                        f"{'for the groups added with it ' if g in later else ''}left out {len(left)} corridor{'s' if len(left) > 1 else ''}")
-            elif got >= GROUP_CAP_MORE.get(g, GROUP_CAP):
-                why = f"the cap of {GROUP_CAP_MORE.get(g, GROUP_CAP)} routes per group was reached"
+            elif got >= GROUP_CAP:
+                why = f"the cap of {GROUP_CAP} routes per group was reached"
             else:
                 why = (f"the remaining corridors are each under {max(FLOOR_MT, FLOOR_SHARE * sea):.1f} Mt, or mostly named by "
                        "hand-written routes, or have no routed port")
-        report[g] = {"seaborne": sea, "handShare": 100 * named / sea, "share": 100 * tonnes / sea, "generated": got, "left": left, "why": why}
+        report[g] = {"seaborne": sea, "handShare": 100 * named / sea, "share": 100 * tonnes / sea, "generated": got, "left": left, "why": why,
+                     "released": n_rel[g], "ended": []}
+    # the routes of the last release whose corridor is gone (fewer than FLOOR_MT of recorded seaborne tonnes between its two ends, or no such
+    # group any more): listed with their group, the longest group name that starts the id
+    made = {d["id"] for d in defs}
+    for rid in sorted(released - made):
+        g = max((g for g in report if rid.startswith(f"gen-{g}-")), key=len, default=None)
+        if g:
+            report[g]["ended"].append(rid)
     return defs, report
 
 
@@ -403,6 +458,10 @@ def qa_markdown(report, target=TARGET, total_cap=TOTAL_CAP):
         f"hand-written routes, at least {100 * MIN_NEW_SHARE:.0f}% of the corridor's own tonnes outside them.",
         f"- {sum(x['generated'] for x in report.values())} generated routes over {len(report)} groups, {tot:,.0f} Mt of seaborne trade. "
         f"Named by hand-written routes: {hand:.1f}%. With the generated routes: {both:.1f}%.",
+        f"- {sum(x['released'] for x in report.values())} of them are routes of the last release, kept because their corridor still holds at least {FLOOR_MT} Mt "
+        "of recorded seaborne tonnes: the caps never put one out and count them, the new corridors take the places that are left "
+        f"({sum(x['generated'] - x['released'] for x in report.values())} new). Routes of the last release whose corridor is gone: "
+        + (", ".join(f"`{i}`" for x in report.values() for i in x["ended"]) or "none") + ".",
         f"- {len(report) - len(short)} of {len(report)} groups reach the target; {len(short)} are short of it.",
         "",
         "| Group | Seaborne Mt | Hand-written % | With generated % | Generated routes | Reason when under target |",
