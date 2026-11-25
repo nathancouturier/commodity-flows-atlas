@@ -20,7 +20,7 @@ released. This file is updated at each release.
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
 | 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). A release number with release notes, a way to report an error, a coverage table of the commodity pages, a voyage calculator on the route pages and port facts from the World Port Index (eighth release, 25 November). Being loaded, shown next: weekly traffic per port from IMF PortWatch (little by little and slowly, as the owner decided on 25 November). Designed, built after it: a block on the state of the freight market. Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
-| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,897 and 138 at the eighth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The scheduled update jobs have not run in their new form yet: the first are PortWatch on Wednesday 25 November at 19:17 UTC and prices the same day at 21:43 UTC |
 
 ## Eighth release (25 November 2026): what changed
 
@@ -101,7 +101,7 @@ answer, and a status entry that would have turned "stale" if it were published b
   the berths and offshore), tidal range, harbour size and type, and pilotage, as Publication 150 of the US
   National Geospatial-Intelligence Agency gives them. Four of the depths are printed as the bands of the
   publication's own key ("14.0 to 15.2 m", "23.2 m or more"); the LNG terminal depth, whose values in the
-  file are not on the key's grid, is printed as given. The figures are the publication's, shown beside the limits of the page each
+  file are, with one exception, not on the key's grid, is printed as given. The figures are the publication's, shown beside the limits of the page each
   port cites and never merged with them; "Largest class" is unchanged.
 - A port has the block only when its entry is surely the same place: 115 by UN/LOCODE, 18 by name
   and country, 5 after a review written in the code. 36 doubtful matches and 16 ports without an
@@ -130,8 +130,8 @@ answer, and a status entry that would have turned "stale" if it were published b
 - Weekly traffic per port (audit point A-036) is prepared and not shown yet. The owner's rule of 25 November
   is applied: one request at a time, 8 to 14 seconds apart (the script's reading of "slowly"), a first load in
   sittings of at most 15 ports, one sitting at a time (the script enforces both), twenty minutes apart.
-  The first load began on 25 November 2026: 60 of the 163 ports were read when this release was
-  prepared, and the load goes on.
+  The first load began on 25 November 2026: 90 of the 163 ports were read when this release was
+  published, and the load goes on.
   The files hold the atlas's own weekly sums (port calls, estimated import and export tonnes, by ship type),
   never a daily row. No page reads them in this release and no scheduled job reads the table: the registry,
   the About window and the documents say so; the port pages and the weekly update come next, after the first
@@ -143,10 +143,25 @@ answer, and a status entry that would have turned "stale" if it were published b
 
 ### Checks
 
-- 1,897 unit tests (1,562 at the seventh release) and 138 web tests (75), all passing without the raw
+- 1,899 unit tests (1,562 at the seventh release) and 138 web tests (75), all passing without the raw
   downloads; a second run of every builder changes no file; the checks of GitHub reproduced on a fresh clone;
   five browser suites on the production build; 41 targeted checks of the new blocks and of their
   corrections.
+- A reading of 1,125 pages of the candidate (every commodity, country, passage, route, vessel class and event
+  page and 402 lanes) against the released site: 292 pages differ, each by one of the two additions expected
+  (the "Voyage calculator" block on 259 routes; the section "What does not apply here" on the 33 commodity
+  pages that have a block that cannot apply), and the other 833 read the same. All 190 port pages and 83 other
+  asset pages were read as well: none shows an error, the World Port Index block is on the 138 ports that have
+  an entry and on no other, and of the 113 asset pages also read on the released site, 88 read the same and 25
+  differ by that block alone.
+- A second review, by two reviewers on a frozen copy of the corrected candidate: 12 findings, 2 of them
+  important and neither on a figure (a sentence of the method said that the 2017 edition of the World Port
+  Index has no LNG terminal depth, when its explanation of the columns names one and only its printed table
+  lacks the column; the guard against a refresh with a forgotten date could be waved through). A last package
+  corrected them with nine of the ten small points; the tenth was there before and is left for later (in the
+  calculator, a number typed with a thousands comma shows the warning until its last three digits are
+  typed). An independent verifier reproduced each correction, and the orchestrator read the diff line by
+  line.
 - Two slips of the packages, to know about. The first browser run of the "Report an error" package let the
   tab opened by the click reach github.com: 14 requests to the repository's new-issue address, each answered by
   a redirect to GitHub's sign-in page; no issue was created, and each address carried a local test address, a
@@ -1122,7 +1137,7 @@ These were needed to finish the work; each is reversible.
   at the position of PortWatch's port "Ras Lanuf (Al Burayqah)", about 100 km east of the World Port Index's Ras
   Lanuf, and will be renamed or moved before its traffic series is shown.
 - Voyage calculator: the laden distance has no year (the SeaRoute network gives none); no weather allowance and
-  no commission; five eligible routes have no standard vessel, so the speed is the class's (an Atlas assumption)
+  no commission; a number typed with a thousands comma shows the warning until its last three digits are typed; five eligible routes have no standard vessel, so the speed is the class's (an Atlas assumption)
   and the fuel is typed; a route with a status note on the Strait of Hormuz computes on its normal routing.
 - Coverage table: no block is marked "not available for free" yet; aluminium, zinc, lead, tin, cobalt and rare
   earths show their routes as missing, because a named route is expected wherever lanes exist.
