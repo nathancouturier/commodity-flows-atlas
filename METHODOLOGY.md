@@ -943,8 +943,8 @@ the extent specifically permitted under the terms of the level of your subscript
 Policy". The Data Policy (https://www.balticexchange.com/en/site-services/data-policy.html) says that its subscribers "have access
 to a range of indices and other market data produced by the Baltic" (clause 1.2), and that the holder of a licence shall not
 "display Baltic Data on any intranet or public website" and shall not "use ... Baltic Data to create derived data, including
-pricing data or other information that would be created in whole or in part from Baltic Data" (clauses 2.2.3 and 2.3.3; clause 4.2
-says the same of a client of a channel partner).
+pricing data or other information that would be created in whole or in part from Baltic Data" (clause 2.2.3, a Restricted Baltic Data
+Licence; clauses 2.3.3 and 4.2 are close in wording, for a Full Baltic Data Licence and for a client of a channel partner).
 Neither page says whether the descriptions of the standard vessels are Baltic Data, or whether a reader without a licence is bound
 by the policy: that is not settled. If the owner answers that the calculator may not use them, one line (`standardVessel`) leaves
 the speed and fuel fields empty. The `baltic` entry of the registry names this use.
