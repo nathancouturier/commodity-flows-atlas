@@ -10,6 +10,7 @@
 7  the layer is not a part of customs coal (why no builder may subtract one from the other)
 8  without raw/: the reader names no path under raw/, and the extractor leaves the cache as it is
 9  the web: the rules of the Main flows block are tested on fixtures in web/scripts/flow-sources.test.mjs (npm test)
+10 the figures that METHODOLOGY types for the layer are the cache's and the page's
 
 Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_*.py"
 No test reads raw/: they read the cache and the data files as the builders last wrote them.
@@ -546,6 +547,80 @@ class NotAPartOfCustomsCoal(unittest.TestCase):
         self.assertEqual(load("freight", "lanes", "coal.json")["seaborne"][-1], 1377.28)
         for sub in ("lanes", "pairs"):
             self.assertFalse([f for f in os.listdir(os.path.join(DATA, "freight", sub)) if "metcoal" in f or "met-coal" in f], sub)
+
+
+class MethodologyFigures(unittest.TestCase):
+    """10: the figures that the paragraph of METHODOLOGY on the metallurgical coal layer types are the cache's and the page's, so that a revised
+    workbook (inside the 2% of the guard) or a new year cannot leave the document with the old ones."""
+
+    @classmethod
+    def setUpClass(cls):
+        text = " ".join(read("METHODOLOGY.md").split())
+        i = text.index("*Metallurgical coal by pair of countries*")
+        cls.sec = text[i:text.index("## 11. Infrastructure layer", i)]
+        cls.notes = page()["notes"]
+        raw = pd.read_csv(os.path.join(CACHE, "baci_flows.csv.gz"))
+        cl = C.clean(raw)
+        cls.cu = cl[(cl["group"] == "coal") & (cl["year"] == YEAR)].groupby(["o", "d"])["t"].sum()
+        cls.pq, cls.pu = metcoal.pairs(QLD, YEAR), metcoal.pairs(EIA, YEAR)
+
+    def test_totals_countries_and_rows(self):
+        pq, pu = self.pq, self.pu
+        self.assertIn(f"({sum(pq.values()) / 1e6:.2f} Mt to {len(pq)} countries in {YEAR};", self.sec)
+        self.assertIn(f"({sum(pu.values()) / 1e6:.2f} Mt to {len(pu)} countries in {YEAR},", self.sec)
+        nq, nu = (sum(1 for t in p.values() if t >= B.MET_FLOW_MIN) for p in (pq, pu))
+        self.assertIn(f"{nq + nu} rows, {nq} of Queensland and {nu} of the United States (two of its {len(pu)} destinations are under 1,000 t)", self.sec)
+        self.assertEqual(len(page()["flows"]), nq + nu)
+        self.assertEqual(len(pu) - nu, 2)
+        # the same totals, as the notes of the page print them
+        self.assertTrue([n for n in self.notes if f"{B._fmt(sum(pq.values()) / 1e6)} Mt to {len(pq)} countries" in n])
+        self.assertTrue([n for n in self.notes if f"to {len(pu)} countries, {B._fmt(sum(pu.values()) / 1e6)} Mt" in n])
+
+    def test_the_gaps_with_customs_data_and_the_pairs_above_the_customs_record(self):
+        sgp, cust = self.pq["SGP"] / 1e6, float(self.cu[("AUS", "SGP")]) / 1e6
+        self.assertIn(f"Queensland sells {sgp:.2f} Mt to Singapore against {cust:.2f} Mt of customs coal", self.sec)
+        above = {o: sum(1 for d, t in p.items() if t >= B.MET_FLOW_MIN and t > float(self.cu.get((o, d), 0))) for o, p in (("AUS", self.pq), ("USA", self.pu))}
+        nq, nu = (sum(1 for t in p.values() if t >= B.MET_FLOW_MIN) for p in (self.pq, self.pu))
+        self.assertIn(f"{above['AUS']} of its {nq} pairs and {above['USA']} of the {nu} United States pairs exceed the customs record", self.sec)
+        n = next(n for n in self.notes if n.startswith("A destination of the exporter's statistics"))
+        self.assertIn(f"{above['AUS']} of the {nq} Queensland pairs and {above['USA']} of the {nu} United States pairs", n)
+
+    def test_australia_to_india(self):
+        cq, iq = float(self.cu[("AUS", "IND")]) / 1e6, self.pq["IND"] / 1e6
+        self.assertIn(f"customs data record {cq:.2f} Mt of all coal, Queensland sold {iq:.2f} Mt of metallurgical coal, and the difference, {cq - iq:.2f} Mt, is "
+                      "six times Australia's own figure", self.sec)
+        n = next(n for n in self.notes if n.startswith("A destination of the exporter's statistics"))
+        self.assertIn(f"customs data record {B._fmt(cq)} Mt of all coal and Queensland {B._fmt(iq)} Mt of metallurgical coal, and the difference ({B._fmt(cq - iq)} Mt)", n)
+        # Australia's own figure for thermal coal to India (Resources and Energy Quarterly, table 41), read from the workbook when it is on disk
+        path = os.path.join(ROOT, "raw", "australia", "disr-req", "resources-and-energy-quarterly-december-2025-historical-data.xlsx")
+        if not os.path.exists(path):
+            self.skipTest("the Resources and Energy Quarterly workbook is not on disk (raw/ is not tracked): the figure of 3.78 Mt is not recomputed")
+        import openpyxl
+        rows = list(openpyxl.load_workbook(path, read_only=True, data_only=True)["41"].iter_rows(values_only=True))
+        head = next(i for i, r in enumerate(rows) if r[6] == "Unit")
+        col = rows[head].index(YEAR)
+        thermal = next(i for i, r in enumerate(rows) if isinstance(r[5], str) and r[5].strip() == "Thermal coal")
+        india = next(r for r in rows[thermal + 1:] if isinstance(r[5], str) and r[5].strip() == "India")
+        self.assertEqual(india[6].strip(), "Mt")
+        self.assertIn(f"({india[col]:.2f} Mt in calendar {YEAR}, table 41", self.sec)
+        self.assertEqual(round((cq - iq) / india[col]), 6, "'six times'")
+
+    def test_the_coverage_and_the_figures_of_eia_international(self):
+        t = load("commodities", "history", "met-coal.json")["t"]["exports"]
+        k = t["years"].index(YEAR)
+        aus, usa = t["c"]["AUS"][k], t["c"]["USA"][k]
+        shown = {s: sum(v for v in p.values() if v >= B.MET_FLOW_MIN) / 1e6 for s, p in ((QLD, self.pq), (EIA, self.pu))}
+        self.assertIn(f"(the tables of the page: Australia {B._fmt(aus)} Mt and the United States {B._fmt(usa)} Mt in {YEAR})", self.sec)
+        self.assertIn(f"The Queensland rows are {shown[QLD] / aus:.0%} of EIA International's Australian figure", self.sec)
+        self.assertIn(f"the EIA rows {shown[EIA] / usa:.0%} of its United States figure", self.sec)
+
+    def test_the_break_of_2022(self):
+        def tot(y, types):
+            return sum(metcoal.coal_types(QLD, y, d).get(k, 0) for d in self.pq for k in types) if y == YEAR else sum(
+                metcoal.coal_types(QLD, y, d).get(k, 0) for d in metcoal.pairs(QLD, y) for k in types)
+        three = ("hard-coking", "semi-soft", "pci")
+        self.assertIn(f"({tot(2022, three) / 1e6:.1f} Mt to the named destinations in 2022 against {tot(2021, three) / 1e6:.1f} Mt in 2021, whereas semi-soft coking alone falls from "
+                      f"{tot(2021, ('semi-soft',)) / 1e6:.1f} to {tot(2022, ('semi-soft',)) / 1e6:.1f} Mt)", self.sec)
 
 
 class WithoutRaw(unittest.TestCase):
