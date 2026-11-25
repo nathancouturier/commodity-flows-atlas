@@ -191,6 +191,13 @@ FLOOR_DEFAULT = 0.05
 RELEASED_FILE = os.path.join(HERE, "released_ids.json")
 
 
+def select_main(pairs, released, cap):
+    """The main set of a group among its seaborne pairs of the latest year at or above the floor, largest first: the pairs of the last release's main set
+    first (the cap never puts one out), then the largest others up to the cap, which the released ones count in."""
+    main = [k for k in pairs if f"{k[0]}-{k[1]}" in released]
+    return main + [k for k in pairs if f"{k[0]}-{k[1]}" not in released][:max(0, cap - len(main))]
+
+
 def released_main_lanes(group):
     """{"o-d"} of the main lanes of a group in the last release; empty when the file is not there (a first release) or holds no such group."""
     try:
@@ -781,10 +788,7 @@ def main():
                 mixed_l.append((r.o, r.d))
             else:
                 sea_l.append((r.o, r.d))
-        # the pairs of the last release's main set first, then the largest others up to the cap (the released ones count in it)
-        rel = released_main_lanes(group)
-        main = [k for k in sea_l if f"{k[0]}-{k[1]}" in rel]
-        main += [k for k in sea_l if f"{k[0]}-{k[1]}" not in rel][:max(0, CAP[group] - len(main))]
+        main = select_main(sea_l, released_main_lanes(group), CAP[group])
         mainset = set(main) | set(mixed_l)
         history, hist_t, hist_y = [], {}, {}
         gs = g[g["mode"].isin(["sea", "transit"])]

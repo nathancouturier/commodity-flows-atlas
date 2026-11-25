@@ -44,6 +44,7 @@ def table():
 
 
 def run(hand=None, **kw):
+    kw.setdefault("released", frozenset())  # the routes of the last release are an input of the selection: none unless a test gives some
     pairs = {"wheat": table()}
     return GR.generate(pairs, {"wheat": PORTS}, hand or {}, ZONES, lambda c: AT[c], lambda g: ("Wheat", "wheat"), {"hand": "Hand route"},
                        lambda c: c, **kw)
@@ -119,6 +120,53 @@ class SelectionTest(unittest.TestCase):
         self.assertEqual(GR.cap_order(per, 6), [(0, "sugar"), (0, "wheat"), (1, "wheat"), (2, "wheat"), (0, "cobalt"), (0, "tin-metal")])
         # a group's corridors are taken in their own order
         self.assertEqual(GR.cap_order({"cobalt": [c(0.5), c(0.9)]}, 2), [(0, "cobalt"), (1, "cobalt")])
+
+    def test_a_route_of_the_last_release_stays_whatever_the_cap(self):
+        # without it the cap of one route keeps the largest corridor; with it the published corridor (z1 to z3) takes the only place
+        self.assertEqual([d["id"] for d in run(target=0.999, total_cap=1)[0]], ["gen-wheat-z1-z2"])
+        defs, rep = run(target=0.999, total_cap=1, released={"gen-wheat-z1-z3"})
+        self.assertEqual([d["id"] for d in defs], ["gen-wheat-z1-z3"])
+        self.assertEqual((rep["wheat"]["released"], rep["wheat"]["ended"]), (1, []))
+
+    def test_a_route_of_the_last_release_stays_when_the_group_has_reached_its_target(self):
+        # z1 to z4 (14 Mt, 15% of the group) is not asked for once z1 to z2 and z1 to z3 reach 70%; published, it stays, and the target counts it
+        self.assertNotIn("gen-wheat-z1-z4", [d["id"] for d in run()[0]])
+        defs, rep = run(released={"gen-wheat-z1-z4"})
+        self.assertIn("gen-wheat-z1-z4", [d["id"] for d in defs])
+        self.assertEqual(rep["wheat"]["released"], 1)
+
+    def test_the_caps_count_the_released_routes_and_the_new_corridors_take_the_places_that_are_left(self):
+        defs, _ = run(target=0.999, total_cap=3, released={"gen-wheat-z1-z3"})
+        self.assertEqual(sorted(d["id"] for d in defs), ["gen-wheat-z1-z2", "gen-wheat-z1-z3", "gen-wheat-z1-z4"])
+        defs, _ = run(target=0.999, total_cap=2, released={"gen-wheat-z1-z3", "gen-wheat-z1-z4"})
+        self.assertEqual(sorted(d["id"] for d in defs), ["gen-wheat-z1-z3", "gen-wheat-z1-z4"], "two released routes fill the cap: no new corridor")
+        with unittest.mock.patch.object(GR, "GROUP_CAP", 1):
+            defs, _ = run(target=0.999, released={"gen-wheat-z1-z3", "gen-wheat-z1-z4"})
+        self.assertEqual(sorted(d["id"] for d in defs), ["gen-wheat-z1-z3", "gen-wheat-z1-z4"], "the cap per group never puts a released route out")
+
+    def test_a_route_of_the_last_release_whose_corridor_is_gone_ends_and_is_reported(self):
+        # z2 to z4 holds 0.2 Mt, under the floor of 0.5 Mt: the corridor no longer exists; an id that names no corridor at all ends too
+        defs, rep = run(released={"gen-wheat-z2-z4", "gen-wheat-nowhere-z9"})
+        self.assertNotIn("gen-wheat-z2-z4", [d["id"] for d in defs])
+        self.assertEqual(rep["wheat"]["ended"], ["gen-wheat-nowhere-z9", "gen-wheat-z2-z4"])
+        self.assertEqual(rep["wheat"]["released"], 0)
+        self.assertIn("Routes of the last release whose corridor is gone: `gen-wheat-nowhere-z9`, `gen-wheat-z2-z4`.", GR.qa_markdown(rep))
+
+    def test_released_routes_leave_the_corridors_disjoint_and_the_output_the_same(self):
+        a = run(target=0.99, released={"gen-wheat-z1-z4"})
+        b = run(target=0.99, released={"gen-wheat-z1-z4"})
+        self.assertEqual(json.dumps(a, sort_keys=True, default=list), json.dumps(b, sort_keys=True, default=list))
+        seen = defaultdict(list)
+        for d in a[0]:
+            for c in d["corridor"]:
+                for o in c["o"]:
+                    for dd in c["d"]:
+                        seen[(o, dd)].append(d["id"])
+        self.assertTrue(all(len(v) == 1 for v in seen.values()))
+
+    def test_the_id_of_a_corridor(self):
+        self.assertEqual(GR.route_id("wheat", "z1", "z2"), "gen-wheat-z1-z2")
+        self.assertEqual(GR.route_id("wheat", "canada-west", "r:east-asia"), "gen-wheat-canada-west-r-east-asia")
 
     def test_corridor_entries_are_the_pairs_of_the_corridor(self):
         defs, _ = run(target=0.99)
@@ -231,7 +279,9 @@ class PublishedRoutesTest(unittest.TestCase):
 
     def test_there_are_generated_routes_and_ids_are_unique(self):
         self.assertGreater(len(self.gen), 0)
-        self.assertLessEqual(len(self.gen), GR.TOTAL_CAP + sum(cap for _, cap in GR.LATER_GROUPS))
+        # the caps, or the routes of the last release when they are more (they stay whatever the cap)
+        first = max(GR.TOTAL_CAP, len([i for i in GR.released_routes() if not GR.is_later_route(i)]))
+        self.assertLessEqual(len(self.gen), first + sum(cap for _, cap in GR.LATER_GROUPS))
         ids = [r["id"] for r in self.routes]
         self.assertEqual(len(ids), len(set(ids)))
         self.assertTrue(all(r["id"].startswith("gen-") for r in self.gen))

@@ -169,8 +169,35 @@ class Selection(unittest.TestCase):
             ids = [ln["id"] for ln in ls]
             self.assertEqual(len(ids), len(set(ids)), g)
             self.assertTrue(all(ln["set"] in ("main", "history") for ln in ls), g)
-            self.assertLessEqual(len([ln for ln in main_lanes(g) if ln.get("mode") != "mixed"]), BL.CAP[g], g)
-            self.assertLessEqual(len(ls), BL.CAP[g] + 80, g)
+            # the cap, or the lanes of the last release when they are more (a released lane stays whatever the cap: build_lanes.select_main)
+            sea = [ln for ln in main_lanes(g) if ln.get("mode") != "mixed"]
+            kept = [ln for ln in sea if ln["id"].split(":", 1)[1] in BL.released_main_lanes(g)]
+            self.assertLessEqual(len(sea), max(BL.CAP[g], len(kept)), g)
+            self.assertLessEqual(len(ls), max(BL.CAP[g], len(kept)) + 80, g)
+
+    def test_S07b_every_main_lane_of_the_last_release_is_still_main(self):
+        """B3: a released main lane stays in the main set while its pair is a routed seaborne pair at or above the floor, whatever the cap (the pair
+        that moved from the mixed lanes to the sea lanes had pushed lpg:QAT-PHL out of the 80 of the LPG cap)."""
+        import build_lanes as BL
+        ENDED = {}  # {lane id: why its pair no longer qualifies}
+        n = 0
+        for g in groups():
+            ids = {ln["id"] for ln in main_lanes(g)}
+            for od in BL.released_main_lanes(g):
+                n += 1
+                if f"{g}:{od}" not in ENDED:
+                    self.assertIn(f"{g}:{od}", ids, f"{g}:{od}")
+        self.assertGreater(n, 3000)
+        self.assertIn("lpg:QAT-PHL", {ln["id"] for ln in main_lanes("lpg")})
+
+    def test_S07c_select_main(self):
+        import build_lanes as BL
+        pairs = [("A", "B"), ("A", "C"), ("A", "D"), ("A", "E")]  # largest first
+        self.assertEqual(BL.select_main(pairs, set(), 2), [("A", "B"), ("A", "C")])
+        self.assertEqual(BL.select_main(pairs, {"A-E"}, 2), [("A", "E"), ("A", "B")], "the released pair first, the cap counts it")
+        self.assertEqual(BL.select_main(pairs, {"A-D", "A-E"}, 2), [("A", "D"), ("A", "E")], "two released pairs fill the cap")
+        self.assertEqual(BL.select_main(pairs, {"A-C", "A-D", "A-E"}, 2), [("A", "C"), ("A", "D"), ("A", "E")], "more released than the cap: all stay, no new pair")
+        self.assertEqual(BL.select_main(pairs, {"Z-Z"}, 2), [("A", "B"), ("A", "C")], "a released pair that is no longer a pair is not a lane")
 
     def test_S08_totals(self):
         main = sum(1 for g in groups() for ln in main_lanes(g) if ln.get("mode") != "mixed")
