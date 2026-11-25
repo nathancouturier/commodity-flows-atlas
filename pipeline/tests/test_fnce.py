@@ -399,7 +399,7 @@ class E2PlantBasis(unittest.TestCase):
                     self.assertIn(p["ports"][x["load"]][0], ("TRISK", "TRERE"), (g, x["d"]))
                     n += 1
         self.assertGreaterEqual(n, 14)
-        self.assertIn(f"package FNCE, {n} pairs", read("METHODOLOGY.md"))
+        self.assertIn(f"no longer at Izmir alone: {n} pairs", read("METHODOLOGY.md"))
 
     def test_si_racha_loads_with_the_plant_basis_and_methodology_counts_its_pairs(self):
         """FNCI (FNCH's follow-up): the products row of Thailand, whose note says that no page says which refinery exports, takes the basis like the four of FNCH;

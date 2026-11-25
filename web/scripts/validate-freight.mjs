@@ -219,6 +219,7 @@ export function validateFreight(root, errors) {
       if (lane.set !== undefined && !SETS.includes(lane.set)) bad(file, `${at}: set "${lane.set}" is not one of ${SETS.join(', ')}`);
       if (lane.mode !== undefined && !MODES.includes(lane.mode)) bad(file, `${at}: mode "${lane.mode}" is not one of ${MODES.join(', ')}`);
       if (lane.portBasis !== undefined && !BASES.includes(lane.portBasis)) bad(file, `${at}: portBasis "${lane.portBasis}" is not one of ${BASES.join(', ')}`);
+      if (lane.portRule !== undefined && (lane.portRule !== true || lane.portBasis !== 'open')) bad(file, `${at}: portRule is true only on a lane whose portBasis is "open"`);
       // a group under 1 Mt a year is published in kt (the file's `unit`); the floor is in Mt
       const mt = (lane.flow?.v ?? NaN) / (lane.flow?.u === 'kt' ? 1e3 : 1);
       if (lane.set === 'main' && !(mt >= floorOf(lane.p) - 1e-9)) bad(file, `${at}: a main lane of ${lane.flow?.v} ${lane.flow?.u} is under the ${floorOf(lane.p)} Mt floor of its group`);

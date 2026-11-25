@@ -49,7 +49,7 @@ export function PriceFigure({ commodity }: { commodity: string }) {
         <div class="kpi-src">
           {annual ? (
             <>
-              {shortSource(m.s)} · calendar-year average
+              {shortSource(m.s)} · {when} · calendar-year average
               {est ? ' · estimated' : ''}
             </>
           ) : (

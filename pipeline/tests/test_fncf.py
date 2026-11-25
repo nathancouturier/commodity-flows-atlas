@@ -625,6 +625,52 @@ class F7MozambiqueCoke(unittest.TestCase):
         self.assertGreaterEqual(n, 2)
         self.assertIn("USD 3.1 to 39.6 million", C.KEEP_REPORTED[("dri", "CHN", "SAU", 2018)])
 
+    @staticmethod
+    def _written_as(written, true):
+        """Whether the whole number `written` is the ratio `true` at the precision of its writing: rounded to the unit, or to two significant digits
+        when it ends in a zero (the reason says "240 times" for 242.8)."""
+        def rnd(x, sig=None):
+            if sig:
+                x = float(f"{x:.{sig - 1}e}")
+            return int(x + 0.5)
+        return written == rnd(true) or (written % 10 == 0 and written == rnd(true, 2))
+
+    def test_a_ratio_quoted_in_a_reason_is_recomputed_from_the_other_years_of_the_pair(self):
+        """FNCI follow-up (GV9B.3): "45 to 204 times theirs" was 45 to 201 in the cache. The ratios that a reason gives between the value of the year and the
+        values of the pair's other years ("N to M times theirs", "N times that year's", "A and B times the USD x and y million of Y and Z", "five times the
+        median of theirs") are recomputed from the cache."""
+        import pandas as pd
+        import clean as C
+        df = pd.read_csv(os.path.join(ROOT, "pipeline", "cache", "baci_flows.csv.gz"))
+        words = {"two": 2, "three": 3, "four": 4, "five": 5, "six": 6, "seven": 7, "eight": 8, "nine": 9, "ten": 10}
+        n = 0
+        for (g, o, d, y), why in C.KEEP_REPORTED.items():
+            pair = df[(df["group"] == g) & (df["o"] == o) & (df["d"] == d)]
+            usd = lambda yr: float(pair[pair["year"] == yr]["usd"].sum()) / 1e3  # the cache gives thousands of USD: millions here
+            other = pair[pair["year"] != y]["usd"] / 1e3
+            at = (g, o, d, y, why)
+            for m in re.finditer(r"(\d+) to (\d+) times theirs", why):
+                self.assertTrue(self._written_as(int(m.group(1)), usd(y) / other.max()), at)
+                self.assertTrue(self._written_as(int(m.group(2)), usd(y) / other.min()), at)
+                n += 1
+            for m in re.finditer(r"(\d+) times that year's", why):
+                self.assertEqual(len(other), 1, at)
+                self.assertTrue(self._written_as(int(m.group(1)), usd(y) / other.iloc[0]), at)
+                n += 1
+            for m in re.finditer(r"(\d+) and (\d+) times the USD ([\d.]+) and ([\d.]+) million of (\d{4}) and (\d{4})", why):
+                for ratio, quoted, yr in ((m.group(1), m.group(3), int(m.group(5))), (m.group(2), m.group(4), int(m.group(6)))):
+                    self.assertTrue(self._written_as(int(ratio), usd(y) / usd(yr)), at)
+                    self.assertEqual(quoted, f"{usd(yr):.1f}", at)
+                n += 1
+            for m in re.finditer(r"(\w+) times the median of theirs \(USD ([\d.]+) million\)", why):
+                self.assertEqual(words[m.group(1)], round(usd(y) / other.median()), at)
+                self.assertEqual(m.group(2), f"{other.median():.1f}", at)
+                n += 1
+        self.assertGreaterEqual(n, 6)
+        # the check itself: the slip of the review is caught, the reason as written passes
+        self.assertTrue(self._written_as(201, 201.42) and not self._written_as(204, 201.42))
+        self.assertTrue(self._written_as(240, 242.8) and not self._written_as(250, 242.8) and not self._written_as(81, 83.4))
+
 
 class F8GapNote(unittest.TestCase):
     def groups(self):

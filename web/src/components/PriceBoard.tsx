@@ -77,6 +77,8 @@ export function PriceBoard(props: { onClose: () => void; onOpen: (id: string) =>
   const [sort, setSort] = useState<{ key: Key; dir: 1 | -1 }>({ key: 'name', dir: 1 });
   const idx = priceIndex.value;
   const listed = useMemo(() => idx.filter((m) => !m.hidden && !m.closed && m.stats && m.freq !== 'A'), [idx]);
+  // what the board leaves out: the annual series and the series their publisher stopped (they have their own commodity page)
+  const apart = useMemo(() => idx.filter((m) => !m.hidden && m.stats && (m.closed || m.freq === 'A')).length, [idx]);
 
   const sections = useMemo(() => {
     const out: { g: PriceGroup; rows: PriceMeta[] }[] = [];
@@ -234,6 +236,7 @@ export function PriceBoard(props: { onClose: () => void; onOpen: (id: string) =>
         )}{' '}
         · Changes are arithmetic on the published values ({andList(shownSources.map((x) => SOURCE_WORDS[x]?.values ?? sourceLabel(x)))}), each against the last
         observation on or before the same date; no reference, no figure{shown.some((m) => /deviation/i.test(m.unit)) ? ', and none for a deviation from a trend or an average, which crosses zero' : ''}. The 52-week bar is the last 12 months for monthly series.
+        {apart > 0 && ` ${apart} annual series and series their publisher stopped are not listed here: they are on each commodity's page and in the search.`}
       </div>
     </div>
   );

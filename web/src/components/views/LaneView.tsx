@@ -122,7 +122,7 @@ export default function LaneView({ id }: { id: string }) {
     : [];
   const basisNote =
     lane.portBasis === 'open'
-      ? 'No source says how this trade splits between ports: the first of each is the principal gateway, drawn on the map.'
+      ? `No source says how this trade splits between ports: the first of each is the principal gateway, drawn on the map${lane.portRule ? ', chosen by a coast rule of the atlas' : ''}.`
       : lane.portBasis === 'measured'
         ? 'The split between ports comes from a measured source.'
         : lane.portBasis === 'rule'

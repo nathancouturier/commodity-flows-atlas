@@ -157,6 +157,12 @@ rejects('a set that is neither main nor history', (d) => (d.lane.lanes[0].set = 
 rejects('a lane without a set once the pairs table exists', (d) => delete d.lane.lanes[0].set, 'no "set"');
 rejects('a main lane under the floor of its group', (d) => (d.lane.lanes[0].flow.v = 0.01), 'floor');
 rejects('a portBasis outside its list', (d) => (d.lane.lanes[0].portBasis = 'guess'), 'portBasis "guess"');
+rejects('a portRule on a lane whose ports are not an open choice', (d) => ((d.lane.lanes[0].portBasis = 'single'), (d.lane.lanes[0].portRule = true)), 'portRule');
+rejects('a portRule that is not true', (d) => (d.lane.lanes[0].portRule = false), 'portRule');
+test('a portRule on an open lane is valid', () => {
+  const { errors } = run((d) => (d.lane.lanes[0].portRule = true));
+  assert.deepEqual(errors, []);
+});
 rejects('a duplicate lane id', (d) => d.lane.lanes.push({ ...d.lane.lanes[0] }), 'appears twice');
 rejects('a row with a country code the atlas does not know', (d) => (d.pairs.rows[1][0] = 'ZZZ'), 'country code "ZZZ"');
 rejects('a port in a country the atlas does not know', (d) => (d.pairs.ports[0][2] = 'ZZZ'), 'country "ZZZ"');

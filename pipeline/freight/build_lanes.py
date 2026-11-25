@@ -557,7 +557,7 @@ def route_pair(o, d, group, t, kind):
         basis = "single"
     via, via_alt = combine(summaries)
     return {"opts": kept, "plans": summaries, "classes": classes, "nm": main["nm"], "via": via, "viaAlt": via_alt,
-            "basis": basis, "transit": transit, "transit2": transit2, "trows": list(trows.values()), "at": at}, None
+            "basis": basis, "rule": a.rule, "transit": transit, "transit2": transit2, "trows": list(trows.values()), "at": at}, None
 
 
 # ------------------------------------------------------------------ notes
@@ -858,6 +858,8 @@ def main():
                 "discharge": [rec["opts"][0][1]],
                 "portBasis": rec["basis"],
             })
+            if rec["basis"] == "open" and rec["rule"]:
+                lane["portRule"] = True  # the principal port of an open lane comes from a coast rule: the page says so
             if rec["basis"] in ("open", "measured") and len(rec["opts"]) > 1:
                 lane["opts"] = [{"load": x[0], "discharge": x[1], "nm": ps["nm"], "days": round(ps["nm"] / (speed * 24), 1),
                                  "via": ps["via"], "w": None} for x, ps in zip(rec["opts"][1:], rec["plans"][1:])]

@@ -597,5 +597,5 @@ class D4Documentation(unittest.TestCase):
         # sentence is the history of the check, 1.63 Mt of the customs file, and no longer a figure of the finding)
         self.assertEqual(sorted(found), ["ZWE"])
         self.assertIn(f"Zimbabwe, {found['ZWE']['value']:.3g} Mt, of coke in 2024", meth)
-        self.assertIn("since package FNCF Mozambique's coke is dropped by rule 5", meth)
+        self.assertIn("Mozambique's coke, 1.63 Mt, is dropped by rule 5 of section 1 and is no longer a finding", meth)
         self.assertIn("coal for coke, iron ore or scrap for pig iron and direct-reduced iron", meth)

@@ -1043,6 +1043,8 @@ export interface Lane {
   discharge: string[];
   /** how the ports were chosen: one gateway, a coast rule, a measured split, or several coasts with nothing to decide between them */
   portBasis?: 'single' | 'rule' | 'measured' | 'open';
+  /** with `portBasis` "open": a coast rule of the atlas chose the principal port of one end or both */
+  portRule?: boolean;
   /** the other coasts, with their distances, when `portBasis` is "open" or "measured" */
   opts?: LaneOption[];
   /** typical vessel classes, primary first (Atlas assumption) */
