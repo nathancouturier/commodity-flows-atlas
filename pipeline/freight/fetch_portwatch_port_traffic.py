@@ -42,7 +42,10 @@ Checks  a page without the expected fields or with a value that is not a number 
         Retry after 60 sec") is waited out once (QUOTA_WAIT_S), a second refusal stops the run.
 Status  a weekly run records its success or its failure for ``portwatch-port-traffic`` in data/_status/updates.json; a run
         made by hand (an option) records its success but not its failure (a sitting that stops short is not a scheduled
-        failure). A dry run, or a run with --out, --ports or --limit, records nothing.
+        failure). While some port has neither a file nor an entry in ``none`` (the first load is not finished), a weekly run
+        does not record its failure either, so that the About window does not show the source as failing or stale because of a
+        load that is still going on: the failure is printed. A dry run, or a run with --out, --ports or --limit, records
+        nothing.
 
 Always exits 0: a failure is recorded (weekly run) and the previous files are kept.
 """
@@ -366,7 +369,7 @@ def run(argv=None, today=None):
             print(f"  {p} {names[p]}: {len(doc['calls']['tanker'])} weeks, {len(text.encode('utf-8'))} bytes, to {doc['y']}; "
                   f"rounding moves the 52-week sum of the four types by at most {share * 100:.2f}%" + (f" ({where})" if where else "")
                   + f", of one type by at most {tshare * 100:.2f}%" + (f" ({twhere})" if twhere else "")
-                  + (" ROUNDING OVER 1%" if share > 0.01 else ""))
+                  + (" ROUNDING OVER 0.5%" if max(share, tshare) > 0.005 else ""))
         if rechecked:
             sync_index(force=True)
         elif os.path.exists(os.path.join(out_dir, PP.INDEX)):
@@ -378,7 +381,11 @@ def run(argv=None, today=None):
         res["requests"] = reader.n
         print("failed, the previous files are kept:", res["error"])
         if record and not by_hand:
-            status.record_failure(SOURCE, res["error"])
+            unread = [i for i in ids if i not in docs and i not in none]
+            if unread:
+                print(f"  not recorded as a failure: the first load is not finished ({len(unread)} ports have no file yet)")
+            else:
+                status.record_failure(SOURCE, res["error"])
         return res
     res["requests"] = reader.n
     res["none"] = sorted(none)

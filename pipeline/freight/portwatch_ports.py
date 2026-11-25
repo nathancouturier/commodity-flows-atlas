@@ -57,8 +57,13 @@ SCHEDULED_BACKFILL_CAP = 5   # ports without a file filled in by one scheduled r
 # (STEPS). Whole thousand tonnes for every value, as the first load was made, moved the 52-week sum of a small flow by
 # several per cent (7.6% for the imports of Primorsk, 5.9% for a ship type of Ras Tanura, 4.6% for the imports of Narvik),
 # and one decimal for every value does not cure a flow of 4 kt a year (0.08 kt a week) and makes the large ones longer for
-# nothing. By the size of the value, the error of one value is at most half a step of a value at least ten times the step,
-# so no sum of rounded weeks is further than 0.5% from the sum of the exact weeks. MEASURES
+# nothing. The step grows with the value, so that one value is never rounded by more than 0.5% of itself and a sum of
+# rounded weeks is never further than 0.5% from the sum of the exact weeks. Measured on 25 November 2026 on the fifteen
+# ports of the first load, read again with this rule: the 52-week sum of the four ship types moves by 0.10% at most
+# (the imports of Primorsk, which whole thousand tonnes moved by 7.6%) and the sum of one ship type by 0.21% at most (the
+# container imports of Richards Bay). A file is 11.0 to 21.0 kB, 246.5 kB for the fifteen against 198.6 kB in whole thousand
+# tonnes: about 2.7 MB for 163 ports at the mean and 3.4 MB if every file were as large as the largest, against SIZE_STOP_KB.
+# The script prints, for each port it reads in full, how far the rounding moves its sums.
 UNIT = "kt"
 MAX_DECIMALS = 3             # the tonne: the most decimals a value of a file may have (its `dp`)
 # (from this many tonnes, rounded to this many tonnes): whole kt from 100 kt, one decimal from 10 kt, two from 1 kt, three below

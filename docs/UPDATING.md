@@ -340,7 +340,7 @@ pull: it is made in sittings, by hand, because the owner's rule for PortWatch (2
    minutes before the next one. Never two at once. A sitting that stops short (the service refuses, the folder reaches the size stop) leaves the files already
    written: run it again.
 3. After each sitting, `node web/scripts/validate-data.mjs` and `.venv/bin/python -I pipeline/common/staleness.py` and read what the sitting printed:
-   the ports that returned no rows, and any port whose rounding moves a 52-week sum by more than 1% (`ROUNDING OVER 1%`).
+   the ports that returned no rows, and how far the rounding moves the 52-week sums of each port (the rule keeps it within 0.5%; `ROUNDING OVER 0.5%` would be a defect).
 
 `index.json` is `{checked, none, pending}`, written by the script and checked by the validator, which asks of every `portwatch` id of the port assets a
 file, an entry of `none` or an entry of `pending`, and of no id more than one of them:

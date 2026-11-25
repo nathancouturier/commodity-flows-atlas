@@ -188,7 +188,7 @@ try {
   const portDoc = (id, weeks = 60) => {
     const block = (k) => Object.fromEntries(TYPES.map((t, j) => [t, Array.from({ length: weeks }, (_, i) => (k === 'calls' ? (i + j) % 7 : ((i * 3 + j) % 11)))]));
     const end = new Date(Date.UTC(2025, 0, 6) + (7 * weeks - 1) * 86_400_000).toISOString().slice(0, 10);
-    return { id, name: `Port ${id}`, s: 'portwatch-port-traffic', y: end, start: '2025-01-06', step: 'week', u: 'kt', dp: 0, calls: block('calls'), exports: block('exports'), imports: block('imports') };
+    return { id, name: `Port ${id}`, s: 'portwatch-port-traffic', y: end, start: '2025-01-06', step: 'week', u: 'kt', dp: 3, calls: block('calls'), exports: block('exports'), imports: block('imports') };
   };
   /** The folder: a file for each id of `have`, index.json with `none` and `pending`; `extra` is run on it afterwards. */
   const setPortTraffic = ({ have, none = [], pending = [], index = {}, extra } = {}) => {

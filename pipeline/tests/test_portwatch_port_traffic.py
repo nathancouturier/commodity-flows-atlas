@@ -15,6 +15,7 @@ import io
 import json
 import math
 import os
+import pathlib
 import re
 import shutil
 import subprocess
@@ -647,6 +648,15 @@ class FirstLoad(Env):
         res = self.run_script("--backfill", "--max-ports", "15", today=date(2026, 11, 12))
         self.assertEqual((res["written"], res["requests"]), ([], 0))
 
+    def test_a_sitting_prints_how_far_the_rounding_moves_the_sums_and_flags_what_the_rule_cannot_give(self):
+        self.start(n_ports=2)
+        self.run_script("--backfill", "--max-ports", "1", today=date(2026, 11, 12))
+        self.assertRegex(self.output, r"rounding moves the 52-week sum of the four types by at most 0\.\d\d% \((exports|imports)\), of one type by at most 0\.\d\d%")
+        self.assertNotIn("ROUNDING OVER", self.output)
+        with mock.patch.object(P, "rounding_error", return_value=(0.006, "exports")):
+            self.run_script("--backfill", "--max-ports", "1", today=date(2026, 11, 12))
+        self.assertIn("ROUNDING OVER 0.5%", self.output)
+
     def test_the_full_history_of_a_port_takes_the_pages_the_plan_counts(self):
         self.start(n_ports=1, first=date(2019, 1, 1), last=date(2026, 11, 20))
         before = len(self.svc.calls)
@@ -713,11 +723,38 @@ class FirstLoad(Env):
         res = self.run_script("--backfill", "--max-ports", "2", today=date(2026, 11, 12))
         self.assertIn("503", res["error"])
         self.assertEqual(status.get(S.SOURCE)["consecutive_failures"], 0)       # a sitting that stops short is not a scheduled failure
+        # the first load is not finished (six ports have no file): a weekly run that fails says so and records nothing, so that the
+        # About window does not show the source failing or stale for a load that is going on
+        before = pathlib.Path(status.UPDATES).read_bytes()
         self.svc.script = [F.FetchError("HTTP 503 after 4 attempts (services9.arcgis.com)")]
         res = self.run_script(today=date(2026, 11, 25))
         self.assertIn("503", res["error"])
+        self.assertIn("failed, the previous files are kept", self.output)
+        self.assertIn("not recorded as a failure: the first load is not finished (6 ports have no file yet)", self.output)
+        self.assertEqual(pathlib.Path(status.UPDATES).read_bytes(), before)
+        # once every port has a file (or no rows) a failed weekly run is recorded, as it always was
+        self.run_script("--backfill", "--max-ports", "6", today=date(2026, 11, 12))
+        self.svc.script = [F.FetchError("HTTP 503 after 4 attempts (services9.arcgis.com)")]
+        res = self.run_script(today=date(2026, 11, 25))
+        self.assertIn("503", res["error"])
+        self.assertNotIn("not recorded", self.output)
         self.assertEqual(status.get(S.SOURCE)["consecutive_failures"], 1)
         self.assertIn("503", status.get(S.SOURCE)["last_error"])
+
+    def test_a_weekly_run_that_fails_before_the_first_sitting_leaves_no_entry_in_the_status(self):
+        self.start()
+        self.svc.script = [F.FetchError("HTTP 503 after 4 attempts (services9.arcgis.com)")]
+        res = self.run_script(today=date(2026, 11, 25))
+        self.assertIn("503", res["error"])
+        self.assertEqual(status.get(S.SOURCE), {})
+        self.assertFalse(os.path.exists(status.UPDATES))
+        # a port that returned no rows is accounted for: with it, the folder is complete and the failure is recorded
+        self.svc.table["port1"] = []
+        self.run_script("--backfill", "--max-ports", "8", today=date(2026, 11, 12))
+        self.assertEqual(status.get(S.SOURCE)["state"]["none"], 1)
+        self.svc.script = [F.FetchError("HTTP 503 after 4 attempts (services9.arcgis.com)")]
+        self.run_script(today=date(2026, 11, 25))
+        self.assertEqual(status.get(S.SOURCE)["consecutive_failures"], 1)
 
 
 class PartOfThePorts(Env):
@@ -1003,18 +1040,19 @@ class WindowMergeBySize(Env):
         before = {p: self.read(p) for p in self.ports}
         sizes = {p: {len(repr(v).split(".")[-1]) if isinstance(v, float) else 0 for k in ("exports", "imports") for t in d[k] for v in d[k][t] if v}
                  for p, d in before.items()}
-        self.assertEqual(max(sizes["port1"]), 3)             # the smallest port holds values to the tonne
-        self.assertEqual(sizes["port6"], {0})                # the largest holds whole thousand tonnes only
-        self.assertEqual(max(sizes["port3"]), 3)
+        self.assertEqual([max(sizes[p]) for p in self.ports], [3, 3, 2, 1, 0, 0])   # to the tonne for the smallest port, whole kt for the largest
         for p, d in before.items():
             doc_matches_recount(self, d, self.rows(p))
             self.assertEqual(P.validate_doc(d, p), [])
         self.svc.table = self.table(date(2026, 11, 20), change={"2026-10-21": 90000, "2026-03-04": 90000})
+        pl = P.plan(self.ports, before, set(), date(2026, 11, 25))
+        deep = {p for g in pl["deep"] for p in g["ports"]}
+        self.assertTrue(deep and len(deep) < 6)
         res = self.run_script(today=date(2026, 11, 25))
         self.assertIsNone(res["error"])
         for p in self.ports:
             old, doc = before[p], self.read(p)
-            cut = (P.window_since(old) - date.fromisoformat(old["start"])).days // 7
+            cut = ((P.deep_since if p in deep else P.window_since)(old) - date.fromisoformat(old["start"])).days // 7
             for k in ("calls", "exports", "imports"):
                 for t in ("tanker", "dry", "container", "other"):
                     self.assertEqual(json.dumps(doc[k][t][:cut]), json.dumps(old[k][t][:cut]), f"{p} {k} {t}: a week before the window changed")
