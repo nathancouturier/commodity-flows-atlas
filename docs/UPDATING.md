@@ -233,6 +233,14 @@ page states them, and the voyage calculator of the route pages (`web/src/lib/voy
 them, so a changed figure moves the defaults of the calculator at the next build. `node web/scripts/validate-freight.mjs` fails
 a standard vessel that gives the speed or the fuel for one leg only, or whose `bench` names a class that has none.
 
+The figures of the companies layer are read by hand too (`pipeline/companies/README.md`, "Review routine": once a year,
+after the annual reports of March to May). Those of companies that file with the US Securities and Exchange Commission
+are read on sec.gov with `pipeline/companies/sec_edgar.py`, which needs the environment variable `SEC_CONTACT_EMAIL`:
+sec.gov asks automated clients for a contact address, and the owner decided on 24 November 2026 that one is sent to the
+SEC and to nobody else. The owner sets the variable in the environment where the script runs; it is written in no file
+of the repository, no workflow runs the script and GitHub has no copy of the address. Without the variable the script
+stops before its first request.
+
 ### At each release: the routes and lanes that stay
 
 A generated route and a main lane of the last release are never put out by a cap: they stay while their corridor or their pair still exists in the
@@ -420,6 +428,11 @@ The downloader (`pipeline/common/fetch.py`) identifies itself plainly, with the 
 script downloads through it. If a site refuses it, it is not worked around: the source fails, the issue opens, and
 its update becomes a step done by hand (download the file in a browser into `raw/`, then run the script, which uses a
 complete file already on disk where it can).
+
+sec.gov is the one site that is sent more: it asks automated clients for a contact address, and
+`pipeline/companies/sec_edgar.py` adds the one the owner set (`SEC_CONTACT_EMAIL`) to this User-Agent, for sec.gov only,
+with its own pace and its own rules (`pipeline/companies/README.md`, "Reading a filing on sec.gov"). It is not an update
+script: a person runs it to read company filings.
 
 ## Rebuilding everything from a fresh clone
 

@@ -467,6 +467,7 @@ verdict (redistribute, cite a few facts, link only).
 | Press reports (Bloomberg via gCaptain, Cyprus Mail, GMK Center and others) | Short facts with a link to the article. No article text is copied. |
 | Panama Canal Authority, Suez Canal Authority, port authorities | Published statistics and transit limits are cited as facts with attribution. No licence is stated on the pages; terms to be confirmed. Their toll tariffs are linked from the voyage calculator of the route pages and not copied (see below). |
 | Company reports | Facts cited with a link to the report. |
+| SEC EDGAR filings (the companies' annual reports on Form 10-K, 20-F and 40-F) | Facts cited with a link to the filing on sec.gov; no filing is copied. See below. |
 | World Nuclear Association | Annual uranium production figures cited with attribution. Terms to be confirmed. |
 
 ### IMF PortWatch
@@ -570,6 +571,31 @@ without the owner, listed in PROGRESS.md. What the Baltic Exchange's pages say, 
 
 Neither page says whether the descriptions of the standard vessels are Baltic Data, or whether a reader without a licence is
 bound by the policy: that is not settled. The method is in METHODOLOGY.md, section 3, "Voyage calculator".
+
+### SEC EDGAR
+
+Company figures marked "SEC filing" come from the annual reports that companies file with the US Securities and Exchange
+Commission (Form 10-K, 20-F and 40-F, and the exhibits of a 40-F that hold the annual report), read on sec.gov. Each entry
+links its filing; the atlas states the figure, its year and what it counts in its own words, with the number as the report
+gives it and the factor of any conversion. No filing is copied into the repository: the pages read are kept in
+`pipeline/cache/sec/`, outside git.
+
+What sec.gov says, read on 25 November 2026:
+
+- "Website Dissemination" (https://www.sec.gov/privacy): "Information presented on sec.gov is considered public information
+  and may be copied or further distributed by users of the web site without the SEC’s permission. Please consider
+  appropriate citation to the SEC as the source." The same paragraph asks that the SEC seal and the logos and artwork of the
+  site not be used; the atlas uses none.
+- "Accessing EDGAR data" (https://www.sec.gov/search-filings/edgar-search-assistance/accessing-edgar-data): "Current max
+  request rate: 10 requests/second", and automated clients are asked to declare a User-Agent with a contact address
+  ("Sample Company Name AdminContact@<sample company domain>.com").
+
+The paragraph does not say whether it covers the companies' filings as well as the SEC's own pages: the atlas takes only
+facts from the filings, cited with a link, as it does from the companies' own reports. The owner decided on 24 November 2026
+that a contact address is sent to the SEC, and to nobody else, when its filings are read; the address is set by the owner
+outside the repository and is written in no file of it. The reading script (`pipeline/companies/sec_edgar.py`) sends it to
+sec.gov only, one page at a time and at least 2 seconds apart. Credit line: **SEC EDGAR (U.S. Securities and Exchange
+Commission), the filing linked on each entry.**
 
 ### Canal authorities (toll tariffs)
 

@@ -13,3 +13,5 @@ pipeline/cache/*.new.csv.gz
 pipeline/cache/portwatch/
 # download leftovers of common/fetch.py (resumable downloads keep <file>.part until complete)
 *.part
+# pages read on sec.gov by pipeline/companies/sec_edgar.py: the companies' filings, cited by link, not published
+pipeline/cache/sec/

@@ -26,7 +26,9 @@ from urllib.parse import urlsplit
 import requests
 
 # The one place the identification is set. A site that refuses this client is not worked around: its update becomes a
-# step done by hand (docs/UPDATING.md). Naming the project or a contact page here is the owner's decision.
+# step done by hand (docs/UPDATING.md). Naming the project or a contact page here is the owner's decision. sec.gov alone
+# asks automated clients for a contact address: pipeline/companies/sec_edgar.py adds the owner's to this string, for
+# sec.gov only, and does not download through this module (the owner's decision of 24 November 2026).
 USER_AGENT = "data-update-script/1.0 (python-requests)"
 CONNECT_TIMEOUT = 20
 READ_TIMEOUT = 90

@@ -26,6 +26,28 @@ each problem with the commodity, the group, the position and the name. The publi
 the sources (`json.dumps(obj, indent=1, ensure_ascii=False)` and a final newline), and so must the source files.
 The tests are in `pipeline/tests/test_companies.py`.
 
+## Reading a filing on sec.gov
+
+sec.gov asks automated clients to declare a User-Agent with a contact address (its page "Accessing EDGAR data").
+The owner decided on 24 November 2026 that a contact address is sent to the SEC, and to nobody else, when its filings
+are read: it is the environment variable `SEC_CONTACT_EMAIL`, set by the owner. The address is written in
+no file of the repository. `sec_edgar.py` of this folder is the only script that reads the variable: it adds the
+address to the shared User-Agent of the update scripts, sends nothing without it, sends it to sec.gov only (a redirect
+to another host is not followed), asks one page at a time at least 2 seconds apart (sec.gov's published limit is 10
+requests a second), stops at an HTTP 403 or 429 without asking again, and keeps the pages it fetched in
+`pipeline/cache/sec/`, outside git (`pipeline/tests/test_sec_edgar.py`). No workflow runs it: a person reads the
+figures. From the repository root:
+
+    .venv/bin/python -I pipeline/companies/sec_edgar.py cik nutrien                 # the CIK of a filer with a ticker
+    .venv/bin/python -I pipeline/companies/sec_edgar.py search "Petroleos Mexicanos" --forms 20-F   # any filer
+    .venv/bin/python -I pipeline/companies/sec_edgar.py filings 1725964             # its latest annual reports
+    .venv/bin/python -I pipeline/companies/sec_edgar.py index <document url>        # the exhibits of a filing
+    .venv/bin/python -I pipeline/companies/sec_edgar.py find <document url> "potash production" --context 300
+
+`find` prints the passages of the document's text that match, with their place in the text file of the cache. An
+amendment (10-K/A, 20-F/A) that only replaces an exhibit, an auditor's report or a consent leaves the original
+report as the one cited: read its explanatory note.
+
 ## An entry
 
 ```json
@@ -70,9 +92,10 @@ One company, one identity: where a company stands under several commodities or s
 
 - A company's own annual report, production report or results release: `company-reports`, with the document's
   address in `url` (infrastructure assets also cite this id with their own page).
-- Annual reports filed with the US Securities and Exchange Commission (10-K, 20-F, 40-F): `sec-edgar`. sec.gov asks
-  automated clients for a contact address that the atlas does not have; when it is not fetched, the same report is
-  read on the company's investor pages and may still be cited by its EDGAR address.
+- Annual reports filed with the US Securities and Exchange Commission (10-K, 20-F, 40-F, and the exhibits of a 40-F
+  that hold the annual report): `sec-edgar`, with the document's sec.gov address in `url`. They are read on sec.gov
+  (see "Reading a filing on sec.gov" below). Where that cannot be done, the same report is read on the company's
+  investor pages and may still be cited by its EDGAR address.
 - Wikipedia (CC BY-SA 4.0): `wikipedia`, with the article address. Accepted for now; a company's own report is
   preferred whenever it gives the fact.
 - Sanctions: `ofac` (US Treasury press releases on designations), `uk-sanctions` (GOV.UK announcements and the UK

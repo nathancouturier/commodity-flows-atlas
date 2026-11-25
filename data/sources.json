@@ -314,9 +314,9 @@
   "name": "SEC EDGAR filings (annual reports on Form 10-K, 20-F and 40-F; the filing linked on each entry)",
   "publisher": "U.S. Securities and Exchange Commission",
   "url": "https://www.sec.gov/edgar/search/",
-  "licence": "Public filings, free to read; facts cited with a link (the reuse terms on sec.gov were not read: sec.gov asks automated clients for a contact address)",
+  "licence": "Public information: the SEC's website policy (https://www.sec.gov/privacy, \"Website Dissemination\", read 25 November 2026) says that information presented on sec.gov \"is considered public information and may be copied or further distributed by users of the web site without the SEC’s permission\" and asks for \"appropriate citation to the SEC as the source\". The filings are the companies' own documents: the atlas cites facts from them with a link",
   "update": "annual",
-  "access": "Filings read by hand, cited per entry (url); where sec.gov was not fetched, the same report on the company's investor pages",
+  "access": "Filings read by a person on sec.gov, fetched with pipeline/companies/sec_edgar.py one page at a time, at least 2 seconds apart (sec.gov's published limit is 10 requests a second); its User-Agent carries a contact address, as sec.gov asks of automated clients (the owner's decision of 24 November 2026: the address is set by the owner, goes to the SEC and to nobody else, and is written in no file of the repository). The pages are kept outside git; each entry cites its filing (url)",
   "use": "Company lists: production, capacity, sales and fleet figures, ownership"
  },
  {
