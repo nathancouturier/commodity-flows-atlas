@@ -162,6 +162,10 @@ answer, and a status entry that would have turned "stale" if it were published b
   calculator, a number typed with a thousands comma shows the warning until its last three digits are
   typed). An independent verifier reproduced each correction, and the orchestrator read the diff line by
   line.
+- Published on 25 November 2026 at 12:12 UTC (commit `ac994bb`): the checks and the deployment ran green on
+  GitHub in eight minutes, then the 41 targeted checks and 19 general ones passed on the public site. The list
+  of released route and lane ids was renewed from that commit (the same 168 generated routes and 3,792 main
+  lanes).
 - Two slips of the packages, to know about. The first browser run of the "Report an error" package let the
   tab opened by the click reach github.com: 14 requests to the repository's new-issue address, each answered by
   a redirect to GitHub's sign-in page; no issue was created, and each address carried a local test address, a
