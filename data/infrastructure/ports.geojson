@@ -338,6 +338,7 @@
     "c": "ZAF",
     "locode": "ZARCB",
     "portwatch": "port1099",
+    "portwatchNote": "The series is that of PortWatch's port \"Richards Bay\", the whole port; this asset is its coal terminal.",
     "operator": "RBCT",
     "output": {
      "v": 57.66,
@@ -1236,6 +1237,7 @@
     "c": "ARG",
     "locode": "ARUPR",
     "portwatch": "port1108",
+    "portwatchNote": "The series is that of PortWatch's port \"Rosario\", the municipal port; this asset is the Up-River complex, which its note says is far larger.",
     "operator": "Rosario Port",
     "status": "operating",
     "statusAsOf": "2026-11",
@@ -5043,6 +5045,7 @@
     ],
     "c": "LBY",
     "portwatch": "port21",
+    "portwatchNote": "The series is that of PortWatch's port of this name, which lies at Marsa Brega by the World Port Index: 1.1 km from its entry \"Al Burayqah (Marsa Brega)\" and 99.6 km east of its entry \"Ras Lanuf\".",
     "status": "not-stated",
     "note": "Position from the IMF PortWatch ports database. Commodity: Wikipedia, Ras Lanuf (a major oil terminal, fed by oil pipelines).",
     "coord": "approx",

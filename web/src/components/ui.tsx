@@ -114,6 +114,7 @@ const SHORT_SOURCE: Record<string, string> = {
   faostat: 'FAOSTAT',
   wna: 'World Nuclear Association',
   portwatch: 'IMF PortWatch',
+  'portwatch-port-traffic': 'IMF PortWatch',
   atlas: 'Atlas estimate',
   'port-authorities': 'port authorities',
   'company-reports': 'company reports',

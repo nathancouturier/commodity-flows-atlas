@@ -3,7 +3,7 @@
  * All loaders are cached by lib/data.ts.
  */
 import { computed, signal } from '@preact/signals';
-import type { CaveatEntry, CaveatsFile, Chokepoint, FreightEvent, Lane, LaneFile, PairsFile, PortRiver, PortwatchSeries, Route, Segment, VesselClass } from '../types';
+import type { CaveatEntry, CaveatsFile, Chokepoint, FreightEvent, Lane, LaneFile, PairsFile, PortRiver, PortTraffic, PortTrafficIndex, PortwatchSeries, Route, Segment, VesselClass } from '../types';
 import { load } from './data';
 import { groupChipLabels, routeChipLabels } from './cargoChips';
 import { atlasKind } from './format';
@@ -102,6 +102,17 @@ export const loadChokepoints = () => load<Chokepoint[]>('freight/chokepoints.jso
 export const loadVesselClasses = () => load<VesselClass[]>('freight/vessel-classes.json');
 export const loadEvents = () => load<FreightEvent[]>('freight/events.json');
 export const loadPortwatch = (id: string) => load<PortwatchSeries>(`freight/portwatch/${id}.json`);
+
+/**
+ * The weekly series of a PortWatch port (data/freight/port-traffic/<id>.json), read when a port page opens. null when the port has
+ * none: its id is in the index's `none` (PortWatch returned no row) or `pending` (not read yet), so no file is asked for. A file that
+ * cannot be read is an error, which the page tells apart from the absence of a series.
+ */
+export async function loadPortTraffic(id: string): Promise<PortTraffic | null> {
+  const index = await load<PortTrafficIndex>('freight/port-traffic/index.json').catch(() => null);
+  if (index && (index.none.includes(id) || (index.pending ?? []).includes(id))) return null;
+  return load<PortTraffic>(`freight/port-traffic/${id}.json`);
+}
 
 // ---------------------------------------------------------------- pairs table
 

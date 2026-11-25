@@ -942,6 +942,38 @@ export interface Chokepoint {
   s: string;
 }
 
+/** data/freight/port-traffic/<PortWatch port id>.json — weekly sums of PortWatch's daily port calls and estimated tonnes (pipeline/freight/portwatch_ports.py) */
+export interface PortTraffic {
+  id: string;
+  /** PortWatch's own name of the port */
+  name: string;
+  s: string;
+  /** the last day of data when the file was written, ISO date */
+  y: string;
+  /** the Monday of the first week, ISO date */
+  start: string;
+  step: 'week';
+  /** the unit of the tonnes (thousand tonnes) */
+  u: string;
+  dp: number;
+  /** per ship type, one value per week from `start` (null: a week PortWatch did not give whole) */
+  calls: PortTrafficTypes;
+  exports: PortTrafficTypes;
+  imports: PortTrafficTypes;
+}
+export interface PortTrafficTypes {
+  tanker: (number | null)[];
+  dry: (number | null)[];
+  container: (number | null)[];
+  other: (number | null)[];
+}
+/** data/freight/port-traffic/index.json: the ports that have no file (`none`: PortWatch returned no row; `pending`: not read yet) */
+export interface PortTrafficIndex {
+  checked: string;
+  none: string[];
+  pending?: string[];
+}
+
 /** data/freight/portwatch/<id>.json — weekly averages of daily transits since 2019 */
 export interface PortwatchSeries {
   id: string;
@@ -1250,6 +1282,8 @@ export interface InfraProps {
   locode?: string;
   /** ports: the IMF PortWatch port id */
   portwatch?: string;
+  /** ports with a `portwatch` id: one sentence for a series that is not quite the port's own (the port page prints it under the name of the PortWatch port) */
+  portwatchNote?: string;
   /** ports: the largest ship or the deepest berth a page states */
   limits?: PortLimits;
   /** ports: the largest vessel class of the atlas each segment can take by the published limits (derived by the atlas) */
