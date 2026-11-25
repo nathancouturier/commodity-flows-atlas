@@ -121,9 +121,9 @@ def note(year, customs_t):
     d = load()
     x = d["years"][str(year)]["myanmar"]
     est = ", a net weight that Comtrade estimated" if x["est"] else ""
-    have = f"CEPII BACI has {customs_t:,.0f} t for the pair" if customs_t else "CEPII BACI has no row for the pair"
-    return (f"Added from China's import declaration (UN Comtrade, HS 260900, {year}); not in CEPII BACI: {x['t']:,.0f} t, CIF USD {x['usd'] / 1e6:,.0f} million{est}; "
-            f"{have}. Source: UN Comtrade")
+    have = f"the atlas's extract of CEPII BACI has {customs_t:,.0f} t for the pair" if customs_t else "the atlas's extract of CEPII BACI has no row for the pair"
+    return (f"Added from China's import declaration (UN Comtrade, HS 260900, {year}); not in the atlas's extract of CEPII BACI: {x['t']:,.0f} t, CIF USD {x['usd'] / 1e6:,.0f} million{est}; "
+            f"{have} (the extract drops flows under 1,000 t and USD 1 million). Source: UN Comtrade")
 
 
 if __name__ == "__main__":

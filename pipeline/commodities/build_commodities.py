@@ -1100,7 +1100,7 @@ class Baci:
                 ks = MD.known_split(r["o"], r["d"], g, BACI_YEAR)
                 # the figure of the row is the pair in all modes; its lane is the part by sea (the other part is read as overland)
                 notes.append(f"the figure is for all modes of transport, {_fmts(r['t'] * ks[0] / div, u)} of it by sea (the lane) and {_fmts(r['t'] * (1 - ks[0]) / div, u)} read as overland. "
-                             + MD.split_note(ks[0], ks[1], BACI_YEAR, _fmts(r["t"] / div, u)))
+                             + MD.split_note(ks[0], ks[1], BACI_YEAR, _fmts(r["t"] / div, u), (g, r["o"], r["d"])))
             elif kind == "mixed" and not mode_all:
                 notes.append("customs total for all modes: this trade moves both by sea and overland and the split is not known")
             if r["est"]:
@@ -3113,6 +3113,14 @@ IGU_LICENCE = ("Copyright International Gas Union; one world total is cited, wit
                "\"No part of this publication may be reproduced, stored in retrieval systems or transmitted in any form or by any means [...] without "
                "the prior permission of the copyright owner.\"")
 
+# the Public-Use Statement is the permission the registry quotes (web/src/lib/licence.ts): the atlas publishes an estimate of its own made from the data
+CENSUS_LICENCE = ("U.S. Census Bureau Public-Use Statement (own estimates from the data, with the Census Bureau cited as the source of the original data). "
+                  "The statement, on \"Citing our Data, Tools, Technical Documents and Research\" (https://www.census.gov/about/policies/citation.html, "
+                  "page last revised 24 February 2026), reads: \"Data users who create their own estimates using data from disseminated tables and other data "
+                  "should cite the Census Bureau as the source of the original data only.\" and \"Conclusions drawn from any analysis of these data are the sole "
+                  "responsibility of the performing party.\" The data-products page says that all international trade data products previously available by "
+                  "subscription are now available to the public at no cost. No statement of copyright was found on the pages read (that page and \"Policies and "
+                  "Notices\"). The atlas publishes no row of the Census file, only an estimate of its own made from the data. Not endorsed or certified by the Census Bureau")
 DISR_LICENCE = ("CC BY 4.0 (Creative Commons Attribution 4.0 International, as the About sheet of the workbook states); attribution as it asks: \"Department of "
                 "Industry, Science, and Resources, Commonwealth of Australia Resources and Energy Quarterly, December 2025.\"")
 
@@ -3182,8 +3190,7 @@ def update_sources():
          "use": "China's declared imports of tin ores and concentrates by origin (the tin page), and the flow Myanmar to China that CEPII BACI lacks"},
         {"id": "census-exports", "name": "US Census Bureau, USA Trade Online: export detail file (EXDB), December 2024",
          "publisher": "U.S. Census Bureau, Foreign Trade Division", "url": "https://www.census.gov/foreign-trade/data/dataproducts.html",
-         "licence": "US Government data: the data-products page says that all international trade data products previously available by subscription are "
-                    "now available to the public at no cost; no copyright is claimed. Not endorsed or certified by the Census Bureau",
+         "licence": CENSUS_LICENCE,
          "update": "monthly (the December file holds the calendar year)",
          "access": "EXDB2412.ZIP downloaded by hand; only the LPG codes are read, by pipeline/trade/us_lpg.py, into a small cache",
          "use": "Quantity and vessel shipping weight of United States LPG exports in 2024: the tonnage of the pair United States to Mexico and its share by sea"},
@@ -3196,9 +3203,9 @@ def update_sources():
          "publisher": "Queensland Government, Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development",
          "url": "https://www.data.qld.gov.au/dataset/quarterly-coal-reports", "licence": QLD_COAL_LICENCE,
          "update": f"quarterly (the workbook read: {_lc(metcoal.meta('qld-coal-sales')['data_through'])}, {_lc(metcoal.meta('qld-coal-sales')['current_as_at'])})",
-         "access": "Workbook coal-sales-data-2010-2026.xlsx downloaded by hand (the site refuses scripted downloads); read by pipeline/trade/extract_metcoal.py into small "
+         "access": f"Workbook {metcoal.meta('qld-coal-sales')['file']['name']} downloaded by hand (the site refuses scripted downloads); read by pipeline/trade/extract_metcoal.py into small "
                    "tracked files in pipeline/cache, never by a scheduled job",
-         "use": "Metallurgical coal (hard coking, semi-soft coking and PCI) sold to export by Queensland producers, by first destination and by port, on the Metallurgical coal page"},
+         "use": "Metallurgical coal (hard coking, semi-soft coking and PCI) sold to export by Queensland producers, by destination as the file gives it and by port, on the Metallurgical coal page"},
         {"id": "eia-coal", "name": "EIA Coal data: U.S. coal exports by rank, destination and customs district (bulk file COAL.zip)",
          "publisher": "U.S. Energy Information Administration",
          "url": "https://www.eia.gov/opendata/bulk/COAL.zip", "licence": "Public domain (US Government); acknowledgment: \"Source: U.S. Energy Information Administration\"",
@@ -3222,7 +3229,8 @@ def update_sources():
                             "use": "World crude steel production in 2025 (1,848.9 Mt, World Steel in Figures 2026), beside the USGS table of the steel page"},
              "giignl-2026": {"use": "World LNG trade in 2025 and 2024, the United States as the largest exporter, and LNG liquefaction and regasification capacities",
                              "licence": GIIGNL_LICENCE},
-             "disr-req": {"licence": DISR_LICENCE}}
+             "disr-req": {"licence": DISR_LICENCE},
+             "census-exports": {"licence": CENSUS_LICENCE}}
     retired = {"igu-lng-report-2025": "the 2026 edition of the IGU report (igu-lng-report-2026) is the one the LNG page cites"}
     changed = False
     for s in new:
@@ -3232,7 +3240,11 @@ def update_sources():
     if any(s["id"] in retired for s in src):
         src[:] = [s for s in src if s["id"] not in retired]
         changed = True
+    # the two sources of the Metallurgical coal page are described from their meta files (the dates, the file name): a refreshed file changes the text
+    built = {s["id"]: s for s in new if s["id"] in ("qld-coal-sales", "eia-coal")}
     for s in src:
+        if s["id"] in built:
+            fixes.setdefault(s["id"], {}).update({k: built[s["id"]][k] for k in ("update", "access", "use")})
         for k, v in fixes.get(s["id"], {}).items():
             if s.get(k) != v:
                 s[k] = v
@@ -3492,9 +3504,18 @@ def _iso_date(s):
     return f"{d} {MONTHS[m - 1]} {y}"
 
 
+def _by_destination(meta):
+    """How a metallurgical coal source's file says its figures are cut by destination ("by destination country", "by destination as the file gives it"),
+    taken from the definition in its meta file (pipeline/cache/metcoal_meta.json), not typed."""
+    m = re.search(r"by destination(?: country| as the file gives it)", meta["definition"])
+    if not m:
+        raise SystemExit(f"met-coal: the definition of {meta['id']} does not say how its figures are cut by destination: {meta['definition']}")
+    return m.group(0)
+
+
 def met_coal_flows(baci, eia, intl_year):
     """The Main flows block of the Metallurgical coal page: metallurgical coal by pair of countries from the exporters' own statistics, not from
-    customs data (whose coal group is all coal and is not touched): Queensland's sales to export by first destination (Australia) and the exports
+    customs data (whose coal group is all coal and is not touched): Queensland's sales to export by destination (Australia) and the exports
     of rank metallurgical in the Census Bureau's declarations as EIA publishes them (the United States), the year of the customs data. One row per
     destination of at least MET_FLOW_MIN tonnes, each row with its own source. Nothing is added across the two sources and nothing is subtracted
     from the customs coal. Returns (flows, notes, defs): defs are the sentences printed in the footer of the block, one per source, so that the
@@ -3516,7 +3537,7 @@ def met_coal_flows(baci, eia, intl_year):
                     f["transit"] = transit
             if src == qld:
                 ct = metcoal.coal_types(src, y, dest)
-                n = ("Queensland producers' sales to export of metallurgical coal, first destination: "
+                n = (f"Queensland producers' sales to export of metallurgical coal, {_by_destination(mq)}: "
                      + ", ".join(f"{MET_TYPE_NAME[k]} {_fmts(ct[k] / 1e6, 'Mt')}" for k in MET_TYPE_NAME if ct.get(k)))
             else:
                 ds = sorted(metcoal.districts(src, y, dest).items(), key=lambda kv: -kv[1])
@@ -3542,7 +3563,7 @@ def met_coal_flows(baci, eia, intl_year):
     # 1. Australia
     ally = mq["totals"][f"{y + 1}-metallurgical"] if f"{y + 1}-metallurgical" in mq["totals"] else None
     notes.append(
-        f"Australia, {y}: Queensland producers' sales to export of metallurgical coal by first destination, {_fmt(tq / 1e6)} Mt to {len(pq)} countries"
+        f"Australia, {y}: Queensland producers' sales to export of metallurgical coal {_by_destination(mq)}, {_fmt(tq / 1e6)} Mt to {len(pq)} countries"
         + " ("
         + ", ".join(f"{MET_TYPE_NAME[k]} {_fmt(v / 1e6)} Mt" for k, v in ct.items()) + f"), the sum of the four quarters of {y}"
         + (f"; {n_q} of the {len(pq)} countries have at least {MET_FLOW_MIN:,} t and are listed above" if n_q != len(pq) else "")
@@ -3572,7 +3593,7 @@ def met_coal_flows(baci, eia, intl_year):
               if any(k in can for k in MET_LAKE_DISTRICTS) else "") if can.get("Buffalo, NY") else "")
         + f". The file is dated {_iso_date(mu['file_date'])}; its description says that the figures of the latest period are preliminary estimates, final by the fall that follows the year "
         f"(the file's latest year is {max(mu['years'])}). Source: U.S. Energy Information Administration.")
-    # 4. first destination is not the buyer
+    # 4. the destination of an exporter's statistics is not the country where customs data record the coal
     cu = baci.group("coal").groupby(["o", "d"])["t"].sum()
     above = []
     for o, pr in (("AUS", pq), ("USA", pu)):
@@ -3582,7 +3603,7 @@ def met_coal_flows(baci, eia, intl_year):
     big = max(above, key=lambda r: r[2] - r[3])
     iq, cq = pq.get("IND", 0), float(cu.get(("AUS", "IND"), 0))
     notes.append(
-        f"First destination is not always the buyer: {sum(1 for r in above if r[0] == 'AUS')} of the {n_q} Queensland pairs and {sum(1 for r in above if r[0] == 'USA')} of the {n_u} "
+        f"A destination of the exporter's statistics is not always the country where customs data record the coal: {sum(1 for r in above if r[0] == 'AUS')} of the {n_q} Queensland pairs and {sum(1 for r in above if r[0] == 'USA')} of the {n_u} "
         f"United States pairs are above the customs record of all coal for the same pair in {y}; the largest gap is {cname(big[0])} to {cname(big[1])}, {_fmt(big[2] / 1e6)} Mt "
         f"against {_fmt(big[3] / 1e6)} Mt in customs data. The flows above are not a part of the customs flows of the Thermal coal page and are not subtracted from them: "
         f"for Australia to India the customs data record {_fmt(cq / 1e6)} Mt of all coal and Queensland {_fmt(iq / 1e6)} Mt of metallurgical coal, and the difference "
@@ -3623,8 +3644,11 @@ def met_coal_flows(baci, eia, intl_year):
         f"customs data, beside tables of {intl_year}.")
     # 7. the lanes
     notes.append("The seaborne lanes of this page are customs data for all coal, and coke: they are not the flows above.")
-    defs = [f"Australia rows are Queensland only: producers' sales to export of {_and(list(MET_TYPE_NAME.values()))} coal together, by first destination.",
-            "United States rows are exports of rank metallurgical as declared, by first destination."]
+    # the words of each source's own file (the meta files), and the evidence that a destination of these statistics is not the country of the customs data
+    defs = [f"Australia rows are Queensland only: producers' sales to export of {_and(list(MET_TYPE_NAME.values()))} coal together, {_by_destination(mq)}.",
+            f"United States rows are exports of rank metallurgical as declared, {_by_destination(mu)}.",
+            f"A destination here is not always where customs data record the coal: {cname(big[0])} to {cname(big[1])} is {_fmt(big[2] / 1e6)} Mt here and "
+            f"{_fmt(big[3] / 1e6)} Mt of all coal in customs data."]
     return flows, notes, defs
 
 
@@ -3750,7 +3774,7 @@ def lpg_us_notes(baci):
         f"United States to Mexico, mode: in {c['year']} the Census file gives a shipping weight for the cargo that went by vessel only, {_fmt(c['pairs']['MEX']['vessel_t'] / 1e6)} Mt, "
         f"{c['pairs']['MEX']['vessel_t'] / c['pairs']['MEX']['total_t']:.0%} of the pair's {_fmt(c['pairs']['MEX']['total_t'] / 1e6)} Mt (the file gives no total weight: the total is its "
         "quantity times its density); the file does not name the modes of the rest, and the atlas reads it as overland (rail, road and pipeline), so the lane of the pair is the share by sea. "
-        "The other years of the pair stay customs totals for all modes, with the split not known.",
+        + MD.other_years("lpg", "USA", "MEX", c["year"]) + ".",
     ]
     can = [(y, row("CAN", y)) for y in range(2004, BACI_YEAR + 1) if row("CAN", y) is not None and us_lpg.estimate("CAN", y)]
     r_before = [r["t0"] / us_lpg.estimate("CAN", y)["t"] for y, r in can if y < 2015]

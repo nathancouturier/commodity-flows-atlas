@@ -8,6 +8,10 @@ type HasSource = { s: string };
 /** True when the rows of the list come from more than one source, the atlas's own rows (`atlas`) not counted. */
 export const hasSeveralSources = (flows: HasSource[]): boolean => new Set(flows.filter((f) => f.s !== 'atlas').map((f) => f.s)).size > 1;
 
+/** The definitions printed under the block, one sentence per source: only a list with several sources has them (a list with one source has its
+ * single-source line), and only when the page file gives some. Empty when none is printed. */
+export const flowDefinitions = (flows: HasSource[], defs?: string[]): string => (hasSeveralSources(flows) && defs?.length ? defs.join(' ') : '');
+
 /** Whether a shown row carries its source tag: every row of a list with several sources; in a list with one source only a row of the atlas
  * beside rows of a source (the tag names what is not the footer's source). `rows` are the rows on screen, `flows` the whole list. */
 export function showsSourceTag(f: HasSource, flows: HasSource[], rows: HasSource[]): boolean {

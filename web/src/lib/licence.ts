@@ -31,6 +31,9 @@ const PERMISSION: { re: RegExp; short: (m: RegExpMatchArray) => string }[] = [
   // the terms of two Federal Reserve Banks, quoted in the registry: reproduction with credit (Dallas: not for private gain)
   { re: /Dallas Fed Terms of Use/, short: () => 'Dallas Fed terms of use' },
   { re: /New York Fed Terms of Use/, short: () => 'New York Fed terms of use' },
+  // the Census Bureau's Public-Use Statement: an estimate of one's own made from its data, citing the Census Bureau as the source of the original
+  // data. It covers an estimate made from the data and nothing more: the atlas publishes no row of the Census file (scripts/licence.test.mjs checks it)
+  { re: /U\.S\. Census Bureau Public-Use Statement/, short: () => 'U.S. Census Bureau Public-Use Statement' },
 ];
 
 /** True when the licence text states a permission to reuse the data. */

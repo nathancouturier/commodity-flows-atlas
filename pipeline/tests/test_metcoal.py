@@ -152,27 +152,33 @@ class Meta(unittest.TestCase):
     def test_queensland_credit_and_dates(self):
         m = metcoal.meta(QLD)
         self.assertIn("Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development (NRMMRRD)", m["credit"])
-        self.assertEqual(m["current_as_at"], "Current as at October 2026")
-        self.assertIn("30 June 2026", m["data_through"])
+        # the dates are the workbook's own, read by the extractor: compared with the meta file where they are printed (Words, NoPrintedDate), not typed here
+        self.assertRegex(m["current_as_at"], r"^Current as at [A-Z][a-z]+ \d{4}$")
+        self.assertRegex(m["data_through"], r"^Data through to \d{1,2} [A-Z][a-z]+ \d{4}$")
         self.assertIn("may be revised", m["revised"])
         self.assertIn("not to be considered attributable to the Department", m["disclaimer"])
         self.assertEqual(m["credit"], "Source: Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development (NRMMRRD)", "the About sheet's words")
         self.assertTrue(m["disclaimer_full"].endswith(m["disclaimer"]), "the whole disclaimer of the About sheet ends with the sentence on derived conclusions")
         self.assertIn("The Department is not responsible for data that is misrepresented, misinterpreted or altered in any way.", m["disclaimer_full"])
         self.assertRegex(m["file"]["sha256"], r"^[0-9a-f]{64}$")
-        self.assertEqual(m["file"]["name"], "coal-sales-data-2010-2026.xlsx")
-        self.assertEqual(m["excluded_years"], [2026], "2026 has two quarters: not a calendar year")
+        # a year with fewer than four quarters is no calendar year: the years kept start at FIRST_YEAR and run to the last full one, the others come after
+        first, last = re.fullmatch(r"coal-sales-data-(\d{4})-(\d{4})\.xlsx", m["file"]["name"]).groups()
+        self.assertEqual((int(first), int(last)), (X.FIRST_YEAR, max(m["years"] + m["excluded_years"])), "the file name says the years it holds")
+        self.assertEqual(m["years"], list(range(X.FIRST_YEAR, max(m["years"]) + 1)))
+        self.assertTrue(all(y > max(m["years"]) for y in m["excluded_years"]), "a year left out has fewer than four quarters: it comes after the last full year")
+        self.assertIn(str(max(m["years"] + m["excluded_years"])), m["data_through"])
         self.assertIn("PCI", m["definition"])
         self.assertIn("New South Wales", m["definition"])
 
     def test_eia_definition_and_file(self):
         m = metcoal.meta(EIA)
         self.assertRegex(m["file"]["sha256"], r"^[0-9a-f]{64}$")
-        self.assertEqual(m["file_date"], "2026-10-01")
+        self.assertRegex(m["file_date"], r"^\d{4}-\d{2}-\d{2}$")
+        self.assertEqual(m["file_date"], X.EIA_FILE_DATE, "the constant of the extractor is what the meta file holds")
         self.assertEqual(m["tonnes_per_short_ton"], CN.TONNES_PER_SHORT_TON)
         self.assertIn("does not define the rank", m["definition"])
         self.assertEqual(m["credit"], "Source: U.S. Energy Information Administration")
-        self.assertEqual(m["years"], list(range(2010, 2026)))
+        self.assertEqual(m["years"], list(range(X.FIRST_YEAR, max(m["years"]) + 1)), "every year from the first one the page reads, with none missing")
         for k, v in m["checks"].items():  # the checks of the extractor, for every year kept
             self.assertLessEqual(abs(v["destinations_gap"]) / v["world_short_tons"], 0.005, k)
             self.assertLessEqual(abs(v["districts_gap"]) / v["world_short_tons"], 0.005, k)
@@ -271,20 +277,6 @@ class Page(unittest.TestCase):
         # a row of another destination does not carry the sentence
         self.assertFalse([f for f in self.fl if f["d"] != "CAN" and "Great Lakes" in f.get("n", "")])
 
-    def test_the_definitions_are_printed_under_the_block_from_the_page_file(self):
-        defs = self.d["flowDefs"]
-        self.assertEqual(len(defs), 2, "one short sentence per source")
-        self.assertIn("Queensland only", defs[0])
-        for k in ("hard coking", "semi-soft coking", "PCI", "first destination"):
-            self.assertIn(k, defs[0])
-        self.assertIn("rank metallurgical as declared", defs[1])
-        self.assertIn("first destination", defs[1])
-        self.assertLess(len(" ".join(defs)), 300, "the block stays compact")
-        # the view prints them: from the page file, not from its own text
-        view = read("web", "src", "components", "views", "CommodityView.tsx")
-        self.assertIn("props.defs", view)
-        self.assertNotIn("Queensland only", view)
-
     def test_the_exporters_without_a_source_by_destination_are_found_where_the_note_says(self):
         """Note of the coverage: for each exporter it names, the place it gives for its coal by pair exists in the files (a flow of the
         Thermal coal page, or the customs lanes of all coal), and no list of metallurgical coal holds it."""
@@ -352,14 +344,38 @@ class Words(unittest.TestCase):
         t = self.text
         self.assertIn("Queensland producers' sales to export of metallurgical coal", t)
         self.assertIn("exports of rank metallurgical as declared at export", t)
-        self.assertIn("Data through to 30 June 2026", t)
-        self.assertIn("Current as at October 2026", t)
+        mq, me = metcoal.meta(QLD), metcoal.meta(EIA)
+        self.assertIn(mq["data_through"], t)
+        self.assertIn(mq["current_as_at"], t)
         self.assertIn("may be revised", t)
         self.assertIn("not to be considered attributable to the Department", t)
         self.assertIn("The file does not define the rank", t)
         self.assertIn("Source: U.S. Energy Information Administration", t)
         self.assertIn("not subtracted", t)
-        self.assertIn("1 October 2026", t)
+        d, m, y = (int(x) for x in me["file_date"].split("-")[::-1])
+        self.assertIn(f"{d} {B.MONTHS[m - 1]} {y}", t)
+
+    def test_the_definitions_are_printed_under_the_block_from_the_page_file(self):
+        """The footer says what each source's own file says (the definition of the meta file), and gives the evidence that a destination of these
+        statistics is not always the country where customs data record the coal. Whether the footer is printed is a rule of flowSources.ts, tested on
+        fixtures in web/scripts/flow-sources.test.mjs."""
+        defs = page()["flowDefs"]
+        self.assertEqual(len(defs), 3, "one short sentence per source, and the evidence")
+        self.assertIn("Queensland only", defs[0])
+        for k in ("hard coking", "semi-soft coking", "PCI"):
+            self.assertIn(k, defs[0])
+        self.assertIn("rank metallurgical as declared", defs[1])
+        # the words of each file: "by destination as the file gives it" (the Queensland sheet "Export by country and coal type"), "by destination country" (EIA)
+        for d, src in ((defs[0], QLD), (defs[1], EIA)):
+            by = re.search(r"by destination(?: country| as the file gives it)", metcoal.meta(src)["definition"])
+            self.assertTrue(by, src)
+            self.assertTrue(d.endswith(f", {by.group(0)}."), (d, by.group(0)))
+        self.assertNotIn("first", " ".join(defs), "neither file says first destination")
+        # the evidence is the largest gap of the page, recomputed from the cache and the customs data
+        sgp = metcoal.pairs(QLD, YEAR)["SGP"] / 1e6
+        self.assertIn(f"Australia to Singapore is {B._fmt(sgp)} Mt here and {B._fmt(float(self.cu[('AUS', 'SGP')]) / 1e6)} Mt of all coal in customs data", defs[2])
+        self.assertLess(len(" ".join(defs)), 420, "the block stays compact")
+        self.assertNotIn("first destination", json.dumps(page()), "no sentence of the page says first destination")
 
     def test_ports_and_exporters_without_a_source_by_destination(self):
         ports = metcoal.ports(QLD, YEAR)
@@ -428,9 +444,9 @@ class Words(unittest.TestCase):
         self.assertIn(f'The disclaimer of the About sheet reads: "{m["disclaimer_full"]}"', q)
         self.assertIn("(CC BY 4.0)", q)
 
-    def test_the_examples_of_the_first_destination_note_are_the_cache_s_figures(self):
+    def test_the_examples_of_the_destination_note_are_the_cache_s_figures(self):
         """The India and Singapore examples, the largest gap and the counts of pairs above the customs record: the builder's arithmetic, here from the cache."""
-        n = next(n for n in self.notes if n.startswith("First destination is not always the buyer"))
+        n = next(n for n in self.notes if n.startswith("A destination of the exporter's statistics is not always the country where customs data record the coal"))
         above = [(o, d, t, float(self.cu.get((o, d), 0))) for o, src in (("AUS", QLD), ("USA", EIA)) for d, t in metcoal.pairs(src, YEAR).items()
                  if t >= B.MET_FLOW_MIN and t > float(self.cu.get((o, d), 0))]
         nq, nu = (sum(1 for t in metcoal.pairs(src, YEAR).values() if t >= B.MET_FLOW_MIN) for src in (QLD, EIA))
@@ -518,7 +534,7 @@ class NotAPartOfCustomsCoal(unittest.TestCase):
             for d, t in metcoal.pairs(src, YEAR).items():
                 if t >= 1000 and t > float(self.cu.get((o, d), 0)):
                     n += 1
-        self.assertGreaterEqual(n, 10, "the exporter's first destination is not the customs partner: a flow of the layer can exceed the whole customs coal of its pair")
+        self.assertGreaterEqual(n, 10, "the destination of an exporter's statistics is not always where customs data record the coal: a flow of the layer can exceed the whole customs coal of its pair")
         self.assertGreater(float(self.cu[("AUS", "SGP")]) , 0)
         self.assertGreater(metcoal.pairs(QLD, YEAR)["SGP"], 10 * float(self.cu[("AUS", "SGP")]), "Singapore: 1.66 Mt of Queensland coal against 0.14 Mt in customs data")
 

@@ -25,7 +25,7 @@ import { reportMonth } from '../CropBalance';
 import { CsvAction } from '../CsvAction';
 import { downloadFlows, flowSources } from '../../lib/blockCsv';
 import { mixedShown } from '../../lib/mixedShown';
-import { allCoalTag, hasSeveralSources, showsSourceTag } from '../../lib/flowSources';
+import { allCoalTag, flowDefinitions, hasSeveralSources, showsSourceTag } from '../../lib/flowSources';
 import { KINDS, allTables, coverText, listText, pageTables, sectionTitle, shortName, type Table } from '../../lib/commodityTables';
 
 /**
@@ -301,7 +301,7 @@ function FlowRows(props: { id: string; flows: Flow[]; tag?: string; all: boolean
           title="Every flow of this table with its year, source and licence, as a CSV file"
         />
       </div>
-      {several && !!props.defs?.length && <div class="src-line">{props.defs.join(' ')}</div>}
+      {!!flowDefinitions(props.flows, props.defs) && <div class="src-line">{flowDefinitions(props.flows, props.defs)}</div>}
       {several && <SourcesLine items={props.flows} n="bilateral flows, each exporter's own statistics; the sources are not added to one another" />}
       {!several && first && <SourceLine s={first.s} y={first.y} n={`bilateral flows, all transport modes${anyEst ? `; an Atlas estimate is a tonnage computed from ${estBases}, shown to two significant digits` : ''}`} />}
     </>

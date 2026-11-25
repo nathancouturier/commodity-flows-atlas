@@ -666,7 +666,7 @@ def flow_notes(r, kind, pc, f2, pipelines=()):
         out.append(r.enote)
     if r is not None and getattr(r, "split", "") == "sea":
         out.append("The tonnage of this lane is its share by sea. " + MD.split_note(r.sea_share, MD.known_split(r.o, r.d, r.group, int(r.year))[1],
-                                                                                   int(r.year), _mt(r.t_all / 1e6)))
+                                                                                   int(r.year), _mt(r.t_all / 1e6), (r.group, r.o, r.d)))
     if kind == "mixed":
         out.append("Customs total for all modes: this trade moves both by sea and overland and the split is not known"
                    + (". Pipelines on this border in the atlas: " + "; ".join(pipelines) if pipelines else ""))
@@ -992,11 +992,15 @@ def main():
         add = g[g["flag"] == "added"].sort_values(["o", "d", "year"])
         for (o_, d_), z in add.groupby(["o", "d"], sort=True):
             for r in z.itertuples():
-                txt = (f"Includes {K._name(o_)} to {K._name(d_)}, {_mt(r.t / 1e6)}, from {K._name(d_)}'s import declaration (UN Comtrade; not in CEPII BACI)")
+                # the seaborne figure holds the row only when the pair is by sea: an overland pair is in the all-modes total, and the note says so
+                where = {"land": "overland", "mixed": "sea and overland, split not known"}.get(r.mode)
+                txt = ((f"All modes: includes {K._name(o_)} to {K._name(d_)}, {_mt(r.t / 1e6)} ({where}: not in the seaborne figure)" if where
+                        else f"Includes {K._name(o_)} to {K._name(d_)}, {_mt(r.t / 1e6)}")
+                       + f", from {K._name(d_)}'s import declaration (UN Comtrade; not in the atlas's extract of CEPII BACI, which drops flows under 1,000 t and USD 1 million)")
                 if r.year == z["year"].min() and r.year - 1 in years:
                     before = g[(g["o"] == o_) & (g["d"] == d_) & (g["year"] == r.year - 1)]["t"].sum()
-                    txt += (f". The all-modes series breaks between {r.year - 1} and {r.year}: the pair is CEPII BACI's figure up to {r.year - 1} "
-                            f"({_mt(before / 1e6) + f' in {r.year - 1}' if before else f'no row in {r.year - 1}'}) and {K._name(d_)}'s declaration from {r.year}")
+                    txt += (f". The all-modes series breaks between {r.year - 1} and {r.year}: the pair is the atlas's extract of CEPII BACI up to {r.year - 1} "
+                            f"({_mt(before / 1e6) + f' in {r.year - 1}' if before else f'no row in the extract in {r.year - 1}'}) and {K._name(d_)}'s declaration from {r.year}")
                 yn[str(int(r.year))] = (yn[str(int(r.year))] + ". " if str(int(r.year)) in yn else "") + txt
         # a pair whose split by mode is known for some years only (split_known) enters the seaborne series in those years: said once, for the table and the figure
         brk = []

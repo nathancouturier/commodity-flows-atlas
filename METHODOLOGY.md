@@ -735,9 +735,10 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   of grains, oilseeds and pulses, 10 for the nine groups of metal bulks (ferrous scrap, chromium
   ore, pig iron, direct-reduced iron, coke and four ferro-alloys), and 6 for ammonium nitrate with limestone and the two-nutrient compounds. The result for 2024 is 168
   generated routes (122, 20, 10, 10 and 6) over 71 groups beside 133 hand-written ones (301 routes), and 65.0% of the seaborne tonnes named (all
-  groups; 43.5% by the hand-written routes alone): eleven of the 71 groups reach 70% (iron
-  ore, coal, crude oil, LPG, corn, soybeans, bauxite, chromium ore, ferro-nickel, nickel ore and spodumene); the others stay short of
-  it, among them steel (45%) and refined products (53%), whose trade is spread over thousands of small pairs, and the
+  groups; 43.5% by the hand-written routes alone): ten of the 71 groups reach 70% (iron
+  ore, coal, crude oil, corn, soybeans, bauxite, chromium ore, ferro-nickel, nickel ore and spodumene); the others stay short of
+  it, among them LPG (69.0%: the Mediterranean corridor that would take it past 70% has no place left under the cap, see the LPG paragraph of section 1),
+  steel (45%) and refined products (53%), whose trade is spread over thousands of small pairs, and the
   groups whose corridors are all smaller than those kept (aluminium, refined copper, zinc concentrate, the minor
   metals: no generated route). `pipeline/freight/QA_routes.md`, written at each build, gives each
   group with its coverage, its reason when it is under the target, and the corridors the cap left out.
@@ -1932,11 +1933,11 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     Mongolia to China 82.91 Mt) and called it all coal; since November 2026 it lists metallurgical coal from the two
     exporters whose own statistics give it by destination, each row with its source, in the year of the customs data
     (2024): **Queensland** (Australia), the producers' sales to export of hard coking, semi-soft coking and PCI coal by
-    first destination, summed from the four quarters of the workbook "Quarterly Coal Sales" of the Queensland
+    destination as the file gives it (the sheet "Export by country and coal type"), summed from the four quarters of the workbook "Quarterly Coal Sales" of the Queensland
     Government (136.99 Mt to 31 countries in 2024; CC BY 4.0, credit and disclaimer in the page's note and in
     `NOTICE.md`); and the **United States**, the exports of rank "metallurgical" as declared to the Census Bureau, as
-    EIA's bulk file COAL.zip publishes them in short tons, converted at `TONNES_PER_SHORT_TON` (51.33 Mt to 34
-    countries in 2024, public domain). A row is a destination of at least 1,000 t: 63 rows, 31 of Queensland and 32 of the United States (two of its 34 destinations are under 1,000 t). The United
+    EIA's bulk file COAL.zip publishes them in short tons, by destination country, converted at `TONNES_PER_SHORT_TON` (51.33 Mt to 34
+    countries in 2024, public domain). The words by which the page and the footer of the block describe each source are those of its file's definition (`pipeline/cache/metcoal_meta.json`). A row is a destination of at least 1,000 t: 63 rows, 31 of Queensland and 32 of the United States (two of its 34 destinations are under 1,000 t). The United
     States rows carry their customs districts of loading. The rule that PCI (pulverised coal for injection) is
     metallurgical is the atlas's: the Queensland workbook has no such column, holds PCI inside semi-soft coking
     coal before 2022 and reports it apart from 2022, so only the sum of the three types is continuous across the
@@ -1944,8 +1945,8 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     40.9 to 12.5 Mt); the cache keeps the coal types apart. EIA's file does not define the rank. The two exporters count differently from each other,
     from EIA International (the tables of the page: Australia 171.1 Mt and the United States 51.3 Mt in 2024) and
     from customs data, so the flows of the two are never added to one another, and the page prints no total of
-    them. They are **not a part of the customs flows** of the Thermal coal page and are not subtracted from them: the
-    first destination of the exporter is not the customs partner (Queensland sells 1.66 Mt to Singapore against
+    them. They are **not a part of the customs flows** of the Thermal coal page and are not subtracted from them: a
+    destination of an exporter's statistics is not always the country where customs data record the coal (Queensland sells 1.66 Mt to Singapore against
     0.14 Mt of customs coal; 7 of its 31 pairs and 7 of the 32 United States pairs exceed the customs record of
     all coal), and customs coal less the exporter's metallurgical figure is not the exporter's thermal coal: for
     Australia to India customs data record 58.24 Mt of all coal, Queensland sold 35.42 Mt of metallurgical coal, and

@@ -9,6 +9,7 @@ import { fmt, fmtEst, pct, sig2 } from '../lib/format';
 import { GROUP_LABEL, altText, chokepointName, laneEst, laneMt, laneShare, vesselName } from '../lib/freight';
 import { select } from '../lib/store';
 import { ATLAS_LICENCE, csvCell, licenceOf } from '../lib/csv';
+import { estimatedShare, estimatedVolume, estimateParts } from '../lib/estimateShares';
 import { CsvAction } from './CsvAction';
 import { useFreightCatalogue } from './views/shared';
 import { EstMark, ModeBadge } from './ui';
@@ -166,27 +167,16 @@ export function laneRows(files: LaneFile[], yr: number | null): { rows: LaneRow[
   return { rows, rest, past };
 }
 
-/** The share of a file's seaborne tonnes that is an Atlas estimate in the year shown (the latest year, or the History year when the file has it), when it is 1% or more. */
-export function estimatedShare(f: LaneFile, yr: number | null): { share: number; year: number } | null {
-  const i = yr != null && f.years.includes(yr) ? f.years.indexOf(yr) : f.years.indexOf(f.y);
-  const share = f.estY?.[i] ?? (f.years[i] === f.y ? f.est : undefined);
-  return share != null && share >= 0.01 ? { share, year: f.years[i] } : null;
-}
+export { estimatedShare, estimatedVolume };
 
 /** The sentence the builder puts in a year's note for the estimated tonnage: the table footer says it when the share is 1% or more. */
 const EST_YEAR_NOTE = /\s*Includes [\d.,]+ \S+ of Atlas estimates \([^)]*\): tonnage estimated from (?:declared value|a volume[^()]*\([^)]*\)(?: and from declared value \([^)]*\))?)\.?/;
 
-/** The part of the estimated share (`estimatedShare`) that is made from a volume in the United States' own export statistics, 0 when none is. */
-export function estimatedVolume(f: LaneFile, year: number): number {
-  const i = f.years.indexOf(year);
-  return f.estVolY?.[i] ?? (year === f.y ? f.estVol : undefined) ?? 0;
-}
-
 /** What the estimated share is made from, in words: the two bases (a volume of the United States' own statistics, the declared value) told apart. */
 export function estimateBasis(share: number, volume: number): string {
   if (volume <= 0) return 'estimated from the declared value';
-  const value = share - volume;
-  return `an Atlas estimate: ${pct(volume)} from a volume in the United States' own export statistics${value >= 0.005 ? `, ${pct(value)} from the declared value` : ''}`;
+  const parts = estimateParts(share, volume);
+  return `an Atlas estimate: ${pct(parts.volume)} from a volume in the United States' own export statistics${parts.value >= 0.005 ? `, ${pct(parts.value)} from the declared value` : ''}`;
 }
 
 /** The sentence of a lane file that says where a pair enters the seaborne series from a year (its split by mode is known for some years only), for the latest year. */

@@ -147,11 +147,11 @@ def read_queensland(path, names):
     ports = [(QLD, y, "", p, kind, round(t)) for (y, p, kind), t in port.items() if y in years and round(t)]
     meta = {
         "id": QLD, "name": "Queensland coal sales to export, by destination and by port",
-        "dataset": "Quarterly coal reports, workbook \"Quarterly Coal Sales\" (coal-sales-data-2010-2026.xlsx), sheets \"Export by country and coal type\" and \"Export by port and coal type\"",
+        "dataset": f"Quarterly coal reports, workbook \"Quarterly Coal Sales\" ({os.path.basename(path)}), sheets \"Export by country and coal type\" and \"Export by port and coal type\"",
         "publisher": "Queensland Government, Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development (NRMMRRD)",
         "address": "https://www.data.qld.gov.au/dataset/quarterly-coal-reports", "licence": "Creative Commons Attribution 4.0 (CC BY 4.0)",
         "exporter": "AUS", "credit": credit, "data_through": through, "current_as_at": current, "revised": revised, "disclaimer": disclaimer, "disclaimer_full": disclaimer_full, "pci_note": pci_note,
-        "definition": "Sales to export of hard coking, semi-soft coking and PCI coal by the producers of Queensland, in tonnes, by first destination; the "
+        "definition": "Sales to export of hard coking, semi-soft coking and PCI coal by the producers of Queensland, in tonnes, by destination as the file gives it; the "
                       "calendar year is the sum of its four quarters. Queensland only: New South Wales has no destinations in the file. Before 2022 PCI is "
                       "inside semi-soft coking coal",
         "rule": "metallurgical = hard coking + semi-soft coking + PCI; thermal = thermal coal (the workbook has no such column: the rule is the atlas's)",

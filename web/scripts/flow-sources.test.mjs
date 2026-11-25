@@ -4,7 +4,7 @@
  */
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { hasSeveralSources, showsSourceTag } from '../src/lib/flowSources.ts';
+import { flowDefinitions, hasSeveralSources, showsSourceTag } from '../src/lib/flowSources.ts';
 
 const row = (s) => ({ s });
 const tags = (flows, rows = flows) => rows.map((f) => showsSourceTag(f, flows, rows));
@@ -55,4 +55,14 @@ test('an overland arc says "customs" only for a flow with a declared customs val
   assert.equal(customsMark({ usd: 0 }), ' (customs)', 'a declared value of zero is still a customs flow');
   assert.equal(customsMark({}), '');
   assert.equal(customsMark({ usd: null }), '');
+});
+
+test('the definitions under the block: only a list with several sources, and only when the page file has some', () => {
+  const defs = ['Australia rows are Queensland only.', 'United States rows are exports of rank metallurgical as declared.'];
+  const two = [row('qld-coal-sales'), row('eia-coal')];
+  assert.equal(flowDefinitions(two, defs), defs.join(' '));
+  assert.equal(flowDefinitions(two, []), '', 'a page file with no definition prints nothing');
+  assert.equal(flowDefinitions(two, undefined), '');
+  assert.equal(flowDefinitions([row('baci'), row('baci')], defs), '', 'one source: the single-source line, not the definitions');
+  assert.equal(flowDefinitions([row('baci'), row('atlas')], defs), '', 'the atlas is not a source of its own');
 });

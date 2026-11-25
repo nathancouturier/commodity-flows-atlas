@@ -351,7 +351,7 @@
   "current_as_at": "Current as at October 2026",
   "data_through": "Data through to 30 June 2026",
   "dataset": "Quarterly coal reports, workbook \"Quarterly Coal Sales\" (coal-sales-data-2010-2026.xlsx), sheets \"Export by country and coal type\" and \"Export by port and coal type\"",
-  "definition": "Sales to export of hard coking, semi-soft coking and PCI coal by the producers of Queensland, in tonnes, by first destination; the calendar year is the sum of its four quarters. Queensland only: New South Wales has no destinations in the file. Before 2022 PCI is inside semi-soft coking coal",
+  "definition": "Sales to export of hard coking, semi-soft coking and PCI coal by the producers of Queensland, in tonnes, by destination as the file gives it; the calendar year is the sum of its four quarters. Queensland only: New South Wales has no destinations in the file. Before 2022 PCI is inside semi-soft coking coal",
   "disclaimer": "Derived conclusions and analysis generated from this data are not to be considered attributable to the Department.",
   "disclaimer_full": "NRMMRRD has made a reasonable effort to ensure that the provided data is accurate and complete at the time of publishing. This information reflects data as reported to the Department and is a true and accurate representation of the data received. Authenticated information is only accurate as of the point in time of validation and verification. The Department is not responsible for data that is misrepresented, misinterpreted or altered in any way. Derived conclusions and analysis generated from this data are not to be considered attributable to the Department.",
   "excluded_years": [

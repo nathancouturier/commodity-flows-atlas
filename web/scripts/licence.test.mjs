@@ -40,6 +40,9 @@ const allowed = new Set([
   'eia-spot', 'eia-intl', 'faostat', 'wikipedia', 'wikipedia-vessel-classes', 'vessel-size-conventions', 'eia-ng', 'eia-cab-russia',
   'eia-refinery-capacity', 'eia-storage-capacity', 'unctadstat-fleet', 'eia-dpr', 'eia-todayinenergy', 'openstreetmap', 'wikidata', 'faostat-rfb', 'eia-cab', 'eia-company-imports',
   'eia-exports-destination', 'disr-req', 'qld-coal-sales', 'eia-coal',
+  // the Census Bureau's Public-Use Statement allows an estimate of one's own made from the data, citing the Census Bureau as the source of the original data
+  // (the registry quotes it with its page and date): the LPG page's estimate of the United States to Mexico is exactly that
+  'census-exports',
 ]);
 const refused = [];
 for (const s of registry) {
@@ -49,4 +52,27 @@ for (const s of registry) {
 }
 // the World Nuclear Association table is one that is not offered
 assert.ok(refused.includes('wna'));
+
+// The Public-Use Statement of the Census Bureau covers an estimate made from its data, not a row of its file: no table or file of the site
+// may carry a row whose own source (`s`) is census-exports. The estimate names it as an input only (the lanes' histSrc, a note).
+const census = registry.find((s) => s.id === 'census-exports');
+assert.ok(census && /Public-Use Statement/.test(census.licence) && /citing-our-data|citation\.html/.test(census.licence) && /24 February 2026/.test(census.licence));
+assert.ok(!/public domain|no copyright is claimed/i.test(census.licence), 'the Census licence text must not say public domain or that no copyright is claimed');
+assert.equal(licenceShort(census.licence), 'U.S. Census Bureau Public-Use Statement');
+const own = [];
+const walk = (v, where) => {
+  if (Array.isArray(v)) v.forEach((x, i) => walk(x, `${where}[${i}]`));
+  else if (v && typeof v === 'object') {
+    for (const [k, x] of Object.entries(v)) {
+      if (k === 's' && x === 'census-exports') own.push(where);
+      else walk(x, `${where}.${k}`);
+    }
+  }
+};
+const files = (d) => fs.readdirSync(d, { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? files(path.join(d, e.name)) : e.name.endsWith('.json') ? [path.join(d, e.name)] : []));
+for (const f of files(root)) {
+  if (f === path.join(root, 'sources.json')) continue;
+  walk(JSON.parse(fs.readFileSync(f, 'utf8')), path.relative(root, f));
+}
+assert.deepEqual(own, [], `a row of the site has the Census file as its own source: ${own.join(', ')}`);
 console.log('licence: all checks passed; no download for', refused.join(', '));

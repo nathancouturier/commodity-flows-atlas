@@ -57,7 +57,8 @@ Rules
 
   11. Flows the importer declares and the reconciled file lacks (audit C-042): the pairs of comtrade_tin.ADDED_FLOWS (Myanmar to China, tin
      ores and concentrates) are taken from China's import declaration, UN Comtrade, in every year of pipeline/cache/comtrade_tin_china.json:
-     CEPII BACI has 39 to 737 t a year for the pair against 76 to 292 kt declared. A year where the customs table holds under a tenth of the
+     the atlas's extract of CEPII BACI (flows under 1,000 t and USD 1 million dropped) has 139 to 1,571 t a year for the pair in 2017 to 2024, and no row in 2021, 2022
+     and 2024, against 76 to 292 kt declared. A year where the customs table holds under a tenth of the
      declared tonnage has its row replaced, a year with no row gets one ("added", imputed = False: a declared figure, not an estimate; its
      source is UN Comtrade and the note says so). The group's references are the ones of the rows of the customs table. The checks of checks.py read
      the customs file as it is (customs_frame: the added rows out, the rows they replaced back), so that none compares a Comtrade figure with BACI's years.

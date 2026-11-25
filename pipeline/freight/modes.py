@@ -284,10 +284,31 @@ def known_split(o, d, group, year):
     return None if share is None else (min(share, 1.0), k)
 
 
-def split_note(share, k, year, total):
-    """The sentence of the lane, the page and the notes for a pair-year whose split is known; total: the pair's tonnage in all modes, as text."""
-    return (f"In {year}, {share:.0%} of the pair's {total} in all modes went by sea: {k.what}. The other years of this pair are customs totals "
-            "for all modes, with the split not known")
+def _years_text(years):
+    """[2021, 2022, 2023] -> "2021 to 2023"; [2022] -> "2022"; [2021, 2023] -> "2021 and 2023"."""
+    ys = sorted(years)
+    if len(ys) == 1:
+        return str(ys[0])
+    if ys[-1] - ys[0] == len(ys) - 1:
+        return f"{ys[0]} to {ys[-1]}"
+    return ", ".join(str(y) for y in ys[:-1]) + f" and {ys[-1]}"
+
+
+def other_years(group, o, d, year):
+    """What the years of a known-split pair other than `year` are, from the years that the cleaning replaces by an estimate (rule 10 of
+    clean.py, us_lpg.CORRECTED): the customs total for all modes before them, the atlas's estimate for all modes from the volume of the
+    United States' own statistics in them, and in none of those years the split by mode."""
+    est = sorted(y for y in us_lpg.CORRECTED.get((group, o, d), ()) if y != year)
+    if not est:
+        return "The other years of this pair are customs totals for all modes, with the split by mode not known"
+    return (f"The other years of this pair are for all modes: the customs total before {est[0]}, the atlas's estimate from EIA's volume for "
+            f"{_years_text(est)}; in none of those years is the split by mode known")
+
+
+def split_note(share, k, year, total, pair):
+    """The sentence of the lane, the page and the notes for a pair-year whose split is known; total: the pair's tonnage in all modes, as text;
+    pair: (group, exporter, importer)."""
+    return (f"In {year}, {share:.0%} of the pair's {total} in all modes went by sea: {k.what}. {other_years(*pair, year)}")
 
 
 # ------------------------------------------------------------------ 7. landlocked ends
