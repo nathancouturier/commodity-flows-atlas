@@ -7,6 +7,9 @@ Features
   * ``requests`` with connect/read timeouts and a plain, truthful User-Agent (``USER_AGENT``: what the client is,
     no browser name, no project or personal name, no address); every update script downloads through this module;
   * retries with exponential backoff + jitter (default 4 attempts) on network errors, HTTP 408/425/429/5xx;
+  * a service that names a delay (the ``Retry-After`` header of an HTTP 429, or "Retry after N sec" in an ArcGIS error
+    body: a quota answer) is not asked again sooner than that delay plus QUOTA_MARGIN, and a second such answer ends the
+    attempts (``FetchError.retry_after`` carries the delay);
   * a minimum pause between two requests to the same host (``MIN_INTERVAL``, default 1.5 s);
   * resumable large downloads (HTTP Range) that keep a ``<dest>.part`` file between attempts;
   * sanity checks: Content-Type / magic bytes must match the expected kind ("xlsx", "xls", "zip",
@@ -19,8 +22,10 @@ Importable from the repo root: ``sys.path.insert(0, "pipeline")`` (the update sc
 """
 import os
 import random
+import re
 import threading
 import time
+from email.utils import parsedate_to_datetime
 from urllib.parse import urlsplit
 
 import requests
@@ -34,6 +39,9 @@ ATTEMPTS = 4
 BACKOFF_BASE = 4.0       # seconds; delay = BACKOFF_BASE * 2**(attempt-1) + jitter
 MIN_INTERVAL = 1.5       # seconds between requests to the same host
 RETRY_STATUS = {408, 425, 429, 500, 502, 503, 504, 520, 521, 522, 523, 524}
+QUOTA_MARGIN = 5.0       # seconds added to the delay a service asked for before the next request
+QUOTA_MAX_WAIT = 300.0   # a service that asks for a longer wait than this is not waited for (a scheduled job has a time limit): the call fails
+_RETRY_AFTER_BODY = re.compile(r"retry after\s+(\d+(?:\.\d+)?)\s*sec", re.IGNORECASE)
 
 # expected kind -> leading bytes of a genuine file
 MAGIC = {
@@ -48,7 +56,45 @@ _lock = threading.Lock()
 
 
 class FetchError(Exception):
-    """A download failed for good (after retries) or the payload was not what was expected."""
+    """A download failed for good (after retries) or the payload was not what was expected. ``retry_after`` is the delay in
+    seconds that the service asked for in its last quota answer (None when it named none)."""
+    retry_after = None
+
+
+def _quota_error(message, retry_after):
+    e = FetchError(message)
+    e.retry_after = retry_after
+    return e
+
+
+def retry_after_header(value, now=None):
+    """Seconds named by a ``Retry-After`` header (a number, or an HTTP date), or None when the header is absent or unreadable."""
+    if value is None:
+        return None
+    text = str(value).strip()
+    if re.fullmatch(r"\d+(?:\.\d+)?", text):
+        return float(text)
+    try:
+        when = parsedate_to_datetime(text)
+    except (TypeError, ValueError):
+        return None
+    return max(0.0, when.timestamp() - (time.time() if now is None else now))
+
+
+def retry_after_body(message):
+    """Seconds named in the message of an ArcGIS error body ("... Retry after 60 sec"), or None."""
+    m = _RETRY_AFTER_BODY.search(str(message or ""))
+    return float(m.group(1)) if m else None
+
+
+def _quota_floor(delay, seen, what):
+    """The least wait before the next attempt after a quota answer that named ``delay`` seconds. Raises when this is the second such
+    answer of the call or when the delay is longer than QUOTA_MAX_WAIT: the attempts end."""
+    if seen:
+        raise _quota_error(f"{what}: refused again after the wait it asked for (retry after {delay:g} sec)", delay)
+    if delay + QUOTA_MARGIN > QUOTA_MAX_WAIT:
+        raise _quota_error(f"{what}: asks for a wait of {delay:g} sec, not waited for", delay)
+    return delay + QUOTA_MARGIN
 
 
 def _sess():
@@ -73,8 +119,9 @@ def _pause(url, min_interval=None):
         _last_hit[host] = time.monotonic()
 
 
-def _sleep_backoff(attempt):
-    time.sleep(BACKOFF_BASE * (2 ** (attempt - 1)) + random.uniform(0, BACKOFF_BASE))
+def _sleep_backoff(attempt, least=0.0):
+    """The wait before the next attempt: the backoff, or ``least`` seconds when the service asked for longer."""
+    time.sleep(max(BACKOFF_BASE * (2 ** (attempt - 1)) + random.uniform(0, BACKOFF_BASE), least))
 
 
 def _short(e):
@@ -99,8 +146,10 @@ def request(url, *, params=None, headers=None, attempts=ATTEMPTS, timeout=None, 
     """GET/HEAD with retries; returns a ``requests.Response`` with a good status or raises FetchError."""
     timeout = timeout or (CONNECT_TIMEOUT, READ_TIMEOUT)
     last = "no attempt"
+    least, asked, seen = 0.0, None, False   # the wait a quota answer asks for, the delay it named, whether one was waited out
     for attempt in range(1, attempts + 1):
         _pause(url, min_interval)
+        least = 0.0
         try:
             r = _sess().request(method, url, params=params, headers=headers, timeout=timeout, stream=stream,
                                 allow_redirects=True)
@@ -109,7 +158,12 @@ def request(url, *, params=None, headers=None, attempts=ATTEMPTS, timeout=None, 
         else:
             if r.status_code in RETRY_STATUS:
                 last = f"HTTP {r.status_code}"
+                delay = retry_after_header((getattr(r, "headers", None) or {}).get("Retry-After")) if r.status_code == 429 else None
                 r.close()
+                if delay is not None:
+                    asked = delay
+                    least = _quota_floor(delay, seen, f"HTTP 429 for {urlsplit(url).netloc}")
+                    seen = True
             elif r.status_code >= 400 and r.status_code != 416:
                 code = r.status_code
                 r.close()
@@ -117,8 +171,8 @@ def request(url, *, params=None, headers=None, attempts=ATTEMPTS, timeout=None, 
             else:
                 return r
         if attempt < attempts:
-            _sleep_backoff(attempt)
-    raise FetchError(f"{last} after {attempts} attempts ({urlsplit(url).netloc})")
+            _sleep_backoff(attempt, least)
+    raise _quota_error(f"{last} after {attempts} attempts ({urlsplit(url).netloc})", asked)
 
 
 def get_text(url, *, params=None, attempts=ATTEMPTS, min_interval=None, max_bytes=20_000_000):
@@ -134,8 +188,10 @@ def get_text(url, *, params=None, attempts=ATTEMPTS, min_interval=None, max_byte
 def get_json(url, *, params=None, attempts=ATTEMPTS, min_interval=None):
     """Download a JSON document, retrying when the body is not valid JSON; ArcGIS ``error`` payloads are failures."""
     last = "invalid JSON"
+    least, asked, seen = 0.0, None, False   # as in request(), for a quota answer in an error body
     for attempt in range(1, attempts + 1):
         r = request(url, params=params, attempts=attempts, min_interval=min_interval)
+        least = 0.0
         try:
             doc = r.json()
         except ValueError:
@@ -143,11 +199,16 @@ def get_json(url, *, params=None, attempts=ATTEMPTS, min_interval=None):
         else:
             if isinstance(doc, dict) and isinstance(doc.get("error"), dict):
                 last = f"service error: {_short(doc['error'].get('message', doc['error']))}"
+                delay = retry_after_body(doc["error"].get("message"))
+                if delay is not None:
+                    asked = delay
+                    least = _quota_floor(delay, seen, last)
+                    seen = True
             else:
                 return doc
         if attempt < attempts:
-            _sleep_backoff(attempt)
-    raise FetchError(last)
+            _sleep_backoff(attempt, least)
+    raise _quota_error(last, asked)
 
 
 def download(url, dest, *, kind=None, min_bytes=1, attempts=ATTEMPTS, resume=False, min_interval=None,
@@ -167,7 +228,9 @@ def download(url, dest, *, kind=None, min_bytes=1, attempts=ATTEMPTS, resume=Fal
     os.makedirs(os.path.dirname(os.path.abspath(dest)), exist_ok=True)
     timeout = timeout or (CONNECT_TIMEOUT, READ_TIMEOUT)
     last = "no attempt"
+    least, seen = 0.0, False   # as in request(): the wait a quota answer asks for, and whether one was waited out
     for attempt in range(1, attempts + 1):
+        least = 0.0
         have = os.path.getsize(part) if (resume and os.path.exists(part)) else 0
         headers = {"Range": f"bytes={have}-"} if have else None
         try:
@@ -176,6 +239,9 @@ def download(url, dest, *, kind=None, min_bytes=1, attempts=ATTEMPTS, resume=Fal
             last = str(e)
             if "HTTP 4" in last and "HTTP 408" not in last and "HTTP 425" not in last and "HTTP 429" not in last:
                 raise
+            if e.retry_after is not None:
+                least = _quota_floor(e.retry_after, seen, "download")
+                seen = True
         else:
             try:
                 if r.status_code == 416:  # nothing left to fetch: the part file is probably complete
@@ -221,7 +287,7 @@ def download(url, dest, *, kind=None, min_bytes=1, attempts=ATTEMPTS, resume=Fal
             finally:
                 r.close()
         if attempt < attempts:
-            _sleep_backoff(attempt)
+            _sleep_backoff(attempt, least)
     if os.path.exists(part) and not resume:
         os.remove(part)
     raise FetchError(f"{last} after {attempts} attempts")
