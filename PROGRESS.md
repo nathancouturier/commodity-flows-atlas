@@ -154,6 +154,11 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   Reuse" and of the open-data page are word for word, and the terms of the EIA's interface name no third party.
   The two lines under the table of spot prices ("Source: Refinitiv", "Updates occur daily") do not come with
   the page's text to an automated reader: they rest on the owner's own reading in a browser.
+- Published on 25 November 2026 at 21:30 UTC (commit `4361391`): the checks and the deployment ran green on
+  GitHub in seven minutes at the second push (the first, commit `a0e040b`, failed one test there and was not
+  deployed: see the slips below), then the 79 targeted checks and 19 general ones passed on the public site.
+  The list of released route and lane ids was renewed from that commit (the same 168 generated routes and
+  3,792 main lanes).
 - Slips of the work, to know about. A sitting of the first load started in the minute in which a package had
   changed one of the two files of the download script and not yet the other: it stopped on an error before any
   request, nothing was written, and the remaining sittings were run with the script of the eighth release from a
