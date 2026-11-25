@@ -1,12 +1,12 @@
 /**
  * Opens and closes the About window. The window itself (AboutDialog: about, sources and licences,
- * data freshness, method, third-party notices) is a separate chunk, loaded the first time it opens.
+ * data freshness, quality, method, third-party notices) is a separate chunk, loaded the first time it opens.
  */
 import type { ComponentType } from 'preact';
 import { useEffect, useState } from 'preact/hooks';
 import { signal } from '@preact/signals';
 
-export type AboutTab = 'about' | 'sources' | 'freshness' | 'method' | 'notices';
+export type AboutTab = 'about' | 'sources' | 'freshness' | 'quality' | 'method' | 'notices';
 
 /** Tab shown in the About window; null = window closed. */
 export const aboutTab = signal<AboutTab | null>(null);

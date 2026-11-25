@@ -13,6 +13,8 @@
 10 the data file (data/infrastructure/wpi.json) is what the builder makes from the cache alone, byte for byte, and says nothing the cache does not
 11 the builder stops, and writes nothing, on a cache that is not what the extractor writes; it names no path under raw/ and runs without it
 12 the largest class of each port (maxClass) does not come from the World Port Index and is what port_limits.py makes
+13 the documents (METHODOLOGY, NOTICE, docs/UPDATING, the README of the infrastructure folder, the About window) say what the meta file, the data file and the
+   code say: the counts and the constants they quote are read from the files, and none of them grants a permission the pages read do not
 
 Nothing here types a count or a figure of the file: they are read from the cache, the meta file and the atlas's own files.
 Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_wpi.py"
@@ -1133,6 +1135,249 @@ class MaxClassUntouched(unittest.TestCase):
         self.assertIn("tmp", writes[0])
         self.assertIn("out_path", code)
         self.assertNotRegex(code, r"open\((PORTS|ports_path)[^)]*[\"']w")
+
+
+# ------------------------------------------------------------------------------------------------------------------------------ the documents
+PERMISSION = r"(?i)public domain|open licen[cs]e|free to reuse|free to use|freely (?:re)?us"
+
+
+def flat(text):
+    return re.sub(r"\s+", " ", text)
+
+
+def methodology_block():
+    """The paragraphs of METHODOLOGY.md, section 11, on the World Port Index: from 'World Port Index (port panel).' to the next run-in heading."""
+    t = read_text("METHODOLOGY.md")
+    a = t.index("World Port Index (port panel).")
+    return t[a:t.index("Storage hubs.", a)]
+
+
+def blocks_naming_the_source(text, by_line=False):
+    """Every paragraph or list item (or, for a table, every line) of a text that names the World Port Index."""
+    parts = text.splitlines() if by_line else re.split(r"\n\s*\n|\n(?=- |\* |### |## )", text)
+    return [flat(x) for x in parts if re.search(r"World Port Index|nga-wpi", x)]
+
+
+def updating_block():
+    t = read_text("docs", "UPDATING.md")
+    a = t.index("### World Port Index (by hand")
+    return t[a:t.index("\n## ", a)]
+
+
+def about_text():
+    return flat(read_text("web", "src", "components", "AboutDialog.tsx"))
+
+
+class Documents(unittest.TestCase):
+    """13"""
+
+    @classmethod
+    def setUpClass(cls):
+        cls.meta = load_json("pipeline", "cache", "wpi_meta.json")
+        cls.wpi = load_json("data", "infrastructure", "wpi.json")
+        cls.ports = {f["properties"]["id"]: f["properties"] for f in load_json("data", "infrastructure", "ports.geojson")["features"]}
+        cls.m = flat(methodology_block())
+
+    # --- METHODOLOGY, section 11
+    def test_the_counts_the_methodology_quotes_are_the_meta_files(self):
+        c = self.meta["counts"]
+        m = re.search(r"Of the (\d+) ports, (\d+) have an entry \((\d+) by code, (\d+) by name and (\d+) by review\), (\d+) are doubtful and (\d+) have "
+                      r"no match; the (\d+) without an entry", self.m)
+        self.assertIsNotNone(m, "the sentence on the counts is not there")
+        got = tuple(int(x) for x in m.groups())
+        self.assertEqual(got, (c["ports"], self.meta["published"], c["sure_code"], c["sure_name"], c["sure_review"], c["doubtful"], c["none"],
+                               c["doubtful"] + c["none"]))
+        self.assertEqual(c["sure_code"] + c["sure_name"] + c["sure_review"], self.meta["published"])
+        self.assertEqual(len(self.wpi["ports"]), self.meta["published"])
+        self.assertEqual(int(re.search(r"Each of the (\d+) ports of the atlas", self.m).group(1)), c["ports"])
+
+    def test_the_nearer_row_and_held_back_counts_are_the_meta_files(self):
+        nearer = [d for d in self.meta["doubtful"] if d["reason"].startswith("another row of the country is nearer")]
+        self.assertEqual(int(re.search(r"Among the doubtful, (\d+) ports have another row", self.m).group(1)), len(nearer))
+        held = {h["id"] for h in self.meta["held_vessel"]}
+        self.assertEqual(int(re.search(r"holds back the maximum vessel of (\d+) ports", self.m).group(1)), len(held))
+        self.assertGreater(len(nearer), 0)
+        self.assertGreater(len(held), 0)
+
+    def test_the_file_and_its_columns_are_the_meta_files(self):
+        f = self.meta["file"]
+        self.assertIn(f"a CSV of {f['rows']:,} rows and {f['columns']} columns", self.m)
+        self.assertIn(f"keeps {len(self.meta['columns_used'])} of the {f['columns']} columns", self.m)
+        y, mth, d = self.meta["downloaded"].split("-")
+        month = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"][int(mth) - 1]
+        self.assertIn(f"on {int(d)} {month} {y}", self.m)
+
+    def test_the_distances_and_the_check_are_the_constants_of_the_extractor(self):
+        r = self.meta["rule"]
+        self.assertEqual(r, X.RULE)
+        g = lambda v: f"{v:g}"  # noqa: E731
+        m = self.m
+        self.assertIn(f"within {g(r['code_km'])} km of the atlas point", m)
+        self.assertIn(f"or it lies within {g(r['nameless_km'])} km", m)
+        self.assertIn(f"equal to the atlas name within {g(r['name_km'])} km", m)
+        self.assertIn(f"by more than {g(r['nearer_margin_km'])} km: a port of several terminals", m)
+        self.assertIn(f"between {g(r['name_km'])} and {g(r['name_far_km'])} km away", m)
+        self.assertIn(f"more than {g(r['beam_max_ratio'] * 100)}% of its length or more than {g(r['beam_max_m'])} m", m)
+
+    def test_the_sixteen_bands_are_the_formatters(self):
+        key = read_text("web", "src", "lib", "wpi.ts")
+        n = len(re.findall(r"\{ code: '[a-z]', from: [\d.]+, to: (?:[\d.]+|null) \}", key))
+        words = {16: "sixteen"}
+        self.assertEqual(self.m.count(f"The {words[n]} bands are typed once, in `web/src/lib/wpi.ts`"), 1, n)
+        self.assertIn("with the address of the archived copy", self.m)
+        self.assertIn(self.meta["terms_page"].split("/web/")[1].split("if_/")[1], key.replace("\n * ", ""))  # the key cites the same archived PDF
+
+    def test_the_example_of_port_hedland_is_the_data(self):
+        lim = self.ports["port-hedland"]["limits"]
+        self.assertEqual(lim["draught"], 19.8)
+        self.assertIn(f"a draft depth of {lim['draught']} m", self.m)
+        chan = self.wpi["ports"]["port-hedland"]["chan"]
+        key = read_text("web", "src", "lib", "wpi.ts")
+        band = re.search(rf"\{{ code: '[a-z]', from: {chan:.1f}, to: ([\d.]+) \}}", key)
+        self.assertIsNotNone(band, "the channel depth of the entry is not the floor of a band")
+        self.assertIn(f"the band {chan:.1f} to {band.group(1)} m", self.m)
+
+    def test_the_example_of_rotterdam_is_the_meta_file(self):
+        d = next(x for x in self.meta["doubtful"] if x["id"] == "rotterdam")
+        self.assertEqual(d["candidate"]["name"], "Rotterdam")
+        self.assertNotIn("rotterdam", self.wpi["ports"])
+        self.assertIn("the atlas shows no entry for Rotterdam", self.m)
+        self.assertIn("EECV ore quay", self.ports["rotterdam"]["limits"]["n"])
+        self.assertIn("ore quay of the Maasvlakte", self.m)
+
+    def test_the_seven_assumptions_are_named_and_the_five_of_the_design_come_first(self):
+        found = re.findall(r"^- \*\*A(\d)\.\*\* ", methodology_block(), flags=re.M)
+        self.assertEqual(found, [str(i) for i in range(1, 8)])
+        self.assertIn("**A1.** A value of 0.0 in the file means \"not stated\"", methodology_block())
+        self.assertIn("is the twenty-sixth edition's (2017)", self.m)
+        self.assertIn("The edition of the CSV is not stated", self.m)
+
+    def test_the_hundred_metre_assumption_holds_in_the_data(self):
+        for pid, e in self.wpi["ports"].items():
+            for k in ("chan", "anch", "pier", "oil", "lng"):
+                self.assertLess(e.get(k, 0), 100, f"{pid} {k}")
+
+    def test_the_methodology_derives_no_class_and_names_the_choice_made_without_the_owner(self):
+        self.assertIn("no class is derived from the World Port Index in this release", self.m)
+        self.assertIn("a choice made without the owner, listed in `PROGRESS.md`", self.m)
+        self.assertIn("never merged, averaged or reconciled", self.m)
+        self.assertIn("not Atlas estimates", self.m)
+        sec8 = read_text("METHODOLOGY.md").split("## 8. Discrepancies")[1].split("## 9.")[0]
+        self.assertIn("page cited and the World Port Index are both shown", flat(sec8))
+
+    def test_the_key_is_quoted_as_the_publication_words_it(self):
+        for q in ("Depth information is generalized into 5-foot units, with the equivalents in meters", "Depths refer to chart datum",
+                  "means a least depth of 31 feet (9.5 meters) or greater, but not as great as 36 feet (11.0 meters)",
+                  "The controlling depth of the principal or deepest channel at chart datum is given",
+                  "the least depth in the best or principal anchorage",
+                  "The greatest depth at chart datum alongside the respective wharf/pier is given",
+                  "The greatest depth at chart datum will be shown"):
+            self.assertIn(f'"{q}"', self.m)
+
+    # --- the terms, in every document
+    def test_no_document_grants_a_permission_for_the_publication(self):
+        docs = {"METHODOLOGY.md": read_text("METHODOLOGY.md"), "NOTICE.md": read_text("NOTICE.md"), "docs/UPDATING.md": read_text("docs", "UPDATING.md"),
+                "pipeline/infrastructure/README.md": read_text("pipeline", "infrastructure", "README.md"), "README.md": read_text("README.md"),
+                "DATA_SOURCES.md": read_text("DATA_SOURCES.md")}
+        n = 0
+        for name, text in docs.items():
+            for b in blocks_naming_the_source(text, by_line=name == "DATA_SOURCES.md"):
+                n += 1
+                self.assertNotRegex(b, PERMISSION, f"{name}: {b[:120]}")
+        self.assertGreater(n, 8)
+
+    def test_the_notice_quotes_the_terms_the_meta_records_and_the_disclaimers(self):
+        bullet = next(b for b in blocks_naming_the_source(read_text("NOTICE.md")) if b.startswith("- **World Port Index (Pub. 150)"))
+        self.assertIn(self.meta["terms_quote"], bullet)
+        self.assertIn(self.meta["terms_page"], bullet)
+        self.assertIn("read 25 November 2026", bullet)
+        self.assertEqual(self.meta["terms_read_on"], "2026-11-25")
+        self.assertIn("(terms to be confirmed)", bullet)
+        self.assertIn("Terms of the file used: not read", bullet)
+        self.assertIn(f"for {self.meta['published']} ports", bullet)
+        self.assertIn(f"{len(self.meta['columns_used'])} of its {self.meta['file']['columns']} columns", bullet)
+        self.assertIn("a statement on that edition and not on the file used", bullet)
+        for q in ("makes any warranty, express or implied, including the warranties of merchantability and fitness for a particular purpose",
+                  "or assumes any legal liability or responsibility for the accuracy, completeness, or usefulness of any information",
+                  "does not necessarily constitute or imply its endorsement, recommendation, or favoring by the United States Government or the "
+                  "National Geospatial-Intelligence Agency",
+                  "Federal law prohibits the use of the National Geospatial-Intelligence Agency's name, seal, initials, or any colorable imitation thereof, "
+                  "to convey the impression of commercial endorsement by the Secretary of Defense, without written permission from the Secretary of Defense"):
+            self.assertIn(q, bullet)
+        self.assertIn("web.archive.org/web/20190721092351/https://msi.nga.mil/NGAPortal/MSI.portal", bullet)
+        self.assertIn("they are not endorsed by NGA or by the United States Government", bullet)
+        self.assertIn("The terms of use, and the edition, of the World Port Index file used", flat(read_text("NOTICE.md").split("## Questions of terms still open")[1]))
+
+    def test_the_quoted_sentence_is_one_the_registry_the_meta_and_the_extractor_share(self):
+        src = next(s for s in load_json("data", "sources.json") if s["id"] == "nga-wpi")
+        self.assertEqual(self.meta["terms_quote"], X.TERMS_QUOTE)
+        self.assertEqual(self.meta["terms_page"], X.TERMS_PAGE)
+        self.assertEqual(self.meta["terms_read_on"], X.TERMS_READ_ON)
+        self.assertIn(X.TERMS_QUOTE, src["licence"])
+        self.assertIn(X.TERMS_PAGE, src["licence"])
+
+    # --- docs/UPDATING.md
+    def test_the_updating_section_names_the_constants_the_guards_and_the_three_files(self):
+        u = flat(updating_block())
+        for name in ("DOWNLOADED", "EDITION", "EDITION_PAGE", "TERMS_QUOTE", "TERMS_PAGE", "TERMS_READ_ON", "TERMS_SCOPE"):
+            self.assertTrue(hasattr(X, name), name)
+            self.assertIn(f"`{name}`", u)
+        for path in ("pipeline/infrastructure/extract_wpi.py", "pipeline/infrastructure/wpi_limits.py", "pipeline/cache/wpi_ports.csv",
+                     "pipeline/cache/wpi_meta.json", "data/infrastructure/wpi.json", "raw/nga/UpdatedPub150.csv"):
+            self.assertIn(path, u)
+            if not path.startswith("raw/"):
+                self.assertTrue(os.path.exists(os.path.join(ROOT, path)), path)
+        self.assertIn("--accept", u)
+        self.assertIn(f"{len(X.COLUMNS)} it reads", u)
+        self.assertIn(f"fewer than {X.ROWS_MIN:.0%} of the rows", u)
+        self.assertIn(f"more than {X.PUBLISHED_DROP} ports fewer", u)
+        self.assertIn(f"more than {X.CHANGED_SHARE:.0%} of the ports kept show a figure that moved by more than {X.CHANGED_BY:.0%}", u)
+        self.assertIn("committed together", u)
+        self.assertIn("the match rule, the review table and the equality of the cache with the raw file are not tested", u)
+        self.assertIn("EDITION", u)
+        self.assertNotRegex(u, PERMISSION)
+
+    def test_the_updating_section_says_no_job_refreshes_it_and_no_workflow_does(self):
+        u = flat(updating_block())
+        self.assertIn("No scheduled job refreshes them", u)
+        wf = os.path.join(ROOT, ".github", "workflows")
+        for name in os.listdir(wf):
+            text = read_text(".github", "workflows", name)
+            for word in ("extract_wpi", "wpi_limits", "wpi.json", "wpi_meta"):
+                self.assertNotIn(word, text, name)
+
+    # --- the README of the infrastructure folder
+    def test_the_readme_types_no_count_and_points_to_the_documents(self):
+        t = read_text("pipeline", "infrastructure", "README.md")
+        a = t.index("## World Port Index entries")
+        sec = flat(t[a:t.index("\n## ", a + 5)])
+        self.assertNotRegex(sec, r"\b\d+ (?:by code|by name|by review|doubtful)\b")
+        for n in self.meta["counts"].values():
+            self.assertNotRegex(sec, rf"\b{n} (?:ports|entries|rows)\b")
+        for ref in ("docs/UPDATING.md", "METHODOLOGY.md", "NOTICE.md", "Documents", "test_wpi.py", "wpi_meta.json"):
+            self.assertIn(ref, sec)
+        self.assertIn("offered for no download", sec)
+        self.assertIn("terms to be confirmed", sec)
+
+    # --- the About window
+    def test_the_about_credit_names_the_publisher_and_suggests_no_endorsement(self):
+        t = about_text()
+        i = t.index("<b>Port facts.</b>")
+        credit = t[i:t.index("</li>", i)]
+        for w in ("National Geospatial-Intelligence Agency", "no warranty", "not for navigation", "to be confirmed", "offers no download"):
+            self.assertIn(w, credit)
+        self.assertNotRegex(credit, PERMISSION)
+        self.assertNotRegex(credit, r"(?i)endorsed by|approved by|certified by|in partnership|in cooperation|official")
+        j = t.index("<b>No endorsement.</b>")
+        no = t[j:t.index("</li>", j)]
+        self.assertIn("National Geospatial-Intelligence Agency or any other publisher", no)
+        self.assertIn("never used to suggest that the agency or the United States Government endorses the atlas", no)
+
+    def test_the_about_window_types_no_count_of_the_block(self):
+        t = about_text()
+        i = t.index("<b>Port facts.</b>")
+        credit = t[i:t.index("</li>", i)]
+        self.assertNotRegex(credit, r"\b\d{2,3}\b ports")
 
 
 if __name__ == "__main__":

@@ -1,0 +1,229 @@
+/* The Quality tab of the About window (Coverage.tsx): a grid of the commodity pages by block, one mark for each state. */
+
+.cov-headline {
+  margin: 4px 0 8px;
+  color: var(--ink-0);
+}
+
+.cov-legend {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px 18px;
+  margin: 8px 0 14px;
+  padding: 0;
+  list-style: none;
+  font-size: var(--fs-sm);
+  color: var(--ink-1);
+}
+
+.cov-legend li {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.cov-legend .cov-mark {
+  flex: none;
+  position: relative;
+  top: 1px;
+}
+
+.cov-grid {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: var(--fs-sm);
+  line-height: 1.2;
+}
+
+.cov-col-name {
+  width: 190px;
+}
+
+.cov-grid th,
+.cov-grid td {
+  padding: 0;
+  font-weight: 400;
+  text-align: center;
+  border-bottom: 1px solid var(--hairline);
+}
+
+/* the heads stay in view while the 51 rows scroll */
+.cov-grid thead th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  background: var(--panel-solid);
+  vertical-align: bottom;
+  padding: 6px 0 6px;
+  border-bottom-color: var(--hairline-strong);
+  font-size: var(--fs-xs);
+  color: var(--ink-2);
+}
+
+.cov-head span {
+  display: inline-block;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  white-space: nowrap;
+}
+
+.cov-grid .cov-name {
+  text-align: left;
+  overflow: hidden;
+}
+
+.cov-fam th {
+  padding: 12px 0 4px;
+  text-align: left;
+  font-size: var(--fs-xs);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border-bottom-color: var(--hairline-strong);
+}
+
+.cov-page {
+  display: block;
+  width: 100%;
+  padding: 4px 6px 4px 0;
+  overflow: hidden;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  color: var(--ink-1);
+  font-size: var(--fs-sm);
+}
+
+.cov-page:hover {
+  color: var(--accent);
+}
+
+.cov-cell {
+  height: 26px;
+  line-height: 0;
+}
+
+.cov-cell > span[role='img'],
+.cov-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 26px;
+}
+
+.cov-btn {
+  border-radius: 4px;
+}
+
+.cov-btn:hover,
+.cov-btn.cov-on {
+  background: rgba(255, 255, 255, 0.09);
+}
+
+.cov-btn:focus-visible {
+  outline-offset: -2px;
+}
+
+/* the marks: a shape for each state, never colour alone */
+.cov-mark {
+  display: inline-block;
+  box-sizing: border-box;
+  width: 10px;
+  height: 10px;
+  vertical-align: middle;
+}
+
+.cov-p {
+  border-radius: 50%;
+  background: var(--positive);
+}
+
+.cov-na {
+  height: 2px;
+  background: var(--ink-2);
+}
+
+.cov-nf {
+  position: relative;
+  border: 1.5px solid var(--ink-1);
+  border-radius: 50%;
+}
+
+.cov-nf::after {
+  content: '';
+  position: absolute;
+  left: 1px;
+  right: 1px;
+  top: 50%;
+  height: 1.5px;
+  margin-top: -0.75px;
+  background: var(--ink-1);
+}
+
+.cov-m {
+  border: 1.5px solid var(--ink-1);
+  border-radius: 2px;
+}
+
+.cov-reason td {
+  padding: 7px 8px;
+  text-align: left;
+  line-height: 1.4;
+  color: var(--ink-1);
+  background: rgba(255, 255, 255, 0.045);
+  border-bottom-color: var(--hairline-strong);
+}
+
+.cov-reason b {
+  color: var(--ink-0);
+  font-weight: 600;
+}
+
+.cov-defs {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: 4px 14px;
+  margin: 6px 0;
+  font-size: var(--fs-sm);
+  color: var(--ink-1);
+}
+
+.cov-defs dt {
+  color: var(--ink-0);
+}
+
+.cov-defs dd {
+  margin: 0;
+}
+
+.cov-reasons {
+  margin: 6px 0;
+  padding-left: 16px;
+  font-size: var(--fs-sm);
+  color: var(--ink-1);
+}
+
+.cov-reasons li + li {
+  margin-top: 4px;
+}
+
+@media (max-width: 640px) {
+  .cov-legend {
+    grid-template-columns: 1fr;
+  }
+
+  .cov-col-name {
+    width: 116px;
+  }
+
+  .cov-defs {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .cov-defs dd {
+    margin-bottom: 6px;
+  }
+}

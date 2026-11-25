@@ -48,7 +48,7 @@ an issue with the label `data-update` when it repeats:
 | What | Recorded as | Issue |
 |---|---|---|
 | a source fails (download refused, file malformed, a column, commodity or series missing) | a failure of that source; the previous files are kept | "Data update failing: <source>" after 3 runs in a row for a weekly source, 2 for a monthly one |
-| a build step fails (`build-freight`, `build-commodities`, ...) | a failure of the step; its previous outputs are restored | at the first failure |
+| a build step fails (`build-freight`, `build-commodities`, `build-coverage`, ...) | a failure of the step; its previous outputs are restored (for `build-coverage`: the previous `data/coverage.json`; the other steps still run) | at the first failure |
 | a step times out, crashes (an import error after a failed `pip install`) or is cancelled | the finish action records a failure for each source the step had begun and not recorded (`status.py interrupted`); when it had begun none, for each source it always runs | as above |
 | the data checks refuse the result (`web/scripts/validate-data.mjs`, or `guard-data.mjs`: see "The before-and-after guard" below) | the whole update is discarded, path by path; a failure of every source of the job, so that its builds run again. If the checks still fail after the discard, nothing is committed, not even the failure | one "Data update discarded by the data checks", with the output of the checks (at once when nothing could be committed) |
 | the update cannot be pushed (a conflict with a newer commit, or a refused push) | the update is dropped; a failure of every source of the job, pushed alone | one "Data update not pushed" (at once when not even the failure could be pushed) |
@@ -93,6 +93,12 @@ to more than double).
 rebuild can drop rows on purpose. After checking the change by hand, run the workflow by hand with "accept large
 moves" ticked: the guard then reports the changes without refusing them.
 
+The guard also reads one hand-typed file, for the coverage matrix: when `data/coverage.json` changed, a page that lost a
+block that `pipeline/commodities/coverage_floor.json` lists is refused, by name ("page lithium lost the block price").
+This rule is the guard's and not the validator's, so that the same "accept large moves" overrides it: a real loss (a
+publisher dropped a table for good) is accepted by running the workflow by hand with that box ticked. A loss that the last
+commit already holds is not refused again. See "The coverage matrix" below for what to do after accepting one.
+
 ## What GitHub e-mails
 
 GitHub e-mails about a failed workflow run (with the default notification settings) to the person who triggered it;
@@ -130,6 +136,37 @@ nothing to GitHub before the click. A GitHub account is needed to submit: the fo
   names a label.
 - **No promise.** Nobody promises a delay of answer, and nothing answers, labels or closes a report by itself: the
   owner reads the reports and closes the issues.
+
+## The coverage matrix
+
+`data/coverage.json` says which of eleven blocks (production, reserves, consumption, trade, lanes, routes, price, assets,
+companies, and for the families that have them monthly series and the crop balance) each commodity page has. The annual
+job rebuilds it with the step `build-coverage` (`pipeline/commodities/build_coverage.py`), after the pages and before the
+country profiles, whenever a step before it ran or its own last run failed. It reads only tracked files, so it needs no
+download. Two hand-typed tables sit beside it: `coverage_reasons.json` (why a block a page lacks is not applicable to
+it, or not available for free) and `coverage_floor.json` (the blocks each page has had). **Neither table can stop an
+update of the data**:
+
+- **A reason that the data now contradict** (a table appeared for a block typed as not applicable): the data win. The
+  cell is written as present and the run shows a warning ("stale reason: wheat/reserves is present now, the reason ... is
+  not used"). Nothing fails. Remove the reason from `coverage_reasons.json` by hand afterwards, then run the builder. The
+  Python test of it (`test_no_reason_sits_on_a_block_that_is_present`) fails in the checks of a push or a pull request and
+  only warns in the checks of a scheduled update (`COVERAGE_CHECKS=warn`, set by `ci.yml` when it is called with `soft`),
+  as do the other tests that compare the committed file with the data.
+- **A step that fails** (a page or block named in a table that does not exist, a file that is not in its shape): the previous
+  `data/coverage.json` is restored, the failure is recorded as `build-coverage` and opens one issue at the first failure,
+  because the same tables would fail the same way next month. The pages, prices and other steps are built and published
+  as usual. The step checks the shape of its own file (`web/scripts/validate-coverage.mjs`) so that the data validator,
+  which has no override, never refuses a whole update for a coverage file.
+- **A page that lost a block it had**: the guard refuses the update (see "The before-and-after guard"), the previous data
+  is kept, and one "Data update discarded by the data checks" opens, naming the page and the block. If the loss is real,
+  run the workflow by hand with "accept large moves"; the matrix then shows the block as missing. Afterwards, lower the
+  floor by hand: delete the block from its page in `pipeline/commodities/coverage_floor.json`, in a commit that says why.
+  Until then the Python test `test_no_page_has_lost_a_block` fails in the checks of a push or a pull request.
+- **Raising the floor.** After a page gains a block, run `.venv/bin/python -I pipeline/commodities/build_coverage.py
+  --raise-floor`: it adds the blocks present now to the floor and never removes one. Commit the file with the page.
+- **A release.** The file carries the release number of `release.json`: after a bump, rebuild it (`build_coverage.py`), or
+  `test_it_carries_the_release_and_no_time_of_day` fails. The number is the last release, not the date of the data.
 
 ## Keeping the schedules alive
 
@@ -246,6 +283,79 @@ files do not have. From the repository root, with `raw/` on disk:
    The words that describe each source under the block ("by destination as the file gives it", "by destination country") come from the definition in
    the meta file, and the test of the definitions reads it there.
 
+### World Port Index (by hand, when a newer file is downloaded)
+
+The "World Port Index" block of the port pages reads `data/infrastructure/wpi.json`, which is built from
+`pipeline/cache/wpi_ports.csv` and `pipeline/cache/wpi_meta.json`. No scheduled job refreshes them, no staleness entry
+watches them, and no script downloads the file: the publisher's site (msi.nga.mil) answered HTTP 503 to every request of 22 to 25 November 2026, its
+robots file answered with its maintenance page, and the pipeline never asks it for anything. Look for a newer edition each autumn, as for
+the Panama and Baltic pages. When the site is down, nothing is needed: the three files are in git and the site keeps the last block.
+The cache, the meta and `wpi.json` are one unit and are committed together; the terms of the file are not settled
+(`NOTICE.md`), so a change of the terms holds back all three, not `wpi.json` alone. From the repository root:
+
+1. **Read the page, then download.** In a browser open <https://msi.nga.mil/Publications/WPI> and read what it says of the
+   edition, the date and the terms of use. Download the CSV into `raw/nga/UpdatedPub150.csv`, keeping the old file aside until the checks pass
+   (`raw/` is not tracked). The file holds neither an edition nor a date.
+2. **Type what the page says**, in the constants at the head of `pipeline/infrastructure/extract_wpi.py`: `DOWNLOADED` (the day taken),
+   `EDITION` and `EDITION_PAGE` (the edition as the page states it, and its address; when `EDITION` is typed the source line of the
+   page prints it in place of "read <month>"), and `TERMS_QUOTE`, `TERMS_PAGE`, `TERMS_READ_ON` and `TERMS_SCOPE` when the page states the
+   terms of the file (quote the sentence, with its address and the day read). The extractor does not write the registry: change the `licence` text of the
+   entry `nga-wpi` of `data/sources.json` by hand, run `pipeline/common/sources_table.py`, and edit the NOTICE.md bullet on the World Port Index. `Registry` and
+   `Documents` of `test_wpi.py` fail while the quoted sentence, its address or the day read differ between the constants, the registry and NOTICE.md; they
+   also pin the words that say the sentence is on the 2017 edition and not on the file, which are edited by the person who has read the page. Write nothing
+   that the page does not say, and take nothing about what may be done with the figures from the statement on another edition.
+3. **Extract.** `.venv/bin/python -I pipeline/infrastructure/extract_wpi.py`. It stops, writes nothing and leaves both cache files as they were when a
+   column of the 23 it reads is missing from the header, a value is not a number or is negative, a position is off the globe, a class is unknown, a row of
+   its review table is gone from the file, or a published row is of another country. It stops unless `--accept` is given when the file has fewer than
+   95% of the rows of the last one, more than 5 ports fewer are published, or more than 20% of the ports kept show a figure that moved by more than 25% (a re-coded
+   scale). Read its message, and its report (ports gained and lost, rows changed, the counts, the ports whose maximum vessel is held back); run it again with
+   `--accept` only when the change is real. Without the raw file it prints one line and does nothing.
+4. **Look at what moved.** A port that fell out of the matches, a port in `doubtful` in the meta whose reason is "another row is nearer", and a promotion of the
+   review table (`REVIEW`, each with a sentence written after opening the two rows, and a position check that stops the run) are to be read by a person: open the
+   two rows again before keeping a promotion, and leave a match doubtful when it cannot be checked.
+5. **Build and check.** `.venv/bin/python -I pipeline/infrastructure/wpi_limits.py`, then `node web/scripts/validate-data.mjs`, `node web/scripts/validate-infra.mjs`,
+   `cd web && npx tsc --noEmit && npm test`, and `.venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_wpi.py"`.
+6. **What a refresh still makes a person write.** The counts that METHODOLOGY.md, section 11, quotes (the ports with an entry and how they were matched, the doubtful,
+   the ports without a match, the ports whose maximum vessel is held back, the doubtful ports with a nearer row, and the columns and rows of the file) and
+   the figures of the paragraph on Port Hedland: `Documents` of `test_wpi.py` fails while one differs from the meta file or the data. The same test fails
+   when the sentence that NOTICE.md quotes differs from `TERMS_QUOTE` and `TERMS_PAGE`, or when this section names a constant that the extractor no longer has. The registry's
+   `access` text names the 23 columns by test.
+7. **Commit the three files together** (`pipeline/cache/wpi_ports.csv`, `pipeline/cache/wpi_meta.json`, `data/infrastructure/wpi.json`), never one alone.
+
+Where `raw/` does not exist (a fresh clone, the runners of GitHub), the match rule, the review table and the equality of the cache with the raw file
+are not tested: those tests skip themselves, and a change to the rule is therefore proved only on a machine that has the file. The tests that run without it
+check the cache, the meta file, the builder and the data file against each other.
+
+### Port traffic: the first load in sittings, and `index.json` (by hand)
+
+`data/freight/port-traffic/` holds one weekly file per PortWatch port (`<port id>.json`) and `index.json`. The ports are the `portwatch`
+ids of `data/infrastructure/ports.geojson`; the files come from `pipeline/freight/fetch_portwatch_port_traffic.py`, which asks the data service
+for the daily rows of one port at a time, keeps none of them and writes only the weekly sums (METHODOLOGY.md, NOTICE.md). The first load is not one
+pull: it is made in sittings, by hand, because the owner's rule for PortWatch (25 November 2026) is small pieces, one request at a time, slowly.
+
+1. `.venv/bin/python -I pipeline/freight/fetch_portwatch_port_traffic.py --dry-run --backfill --max-ports 15` prints the ports, the requests and the minutes
+   of pauses of the next sitting, and asks for nothing.
+2. `.venv/bin/python -I pipeline/freight/fetch_portwatch_port_traffic.py --backfill --max-ports 15` is one sitting: the next 15 ports without a file, in the
+   fixed order of the ids, each written as soon as its pages are in. Run it in the background (it takes several minutes) and leave at least twenty
+   minutes before the next one. Never two at once. A sitting that stops short (the service refuses, the folder reaches the size stop) leaves the files already
+   written: run it again.
+3. After each sitting, `node web/scripts/validate-data.mjs` and `.venv/bin/python -I pipeline/common/staleness.py` and read what the sitting printed:
+   the ports that returned no rows, and any port whose rounding moves a 52-week sum by more than 1% (`ROUNDING OVER 1%`).
+
+`index.json` is `{checked, none, pending}`, written by the script and checked by the validator, which asks of every `portwatch` id of the port assets a
+file, an entry of `none` or an entry of `pending`, and of no id more than one of them:
+
+- `none`: the ports that returned no rows at the last check. They have no file, the port page shows nothing for them, and `--backfill` skips them. A
+  scheduled run asks again for them, in the week of their quarter of the ports.
+- `pending`: the ports not read yet. While the first load is under way it lists the ports without a file; the script takes an id out of it as it writes
+  the file (after each port, so that a run that stops leaves the folder as the validator accepts it), and it is an empty list once every port has a file or is in
+  `none`. It is what lets a release go out between two sittings. A port added to `ports.geojson` later is in `pending` until a run has read it: add the asset,
+  run the script with `--backfill`, commit both.
+- `checked`: the day of the last run that read a port in full.
+
+A run that is not a sitting of the first load (a weekly run, `--full`) keeps the file of every port as the script's checks allow, and leaves `index.json`
+byte-identical when nothing in the folder changed.
+
 ## Releasing
 
 A release is a state of the code and of the hand-made layers that the owner decides to number. The weekly and monthly
@@ -258,7 +368,8 @@ What a release does today, in this order:
    visitor (what one sees added, changed or corrected on the site), with `### Added`, `### Changed` and `### Corrected`
    as needed. A figure goes in only if it is in `PROGRESS.md` and the site shows it as such: check it in `data/`.
 3. **`release.json`.** The change that publishes a release bumps it: `{ "release": <N>, "date": "<YYYY-MM-DD>" }`, the
-   same number and date as the entry. `web/vite.config.ts` reads it at build and the About window shows the number
+   same number and date as the entry. Rebuild `data/coverage.json` after the bump (`pipeline/commodities/build_coverage.py`):
+   it carries the release number. `web/vite.config.ts` reads it at build and the About window shows the number
    and date with a link to `CHANGELOG.md`. `pipeline/tests/test_governance.py` fails when the file, the changelog and
    the sections of `PROGRESS.md` do not agree.
 4. **The routes and lanes that stay.** Once the site is published, `pipeline/freight/release_ids.py` writes

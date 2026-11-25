@@ -248,6 +248,70 @@ class AnnualJob(unittest.TestCase):
         self.assertEqual(ran, ["build-freight", "build-alerts", "build-commodities", "build-coverage", "build-profiles"])
         self.assertEqual((failed, back), ([], []))
 
+    def test_the_coverage_step_runs_after_any_rebuild_or_its_own_failure_and_not_otherwise(self):
+        """The matrix reads the pages, lanes, routes, prices, assets and companies: nothing rebuilt, nothing to follow."""
+        self.assertEqual(self._process(set(), freight_ok=True)[0], [])
+        self.assertEqual(self._process(set(), True, pending=("build-coverage",))[0], ["build-coverage"])
+        self.assertEqual(self._process(set(), True, pending=("build-prices",))[0], ["build-prices", "build-coverage"])
+        self.assertEqual(self._process(set(), True, pending=("build-commodities",))[0], ["build-commodities", "build-coverage"])
+        self.assertEqual(self._process(set(), True, pending=("build-profiles",))[0], ["build-profiles"])  # profiles do not feed the matrix
+        self.assertEqual(self._process({"usgs-mcs"}, True)[0], ["build-prices", "build-commodities", "build-coverage", "build-profiles"])
+
+    def test_a_coverage_step_that_fails_does_not_stop_the_profiles_and_owns_one_file(self):
+        UA = self.UA
+        ran = []
+        saved = (UA.step, UA.pending)
+        UA.step = lambda name, fn, paths: ran.append(name) or name != "build-coverage"
+        UA.pending = lambda name: False
+        try:
+            UA.process({"usda-psd"})
+        finally:
+            UA.step, UA.pending = saved
+        self.assertEqual(ran, ["build-commodities", "build-coverage", "build-profiles"])
+        self.assertEqual([os.path.relpath(p, ROOT) for p in self.chain["build-coverage"]], ["data/coverage.json"])
+
+    def test_a_coverage_step_that_fails_keeps_the_previous_file_and_is_recorded(self):
+        import tempfile
+        UA = self.UA
+        with tempfile.TemporaryDirectory() as tmp:
+            f = os.path.join(tmp, "coverage.json")
+            with open(f, "w") as fh:
+                fh.write("previous")
+
+            def breaks():
+                with open(f, "w") as fh:
+                    fh.write("half a fi")
+                raise RuntimeError("exit 1: error: a reason names a page that does not exist")
+
+            recorded = []
+            saved = (UA.status.begin, UA.status.record_failure, UA.status.record_success)
+            UA.status.begin = lambda name: None
+            UA.status.record_failure = lambda source, error, previous=None: recorded.append((source, error))
+            UA.status.record_success = lambda source, **kw: recorded.append((source, "ok"))
+            try:
+                self.assertFalse(UA.step("build-coverage", breaks, [f]))
+            finally:
+                UA.status.begin, UA.status.record_failure, UA.status.record_success = saved
+            self.assertEqual(read(f), "previous")
+            self.assertEqual(recorded, [("build-coverage", "exit 1: error: a reason names a page that does not exist")])
+
+    def test_the_coverage_builder_is_followed_by_the_check_of_its_shape(self):
+        UA = self.UA
+        calls = []
+        saved = (UA.run, UA.shutil.which)
+        UA.run = lambda cmd, timeout, annotate=False: calls.append((os.path.basename(cmd[1]), annotate))
+        try:
+            UA.shutil.which = lambda name: "/usr/bin/node"
+            UA.build_coverage("/x/build_coverage.py")
+            with_node = list(calls)
+            calls.clear()
+            UA.shutil.which = lambda name: None
+            UA.build_coverage("/x/build_coverage.py")
+        finally:
+            UA.run, UA.shutil.which = saved
+        self.assertEqual(with_node, [("build_coverage.py", True), ("validate-coverage.mjs", False)])
+        self.assertEqual(calls, [("build_coverage.py", True)])  # no node: the data validators read the file later
+
     def test_the_new_cache_is_taken_back_with_its_recorded_version(self):
         import tempfile
         UA = self.UA

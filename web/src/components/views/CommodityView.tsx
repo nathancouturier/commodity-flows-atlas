@@ -14,6 +14,7 @@ import { CompanyRows, linkedCompany } from '../Companies';
 import LaneTable, { estimateBasis, estimatedShare, estimatedVolume, yearNote } from '../LaneTable';
 import { EventList } from '../EventList';
 import { openCommodity, useLoaded } from './shared';
+import { PageGaps } from '../PageGaps';
 import { InfraList } from './InfraList';
 import { MetalFigures } from './MetalFigures';
 import '../../styles/history-year.css';
@@ -658,6 +659,7 @@ export default function CommodityView({ id }: { id: string }) {
                 </ul>
               </Section>
             )}
+            <PageGaps id={id} />
           </Fragment>
         )}
       </div>

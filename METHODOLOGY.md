@@ -1515,6 +1515,8 @@ totals of the series by year are the same for every country: they are in one fil
 
 When sources disagree (for example USGS and EIA, or USDA PSD and customs data), the official or
 primary source is shown and the difference is noted in the commodity file's `discrepancies` field.
+For the limits of a port, the page cited and the World Port Index are both shown, each under its own source, and the
+two measures are named (section 11).
 
 ## 9. Licences of derived figures
 
@@ -2129,6 +2131,87 @@ stated minimum; and where the page itself names the class the berths take ("for 
 statement. The result is never presented as the port's own statement: a larger ship may call part-laden, with the
 tide or at another berth.
 
+World Port Index (port panel). The page of a port carries a block "World Port Index" when the atlas matched the port to
+a row of Publication 150 of the US National Geospatial-Intelligence Agency (NGA, as the page names it). The block prints the
+publication's own figures, in its own words and under its own source ("World Port Index (Pub. 150), NGA", with a link,
+and the month the atlas read the file): the depth of the channel, of the anchorage, of the cargo pier and of the oil
+terminal, and of the LNG terminal where there is one; the largest vessel the publication states for the port (length,
+beam, draught) and, where it states one, for its offshore berths; the tidal range; the class and type of harbour; and
+whether pilotage is compulsory and the tide restricts the entrance. A figure the file does not state has no row. These are
+not Atlas estimates and carry no such label. A person downloaded the file (a CSV of 3,807 rows and 109 columns) from the
+publisher's page on 24 November 2026; no script downloads it and no scheduled job reads it. The atlas keeps 23 of the 109
+columns, for the ports that match, in `pipeline/cache/wpi_ports.csv`, and the file the site reads,
+`data/infrastructure/wpi.json`, is built from that cache alone. The file holds neither an edition nor a date: the page
+prints the month the atlas read it, which is not the date of the figures (Assumption A6). The terms of use of the file
+are not settled (`NOTICE.md`): the block gives the publication's name, the entry's name and number and a link, offers no
+download of the figures, and is a choice made without the owner, listed in `PROGRESS.md`.
+
+The match. Each of the 190 ports of the atlas is compared with the rows of the file, and a match is sure in two cases.
+By code: exactly one row carries the port's UN/LOCODE, the code's country is the port's, the row lies within 15 km of the
+atlas point, and its name shares a form with the atlas name or it lies within 10 km. By name: no row carries the code and
+exactly one row of the same country has a main or alternate name equal to the atlas name within 15 km. Either way the
+match is sure only if no other row of the same country lies nearer to the atlas point than the matched row by more than
+2 km: a port of several terminals, a city harbour and its terminal rows, would otherwise take the figures of the wrong
+entry. Doubtful, and never shown: a code that several rows share, a row of another country, a row too far, a name that
+several rows carry or that is found between 15 and 40 km away, a nearer row, or a row within 10 km with no code or name in
+common. The distances are constants of `pipeline/infrastructure/extract_wpi.py`; the meta file
+`pipeline/cache/wpi_meta.json` writes them with the counts, the reason of every doubtful port and the farthest match kept
+and the nearest refused for its distance, which is how the radius by code was chosen. Of the 190 ports, 139 have an entry
+(115 by code, 19 by name and 5 by review), 35 are doubtful and 16 have no match; the 51 without an entry have no block
+and nothing in its place. Among the doubtful, 7 ports have another row of their country nearer to the atlas point than the
+matched one. A short table of the extractor, written by a person who opened the two rows, promotes a doubtful match or
+holds a sure one, each with a sentence that says why (Assumption A7); nothing is promoted without it. A sure match is the
+same place, not necessarily the same scope of berths, which is why the block names the entry (its name and number).
+
+Depths. The publication does not give a depth in metres: it gives a band. Its own words, from the explanation of the data
+columns of the twenty-sixth edition (2017): "Depth information is generalized into 5-foot units, with the equivalents in
+meters" and "Depths refer to chart datum"; a code "means a least depth of 31 feet (9.5 meters) or greater, but not as
+great as 36 feet (11.0 meters)". What each depth is: for the channel, "The controlling depth of the principal or deepest
+channel at chart datum is given"; for the anchorage, "the least depth in the best or principal anchorage"; for the cargo
+pier, "The greatest depth at chart datum alongside the respective wharf/pier is given", the deepest pier where there are
+several; for the oil terminal and the LNG terminal, "The greatest depth at chart datum will be shown". The page prints a
+value that is the lower edge of a band of the key as that band ("14.0 to 15.2 m"), the top band, which has no upper edge,
+as "23.2 m or more", and a value off the edges as it is given ("16.1 m"); it never prints a zero. The sixteen bands are
+typed once, in `web/src/lib/wpi.ts`, with the address of the archived copy of the publication they were read in and the
+date. That sentence on chart datum belongs here, not on the page.
+
+Assumptions of the block. The atlas names them as such; none is a figure of a source.
+- **A1.** A value of 0.0 in the file means "not stated", never a measured zero; the key's lowest band (0 to 1.5 m) has
+  the same look, so a depth of that band is never printed either.
+- **A2.** The key read is the twenty-sixth edition's (2017), an archived copy of the publication. The edition of the CSV
+  is not stated. Most of its depths sit on the lower edges of that key, with a heap on the top band, which is evidence
+  that it is the same key and not proof (`web/scripts/wpi.test.mjs` counts them); a value off the edges is a newer,
+  finer figure.
+- **A3.** The maximum vessel columns are limits the publication states for a berth or the port, on a basis and a date
+  that the file does not give. They are printed as stated and never turned into a class (see below).
+- **A4.** A match by code or by name is the same place, not the same scope: the atlas port may be a group of terminals
+  and the entry one harbour or one terminal. The entry's own name is printed so that the difference stays visible.
+- **A5.** An oil terminal depth above 100 m is the water depth of an offshore field terminal. No ceiling is applied to
+  the figures; none of the published entries has such a depth.
+- **A6.** The month the atlas read the file stands for the date, since the file has none. When an edition is typed in the
+  extractor, the page prints it in place of "read".
+- **A7.** The review table is a person's judgment, recorded with a reason; it is not computed.
+
+A plausibility check on the maximum vessel. A port's maximum vessel, or its offshore one, is left out when its beam is
+more than 40% of its length or more than 70 m, or when a beam is given with no length to compare it with: it holds back
+the maximum vessel of 6 ports, listed with the reason in the meta file (`held_vessel`), and their depths stay. It is a
+check on the publication's figures, not an estimate, and it looks at the beam only: the atlas does not correct a
+figure that passes it.
+
+Two sources side by side. A port that also has "Limits" (the page the atlas cites, Wikipedia) shows the two blocks one
+under the other, each under its own source, never merged, averaged or reconciled, and with no sentence about which is
+right. They differ because they measure different things and sometimes different places. The page of Port Hedland gives
+a draft depth of 19.8 m (an infobox figure); the file gives a controlling channel depth, the band 14.0 to 15.2 m, and
+the draught of the largest vessel its entry states. The limits of Rotterdam are those of an ore quay of the Maasvlakte;
+the file's row named Rotterdam is the city harbour, far from the atlas point, and Europoort and Hoek van Holland are
+other rows nearer to it, so the atlas shows no entry for Rotterdam. A difference of measure or of scope is not a
+contradiction between two sources.
+
+No class from this publication. The "Largest class" line under "Limits" is derived from the page's limits only, and
+no class is derived from the World Port Index in this release: its depths are bands, and a depth alone gives no class;
+its maximum vessel figures are limits of unknown basis, and applying the rule above to them gave classes that
+contradict the page's for most of the ports that have both. Whether to derive one is a question for the owner, in `PROGRESS.md`.
+
 Storage hubs. Cushing (Oklahoma) and Mont Belvieu (Texas), the delivery points of the atlas's WTI and propane
 prices, are assets of their own type. Cushing's figure is the EIA's working storage capacity of 31 March 2024, in
 million barrels (`Mb`, a stock: it is never ranked with a flow).
@@ -2181,3 +2264,23 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   time of answer; the owner of the repository closes the reports. The address is capped at 2,000 characters, an
   Atlas assumption (GitHub gives no figure): past it, the page address keeps only the keys that define the page
   (family, commodity, colouring, year, selection, company, route finder) and is cut if that is still too long.
+
+- **Coverage.** `data/coverage.json` lists, for every commodity page, which of eleven blocks it has: production, reserves,
+  consumption, trade, sea lanes, routes, price, assets, companies, and, for the pages of the families that have them,
+  the monthly series (energy) and the crop balance (softs). A block a family cannot have is not a cell of its pages and
+  is not counted. A block is present when the files hold at least one row, lane, route, series, asset or company for
+  the page: present means there is something, not that it is complete. The routes block counts the corridors that the
+  atlas generates from customs pairs as well as the benchmark routes and those written by hand, and says so. The
+  file is read from the files of `data/` only (never from the raw downloads), carries the number of the release it was
+  built at and no time of day, and is rebuilt by the annual update after the pages. A cell that is not present is one
+  of three states. **Not applicable**: the nature of the commodity rules the block out (a crop is grown again every year,
+  so it has no reserves); the reason is typed by hand, once, with the sentence of the repository it rests on, and a test
+  finds that sentence in its file. **Not available for free**: a publisher's own page, read in a stated month, says
+  the series is not offered free, and the alternatives looked at are named with why each fails; a cell without both is
+  not given this state. **Missing**: everything else, including a block that "no free file loaded by the atlas yet"
+  gives, which is the atlas's gap and not a refusal of a publisher; the missing cells are the work list, largest
+  seaborne tonnage first. A reason never hides a block: when the data hold a block that carries a typed reason, the data
+  win, the cell is present and the build warns that the reason is stale. A page does not lose a block it has had: the
+  blocks present at the last accepted state are listed in a floor file, a rebuild that takes one from a page is refused
+  by the update guard, and a real loss is accepted by hand (docs/UPDATING.md). The floor is raised by a command and
+  lowered by a hand edit; no job changes either hand-typed table.

@@ -14,12 +14,14 @@ import { CloseIcon, Skeleton } from './ui';
 import { WhatChanged } from './WhatChanged';
 import { Calendar, FamilySummary } from './AboutFresh';
 import { ReportLink } from './ReportLink';
+import { QualityTabView } from './Coverage';
 import { DOC, REPO } from '../lib/links';
 
 const TABS: { id: AboutTab; label: string }[] = [
   { id: 'about', label: 'About' },
   { id: 'sources', label: 'Sources' },
   { id: 'freshness', label: 'Data freshness' },
+  { id: 'quality', label: 'Quality' },
   { id: 'method', label: 'Method' },
   { id: 'notices', label: 'Notices' },
 ];
@@ -201,6 +203,13 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
           <Ext href={`${DOC}NOTICE.md`}>NOTICE.md</Ext>).
         </li>
         <li>
+          <b>Port facts.</b> The "World Port Index" block of a port page is{' '}
+          <Ext href={sources.value['nga-wpi']?.url ?? 'https://msi.nga.mil/Publications/WPI'}>World Port Index (Publication 150)</Ext>, published by the
+          US National Geospatial-Intelligence Agency: depths, maximum vessel sizes and other facts as the publication lists them, shown with the entry's
+          name and number. The agency gives no warranty on their accuracy, and they are not for navigation. The terms of use of the file are to be
+          confirmed (see <Ext href={`${DOC}NOTICE.md`}>NOTICE.md</Ext>); the atlas shows the figures with their source and a link, and offers no download of them.
+        </li>
+        <li>
           <b>Baltic Exchange.</b> Commodity Flows Atlas is not affiliated with, sponsored by or endorsed by the Baltic Exchange. The benchmark
           route definitions and the standard vessels are the Baltic Exchange's: the atlas states them as facts, in its own words, with a link to
           the Baltic Exchange page. Index values and rate assessments are proprietary and are never shown.
@@ -214,8 +223,9 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
         </li>
         <li>
           <b>No endorsement.</b> The use of data from the U.S. Bureau of Labor Statistics, the International Monetary Fund, the Food and
-          Agriculture Organization of the United Nations or any other publisher listed here does not mean that they endorse, sponsor or approve
-          the atlas.
+          Agriculture Organization of the United Nations, the U.S. National Geospatial-Intelligence Agency or any other publisher listed here
+          does not mean that they endorse, sponsor or approve the atlas. The name of the National Geospatial-Intelligence Agency names the
+          publisher of a figure and is never used to suggest that the agency or the United States Government endorses the atlas.
         </li>
       </ul>
     </>
@@ -564,6 +574,8 @@ export default function AboutDialog() {
             <SourcesTabView status={status} vintages={vintages} />
           ) : tab === 'freshness' ? (
             <FreshnessTabView status={status} failed={failed} vintages={vintages} changes={changes} alerts={alerts} />
+          ) : tab === 'quality' ? (
+            <QualityTabView />
           ) : tab === 'method' ? (
             <MethodTabView />
           ) : (

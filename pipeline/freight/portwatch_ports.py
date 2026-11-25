@@ -14,7 +14,8 @@ What a file holds  data/freight/port-traffic/<PortWatch port id>.json, one per P
             s               the registry id of the source (portwatch-port-traffic)
             y               the last day of data of the port when the file was written (ISO date)
             start, step     the Monday of the first week and "week"
-            u, dp           the unit of the tonnes ("kt", thousand tonnes) and the decimals they are rounded to
+            u, dp           the unit of the tonnes ("kt", thousand tonnes) and the most decimals a value may have (3: the
+                            tonne); a value keeps three significant figures at least, see round_tonnes
             calls           weekly sums of the daily port calls by ship type: tanker, dry (dry bulk), container, other
             exports         weekly sums of PortWatch's estimated export tonnes, the same four types, in `u`
             imports         the same for import tonnes
@@ -52,15 +53,16 @@ WINDOW_WEEKS = 6             # the weeks read again every run
 DEEP_WEEKS = 52              # the weeks read again for a quarter of the ports every run
 QUARTERS = 4
 SCHEDULED_BACKFILL_CAP = 5   # ports without a file filled in by one scheduled run
-# Tonnes are stored in thousand tonnes rounded to this many decimals. Measured on 25 November 2026 on the whole history of
-# five ports (Ras Tanura, Fujairah, Singapore, Basrah Oil Terminal, Narvik) and on an earlier sample of Port Hedland: rounding
-# to the integer moves the 52-week sum of one ship type by at most 5.9% (Ras Tanura, where the type's whole sum is 2 kt) and
-# by 0.11% at Singapore; the four types together (computed for Basrah, Narvik and Hedland) by at most 0.7%, except 4.6% of
-# the 4 kt of imports of Narvik (0.2 kt). A file is 11 to 19 kB, against 17 to 26 kB with one decimal: about 2.2 MB against
-# 3.3 MB for 163 files, close to SIZE_STOP_KB. The script prints, for each port it reads in full, how far rounding moves its
-# sums, and flags the ports above 1%.
-DECIMALS = 0
+# Tonnes are stored in thousand tonnes, each value with three significant figures at least and never finer than a tonne
+# (STEPS). Whole thousand tonnes for every value, as the first load was made, moved the 52-week sum of a small flow by
+# several per cent (7.6% for the imports of Primorsk, 5.9% for a ship type of Ras Tanura, 4.6% for the imports of Narvik),
+# and one decimal for every value does not cure a flow of 4 kt a year (0.08 kt a week) and makes the large ones longer for
+# nothing. By the size of the value, the error of one value is at most half a step of a value at least ten times the step,
+# so no sum of rounded weeks is further than 0.5% from the sum of the exact weeks. MEASURES
 UNIT = "kt"
+MAX_DECIMALS = 3             # the tonne: the most decimals a value of a file may have (its `dp`)
+# (from this many tonnes, rounded to this many tonnes): whole kt from 100 kt, one decimal from 10 kt, two from 1 kt, three below
+STEPS = ((100_000, 1000), (10_000, 100), (1_000, 10), (0, 1))
 SIZE_STOP_KB = 3500          # the folder may not exceed this (decimal kB, as check-size.mjs counts)
 MIN_ROW_SHARE = 0.9          # a run that gets less than this share of the rows it expects is refused
 MAX_SKIPPED_SHARE = 0.1      # ... and so is one that has to skip more than this share of the ports
@@ -167,34 +169,46 @@ def weekly(rows):
     return dict(sorted(out.items()))
 
 
-def kt(tonnes, dp=DECIMALS):
-    """Tonnes (an integer) in thousand tonnes rounded half up to ``dp`` decimals: an int for 0, else a float."""
-    q = (int(tonnes) * 10 ** dp + 500) // 1000
-    return q if dp == 0 else q / 10 ** dp
+def round_tonnes(tonnes):
+    """Integer tonnes rounded half up to the step of their size (STEPS), in integer arithmetic: to 1,000 t from 100,000 t,
+    to 100 t from 10,000 t, to 10 t from 1,000 t, none below. The size is that of the exact value, so 99,950 t gives
+    100,000 t and 9,995 t gives 10,000 t."""
+    t = int(tonnes)
+    for floor, step in STEPS:
+        if t >= floor:
+            return (t + step // 2) // step * step
+    raise ValueError(f"a negative tonnage: {tonnes!r}")
 
 
-def week_values(week, dp=DECIMALS):
+def kt(tonnes):
+    """Tonnes (an integer) in thousand tonnes by round_tonnes: an int when the value is whole, else a float of at most three
+    decimals."""
+    q = round_tonnes(tonnes)
+    return q // 1000 if q % 1000 == 0 else q / 1000
+
+
+def week_values(week):
     """The values stored for one week: {"calls": {...}, "exports": {...}, "imports": {...}} (tonnes rounded)."""
-    return {k: {t: (v if k == "calls" else kt(v, dp)) for t, v in week[k].items()} for k in MEASURES}
+    return {k: {t: (v if k == "calls" else kt(v)) for t, v in week[k].items()} for k in MEASURES}
 
 
-def build_doc(port_id, name, weeks, y, dp=DECIMALS):
+def build_doc(port_id, name, weeks, y):
     """The document of a port from its weekly sums (``weekly``): the weeks from the first to the last, a null in the
     twelve arrays for a week missing between them. ``y`` is the last day of data of the port."""
     if not weeks:
         raise ValueError("no complete week")
     first, last = date.fromisoformat(min(weeks)), date.fromisoformat(max(weeks))
     n = (last - first).days // 7 + 1
-    doc = {"id": port_id, "name": name, "s": SOURCE, "y": y, "start": iso(first), "step": "week", "u": UNIT, "dp": dp,
+    doc = {"id": port_id, "name": name, "s": SOURCE, "y": y, "start": iso(first), "step": "week", "u": UNIT, "dp": MAX_DECIMALS,
            "calls": {t: [None] * n for t in TYPES}, "exports": {t: [None] * n for t in TYPES},
            "imports": {t: [None] * n for t in TYPES}}
-    return _put(doc, weeks, dp)
+    return _put(doc, weeks)
 
 
-def _put(doc, weeks, dp):
+def _put(doc, weeks):
     for m, w in weeks.items():
         i = (date.fromisoformat(m) - date.fromisoformat(doc["start"])).days // 7
-        v = week_values(w, dp)
+        v = week_values(w)
         for k in MEASURES:
             for t in TYPES:
                 if i >= len(doc[k][t]):
@@ -230,7 +244,7 @@ def merge_weeks(doc, weeks, since, y=None):
     new = json.loads(json.dumps(doc))
     start = date.fromisoformat(doc["start"])
     use = {m: w for m, w in weeks.items() if date.fromisoformat(m) >= since and date.fromisoformat(m) >= start}
-    _put(new, use, doc.get("dp", DECIMALS))
+    _put(new, use)
     if y and y > new["y"]:
         new["y"] = y
     return new
@@ -270,7 +284,7 @@ def revision(old, new, since, before):
     return diff / base if base else None
 
 
-def rounding_error(weeks, dp=DECIMALS, n=52, by_type=False):
+def rounding_error(weeks, n=52, by_type=False):
     """(share, where): the largest relative difference between the sum of the last ``n`` rounded weeks and the exact sum,
     for the exports and the imports. By default the four ship types are added first, as the 52-week figure of the page is;
     with ``by_type`` each type is taken alone. A sum of zero is left out; (0.0, None) when there is none."""
@@ -282,7 +296,7 @@ def rounding_error(weeks, dp=DECIMALS, n=52, by_type=False):
             exact = sum(weeks[m][k][t] for m in ms for t in g)
             if not exact:
                 continue
-            rounded = sum(kt(weeks[m][k][t], dp) for m in ms for t in g) * 1000
+            rounded = sum(round_tonnes(weeks[m][k][t]) for m in ms for t in g)
             share = abs(rounded - exact) / exact
             if share > worst[0]:
                 worst = (share, f"{k} {g[0]}" if by_type else k)
@@ -292,6 +306,13 @@ def rounding_error(weeks, dp=DECIMALS, n=52, by_type=False):
 # --------------------------------------------------------------------------------------------------- the rules
 def _is_int(v):
     return (isinstance(v, int) and not isinstance(v, bool)) or (isinstance(v, float) and math.isfinite(v) and v.is_integer())
+
+
+def _fits_rule(v):
+    """True when ``v`` (thousand tonnes) has no more decimals than the rule gives its size: none from 100, one from 10, two
+    from 1, three below (so never finer than a tonne). What can be checked from the file alone."""
+    d = 0 if v >= 100 else 1 if v >= 10 else 2 if v >= 1 else MAX_DECIMALS
+    return abs(v * 10 ** d - round(v * 10 ** d)) < 1e-6
 
 
 def _valid_date(s):
@@ -322,10 +343,8 @@ def validate_doc(doc, port_id=None, sources=None):
         p.append("monday: start is not a Monday")
     if doc["step"] != "week":
         p.append("step: not week")
-    dp = doc["dp"]
-    if doc["u"] != UNIT or not _is_int(dp) or not 0 <= dp <= 3:
-        p.append("unit: u must be kt and dp an integer from 0 to 3")
-        dp = None
+    if doc["u"] != UNIT or isinstance(doc["dp"], bool) or doc["dp"] != MAX_DECIMALS:
+        p.append(f"unit: u must be kt and dp {MAX_DECIMALS}")
     arrays, n = [], None
     for k in MEASURES:
         b = doc[k]
@@ -347,9 +366,8 @@ def validate_doc(doc, port_id=None, sources=None):
                 if not (_is_int(v) and v >= 0):
                     p.append(f"calls: {k} {t} holds {v!r}, not a non-negative integer")
                     break
-            elif not (isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v) and v >= 0
-                      and (dp is None or abs(v * 10 ** dp - round(v * 10 ** dp)) < 1e-6)):
-                p.append(f"tonnes: {k} {t} holds {v!r}, not a non-negative number of {dp} decimals")
+            elif not (isinstance(v, (int, float)) and not isinstance(v, bool) and math.isfinite(v) and v >= 0 and _fits_rule(v)):
+                p.append(f"tonnes: {k} {t} holds {v!r}, not a non-negative number with the decimals its size allows")
                 break
         h = [i for i, v in enumerate(a) if v is None]
         if holes is None:
@@ -362,9 +380,11 @@ def validate_doc(doc, port_id=None, sources=None):
     return p
 
 
-def index_doc(none, checked):
-    """The index of the folder: the ports that returned no rows at the last check."""
-    return {"checked": checked, "none": sorted(set(none))}
+def index_doc(none, checked, pending=()):
+    """The index of the folder: ``none`` the ports that returned no rows at the last check, ``pending`` the ports not read yet
+    (the first load is made in sittings: the ids are removed from the list as the files are written, and the list is empty
+    once every port has a file or is in ``none``). Both lists sorted as text, as the site's rules ask."""
+    return {"checked": checked, "none": sorted(set(none)), "pending": sorted(set(pending))}
 
 
 # --------------------------------------------------------------------------------------------------- the requests

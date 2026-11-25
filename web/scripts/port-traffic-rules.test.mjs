@@ -22,11 +22,12 @@ const ok = (name, fn) => {
   console.log(`ok   ${name}`);
 };
 
-/** A document of `weeks` weeks from Monday 6 January 2025, values that are all different enough to catch a swapped array. */
-function good(weeks = 60, dp = 0) {
-  const block = (k) => Object.fromEntries(TYPES.map((t, j) => [t, Array.from({ length: weeks }, (_, i) => (k === 'calls' ? (i + j) % 7 : ((i * 3 + j) % 11) + (dp ? 0.5 : 0)))]));
+/** A document of `weeks` weeks from Monday 6 January 2025, values that are all different enough to catch a swapped array;
+ * `frac` adds a fraction to the tonnes (a value of 2.5 or 12.5 is allowed, 102.5 is not). */
+function good(weeks = 60, frac = 0) {
+  const block = (k) => Object.fromEntries(TYPES.map((t, j) => [t, Array.from({ length: weeks }, (_, i) => (k === 'calls' ? (i + j) % 7 : ((i * 3 + j) % 11) + frac))]));
   const end = new Date(Date.UTC(2025, 0, 6) + (7 * weeks - 1) * 86_400_000).toISOString().slice(0, 10);
-  return { id: 'port9', name: 'Nine', s: PORT_TRAFFIC_SOURCE, y: end, start: '2025-01-06', step: 'week', u: 'kt', dp, calls: block('calls'), exports: block('exports'), imports: block('imports') };
+  return { id: 'port9', name: 'Nine', s: PORT_TRAFFIC_SOURCE, y: end, start: '2025-01-06', step: 'week', u: 'kt', dp: 3, calls: block('calls'), exports: block('exports'), imports: block('imports') };
 }
 const codes = (doc, opts = { id: 'port9', sources: new Set([PORT_TRAFFIC_SOURCE]) }) => problemCodes(portTrafficProblems(doc, opts));
 const broken = (edit, opts) => {
@@ -37,7 +38,7 @@ const broken = (edit, opts) => {
 
 ok('a good document passes, with and without decimals, and with a hole in all twelve arrays', () => {
   assert.deepEqual(codes(good()), []);
-  assert.deepEqual(codes(good(60, 1)), []);
+  assert.deepEqual(codes(good(60, 0.5)), []);
   const d = good();
   for (const k of ['calls', 'exports', 'imports']) for (const t of TYPES) d[k][t][5] = null;
   assert.deepEqual(codes(d), []);
@@ -63,10 +64,12 @@ ok('the dates are real days, start is a Monday and step is week', () => {
   assert.deepEqual(broken((d) => ((d.start = '2025-01-07'), (d.y = '2026-03-30'))), ['monday']);
   assert.deepEqual(broken((d) => (d.step = 'day')), ['step']);
 });
-ok('the unit is kt with 0 to 3 decimals', () => {
+ok('the unit is kt and dp, the most decimals of a value, is 3', () => {
   assert.deepEqual(broken((d) => (d.u = 't')), ['unit']);
   assert.deepEqual(broken((d) => (d.dp = 5)), ['unit']);
-  assert.deepEqual(broken((d) => (d.dp = 1.5)), ['unit']);
+  assert.deepEqual(broken((d) => (d.dp = 0)), ['unit']);
+  assert.deepEqual(broken((d) => (d.dp = 2.5)), ['unit']);
+  assert.deepEqual(broken((d) => (d.dp = '3')), ['unit']);
 });
 ok('each block is four arrays of the same length, at least one week', () => {
   assert.deepEqual(broken((d) => delete d.calls.other), ['series']);
@@ -74,7 +77,7 @@ ok('each block is four arrays of the same length, at least one week', () => {
   assert.deepEqual(broken((d) => d.imports.dry.pop()), ['series']);
   assert.deepEqual(broken((d) => TYPES.forEach((t) => ['calls', 'exports', 'imports'].forEach((k) => (d[k][t] = [])))), ['series']);
 });
-ok('calls are non-negative integers, tonnes non-negative numbers with the decimals the file states, null is allowed', () => {
+ok('calls are non-negative integers, tonnes non-negative numbers with the decimals their size allows, null is allowed', () => {
   assert.deepEqual(broken((d) => (d.calls.dry[4] = -1)), ['calls']);
   assert.deepEqual(broken((d) => (d.calls.dry[4] = 1.5)), ['calls']);
   assert.deepEqual(broken((d) => (d.calls.dry[4] = '3')), ['calls']);
@@ -82,11 +85,16 @@ ok('calls are non-negative integers, tonnes non-negative numbers with the decima
   assert.deepEqual(broken((d) => (d.exports.tanker[2] = -3)), ['tonnes']);
   assert.deepEqual(broken((d) => (d.imports.other[2] = 1.5)), ['tonnes']);
   assert.deepEqual(broken((d) => (d.imports.other[2] = '1')), ['tonnes']);
-  const d = good(60, 1);
-  d.imports.other[2] = 1.25;
-  assert.deepEqual(codes(d), ['tonnes']);
-  d.imports.other[2] = 1.2;
-  assert.deepEqual(codes(d), []);
+});
+ok('the decimals of a value follow its size: whole from 100, one from 10, two from 1, three below, never finer than a tonne', () => {
+  const only = (v) => {
+    const d = good();
+    d.imports.other[2] = v;
+    return codes(d);
+  };
+  for (const v of [0, 0.001, 0.999, 1, 1.01, 9.99, 10, 10.1, 99.9, 100, 999, 1000, 123456]) assert.deepEqual(only(v), [], String(v));
+  for (const v of [0.0004, 0.9995, 1.005, 9.995, 10.05, 99.95, 100.5, 1000.1, 100.4999]) assert.deepEqual(only(v), ['tonnes'], String(v));
+  assert.deepEqual(only(-0.001), ['tonnes']);
 });
 ok('a week that is missing is missing in all twelve arrays', () => {
   assert.deepEqual(broken((d) => (d.exports.dry[7] = null)), ['holes']);
@@ -115,6 +123,19 @@ ok('index.json: every id of the port assets has a file or is in none, and nothin
   assert.deepEqual(index(null, ids), ['index-shape']);
   assert.deepEqual(index({ checked: '2026-11-25', none: [1] }, ids), ['index-none']);
 });
+ok('index.json: a pending id has no file and is not in none; it may be left out of the document; an id in neither list is still missing', () => {
+  assert.deepEqual(index({ checked: '2026-11-25', none: [], pending: ['port3'] }, ['port1', 'port2']), []);
+  assert.deepEqual(index({ checked: '2026-11-25', none: ['port2'], pending: ['port3'] }, ['port1']), []);
+  assert.deepEqual(index({ checked: '2026-11-25', none: [], pending: [] }, ['port1', 'port2', 'port3']), []);
+  assert.deepEqual(index({ checked: '2026-11-25', none: [], pending: ['port3'] }, ['port1']), ['index-missing']);
+  assert.deepEqual(index({ checked: '2026-11-25', none: [], pending: ['port2', 'port3'] }, ['port1', 'port2']), ['index-both']);
+  assert.deepEqual(index({ checked: '2026-11-25', none: ['port3'], pending: ['port3'] }, ['port1', 'port2']), ['index-both']);
+  assert.deepEqual(index({ checked: '2026-11-25', none: [], pending: ['port3', 'port9'] }, ['port1', 'port2']), ['index-orphan']);
+  assert.deepEqual(index({ checked: '2026-11-25', none: [], pending: ['port3', 'port2'] }, ['port1']), ['index-pending']);
+  assert.deepEqual(index({ checked: '2026-11-25', none: [], pending: ['port3', 'port3'] }, ['port1', 'port2']), ['index-pending']);
+  assert.deepEqual(index({ checked: '2026-11-25', none: [], pending: 'port3' }, ['port1', 'port2']), ['index-pending']);
+  assert.deepEqual(index({ checked: '2026-11-25', none: [], pending: [], other: [] }, ids), ['index-shape']);
+});
 
 const folder = path.join(data, 'freight', 'port-traffic');
 if (fs.existsSync(folder)) {
@@ -123,10 +144,8 @@ if (fs.existsSync(folder)) {
     const files = fs.readdirSync(folder).filter((f) => f.endsWith('.json') && f !== 'index.json').map((f) => f.slice(0, -5));
     for (const f of files) assert.deepEqual(portTrafficProblems(JSON.parse(fs.readFileSync(path.join(folder, `${f}.json`), 'utf8')), { id: f, sources }), [], f);
     const portwatch = JSON.parse(fs.readFileSync(path.join(data, 'infrastructure', 'ports.geojson'), 'utf8')).features.map((x) => x.properties.portwatch).filter(Boolean);
-    const idx = fs.existsSync(path.join(folder, 'index.json')) ? JSON.parse(fs.readFileSync(path.join(folder, 'index.json'), 'utf8')) : { checked: '1970-01-01', none: [] };
-    // while the first load is under way some ids have neither: only the other rules are enforced then
-    const problems = portTrafficIndexProblems(idx, { ids: [...new Set(portwatch)], files }).filter((p) => !p.startsWith('index-missing'));
-    assert.deepEqual(problems, []);
+    const idx = JSON.parse(fs.readFileSync(path.join(folder, 'index.json'), 'utf8'));
+    assert.deepEqual(portTrafficIndexProblems(idx, { ids: [...new Set(portwatch)], files }), []);
   });
 } else {
   console.log('note data/freight/port-traffic does not exist yet: no published file to check');

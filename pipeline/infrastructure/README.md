@@ -232,6 +232,13 @@ equality of the cache with the raw file can only be tested where `raw/` exists; 
 `validate-infra.mjs` checks the shape of the file and that every entry is a port of `ports.geojson` (`validateWpi`, also
 called by `validate-data.mjs`); a missing file is a warning, since the panel then shows no block.
 
+The terms of use of the file are not settled: `NOTICE.md` says what was read (a statement on the 2017 edition of the
+publication, not on the file, and the publisher's disclaimers of warranty and of endorsement), the registry text says "terms
+to be confirmed", and the figures are shown with the publication's name and a link and offered for no download. The steps of
+a refresh by hand, what a person types and what is committed, are in `docs/UPDATING.md`. `METHODOLOGY.md`, section 11, has the
+match rule, the key to the depths, the assumptions and the counts; `Documents` of `pipeline/tests/test_wpi.py` ties its counts
+to `pipeline/cache/wpi_meta.json`, and this file types none, so that the two cannot differ.
+
 ## What is not here
 
 - No scheduled update. A job that rewrote this layer would overwrite hand-checked statuses and notes. Statuses that

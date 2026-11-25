@@ -5,6 +5,9 @@
  *  - every sourced figure object ({v, s}) also carries a year `y`,
  *  - every chokepoint with a PortWatch counter has a complete weekly series file, and chokepoint-lanes.json only
  *    names chokepoints that exist,
+ *  - the weekly port traffic files (freight/port-traffic, rules in scripts/port-traffic-rules.mjs): each file follows its
+ *    shape, every PortWatch id of the port assets has a file, an entry of `none` (no rows at the last check) or, while the
+ *    first load is made in sittings, an entry of `pending` in index.json, and nothing else is in the folder,
  *  - the price files agree with prices/index.json: ordered dates, range, frequency, source id, breaks and estimate
  *    ranges inside the series, real-price pairs, board statistics equal to the last observation, no orphan file,
  *  - the commodity tables list every country once, largest first, within the world total, and the series by year of
@@ -32,6 +35,7 @@ import { validateFreight } from './validate-freight.mjs';
 import { validatePorts } from './validate-ports.mjs';
 import { validateInfra, validateWpi, summariseWarnings } from './validate-infra.mjs';
 import { validateCoverage } from './validate-coverage.mjs';
+import { portTrafficProblems, portTrafficIndexProblems } from './port-traffic-rules.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../data');
 const sources = new Set(JSON.parse(fs.readFileSync(path.join(root, 'sources.json'), 'utf8')).map((s) => s.id));
@@ -98,6 +102,48 @@ function checkChokepoints() {
     const known = new Set(chk.map((c) => c.id));
     for (const id of Object.keys(lanes.chokepoints ?? {})) if (!known.has(id)) errors.push(`freight/chokepoint-lanes.json: unknown chokepoint "${id}"`);
   }
+}
+
+/** Weekly port traffic: one file per PortWatch port of the port assets, index.json for the ports with no file. A weekly
+ * run or a sitting of the first load that wrote a bad file, or lost one, or left a `.tmp` behind, must not pass. */
+function checkPortTraffic() {
+  let geo;
+  try {
+    geo = JSON.parse(fs.readFileSync(path.join(root, 'infrastructure', 'ports.geojson'), 'utf8'));
+  } catch {
+    return; // reported by check() and by the infrastructure rules
+  }
+  const ids = [...new Set((geo.features ?? []).map((f) => f.properties?.portwatch).filter((i) => typeof i === 'string'))].sort();
+  const dir = path.join(root, 'freight', 'port-traffic');
+  if (!fs.existsSync(dir)) {
+    if (ids.length) errors.push(`freight/port-traffic: missing, and ${ids.length} port assets carry a PortWatch id`);
+    return;
+  }
+  const files = [];
+  for (const name of fs.readdirSync(dir).sort()) {
+    const m = /^(.+)\.json$/.exec(name);
+    if (!m || (m[1] !== 'index' && !/^(port|fso)\d+$/.test(m[1]))) errors.push(`freight/port-traffic/${name}: not a port file or index.json`);
+    else if (m[1] !== 'index') files.push(m[1]);
+  }
+  const read = (name) => {
+    try {
+      return JSON.parse(fs.readFileSync(path.join(dir, name), 'utf8'));
+    } catch {
+      return undefined; // an unreadable file is reported by check()
+    }
+  };
+  for (const id of files) {
+    const doc = read(`${id}.json`);
+    if (doc !== undefined) for (const p of portTrafficProblems(doc, { id, sources })) errors.push(`freight/port-traffic/${id}.json: ${p}`);
+  }
+  if (!fs.existsSync(path.join(dir, 'index.json'))) {
+    errors.push('freight/port-traffic/index.json: missing');
+    return;
+  }
+  const index = read('index.json');
+  if (index === undefined) return;
+  for (const p of portTrafficIndexProblems(index, { ids, files })) errors.push(`freight/port-traffic/index.json: ${p}`);
+  if (Array.isArray(index?.pending) && index.pending.length) console.warn(`port traffic: ${index.pending.length} of ${ids.length} ports not read yet (index.json, pending)`);
 }
 
 /** Price series: index.json and the series files must agree (the site trusts both without looking). */
@@ -589,6 +635,7 @@ walk(root);
 checkRanges();
 checkCountryProfiles();
 checkChokepoints();
+checkPortTraffic();
 checkCommodityTables();
 checkCommodityMonthly();
 checkPrices();

@@ -907,7 +907,7 @@ class AnnualJobRebuildsThePrices(unittest.TestCase):
         saved = {k: getattr(U, k) for k in ("step", "run", "pending", "take_back_baci", "release_baci_backup")}
         try:
             U.step = lambda name, fn, paths: (steps.append((name, [os.path.relpath(p, ROOT) for p in paths])), fn(), True)[-1]
-            U.run = lambda cmd, timeout: commands.append((os.path.basename(cmd[1]), timeout))
+            U.run = lambda cmd, timeout, annotate=False: commands.append((os.path.basename(cmd[1]), timeout))
             U.pending = lambda name: name in pending
             U.take_back_baci = U.release_baci_backup = lambda: None
             U.process(changed)

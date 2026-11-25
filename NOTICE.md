@@ -417,6 +417,29 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
   https://www.newyorkfed.org/research/policy/gscpi. Content from the New York Fed subject to the Terms of Use at
   newyorkfed.org. The GSCPI is not an official estimate of the Federal Reserve Bank of New York, its President, the
   Federal Reserve System, or the Federal Open Market Committee.
+- **World Port Index (Pub. 150), US National Geospatial-Intelligence Agency (NGA)** (the "World Port Index" block of the port
+  pages): depths, maximum vessel size, harbour size and type, tidal range and pilotage of the entry that matches a port, shown
+  with the publication's name, the entry's name and number and a link. A person downloaded the CSV (UpdatedPub150.csv) from
+  <https://msi.nga.mil/Publications/WPI> on 24 November 2026; the repository keeps 23 of its 109 columns, for 139 ports, in
+  `pipeline/cache/wpi_ports.csv` and `data/infrastructure/wpi.json`, and offers no file of the figures for download. Terms of
+  the file used: not read. The publisher's site was in maintenance on 24 and 25 November 2026 and its page of the publication
+  holds no text in the archived copies; the edition of the file is not stated (terms to be confirmed). What was read is the
+  title page of the twenty-sixth edition (2017) of the publication, "© COPYRIGHT 2017 BY THE UNITED STATES GOVERNMENT / NO
+  COPYRIGHT CLAIMED UNDER TITLE 17 U.S.C." (archived PDF,
+  <https://web.archive.org/web/20170829062601if_/http://msi.nga.mil/MSISiteContent/StaticFiles/NAV_PUBS/WPI/Pub150bk.pdf>,
+  read 25 November 2026). That is a statement on that edition and not on the file used, and the atlas draws no conclusion
+  from it about the file. The server's disclaimers, read in an archived copy of its page
+  (<https://web.archive.org/web/20190721092351/https://msi.nga.mil/NGAPortal/MSI.portal?_nfpb=true&_st=&_pageLabel=msi_portal_page_148>,
+  capture of 21 July 2019, read 25 November 2026), say: "neither the United States Government nor the National
+  Geospatial-Intelligence Agency Agency nor any of their employees, makes any warranty, express or implied, including the
+  warranties of merchantability and fitness for a particular purpose, or assumes any legal liability or responsibility for the
+  accuracy, completeness, or usefulness of any information"; "does not necessarily constitute or imply its endorsement,
+  recommendation, or favoring by the United States Government or the National Geospatial-Intelligence Agency"; and "Federal
+  law prohibits the use of the National Geospatial-Intelligence Agency's name, seal, initials, or any colorable imitation
+  thereof, to convey the impression of commercial endorsement by the Secretary of Defense, without written permission from the
+  Secretary of Defense." The atlas gives no warranty on these figures either, and they are not for navigation; they are not
+  endorsed by NGA or by the United States Government, and the atlas uses neither NGA's seal nor its name to suggest otherwise
+  (its name only names the publisher).
 - **SeaRoute**: the `searoute` Python package is under Apache 2.0; the maritime network of Eurostat's SeaRoute is
   under EUPL 1.2.
 
@@ -577,3 +600,5 @@ heading and the release.
 - Whether single points taken from OpenStreetMap make the infrastructure files a database derived from it under the
   ODbL's share-alike clause, or should be re-sourced.
 - Terms of the Norwegian Offshore Directorate, Natural Resources Canada, Wilhelmsen and Cochilco.
+- The terms of use, and the edition, of the World Port Index file used: the statement read is on the 2017 edition of the
+  publication and not on the file, and the publisher's page held no text in the archived copies.

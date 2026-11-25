@@ -607,11 +607,13 @@ class FirstLoad(Env):
             self.assertEqual(doc["y"], "2026-11-08")
             doc_matches_recount(self, doc, self.rows(p))
         with open(os.path.join(self.out, "index.json"), encoding="utf-8") as fh:
-            self.assertEqual(json.load(fh), {"checked": "2026-11-12", "none": []})
+            self.assertEqual(json.load(fh), {"checked": "2026-11-12", "none": [], "pending": ["port4", "port5", "port6", "port7", "port8"]})
         res = self.run_script("--backfill", "--max-ports", "3", today=date(2026, 11, 12))
         self.assertEqual(sorted(res["written"]), ["port4", "port5", "port6"])
+        self.assertEqual(json.loads(self.tree()["index.json"])["pending"], ["port7", "port8"])
         res = self.run_script("--backfill", "--max-ports", "15", today=date(2026, 11, 12))
         self.assertEqual(sorted(res["written"]), ["port7", "port8"])
+        self.assertEqual(json.loads(self.tree()["index.json"]), {"checked": "2026-11-12", "none": [], "pending": []})
         res = self.run_script("--backfill", "--max-ports", "15", today=date(2026, 11, 12))
         self.assertEqual((res["written"], res["requests"]), ([], 0))
 
@@ -626,6 +628,34 @@ class FirstLoad(Env):
         doc_matches_recount(self, doc, self.rows("port1"))
         self.assertEqual(doc["start"], "2019-01-07")
 
+    def test_a_sitting_that_stops_leaves_an_index_that_lists_the_ports_not_read_yet(self):
+        self.start(n_ports=5)
+        self.svc.script = [F.FetchError("HTTP 503 after 4 attempts (services9.arcgis.com)")]
+        res = self.run_script("--backfill", "--max-ports", "3", today=date(2026, 11, 12))
+        self.assertIn("503", res["error"])
+        self.assertEqual(sorted(self.tree()), ["index.json"])         # no file, and the folder says what is still to read
+        self.assertEqual(json.loads(self.tree()["index.json"]), {"checked": "2026-11-12", "none": [], "pending": self.ports})
+        self.svc.script = [None, F.FetchError("HTTP 503 after 4 attempts (services9.arcgis.com)")]
+        res = self.run_script("--backfill", "--max-ports", "3", today=date(2026, 11, 12))
+        self.assertEqual(sorted(self.tree()), ["index.json", "port1.json"])
+        self.assertEqual(json.loads(self.tree()["index.json"])["pending"], ["port2", "port3", "port4", "port5"])
+
+    def test_the_index_is_the_same_for_a_part_of_the_ports_as_for_all(self):
+        self.start(n_ports=5)
+        self.svc.table["port5"] = []
+        self.run_script("--backfill", "--max-ports", "5", today=date(2026, 11, 12))
+        self.assertEqual(json.loads(self.tree()["index.json"]), {"checked": "2026-11-12", "none": ["port5"], "pending": []})
+        self.run_script("--full", "port2", "--ports", "port2", "port3", today=date(2026, 11, 13))
+        index = json.loads(self.tree()["index.json"])
+        self.assertEqual((index["none"], index["pending"]), (["port5"], []))      # the ports not asked for stay as they were
+
+    def test_a_run_that_reads_nothing_leaves_the_index_byte_identical(self):
+        self.start(n_ports=3)
+        self.run_script("--backfill", "--max-ports", "3", today=date(2026, 11, 12))
+        before = self.tree()
+        self.run_script("--backfill", "--max-ports", "3", today=date(2026, 11, 20))
+        self.assertEqual(self.tree(), before)
+
     def test_a_port_that_returns_nothing_gets_no_file_is_listed_and_is_not_asked_again_in_the_next_sitting(self):
         self.start()
         self.svc.table["port2"] = []
@@ -634,7 +664,8 @@ class FirstLoad(Env):
         self.assertEqual(res["none"], ["port2"])
         self.assertFalse(os.path.exists(os.path.join(self.out, "port2.json")))
         with open(os.path.join(self.out, "index.json"), encoding="utf-8") as fh:
-            self.assertEqual(json.load(fh)["none"], ["port2"])
+            index = json.load(fh)
+        self.assertEqual((index["none"], index["pending"]), (["port2"], ["port4", "port5", "port6", "port7", "port8"]))
         n = len(self.svc.calls)
         res = self.run_script("--backfill", "--max-ports", "15", today=date(2026, 11, 12))
         self.assertNotIn("port2", res["written"])
@@ -657,6 +688,19 @@ class FirstLoad(Env):
         self.assertIn("503", res["error"])
         self.assertEqual(status.get(S.SOURCE)["consecutive_failures"], 1)
         self.assertIn("503", status.get(S.SOURCE)["last_error"])
+
+
+class PartOfThePorts(Env):
+    def test_a_run_on_a_few_ports_writes_their_files_and_sets_no_count_in_the_status(self):
+        self.start(n_ports=6)
+        res = self.run_script("--backfill", "--ports", "port2", "port3", today=date(2026, 11, 12))
+        self.assertEqual(sorted(res["written"]), ["port2", "port3"])
+        self.assertFalse(os.path.exists(status.UPDATES))
+        res = self.run_script("--backfill", "--limit", "1", today=date(2026, 11, 12))
+        self.assertEqual(res["written"], ["port1"])
+        self.assertFalse(os.path.exists(status.UPDATES))
+        res = self.run_script("--ports", "port99", today=date(2026, 11, 12))
+        self.assertEqual(res["error"], "unknown port")
 
 
 class WeeklyRun(Env):
@@ -997,6 +1041,15 @@ class Pace(Env):
         for word in ("threading", "concurrent", "multiprocessing", "asyncio", "Pool("):
             self.assertNotIn(word, code)
 
+    def test_the_figures_the_documentation_of_the_script_gives_are_those_of_the_constants(self):
+        doc = " ".join(S.__doc__.split())
+        pages = P.pages((TODAY - date.fromisoformat(P.HISTORY_FROM)).days + 1)
+        self.assertIn(f"read in full ({pages} requests each", doc)
+        self.assertEqual((P.MIN_ROW_SHARE, P.MAX_SKIPPED_SHARE, P.REVISED_SHARE, P.REVISED_PORTS), (0.9, 0.1, 0.25, 0.1))
+        for text in ("under 90% of the rows it expects", "skip more than 10% of the ports",
+                     "more than a tenth of the ports changed by more than a quarter"):
+            self.assertIn(text, doc)
+
     def test_a_first_load_sitting_of_fifteen_ports_is_forty_five_requests_of_about_ten_minutes(self):
         n = len(P.port_ids())
         pl = P.plan(P.port_ids(), {}, set(), TODAY, backfill=True, max_ports=15)
@@ -1205,11 +1258,20 @@ class OneSetOfRules(Env):
             ("not sorted", {"checked": "2026-11-25", "none": ["port3", "port2"]}, ["port1"], ["index-none"]),
             ("no date", {"checked": "yesterday", "none": ["port3"]}, ["port1", "port2"], ["index-date"]),
             ("another shape", {"none": []}, ["port1", "port2", "port3"], ["index-shape"]),
+            ("pending, none and a file", {"checked": "2026-11-25", "none": ["port3"], "pending": ["port2"]}, ["port1"], []),
+            ("pending left out", {"checked": "2026-11-25", "none": ["port3"]}, ["port1", "port2"], []),
+            ("an id in neither", {"checked": "2026-11-25", "none": [], "pending": ["port3"]}, ["port1"], ["index-missing"]),
+            ("a file and pending", {"checked": "2026-11-25", "none": [], "pending": ["port2"]}, ["port1", "port2", "port3"], ["index-both"]),
+            ("none and pending", {"checked": "2026-11-25", "none": ["port3"], "pending": ["port3"]}, ["port1", "port2"], ["index-both"]),
+            ("a pending that no asset carries", {"checked": "2026-11-25", "none": [], "pending": ["port3", "port9"]}, ["port1", "port2"], ["index-orphan"]),
+            ("pending not sorted", {"checked": "2026-11-25", "none": [], "pending": ["port3", "port2"]}, ["port1"], ["index-pending"]),
         ]
         got = node_codes([{"kind": "index", "doc": d, "opts": {"ids": ids, "files": f}} for _, d, f, _ in cases])
         for (name, _, _, want), g in zip(cases, got):
             self.assertEqual(g, want, name)
-        self.assertEqual(P.index_doc({"port3", "port2"}, "2026-11-25"), {"checked": "2026-11-25", "none": ["port2", "port3"]})
+        self.assertEqual(P.index_doc({"port3", "port2"}, "2026-11-25", ["port9", "port4"]),
+                         {"checked": "2026-11-25", "none": ["port2", "port3"], "pending": ["port4", "port9"]})
+        self.assertEqual(P.index_doc([], "2026-11-25"), {"checked": "2026-11-25", "none": [], "pending": []})
 
 
 def edit_holes(doc):

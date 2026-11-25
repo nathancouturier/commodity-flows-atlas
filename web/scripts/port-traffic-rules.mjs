@@ -11,10 +11,14 @@
  * A file holds: id, name, s, y, start, step, u, dp, calls, exports, imports (no other key: never a daily value). `calls`,
  * `exports` and `imports` are each four arrays (tanker, dry, container, other), twelve in all, of the same length N >= 1,
  * one value per week from `start` (a Monday): calls are non-negative integers, tonnes thousand tonnes (`u` "kt") with at
- * most `dp` decimals, a week that PortWatch did not give whole is null in all twelve arrays (never a zero), and the last
- * week (start + 7 N - 1 days) ends on or before `y`, the last day of data. index.json is {checked, none}: `none` lists the
+ * most `dp` (3, the tonne) decimals and no more than the size of the value allows (whole from 100, one decimal from 10, two
+ * from 1: three significant figures at least, as pipeline/freight/portwatch_ports.py round_tonnes gives them), a week that PortWatch did not give whole is null in all twelve arrays (never a zero), and the last
+ * week (start + 7 N - 1 days) ends on or before `y`, the last day of data. index.json is {checked, none, pending}: `none` lists the
  * ports that returned no rows at the last check; every PortWatch id of the port assets has a file or is in `none`, and
- * no file is for an id that no asset carries.
+ * no file is for an id that no asset carries. While the first load is made in sittings, index.json also holds `pending`,
+ * the ids not read yet (sorted, distinct, no file, not in `none`): an id with a file, in `none` or in `pending` is
+ * accounted for, so a release can go out between two sittings; the script takes an id out of `pending` when it writes the
+ * file, and the list is empty once every port has been read. `pending` may be left out (an empty list).
  *
  * The same rules exist in Python (pipeline/freight/portwatch_ports.py validate_doc, so that the script writes nothing
  * that this file would refuse); pipeline/tests/test_portwatch_port_traffic.py runs both on the same documents.
@@ -37,6 +41,13 @@ function dayMs(s) {
 
 const isInt = (v) => typeof v === 'number' && Number.isFinite(v) && Number.isInteger(v);
 const isNum = (v) => typeof v === 'number' && Number.isFinite(v);
+const MAX_DECIMALS = 3;
+
+/** True when `v` (thousand tonnes) has no more decimals than the rule gives its size: none from 100, one from 10, two from 1, three below. */
+function fitsRule(v) {
+  const d = v >= 100 ? 0 : v >= 10 ? 1 : v >= 1 ? 2 : MAX_DECIMALS;
+  return Math.abs(v * 10 ** d - Math.round(v * 10 ** d)) < 1e-6;
+}
 
 export function portTrafficProblems(doc, { id, sources } = {}) {
   if (!doc || typeof doc !== 'object' || Array.isArray(doc)) return [`shape: not an object with exactly the keys ${PORT_TRAFFIC_KEYS.join(',')}`];
@@ -51,11 +62,7 @@ export function portTrafficProblems(doc, { id, sources } = {}) {
   if (y === null || start === null) p.push('date: y or start is not an ISO date');
   else if (new Date(start).getUTCDay() !== 1) p.push('monday: start is not a Monday');
   if (doc.step !== 'week') p.push('step: not week');
-  let dp = doc.dp;
-  if (doc.u !== 'kt' || !isInt(dp) || dp < 0 || dp > 3) {
-    p.push('unit: u must be kt and dp an integer from 0 to 3');
-    dp = null;
-  }
+  if (doc.u !== 'kt' || doc.dp !== MAX_DECIMALS) p.push(`unit: u must be kt and dp ${MAX_DECIMALS}`);
   const arrays = [];
   for (const k of PORT_TRAFFIC_MEASURES) {
     const b = doc[k];
@@ -81,8 +88,8 @@ export function portTrafficProblems(doc, { id, sources } = {}) {
           p.push(`calls: ${k} ${t} holds ${JSON.stringify(v)}, not a non-negative integer`);
           break;
         }
-      } else if (!(isNum(v) && v >= 0 && (dp === null || Math.abs(v * 10 ** dp - Math.round(v * 10 ** dp)) < 1e-6))) {
-        p.push(`tonnes: ${k} ${t} holds ${JSON.stringify(v)}, not a non-negative number of ${dp} decimals`);
+      } else if (!(isNum(v) && v >= 0 && fitsRule(v))) {
+        p.push(`tonnes: ${k} ${t} holds ${JSON.stringify(v)}, not a non-negative number with the decimals its size allows`);
         break;
       }
     }
@@ -99,23 +106,33 @@ export function portTrafficProblems(doc, { id, sources } = {}) {
 
 /** index.json against the PortWatch ids of the port assets (`ids`, an array) and the ids that have a file (`files`, an array). */
 export function portTrafficIndexProblems(index, { ids, files }) {
-  if (!index || typeof index !== 'object' || Array.isArray(index) || Object.keys(index).sort().join() !== 'checked,none') return ['index-shape: not {checked, none}'];
+  const shape = !index || typeof index !== 'object' || Array.isArray(index) ? '' : Object.keys(index).sort().join();
+  if (shape !== 'checked,none' && shape !== 'checked,none,pending') return ['index-shape: not {checked, none, pending}'];
   const p = [];
   if (dayMs(index.checked) === null) p.push('index-date: checked is not an ISO date');
-  if (!Array.isArray(index.none) || index.none.some((i) => typeof i !== 'string' || !ID.test(i))) {
-    p.push('index-none: none is not a list of PortWatch port ids');
-    return p;
+  const lists = { none: index.none, pending: index.pending ?? [] };
+  for (const [name, list] of Object.entries(lists)) {
+    if (!Array.isArray(list) || list.some((i) => typeof i !== 'string' || !ID.test(i))) {
+      p.push(`index-${name}: ${name} is not a list of PortWatch port ids`);
+      return p;
+    }
+    if (new Set(list).size !== list.length || list.join() !== [...list].sort().join()) p.push(`index-${name}: the ids are not sorted and distinct`);
   }
-  if (new Set(index.none).size !== index.none.length || index.none.join() !== [...index.none].sort().join()) p.push('index-none: the ids are not sorted and distinct');
   const asset = new Set(ids);
   const have = new Set(files);
-  const none = new Set(index.none);
-  for (const i of index.none) {
+  const none = new Set(lists.none);
+  const pending = new Set(lists.pending);
+  for (const i of lists.none) {
     if (!asset.has(i)) p.push(`index-orphan: ${i} is in none but no port asset carries it`);
     if (have.has(i)) p.push(`index-both: ${i} has a file and is in none`);
   }
+  for (const i of lists.pending) {
+    if (!asset.has(i)) p.push(`index-orphan: ${i} is in pending but no port asset carries it`);
+    if (have.has(i)) p.push(`index-both: ${i} has a file and is in pending`);
+    if (none.has(i)) p.push(`index-both: ${i} is in none and in pending`);
+  }
   for (const i of files) if (!asset.has(i)) p.push(`index-orphan: the file of ${i} is for no port asset`);
-  for (const i of ids) if (!have.has(i) && !none.has(i)) p.push(`index-missing: ${i} has no file and is not in none`);
+  for (const i of ids) if (!have.has(i) && !none.has(i) && !pending.has(i)) p.push(`index-missing: ${i} has no file and is in neither none nor pending`);
   return p;
 }
 

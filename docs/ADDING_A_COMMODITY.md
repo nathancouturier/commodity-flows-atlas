@@ -130,6 +130,13 @@ window, README or METHODOLOGY (checked when the fertilisers were added). `npx ts
   `test_release_gr4d.py` (METHODOLOGY section 2 and 3 numbers and the "N pairs files" sentence of `build_port_index.py`),
   `test_history.py` (how many tables of the series by year carry an out-of-line year), and for a price series that changes the
   tests of `test_prices.py` (closed series, figures, the rows whose dates overlap) and the `PINK_HEADER` table of `test_prices_raw.py`.
+- The coverage matrix (`data/coverage.json`): a new page gets its row when `pipeline/commodities/build_coverage.py` runs after
+  `build_commodities.py` (the annual job runs it too). Every block the page does not have yet is "missing" and appears on
+  the work list; type a reason in `pipeline/commodities/coverage_reasons.json` only for a block that cannot apply to the page
+  (with the text it rests on), never for one that is merely not loaded yet. Then run
+  `.venv/bin/python -I pipeline/commodities/build_coverage.py --raise-floor` so that the blocks the page has are protected
+  against a later loss, and commit the three files (`data/coverage.json`, the floor, the reasons if changed) with the page.
+  The reasons are tested against the files (`pipeline/tests/test_governance.py`).
 - METHODOLOGY.md: section 2 (families), 3 (generated corridors, counts), 4 (vessel rules), 5 (the chokepoint estimates and their PortWatch cap: a group moves them, and
   `typeNotes` is the note of a ship type), 7 (prices: a series attached, a unit, a note), 10 (what the group holds, basis,
   limits). Every number a sentence gives about the groups, the lanes, the routes, the pairs and the estimated rows is read from the files by a test (`test_fncg.py` G9, `test_release_gr4d.py`). DATA_SOURCES.md and NOTICE.md lists are written by `common/sources_table.py` and `common/notice_lists.py`.
@@ -144,7 +151,7 @@ generated routes).
 ## 6. Rebuild and checks
 Builders in this order: `geo/adjacency.py`, `freight/build_lanes.py`, `freight/build_freight.py`, `infrastructure/port_limits.py`,
 `infrastructure/route_assets.py`, `freight/build_alerts.py`, `prices/build_prices.py`, `companies/build_companies.py`,
-`commodities/build_commodities.py`, `commodities/build_profiles.py`, `common/sources_table.py`, `common/notice_lists.py`; then
+`commodities/build_commodities.py`, `commodities/build_coverage.py`, `commodities/build_profiles.py`, `common/sources_table.py`, `common/notice_lists.py`; then
 `node web/scripts/validate-data.mjs`, `validate-freight.mjs`, `validate-infra.mjs`, `npm test --prefix web`,
 `python -m unittest discover -s pipeline/tests -p "test_*.py"` (about 4 minutes), `npx tsc --noEmit` in `web/`.
 After any builder: `git checkout -- data/_status`. Look at `git status --short data/` and `du -sk data` (budget in

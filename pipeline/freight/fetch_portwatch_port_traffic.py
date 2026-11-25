@@ -30,7 +30,9 @@ Modes   weekly (no option): the last WINDOW_WEEKS weeks of every port that has a
 Files   weekly sums, see portwatch_ports.py. Nothing daily is written anywhere: the rows live in memory while a port is
         built. A file is written to ``<name>.tmp`` in its folder and moved into place; the weekly files of a run are written
         only after every request of the run has been made and checked; a first-load port is written when its pages arrived.
-        data/freight/port-traffic/index.json lists the ports that returned no rows at the last check.
+        data/freight/port-traffic/index.json lists the ports that returned no rows at the last check (``none``) and the ports
+        not read yet (``pending``: the first load is made in sittings; an id leaves the list when its file is written, and the
+        list is empty once every port has a file or is in ``none``).
 Checks  a page without the expected fields or with a value that is not a number stops the run; a run that gets under 90% of
         the rows it expects, or has to skip more than 10% of the ports, is refused; a port that returns nothing, or whose new
         file would lose weeks, change a week older than the window or end earlier, keeps its file; a table that ends earlier
@@ -40,7 +42,7 @@ Checks  a page without the expected fields or with a value that is not a number 
         Retry after 60 sec") is waited out once (QUOTA_WAIT_S), a second refusal stops the run.
 Status  a weekly run records its success or its failure for ``portwatch-port-traffic`` in data/_status/updates.json; a run
         made by hand (an option) records its success but not its failure (a sitting that stops short is not a scheduled
-        failure). A dry run, or a run with --out, records nothing.
+        failure). A dry run, or a run with --out, --ports or --limit, records nothing.
 
 Always exits 0: a failure is recorded (weekly run) and the previous files are kept.
 """
@@ -138,8 +140,9 @@ def dump(doc):
     return json.dumps(doc, separators=(",", ":"), ensure_ascii=False)
 
 
-def read_state(out_dir, ids):
-    """({id: document} of the valid files, [ids of files that are not valid], {ids of index.json})."""
+def read_state(out_dir, ids, index_ids=None):
+    """({id: document} of the valid files of ``ids``, [ids of files that are not valid], {ids of the ``none`` of index.json
+    that are among ``index_ids``, by default ``ids``})."""
     docs, bad = {}, []
     for i in ids:
         p = os.path.join(out_dir, f"{i}.json")
@@ -158,7 +161,7 @@ def read_state(out_dir, ids):
     none = set()
     try:
         with open(os.path.join(out_dir, PP.INDEX), encoding="utf-8") as fh:
-            none = {i for i in json.load(fh).get("none", []) if i in ids}
+            none = {i for i in json.load(fh).get("none", []) if i in (ids if index_ids is None else index_ids)}
     except (OSError, ValueError, AttributeError):
         pass
     return docs, bad, none
@@ -205,10 +208,11 @@ def run(argv=None, today=None):
     today = today or date.today()
     out_dir = args.out or PP.OUT
     by_hand = any([args.backfill, args.max_ports is not None, args.full, args.ports, args.limit, args.out])
-    record = not args.dry_run and not args.out
+    record = not (args.dry_run or args.out or args.ports or args.limit)   # a part of the ports must not set the counts of all
     res = {"requests": 0, "written": [], "skipped": [], "none": [], "unchanged": [], "stopped": None, "error": None, "revised": []}
 
-    ids = PP.port_ids(PP.PORTS_GEOJSON)
+    all_ids = PP.port_ids(PP.PORTS_GEOJSON)
+    ids = all_ids
     names = PP.port_names(PP.TABLE)
     if args.ports:
         unknown = sorted(set(args.ports) - set(ids))
@@ -225,21 +229,37 @@ def run(argv=None, today=None):
             return res
     if args.limit:
         ids = ids[:args.limit]
-    docs, bad, none = read_state(out_dir, ids)
+    docs, bad, none = read_state(out_dir, ids, all_ids)
     for i in bad:
         print(f"  {i}.json is not a valid port file: read again in full")
     pl = PP.plan(ids, docs, none, today, backfill=args.backfill, max_ports=args.max_ports, full=args.full)
     print(f"port traffic: {len(ids)} ports, {len(docs)} with a file, {len(none)} without rows at the last check")
     print_plan(pl, today)
-    least, most = PP.weekly_request_bounds(len(PP.port_ids(PP.PORTS_GEOJSON)), today)
-    print(f"  a weekly run for all {len(PP.port_ids(PP.PORTS_GEOJSON))} ports asks for {least} to {most} requests")
+    least, most = PP.weekly_request_bounds(len(all_ids), today)
+    print(f"  a weekly run for all {len(all_ids)} ports asks for {least} to {most} requests")
     if args.dry_run:
         return res
 
     prev = status.get(SOURCE) if record else {}
     reader = Reader(None if by_hand else RUN_LIMIT_S)
-    none0 = set(none)
+
+    def sync_index(force=False):
+        """index.json is the list of the ports with no rows and of those not read yet, as the folder is now; it is written when
+        that changed (or ``force``: a port was read in full), after every port of a sitting, so that a run that stops leaves
+        a folder the site's rules accept."""
+        pending = [i for i in all_ids if i not in none and not os.path.exists(os.path.join(out_dir, f"{i}.json"))]
+        new = PP.index_doc(none, today.isoformat(), pending)
+        try:
+            with open(os.path.join(out_dir, PP.INDEX), encoding="utf-8") as fh:
+                old = json.load(fh)
+        except (OSError, ValueError):
+            old = None
+        if force or not isinstance(old, dict) or set(old) != set(new) or any(old[k] != new[k] for k in ("none", "pending")):
+            atomic_write(os.path.join(out_dir, PP.INDEX), dump(new))
+
     try:
+        if pl["history"]:
+            sync_index()
         # ---- the weeks of the ports that have a file: read everything, check everything, then write
         todo = [(k, g) for k in ("window", "deep") for g in pl[k]]
         if todo:
@@ -319,6 +339,7 @@ def run(argv=None, today=None):
                     print(f"  {p}: no complete week returned, its file is kept")
                 else:
                     none.add(p)
+                    sync_index()
                     print(f"  {p}: no complete week returned (no row)" if not rows else f"  {p}: no complete week yet")
                 continue
             if p not in names:
@@ -338,6 +359,7 @@ def run(argv=None, today=None):
             atomic_write(os.path.join(out_dir, f"{p}.json"), text)
             docs[p] = doc
             none.discard(p)
+            sync_index()
             res["written"].append(p)
             share, where = PP.rounding_error(weeks)
             tshare, twhere = PP.rounding_error(weeks, by_type=True)
@@ -345,8 +367,10 @@ def run(argv=None, today=None):
                   f"rounding moves the 52-week sum of the four types by at most {share * 100:.2f}%" + (f" ({where})" if where else "")
                   + f", of one type by at most {tshare * 100:.2f}%" + (f" ({twhere})" if twhere else "")
                   + (" ROUNDING OVER 1%" if share > 0.01 else ""))
-        if rechecked or none != none0:
-            atomic_write(os.path.join(out_dir, PP.INDEX), dump(PP.index_doc(none, today.isoformat())))
+        if rechecked:
+            sync_index(force=True)
+        elif os.path.exists(os.path.join(out_dir, PP.INDEX)):
+            sync_index()
     except Exception as e:  # noqa: BLE001
         res["error"] = " ".join(str(e).split()) if isinstance(e, fetch.FetchError) else f"{e.__class__.__name__}: {e}"
         if not isinstance(e, fetch.FetchError):

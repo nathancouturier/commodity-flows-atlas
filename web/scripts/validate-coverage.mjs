@@ -120,7 +120,8 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   validateCoverage(root, errors);
   if (errors.length) {
     console.error(errors.slice(0, 50).join('\n'));
-    console.error(`\n${errors.length} coverage error(s)`);
+    // the last line is what update_annual.py records when it refuses the file: the first finding says what is wrong
+    console.error(`\n${errors.length} coverage error(s), the first: ${errors[0]}`);
     process.exit(1);
   }
   console.log('coverage OK');

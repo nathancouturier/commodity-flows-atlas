@@ -181,6 +181,77 @@ try {
     undo();
     assert.equal(r.status, 0, r.stderr.slice(0, 1000));
   });
+  // the weekly port traffic folder: the cases build their own folder in the copy, from the PortWatch ids of its port assets
+  const ptDir = path.join(data, 'freight', 'port-traffic');
+  const ptIds = [...new Set(JSON.parse(fs.readFileSync(path.join(data, 'infrastructure', 'ports.geojson'), 'utf8')).features.map((f) => f.properties.portwatch).filter(Boolean))].sort();
+  const TYPES = ['tanker', 'dry', 'container', 'other'];
+  const portDoc = (id, weeks = 60) => {
+    const block = (k) => Object.fromEntries(TYPES.map((t, j) => [t, Array.from({ length: weeks }, (_, i) => (k === 'calls' ? (i + j) % 7 : ((i * 3 + j) % 11)))]));
+    const end = new Date(Date.UTC(2025, 0, 6) + (7 * weeks - 1) * 86_400_000).toISOString().slice(0, 10);
+    return { id, name: `Port ${id}`, s: 'portwatch-port-traffic', y: end, start: '2025-01-06', step: 'week', u: 'kt', dp: 0, calls: block('calls'), exports: block('exports'), imports: block('imports') };
+  };
+  /** The folder: a file for each id of `have`, index.json with `none` and `pending`; `extra` is run on it afterwards. */
+  const setPortTraffic = ({ have, none = [], pending = [], index = {}, extra } = {}) => {
+    fs.rmSync(ptDir, { recursive: true, force: true });
+    fs.mkdirSync(ptDir, { recursive: true });
+    for (const id of have) fs.writeFileSync(path.join(ptDir, `${id}.json`), JSON.stringify(portDoc(id)));
+    fs.writeFileSync(path.join(ptDir, 'index.json'), JSON.stringify({ checked: '2026-11-25', none, pending, ...index }));
+    if (extra) extra();
+  };
+  const refused = (what) => {
+    const r = run();
+    assert.equal(r.status, 1, `${what}: the validator accepted it`);
+    return r.stderr;
+  };
+  ok('the port traffic folder: a file for an id, an id in none and an id in pending each pass; the folder may be complete', () => {
+    assert.ok(ptIds.length >= 3, 'the port assets carry fewer than three PortWatch ids');
+    setPortTraffic({ have: [ptIds[0]], none: [ptIds[1]], pending: ptIds.slice(2) });
+    const r = run();
+    assert.equal(r.status, 0, r.stderr.slice(0, 1000));
+    assert.match(r.stderr, /port traffic: \d+ of \d+ ports not read yet/);
+    setPortTraffic({ have: ptIds.slice(1), none: [ptIds[0]] });
+    assert.equal(run().status, 0);
+    fs.writeFileSync(path.join(ptDir, 'index.json'), JSON.stringify({ checked: '2026-11-25', none: [ptIds[0]] }));
+    assert.equal(run().status, 0, 'pending may be left out of a finished load');
+  });
+  ok('the port traffic folder: an id in neither a file, none nor pending is refused', () => {
+    setPortTraffic({ have: ptIds.slice(1, -1), none: [ptIds[0]] });
+    assert.match(refused('last id in neither'), new RegExp(`index-missing: ${ptIds.at(-1)} has no file and is in neither none nor pending`));
+  });
+  ok('the port traffic folder: an id with a file that is also in pending or in none is refused', () => {
+    setPortTraffic({ have: ptIds.slice(1), pending: [ptIds[1], ptIds[0]].sort() });
+    assert.match(refused('file and pending'), /index-both: port\w+ has a file and is in pending/);
+    setPortTraffic({ have: ptIds.slice(1), none: [ptIds[0], ptIds[1]].sort() });
+    assert.match(refused('file and none'), /index-both: port\w+ has a file and is in none/);
+  });
+  ok('the port traffic folder: an id that no port asset carries is refused, in a file, in none and in pending', () => {
+    setPortTraffic({ have: ptIds, extra: () => fs.writeFileSync(path.join(ptDir, 'port99999.json'), JSON.stringify(portDoc('port99999'))) });
+    assert.match(refused('orphan file'), /the file of port99999 is for no port asset/);
+    setPortTraffic({ have: ptIds, pending: ['port99999'] });
+    assert.match(refused('orphan pending'), /port99999 is in pending but no port asset carries it/);
+  });
+  ok('the port traffic folder: a file that breaks a rule, a file that is not the port\'s own and a leftover .tmp are refused', () => {
+    setPortTraffic({ have: ptIds, extra: () => {
+      const f = path.join(ptDir, `${ptIds[0]}.json`);
+      const d = JSON.parse(fs.readFileSync(f, 'utf8'));
+      d.exports.tanker.pop();
+      fs.writeFileSync(f, JSON.stringify(d));
+    } });
+    assert.match(refused('unequal arrays'), new RegExp(`${ptIds[0]}.json: series: the twelve arrays are not all of the same length`));
+    setPortTraffic({ have: ptIds, extra: () => {
+      const f = path.join(ptDir, `${ptIds[0]}.json`);
+      fs.writeFileSync(f, JSON.stringify({ ...portDoc(ptIds[0]), id: ptIds[1] }));
+    } });
+    assert.match(refused('another id'), new RegExp(`${ptIds[0]}.json: id:`));
+    setPortTraffic({ have: ptIds, extra: () => fs.writeFileSync(path.join(ptDir, `${ptIds[0]}.json.tmp`), '{') });
+    assert.match(refused('tmp'), /\.json\.tmp: not a port file or index\.json/);
+  });
+  ok('the port traffic folder: no index.json, or no folder while port assets carry ids, is refused', () => {
+    setPortTraffic({ have: ptIds, extra: () => fs.rmSync(path.join(ptDir, 'index.json')) });
+    assert.match(refused('no index'), /freight\/port-traffic\/index\.json: missing/);
+    fs.rmSync(ptDir, { recursive: true, force: true });
+    assert.match(refused('no folder'), /freight\/port-traffic: missing, and \d+ port assets carry a PortWatch id/);
+  });
 } finally {
   fs.rmSync(tmp, { recursive: true, force: true });
 }
