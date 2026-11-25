@@ -323,7 +323,7 @@ class Documentation(unittest.TestCase):
     def test_the_seaborne_total_of_the_mode_paragraph_is_that_of_the_files(self):
         with open(os.path.join(ROOT, "METHODOLOGY.md"), encoding="utf-8") as f:
             text = " ".join(f.read().split())
-        m = re.search(r"Seaborne: ([\d,]+\.\d) Mt\. \((\d+) groups", text)
+        m = re.search(r"Seaborne: ([\d,]+\.\d) Mt\. \(In the fifth release: (\d+) groups", text)
         self.assertTrue(m)
         self.assertAlmostEqual(float(m.group(1).replace(",", "")), count_groups()[1], delta=0.06)
 

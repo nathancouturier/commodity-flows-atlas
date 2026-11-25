@@ -574,7 +574,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   options per end. The main option is the principal gateway, not the shortest route ("nearest
   coast" would send every US soybean cargo for China to the Pacific Northwest); the others are
   listed with their distances ("9,251 nm from New Orleans, or 4,352 nm from Kalama"), with no
-  weight. No measured split is loaded (`pipeline/freight/splits/` is empty). Freight zones: 36, in
+  weight. When a coast rule chose the principal port of such a lane, the lane page says so in the same sentence (`portRule` in the lane file: 181 lanes). No measured split is loaded (`pipeline/freight/splits/` is empty). Freight zones: 36, in
   `data/freight/zones.json`.
 - **Geometry**: shortest sea path on Eurostat's SeaRoute maritime network, using the `searoute`
   package (version pinned at 1.6.0). Port coordinates come from the UN/LOCODE list bundled with the
@@ -956,7 +956,7 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     **The note of a ship type** is written once on the passage record (`typeNotes` of `chokepoints.json`, one object by ship type that has
     something to say: the 'at least' sum of the type, PortWatch's volume of the year and its best year, the regime of the cap, the number of groups of
     the type and of those that the cap cuts, a line `line` and its reason `n`), and not in the note of each estimate, where it had been repeated (the same
-    paragraph on 31 rows at the Bosphorus, 38 at Gibraltar and 48 at Suez; the file was 882,538 bytes and is 728,895). The passage page prints the line above the
+    paragraph on 31 rows at the Bosphorus, 38 at Gibraltar and 48 at Suez; the file was 882,538 bytes and is 728,891). The passage page prints the line above the
     list of estimates, and the reason folds. A type has a note where its 'at least' tonnage is above PortWatch's volume of the year, or from 85% of it. PortWatch's
     volume is an estimate made from ship movements, and the atlas's groups are not all the cargo these ships carry: where the atlas's own sum is above it, the ports,
     routes or ship types the atlas assumes probably overstate the passage (Bosphorus and Gibraltar dry bulk, Torres Strait tankers: 207 against 203 Mt, 394 against 384 Mt,
@@ -1541,31 +1541,31 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   there is no free series for the seed, the meals, the flour, the dregs or the pulses. Ports: the engine's own fall-backs
   (page names the cargo, the general port of the country, the port used before, the nearest seaport) give each lane's ports with
   their basis; no port was attached to these cargoes, and the sunflower and rapeseed oils take the rows written for palm and soybean
-  oil (a "vegoil" gateway row), so that a palm-oil terminal can be the port of an import of sunflower oil; since package FNCA (review GNC2.7) these two
+  oil (a "vegoil" gateway row), so that a palm-oil terminal can be the port of an import of sunflower oil; these two
   oils show such a port with the basis "general port of the country", as no page read names either oil there (`GENERAL_BASIS` in `ports.py`; no port changed).
   France has Rouen and La Pallice for grain, oilseeds and meal (French Wikipedia: Rouen "the first European port for cereals", 12.7 Mt in 2023, with China,
   Morocco and Algeria as its main trading partners and eight "less common destinations"; La Rochelle "second French port for cereal exports") and Montoir for soya meal, chosen against Fos by the
-  partner (coast rules `fra-grain-ports` and `fra-coast-grain`): barley from France to the Netherlands is 321 nm from Rouen (65 nm of the Seine included; the router had snapped Rouen to the coast near Dieppe and read 196 nm: package FNCE), not 2,092 nm from Fos.
+  partner (coast rules `fra-grain-ports` and `fra-coast-grain`): barley from France to the Netherlands is 321 nm from Rouen (65 nm of the Seine included; snapped to the coast near Dieppe, Rouen would read 196 nm), not 2,092 nm from Fos.
   The two pages give figures for the ports and none for the split between them: Rouen "12.7 Mt in 2023 (50% of French exports)" of cereals for the whole port, La Pallice 3.0 to 3.5 Mt a year of
-  cereals in 2023 to 2025. Package FNCF (review GV6A.2) chose the principal port by rule, an Atlas assumption with its reason in the rule: Rouen for the eleven partners
+  cereals in 2023 to 2025. The principal port is chosen by rule, an Atlas assumption with its reason in the rule: Rouen for the eleven partners
   that the Rouen page names (China, Morocco and Algeria, then, as destinations "less common" in 2023, Mauritania, Mexico, Thailand, India, Colombia, Madagascar, the United States and
-  South Africa: the principle of the engine is that the page names the partner at a port, so that port; the first version had the first three only) and for those of the Channel, the North Sea and the Baltic (the United Kingdom, Ireland, Belgium, the Netherlands,
+  South Africa: the principle of the engine is that the page names the partner at a port, so that port) and for those of the Channel, the North Sea and the Baltic (the United Kingdom, Ireland, Belgium, the Netherlands,
   Germany, the Nordic and Baltic countries, Poland), La Pallice for every other partner outside the Mediterranean and the Black Sea (the Atlantic coast of Europe, the rest of Africa
   outside the Mediterranean, the Americas other than Mexico, Colombia and the United States, the Middle East, the rest of Asia and Oceania); and Fos stays the port
-  of the Mediterranean and Black Sea partners, Russia included (its grain port, Novorossiysk, is on the Black Sea: package FNCF, review GV6A.1). No page says that a partner is served by
-  one of the two ports only, so the other port is an option of every one of these partners (package FNCH): the lane page prints both distances and says that no source gives the
+  of the Mediterranean and Black Sea partners, Russia included (its grain port, Novorossiysk, is on the Black Sea). No page says that a partner is served by
+  one of the two ports only, so the other port is an option of every one of these partners: the lane page prints both distances and says that no source gives the
   split (24 of the 24 lanes of French grain, oilseeds and meal that load at Rouen or La Pallice, 17 and 7, carry the other port as an option;
-  15 of them, with a partner near the Channel or the Atlantic such as the Netherlands, the United Kingdom, Portugal or Senegal, had none before that change, and every passage and every estimate stayed as it was, since the two ports
+  15 of them, with a partner near the Channel or the Atlantic such as the Netherlands, the United Kingdom, Portugal or Senegal, change no passage and no estimate, since the two ports
   are on the same seaboard). The page's tonnages for China, Morocco and Algeria (2.48, 2.07 and 1.15 Mt) are those of the whole port's trade with each country, not of grain,
   and the atlas does not use them: the eight "less common destinations" have no tonnage on the page, and what is assumed is the principal port of their pairs, not a quantity. Adding the eight to the named set moved the principal port of 11 of the 202 pairs with France as exporter in these twelve groups
   (barley to Colombia, India, Mexico and South Africa; pulses and rapeseed to the United States; wheat to Madagascar, Mexico, Mauritania, Thailand and the United States) from La Pallice to Rouen, 0.93 Mt in all
   (the distances are 52 to 282 nm longer; no passage, no class and no estimate changed, and no pair without France as its exporter moved). The split between the two
   ports is the atlas's rule, not a measured share. In 2024 the atlas loads 12.3 Mt of French wheat, barley, corn, sorghum and rice by sea at Rouen, 2.5 Mt at La Pallice and 0.9 Mt
-  at Fos (11.3 Mt at Rouen, 3.5 Mt at La Pallice and 0.9 Mt at Fos before the eight were added, and 14.8 Mt at Rouen, none at La Pallice and 0.9 Mt at Fos before the rule; Rouen's page gives 12.7 Mt of cereals for the whole port, and the page of La Pallice 3.0 to 3.5 Mt a year,
+  at Fos (Rouen's page gives 12.7 Mt of cereals for the whole port, and the page of La Pallice 3.0 to 3.5 Mt a year,
   so that the atlas's principal-port tonnage of La Pallice is now below the range of its page: the other port of every pair stays an option, and the page gives no split); the lanes of La Pallice carry
   no river leg (the leg of the Seine is for Rouen). Generated corridors: the eight groups of lanes share a cap of
   10 routes (`LATER_GROUPS`).
-- **Metal bulks** (package NC3, audit A-010). Six pages are new (ferrous scrap, pig iron and DRI, chromium, ferro-alloys,
+- **Metal bulks** (sixth release). Six pages are new (ferrous scrap, pig iron and DRI, chromium, ferro-alloys,
   molybdenum, graphite) and the metallurgical coal page holds the customs tables and lanes of coke. Every HS 1992 code is in
   one group and every group on one page (`pipeline/trade/hs_map.py`); the groups, with the wording of the official list of
   CEPII BACI, are: ferrous waste and scrap, the whole of heading 7204 (cast iron 720410, stainless steel 720421, other alloy
@@ -1591,31 +1591,31 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   graphite mine production and reserves; it gives ferrous scrap for the United States only (the United States block of the
   scrap page), and no world table of the ferro-alloys or of direct-reduced iron: those pages say "No production table". The
   figures of the steel industry's associations are not loaded (their terms are not settled). The World Bank Pink Sheet has no
-  series for any of these products (its steel series is an index of steel products). Since package FNCC the USGS annual prices of chromite, ferro-chromium,
+  series for any of these products (its steel series is an index of steel products). The USGS annual prices of chromite, ferro-chromium,
   heavy melting scrap, molybdenum and natural graphite are on their pages (section 7), each with a note saying which product of the page it is the price of; the
-  pig iron and direct-reduced iron page and coke have no free price series and say so, and the ferro-alloys page has ferro-chromium and, since package FNCD, 75%
+  pig iron and direct-reduced iron page and coke have no free price series and say so, and the ferro-alloys page has ferro-chromium and 75%
   ferrosilicon, and no series for the other alloys. Ports: the engine's own fall-backs, with their basis; no port was attached to these cargoes. Chromium ore takes the ore rows and
   the port used before, coke only a row that names it (then the port used before for coal), and scrap, pig iron, direct-reduced iron and
   the ferro-alloys the general port of the country, as steel does (the ore fall-backs would have sent the 20 Mt of Turkish scrap
-  imports to the nearest seaport of Turkey, Samsun on the Black Sea, by the Bosphorus). Package FNCA (review GNC3.2) gave Turkey, for scrap, pig iron and
+  imports to the nearest seaport of Turkey, Samsun on the Black Sea, by the Bosphorus). The atlas gives Turkey, for scrap, pig iron and
   direct-reduced iron, the ports of its two steel works named by the Erdemir page (Karadeniz Eregli on the Black Sea, Iskenderun on the Mediterranean; the page names
-  the works and the port of Eregli, not the cargo, and the basis printed is "page names the plant, not the cargo", package FNCE), chosen by the partner (coast rule `tur-coast`: the Black
-  Sea partners take Eregli, the others Iskenderun, with the general port of Izmir as the second option since package FNCF, review GV6A.4), because Mersin, the only other general port, is on the far coast from the Black Sea partners. Turkish chromite keeps Samsun
+  the works and the port of Eregli, not the cargo, and the basis printed is "page names the plant, not the cargo"), chosen by the partner (coast rule `tur-coast`: the Black
+  Sea partners take Eregli, the others Iskenderun, with the general port of Izmir as the second option), because Mersin, the only other general port, is on the far coast from the Black Sea partners. Turkish chromite keeps Samsun
   (no page read names a chromite port: 1.5 Mt at the Bosphorus), and the ferro-alloys the general port; the Aegean and Marmara have no row of their own (the Aliaga page names
   no steel works and the Derince page names vehicles). The Erdemir page names the steel works and not where scrap lands, so the share that the Turkey page prints for a
   port (Iskenderun 89.9% of the scrap imports) is the share of the atlas's tonnes that its typical port carries, an allocation by rule, and the freight block says so before its figures
   (`freight.note` of the profile). Scrap, pig iron and
   direct-reduced iron sail in bulk carriers all the same, and the chokepoint estimates compare them with the dry-bulk ships of PortWatch. Molybdenum and graphite are tables only, without lanes. The shared cleaning rules apply only the
   gross-error rule to these groups (rule 3 of section 1): none is a single graded product, except coke (HS 2704), one product priced by the tonne. Mozambique →
-  India 2016, 65 Mt declared for USD 245 million (4 USD/t), had tripled the world and seaborne series of that year (91.8 and 83.3 Mt against 31.6 and 22.9 Mt in
-  2015) (review GNC3.8). Package FNCB repaired it as a flagged Atlas estimate (1.3 Mt) by putting coke in rule 4; package FNCD (D6) checked rule 4 on the
-  fourteen groups of the three packages that it covered, with one criterion: where the pairs that rule 4 would re-estimate declare, in at least three other years,
+  India 2016, 65 Mt declared for USD 245 million (4 USD/t), would triple the world and seaborne series of that year (91.8 and 83.3 Mt against 31.6 and 22.9 Mt in
+  2015). Rule 4 can repair such a row as a flagged Atlas estimate (1.3 Mt), so coke was tried in it; rule 4 is checked on the
+  fourteen groups of the three batches that it covers, with one criterion: where the pairs that rule 4 would re-estimate declare, in at least three other years,
   a unit value beyond the factor 3 on the same side, and carry more than a tenth of the tonnes that rule 4 adds or removes over all years, the group leaves the
   set. Rule 4 re-estimates 15 rows in 7 of the 14 groups (potassium sulphate 1, UAN 1, ammonium sulphate 1, sorghum 2, sunflower oil 1, rapeseed meal 2, coke 7) and
   none in the 7 others (the largest change of a world total of a year is 8.0%, sorghum 2019); no re-estimated row of the 5 groups that stay belongs to such a pair.
   For coke 3 of the 7 rows do (33% of the tonnes: China → United States 2002, 2003 and 2005), and for sunflower oil the one row (Ukraine → Nepal 2021), so both
   groups leave the set and keep the reported tonnage of their rows (coke: Belgium → France 2004, China → Brazil 2009, China → India 2006 and 2007, China → United States 2002, 2003
-  and 2005; sunflower oil Ukraine → Nepal 2021). China → Brazil 2009, 108 kt declared at 825 USD/t, is one of them (review GV6B.3): the pair's own unit value is 467 to 518 USD/t in 2008 and
+  and 2005; sunflower oil Ukraine → Nepal 2021). China → Brazil 2009, 108 kt declared at 825 USD/t, is one of them: the pair's own unit value is 467 to 518 USD/t in 2008 and
   2010 to 2012, the years of the Chinese export tax, so the criterion keeps the reported tonnage rather than the 340 kt that rule 4 would estimate.
   Since the sixth release (a choice made without the owner, listed in PROGRESS.md) the atlas drops all of Mozambique's coke by rule 5 of section 1 (`DROP`): the EIA series of coke production gives
   Mozambique none in any year, and its exports under the code (16 years, 2005 to 2024: 65.2 Mt in 2016, 65.0 Mt of it to India at 4 USD/t, 3.8 and 8.7 Mt at 26 and 56 USD/t to India in 2021
@@ -1700,12 +1700,12 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     shipped on", metal "bought, stored or shipped on"). A smelting or refining country that USGS
     does not name (Thailand for tin) carries the note too.
     A flow declared at under half of the tonne-weighted median unit value of its product (unwrought
-    aluminium, refined copper, zinc, lead, tin, alumina, and since package FNCB coke, pig iron and direct-reduced iron) is flagged by check K13
+    aluminium, refined copper, zinc, lead, tin, alumina, coke, pig iron and direct-reduced iron) is flagged by check K13
     (`pipeline/trade/checks.py`) and worded as a hypothesis through the caveat registry
     (`caveats.py`), with the metal's Pink Sheet price beside it where the repository has one.
     Unwrought aluminium is shown by code, HS 760110 (not alloyed) and HS 760120 (alloys).
   - **Iron content** of iron ore (production and reserves) is the USGS table as published.
-  - **Importer in transit** (`transit_notes` in `metals.py`, package FNCC, review GNC3.3). The hub rule above needs the country in the export table too, so
+  - **Importer in transit** (`transit_notes` in `metals.py`). The hub rule above needs the country in the export table too, so
     it never fired for Mozambique, which customs data record as the second importer of chromium ore and of ferro-chromium (South African ore and alloy,
     received overland) with no production and no material export. A row of an import table gets a note when the country has at least 10% of the
     table's world imports, no line in the page's production tables, no export line of note (under 1.5% of the world exports and under a tenth of its own
@@ -1715,17 +1715,17 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     The note says what the customs data record, that these tonnes may be cargo in transit to a port and not the country's own use, as a reading and not as a
     finding, and why the row was kept: the ore and the alloy come overland from South Africa, the first producer in the USGS table of the Chromium page;
     Mozambique has no line in that table (each clause is checked against the built pages by `test_fncd.py`). The note computes what the country's own
-    exports are from its row of the exporters table, never "not an exporter" (package FNCF, review GV6C.1): "has no production line in the tables of this page and exports of
+    exports are from its row of the exporters table, never "not an exporter": "has no production line in the tables of this page and exports of
     41 kt (0.15% of the world exports, 0.47% of its own imports)" for the chromium ore, 21 kt (0.27%, 1.8%) for the ferro-chromium. The page repeats it in its notes (a row note is a tooltip) and the country profile line
     carries it. The other two rows (Saudi Arabia's imports of direct-reduced iron from Oman and Canada's imports of MAP from the United States) are an
     overland delivery to a neighbour that uses the product, the plain reading: they get no note and are listed in `pipeline/commodities/QA.md` as "detected,
     no note". The overland test keeps the rule off the importers that consume the product and receive it by sea (Japan's coking coal, Morocco's ammonia and
-    sulphur). It reads the tables of the groups that the three commodity packages added. Three pages were read for a statement that South African chromite
+    sulphur). It reads the tables of the groups added in the sixth release. Three pages were read for a statement that South African chromite
     is shipped through Maputo: the Port of Maputo article says that its record volumes of 2023 came largely from South African mines and that transit
     cargo is a large part of the traffic of the ports of Mozambique, and does not name chromite, so no source is cited and the wording stays a possible
     reading.
     The same kind of note is written for an importer that is the transit port of a landlocked country in the engine's transit tables (`TRANSIT` of
-    `gateways/energy.py`), where the customs figure reads like that country's own trade (package FNCF): Djibouti, second importer of the two-nutrient compound
+    `gateways/energy.py`), where the customs figure reads like that country's own trade: Djibouti, second importer of the two-nutrient compound
     fertilisers in 2024 (1.64 Mt, 0.04 Mt in 2015), is the port that the transit table gives Ethiopia ("Principal maritime outlet for Ethiopia's trade", Wikipedia, Port
     of Djibouti), and no import of the product by Ethiopia is recorded in 2024 (0.96 Mt in 2023); the row and the page say that some of these tonnes may be Ethiopian cargo declared
     at the port, a possible reading, not established here.

@@ -55,6 +55,10 @@ class C3PortsChosenByARule(unittest.TestCase):
             n += rule
         self.assertGreater(n, 100)
 
+    def test_methodology_counts_the_flagged_lanes(self):
+        n = sum(1 for _, lane in self.lanes() if lane.get("portRule"))
+        self.assertIn(f"(`portRule` in the lane file: {n} lanes)", " ".join(read("METHODOLOGY.md").split()))
+
     def test_the_two_lanes_of_the_review(self):
         wheat = {x["id"]: x for x in load("data", "freight", "lanes", "wheat.json")["lanes"]}["wheat:FRA-NLD"]
         scrap = {x["id"]: x for x in load("data", "freight", "lanes", "ferrous-scrap.json")["lanes"]}["ferrous-scrap:USA-TUR"]
