@@ -454,7 +454,9 @@ class G10Recipe(unittest.TestCase):
         self.assertIn("is attached by changing its page key, the second element of its tuple in `PINK`, to the page's id, and deleting its entry of `NO_PAGE`", recipe)
         self.assertIn("(the key of `PINK` itself is the World Bank column name, `\"Palm kernel oil\"`, which the header check reads: leave it)", recipe)
         self.assertIn("7 (prices: a series attached, a unit, a note)", recipe)
-        self.assertIn("## 7. What the review rounds after the first three packages added (FNCD to FNCG)", read("docs", "ADDING_A_COMMODITY.md"))
+        self.assertIn("## 7. What the review rounds of the sixth release added", read("docs", "ADDING_A_COMMODITY.md"))
+        # the recipe names no work package or review of the project: a reader has no key to them
+        self.assertEqual(re.findall(r"\b(?:FNC[A-I1-2]?|GV[0-9][A-D]?|NC[1-3]|FW3[A-C]?|GW3[A-I]?)\b", read("docs", "ADDING_A_COMMODITY.md")), [])
         # the caveat kinds of the recipe are the kinds of the file
         kinds = {v["kind"] for v in load(DATA, "freight", "caveats.json").values()}
         for k in kinds:

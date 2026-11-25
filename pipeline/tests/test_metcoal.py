@@ -423,8 +423,6 @@ class Words(unittest.TestCase):
             self.assertIn(f"to {allc} countries", n)
             sentence = f"{listed} of the {allc} countries have at least {B.MET_FLOW_MIN:,} t and are listed above"
             (self.assertIn if listed != allc else self.assertNotIn)(sentence, n)
-        self.assertIn("34 countries", u)
-        self.assertIn("32 of the 34 countries", u, "the block lists 32 rows of the 34 countries: the two numbers and why")
         total = metcoal.meta(QLD)["totals"][f"{YEAR + 1}-metallurgical"]
         self.assertIn(f"Queensland's total of {YEAR + 1}: {B._fmt(total / 1e6)} Mt.", q)
         self.assertEqual(total, sum(metcoal.pairs(QLD, YEAR + 1).values()))
@@ -569,9 +567,11 @@ class MethodologyFigures(unittest.TestCase):
         self.assertIn(f"({sum(pq.values()) / 1e6:.2f} Mt to {len(pq)} countries in {YEAR};", self.sec)
         self.assertIn(f"({sum(pu.values()) / 1e6:.2f} Mt to {len(pu)} countries in {YEAR},", self.sec)
         nq, nu = (sum(1 for t in p.values() if t >= B.MET_FLOW_MIN) for p in (pq, pu))
-        self.assertIn(f"{nq + nu} rows, {nq} of Queensland and {nu} of the United States (two of its {len(pu)} destinations are under 1,000 t)", self.sec)
+        self.assertIn(f"{nq + nu} rows, {nq} of Queensland and {nu} of the United States (", self.sec)
+        under = re.search(r"\((\w+) of its (\d+) destinations are under 1,000 t\)", self.sec)
+        words = {"no": 0, "one": 1, "two": 2, "three": 3, "four": 4, "five": 5}
+        self.assertEqual((words[under.group(1)], int(under.group(2))), (len(pu) - nu, len(pu)))
         self.assertEqual(len(page()["flows"]), nq + nu)
-        self.assertEqual(len(pu) - nu, 2)
         # the same totals, as the notes of the page print them
         self.assertTrue([n for n in self.notes if f"{B._fmt(sum(pq.values()) / 1e6)} Mt to {len(pq)} countries" in n])
         self.assertTrue([n for n in self.notes if f"to {len(pu)} countries, {B._fmt(sum(pu.values()) / 1e6)} Mt" in n])

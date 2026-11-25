@@ -202,14 +202,23 @@ files do not have. From the repository root, with `raw/` on disk:
    revised and EIA that the latest year is preliminary, so a smaller difference is not a stop: it is printed and written to the meta file
    (`guard_2024`). A stop beyond 2% is more likely a changed definition (a coal type or a rank that moved in the file) than a revision: the message says what to look at; if the new
    figure is right, change `GUARD_2024` and say why in the commit. With a file missing, the extractor leaves that source's rows as they are.
-4. **Typed dates.** Two places quote the dates and are not built: the paragraphs of `NOTICE.md` on the Queensland Government and on the EIA coal exports
-   ("Data through to ..." and "Current as at ...", "file dated ...") and the last sentence of the metallurgical coal paragraph of METHODOLOGY.md, section 10. Write the new
-   dates there; `test_metcoal.py` (`test_no_page_prints_a_date_the_files_do_not_have`) fails while any of them differs from the meta file. The registry's
-   `update` text of the two sources is built from the meta file by `build_commodities.py`.
+4. **What a refresh still makes a person write.** The tests of `test_metcoal.py` compare the dates, the years and the file name with the meta file, and keep a
+   typed value only where it guards a definition (the credit line of the About sheet, `GUARD_2024`, the first year read, PCI counted with the coking coals); a new
+   file therefore breaks a test only through something that must be written by hand:
+   - the dates of the two files, typed in the paragraphs of `NOTICE.md` on the Queensland Government and on the EIA coal exports ("Data through to ..." and
+     "Current as at ...", "file dated ...") and in the last sentence of the metallurgical coal paragraph of METHODOLOGY.md, section 10:
+     `test_no_page_prints_a_date_the_files_do_not_have` fails while any of them differs from the meta file;
+   - the figures that METHODOLOGY.md, section 10, types for the layer (the two totals and their numbers of countries, the 63 rows, Singapore, India, the break
+     of 2022, the coverage against EIA International): `MethodologyFigures` of `test_metcoal.py` fails while one differs from the cache or from the notes of
+     the page. Australia's own figure for thermal coal to India (3.78 Mt, table 41 of the Resources and Energy Quarterly) is read from the workbook in `raw/`
+     when it is there; the test skips itself without it;
+   - `EIA_FILE_DATE` and, when the workbook is renamed, `RAW_QLD` in `pipeline/trade/extract_metcoal.py` (steps 1 and 2), and `GUARD_2024` when the extractor stops beyond 2%.
+   The registry's `update`, `access` and `use` text of the two sources (`DATA_SOURCES.md`, the file name, the dates) is built from the meta file by
+   `build_commodities.py` and replaces the text already in `data/sources.json`.
 5. **Rebuild and check.** `.venv/bin/python -I pipeline/commodities/build_commodities.py`, then `pipeline/common/sources_table.py` and
    `pipeline/common/notice_lists.py` (they rewrite `DATA_SOURCES.md` and the lists of `NOTICE.md`), `node web/scripts/validate-data.mjs`, and the unit suite.
-   The figures that METHODOLOGY quotes for the page (the totals, the 31 and 32 rows, the coverage against EIA International) are those of the notes
-   the builder wrote: compare them and write the new ones.
+   The words that describe each source under the block ("by destination as the file gives it", "by destination country") come from the definition in
+   the meta file, and the test of the definitions reads it there.
 
 ## A site that refuses the downloader
 

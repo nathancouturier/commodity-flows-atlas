@@ -669,7 +669,7 @@ export function RankedBars(props: { data: Ranked; color?: string; limit?: number
   return (
     <div>
       {hist && wFirst >= 0 && (
-        <div class="bar-world" title={`World total by year, ${hist.u}: ${hist.world.map((v, i) => `${hist.labels?.[i] ?? hist.years[i]} ${fmt(v)}`).join(', ')}`}>
+        <div class="bar-world" title={`${data.shareOf ? 'Total' : 'World total'} by year, ${hist.u}: ${hist.world.map((v, i) => `${hist.labels?.[i] ?? hist.years[i]} ${fmt(v)}`).join(', ')}`}>
           <span>{data.shareOf ? data.shareOf[0].toUpperCase() + data.shareOf.slice(1) : 'World'}, {hist.labels?.[wFirst] ?? hist.years[wFirst]} to {hist.labels?.[hist.years.length - 1] ?? hist.years[hist.years.length - 1]}</span>
           <TrendLine vals={trendOf(hist).vals} at={trendAt} w={64} h={16} />
           <span class="num">

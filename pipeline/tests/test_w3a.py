@@ -214,7 +214,7 @@ class A2Added(unittest.TestCase):
             self.assertFalse(r.imputed)  # a declared figure, not an estimate
             self.assertAlmostEqual(r.t, comtrade_tin.declared(y)["t"], places=2)
             self.assertIn("UN Comtrade", r.enote)
-            self.assertIn("not in CEPII BACI" if row(self.raw, "MMR", "CHN", y) is None else "CEPII BACI has", r.enote)
+            self.assertIn("not in the atlas's extract of CEPII BACI" if row(self.raw, "MMR", "CHN", y) is None else "the atlas's extract of CEPII BACI has", r.enote)
         self.assertIn("161 t", row(self.cl, "MMR", "CHN", 2023).enote)  # the one year in which the customs file has a row, replaced
 
     def test_the_years_before_the_cache_are_as_reported(self):

@@ -91,9 +91,9 @@ class TinAddedFlow(unittest.TestCase):
     def test_the_note_says_what_the_row_is(self):
         r = self.cl[(self.cl["o"] == "MMR") & (self.cl["d"] == "CHN") & (self.cl["year"] == 2024)].iloc[0]
         self.assertTrue(r["enote"].startswith("Added from China's import declaration (UN Comtrade"))
-        self.assertIn("not in CEPII BACI", r["enote"])
+        self.assertIn("not in the atlas's extract of CEPII BACI", r["enote"])
         r = self.cl[(self.cl["o"] == "MMR") & (self.cl["d"] == "CHN") & (self.cl["year"] == 2023)].iloc[0]
-        self.assertIn("CEPII BACI has 161 t for the pair", r["enote"])  # the customs file's own figure, where it has one
+        self.assertIn("the atlas's extract of CEPII BACI has 161 t for the pair", r["enote"])  # the customs file's own figure, where it has one
 
     def test_the_pairs_file_flags_and_notes_the_row(self):
         doc = load("freight", "pairs", "tin-ore.json")
@@ -104,7 +104,7 @@ class TinAddedFlow(unittest.TestCase):
         self.assertIn("comtrade", {s["id"] for s in load("sources.json")})
         note = doc["notes"]["MMR-CHN"]
         self.assertTrue(note.startswith("Added from China's import declaration (UN Comtrade"))
-        self.assertIn("not in CEPII BACI", note)
+        self.assertIn("not in the atlas's extract of CEPII BACI", note)
         # no other row of the group is flagged
         self.assertEqual([r for r in doc["rows"] if r[ix["f"]] & 16], [row])
 
@@ -112,7 +112,9 @@ class TinAddedFlow(unittest.TestCase):
         notes = load("freight", "lanes", "tin-ore.json")["yearNotes"]
         self.assertIn("breaks between 2016 and 2017", notes["2017"])
         for y in range(2017, 2025):
-            self.assertIn("China's import declaration (UN Comtrade; not in CEPII BACI)", notes[str(y)])
+            self.assertIn("from China's import declaration (UN Comtrade; not in the atlas's extract of CEPII BACI, which drops flows under 1,000 t and USD 1 million)", notes[str(y)])
+            self.assertIn("All modes: includes Myanmar to China", notes[str(y)])  # the pair is overland: it is in the all-modes total, not in the seaborne figure
+            self.assertIn("(overland: not in the seaborne figure)", notes[str(y)])
         self.assertNotIn("Myanmar: 0.00131 Mt in 2016", " ".join(notes.values()))  # the 2017 figure of Comtrade is no customs anomaly of BACI
         self.assertIn("Brazil: 0.00173 Mt in 2020", notes["2020"])  # the note that the world total of the added flow had hidden
 
@@ -331,14 +333,17 @@ class Documents(unittest.TestCase):
         self.assertIn(f"from 2004 to 2020 the customs tonnage of the pair is {m.group(1)} to {m.group(2)} times", self.read("METHODOLOGY.md"))
 
     def test_methodology_gives_the_census_quantity_by_code(self):
+        """The quantities of rule 10 are the cache's (which sum the domestic and the foreign exports of a code), and the paragraph says for each code
+        whether the figure holds the foreign exports (the domestic part is read from the file in raw/, which the tests do not read)."""
         text = self.read("METHODOLOGY.md")
-        for s in ("9.36 million m3 under code 2711120010", "10.26 million m3 of propane", "10.43 million m3 of propane and butanes",
-                  "a plausible cause: it is not established here"):
+        c = us_lpg.load()["census"]["pairs"]["MEX"]["qty_m3"]
+        for code, words in (("2711120010", "under code 2711120010"), ("2711120020", "under 2711120020"), ("2711130000", "of butanes under 2711130000")):
+            self.assertIn(f"{c[code] / 1e6:.2f} million m3 {words}", text)
+        self.assertIn(f"{(c['2711120010'] + c['2711120020']) / 1e6:.2f} million m3 of propane and {sum(c.values()) / 1e6:.2f} million m3 of propane and butanes, each with the foreign exports", text)
+        self.assertNotIn("9.36 million m3 under code 2711120010", text)  # it was the domestic part only, which 0.88 and 10.26 are not
+        for s in ("of domestic exports and", "of foreign exports", "domestic exports; the file has no foreign export of this code to Mexico", "a plausible cause: it is not established here"):
             self.assertIn(s, text)
         self.assertNotIn("is the volume in cubic metres read as tonnes", text)
-        c = us_lpg.load()["census"]["pairs"]["MEX"]["qty_m3"]
-        self.assertAlmostEqual((c["2711120010"] + c["2711120020"]) / 1e6, 10.26, places=2)
-        self.assertAlmostEqual(sum(c.values()) / 1e6, 10.43, places=2)
 
     def test_data_sources_say_what_is_used_of_comtrade(self):
         text = self.read("DATA_SOURCES.md")

@@ -154,9 +154,11 @@ is called one where it is shown. The figures below are those of the build from C
      in 2024 the two flows above, 15.1 kt of the 504.3 kt of the group.
   10. **A tonnage far above the volume: LPG from the United States to Mexico** (`us_lpg.CORRECTED`, flag `est-volume`). CEPII BACI gives
      9.33 Mt for this pair in 2024 at 252 USD/t, 0.39 times the group's median unit value. The US Census Bureau's export detail file
-     (EXDB, December 2024) gives, for exports to Mexico in 2024, 9.36 million m3 under code 2711120010 (propane of 90% purity or more, domestic
-     exports; 9.38 million m3 with the foreign exports of the code), 0.88 million m3 under 2711120020 (other propane) and 0.17 million m3 of butanes
-     (2711130000): 10.26 million m3 of propane and 10.43 million m3 of propane and butanes. The customs tonnage is 0.76 (2021), 0.76 (2022), 0.98 (2023)
+     (EXDB, December 2024) gives, for exports to Mexico in 2024, 9.38 million m3 under code 2711120010 (propane of 90% purity or more: 9.36 million m3 of
+     domestic exports and 0.01 million m3 of foreign exports), 0.88 million m3 under 2711120020 (other propane: 0.46 million m3 of domestic and 0.42 million m3 of
+     foreign exports) and 0.17 million m3 of butanes under 2711130000 (domestic exports; the file has no foreign export of this code to Mexico): 10.26 million m3 of
+     propane and 10.43 million m3 of propane and butanes, each with the foreign exports (the quantities of `pipeline/cache/us_lpg_volumes.json`, which sum the domestic and
+     the foreign exports of a code; the split into the two is read from the file in `raw/`). The customs tonnage is 0.76 (2021), 0.76 (2022), 0.98 (2023)
      and 0.90 (2024) times the volume in cubic metres of the United States' own statistics (EIA's exports by destination for the first three
      years, 9.75, 10.33 and 9.98 million m3 of propane and butanes; the Census quantity of 10.43 million m3 for 2024), and 1.51, 1.48, 1.92 and
      1.77 times the tonnage that this volume gives at the density of the cargo. A volume in cubic metres read as tonnes, for part or all of the
@@ -369,7 +371,8 @@ URL, returned with the mode; an entry without a URL is an unsourced assumption. 
   for that year only; the lane builders cut the pair into two rows that add up to its tonnage, 3.81 Mt by sea (mode sea: the lane, the seaborne totals,
   the chokepoint estimates, the corridor volumes and the country pages read it) and 1.47 Mt overland (mode land), after the checks and the caveats,
   which read the pair as one row. The lane keeps its history in all modes, as the years before (its chart, its change on the year and a past year's figure say "all modes"), and its note
-  says the share, its source and that the other years are customs totals with the split not known. Because the split is known for 2024 only, the seaborne LPG
+  says the share, its source and what the other years are, from the flags of the row (the customs total for all modes before 2021, the atlas's estimate for all modes
+  from EIA's volume for 2021 to 2023, and in none of those years the split by mode). Because the split is known for 2024 only, the seaborne LPG
   series breaks between 2023 and 2024 (3.81 Mt of the rise from 117.0 to 129.7 Mt is this pair moving from the mixed series to the sea series): the lane
   file's `breakNote`, built from the data, says so where the seaborne figure and the lane table's footer are printed. The estimated share of the seaborne
   tonnage tells the two bases apart (`estVol`, from a volume in the United States' own export statistics, against the rest, from the declared value), as

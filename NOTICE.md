@@ -40,7 +40,7 @@ It does not cover data. Data files kept in the repository follow the terms of th
   of the 27 member states of the European Union and the world, FAOSTAT QCL) and
   `faostat_fertilizer_production.csv` are FAOSTAT data (CC BY 4.0); `metcoal_pairs.csv`, `metcoal_ports.csv` and `metcoal_meta.json` hold the Queensland
   Government's coal sales (CC BY 4.0) and EIA's exports of United States coal (public domain), credited below; `us_lpg_volumes.json` holds figures of
-  the US Census Bureau's export detail file and of EIA's exports by destination (public domain), `comtrade_tin_china.json` the few figures of UN Comtrade that
+  the US Census Bureau's export detail file (its Public-Use Statement, credited below) and of EIA's exports by destination (public domain), `comtrade_tin_china.json` the few figures of UN Comtrade that
   the tin page prints ("Source: UN Comtrade", no answer of the service is published) and `aus_req_lng.json` one table of the Australian Department of
   Industry, Science and Resources' Resources and Energy Quarterly (CC BY 4.0), all three credited below; `wna_uranium.json` is World Nuclear Association data
   (terms to be confirmed); `adjacency.json` is derived from Natural Earth (public domain); `geom_cache.json` and
@@ -400,8 +400,10 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
   preview of the service. Credit: "Source: UN Comtrade." UN Comtrade's policy on re-dissemination allows the publication of limited amounts of its data in a few
   tables, graphs and visualisations without permission; the atlas prints a few figures with that credit and publishes none of the answers as a file.
 - **US Census Bureau** (the LPG page): the USA Trade Online export detail file (EXDB, December 2024), for the quantity and the vessel shipping weight of LPG
-  exports to Mexico, Canada and three Asian buyers. US Government data, no copyright is claimed; the figures derived from it are the atlas's and are not
-  endorsed or certified by the Census Bureau. EIA's exports by destination (propane and butanes, public domain) give the volumes of the years before.
+  exports to Mexico, Canada and three Asian buyers. The Census Bureau's Public-Use Statement (https://www.census.gov/about/policies/citation.html, page last revised
+  24 February 2026) says that "Data users who create their own estimates using data from disseminated tables and other data should cite the Census Bureau as the source of the
+  original data only." The atlas publishes an estimate of its own made from this file, citing the Census Bureau as the source of the original data, and no row of the file; the pages
+  read state no copyright and no public domain. The figures derived from it are the atlas's and are not endorsed or certified by the Census Bureau. EIA's exports by destination (propane and butanes, public domain) give the volumes of the years before.
 - **Wikidata** (points of a few assets): CC0 1.0, no credit required.
 - **Australian Bureau of Statistics** (the article on Australian lithium exports cited on the lithium page): CC BY 4.0.
 - **U.S. Bureau of Labor Statistics**: the deep-sea freight producer price index (series PCU483111483111), public domain

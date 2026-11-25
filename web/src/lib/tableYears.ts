@@ -93,6 +93,7 @@ export function tableAt(base: Ranked, h: HistTable | undefined, yr: number | nul
     n,
     ...(other ? { other } : {}),
     ...(h.pub && h.pub[at] !== h.world[at] ? { worldPublished: h.pub[at] } : {}),
+    ...(base.shareOf ? { shareOf: base.shareOf } : {}), // the shares of a past year are of the same total as the latest table's
     ...(base.basis ? { basis: base.basis } : {}),
     ...(base.norank ? { norank: base.norank } : {}),
     ...(caveat ? { caveat } : {}),

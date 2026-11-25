@@ -581,7 +581,7 @@
   "name": "US Census Bureau, USA Trade Online: export detail file (EXDB), December 2024",
   "publisher": "U.S. Census Bureau, Foreign Trade Division",
   "url": "https://www.census.gov/foreign-trade/data/dataproducts.html",
-  "licence": "US Government data: the data-products page says that all international trade data products previously available by subscription are now available to the public at no cost; no copyright is claimed. Not endorsed or certified by the Census Bureau",
+  "licence": "U.S. Census Bureau Public-Use Statement (own estimates from the data, with the Census Bureau cited as the source of the original data). The statement, on \"Citing our Data, Tools, Technical Documents and Research\" (https://www.census.gov/about/policies/citation.html, page last revised 24 February 2026), reads: \"Data users who create their own estimates using data from disseminated tables and other data should cite the Census Bureau as the source of the original data only.\" and \"Conclusions drawn from any analysis of these data are the sole responsibility of the performing party.\" The data-products page says that all international trade data products previously available by subscription are now available to the public at no cost. No statement of copyright was found on the pages read (that page and \"Policies and Notices\"). The atlas publishes no row of the Census file, only an estimate of its own made from the data. Not endorsed or certified by the Census Bureau",
   "update": "monthly (the December file holds the calendar year)",
   "access": "EXDB2412.ZIP downloaded by hand; only the LPG codes are read, by pipeline/trade/us_lpg.py, into a small cache",
   "use": "Quantity and vessel shipping weight of United States LPG exports in 2024: the tonnage of the pair United States to Mexico and its share by sea"
@@ -604,7 +604,7 @@
   "licence": "CC BY 4.0 (Creative Commons Attribution 4.0, as the dataset page states); credit as the workbook's About sheet gives it: \"Source: Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development (NRMMRRD)\"; the sheet adds that the data may be revised and that derived conclusions and analysis are not attributable to the Department",
   "update": "quarterly (the workbook read: data through to 30 June 2026, current as at October 2026)",
   "access": "Workbook coal-sales-data-2010-2026.xlsx downloaded by hand (the site refuses scripted downloads); read by pipeline/trade/extract_metcoal.py into small tracked files in pipeline/cache, never by a scheduled job",
-  "use": "Metallurgical coal (hard coking, semi-soft coking and PCI) sold to export by Queensland producers, by first destination and by port, on the Metallurgical coal page"
+  "use": "Metallurgical coal (hard coking, semi-soft coking and PCI) sold to export by Queensland producers, by destination as the file gives it and by port, on the Metallurgical coal page"
  },
  {
   "id": "eia-coal",

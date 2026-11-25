@@ -1,7 +1,7 @@
 # Adding a customs group or a commodity page
 
-Written while the fertilisers were added (package NC1, audit M-022), corrected and extended with the grains and oilseeds (package NC2,
-audit M-023) and with the metal bulks (package NC3, audit A-010), and corrected after review by FNCA, FNCB, FNCC, FNCD, FNCE, FNCF and FNCG. A **customs group** is a set of HS 1992 codes of
+Written while the fertilisers were added (audit point M-022), corrected and extended with the grains and oilseeds (audit point
+M-023) and with the metal bulks (audit point A-010), and corrected after each review round of the sixth release. A **customs group** is a set of HS 1992 codes of
 `pipeline/trade/hs_map.py`; a **page** is a commodity of `data/commodities/index.json`. A group lives on one page (it may
 be the page's main table, a further pair of tables of it, or the page's lanes). Commands run from the repository root with
 `.venv/bin/python -I`; never run `npm install`, `vite build` or a formatter.
@@ -31,7 +31,7 @@ be the page's main table, a further pair of tables of it, or the page's lanes). 
   threshold, beside the output; copy it too: a page note says so when its tables hold under 97% of the file's total):
   `python pipeline/trade/extract_baci.py raw/baci/BACI_HS92_V202601.zip /tmp/new_flows.csv.gz 2002`; check that every
   earlier group is identical (`DataFrame.equals` on the rows of the old groups), then copy over `pipeline/cache/baci_flows.csv.gz`.
-- `clean.py` `HOMOGENEOUS` only for one product priced by the product tonne (else only the gross-error rule applies), and only if the pairs that declare their own price level do not carry more than a tenth of the tonnes that rule 4 adds or removes (list the rows that rule 4 re-estimates, and for each the other years of its pair that lie beyond the factor 3 on the same side: `test_fncd.py` D6 does it for the fourteen groups of the three packages; coke and sunflower oil failed it). A single bad row of a group outside the set goes in `ESTIMATE_ROWS` (empty since package FNCF); the exports of a country under a code for a product it cannot have made (Mozambique's coke: the EIA series of coke production gives it none, and its tonnes are probably coal declared as coke) go in `DROP`, which `clean()` lists in `LAST_DROPPED` and `QA.md`, and the page of the group says what was left out and that the rows are not counted. A group priced by kinds that lie
+- `clean.py` `HOMOGENEOUS` only for one product priced by the product tonne (else only the gross-error rule applies), and only if the pairs that declare their own price level do not carry more than a tenth of the tonnes that rule 4 adds or removes (list the rows that rule 4 re-estimates, and for each the other years of its pair that lie beyond the factor 3 on the same side: `test_fncd.py` D6 does it for the fourteen groups added with the fertilisers, the grains and the metal bulks; coke and sunflower oil failed it). A single bad row of a group outside the set goes in `ESTIMATE_ROWS` (empty since the sixth release); the exports of a country under a code for a product it cannot have made (Mozambique's coke: the EIA series of coke production gives it none, and its tonnes are probably coal declared as coke) go in `DROP`, which `clean()` lists in `LAST_DROPPED` and `QA.md`, and the page of the group says what was left out and that the rows are not counted. A group priced by kinds that lie
   ten times apart (sunflower seed: some French pairs at 11,000 to 14,000 USD/t, the group median at 1,300) goes in `UV_KEPT_GROUPS`: rules 3 and 4 leave the reported tonnage of a row whose
   unit value is above the group reference and flag it `uv-suspect-t`; below the reference rule 3 applies as everywhere. After the first cleaning run list the rows that rules 3 and 4 re-estimate to more than 50 kt and five times the pair's median of the other years (the test
   `test_fncb.py` B2 does it): decide each one, keep the reported tonnage through `KEEP_REPORTED` (one row, one reason) or say in the test why the estimate is right;
@@ -45,7 +45,7 @@ be the page's main table, a further pair of tables of it, or the page's lanes). 
 | File | Entry |
 |---|---|
 | `modes.py` | `FAMILY[group]` (the mode depends on borders and ports, not on the cargo: `grain` for dry food cargo, `vegoil` for the oils) |
-| `ports.py` | `SEGMENT[group]` (a group that sails in bulk must not be in segment `box`: `build_freight.py` compares every `box` group with PortWatch's container, general-cargo and ro-ro ships, so chromite is `ore` and coke `coal`, and scrap, pig iron and DRI are `box` for their ports (the general port of the country, as steel has: the `ore` fall-backs would send Turkey's scrap to Samsun on the Black Sea, the nearest seaport of a country with no ore row; a country whose general port is on one coast needs a row for the other coast, as Turkey's steel works have since FNCA, or the wrong-coast check of `build_lanes.py` leaves the flows from that coast unrouted) with `DRY_BOX` of `build_freight.py` keeping them in the dry-bulk comparison; the ferro-alloys, which are general cargo, are `box` too; all are in `BOX_GENERAL` so that their basis reads "general port of the country". Read the ports of the biggest lanes of a new group before you accept its segment); add the group to `OWN_FAMILY` when the cargo is not served by the berths that the fertiliser, grain or other rows name (liquids, sulphur): only a row that names the group counts, the fall-backs and their basis do the rest; a fertiliser group of `OWN_FAMILY` that sails from the same exporters as the other fertilisers goes in `LEGACY_OWN_FAMILY` too, so that the port used before for fertiliser (Jubail for Saudi Arabia) comes ahead of the general port of the country (Jeddah); a group that takes the rows of another group of its family (the sunflower and rapeseed oils take the rows of palm and soybean oil) goes in `GENERAL_BASIS`, so that its ports read "general port of the country". Add no port. |
+| `ports.py` | `SEGMENT[group]` (a group that sails in bulk must not be in segment `box`: `build_freight.py` compares every `box` group with PortWatch's container, general-cargo and ro-ro ships, so chromite is `ore` and coke `coal`, and scrap, pig iron and DRI are `box` for their ports (the general port of the country, as steel has: the `ore` fall-backs would send Turkey's scrap to Samsun on the Black Sea, the nearest seaport of a country with no ore row; a country whose general port is on one coast needs a row for the other coast, as Turkey's steel works have, or the wrong-coast check of `build_lanes.py` leaves the flows from that coast unrouted) with `DRY_BOX` of `build_freight.py` keeping them in the dry-bulk comparison; the ferro-alloys, which are general cargo, are `box` too; all are in `BOX_GENERAL` so that their basis reads "general port of the country". Read the ports of the biggest lanes of a new group before you accept its segment); add the group to `OWN_FAMILY` when the cargo is not served by the berths that the fertiliser, grain or other rows name (liquids, sulphur): only a row that names the group counts, the fall-backs and their basis do the rest; a fertiliser group of `OWN_FAMILY` that sails from the same exporters as the other fertilisers goes in `LEGACY_OWN_FAMILY` too, so that the port used before for fertiliser (Jubail for Saudi Arabia) comes ahead of the general port of the country (Jeddah); a group that takes the rows of another group of its family (the sunflower and rapeseed oils take the rows of palm and soybean oil) goes in `GENERAL_BASIS`, so that its ports read "general port of the country". Add no port. |
 | `vessel_rules.py` | `classes()`: a group not dry bulk needs its own branch (comment the reason; METHODOLOGY section 4); a group that falls in an existing family joins that branch's tuple (the grains and oilseeds, the vegetable oils) |
 | `vessel_classes.json` | `cargoes` of the classes the rule names (page ids), `cargoLabels` where only one group of a page sails in the class (the chip then names the product, "Ammonia" on a gas carrier, and still opens the page), and a sentence in `notes` of a class used in a new way (keep the file's own layout: `json.dumps(indent=1, ensure_ascii=False)` rewrites it byte for byte) |
 | `build_lanes.py` | `GROUPS`, `COMMODITY` (group to page id, when different), `LABEL`, `CAP`, `FLOOR` |
@@ -72,7 +72,7 @@ Run in order: `build_lanes.py`, `build_freight.py`, `infrastructure/port_limits.
 - `build_commodities.py`: `TRADE` (page to main group), `INDEX_SUB`, `BASIS` (what each table measures, printed in titles),
   `USGS` or `PSD` for production (read the unit and measure of the file; say them in the title; `PSD_WHAT` names the crop in the
   table notes), `EXTRA_GROUPS` for extra groups (keys `<stem>-exports` / `<stem>-imports`, the only form that the page, the history and
-  the country pages read; it was `FERT_EXTRA` in package NC1), `PSD_EXTRA` for the USDA production and use of the oil and the meal of a
+  the country pages read; it was `FERT_EXTRA` when only the fertilisers used it), `PSD_EXTRA` for the USDA production and use of the oil and the meal of a
   seed page (keys `<stem>-production` / `<stem>-consumption`: the page lists them under production and consumption, the country pages draw
   a line from each), a branch of the chain in `main()` for a new page (trade only: copy `npk` or `pulses`; a PSD crop needs only its
   `TRADE`, `PSD` and `PSD_WHAT` entries), notes with the codes left out, `see.append({"k": page,
@@ -85,7 +85,7 @@ Run in order: `build_lanes.py`, `build_freight.py`, `infrastructure/port_limits.
   itself. Prices only from the World Bank file (`build_prices.py` `PINK` with its `PINK_DESC`
   row, `NO_PAGE`, `ADDED`; `PINK_LEFT_OUT` lists the columns the atlas leaves out) and from the USGS file on disk: look first in the price rows of
   `raw/usgs/MCS*_Commodities_Data.csv` (`USGS_PRICES` of `build_prices.py`: one entry for each annual series, with the file's own wording of the statistic, a name that says
-  what the file says it is, `OPENS_ON` when a page has several) before you write "no free price series" on a page (FNCC found five pages whose notes said none while the file
+  what the file says it is, `OPENS_ON` when a page has several) before you write "no free price series" on a page (a review found five pages whose notes said none while the file
   had a price). `PRICE_COVERAGE_NOTE` in `web/src/lib/prices.ts` says which
   products of a page have a series (the ferro-alloys page has ferro-chromium and 75% ferrosilicon and no series for the other alloys; the sulphur page has the USGS price of elemental
   sulphur; the urea page has the Pink Sheet's urea and the USGS price of ammonia, in the file's unit, US dollars per short ton). A USGS row names its unit and its basis in its own words: copy them, and where the
@@ -119,7 +119,7 @@ Run in order: `build_lanes.py`, `build_freight.py`, `infrastructure/port_limits.
 (`COMMODITY_ALIASES`: the trade names a page is found by: "DDGS", "lentils", "canola", "HMS", "HBI"; no alias holds a word that is the beginning of a code another page is found by: "dried" would answer "DRI"), `lib/prices.ts` (coverage note), and
 `PriceFigure.tsx` (a closed series). Colour and dot come from the
 family; the list takes the entry from the index, under its `sub`. No count of commodities is written by hand in the About
-window, README or METHODOLOGY (checked in package NC1). `npx tsc --noEmit` from `web/`.
+window, README or METHODOLOGY (checked when the fertilisers were added). `npx tsc --noEmit` from `web/`.
 
 ## 5. Tests, documentation
 - A test file for the package (`test_fertilisers.py`, `test_grains.py`): codes, one home per code, the page's world total against the
@@ -134,8 +134,8 @@ window, README or METHODOLOGY (checked in package NC1). `npx tsc --noEmit` from 
   `typeNotes` is the note of a ship type), 7 (prices: a series attached, a unit, a note), 10 (what the group holds, basis,
   limits). Every number a sentence gives about the groups, the lanes, the routes, the pairs and the estimated rows is read from the files by a test (`test_fncg.py` G9, `test_release_gr4d.py`). DATA_SOURCES.md and NOTICE.md lists are written by `common/sources_table.py` and `common/notice_lists.py`.
 
-Tests of the whole atlas that a new group moves (NC3 found them all): `test_shares.py` (`CARGO` and `TANKER` sets: the vessel type of a group), `test_final_fixes.py` (the
-number of chokepoint estimates), `test_history.py` (size of the series by year, 3.9 MB since FNCB, and the number of tables with an out-of-line year), `test_modes.py` M10,
+Tests of the whole atlas that a new group moves (the metal bulks moved them all): `test_shares.py` (`CARGO` and `TANKER` sets: the vessel type of a group), `test_final_fixes.py` (the
+number of chokepoint estimates), `test_history.py` (size of the series by year, 3.9 MB since the sixth release, and the number of tables with an out-of-line year), `test_modes.py` M10,
 `test_lanes.py` (P01, P05, S08 and the `FLOOR` mirror), `test_release_gr4d.py` (METHODOLOGY: the groups and Mt of "2024 by mode" and "Generated corridors"; the count of pairs
 files in `build_port_index.py`), `test_release_gr4s.py` (the words a visitor reads: no "USGS file", "builder", "cache" in a page text), `test_metal_flows.py` (`group_of`
 of a ferro-alloy code), and `test_grains.py` / `test_fertilisers.py` (the cache holds the groups before and the new ones: a later package adds groups; the number of
@@ -152,7 +152,7 @@ After any builder: `git checkout -- data/_status`. Look at `git status --short d
 Browser: `cd web && npx vite --port <port> --strictPort`; open each new page at 1440 and 390 px, the country pages that gain
 lines, the search, the price drawer; no "undefined", "NaN", empty block or console error.
 
-## 7. What the review rounds after the first three packages added (FNCD to FNCG)
+## 7. What the review rounds of the sixth release added
 A new group meets these, in the order of the files above:
 - **Caveats** (`pipeline/trade/caveats.py`, `data/freight/caveats.json`, 35 entries): the kinds are `mirror`, `unrecorded`, `break`, `hub`, `landlocked-centre`, `above-production`,
   `declaration`, `origin-unchecked`, `destination`, `fall` and `no-production`. The entries of `REGISTRY` are written by hand with their text; `landlocked-centre` (a large flow
@@ -196,7 +196,7 @@ cross-check in an extra table that the country profiles leave out (`build_profil
 - A product whose first customs group has most of its tonnage in a mixed code (scrap: HS 720449 holds three quarters of heading 7204) is shown as the whole code; say it in
   the notes instead of splitting it with a six-digit table the page cannot support for every year.
 - Raising a size budget (`web/scripts/check-size.mjs`, the 3.9 MB of the series by year in `validate-data.mjs`) is part of the package: measure the data folder in bytes after your rebuild
-  (the budget sums file sizes, `du -sk` counts blocks) and set each budget to that measure plus a fifth of the total, not of the increase (FNCB found the NC3 budgets
+  (the budget sums file sizes, `du -sk` counts blocks) and set each budget to that measure plus a fifth of the total, not of the increase (a review found that the budgets set with the metal bulks
   left 3 to 5% of room), rounded, with the measure in the comment.
 - Wikipedia refuses the research client with a 429: write the class of a lane as an Atlas assumption, say no page was read. It answers again after a minute or two: one page at a time, slowly, and the API (`api.php`) stays refused, so read the pages themselves; the French pages (`fr.wikipedia.org`, CC BY-SA 4.0) are accepted as rows where the English one does not exist (Rouen, La Rochelle, Nantes-Saint-Nazaire).
 - A country with two coasts needs a coast rule (`COAST_RULES` of `gateways/coasts.py`, kind `basin`: Canada, France, Turkey) and a row of its general-cargo ports on each coast, or every lane of the country loads or discharges at the first row (France: Fos for NW Europe, Turkey: Mersin for the Black Sea). A rule limited to some segments or groups leaves the others on the first row.

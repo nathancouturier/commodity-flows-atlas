@@ -153,7 +153,8 @@ export function RouteFinder() {
   // the first field: every country with a recorded flow on that side (an origin that customs data do not record, but that carries a caveat, too)
   const leads = useMemo(() => {
     const sum = new Map<string, number>();
-    for (const p of pairs) sum.set(leadOf(p), (sum.get(leadOf(p)) ?? 0) + p.kt);
+    // a pair whose part by another mode is read apart (the United States to Mexico: the part by sea is the pair's row) counts in all modes, as the exporters table does
+    for (const p of pairs) sum.set(leadOf(p), (sum.get(leadOf(p)) ?? 0) + p.kt + p.restKt);
     const list = [...sum].filter(([, v]) => v >= MIN_KT).sort((a, b) => b[1] - a[1]);
     if (from === 'o' && caveats) {
       const gs = groupsOf(k);
@@ -163,6 +164,13 @@ export function RouteFinder() {
     if (lead && !list.some(([c]) => c === lead)) list.push([lead, sum.get(lead) ?? 0]);
     return list;
   }, [pairs, from, caveats, lead, k]);
+
+  // what each country's total holds of such a part (said in the list, so that the total is the exporters table's)
+  const overland = useMemo(() => {
+    const m = new Map<string, number>();
+    for (const p of pairs) if (p.restKt > 0) m.set(leadOf(p), (m.get(leadOf(p)) ?? 0) + p.restKt);
+    return m;
+  }, [pairs, from]);
 
   // the second field: every country with a flow with the first, largest first, one entry per customs group
   const counterparts = useMemo(() => (lead ? pairs.filter((p) => leadOf(p) === lead) : []), [pairs, lead, from]);
@@ -334,6 +342,7 @@ export function RouteFinder() {
           {leads.map(([c, v]) => (
             <option value={c}>
               {countryName(c)} · {v > 0 ? tonnage(v, false, gs.every((g) => SMALL_GROUPS.has(g)) ? gs[0] : undefined) : 'no recorded tonnage'}
+              {overland.has(c) ? ` (all modes: ${tonnage(overland.get(c)!, false, gs.every((g) => SMALL_GROUPS.has(g)) ? gs[0] : undefined)} of it read as overland)` : ''}
             </option>
           ))}
         </select>
@@ -515,7 +524,7 @@ function Answer({
         </div>
       )}
       <dl class="rf-stats">
-        <div>
+        <div class={pair.restKt > 0 ? 'rf-stat-note' : undefined}>
           <dt>
             {kind === 'mixed' ? 'Flow, all modes' : pair.restKt > 0 ? 'Flow, by sea' : 'Flow'}
             {est && <em class="rf-est">Atlas estimate</em>}
