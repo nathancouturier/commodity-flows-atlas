@@ -120,6 +120,10 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   downloads; a second run of every builder changes no file; the checks of GitHub reproduced on a fresh clone;
   five browser suites on the production build; LIVE-TO-WRITE targeted checks, in which every figure of the block is
   recounted from the files.
+- Every page of the eighth release read again in a browser and compared with the candidate, 1,398 pages: 1,201
+  are identical; 34 (four commodity pages and thirty events) differ only by the new credit of the EIA's daily
+  prices; the 163 port pages that have a series differ only by the block added, in one piece, and no port
+  without a series and no other asset shows it.
 - Four reviewers read a frozen copy of the candidate before anything was published: 31 findings, 11 of them
   important, none on a figure of the data files (two minor ones were on how the readout of the port chart
   printed a zero and a week without data). The weekly step: the texts said 23 or 24 requests in a normal
