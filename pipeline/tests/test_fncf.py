@@ -59,15 +59,15 @@ def digest(obj):
     return hashlib.sha256(json.dumps(obj, sort_keys=True, separators=(",", ":")).encode()).hexdigest()
 
 
-def decoded_rows(doc, skip=("FRA",)):
-    """The rows of a pairs file with ports, classes and passages by name, the pairs that touch `skip` left out, sorted. The caveat bit of the
+def decoded_rows(doc, skip=("FRA",), skip_pairs=frozenset()):
+    """The rows of a pairs file with ports, classes and passages by name, the pairs that touch `skip` and the pairs (o, d) of `skip_pairs` left out, sorted. The caveat bit of the
     flags (a note on the pair), the bit of a row added from the importer's declaration and the bit of an estimate made from a volume are not a change
     of its port, class, distance or passages."""
     ports, classes, gates = doc["ports"], doc.get("classes") or [], doc.get("gates") or []
     ix = {c: i for i, c in enumerate(doc["cols"])}
     out = []
     for r in doc["rows"]:
-        if r[ix["o"]] in skip or r[ix["d"]] in skip:
+        if r[ix["o"]] in skip or r[ix["d"]] in skip or (r[ix["o"]], r[ix["d"]]) in skip_pairs:
             continue
         row = []
         for c, v in zip(doc["cols"], r):
@@ -359,7 +359,8 @@ class F5ReleasedRoutes(unittest.TestCase):
         ids = GR.released_routes()
         self.assertGreater(len(ids), 100)
         now = {r["id"] for r in load(DATA, "freight", "routes.json")}
-        self.assertEqual(sorted(ids - now), [])
+        ENDED_SINCE_RELEASE = {}  # {route id: why its corridor no longer exists}: written here when a build ends a route of the last release
+        self.assertEqual(sorted(ids - now - set(ENDED_SINCE_RELEASE)), [])
 
     def test_the_cap_order_is_the_same_below_the_cap(self):
         """The first corridors of the groups are kept first and the others by their tonnes: a larger cap only adds the next ones."""
@@ -393,7 +394,9 @@ class F5ReleasedRoutes(unittest.TestCase):
         fixture = load(FIXTURES, "released_pairs_digest.json")
         self.assertEqual(len(fixture), 42)
         for g, h in fixture.items():
-            self.assertEqual(digest(decoded_rows(load(DATA, "freight", "pairs", g + ".json"))), h, g)
+            # the one pair that moved on purpose: United States to Mexico LPG, whose tonnage is the part by sea since the corrected figure
+            skip_pairs = frozenset({("USA", "MEX")}) if g == "lpg" else frozenset()
+            self.assertEqual(digest(decoded_rows(load(DATA, "freight", "pairs", g + ".json"), skip_pairs=skip_pairs)), h, g)
 
     def test_methodology_no_longer_says_that_no_earlier_route_moved(self):
         text = " ".join(read("METHODOLOGY.md").split())

@@ -163,24 +163,53 @@ updated, and the issue closes. Not watched, because there is no fixed page to wa
 fiscal-year results (a new press release each year, after the fiscal year ends on 30 September) and the Baltic
 Exchange route changes (circulars). Look for them each autumn.
 
+### At each release: the routes and lanes that stay
+
+A generated route and a main lane of the last release are never put out by a cap: they stay while their corridor or their pair still exists in the
+data (`pipeline/freight/generated_routes.py`, `pipeline/freight/build_lanes.py`; METHODOLOGY, section 3). The builders read the ids of what the last release
+published from `pipeline/freight/released_ids.json`, which a release writes from the files it publishes. At each release, once the site is published (or on the
+commit that is published), from the repository root:
+
+```bash
+.venv/bin/python -I pipeline/freight/release_ids.py                  # from data/freight/routes.json and data/freight/lanes/*.json as they are
+.venv/bin/python -I pipeline/freight/release_ids.py --ref <commit>   # or from the files of a commit
+git add pipeline/freight/released_ids.json
+```
+
+Run it on the files that are published, not on a rebuild that is not: the file is what the next rebuild keeps. A route or a lane whose corridor or pair has left the data
+since the last release leaves the atlas: `pipeline/freight/QA_routes.md` lists the routes that ended, and the two tests that hold the lists
+(`test_fncf.py`, `test_lanes.py` S07b) fail until each one is written in their `ENDED_SINCE_RELEASE` table with its reason.
+
 ### Metallurgical coal by pair of countries (by hand, when the Queensland file or EIA's coal file is newer)
 
 The Main flows block of the Metallurgical coal page reads `pipeline/cache/metcoal_pairs.csv`, `metcoal_ports.csv` and
 `metcoal_meta.json`, which no scheduled job refreshes and no staleness entry watches. The page refuses to be built for a
 customs year that the cache does not hold (`pipeline/trade/metcoal.py` raises), so a new BACI year stops the commodity
-build until the cache is renewed. From the repository root, with `raw/` on disk:
+build until the cache is renewed. The page prints the dates of the two files; they come from the meta file, so that the page never prints a date the
+files do not have. From the repository root, with `raw/` on disk:
 
-1. Queensland: download the workbook "Quarterly Coal Sales" of the dataset "Quarterly coal reports"
+1. **Queensland.** Download the workbook "Quarterly Coal Sales" of the dataset "Quarterly coal reports"
    (<https://www.data.qld.gov.au/dataset/quarterly-coal-reports>) in a browser (the site refuses scripts) and put it in
    `raw/australia/queensland-sales/coal-sales-data-2010-2026.xlsx` (the extractor reads that name: change `RAW_QLD` in
-   `pipeline/trade/extract_metcoal.py` when the file is renamed).
-2. United States: download <https://www.eia.gov/opendata/bulk/COAL.zip> into `raw/eia/coal/COAL.zip` (the `Last-Modified`
-   date of the file is the `file_date` of the meta file: write it in `EIA_FILE_DATE` of `extract_metcoal.py`). Read the site's robots file
-   first; one request, no more.
-3. `.venv/bin/python -I pipeline/trade/extract_metcoal.py`, then `pipeline/commodities/build_commodities.py` and the
-   tests. The extractor stops when a destination is not a country of the atlas, when Queensland's country and port sheets
-   differ by a tonne in 2022 or later, when EIA's destinations or districts do not add to its world row within 0.5%,
-   or when a 2024 figure it quotes changes. With a file missing it leaves that source's rows as they are.
+   `pipeline/trade/extract_metcoal.py` when the file is renamed). The extractor reads the dates, the credit line and the disclaimer
+   from the workbook's About sheet; nothing is typed.
+2. **United States.** Download <https://www.eia.gov/opendata/bulk/COAL.zip> into `raw/eia/coal/COAL.zip`. Read the site's robots file
+   first; one request, no more. The zip holds no date: write the `Last-Modified` date of the file in `EIA_FILE_DATE` of
+   `pipeline/trade/extract_metcoal.py` (the one constant a person must change at each download).
+3. **Extract.** `.venv/bin/python -I pipeline/trade/extract_metcoal.py`. It stops when a destination is not a country of the atlas, when Queensland's
+   country and port sheets differ by a tonne in 2022 or later, when EIA's destinations or districts do not add to its world row within 0.5%,
+   or when a 2024 total is more than 2% from the one the page notes were written for (`GUARD_2024` in the same file). Queensland says that its data may be
+   revised and EIA that the latest year is preliminary, so a smaller difference is not a stop: it is printed and written to the meta file
+   (`guard_2024`). A stop beyond 2% is more likely a changed definition (a coal type or a rank that moved in the file) than a revision: the message says what to look at; if the new
+   figure is right, change `GUARD_2024` and say why in the commit. With a file missing, the extractor leaves that source's rows as they are.
+4. **Typed dates.** Two places quote the dates and are not built: the paragraphs of `NOTICE.md` on the Queensland Government and on the EIA coal exports
+   ("Data through to ..." and "Current as at ...", "file dated ...") and the last sentence of the metallurgical coal paragraph of METHODOLOGY.md, section 10. Write the new
+   dates there; `test_metcoal.py` (`test_no_page_prints_a_date_the_files_do_not_have`) fails while any of them differs from the meta file. The registry's
+   `update` text of the two sources is built from the meta file by `build_commodities.py`.
+5. **Rebuild and check.** `.venv/bin/python -I pipeline/commodities/build_commodities.py`, then `pipeline/common/sources_table.py` and
+   `pipeline/common/notice_lists.py` (they rewrite `DATA_SOURCES.md` and the lists of `NOTICE.md`), `node web/scripts/validate-data.mjs`, and the unit suite.
+   The figures that METHODOLOGY quotes for the page (the totals, the 31 and 32 rows, the coverage against EIA International) are those of the notes
+   the builder wrote: compare them and write the new ones.
 
 ## A site that refuses the downloader
 

@@ -313,6 +313,15 @@ class Page(unittest.TestCase):
             if m:
                 self.assertEqual(int(m.group(1)), len(ln), name)
             self.assertTrue(m or flows, f"{name}: the note names a place")
+        # METHODOLOGY says the same of the four, in words: Mongolia and Russia have a Main flows row on the Thermal coal page, Canada and Mozambique the lanes only
+        method = " ".join(read("METHODOLOGY.md").split())
+        sentence = method[method.index("no list of metallurgical coal holds their coal by pair"):][:900]
+        for name in ("Mongolia", "Russia", "Canada", "Mozambique"):
+            self.assertIn(name, sentence)
+        self.assertEqual({f["o"] for f in th["flows"]} & {"MNG", "RUS"}, {"MNG", "RUS"})
+        self.assertFalse({f["o"] for f in th["flows"]} & {"CAN", "MOZ"})
+        self.assertTrue({x["o"] for x in lanes} >= {"RUS", "CAN", "MOZ"})
+        self.assertIn("Canada and Mozambique have no Main flows row", sentence)
         # the two pages whose lane table the note names: the Seaborne lanes of both read the coal file
         freight = read("web", "src", "lib", "freight.ts")
         self.assertRegex(freight, r"'thermal-coal': \['coal'\]")
@@ -474,6 +483,24 @@ class Registry(unittest.TestCase):
         self.assertIn("metcoal_pairs.csv", n)
         self.assertIn("Source: U.S. Energy Information Administration", n)
         self.assertIn("COAL.zip", n)
+
+
+    def test_no_page_prints_a_date_the_files_do_not_have(self):
+        """The dates of the two files are in the meta file (written by the extractor from the workbook's About sheet and from EIA_FILE_DATE). The registry's
+        update texts are built from it; NOTICE.md and METHODOLOGY quote them: a refresh that forgets one of them fails here."""
+        mq, me = metcoal.meta(QLD), metcoal.meta(EIA)
+        src = {s["id"]: s for s in load("sources.json")}
+        self.assertIn(mq["data_through"][0].lower() + mq["data_through"][1:], src[QLD]["update"])
+        self.assertIn(mq["current_as_at"][0].lower() + mq["current_as_at"][1:], src[QLD]["update"])
+        d, m, y = (int(x) for x in me["file_date"].split("-")[::-1])
+        eia_date = f"{d} {B.MONTHS[m - 1]} {y}"
+        self.assertIn(eia_date, src[EIA]["update"])
+        notice, method = " ".join(read("NOTICE.md").split()), " ".join(read("METHODOLOGY.md").split())
+        for text in (notice, method):
+            self.assertIn(f'"{mq["data_through"]}" and "{mq["current_as_at"]}"', text)
+        self.assertIn(f"file dated {eia_date}", notice)
+        self.assertEqual(X.EIA_FILE_DATE, me["file_date"], "the constant of the extractor is what the meta file holds")
+        self.assertIn(eia_date, " ".join(page()["notes"]))
 
 
 class NotAPartOfCustomsCoal(unittest.TestCase):

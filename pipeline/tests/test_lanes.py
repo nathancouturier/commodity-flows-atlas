@@ -179,13 +179,13 @@ class Selection(unittest.TestCase):
         """B3: a released main lane stays in the main set while its pair is a routed seaborne pair at or above the floor, whatever the cap (the pair
         that moved from the mixed lanes to the sea lanes had pushed lpg:QAT-PHL out of the 80 of the LPG cap)."""
         import build_lanes as BL
-        ENDED = {}  # {lane id: why its pair no longer qualifies}
+        ENDED_SINCE_RELEASE = {}  # {lane id: why its pair no longer qualifies}
         n = 0
         for g in groups():
             ids = {ln["id"] for ln in main_lanes(g)}
             for od in BL.released_main_lanes(g):
                 n += 1
-                if f"{g}:{od}" not in ENDED:
+                if f"{g}:{od}" not in ENDED_SINCE_RELEASE:
                     self.assertIn(f"{g}:{od}", ids, f"{g}:{od}")
         self.assertGreater(n, 3000)
         self.assertIn("lpg:QAT-PHL", {ln["id"] for ln in main_lanes("lpg")})

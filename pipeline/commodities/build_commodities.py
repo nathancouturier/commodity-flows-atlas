@@ -3195,14 +3195,14 @@ def update_sources():
         {"id": "qld-coal-sales", "name": "Quarterly coal reports: Quarterly Coal Sales (Queensland coal exports by destination, by port and by coal type)",
          "publisher": "Queensland Government, Department of Natural Resources and Mines, Manufacturing and Regional and Rural Development",
          "url": "https://www.data.qld.gov.au/dataset/quarterly-coal-reports", "licence": QLD_COAL_LICENCE,
-         "update": "quarterly (the workbook read: data through to 30 June 2026, current as at October 2026)",
+         "update": f"quarterly (the workbook read: {_lc(metcoal.meta('qld-coal-sales')['data_through'])}, {_lc(metcoal.meta('qld-coal-sales')['current_as_at'])})",
          "access": "Workbook coal-sales-data-2010-2026.xlsx downloaded by hand (the site refuses scripted downloads); read by pipeline/trade/extract_metcoal.py into small "
                    "tracked files in pipeline/cache, never by a scheduled job",
          "use": "Metallurgical coal (hard coking, semi-soft coking and PCI) sold to export by Queensland producers, by first destination and by port, on the Metallurgical coal page"},
         {"id": "eia-coal", "name": "EIA Coal data: U.S. coal exports by rank, destination and customs district (bulk file COAL.zip)",
          "publisher": "U.S. Energy Information Administration",
          "url": "https://www.eia.gov/opendata/bulk/COAL.zip", "licence": "Public domain (US Government); acknowledgment: \"Source: U.S. Energy Information Administration\"",
-         "update": "quarterly and annual (the file read is dated 1 October 2026)",
+         "update": f"quarterly and annual (the file read is dated {_iso_date(metcoal.meta('eia-coal')['file_date'])})",
          "access": "Bulk file COAL.zip downloaded by hand, series COAL.EXPORT_QTY read by pipeline/trade/extract_metcoal.py into small tracked files in pipeline/cache, "
                    "never by a scheduled job",
          "use": "Exports of metallurgical coal of the United States by destination and customs district, on the Metallurgical coal page"},
@@ -3479,6 +3479,11 @@ MET_TYPE_NAME = {"hard-coking": "hard coking", "semi-soft": "semi-soft coking", 
 MET_SOURCE_LABEL = {"qld-coal-sales": "Queensland", "eia-coal": "the United States"}
 MET_LAKE_DISTRICTS = ("Cleveland, OH", "Detroit, MI")  # customs districts of the EIA file that are ports of the Great Lakes
 MET_INTL_MIN_MT = 5  # a producing exporter of this page's EIA table, at least this many Mt in the year, with no source by destination: named in the note
+
+
+def _lc(s):
+    """The words of the workbook's About sheet inside a sentence: "Data through to 30 June 2026" -> "data through to 30 June 2026"."""
+    return s[:1].lower() + s[1:]
 
 
 def _iso_date(s):

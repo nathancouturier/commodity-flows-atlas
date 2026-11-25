@@ -61,18 +61,25 @@ is called one where it is shown. The figures below are those of the build from C
      (292 t for USD 112 million) was an 87 kt estimate, a main flow and a lane of the headline year. `KEEP_REPORTED` is the one table
      of the rows of the new groups that rules 3 and 4 would re-estimate to more than 50 kt and five times the pair's own median of the other
      years (23 rows in all years: 19 kept as reported, the 18 of the table and France → Russia sunflower seed, and 4 re-estimated, each
-     for the reason written in `test_fncb.py`), each kept row with its reason beside it.
+     for the reason written in `test_fncb.py`, which lists the rows one by one and fails when a row that the two rules would re-estimate is
+     missing from the list), each kept row with its reason beside it.
   4. **Moderate inconsistencies** (unit value below 1/3 or above 3× the reference, flows over USD 50
-     million) are re-estimated only for homogeneous goods (crude, products, LNG, LPG, grains,
-     oilseeds, vegetable oils, softs, fertilisers). Ore and concentrate groups keep the reported
-     tonnage, because their grades range from about USD 40/t (laterite nickel ore) to over
-     USD 2,000/t (sulphide concentrate). A group added in the sixth release stays in the set only
-     if the pairs that declare their own price level do not carry more than a tenth of the tonnes that rule 4 adds
-     or removes over all years (a re-estimated row whose pair declares, in at least three other years, a unit value
-     beyond the same factor 3 on the same side: the estimate would erase the pair's own level); coke and sunflower
-     oil are out for that reason (below, section on the new groups). A row of `ESTIMATE_ROWS`
-     is treated as rule 4 treats a homogeneous group, whatever its group; the table is empty since the sixth release (it held one row in the fifth, Mozambique → India 2016 in
-     coke, which rule 5 now drops with the rest of Mozambique's coke).
+     million) are re-estimated only for the homogeneous goods listed in `HOMOGENEOUS` (`clean.py`): crude oil, refined products,
+     LNG, LPG, wheat, corn, soybeans, soybean meal and oil, rice, sugar, palm oil, rapeseed, coffee, cocoa, cotton, urea, potash
+     and DAP, and, of the groups added in the sixth release, the fertilisers and the grains that are one product each (potassium
+     sulphate, monoammonium phosphate, superphosphates, ammonia, ammonium nitrate, UAN, ammonium sulphate, barley, sorghum, rapeseed
+     oil, rapeseed meal and sunflower meal). Ore and concentrate groups, and every group of the metal bulks (ferrous scrap,
+     chromium ore, pig iron, direct-reduced iron, coke and the ferro-alloys), keep the reported tonnage, because their grades range
+     from about USD 40/t (laterite nickel ore) to over USD 2,000/t (sulphide concentrate). Among the other groups added in the sixth
+     release, NPK, phosphoric acid, sulphur, ammonium nitrate with limestone, the two-nutrient compounds, sunflower seed, sunflower
+     oil and pulses are not in the set either (a mix of grades, a price by the tonne of acid or of P2O5, crude and sublimed sulphur,
+     seed of different uses; where the code gives a reason it is in the comments of `HOMOGENEOUS`). Two of the one-product groups that would otherwise
+     qualify, coke and sunflower oil, are out for a reason of their own: the pairs that declare their own price level carry more
+     than a tenth of the tonnes that rule 4 would add or remove over all years (a re-estimated row whose pair declares, in at least
+     three other years, a unit value beyond the same factor 3 on the same side: the estimate would erase the pair's own level; below,
+     section on the new groups). A row of `ESTIMATE_ROWS` is treated as rule 4 treats a homogeneous group, whatever its group; the
+     table is empty since the sixth release (it held one row in the fifth, Mozambique → India 2016 in coke, which rule 5 now drops
+     with the rest of Mozambique's coke).
   5. **Known misclassifications** are dropped (`DROP`, listed in `pipeline/commodities/QA.md`). Examples: Israeli pipeline gas to Egypt and Jordan
      declared as LNG (Israel has no liquefaction plant), and all of Mozambique's exports under the coke code, in every year and to every destination
      (since the sixth release): the EIA series of coke production (International Energy Data, series 21-1, the one that check K14 reads) gives Mozambique zero in every
@@ -306,7 +313,7 @@ seaborne totals, the lane shares and the chokepoint shares.
    Russia → China 236.2 Mt, the United States → Mexico 57.1 Mt, Mexico → the United States 10.9 Mt,
    France → Spain 2.7 Mt, China → Russia 2.6 Mt, Spain → France 0.2 Mt; by group, crude oil 108.5 Mt,
    coal 95.1 Mt, refined products 55.4 Mt, LPG 9.8 Mt, corn 9.1 Mt, iron ore 9.1 Mt. With the minor
-   metals, the mixed pairs hold 310.2 Mt on 63 pairs in 2024. Since the seventh release the 2024 LPG pair United States → Mexico is no longer mixed: its 9.33 Mt reported are 5.28 Mt,
+   metals, the mixed pairs hold 310.2 Mt on 63 pairs in 2024. Since November 2026 the 2024 LPG pair United States → Mexico is no longer mixed: its 9.33 Mt reported are 5.28 Mt,
    of which 3.81 Mt by sea and 1.47 Mt overland (`KNOWN_SPLIT`, below). Belarus → China potash is not a mixed
    pair: it is a seaborne pair, because the pages bound the rail share: Kommersant, reported by Reform.news
    in March 2026, gives 9% of the 11.6 Mt Belarus exported through Russia in 2025 as rail to China and
@@ -369,9 +376,9 @@ URL, returned with the mode; an entry without a URL is an unsourced assumption. 
   the history chart's notes do (`histVolume`) and as the source line under it, which names the Census Bureau and EIA for the years of the estimate (`histSrc`). The rest is read as overland; the file does not say which mode carried it.
   The pairs file keeps one row for the pair, the part by sea, and lists the overland part (`rest`), which the country pages count as land. The sea part raises the 2024
   seaborne LPG total from 125.8 to 129.6 Mt: the corridor shares of the LPG routes and the shares of the 13 LPG passage estimates fall by 0.1 to 1.0 points (Panama
-  33.1% to 32.1%, Malacca 15.2% to 14.8%) with the tonnages unchanged, one more generated LPG corridor (Mediterranean) is needed to reach the target share of the
-  total, the cap of 122 generated routes then takes the last route of the list, `gen-sugar-sea-sea`, and the smallest main LPG lane (Qatar → Philippines) leaves the
-  main set under its cap.
+  33.1% to 32.1%, Malacca 15.2% to 14.8%) with the tonnages unchanged. The one more generated LPG corridor (Mediterranean) that the larger total would need to reach the target share is not generated: the caps are
+  full of routes of the last release, which stay (`gen-sugar-sea-sea` is one of them), and the smallest main LPG lane (Qatar → Philippines) stays in the main set: a published
+  route or lane is never put out by a cap (section 3, "Lane selection" and "Generated corridors").
 - Overland blocs (`BLOCS`): Europe (with Russia, Belarus, Ukraine, Moldova and Turkey), the
   1520 mm broad-gauge rail network (the former Soviet Union, Finland, Mongolia, and Poland as an
   assumption), Southern, East and West Africa, South America, South Asia, mainland Southeast Asia,
@@ -461,7 +468,11 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
     lithium carbonate and hydroxide, 0.002 Mt for tin concentrate, cobalt and rare earths and 0.001 Mt
     for unwrought tin, which trade in parcels of a few thousand tonnes). The caps run from 20
     lanes (nickel ore, spodumene concentrate, tin concentrate, cobalt) to 150 (refined products,
-    steel); they are in `CAP`. A group under 1 Mt of seaborne trade a year (unwrought tin, tin concentrate,
+    steel); they are in `CAP`. A main lane of the last release stays in the main set while its pair is still a routed seaborne
+    pair at or above the floor, whatever the cap: the ids of the main lanes of the last release are in `pipeline/freight/released_ids.json`
+    (written at each release by `pipeline/freight/release_ids.py`, from the published lane files), the cap counts them, and the other
+    pairs take the places that are left, largest first. Without that rule a pair that moved from the mixed lanes, which the cap does not count,
+    to the sea lanes could push the last lane of its group out although nothing on that lane's side had moved. A group under 1 Mt of seaborne trade a year (unwrought tin, tin concentrate,
     cobalt, lithium chemicals, rare earths) is published in kt with one decimal (the lane file's `unit`),
     as its commodity page prints it, and the lane page, the lane table, the Route finder and the
     chokepoint lists print it in kt too; its pairs file's seaborne total is the sum of its published rows.
@@ -492,7 +503,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   - The map draws the main set when no year is chosen, and every lane with a figure in a chosen
     past year. The Route finder, the lane table, the lane counters and the country pages use the
     main set.
-  - 2024: 3,734 main seaborne lanes, 57 mixed lanes and 572 history lanes over 71 groups (2,617, 35 and 271 over the 42
+  - 2024: 3,735 main seaborne lanes, 57 mixed lanes and 572 history lanes over 71 groups (2,617, 35 and 271 over the 42
     groups of the fifth release); the main lanes carry 85.3% of 2024 seaborne
     tonnes. The share per group is the `coverage` of each lane file: 90% or more for iron ore, coal,
     bauxite, LNG, soybeans, manganese, LPG, corn and cobalt, among others; lowest for unwrought tin
@@ -618,7 +629,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   be at least as long as the straight line between its ends). The caches of routes (`route_cache.json`, `geom_cache.json`) are keyed by the table. A test
   (`test_ports.py`) requires a leg for every port of a flow's gateway that is more than 50 km from the coast and the network;
   the other ports of the tables at 20 to 50 km from the network (estuary and river ports, and islands) are listed in
-  `test_fnce.py`, which fails when one more comes into a table, and are not changed.
+  `test_fnce.py`, which reads the port tables and fails when a port at that distance that is not on its list comes into one, and are not changed.
 - **Passages crossed** are found geometrically. A gate is a short line drawn across a strait,
   canal or cape, both ends on land: 20 gates (`GATES`), the two capes as meridians 0.03 degree off
   20 E and 69 W so that no network node lies on them ("Cape Horn" includes the Strait of
@@ -709,7 +720,7 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   regions (Europe, East Asia, and so on: an Atlas grouping listed in the code). Unrouted pairs (no gateway, no sea
   route) are in no corridor, and neither is a pair that carries a caveat of the kind `landlocked-centre` (a declared destination or origin that is a landlocked
   trading centre: Qatar → Switzerland sulphur makes no corridor and no route "Sulphur: Qatar to Switzerland"; the next sulphur corridor, from the
-  US Gulf to the east coast of South America, takes its place in the 20 routes of the fertilisers and sulphur). The cap on the whole atlas is 122 generated routes (120 in the fifth release, see below): the map draws every route, and a larger
+  US Gulf to the east coast of South America, takes its place in the 20 routes of the fertilisers and sulphur). The cap on the whole atlas is 120 generated routes for the groups of the first batch, which the routes of the last release may exceed (a published route stays, see below): the map draws every route, and a larger
   number made the world view unreadable even with the generated lines drawn thinner (about 120 more lines on top of the
   hand-written ones, 133 in November 2026). When the lists exceed it, the first corridor of each group that the audit's entries on named routes name is
   kept first (crude oil, iron ore, coal, refined products, LNG, steel, manganese, alumina, sugar, rice, rapeseed,
@@ -730,23 +741,33 @@ Built by `pipeline/freight/build_lanes.py` (lanes and pairs) and `pipeline/freig
   groups whose corridors are all smaller than those kept (aluminium, refined copper, zinc concentrate, the minor
   metals: no generated route). `pipeline/freight/QA_routes.md`, written at each build, gives each
   group with its coverage, its reason when it is under the target, and the corridors the cap left out.
+  **A generated route of the last release stays while its corridor exists.** The ids of the generated routes of the last release are in
+  `pipeline/freight/released_ids.json`, written at each release by `pipeline/freight/release_ids.py` from the published `routes.json` (`docs/UPDATING.md`).
+  A route of that list is generated again, whatever the caps and the other floors (the share of the group's tonnes, the share of the corridor that no
+  hand-written route names, the target), as long as the routed seaborne pairs between its two ends (the zone of the loading ports, and the zone or region of the discharge
+  ports) still add up to the floor of 0.5 Mt (`FLOOR_MT`); its pairs are taken first, so no new corridor shares one. The caps count these routes and the new
+  corridors take the places that are left under them: a cap never puts a published route out, and a new corridor enters only while a cap is not full. A route
+  whose corridor no longer exists is listed with its reason in `QA_routes.md` and leaves the atlas. The caps are 12 routes per group and 120 for the groups of
+  the first batch (the sixth release published 122 of them, which therefore all stay, and no new corridor of that batch enters), and the batches of later groups keep
+  their own caps. No raised cap and no exception for a group (wheat had a thirteenth corridor for that purpose) is needed to keep a published route.
   The corridors are made from the zone of each pair's ports, so since France has its Channel and Atlantic ports (sixth release) the
   corridors of the earlier groups that hold French pairs moved with them: of the 120 generated routes of the fifth release, nine
   changed in their tonnes, pairs and history (cocoa, coffee, soybeans, two of soymeal, two of steel, sugar from East Coast South America to the Mediterranean, and wheat within the Mediterranean, `gen-wheat-med-med`,
   which is now French wheat to Egypt: Fos to Alexandria, 1,451 nm, instead of France to Algeria, 539 nm) and two are no longer generated, both because their corridor was French and
   French steel and wheat load at other ports now: `gen-steel-med-nw-europe` (steel from the Mediterranean to North-West Europe) and `gen-wheat-med-waf` (wheat from the Mediterranean to
   West Africa). Two routes of the fifth release, `gen-sugar-sea-sea` (sugar within South-East Asia, 2.3 Mt) and
-  `gen-wheat-canada-west-r-east-asia` (wheat from West Canada to East Asia, 3.8 Mt), would have been pushed out by the cap of 120 and by the cap of 12 routes of the wheat group, not by anything on their side; in the sixth release the cap of the whole atlas is 122 (at 121 the sugar corridor was still out) and wheat may keep a thirteenth corridor (`GROUP_CAP_MORE`), so that every generated route of the fifth release whose corridor still exists was generated again.
+  `gen-wheat-canada-west-r-east-asia` (wheat from West Canada to East Asia, 3.8 Mt), would have been pushed out by the cap of 120 and by the cap of 12 routes of the wheat group, not by anything on their side: a route is never put out by a cap (below).
   The four new corridors of the earlier groups are wheat from North-West Europe to West Africa and within North-West Europe, steel from
-  the Black Sea to the Mediterranean and rapeseed from Western Australia to North-West Europe. The 133 hand-written routes are identical to the released ones, field by field, and no pair of a
-  released group that has no French end differs from the released pairs files in its ports, class, distance or passages (`test_fncf.py`, from digests of the released files); the notes of the 11 generated routes
-  of the release built on a single pair now say "pair" in the singular. Two kinds of pair of the released groups moved with France's ports without being a
+  the Black Sea to the Mediterranean and rapeseed from Western Australia to North-West Europe. The 133 hand-written routes are identical to those of the fifth release, field by field, and no pair of a
+  group of the fifth release that has no French end differs from the pairs files of the fifth release in its ports, class, distance or passages (`test_fncf.py` compares each hand-written route
+  and each pairs file with a digest of the fifth release's); the notes of the 11 generated routes
+  built on a single pair now say "pair" in the singular. Two kinds of pair of the groups of the fifth release moved with France's ports without being a
   French grain or oilseed pair: the three Russian pairs of DAP, potash and urea to France changed their discharge port from Fos to Le Havre (3,267 to 1,422 nm: the
   fertiliser rule puts Russia on the Atlantic side, for Ust-Luga), and sixteen pairs of sugar (Mauritius, Thailand, Morocco, Algeria, El Salvador, the United Arab
   Emirates, the Philippines and others, with France, both ways) changed their list of passages with the same ports and the same distance: an open pair now has two
   French options, Fos and Le Havre, and a passage that only one of them crosses (Gibraltar for most of them, the Cape of Good Hope for France to South Africa) is a
-  passage the pair "may cross" and no longer one it "has to cross". The "at least" tonnes of released sugar at Suez, Bab el-Mandeb and Gibraltar move by a few kt for this
-  reason (`test_fncg.py` G9 lists the sixteen against the released pairs files). A link to a route that ended shows "This route is not in the atlas catalogue" and a
+  passage the pair "may cross" and no longer one it "has to cross". The "at least" tonnes of the sugar of the fifth release at Suez, Bab el-Mandeb and Gibraltar move by a few kt for this
+  reason (`test_fncg.py` G9 lists the sixteen and compares them with the pairs files of the fifth release). A link to a route that ended shows "This route is not in the atlas catalogue" and a
   button to the Freight view, the list of routes by vessel class.
 
   A generated route is the atlas's own corridor, never a market benchmark: its id starts with `gen-` (group, exporting
@@ -945,7 +966,7 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     close the room left for each group is only the margin of the assumed ports and routes (the groups
     added in 2026 took the dry-bulk 'at least' tonnage at the Bosphorus from 88% of PortWatch's
     volume (179 against 203 Mt) to 102% (207 against 203 Mt) and at Gibraltar from 85% to 103% (394 against 384 Mt), which had emptied the 'up to' figure of every dry
-    group there and removed three estimates of the released site). The rule is then one of two:
+    group there and removed three estimates of the fifth release). The rule is then one of two:
     - **Whole volume** (`cap_regime` "whole" in `build_freight.py`): the 'up to' figure of a group is
       capped at PortWatch's whole volume of the type in the year, never below the group's own 'at
       least', without subtracting the other groups. A group cannot exceed the whole volume of its
@@ -1566,8 +1587,8 @@ source; where the atlas converts a figure or estimates it, the figure says so.
   of the Mediterranean and Black Sea partners, Russia included (its grain port, Novorossiysk, is on the Black Sea). No page says that a partner is served by
   one of the two ports only, so the other port is an option of every one of these partners: the lane page prints both distances and says that no source gives the
   split (24 of the 24 lanes of French grain, oilseeds and meal that load at Rouen or La Pallice, 17 and 7, carry the other port as an option;
-  15 of them, with a partner near the Channel or the Atlantic such as the Netherlands, the United Kingdom, Portugal or Senegal, change no passage and no estimate, since the two ports
-  are on the same seaboard). The page's tonnages for China, Morocco and Algeria (2.48, 2.07 and 1.15 Mt) are those of the whole port's trade with each country, not of grain,
+  fifteen of them have a partner near the Channel or the Atlantic such as the Netherlands, the United Kingdom, Portugal or Senegal: these fifteen lanes gained the option, and no
+  passage and no estimate changed with it, the two ports being on the same seaboard). The page's tonnages for China, Morocco and Algeria (2.48, 2.07 and 1.15 Mt) are those of the whole port's trade with each country, not of grain,
   and the atlas does not use them: the eight "less common destinations" have no tonnage on the page, and what is assumed is the principal port of their pairs, not a quantity. Adding the eight to the named set moved the principal port of 11 of the 202 pairs with France as exporter in these twelve groups
   (barley to Colombia, India, Mexico and South Africa; pulses and rapeseed to the United States; wheat to Madagascar, Mexico, Mauritania, Thailand and the United States) from La Pallice to Rouen, 0.93 Mt in all
   (the distances are 52 to 282 nm longer; no passage, no class and no estimate changed, and no pair without France as its exporter moved). The split between the two
@@ -1731,7 +1752,7 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     carries it. The other two rows (Saudi Arabia's imports of direct-reduced iron from Oman and Canada's imports of MAP from the United States) are an
     overland delivery to a neighbour that uses the product, the plain reading: they get no note and are listed in `pipeline/commodities/QA.md` as "detected,
     no note". The overland test keeps the rule off the importers that consume the product and receive it by sea (Japan's coking coal, Morocco's ammonia and
-    sulphur). It reads the tables of the groups added in the sixth release. Three pages were read for a statement that South African chromite
+    sulphur). It reads the main table of the pages in `TRANSIT_NEW_PAGES` (sulphur, NPK, barley, sorghum, sunflower, pulses, rapeseed, ferrous scrap, pig iron, chromium, ferro-alloys, molybdenum and graphite) and the further tables of the pages that list several customs groups (`EXTRA_GROUPS`: the urea, phosphate, potash, NPK, wheat, corn, sunflower, rapeseed, pig iron, metallurgical coal and ferro-alloys pages); the main table of every other page is not read. Three pages were read for a statement that South African chromite
     is shipped through Maputo: the Port of Maputo article says that its record volumes of 2023 came largely from South African mines and that transit
     cargo is a large part of the traffic of the ports of Mozambique, and does not name chromite, so no source is cited and the wording stays a possible
     reading.
@@ -1906,16 +1927,16 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     trade (metallurgical coal), and in a note the world coal production by rank (the four ranks and metallurgical
     coal add up to EIA's world total).
   - *Metallurgical coal by pair of countries* (the "Main flows" block of the Metallurgical coal page). The customs group
-    `coal` holds every kind of coal (HS 2701) and is not split, reduced or renamed. Until the seventh release the
-    block listed that group for five exporters (Australia to Japan 108.97 Mt, Russia to China 95.07 Mt, Australia to
-    China 83.82 Mt, Mongolia to China 82.91 Mt) and called it all coal; it now lists metallurgical coal from the two
+    `coal` holds every kind of coal (HS 2701) and is not split, reduced or renamed. The block used to list that
+    group for five exporters (Australia to Japan 108.97 Mt, Russia to China 95.07 Mt, Australia to China 83.82 Mt,
+    Mongolia to China 82.91 Mt) and called it all coal; since November 2026 it lists metallurgical coal from the two
     exporters whose own statistics give it by destination, each row with its source, in the year of the customs data
     (2024): **Queensland** (Australia), the producers' sales to export of hard coking, semi-soft coking and PCI coal by
     first destination, summed from the four quarters of the workbook "Quarterly Coal Sales" of the Queensland
     Government (136.99 Mt to 31 countries in 2024; CC BY 4.0, credit and disclaimer in the page's note and in
     `NOTICE.md`); and the **United States**, the exports of rank "metallurgical" as declared to the Census Bureau, as
     EIA's bulk file COAL.zip publishes them in short tons, converted at `TONNES_PER_SHORT_TON` (51.33 Mt to 34
-    countries in 2024, public domain). A row is a destination of at least 1,000 t: 63 rows, 31 and 32. The United
+    countries in 2024, public domain). A row is a destination of at least 1,000 t: 63 rows, 31 of Queensland and 32 of the United States (two of its 34 destinations are under 1,000 t). The United
     States rows carry their customs districts of loading. The rule that PCI (pulverised coal for injection) is
     metallurgical is the atlas's: the Queensland workbook has no such column, holds PCI inside semi-soft coking
     coal before 2022 and reports it apart from 2022, so only the sum of the three types is continuous across the
@@ -1929,18 +1950,22 @@ source; where the atlas converts a figure or estimates it, the figure says so.
     all coal), and customs coal less the exporter's metallurgical figure is not the exporter's thermal coal: for
     Australia to India customs data record 58.24 Mt of all coal, Queensland sold 35.42 Mt of metallurgical coal, and
     the difference, 22.82 Mt, is six times Australia's own figure for thermal coal to India in the Resources and
-    Energy Quarterly of December 2025 (3.78 Mt, table 41). The Queensland rows are 80% of EIA International's Australian figure (New
+    Energy Quarterly of December 2025 (3.78 Mt in calendar 2024, table 41, principal markets by volume). The Queensland rows are 80% of EIA International's Australian figure (New
     South Wales has no destinations in the file) and the EIA rows 100% of its United States figure. Mongolia,
     Russia, Canada and Mozambique, which export metallurgical coal, have no source by destination among those the
-    atlas has read: their coal by pair stays on the Thermal coal page as all coal, where each row is tagged "all
-    coal". The rows no longer open a lane page, because the lanes of the page are customs data for all coal and
+    atlas has read, and no list of metallurgical coal holds their coal by pair. It is read in customs data, all types
+    of coal together: Mongolia to China and pairs of Russia are among the twenty largest customs pairs that
+    make the Main flows of the Thermal coal page (each row tagged "all coal"), and the customs lanes by sea of
+    Russia, Canada and Mozambique are in the lane tables of both coal pages (Seaborne lanes, group "Coal (all
+    types)"); Canada and Mozambique have no Main flows row, their pairs being smaller than the twentieth. The rows no longer open a lane page, because the lanes of the page are customs data for all coal and
     coke (a lane of the layer is a later piece of work). The cache is `pipeline/cache/metcoal_pairs.csv`,
     `metcoal_ports.csv` and `metcoal_meta.json`, written by `pipeline/trade/extract_metcoal.py` from the two files in
     `raw/` (checks that stop it: Queensland's country and port sheets equal to the tonne in 2022 to 2025; EIA's
-    destinations and districts within 0.5% of its world row in every year kept, 2010 to 2025; the 2024 totals),
-    and read by `pipeline/trade/metcoal.py`, which raises for a year the cache does not hold. Both files are
+    destinations and districts within 0.5% of its world row in every year kept, 2010 to 2025; a 2024 total more than 2%
+    from the one the notes of the page were written for, which is a guard against a changed definition and not against a revision: a
+    smaller difference is printed and written to the meta file), and read by `pipeline/trade/metcoal.py`, which raises for a year the cache does not hold. Both files are
     downloaded by hand and refreshed by hand (`docs/UPDATING.md`): no scheduled job reads them, and the page says the
-    dates of the Queensland file ("Data through to 30 June 2026", "Current as at October 2026").
+    dates of the Queensland file ("Data through to 30 June 2026" and "Current as at October 2026") and of EIA's (1 October 2026).
 
 ## 11. Infrastructure layer
 

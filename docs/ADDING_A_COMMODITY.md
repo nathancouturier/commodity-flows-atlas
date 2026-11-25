@@ -51,7 +51,7 @@ be the page's main table, a further pair of tables of it, or the page's lanes). 
 | `build_lanes.py` | `GROUPS`, `COMMODITY` (group to page id, when different), `LABEL`, `CAP`, `FLOOR` |
 | `web/scripts/validate-freight.mjs` | `FLOOR` (the same table as `build_lanes.py` and `test_lanes.py`: a main lane under its group's floor fails the validator; `test_fncc.py` C10 compares the three) |
 | `build_freight.py` | `TANKER_GROUPS` for tankers and gas carriers, `ACRONYM`; `GROUPS_OF` only for hand-written routes |
-| `generated_routes.py` | `LATER_GROUPS`: one entry (groups, cap) for each package, so that no published route is dropped; its first corridors come first |
+| `generated_routes.py` | `LATER_GROUPS`: one entry (groups, cap) for each package, so that the corridors of a new batch of groups do not take the places of the others; its first corridors come first. A route of the last release is never put out by a cap (`pipeline/freight/released_ids.json`, see "At each release" in `UPDATING.md`) |
 
 A group dropped from `GROUPS` after a run leaves its lane and pairs files behind (`build_lanes.py` writes, never deletes): remove them.
 A group whose pairs are spread over hundreds of small flows (the other ferro-alloys: 0.6 Mt over 396 pairs) reaches 63% only with dozens of lanes: give it
@@ -175,7 +175,7 @@ A new group meets these, in the order of the files above:
 - **Search** (`COMMODITY_ALIASES`): the trade abbreviations a buyer writes ("FeCr", "FeMn", "SiMn", "FeSi", "FeMo", "AN") and both spellings of "fertiliser" on every fertiliser page; no alias that is a country code ("CAN") and no
   alias with a common word ("and") that other pages are found by. A whole word counts as a promotion only in an item's names, codes and cargo names, not in its ports or regions.
 
-## 8. A pair or a year that another source corrects (since the seventh release)
+## 8. A pair or a year that another source corrects (since November 2026)
 Three listed tables of the trade layer move a customs figure on the evidence of another free source; each is explicit, pair by pair, and each row says so in its note.
 - **Tonnage replaced** (`us_lpg.CORRECTED`, cleaning rule 10): a pair-year whose customs tonnage is far above the volume of the exporter's own statistics (LPG, United States to Mexico; a volume read as tonnes is a plausible cause, never stated as established). Read the
   other source's series for every year first (`pipeline/trade/us_lpg.py`: its cache holds only what the page prints), correct only the years where the tonnage and
@@ -209,7 +209,7 @@ cross-check in an extra table that the country profiles leave out (`build_profil
 - A gateway row whose page names the plant that the port serves (a steel works, a refinery of alumina) and not the cargo takes an eighth element,
   `"plant"`: its basis reads "page names the plant, not the cargo" in both directions, and the source link stays. Read the note of every row you add:
   a row whose own note says the page names no cargo is such a row.
-- Adding groups to `AUDIT_GROUPS` of `generated_routes.py` shares the cap of 122 generated routes and drops published routes: use `LATER_GROUPS`.
+- Adding groups to `AUDIT_GROUPS` of `generated_routes.py` shares the cap of the first batch with the groups already there and leaves the new groups with the places that the published routes do not hold: use `LATER_GROUPS`, a cap of their own.
 - `GROUPS_OF` in `build_freight.py` also sums the volumes of the hand-written routes: leave the new groups out of it.
 - The "up to" figures of the chokepoint estimates of earlier groups move a little when a group is added (PortWatch caps are
   shared); this is expected, and so are the alert lists and the country profiles. Nothing else of an earlier group may move.
