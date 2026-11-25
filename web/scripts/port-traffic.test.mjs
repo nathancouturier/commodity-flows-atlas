@@ -13,7 +13,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
-import { SHIP_TYPES, csvRows, defaultMeasure, fmtTonnes, holeGaps, rolling52, sameName, sumText, sumWeeks, weekCount, weekEnd, weekStart, weekTimes } from '../src/lib/portTraffic.ts';
+import { SHIP_TYPES, csvRows, defaultMeasure, fmtTonnes, holeGaps, readoutFormatter, rolling52, sameName, sumText, sumWeeks, weekCount, weekEnd, weekStart, weekTimes } from '../src/lib/portTraffic.ts';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const root = path.resolve(here, '../..');
@@ -112,6 +112,47 @@ test('the CSV rows hold every value of every file once, and the totals are the s
   }
 });
 
+test('the x of the chart is the Monday that starts the week, for every file', () => {
+  for (const d of docs) {
+    const x = weekTimes(d);
+    for (let i = 0; i < x.length; i++) assert.equal(x[i], Date.parse(`${weekStart(d, i)}T00:00:00Z`) / 1000, `${d.id} week ${i}`);
+    assert.equal(new Date(x[x.length - 1] * 1000).getUTCDay(), 1, `${d.id}: the last x is not a Monday`);
+  }
+  const d = make(5);
+  assert.deepEqual(weekTimes(d).map((t) => new Date(t * 1000).toISOString().slice(0, 10)), ['2025-01-06', '2025-01-13', '2025-01-20', '2025-01-27', '2025-02-03']);
+});
+
+test('the week_start of every CSV row is the Monday of its week, and the unit of a row follows its measure', () => {
+  const UNIT = { 'port calls': () => 'calls/week', 'estimated export tonnes': (d) => `${d.u}/week`, 'estimated import tonnes': (d) => `${d.u}/week` };
+  for (const d of [...docs, make(9, { holes: [4] })]) {
+    const rows = csvRows(d);
+    const n = weekCount(d);
+    rows.forEach((r, k) => {
+      const i = Math.floor((k % (n * 5)) / 5);
+      assert.equal(r[0], weekStart(d, i), `${d.id} row ${k}`);
+      assert.equal(new Date(`${r[0]}T00:00:00Z`).getUTCDay(), 1, `${d.id} row ${k}: not a Monday`);
+      assert.ok(UNIT[r[2]], `${d.id} row ${k}: unknown measure ${r[2]}`);
+      assert.equal(r[4], UNIT[r[2]](d), `${d.id} row ${k}: the unit of "${r[2]}"`);
+    });
+  }
+});
+
+test('the readout of the chart: a zero is "0", calls are whole numbers, tonnes are written by the general format', () => {
+  const general = (v) => `g${v}`;
+  const calls = readoutFormatter('calls', general);
+  assert.equal(calls(0), '0');
+  assert.equal(calls(7), '7');
+  assert.equal(calls(1234), '1,234');
+  assert.equal(calls(44837), '44,837');
+  assert.equal(calls(3.4), '3', 'a count of calls is never decimal');
+  for (const m of ['exports', 'imports']) {
+    const f = readoutFormatter(m, general);
+    assert.equal(f(0), '0');
+    assert.equal(f(0.62), 'g0.62');
+    assert.equal(f(1500), 'g1500');
+  }
+});
+
 test('how a tonnage is written', () => {
   assert.equal(fmtTonnes(0), '0 kt');
   assert.equal(fmtTonnes(4.14), '4.14 kt');
@@ -179,7 +220,7 @@ test('names: PortWatch\'s port is named when it is not the asset\'s name', () =>
   assert.ok(!sameName('Surigao', 'Surigao City'));
 });
 
-// ---------------------------------------------------------------- the three sentences typed on the assets
+// ---------------------------------------------------------------- the sentences typed on the assets
 
 const ports = read(path.join(root, 'data/infrastructure/ports.geojson')).features;
 const table = new Map();
@@ -192,9 +233,9 @@ const km = (a, b, c, d) => {
   const h = Math.sin(((c - a) * r) / 2) ** 2 + Math.cos(a * r) * Math.cos(c * r) * Math.sin(((d - b) * r) / 2) ** 2;
   return 2 * 6371.0088 * Math.asin(Math.sqrt(h));
 };
-const NOTED = ['rosario-up-river', 'richards-bay', 'ras-lanuf'];
+const NOTED = ['rosario-up-river', 'richards-bay', 'ras-lanuf', 'itaqui'];
 
-test('portwatchNote exists only on ports that have a PortWatch id, and on the three that need a sentence', () => {
+test('portwatchNote exists only on ports that have a PortWatch id, and on the four that need a sentence', () => {
   const withNote = ports.filter((f) => f.properties.portwatchNote !== undefined);
   assert.ok(withNote.every((f) => f.properties.type === 'port' && typeof f.properties.portwatch === 'string'));
   assert.deepEqual(withNote.map((f) => f.properties.id).sort(), [...NOTED].sort());
@@ -210,6 +251,14 @@ test('the sentences name the PortWatch port as the table names it, and print onl
     if (id === 'ras-lanuf') assert.ok(note.includes(pw.name.replace(/ \(.*\)$/, '')) || note.includes('of this name'), id);
     else assert.ok(note.includes(`"${pw.name}"`), `${id}: the note does not name "${pw.name}"`);
   }
+  // what a sentence takes from the note of its own asset
+  const noteOf = (id) => by[id].properties.note;
+  assert.ok(/municipal port/.test(noteOf('rosario-up-river')) && /far larger/.test(noteOf('rosario-up-river')), 'the Rosario sentence quotes what the asset\'s note says');
+  assert.ok(/Ponta da Madeira/.test(noteOf('itaqui')) && /next to/.test(noteOf('itaqui')), 'the Itaqui sentence takes the terminal from the asset\'s note');
+  assert.ok(/Coal Terminal/.test(by['richards-bay'].properties.name));
+  // and says nothing of what PortWatch's port covers: no page read does
+  for (const id of ['rosario-up-river', 'richards-bay', 'itaqui']) assert.ok(/No page read says/.test(by[id].properties.portwatchNote), `${id}: the sentence must say that no page read settles the extent`);
+  for (const id of NOTED) assert.ok(!/, the (whole|municipal) port;/.test(by[id].properties.portwatchNote), `${id}: states the extent of PortWatch's port as a fact`);
   // Ras Lanuf: the two distances to the World Port Index entries, recomputed from the raw copy of the index and the PortWatch table
   const raw = path.join(root, 'raw/nga/UpdatedPub150.csv');
   if (!fs.existsSync(raw)) return skip('raw/nga/UpdatedPub150.csv is not here: the two distances of the Ras Lanuf sentence are not recomputed');
@@ -225,6 +274,9 @@ test('the sentences name the PortWatch port as the table names it, and print onl
     return null;
   };
   const note = by['ras-lanuf'].properties.portwatchNote;
+  const alt = lines.slice(1).map((l) => l.match(/("(?:[^"]|"")*"|[^,]*)(?:,|$)/g)?.map((x) => x.replace(/,$/, '').replace(/^"|"$/g, '').trim()) ?? []).find((c) => c[col('Main Port Name')] === 'Al Burayqah');
+  assert.equal(alt?.[col('Alternate Port Name')], 'Marsa Brega', 'the index names its entry "Al Burayqah" and gives "Marsa Brega" as the other name');
+  assert.ok(note.includes('"Al Burayqah" (also called Marsa Brega)'));
   const near = find('Al Burayqah');
   const far = find('Ras Lanuf');
   assert.ok(near !== null && far !== null, 'the two entries of the index are not found');

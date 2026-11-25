@@ -535,8 +535,8 @@ no daily row, no vessel, no position or track, no time finer than a day. No row 
 file under `pipeline/cache/`, nothing under `raw/`) or as a workflow artifact: the published weekly files are the only state
 that the weekly step reads back. Pace: the same as for the chokepoint table, one request at a time with a pause of 8 to 14
 seconds before the next (the script's reading of the owner's rule of 25 November 2026, not his figure), the first load in
-small sittings; the weekly step, which runs after the chokepoint step of the same job on Wednesdays, reads only recent weeks of the ports and a longer stretch of a part of them in turn; the
-counts of requests are those of the script and of `docs/UPDATING.md`. The terms are those quoted above, with the same two
+small sittings; the weekly step, which runs after the chokepoint step of the same job on Wednesdays, reads only recent weeks of the ports and a longer stretch of a part of them in turn, and waits one such pause before its first request, because the
+chokepoint step asks the same host from another process; the counts of requests are those of the script and of `docs/UPDATING.md`. The terms are those quoted above, with the same two
 open points (PortWatch is not named among the page's examples of statistical data; the sentence on bulk download), which
 now cover the chokepoint series, the ports database and the port series alike. The CSV of a port series is offered as the CSV
 of a chokepoint series is, with its source and licence columns, because the registry licence text of the three PortWatch

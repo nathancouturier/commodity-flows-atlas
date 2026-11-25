@@ -7,9 +7,10 @@
 import { useMemo, useRef, useState } from 'preact/hooks';
 import type { PortTraffic } from '../../types';
 import { sources } from '../../lib/data';
+import { fmt } from '../../lib/format';
 import { loadPortTraffic } from '../../lib/freight';
 import { downloadCsv, licenceColumn, licenceTexts, publisherOf, slug, sourceColumn, sourceName, toCsv } from '../../lib/csv';
-import { MEASURES, SHIP_TYPES, csvRows, defaultMeasure, holeGaps, rolling52, sameName, sumText, weekCount, weekEnd, weekTimes, type Measure, type Stretch } from '../../lib/portTraffic';
+import { MEASURES, SHIP_TYPES, csvRows, defaultMeasure, holeGaps, readoutFormatter, rolling52, sameName, sumText, weekCount, weekEnd, weekTimes, type Measure, type Stretch } from '../../lib/portTraffic';
 import { Section, shortSource } from '../ui';
 import { CsvAction } from '../CsvAction';
 import { TimeChart, fmtTime, parseDate } from '../charts/TimeChart';
@@ -55,6 +56,7 @@ function Block({ doc, name, note }: { doc: PortTraffic; name: string; note?: str
     () => SHIP_TYPES.map(([t, label]) => ({ label, values: doc[measure][t], color: PW_COLORS[t], ...(gaps.length ? { gaps } : {}) })),
     [doc, measure, gaps],
   );
+  const readoutFormat = useMemo(() => readoutFormatter(measure, fmt), [measure]);
   const { last, before } = useMemo(() => rolling52(doc), [doc]);
   const src = sources.value[doc.s];
   const lastWeekEnd = weekEnd(doc, weekCount(doc) - 1);
@@ -78,6 +80,7 @@ function Block({ doc, name, note }: { doc: PortTraffic; name: string; note?: str
         x={x}
         series={series}
         unit={CHART_UNIT[measure]}
+        readoutFormat={readoutFormat}
         stacked
         ranges={RANGES}
         defaultRange="3Y"
@@ -110,8 +113,8 @@ function Block({ doc, name, note }: { doc: PortTraffic; name: string; note?: str
           shortSource(doc.s)
         )}{' '}
         ({sources.value[doc.s]?.publisher ?? 'IMF and University of Oxford'}), data adapted · {lastWeekEnd === doc.y ? `data to ${dayText(doc.y)}` : `weeks to ${dayText(lastWeekEnd)}, data to ${dayText(doc.y)}`} · weekly sums of daily figures; a call is a ship
-        entering the port boundary; tonnes are PortWatch's estimate from each ship's size and draught on entering and leaving it, not a port statistic;
-        ships are counted from their AIS signals, and PortWatch notes that "ships can turn off their AIS transponder to avoid being detected"
+        entering PortWatch's own boundary of the port, which is not always this asset's; tonnes are PortWatch's estimates from each ship's size
+        and draught, not a port statistic; ships are counted from their AIS signals: PortWatch notes that "ships can turn off their AIS transponder to avoid being detected"
       </div>
       <div class="lt-foot">
         <CsvAction

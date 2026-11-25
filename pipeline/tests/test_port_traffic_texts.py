@@ -95,16 +95,43 @@ class Pairing(unittest.TestCase):
 
 
 class Notes(unittest.TestCase):
-    """The three pairings that carry a sentence typed on the asset, and Ras Lanuf as a known limit."""
+    """The four pairings that carry a sentence typed on the asset, and Ras Lanuf as a known limit."""
 
     def setUp(self):
         self.notes = {a["properties"]["id"]: a["properties"]["portwatchNote"] for a in ASSETS if a["properties"].get("portwatchNote")}
 
-    def test_the_text_names_the_three_ports_that_have_a_note_and_no_other(self):
+    def test_the_text_names_the_four_ports_that_have_a_note_and_no_other(self):
         m = method_bullet()
-        self.assertEqual(sorted(self.notes), ["ras-lanuf", "richards-bay", "rosario-up-river"])
-        self.assertIn("three pairings carry a sentence typed on the asset (`portwatchNote` in `ports.geojson`): Rosario", m)
+        self.assertEqual(sorted(self.notes), ["itaqui", "ras-lanuf", "richards-bay", "rosario-up-river"])
+        self.assertIn("four pairings carry a sentence typed on the asset (`portwatchNote` in `ports.geojson`) that claims only what a file gives: Rosario", m)
         self.assertIn("Richards Bay", m)
+        self.assertIn("Itaqui", m)
+
+    def test_no_sentence_says_what_portwatchs_port_covers_and_the_text_says_what_each_takes_from_a_file(self):
+        """No page read says what PortWatch's boundary of a port covers: a sentence says what the asset's note says and that no page settles the rest."""
+        by = {a["properties"]["id"]: a["properties"] for a in ASSETS}
+        for pid in ("rosario-up-river", "richards-bay", "itaqui"):
+            self.assertIn("No page read says", self.notes[pid], pid)
+        for pid, note in self.notes.items():
+            self.assertTrue(note.startswith("The series is that of PortWatch's port"), pid)
+            self.assertNotRegex(note, r", the (whole|municipal) port\b", pid)
+            self.assertLessEqual(len(note), 400, pid)
+        # what a sentence takes from the note of its own asset
+        self.assertIn("municipal port", by["rosario-up-river"]["note"])
+        self.assertIn("far larger", by["rosario-up-river"]["note"])
+        self.assertIn("far larger than the municipal port", self.notes["rosario-up-river"])
+        self.assertIn("Ponta da Madeira", by["itaqui"]["note"])
+        self.assertIn("sits next to", by["itaqui"]["note"])
+        self.assertIn("which sits next to the public port this asset describes", self.notes["itaqui"])
+        self.assertIn("Coal Terminal", by["richards-bay"]["name"])
+        # and the paragraph says no more than the sentences do
+        m = method_bullet()
+        for phrase in ("no page read says which of the two PortWatch's port covers",
+                       "no page read says whether PortWatch's port is the terminal or the whole port",
+                       "no page read says whether PortWatch's port includes Vale's Ponta da Madeira terminal"):
+            self.assertIn(phrase, m)
+        self.assertNotIn("PortWatch's port is the municipal port", m)
+        self.assertNotIn("PortWatch's port is the whole port", m)
 
     def test_ras_lanuf_distances_are_the_ones_of_the_note_of_the_asset(self):
         """Typed once on the asset, quoted here: the two distances and the names of the two World Port Index entries."""
@@ -113,9 +140,11 @@ class Notes(unittest.TestCase):
         for km in re.findall(r"(\d+\.\d) km", note):
             self.assertIn(f"{km} km", m)
         self.assertEqual(len(re.findall(r"(\d+\.\d) km", note)), 2)
-        for name in ("Al Burayqah (Marsa Brega)", "Ras Lanuf"):
-            self.assertIn(name, note)
+        for name in ("Al Burayqah", "Ras Lanuf"):
+            self.assertIn(f'"{name}"', note)
             self.assertIn(f'"{name}"', m)
+        self.assertIn('"Al Burayqah" (also called Marsa Brega)', note)
+        self.assertIn('"Al Burayqah" (also called Marsa Brega)', m)
         pair = next(a["properties"]["portwatch"] for a in ASSETS if a["properties"]["id"] == "ras-lanuf")
         row = next(r for r in PP.load_table() if r["portid"] == pair)
         self.assertIn(f'"{row["name"]}"', m)
@@ -125,6 +154,24 @@ class Notes(unittest.TestCase):
         """The text says the asset is to be moved in a later change: it is still paired with PortWatch's port of that name."""
         asset = next(a for a in ASSETS if a["properties"]["id"] == "ras-lanuf")
         self.assertTrue(asset["properties"].get("portwatch"))
+
+
+class SourceLine(unittest.TestCase):
+    """The source line of the block says, once for every series, whose boundary a series is, in words the item and the paragraph give."""
+
+    def test_the_clauses_are_those_of_the_item_and_come_in_this_order(self):
+        section = flat(read("web", "src", "components", "views", "PortTrafficSection.tsx"))
+        clauses = ["weekly sums of daily figures",
+                   "a call is a ship entering PortWatch's own boundary of the port, which is not always this asset's",
+                   "tonnes are PortWatch's estimates from each ship's size and draught, not a port statistic",
+                   "ships are counted from their AIS signals: PortWatch notes that"]
+        at = [section.index(c) for c in clauses]
+        self.assertEqual(at, sorted(at))
+        # "a call is a ship entering ... the port boundary" is the item's sentence; "not always this asset's" is the atlas's caution, which the paragraph gives
+        m = method_bullet()
+        self.assertIn("a port call is defined when a ship enters the port boundary", m)
+        self.assertIn("so every series is that of PortWatch's own boundary of the port, which the source line of the block says is not always the asset's", m)
+        self.assertIn("The rule is a test of plausibility, not a proof that the PortWatch port and the asset have the same boundary", m)
 
 
 class Requests(unittest.TestCase):
@@ -146,8 +193,11 @@ class Requests(unittest.TestCase):
         n = len(P.port_ids())
         today = date(2026, 11, 25)
         bounds = [P.weekly_request_bounds(n, today + timedelta(weeks=w), S.MAX_REQUESTS) for w in range(4)]
-        least, most = min(b[0] for b in bounds), max(b[0] for b in bounds)
-        self.assertIn(f"A normal weekly run asks for {least} or {most} requests and never more than {S.MAX_REQUESTS}", m)
+        least, most = min(b[0] for b in bounds), max(b[1] for b in bounds)
+        self.assertEqual(least, most, "the paragraph says one figure for a normal week: change the text with the code")
+        self.assertIn(f"A normal weekly run asks for {least} requests and never more than {S.MAX_REQUESTS}", m)
+        self.assertIn("not counting a request repeated after an error", m)
+        self.assertIn("also waits one such pause before its first request, because the chokepoint step before it asks the same host", m)
         lo, hi = FP.PAUSE_S
         self.assertIn(f"with a pause of {lo:g} to {hi:g} seconds before the next", m)
         self.assertIn(f"never more than the {S.RUN_LIMIT_S // 60} minutes after which the script stops asking", m)

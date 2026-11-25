@@ -45,11 +45,14 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   15 November 2026: 2 calls at Odesa and at Surigao City, 3 at Chornomorsk, 5 at Pivdennyi, 23 at Jask, 33 at
   Sullom Voe, 41 at Kharg Island. The atlas cannot tell, port by port, whether ships that sent no signal, the
   boundary PortWatch draws for the port, or little traffic explains a low count.
-- The series is that of PortWatch's port, which is not always the atlas's asset: the block names PortWatch's port
-  where its name differs, and three pairings carry a sentence typed for them (Rosario: PortWatch's port is the
-  municipal port, the asset the up-river complex; Richards Bay: the whole port, the asset its coal terminal; Ras
-  Lanuf: PortWatch's port of that name lies at Marsa Brega by the World Port Index, 99.6 km east of the index's
-  Ras Lanuf).
+- The series is that of PortWatch's port, which is not always the atlas's asset. The source line of every series
+  says that a call is a ship entering PortWatch's own boundary of the port, which is not always the asset's; the
+  block names PortWatch's port where its name differs; and four pairings carry a sentence typed for them, which
+  claims only what a file supports: Rosario (the asset is the up-river complex, which its own note says is far
+  larger than the municipal port), Richards Bay (the asset is the coal terminal) and Itaqui (Vale's Ponta da
+  Madeira terminal sits next to the public port the asset describes) each say that no page read settles what
+  PortWatch's port covers; Ras Lanuf gives two distances: PortWatch's port of that name stands 1.1 km from the
+  World Port Index's entry "Al Burayqah" (also called Marsa Brega) and 99.6 km east of its entry "Ras Lanuf".
 - 27 ports have no series: 18 that the pairing rule cannot pair and 9 with no PortWatch port within 15 km.
 
 ### The weekly step, and how PortWatch is read
@@ -1202,7 +1205,10 @@ These were needed to finish the work; each is reversible.
      quarter of the ports in turn. The owner asked for small pieces, not for this rotation.
    - **The block** sits between "Note" and "Limits" on the port page, opens on the exports when they are at
      least the imports over the last 52 weeks, and prints one muted line when a file that should be there cannot
-     be read. The weekly sums keep the source id of PortWatch's port table, not the atlas's.
+     be read. The weekly sums keep the source id of PortWatch's port table, not the atlas's. Four pairings carry
+     a sentence of their own (Rosario, Richards Bay, Itaqui, Ras Lanuf); eight others where the two may not
+     cover the same thing (Johor, Hay Point, Manzanillo, Guangzhou, Hampton Roads, Houston, Qingdao,
+     Zhangjiagang) rely on the sentence that every series carries.
    - **"Retrying", not "stale"**, for a source that has never succeeded and has failed fewer runs than its
      alert threshold: the rule is shared by the freshness table and the weekly staleness check, and applies to
      every tracked source.
@@ -1271,7 +1277,8 @@ These were needed to finish the work; each is reversible.
 - "Report an error": the owner tried it and it works; the longest address GitHub's form accepts is not known
   (the atlas cuts the address at 2,000 characters).
 - Weekly traffic per port: 27 ports have no PortWatch port (18 that the rule cannot pair, 9 without one within
-  15 km). PortWatch's port is not always the asset (see the three sentences of the block). Some series read
+  15 km). PortWatch's port is not always the asset (the source line of every series says so, and four pairings carry a
+  sentence of their own). Some series read
   very low (2 calls in a year at Odesa, 3 at Chornomorsk, 5 at Pivdennyi, 23 at Jask, 41 at Kharg Island):
   PortWatch says that ships can switch their transponder off, and the atlas cannot tell that cause from a narrow
   port boundary or from little traffic. Revisions that PortWatch makes to weeks older than the

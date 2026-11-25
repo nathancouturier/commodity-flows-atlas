@@ -29,13 +29,16 @@ GOOD = {"features": [], "exceededTransferLimit": False}
 
 
 class Resp:
-    def __init__(self, code=200, body=None, headers=None, content=b"{}"):
+    def __init__(self, code=200, body=None, headers=None, content=b"{}", text=None):
         self.status_code = code
         self.body = GOOD if body is None else body
         self.headers = headers or {}
         self.content = content
+        self.text = text if text is not None else ""
 
     def json(self):
+        if self.body is ValueError:     # a body that is not JSON
+            raise ValueError("not JSON")
         return self.body
 
     def close(self):
@@ -164,6 +167,108 @@ class Http429(Clock):
             self.assertEqual(len(self.starts), 2)
             self.assertGreaterEqual(self.gaps()[0], 30 + F.QUOTA_MARGIN)
             self.assertFalse(os.path.exists(dest + ".part"))
+
+
+class Http429WithTheDelayInTheBody(Clock):
+    """An HTTP 429 with no Retry-After header that says "Retry after N sec" in its body (as an ArcGIS error, or as plain text)."""
+
+    def test_the_delay_of_the_body_is_waited_out_plus_the_margin_and_the_request_repeated(self):
+        for call in (lambda: F.get_json(URL, min_interval=8.0), lambda: F.request(URL, min_interval=8.0)):
+            out = self.run_on_clock(lambda n: Resp(429, BODY) if n == 1 else Resp(200, GOOD), call)
+            self.assertEqual(len(self.starts), 2)
+            self.assertGreaterEqual(self.gaps()[0], 60 + F.QUOTA_MARGIN)
+            self.assertNotIsInstance(out, F.FetchError)
+
+    def test_a_second_answer_ends_the_attempts_after_two_requests_with_the_delay_in_the_error(self):
+        for call in (lambda: F.get_json(URL, min_interval=8.0), lambda: F.request(URL, min_interval=8.0)):
+            out = self.run_on_clock(lambda n: Resp(429, BODY), call)
+            self.assertIsInstance(out, F.FetchError)
+            self.assertEqual(len(self.starts), 2, "a service that asked for 60 seconds was asked again after 8, 18 and 38 seconds")
+            self.assertGreaterEqual(self.gaps()[0], 65)
+            self.assertEqual(out.retry_after, 60)
+            self.assertIn("HTTP 429", str(out))
+
+    def test_a_body_that_is_plain_text_is_read_as_well(self):
+        out = self.run_on_clock(lambda n: Resp(429, ValueError, text="Too many requests. Retry after 45 sec") if n == 1 else Resp(200, GOOD),
+                                lambda: F.get_json(URL, min_interval=8.0))
+        self.assertNotIsInstance(out, F.FetchError)
+        self.assertEqual(len(self.starts), 2)
+        self.assertGreaterEqual(self.gaps()[0], 45 + F.QUOTA_MARGIN)
+
+    def test_the_header_is_read_first_and_a_body_that_names_nothing_keeps_the_backoff(self):
+        out = self.run_on_clock(lambda n: Resp(429, BODY, headers={"Retry-After": "20"}) if n == 1 else Resp(200, GOOD), lambda: F.request(URL))
+        self.assertGreaterEqual(self.gaps()[0], 20 + F.QUOTA_MARGIN)
+        self.assertLess(self.gaps()[0], 60)
+        for body, text in (({"error": {"message": "Too many requests"}}, ""), (ValueError, "<html>busy</html>"), (["x"], ""), (None, "")):
+            out = self.run_on_clock(lambda n: Resp(429, body, text=text), lambda: F.request(URL))
+            self.assertEqual(len(self.starts), F.ATTEMPTS, body)
+            self.assertIsNone(out.retry_after)
+            for g in self.gaps():
+                self.assertLess(g, 60)
+
+    def test_a_delay_longer_than_the_most_a_job_waits_fails_at_once(self):
+        body = {"error": {"message": f"API calls quota exceeded! Retry after {int(F.QUOTA_MAX_WAIT)} sec"}}
+        out = self.run_on_clock(lambda n: Resp(429, body), lambda: F.get_json(URL))
+        self.assertEqual(len(self.starts), 1)
+        self.assertEqual(out.retry_after, F.QUOTA_MAX_WAIT)
+
+    def test_a_response_whose_body_cannot_be_read_names_no_delay(self):
+        class Broken(Resp):
+            def json(self):
+                raise F.requests.exceptions.ChunkedEncodingError("cut")
+
+            @property
+            def text(self):
+                raise F.requests.exceptions.ChunkedEncodingError("cut")
+
+            @text.setter
+            def text(self, v):
+                pass
+        out = self.run_on_clock(lambda n: Broken(429), lambda: F.request(URL))
+        self.assertEqual(len(self.starts), F.ATTEMPTS)
+        self.assertIsNone(out.retry_after)
+
+    def test_the_chokepoint_script_is_asked_nothing_sooner_either(self):
+        out = self.run_on_clock(lambda n: Resp(429, BODY), lambda: FP.fetch_rows("1=1"))
+        self.assertIsInstance(out, F.FetchError)
+        self.assertEqual(len(self.starts), 2)
+        self.assertGreaterEqual(self.gaps()[0], 65)
+
+
+class OneQuotaAnswerWaitedOutAcrossTheTwoLayers(Clock):
+    """``get_json`` calls ``request``: the answer of one layer and the answer of the other count as the same second answer."""
+
+    def test_an_http_429_waited_out_by_request_and_then_a_quota_body_ends_the_attempts(self):
+        out = self.run_on_clock(lambda n: Resp(429, headers={"Retry-After": "60"}) if n == 1 else Resp(200, BODY) if n == 2 else Resp(200, GOOD),
+                                lambda: F.get_json(URL, min_interval=8.0))
+        self.assertIsInstance(out, F.FetchError)
+        self.assertEqual(len(self.starts), 2, "the series 0, 65, 130 and then ok waits out two quota answers")
+        self.assertGreaterEqual(self.gaps()[0], 65)
+        self.assertEqual(out.retry_after, 60)
+
+    def test_a_quota_body_waited_out_by_get_json_and_then_an_http_429_ends_the_attempts(self):
+        out = self.run_on_clock(lambda n: Resp(200, BODY) if n == 1 else Resp(429, BODY) if n == 2 else Resp(200, GOOD),
+                                lambda: F.get_json(URL, min_interval=8.0))
+        self.assertIsInstance(out, F.FetchError)
+        self.assertEqual(len(self.starts), 2)
+        self.assertGreaterEqual(self.gaps()[0], 65)
+        out = self.run_on_clock(lambda n: Resp(200, BODY) if n == 1 else Resp(429, headers={"Retry-After": "60"}) if n == 2 else Resp(200, GOOD),
+                                lambda: F.get_json(URL, min_interval=8.0))
+        self.assertIsInstance(out, F.FetchError)
+        self.assertEqual(len(self.starts), 2)
+
+    def test_a_429_and_a_quota_body_with_the_delay_in_the_body_only_stop_at_the_second_answer_too(self):
+        out = self.run_on_clock(lambda n: Resp(429, BODY) if n == 1 else Resp(200, BODY), lambda: F.get_json(URL, min_interval=8.0))
+        self.assertIsInstance(out, F.FetchError)
+        self.assertEqual(len(self.starts), 2)
+
+    def test_an_error_that_is_not_a_quota_answer_does_not_count_as_one(self):
+        # a 503, then a quota body, then good: the one quota answer is waited out, as before
+        out = self.run_on_clock(lambda n: Resp(503) if n == 1 else Resp(200, BODY) if n == 2 else Resp(200, GOOD),
+                                lambda: F.get_json(URL, min_interval=8.0))
+        self.assertEqual(out, GOOD)
+        self.assertEqual(len(self.starts), 3)
+        self.assertGreaterEqual(self.gaps()[1], 65)
 
 
 class Headers(unittest.TestCase):

@@ -265,7 +265,7 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
   const one = { id: 'capesize', by: 'By deadweight', basis: 'The limit is in the band.' };
   const ok = await run((fs) => (fs[0] = feat(port({ limits: lim, maxClass: { dry: { classes: [{ id: 'capesize', by: 'By deadweight', basis: 'The limit is in the band.' }] }, n: 'Atlas estimate' }, prices: ['wti-d'] }), [-72.1, -17.0])));
   assert.deepEqual(ok.errors, [], ok.all);
-  const withNote = await run((fs) => (fs[0] = feat(port({ portwatchNote: 'The series is that of PortWatch\'s port "Port test", the whole port.' }), [-72.1, -17.0])));
+  const withNote = await run((fs) => (fs[0] = feat(port({ portwatchNote: 'The series is that of PortWatch\'s port "Port test". No page read says what it covers.' }), [-72.1, -17.0])));
   assert.deepEqual(withNote.errors, [], withNote.all);
   const cases = {
     'bad locode': [{ locode: 'RU PRI' }, /"locode" must be/],

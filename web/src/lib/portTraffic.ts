@@ -109,6 +109,13 @@ export function fmtTonnes(kt: number): string {
 /** A count of calls with thousands separators. */
 export const fmtCalls = (n: number): string => n.toLocaleString('en-US');
 
+/**
+ * How the readout of the chart writes a value: a zero is "0", a count of calls is a whole number, and any other tonnage is written by
+ * `general` (the atlas's number format, passed in so that this file stays free of the site's modules).
+ */
+export const readoutFormatter = (measure: Measure, general: (v: number) => string) => (v: number): string =>
+  v === 0 ? '0' : measure === 'calls' ? fmtCalls(Math.round(v)) : general(v);
+
 /** The figure of a sum in the table: "—" when no week of the stretch has a value. */
 export function sumText(measure: Measure, s: WeekSum): string {
   if (!s.weeks) return '—';

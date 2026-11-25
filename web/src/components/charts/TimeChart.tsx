@@ -71,6 +71,8 @@ export interface TimeChartProps {
   showTotal?: boolean;
   /** decimals hint for the readout; default smart formatting */
   ariaLabel?: string;
+  /** writes each value of the readout, the total's too, instead of the atlas's number format; with it a total over a point where no series has a value reads "—", not zero */
+  readoutFormat?: (v: number) => string;
   /** y axis includes zero for positive data (default true); false fits the visible window (prices) */
   yZero?: boolean;
   /** built-in crosshair readout (default true) */
@@ -567,13 +569,13 @@ export function TimeChart(props: TimeChartProps) {
               <span class="tc-item" key={s.label}>
                 <i style={{ background: s.color }} />
                 <span class="tc-lab">{s.label}</span>
-                <b class="num">{s.values[i] == null ? '—' : fmtEst(s.values[i], !!props.estimated?.[i])}</b>
+                <b class="num">{s.values[i] == null ? '—' : props.readoutFormat ? props.readoutFormat(s.values[i]) : fmtEst(s.values[i], !!props.estimated?.[i])}</b>
               </span>
             ))}
             {total != null && (
               <span class="tc-item tc-total">
                 <span class="tc-lab">Total</span>
-                <b class="num">{fmt(total)}</b>
+                <b class="num">{props.readoutFormat ? (series.some((s) => s.values[i] != null) ? props.readoutFormat(total) : '—') : fmt(total)}</b>
               </span>
             )}
             {unit && <span class="tc-unit">{props.unit}</span>}

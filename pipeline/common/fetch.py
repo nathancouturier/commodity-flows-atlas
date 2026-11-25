@@ -7,9 +7,10 @@ Features
   * ``requests`` with connect/read timeouts and a plain, truthful User-Agent (``USER_AGENT``: what the client is,
     no browser name, no project or personal name, no address); every update script downloads through this module;
   * retries with exponential backoff + jitter (default 4 attempts) on network errors, HTTP 408/425/429/5xx;
-  * a service that names a delay (the ``Retry-After`` header of an HTTP 429, or "Retry after N sec" in an ArcGIS error
-    body: a quota answer) is not asked again sooner than that delay plus QUOTA_MARGIN, and a second such answer ends the
-    attempts (``FetchError.retry_after`` carries the delay);
+  * a service that names a delay (the ``Retry-After`` header of an HTTP 429, "Retry after N sec" in the body of an HTTP 429 that
+    has no such header, or in an ArcGIS error body: a quota answer) is not asked again sooner than that delay plus QUOTA_MARGIN,
+    and a second such answer ends the attempts, whichever of ``request`` and ``get_json`` saw the first
+    (``FetchError.retry_after`` carries the delay);
   * a minimum pause between two requests to the same host (``MIN_INTERVAL``, default 1.5 s);
   * resumable large downloads (HTTP Range) that keep a ``<dest>.part`` file between attempts;
   * sanity checks: Content-Type / magic bytes must match the expected kind ("xlsx", "xls", "zip",
@@ -87,6 +88,23 @@ def retry_after_body(message):
     return float(m.group(1)) if m else None
 
 
+def _quota_body_delay(r):
+    """Seconds named in the body of a response ("Retry after N sec" in the message of an ArcGIS error, or anywhere in the text), or
+    None. Read before the response is closed; a body that cannot be read names no delay."""
+    try:
+        doc = r.json()
+        err = doc.get("error") if isinstance(doc, dict) else None
+        delay = retry_after_body(err.get("message") if isinstance(err, dict) else None)
+        if delay is not None:
+            return delay
+    except (ValueError, AttributeError, requests.RequestException):
+        pass
+    try:
+        return retry_after_body(r.text)
+    except (AttributeError, requests.RequestException):
+        return None
+
+
 def _quota_floor(delay, seen, what):
     """The least wait before the next attempt after a quota answer that named ``delay`` seconds. Raises when this is the second such
     answer of the call or when the delay is longer than QUOTA_MAX_WAIT: the attempts end."""
@@ -141,12 +159,12 @@ def _check_head(kind, content_type, first):
         raise FetchError("content is not JSON")
 
 
-def request(url, *, params=None, headers=None, attempts=ATTEMPTS, timeout=None, stream=False, min_interval=None,
-            method="GET"):
-    """GET/HEAD with retries; returns a ``requests.Response`` with a good status or raises FetchError."""
+def _request(url, *, params, headers, attempts, timeout, stream, min_interval, method, seen=False):
+    """``request``'s work: (the response, whether a quota answer was waited out). ``seen`` says one was, earlier in the same call of
+    the caller (``get_json``): a second one ends the attempts."""
     timeout = timeout or (CONNECT_TIMEOUT, READ_TIMEOUT)
     last = "no attempt"
-    least, asked, seen = 0.0, None, False   # the wait a quota answer asks for, the delay it named, whether one was waited out
+    least, asked = 0.0, None   # the wait a quota answer asks for, the delay it named
     for attempt in range(1, attempts + 1):
         _pause(url, min_interval)
         least = 0.0
@@ -158,7 +176,11 @@ def request(url, *, params=None, headers=None, attempts=ATTEMPTS, timeout=None, 
         else:
             if r.status_code in RETRY_STATUS:
                 last = f"HTTP {r.status_code}"
-                delay = retry_after_header((getattr(r, "headers", None) or {}).get("Retry-After")) if r.status_code == 429 else None
+                delay = None
+                if r.status_code == 429:
+                    delay = retry_after_header((getattr(r, "headers", None) or {}).get("Retry-After"))
+                    if delay is None:
+                        delay = _quota_body_delay(r)
                 r.close()
                 if delay is not None:
                     asked = delay
@@ -169,10 +191,17 @@ def request(url, *, params=None, headers=None, attempts=ATTEMPTS, timeout=None, 
                 r.close()
                 raise FetchError(f"HTTP {code} for {urlsplit(url).netloc}{urlsplit(url).path}")
             else:
-                return r
+                return r, seen
         if attempt < attempts:
             _sleep_backoff(attempt, least)
     raise _quota_error(f"{last} after {attempts} attempts ({urlsplit(url).netloc})", asked)
+
+
+def request(url, *, params=None, headers=None, attempts=ATTEMPTS, timeout=None, stream=False, min_interval=None,
+            method="GET"):
+    """GET/HEAD with retries; returns a ``requests.Response`` with a good status or raises FetchError."""
+    return _request(url, params=params, headers=headers, attempts=attempts, timeout=timeout, stream=stream,
+                    min_interval=min_interval, method=method)[0]
 
 
 def get_text(url, *, params=None, attempts=ATTEMPTS, min_interval=None, max_bytes=20_000_000):
@@ -190,7 +219,8 @@ def get_json(url, *, params=None, attempts=ATTEMPTS, min_interval=None):
     last = "invalid JSON"
     least, asked, seen = 0.0, None, False   # as in request(), for a quota answer in an error body
     for attempt in range(1, attempts + 1):
-        r = request(url, params=params, attempts=attempts, min_interval=min_interval)
+        r, seen = _request(url, params=params, headers=None, attempts=attempts, timeout=None, stream=False,
+                           min_interval=min_interval, method="GET", seen=seen)   # a quota answer that request() waited out counts
         least = 0.0
         try:
             doc = r.json()

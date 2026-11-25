@@ -367,19 +367,25 @@ itself (`--dry-run` prints it, a test ties the figures below to `portwatch_ports
   every four weeks, never all together);
 - at most five ports without a file, each read in full (3 requests: the table holds fewer than 3,000 days of a port, a fourth request comes
   when it passes that), a port that returned no rows only in the week of its quarter;
-- the requests, 20 ports at a time, in pages of 1,000 rows (a page that is full is followed by one more request, so the count is an upper
-  bound of the rows): **23 or 24 requests** in a normal week, depending on the quarter, and **never more than 42**: the plan keeps to
-  that, whatever state the files are in (a service that was down for weeks leaves the files late and the run asks for more days). When the late
-  files would need more, the ports whose files end earliest are read first and the others wait for the next run (the run says which); the
-  ports without a file take what is left, so a run near its bound reads fewer than five. 42 is the figure for the pace: at 14 seconds a
-  pause and three seconds an answer, 42 requests fill the 12 minutes after which the script stops asking (`RUN_LIMIT_S`), which is inside the
-  step's 15 minutes with room for the last answer.
+- the requests, 18 ports at a time, in pages of 1,000 rows (a page that is full is followed by one more request, so the count is an upper
+  bound of the rows; 18 is the most ports whose window of a normal week, at most 55 days, is fewer than 1,000 rows, one page, and no size
+  from 1 to 20 asks for fewer requests in a normal week): **23 requests** in a normal week (every port has a file, as the run of the week
+  before left it, the table ends 0 to 9 days before the run, whatever the day it ends on and whatever the quarter), and **never more than
+  42**, not counting a request repeated after an error: the plan keeps to that, whatever state the files are in (a service that was down for
+  weeks leaves the files late and the run asks for more days). When the late files would need more, the ports whose files end earliest are
+  read first and the others wait for the next run (the run says which); the ports without a file take what is left, each at its pages and one
+  request more (the check that a port whose file ends weeks before the others is late in the service), so a run near its bound reads fewer
+  than five. 42 is the figure for the pace: at 14 seconds a pause and three seconds an answer, 42 requests fill the 12 minutes after which
+  the script stops asking (`RUN_LIMIT_S`), which is inside the step's 15 minutes with room for the last answer;
+- the first request waits a pause as well: the chokepoint step before it asks the same host from another process, and each process keeps
+  the least interval of the downloader alone. A run of the job (no option) waits one pause of 8 to 14 seconds before its first request, a
+  sitting by hand does not (the person keeps the twenty minutes), and the 12 minutes count that wait.
 
-**Time.** At the script's pace (a pause of 8 to 14 seconds before each request but the first, an answer of about a second): a normal run of
-24 requests is 23 pauses, 3.1 to 5.4 minutes, 4 to 6 minutes in all; the worst run, 42 requests, is 41 pauses, 5.5 to 9.6 minutes, 6 to 12
-minutes in all (the 12 minutes are the limit of the script: a run that is not done by then asks for nothing more and fails as below). The job
+**Time.** At the script's pace (a pause of 8 to 14 seconds before each request, the first included in a run of the job, an answer of about a
+second): a normal run of 23 requests is 23 pauses, 3.1 to 5.4 minutes, 4 to 6 minutes in all; the worst run, 42 requests, is 42 pauses, 5.6 to
+9.8 minutes, 6 to 12 minutes in all (the 12 minutes are the limit of the script: a run that is not done by then asks for nothing more and fails as below). The job
 as a whole is a few minutes longer, and about ten minutes longer in the week of the chokepoint script's whole re-read (every fourth week). A
-first-load sitting of 15 ports is 45 requests (8 to 10 minutes of pauses).
+first-load sitting of 15 ports is 45 requests (8 to 10 minutes of pauses), one more for a port that is checked against the newest.
 
 **What a run does with what it read.** Everything is read, then checked, then written; a port that fails a check keeps its file. A run that
 gets under 90% of the rows it expects, whose table ends earlier than at the last run, that has to skip more than 10% of the ports, whose deep
@@ -396,14 +402,18 @@ the status entry: how many kB the folder holds, how many it grows by in a week (
 stop would be reached. Raising the stop is a decision for the owner; at the stop a weekly run refuses everything and records a failure.
 
 **When it fails.** After three weekly runs in a row, "Data update failing: portwatch-port-traffic" opens, with the last error of the run.
-The usual ones and what to do: the service refused for its quota (the script waits 65 seconds once per page and stops at a second refusal;
-look again next week); the service returned fewer rows than expected or the table ends earlier than before (the service is behind or
+The usual ones and what to do: the service refused for its quota (the script waits 65 seconds once per page, or the delay the service names plus 5 seconds when that is
+longer, and stops at a second refusal, at a delay of more than five minutes and at a wait that would end after its 12 minutes; the
+downloader, for the other scripts, does the same for an HTTP 429 with the delay in its body and no header; look again next week); the service returned fewer rows than expected or the table ends earlier than before (the service is behind or
 changed: read the run's log, nothing was written); some ports were skipped or "history revised" (PortWatch re-estimated its history: run
 `--full` by hand for the ports it names, below); the folder would pass the size stop; the run used its twelve minutes. The files keep their
 last good version in every case. "Data update discarded by the data checks" after this step means the checks refused a file of the folder
 and, with it, the chokepoint update of the same job: open the output of the checks in the issue. The first scheduled run of the step is the one
 that writes the status entry of the source into `data/_status/updates.json`: until then neither the staleness check nor the About window
-says anything about it, and a first run that fails shows the source as retrying, not stale (it turns failing at the third run in a row). Leave
+says anything about it, and a first run that fails shows the source as retrying, not stale (it turns failing at the third run in a row). What a failed run
+records: a failure whenever the status file already holds an entry of the source; while it holds none, the failure is printed and recorded
+nowhere when some port has neither a file nor an entry of `none` (the first load is not finished), and recorded when every port is accounted
+for (the first scheduled runs, retrying until the third). Leave
 out of your commits the entry that a sitting by hand writes. "Data stale: portwatch-port-traffic" (Mondays) means no success for more than 16
 days or a latest day of data more than 21 days old.
 

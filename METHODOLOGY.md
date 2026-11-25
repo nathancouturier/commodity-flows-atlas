@@ -1205,13 +1205,18 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     (0.0 km). Of the 27 without an id, 18 have a row near them that the rule cannot pair and 9 have no PortWatch port of their
     country within 15 km; they show no block and no sentence. The rule is a test of plausibility, not a proof that the PortWatch
     port and the asset have the same boundary.
-  - **The scope of a PortWatch port is not always the scope of the asset.** The block names PortWatch's own port ("PortWatch port:
-    Surigao City") wherever its name differs from the asset's, and three pairings carry a sentence typed on the asset
-    (`portwatchNote` in `ports.geojson`): Rosario (PortWatch's port is the municipal port, the asset is the up-river complex),
-    Richards Bay (PortWatch's port is the whole port, the asset its coal terminal) and Ras Lanuf. Ras Lanuf is a known limit: the
-    asset stands at the point of PortWatch's port "Ras Lanuf (Al Burayqah)", which lies 1.1 km from the World Port Index's entry
-    "Al Burayqah (Marsa Brega)" and 99.6 km from its entry "Ras Lanuf", so the series is that of the port the index calls Marsa
-    Brega; the asset is to be moved to Ras Lanuf's own position, and its pairing then dropped, in a later change. A port that
+  - **The scope of a PortWatch port is not always the scope of the asset.** PortWatch counts a call when a ship enters "the port
+    boundary" and no page read says what that boundary covers, so every series is that of PortWatch's own boundary of the port,
+    which the source line of the block says is not always the asset's. The block names PortWatch's own port ("PortWatch port:
+    Surigao City") wherever its name differs from the asset's, and four pairings carry a sentence typed on the asset
+    (`portwatchNote` in `ports.geojson`) that claims only what a file gives: Rosario (the asset is the up-river complex, which its
+    note says is far larger than the municipal port; no page read says which of the two PortWatch's port covers), Richards Bay (the
+    asset is its coal terminal; no page read says whether PortWatch's port is the terminal or the whole port), Itaqui (no page
+    read says whether PortWatch's port includes Vale's Ponta da Madeira terminal, which sits next to the public port the asset
+    describes) and Ras Lanuf. Ras Lanuf is a known limit: the asset stands at the point of PortWatch's port "Ras Lanuf (Al
+    Burayqah)", whose position is 1.1 km from the World Port Index's entry "Al Burayqah" (also called Marsa Brega) and 99.6 km
+    east of its entry "Ras Lanuf", so the series is of a port that stands next to the index's Al Burayqah, not next to its Ras Lanuf; the asset is to be
+    moved to Ras Lanuf's own position, and its pairing then dropped, in a later change. A port that
     PortWatch shows with few or no calls in recent weeks is drawn as PortWatch publishes it, with its date: the atlas does not say
     why, which may be the boundary or the coverage as much as the traffic.
   - **Revisions.** PortWatch revises its recent days. Each weekly run reads again the last 6 weeks of every port that has a file
@@ -1228,9 +1233,10 @@ type, not one commercial class, whose fleet, age and orderbook are not published
   - **Pace** (the owner's decision of 25 November 2026, in his words, translated: "behave like a human, download little by little,
     move slowly on the page, one request at a time, and we will mention them"). The script asks one request at a time, with a pause
     of 8 to 14 seconds before the next (the chokepoint script's figures, read from its code; the seconds are the script's reading of
-    "slowly", not the owner's figure), and waits out a quota answer of the service for the delay it names. A normal weekly run asks
-    for 23 or 24 requests and never more than 42, which at that pace is a few minutes and never more than the 12 minutes after
-    which the script stops asking. IMF PortWatch is credited on the block, in the CSV, in the registry, in `NOTICE.md` and in the
+    "slowly", not the owner's figure), and waits out a quota answer of the service for the delay it names. The weekly run of the job
+    also waits one such pause before its first request, because the chokepoint step before it asks the same host from another
+    process. A normal weekly run asks for 23 requests and never more than 42 (not counting a request repeated after an error), which
+    at that pace is a few minutes and never more than the 12 minutes after which the script stops asking. IMF PortWatch is credited on the block, in the CSV, in the registry, in `NOTICE.md` and in the
     About window; the IMF's terms, and the open points on them, are in `NOTICE.md`.
   - **Assumptions.** (1) A PortWatch port stands for the atlas port it is paired with, and the page names PortWatch's port. (2) A
     week with seven daily rows is complete. (3) The table has one row per port and day: a missing day makes its week a gap. (4) The

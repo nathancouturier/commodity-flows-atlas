@@ -14,7 +14,10 @@ Pace    the owner's rule for PortWatch (25 November 2026): read it as a person w
         and slowly, and credit it. This script gives every request to common/fetch.py with the least interval
         fetch_portwatch.PAUSE_S[0] (a request repeated after an error waits as long as any other) and waits a pause of
         random.uniform(*PAUSE_S) between two requests; the figures are those of the chokepoint script, imported, one place
-        (8 to 14 seconds today). No thread, no pool. The seconds are this script's reading of "slowly", not a figure of the
+        (8 to 14 seconds today). No thread, no pool. A scheduled run waits one such pause before its first request as well: the
+        chokepoint step before it in the job asks the same host from another process, and the least interval of the helper is kept
+        by each process alone (a sitting by hand does not: the person keeps the twenty minutes), and the run's time limit counts
+        that pause. The seconds are this script's reading of "slowly", not a figure of the
         owner. The IMF's terms page says it "prohibits bulk download of information by automated technology without explicit
         permission" (NOTICE.md quotes it): that is why the first load is made in sittings of a few ports, by hand, and why a
         weekly run reads only what the plan below says.
@@ -22,9 +25,11 @@ Modes   weekly (no option): the last WINDOW_WEEKS weeks of every port that has a
         the last DEEP_WEEKS weeks instead for one quarter of the ports (the ports in their fixed order, the quarter by the
         week: every port is read over a year once every four weeks, never all together), and at most
         SCHEDULED_BACKFILL_CAP ports without a file read in full (3 requests each while a port has fewer than 3,000 days of rows,
-        one more from then on; a port that returned nothing is asked again only in the week of its quarter). The requests are
+        one more from then on; a port that returned nothing is asked again only in the week of its quarter; the plan counts one
+        request more for each, the check of a port whose file ends weeks before the others). The requests are
         counted by the plan itself (``--dry-run`` prints them); it never plans more than MAX_REQUESTS, the number of requests
-        that fit RUN_LIMIT_S at the longest pause (REQUEST_S seconds an answer): when files that are late would need more, the ports
+        that fit RUN_LIMIT_S at the longest pause (REQUEST_S seconds an answer), and a run without an error asks for no more (a request
+        repeated after an error is in no count): when files that are late would need more, the ports
         whose files end earliest are read first and the others are left to the next run (the run says which), and the ports without
         a file take what is left.
         --backfill: only the ports without a file, in order, ``--max-ports N`` of them (SITTING_MAX, 15, when N is not given;
@@ -48,19 +53,23 @@ Checks  a page without the expected fields or with a value that is not a number 
         than at the last run is refused; a deep pass that finds the older weeks of more than a tenth of the ports changed by
         more than a quarter ("history revised: run --full") is refused; a file the site's rules would refuse is never
         written; the folder may not exceed SIZE_STOP_KB. The quota answer of the service ("API calls quota exceeded ...
-        Retry after 60 sec", or HTTP 429) is waited out once per page (QUOTA_WAIT_S) and that page asked once more, a second
-        refusal of the same page stops the run; no request follows a quota answer sooner than that, and any other failure is
-        asked again after a pause of PAUSE_S, ATTEMPTS requests in all. The time limit of a weekly run (RUN_LIMIT_S) is checked
-        before every request: a wait that began before the limit can end after it (by at most QUOTA_WAIT_S), and no request
-        follows the limit. A page counts as followed by more rows when the service says so or when it is
+        Retry after 60 sec", or HTTP 429) is waited out once per page (QUOTA_WAIT_S, or the delay the service named plus
+        fetch.QUOTA_MARGIN when that is longer) and that page asked once more, a second refusal of the same page stops the run, and
+        so does a delay that the helper does not wait for (fetch.QUOTA_MAX_WAIT); no request follows a quota answer sooner than that,
+        and any other failure is asked again after a pause of PAUSE_S, ATTEMPTS requests in all. The time limit of a weekly run
+        (RUN_LIMIT_S) is checked before every request and before a quota wait: no wait ends after the limit and no request follows
+        it. A page counts as followed by more rows when the service says so or when it is
         full (PAGE rows). A first-load port whose last week starts more than FIRST_LOAD_LAG_DAYS before the newest of the
-        sitting is not written (it stays pending; the port and both dates are printed).
+        sitting is not written (it stays pending; the port and both dates are printed); one written before a newer port was read is
+        judged when the run ends, and a file that cannot be judged (an error, or the time limit) is taken back: the folder is as it
+        was before the port was read.
 Status  a weekly run records its success or its failure for ``portwatch-port-traffic`` in data/_status/updates.json; a run
         made by hand (an option) records its success but not its failure (a sitting that stops short is not a scheduled
-        failure). While some port has neither a file nor an entry in ``none`` (the first load is not finished), a weekly run
-        does not record its failure either, so that the About window does not show the source as failing or stale because of a
-        load that is still going on: the failure is printed. A dry run, or a run with --out, --ports or --limit, records
-        nothing.
+        failure). While the status file holds no entry of the source (no run has succeeded yet) and some port has neither a file
+        nor an entry in ``none`` (the first load is not finished), a weekly run does not record its failure either, so that the
+        About window does not show the source as failing or stale because of a load that is still going on: the failure is
+        printed. Once the entry exists a weekly run records every failure, whatever the ports: one port that is not read yet must
+        not hide the failure of the source. A dry run, or a run with --out, --ports or --limit, records nothing.
 
 Always exits 0: a failure is recorded (weekly run) and the previous files are kept.
 """
@@ -121,17 +130,22 @@ def quota_refused(e):
 
 
 class Reader:
-    """Asks the service, one request at a time, with the pause of PAUSE_S before every request but the first."""
+    """Asks the service, one request at a time, with the pause of PAUSE_S before every request but the first. With ``pause_first``
+    (a scheduled run) the first request waits a pause as well: the step before it in the job asks the same host, in another process,
+    and the least interval of the helper is kept by each process alone."""
 
-    def __init__(self, limit_s=None):
+    def __init__(self, limit_s=None, pause_first=False):
         self.n = 0
         self.limit_s = limit_s
+        self.pause_first = pause_first
         self.t0 = time.monotonic()
 
     def ask(self, params):
         """One page from the service. The helper is given one attempt, so that every retry is this script's own: after a
-        quota answer (an error body or HTTP 429) the script waits QUOTA_WAIT_S and asks once more, a second quota answer
-        stops the run; after any other failure it waits a pause of PAUSE_S and asks again, ATTEMPTS requests in all."""
+        quota answer (an error body or HTTP 429) the script waits QUOTA_WAIT_S, or the delay the service named plus the helper's
+        margin when that is longer, and asks once more; a second quota answer stops the run, and so does a delay longer than the
+        helper waits for or a wait that would end after the run's time limit; after any other failure it waits a pause of PAUSE_S
+        and asks again, ATTEMPTS requests in all."""
         quota, failures = False, 0
         while True:
             if self.limit_s is not None and time.monotonic() - self.t0 > self.limit_s:
@@ -144,8 +158,15 @@ class Reader:
                     if quota:
                         raise fetch.FetchError(why)
                     quota = True
-                    print(f"  the service refused for its quota ({why}); waiting {QUOTA_WAIT_S} s, once")
-                    time.sleep(QUOTA_WAIT_S)
+                    wait = max(QUOTA_WAIT_S, (e.retry_after or 0) + fetch.QUOTA_MARGIN)
+                    if wait > fetch.QUOTA_MAX_WAIT:
+                        err = fetch.FetchError(why)
+                        err.retry_after = e.retry_after
+                        raise err
+                    if self.limit_s is not None and time.monotonic() - self.t0 + wait > self.limit_s:
+                        raise TimeUp(f"the run would use more than its {int(self.limit_s)} seconds before the {wait:g} the service asked for are over")
+                    print(f"  the service refused for its quota ({why}); waiting {wait:g} s, once")
+                    time.sleep(wait)
                     continue
                 failures += 1
                 if failures >= ATTEMPTS:
@@ -153,7 +174,7 @@ class Reader:
                 time.sleep(random.uniform(*PAUSE_S))
 
     def page(self, where, offset, order, allowed):
-        if self.n:
+        if self.n or self.pause_first:
             time.sleep(random.uniform(*PAUSE_S))
         self.n += 1
         doc = self.ask(PP.request_params(where, offset, order))
@@ -232,8 +253,9 @@ def folder_bytes(out_dir, replacing=()):
 
 def ends_here(reader, p, y):
     """True when the service has no row of port ``p`` after its day ``y``: the file ends there because the port is late in PortWatch,
-    not because a read stopped short. One request (one more for a page that is full)."""
-    return not reader.rows(PP.where_window([p], date.fromisoformat(y) + timedelta(days=1)), "ObjectId", {p})
+    not because a read stopped short. One request, whatever the answer (a first page with a row is enough to say no): the plan counts
+    PP.FIRST_READ_CHECK for it."""
+    return not reader.page(PP.where_window([p], date.fromisoformat(y) + timedelta(days=1)), 0, "ObjectId", {p})[0]
 
 
 def print_plan(pl, today):
@@ -310,14 +332,16 @@ def _run(argv, today, held):
     if args.limit:
         ids = ids[:args.limit]
     docs, bad, none = read_state(out_dir, ids, all_ids)
+    none_at_start = set(none)
     for i in bad:
         print(f"  {i}.json is not a valid port file: read again in full")
     pl = PP.plan(ids, docs, none, today, backfill=args.backfill, max_ports=args.max_ports, full=args.full, max_requests=MAX_REQUESTS)
     print(f"port traffic: {len(ids)} ports, {len(docs)} with a file, {len(none)} without rows at the last check")
     print_plan(pl, today)
     least, usual, most = PP.weekly_request_bounds(len(all_ids), today, MAX_REQUESTS)
-    print(f"  a weekly run for all {len(all_ids)} ports asks for {least} to {usual} requests as a rule; the plan never asks for more than "
-          f"{most} (the ports whose files end earliest are read first, the others wait for the next run)")
+    print(f"  a normal weekly run for all {len(all_ids)} ports asks for " + (f"{least}" if least == usual else f"{least} to {usual}")
+          + f" requests; a run never asks for more than {most}, not counting a request repeated after an error "
+          f"(the ports whose files end earliest are read first, the others wait for the next run)")
     if args.dry_run:
         return res
     lock = take_lock()
@@ -327,7 +351,7 @@ def _run(argv, today, held):
     held.append(lock)
 
     prev = status.get(SOURCE) if record else {}
-    reader = Reader(None if by_hand else RUN_LIMIT_S)
+    reader = Reader(None if by_hand else RUN_LIMIT_S, pause_first=not by_hand)
 
     def sync_index(force=False):
         """index.json is the list of the ports with no rows and of those not read yet, as the folder is now; it is written when
@@ -481,20 +505,30 @@ def _run(argv, today, held):
                   + (" ROUNDING OVER 0.5%" if max(share, tshare) > 0.005 else ""))
         for p, last in sitting.items():     # a port written before a newer one was read: judged now, as the later ones were
             if (newest - last).days > FIRST_LOAD_LAG_DAYS:
+                judged = True
                 try:
                     late = ends_here(reader, p, docs[p]["y"])
+                except TimeUp as e:
+                    late, judged = False, False
+                    res["stopped"] = str(e)
+                    print("  stopped:", e)
                 except fetch.FetchError as e:
-                    late = False
+                    late, judged = False, False
                     print(f"  {p} {names[p]}: could not be checked against the newest ({e})")
                 if late:
                     print(f"  {p} {names[p]}: its last week starts {last}, the newest {newest}; the service has no row of this port after "
                           f"{docs[p]['y']}: kept as it is")
                     continue
+                # not judged, or late in the folder and not in the service: the folder is as it was before the port was read (no file; the
+                # port in ``none`` again when it was there at the start of the run, else pending)
                 os.remove(os.path.join(out_dir, f"{p}.json"))
                 docs.pop(p, None)
                 res["written"].remove(p)
-                print(f"  {p} {names[p]}: its last week starts {last}, the newest {newest}, and the service has rows after it: its file is "
-                      f"removed, the port stays pending")
+                if p in none_at_start:
+                    none.add(p)
+                print(f"  {p} {names[p]}: its last week starts {last}, the newest {newest}, and " + ("the service has rows after it" if judged else
+                      "it could not be checked") + ": its file is removed, the port stays " + ("in the list of the ports with no rows"
+                      if p in none_at_start else "pending"))
         if rechecked:
             sync_index(force=True)
         elif os.path.exists(os.path.join(out_dir, PP.INDEX)):
@@ -507,7 +541,7 @@ def _run(argv, today, held):
         print("failed, the previous files are kept:", res["error"])
         if record and not by_hand:
             unread = [i for i in ids if i not in docs and i not in none]
-            if unread:
+            if unread and not prev:
                 print(f"  not recorded as a failure: the first load is not finished ({len(unread)} ports have no file yet)")
             else:
                 status.record_failure(SOURCE, res["error"])

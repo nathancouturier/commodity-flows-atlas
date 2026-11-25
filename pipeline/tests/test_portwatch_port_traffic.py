@@ -491,7 +491,7 @@ class Merge(unittest.TestCase):
 
 
 class Requests(unittest.TestCase):
-    def test_chunks_hold_at_most_twenty_ports_and_stay_under_the_address_limit_with_every_port_once(self):
+    def test_chunks_hold_at_most_the_ports_of_one_page_of_the_window_and_stay_under_the_address_limit_with_every_port_once(self):
         ids = P.port_ids()
         self.assertEqual(len(ids), len(set(ids)))
         ch = P.chunks(ids, date(2026, 10, 5))
@@ -555,7 +555,8 @@ class Requests(unittest.TestCase):
         self.assertEqual(pl["deep"][0]["since"], (date(2026, 11, 9) - timedelta(weeks=52)).isoformat())
         self.assertEqual(pl["history"], ids[90:90 + P.SCHEDULED_BACKFILL_CAP])
         self.assertEqual(len(pl["history"]), 5)
-        self.assertEqual(pl["requests"]["history"], 5 * P.pages((TODAY - date.fromisoformat(P.HISTORY_FROM)).days + 1))
+        # each port read in full counts its pages and the check that a port that ends weeks before the others is late in the service
+        self.assertEqual(pl["requests"]["history"], 5 * (P.pages((TODAY - date.fromisoformat(P.HISTORY_FROM)).days + 1) + P.FIRST_READ_CHECK))
         n_pages = sum(P.pages(len(c) * g["days"]) for k in ("window", "deep") for g in pl[k] for c in g["chunks"])
         self.assertEqual(pl["requests"]["window"] + pl["requests"]["deep"], n_pages)
         for k in ("window", "deep"):
@@ -611,8 +612,55 @@ class Requests(unittest.TestCase):
         self.assertLessEqual(usual, most)
         self.assertEqual(most, S.MAX_REQUESTS)
         self.assertGreaterEqual(least, math.ceil(n / P.MAX_IDS))
-        self.assertGreater(usual - least, 0)     # the ports without a file are read in full
+        self.assertEqual((least, usual), (min(P.normal_week_requests(n, TODAY, lag) for lag in P.TABLE_LAG_DAYS),
+                                          max(P.normal_week_requests(n, TODAY, lag) for lag in P.TABLE_LAG_DAYS)))
         self.assertEqual(P.weekly_request_bounds(n, TODAY + timedelta(weeks=1), S.MAX_REQUESTS)[0] > 0, True)
+
+    def test_a_normal_week_for_any_number_of_ports_is_the_plan_of_the_state_a_chain_of_weekly_runs_leaves(self):
+        """The count of the model is the plan's on rows that really exist: one page for a chunk of the window (fewer than PAGE rows, no
+        request for a next page) and, for the quarter read in depth, the pages the rows fill. Recounted here from the rows of a table."""
+        for n in (1, 7, 18, 19, 36, 100, 163, 164, 250):
+            for week in range(4):
+                today = date(2026, 12, 2) + timedelta(weeks=week)
+                for lag in P.TABLE_LAG_DAYS:
+                    end = today - timedelta(days=lag)
+                    before = end - timedelta(days=7)               # the last day of the table at the previous run
+                    last = before - timedelta(days=6) if before.weekday() == 6 else P.monday(before) - timedelta(days=7)
+                    q = P.week_index(today) % P.QUARTERS
+                    ids = list(range(n))
+                    deep = [i for i in ids if i % P.QUARTERS == q]
+                    window = [i for i in ids if i % P.QUARTERS != q]
+                    want = 0
+                    for group, weeks in ((window, P.WINDOW_WEEKS - 1), (deep, P.DEEP_WEEKS)):
+                        days = (end - (last - timedelta(weeks=weeks))).days + 1
+                        for k in range(0, len(group), P.MAX_IDS):
+                            rows = len(group[k:k + P.MAX_IDS]) * days
+                            want += math.ceil(rows / P.PAGE) if rows % P.PAGE else rows // P.PAGE + 1      # a page that is full is followed by one
+                    self.assertEqual(P.normal_week_requests(n, today, lag), want, (n, today, lag))
+        # every window of a normal week is one page: fewer rows than the page for the longest window
+        longest = max((today - timedelta(days=lag) - (last - timedelta(weeks=P.WINDOW_WEEKS - 1))).days + 1
+                      for today, last, lag in ((date(2026, 12, 2), date(2026, 11, 16) + timedelta(days=d), 0) for d in range(-6, 1)))
+        self.assertLessEqual(P.MAX_IDS * P.WINDOW_DAYS_MAX, P.PAGE - 1)
+        self.assertGreater((P.MAX_IDS + 1) * P.WINDOW_DAYS_MAX, P.PAGE - 1)
+        self.assertEqual(P.WINDOW_DAYS_MAX, 55)
+
+    def test_the_size_of_a_chunk_asks_for_the_fewest_requests_of_a_normal_week(self):
+        """No size of chunk from 1 to 20 ports asks for fewer requests in a normal week, for any day the table can end on and any week of the
+        rotation, than MAX_IDS does, and the sizes above it ask for more in at least one of them (the window is two pages)."""
+        n = len(P.port_ids())
+        sums = {}
+        saved = P.chunks.__defaults__
+        try:
+            for size in range(1, 21):
+                P.chunks.__defaults__ = (size, P.MAX_ADDRESS)
+                sums[size] = [P.normal_week_requests(n, date(2026, 12, 2) + timedelta(weeks=w), lag) for w in range(4) for lag in P.TABLE_LAG_DAYS]
+        finally:
+            P.chunks.__defaults__ = saved
+        for size in range(1, 21):
+            self.assertLessEqual(max(sums[P.MAX_IDS]), max(sums[size]), f"{size} ports a request ask for fewer in the worst week")
+            self.assertLessEqual(sum(sums[P.MAX_IDS]), sum(sums[size]), f"{size} ports a request ask for fewer on average")
+        for size in range(P.MAX_IDS + 1, 21):
+            self.assertGreater(max(sums[size]), max(sums[P.MAX_IDS]))
 
     def test_a_page_that_is_full_costs_one_more_request_in_the_count(self):
         self.assertEqual([P.pages(r) for r in (0, 1, 999, 1000, 1001, 1999, 2000)], [1, 1, 1, 2, 2, 2, 3])
@@ -685,9 +733,9 @@ class WeeklyBound(unittest.TestCase):
         self.assertLessEqual(S.MAX_REQUESTS * (FP.PAUSE_S[1] + S.REQUEST_S), S.RUN_LIMIT_S)
         self.assertGreater((S.MAX_REQUESTS + 1) * (FP.PAUSE_S[1] + S.REQUEST_S), S.RUN_LIMIT_S)
         step = int(re.search(r"Fetch PortWatch port traffic[^\n]*\n(?:.*\n)*?\s+timeout-minutes: (\d+)", read(".github", "workflows", "update-portwatch.yml")).group(1))
-        # the limit is checked before a request, so the last one starts by RUN_LIMIT_S and can last a connection and a read; a quota wait that began
-        # before the limit ends 65 s after it
-        last = S.RUN_LIMIT_S + max(S.QUOTA_WAIT_S, FP.PAUSE_S[1] + F.CONNECT_TIMEOUT + F.READ_TIMEOUT)
+        # the limit is checked before a request and before a quota wait, so the last request starts by RUN_LIMIT_S and can last a connection and a
+        # read, and no wait ends after the limit
+        last = S.RUN_LIMIT_S + FP.PAUSE_S[1] + F.CONNECT_TIMEOUT + F.READ_TIMEOUT
         self.assertLess(last, step * 60 - 30)
 
     def test_the_usual_run_of_all_the_ports_fits_the_bound(self):
@@ -695,6 +743,31 @@ class WeeklyBound(unittest.TestCase):
         least, usual, most = P.weekly_request_bounds(n, TODAY, S.MAX_REQUESTS)
         self.assertLessEqual(usual, most)
         self.assertGreaterEqual(most - usual, 0)
+
+    def test_a_port_without_a_file_costs_its_pages_and_one_check_and_the_run_never_asks_for_more_than_the_bound(self):
+        ids = [f"port{n}" for n in range(1, 164)]
+        today = date(2026, 12, 2)
+        pages = P.pages((today - date.fromisoformat(P.HISTORY_FROM)).days + 1)
+        for taken in (0, 5, 40, 120):
+            docs = {k: v for k, v in self.docs(ids, today, lambda i: 0).items() if int(k[4:]) > taken}
+            for bound in (S.MAX_REQUESTS, 12, 20, 30, 39, 42):
+                pl = P.plan(ids, docs, set(), today, max_requests=bound)
+                self.assertEqual(pl["requests"]["history"], len(pl["history"]) * (pages + P.FIRST_READ_CHECK))
+                self.assertLessEqual(pl["requests"]["total"], bound, (taken, bound))
+        # the cap is the room that is left over what a port costs: five ports fit with their checks in exactly this room, and with one request
+        # less four do (five would have fitted without the check)
+        docs = self.docs(ids, today, lambda i: 0)
+        for k in list(docs)[:5]:
+            del docs[k]
+        full = P.plan(ids, docs, set(), today, max_requests=None)
+        window_deep = full["requests"]["window"] + full["requests"]["deep"]
+        room = window_deep + 5 * (pages + P.FIRST_READ_CHECK)
+        self.assertEqual(len(P.plan(ids, docs, set(), today, max_requests=room)["history"]), 5)
+        self.assertEqual(len(P.plan(ids, docs, set(), today, max_requests=room - 1)["history"]), 4)
+        self.assertLessEqual(window_deep + 5 * pages, room - 1)
+        # a sitting by hand and --full count the pages only: nothing is checked against a newer port for them
+        self.assertEqual(P.plan(ids, {}, set(), today, backfill=True, max_ports=15)["requests"]["history"], 15 * pages)
+        self.assertEqual(P.plan(ids, docs, set(), today, full=["port1", "port2"])["requests"]["history"], 2 * pages)
 
 
 def read(*parts):
@@ -825,17 +898,48 @@ class FirstLoad(Env):
         res = self.run_script("--backfill", "--max-ports", "2", today=date(2026, 11, 12))
         self.assertIn("503", res["error"])
         self.assertEqual(status.get(S.SOURCE)["consecutive_failures"], 0)       # a sitting that stops short is not a scheduled failure
-        # the first load is not finished (six ports have no file): a weekly run that fails says so and records nothing, so that the
-        # About window does not show the source failing or stale for a load that is going on
-        before = pathlib.Path(status.UPDATES).read_bytes()
+        # the entry of the source exists (the sittings recorded their success): a weekly run that fails is recorded although six ports have
+        # no file yet, so that a port that is not read yet cannot hide the failure of the source
         self.svc.script = down()
         res = self.run_script(today=date(2026, 11, 25))
         self.assertIn("503", res["error"])
         self.assertIn("failed, the previous files are kept", self.output)
-        self.assertIn("not recorded as a failure: the first load is not finished (6 ports have no file yet)", self.output)
-        self.assertEqual(pathlib.Path(status.UPDATES).read_bytes(), before)
-        # once every port has a file (or no rows) a failed weekly run is recorded, as it always was
+        self.assertNotIn("not recorded", self.output)
+        self.assertEqual(status.get(S.SOURCE)["consecutive_failures"], 1)
+        self.assertIn("503", status.get(S.SOURCE)["last_error"])
+        # and so it is once every port has a file (or no rows)
         self.run_script("--backfill", "--max-ports", "6", today=date(2026, 11, 12))
+        self.svc.script = down()
+        res = self.run_script(today=date(2026, 11, 25))
+        self.assertIn("503", res["error"])
+        self.assertNotIn("not recorded", self.output)
+        self.assertEqual(status.get(S.SOURCE)["consecutive_failures"], 1)       # the sitting that succeeded began the count again
+        self.assertIn("503", status.get(S.SOURCE)["last_error"])
+
+    def test_a_scheduled_failure_is_recorded_except_while_no_run_has_succeeded_and_the_first_load_is_not_finished(self):
+        self.start(n_ports=4)
+        self.run_script("--backfill", "--max-ports", "2", today=date(2026, 11, 12))     # two files, two ports pending
+        os.remove(os.path.join(self.tmp, "updates.json"))                                 # no entry of the source: no run has succeeded
+        self.assertEqual(status.get(S.SOURCE), {})
+        # no entry and a port not read yet: the load is still going on, the failure is printed and recorded nowhere
+        self.svc.script = down()
+        res = self.run_script(today=date(2026, 11, 25))
+        self.assertIn("503", res["error"])
+        self.assertIn("not recorded as a failure: the first load is not finished (2 ports have no file yet)", self.output)
+        self.assertEqual(status.get(S.SOURCE), {})
+        self.assertFalse(os.path.exists(status.UPDATES))
+        # no entry, every port accounted for: the first scheduled runs are recorded (the source is retrying until the third)
+        self.run_script("--backfill", "--max-ports", "2", today=date(2026, 11, 12))
+        os.remove(os.path.join(self.tmp, "updates.json"))
+        self.svc.script = down()
+        res = self.run_script(today=date(2026, 11, 25))
+        self.assertNotIn("not recorded", self.output)
+        e = status.get(S.SOURCE)
+        self.assertEqual((e["consecutive_failures"], e["last_success"]), (1, None))
+        # an entry that holds a success, and a port that is not read yet (an asset added since): the failure is recorded all the same
+        self.run_script("--backfill", "--max-ports", "4", today=date(2026, 11, 12))
+        self.assertTrue(status.get(S.SOURCE)["last_success"])
+        os.remove(os.path.join(self.out, "port4.json"))
         self.svc.script = down()
         res = self.run_script(today=date(2026, 11, 25))
         self.assertIn("503", res["error"])
@@ -1239,6 +1343,94 @@ class WeeklyCap(Env):
             self.assertGreater(self.read(p)["y"], before[p])
 
 
+class FirstLoadInAWeeklyRun(Env):
+    """Ports without a file that the weekly run reads in full and finds late: the requests of the run stay inside the bound the plan was given."""
+
+    def late_ports(self):
+        """Fourteen ports, the first nine of the fixed order (the ids as text) loaded by a sitting, the last five late in the service itself."""
+        self.start(n_ports=14, first=date(2019, 1, 1))        # a port holds three pages of rows, as the plan counts a first read
+        self.order = sorted(self.ports)
+        self.run_script("--backfill", "--max-ports", "9", today=date(2026, 11, 12))
+        for p in self.order[9:]:         # five ports whose rows end five weeks before the others
+            self.svc.table[p] = [r for r in self.svc.table[p] if r["date"] <= "2026-10-04"]
+
+    def cut_first_read(self, port, last_day):
+        self.svc.hook = lambda rows, params: rows if " AND date >" in params["where"] else [
+            r for r in rows if r["portid"] != port or r["date"] <= last_day]
+
+    def test_five_late_ports_to_load_in_a_scheduled_run_ask_for_no_more_than_the_plan_was_given(self):
+        self.late_ports()
+        today = date(2026, 11, 12)
+        have = {p: self.read(p) for p in self.order[:9]}
+        kept = P.plan(self.order[:9], have, set(), today)["requests"]
+        pages = P.pages((today - date.fromisoformat(P.HISTORY_FROM)).days + 1)
+        bound = kept["window"] + kept["deep"] + 5 * pages + 4           # five ports and their pages fit, five ports and their checks do not
+        with mock.patch.object(S, "MAX_REQUESTS", bound):
+            res = self.run_script(today=today)
+        self.assertIsNone(res["error"])
+        loaded = [p for p in res["written"] if p in self.order[9:]]
+        self.assertEqual(len(loaded), 4, "the plan counts the check of each port: four fit")
+        self.assertEqual(res["requests"], kept["window"] + kept["deep"] + 4 * (pages + 1))
+        self.assertLessEqual(res["requests"], bound)
+        self.assertEqual(self.output.count("the service has no row of this port"), 4)
+        # with the room of five ports and their checks, five are read, and the run asks for exactly the bound
+        self.late_ports()
+        with mock.patch.object(S, "MAX_REQUESTS", bound + 1):
+            res = self.run_script(today=today)
+        self.assertEqual(len([p for p in res["written"] if p in self.order[9:]]), 5)
+        self.assertEqual(res["requests"], bound + 1)
+
+    def test_the_check_of_a_late_port_is_one_request_whatever_the_service_answers(self):
+        self.late_ports()
+        # the service holds many rows after the day the first read stopped: the check still asks one page
+        reader = S.Reader()
+        self.svc.table["port10"] = make_table(["port10"], date(2026, 10, 5), date(2026, 10, 5) + timedelta(days=2 * P.PAGE))["port10"]
+        before = len(self.svc.calls)
+        self.assertFalse(S.ends_here(reader, "port10", "2026-10-04"))
+        self.assertEqual(len(self.svc.calls) - before, 1)
+        self.assertTrue(S.ends_here(reader, "port5", "2026-10-04"))
+        self.assertEqual(len(self.svc.calls) - before, 2)
+
+    def test_a_port_written_before_a_newer_one_and_not_judged_in_time_is_taken_back_and_the_port_stays_where_it_was(self):
+        # a new port: the folder ends as it was before the port was read, the port pending
+        self.start(n_ports=3)
+        self.cut_first_read("port1", "2026-10-11")
+        before = self.tree()
+        with mock.patch.object(S, "ends_here", side_effect=S.TimeUp("the run used its 720 seconds")):
+            res = self.run_script(today=date(2026, 11, 12))
+        self.assertEqual(res["written"], ["port2", "port3"])
+        self.assertIn("720 seconds", res["stopped"])
+        self.assertEqual(sorted(f for f in os.listdir(self.out)), ["index.json", "port2.json", "port3.json"])
+        self.assertEqual(json.loads(self.tree()["index.json"])["pending"], ["port1"])
+        self.assertIn("port1 Alpha: its last week starts 2026-10-05, the newest 2026-11-02, and it could not be checked: its file is removed, "
+                      "the port stays pending", self.output)
+        self.assertNotIn("port1.json.tmp", " ".join(os.listdir(self.out)))
+        # the run is not a failure: the next one reads the port again
+        self.svc.hook = None
+        res = self.run_script(today=date(2026, 11, 19))
+        self.assertIn("port1", res["written"])
+        self.assertEqual(json.loads(self.tree()["index.json"])["pending"], [])
+
+    def test_a_port_that_returned_no_rows_and_is_read_again_goes_back_to_the_list_of_those_when_it_is_taken_back(self):
+        self.start(n_ports=5)
+        for p in self.ports:
+            self.svc.table[p] = []
+        self.run_script("--backfill", "--max-ports", "5", today=date(2026, 11, 12))
+        self.assertEqual(json.loads(self.tree()["index.json"])["none"], self.ports)
+        full = make_table(self.ports, date(2025, 11, 3), date(2026, 11, 8))
+        self.svc.table = {**full, "port1": [r for r in full["port1"] if r["date"] <= "2026-10-11"]}
+        today = next(date(2026, 11, 12) + timedelta(weeks=w) for w in range(4) if P.week_index(date(2026, 11, 12) + timedelta(weeks=w)) % P.QUARTERS == 0)
+        # ports 1 and 5 are asked again in this week of the quarter: port 1 is read first, port 5 is the newer
+        self.svc.hook = lambda rows, params: rows if " AND date >" in params["where"] else [r for r in rows if r["portid"] != "port1" or r["date"] <= "2026-10-11"]
+        with mock.patch.object(S, "ends_here", side_effect=S.TimeUp("the run used its 720 seconds")):
+            res = self.run_script(today=today)
+        self.assertEqual(res["written"], ["port5"])
+        index = json.loads(self.tree()["index.json"])
+        self.assertEqual((index["none"], index["pending"]), (["port1", "port2", "port3", "port4"], []))
+        self.assertEqual(sorted(f for f in os.listdir(self.out)), ["index.json", "port5.json"])
+        self.assertIn("the port stays in the list of the ports with no rows", self.output)
+
+
 class SizeStop(Env):
     """The size stop is the owner's figure; the run says plainly, from 90% of it, how near it is and when it would be reached."""
 
@@ -1520,7 +1712,7 @@ class WeeklyPace(Env):
         gets = kinds.count("get")
         self.assertEqual(res["requests"], gets)
         self.assertGreaterEqual(gets, 5, "the run must have several chunks, a deep pass and a backfill")
-        self.assertEqual(kinds, (["get", "sleep"] * gets)[:-1])            # none before the first, none after the last
+        self.assertEqual(kinds, ["sleep", "get"] * gets)            # a scheduled run waits before every request, the first included
         self.assertEqual(self.svc.threads, {threading.get_ident()})
         for e in events:
             if e[0] == "get":
@@ -1528,6 +1720,44 @@ class WeeklyPace(Env):
             else:
                 self.assertGreaterEqual(e[1], FP.PAUSE_S[0])
                 self.assertLessEqual(e[1], FP.PAUSE_S[1])
+
+    def test_a_scheduled_run_waits_a_pause_before_its_first_request_and_a_run_by_hand_does_not(self):
+        """The step before this one in the job asks the same host from another process: nothing paces the first request but this wait."""
+        res, events = self.watched()
+        self.assertEqual([e[0] for e in events][:2], ["sleep", "get"])
+        self.assertGreaterEqual(events[0][1], FP.PAUSE_S[0])
+        self.assertLessEqual(events[0][1], FP.PAUSE_S[1])
+        for options in (("--ports", "port1", "port2"), ("--limit", "3"), ("--full", "port1")):
+            self.svc.calls.clear()
+            events = []
+            real = self.svc
+
+            def get(url, params=None, **kw):
+                events.append("get")
+                return real(url, params=params, **kw)
+            with mock.patch.object(S.fetch, "get_json", get), mock.patch.object(S.time, "sleep", lambda s: events.append("sleep")):
+                self.run_script(*options, today=date(2026, 11, 25))
+            self.assertEqual(events[0], "get", options)
+        # a dry run asks for nothing and waits for nothing
+        slept = []
+        with mock.patch.object(S.time, "sleep", slept.append):
+            self.run_script("--dry-run", today=date(2026, 11, 25))
+        self.assertEqual(slept, [])
+
+    def test_the_wait_before_the_first_request_comes_out_of_the_time_of_the_run(self):
+        clock, asked = [1000.0], len(self.svc.calls)
+        real = self.svc
+
+        def get(url, params=None, **kw):
+            return real(url, params=params, **kw)
+
+        def sleep(s):
+            clock[0] += s
+        with mock.patch.object(S.fetch, "get_json", get), mock.patch.object(S.time, "sleep", sleep), \
+                mock.patch.object(S.time, "monotonic", lambda: clock[0]), mock.patch.object(S, "RUN_LIMIT_S", 5):
+            res = self.run_script(today=date(2026, 11, 25))
+        self.assertIn("5 seconds", res["error"])          # the pause (8 to 14 s) is longer than the 5 s the run is given: no request follows it
+        self.assertEqual(len(self.svc.calls), asked)
 
     def test_a_weekly_run_asks_the_window_in_chunks_then_the_deep_pass_then_the_ports_without_a_file(self):
         res, events = self.watched()
@@ -1561,10 +1791,12 @@ class Retries(Env):
     GOOD = {"features": [], "exceededTransferLimit": False}
 
     class Resp:
-        def __init__(self, code, body=None):
+        def __init__(self, code, body=None, headers=None):
             self.status_code = code
             self.content = b"{}"
             self.body = body
+            self.headers = headers or {}
+            self.text = ""
 
         def json(self):
             return self.body
@@ -1572,7 +1804,7 @@ class Retries(Env):
         def close(self):
             pass
 
-    def on_clock(self, answer, limit_s=None):
+    def on_clock(self, answer, limit_s=None, pause_first=False):
         """One ``Reader.page`` whose n-th request (from 1) is answered by ``answer(n)`` (a Resp). Returns (outcome, starts):
         the rows or the exception, and the time each request started on the virtual clock."""
         clock, starts = [1000.0], []
@@ -1589,7 +1821,7 @@ class Retries(Env):
             with mock.patch.object(S.time, "sleep", lambda s: clock.__setitem__(0, clock[0] + max(0.0, s))), \
                     mock.patch.object(S.time, "monotonic", lambda: clock[0]), mock.patch.object(S.fetch, "get_json", GET_JSON), \
                     contextlib.redirect_stdout(io.StringIO()):
-                reader = S.Reader(limit_s)
+                reader = S.Reader(limit_s, pause_first=pause_first)
                 try:
                     out = reader.page(P.where_history("port1"), 0, "date", {"port1"})
                 except F.FetchError as e:
@@ -1628,6 +1860,41 @@ class Retries(Env):
         self.assertEqual(len(starts), 2)
         self.assertGreaterEqual(starts[1] - starts[0], S.QUOTA_WAIT_S)
 
+    def test_after_a_quota_answer_that_names_a_longer_delay_the_wait_is_that_delay_plus_the_margin(self):
+        self.start(n_ports=1)
+        delay = 120
+        body = {"error": {"message": f"API calls quota exceeded! maximum admitted 20 per 60 sec. Retry after {delay} sec"}}
+        as_body = lambda n: self.Resp(200, body)
+        as_header = lambda n: self.Resp(429, headers={"Retry-After": str(delay)})
+        as_http_body = lambda n: self.Resp(429, body)
+        for name, quota in (("an error body", as_body), ("an HTTP 429 with the header", as_header), ("an HTTP 429 with the delay in its body", as_http_body)):
+            out, starts = self.on_clock(lambda n: quota(n) if n == 1 else self.Resp(200, self.GOOD))
+            self.assertEqual(out, ([], False, 0), name)
+            self.assertEqual(len(starts), 2, name)
+            self.assertGreaterEqual(starts[1] - starts[0], delay + F.QUOTA_MARGIN, name)
+            self.assertGreater(delay + F.QUOTA_MARGIN, S.QUOTA_WAIT_S)
+            # the second answer stops the run: no request is made 65 s after the first
+            out, starts = self.on_clock(quota)
+            self.assertIsInstance(out, F.FetchError, name)
+            self.assertEqual(len(starts), 2, name)
+            self.assertGreaterEqual(starts[1] - starts[0], delay + F.QUOTA_MARGIN, name)
+        # a delay shorter than the fixed wait keeps the fixed wait
+        out, starts = self.on_clock(lambda n: self.Resp(200, {"error": {"message": "quota exceeded. Retry after 10 sec"}}) if n == 1 else self.Resp(200, self.GOOD))
+        self.assertEqual(len(starts), 2)
+        self.assertGreaterEqual(starts[1] - starts[0], S.QUOTA_WAIT_S)
+        # a delay that the helper does not wait for stops the run at once, however it is given
+        long = int(F.QUOTA_MAX_WAIT)
+        for quota in (lambda n: self.Resp(200, {"error": {"message": f"quota exceeded. Retry after {long} sec"}}),
+                      lambda n: self.Resp(429, headers={"Retry-After": str(long)})):
+            out, starts = self.on_clock(quota)
+            self.assertIsInstance(out, F.FetchError)
+            self.assertEqual(len(starts), 1)
+            self.assertEqual(out.retry_after, long)
+        # and a wait that would end after the time of the run is not begun: the run ends there
+        out, starts = self.on_clock(as_body, limit_s=delay)
+        self.assertIsInstance(out, S.TimeUp)
+        self.assertEqual(len(starts), 1)
+
     def test_a_service_that_fails_otherwise_is_asked_four_times_never_less_than_the_least_pause_apart(self):
         self.start(n_ports=1)
         def not_json(n):
@@ -1655,13 +1922,18 @@ class Retries(Env):
 
     def test_the_run_time_limit_stops_the_retries_of_a_weekly_run(self):
         self.start(n_ports=1)
-        out, starts = self.on_clock(lambda n: self.Resp(503), limit_s=30)
+        with mock.patch.object(S.random, "uniform", lambda a, b: a):      # the shortest pauses: three of them are 24 s
+            out, starts = self.on_clock(lambda n: self.Resp(503), limit_s=20)
         self.assertIsInstance(out, S.TimeUp)
         self.assertLess(len(starts), S.ATTEMPTS)
         # a quota answer is not waited out past the limit either
         out, starts = self.on_clock(lambda n: self.Resp(200, self.QUOTA_BODY), limit_s=S.QUOTA_WAIT_S - 5)
         self.assertIsInstance(out, S.TimeUp)
         self.assertEqual(len(starts), 1)
+        # the pause before the first request of a scheduled run is inside the time of the run
+        out, starts = self.on_clock(lambda n: self.Resp(200, self.GOOD), limit_s=FP.PAUSE_S[0] - 1, pause_first=True)
+        self.assertIsInstance(out, S.TimeUp)
+        self.assertEqual(starts, [])
         # a hand sitting has no limit
         out, starts = self.on_clock(lambda n: self.Resp(503), limit_s=None)
         self.assertEqual(len(starts), S.ATTEMPTS)
@@ -1909,19 +2181,29 @@ class TheTextsGiveTheFiguresOfTheCode(Env):
     def test_the_requests_and_the_minutes_of_a_normal_run_and_of_the_worst_one(self):
         n = len(P.port_ids())
         bounds = [P.weekly_request_bounds(n, TODAY + timedelta(weeks=w), S.MAX_REQUESTS) for w in range(4)]
-        least, most = min(b[0] for b in bounds), max(b[0] for b in bounds)
-        self.assertEqual((least, most), (23, 24), "the figures of the guide are 23 or 24: change the text with the code")
-        self.assertIn(f"**{least} or {most} requests** in a normal week", self.section)
-        self.assertIn(f"**never more than {S.MAX_REQUESTS}**", self.section)
+        least, most = min(b[0] for b in bounds), max(b[1] for b in bounds)
+        self.assertEqual((least, most), (23, 23), "the figure of the guide is 23, whatever the quarter and the day the table ends on: change the text with the code")
+        self.assertIn(f"**{least} requests** in a normal week", self.section)
+        self.assertIn(f"**never more than {S.MAX_REQUESTS}**, not counting a request repeated after an error", self.section)
         self.assertEqual(S.REQUEST_S, 3)
         self.assertIn(f"{S.MAX_REQUESTS} is the figure for the pace: at {int(FP.PAUSE_S[1])} seconds a pause and three seconds an answer, "
                       f"{S.MAX_REQUESTS} requests fill the {S.RUN_LIMIT_S // 60} minutes after which the script stops asking", self.section)
         lo, hi = FP.PAUSE_S
-        self.assertIn(f"a normal run of {most} requests is {most - 1} pauses, {(most - 1) * lo / 60:.1f} to {(most - 1) * hi / 60:.1f} minutes", self.section)
-        self.assertIn(f"the worst run, {S.MAX_REQUESTS} requests, is {S.MAX_REQUESTS - 1} pauses, {(S.MAX_REQUESTS - 1) * lo / 60:.1f} to "
-                      f"{(S.MAX_REQUESTS - 1) * hi / 60:.1f} minutes", self.section)
+        # a run of the job waits before each request, the first included: as many pauses as requests
+        self.assertIn(f"a normal run of {most} requests is {most} pauses, {most * lo / 60:.1f} to {most * hi / 60:.1f} minutes", self.section)
+        self.assertIn(f"the worst run, {S.MAX_REQUESTS} requests, is {S.MAX_REQUESTS} pauses, {S.MAX_REQUESTS * lo / 60:.1f} to "
+                      f"{S.MAX_REQUESTS * hi / 60:.1f} minutes", self.section)
+        # minutes in all, rounded to the minute: the pauses and an answer of about a second (the worst run: up to REQUEST_S seconds)
+        in_all = [tuple(int(x) for x in m) for m in re.findall(r"(\d+) to (\d+) minutes in all", self.section)]
+        self.assertEqual(len(in_all), 2)
+        for (a, b), (n_req, answer_hi) in zip(in_all, ((most, 1), (S.MAX_REQUESTS, S.REQUEST_S))):
+            self.assertLessEqual(abs(a - n_req * (lo + 1) / 60), 0.6)
+            self.assertLessEqual(abs(b - n_req * (hi + answer_hi) / 60), 0.6)
+            self.assertGreaterEqual(b, n_req * (hi + answer_hi) / 60 - 0.3)
         self.assertLessEqual(S.MAX_REQUESTS * (hi + S.REQUEST_S) / 60, S.RUN_LIMIT_S / 60)
         self.assertIn(f"the {S.RUN_LIMIT_S // 60} minutes are the limit of the script", self.section)
+        self.assertIn(f"{P.WINDOW_DAYS_MAX} days", self.section)
+        self.assertIn("waits one pause of 8 to 14 seconds before its first request, a sitting by hand does not", " ".join(self.section.split()))
 
     def test_the_other_figures_of_the_section_are_the_constants(self):
         sec = self.section
@@ -2028,7 +2310,8 @@ class AsTheWorkflowCallsIt(unittest.TestCase):
         else:
             self.assertNotIn("in full: 15 ports", r.stdout)
             self.assertRegex(r.stdout, r"in full 0\b|in full: 0 ports|nothing to read|no port without a file")
-        self.assertIn(f"a weekly run for all {n} ports asks for", r.stdout)
+        self.assertIn(f"a normal weekly run for all {n} ports asks for", r.stdout)
+        self.assertIn("not counting a request repeated after an error", r.stdout)
         self.assertEqual(r.stderr, "")
 
     def test_a_wrong_option_does_not_make_the_step_fail(self):

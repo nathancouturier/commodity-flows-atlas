@@ -8,8 +8,10 @@
 # time; the pause in seconds is the script's reading of it, see fetch_portwatch.py).
 # After the chokepoint step, a second PortWatch step keeps the weekly port series (data/freight/port-traffic, one file per
 # port) up to date: it asks again for the last weeks of every port and, in rotation, a year of one quarter of the ports, at
-# the same pace and one request at a time (pipeline/freight/fetch_portwatch_port_traffic.py; docs/UPDATING.md says what it
-# asks for and in how many requests: never more than its MAX_REQUESTS). It writes nothing that the data checks refuse, and
+# the same pace and one request at a time; it waits one pause of its own before its first request, because the step before
+# it asked the same host (the wait is in the script, not here: pipeline/freight/fetch_portwatch_port_traffic.py;
+# docs/UPDATING.md says what it asks for and in how many requests: never more than its MAX_REQUESTS, not counting a request
+# repeated after an error). It writes nothing that the data checks refuse, and
 # a failure of that step costs the chokepoint update nothing: both are recorded and committed apart, by the same finish step.
 # Never fails because a source is down: each step is continue-on-error, invalid data is discarded, a step that did not
 # finish is recorded as failed, and the owner is alerted by one GitHub issue per source (after 3 failed runs in a row,
