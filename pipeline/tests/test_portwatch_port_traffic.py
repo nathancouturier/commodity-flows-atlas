@@ -90,13 +90,18 @@ def recount(rows):
     return out
 
 
-def half_up(tonnes, dp=0):
-    q = (Decimal(tonnes) / Decimal(1000)).quantize(Decimal(1).scaleb(-dp), rounding=ROUND_HALF_UP)
-    return int(q) if dp == 0 else float(q)
+def half_up(tonnes):
+    """The rule for a weekly tonnage, written a second way: thousand tonnes with three significant figures at least and
+    never finer than a tonne, so the decimals follow the number of digits of the integer tonnes (6 or more: none, 5: one,
+    4: two, fewer: three), rounded half up with Decimal."""
+    t = int(tonnes)
+    dp = 0 if len(str(t)) >= 6 else 1 if len(str(t)) == 5 else 2 if len(str(t)) == 4 else 3
+    q = (Decimal(t) / Decimal(1000)).quantize(Decimal(1).scaleb(-dp), rounding=ROUND_HALF_UP)
+    return int(q) if q == q.to_integral_value() else float(q)
 
 
-def doc_matches_recount(testcase, doc, rows, dp=0):
-    """Every week of ``doc`` is the recount of ``rows`` (a hole where the week is not complete), rounded half up."""
+def doc_matches_recount(testcase, doc, rows):
+    """Every week of ``doc`` is the recount of ``rows`` (a hole where the week is not complete), rounded by the rule."""
     want = recount(rows)
     start = date.fromisoformat(doc["start"])
     n = len(doc["calls"]["tanker"])
@@ -111,7 +116,7 @@ def doc_matches_recount(testcase, doc, rows, dp=0):
                 if m not in want:
                     testcase.assertIsNone(got, f"{m} is not a complete week: {k} {t} must be null")
                 else:
-                    exp = want[m][k][j] if k == "calls" else half_up(want[m][k][j], dp)
+                    exp = want[m][k][j] if k == "calls" else half_up(want[m][k][j])
                     testcase.assertEqual(got, exp, f"{m} {k} {t}")
 
 
@@ -274,22 +279,47 @@ class WeeklySums(unittest.TestCase):
         rows = make_table(["port9"], date(2025, 1, 6), date(2025, 1, 12))["port9"]
         self.assertEqual(P.weekly(rows + rows[:3]), P.weekly(rows))
 
-    def test_tonnes_are_rounded_half_up_to_the_unit_of_the_file(self):
-        for t, kt0, kt1 in [(0, 0, 0.0), (499, 0, 0.5), (500, 1, 0.5), (1499, 1, 1.5), (1500, 2, 1.5), (2500, 3, 2.5), (49, 0, 0.0), (50, 0, 0.1)]:
-            self.assertEqual(P.kt(t, 0), kt0, t)
-            self.assertEqual(P.kt(t, 0), half_up(t, 0), t)
-            self.assertEqual(P.kt(t, 1), kt1, t)
-            self.assertEqual(P.kt(t, 1), half_up(t, 1), t)
-        self.assertIsInstance(P.kt(1500, 0), int)
+    def test_tonnes_are_rounded_half_up_by_their_size_at_the_edges_of_every_size(self):
+        # (tonnes, thousand tonnes stored), written by hand: whole kt from 100 kt, one decimal from 10 kt, two from 1 kt, the tonne below
+        edges = [(0, 0), (1, 0.001), (999, 0.999), (1000, 1), (1004, 1), (1005, 1.01), (1006, 1.01), (9994, 9.99), (9995, 10),
+                 (10000, 10), (10049, 10), (10050, 10.1), (99949, 99.9), (99950, 100), (100000, 100), (100499, 100), (100500, 101),
+                 (999499, 999), (999500, 1000), (1234500, 1235), (1234499, 1234)]
+        for t, want in edges:
+            got = P.kt(t)
+            self.assertEqual(got, want, t)
+            self.assertEqual(got, half_up(t), t)
+            self.assertIsInstance(got, int if want == int(want) else float, t)
+            self.assertEqual(json.dumps(got), json.dumps(want), t)      # the text of the file: 9.99, 10 and not 10.0
+        self.assertEqual([P.round_tonnes(t) for t in (999, 1004, 1005, 9994, 9995, 99949, 99950, 999499, 999500)],
+                         [999, 1000, 1010, 9990, 10000, 99900, 100000, 999000, 1000000])
 
-    def test_the_document_equals_the_recount_at_the_unit_it_states(self):
+    def test_the_rule_agrees_with_the_second_way_on_a_wide_run_of_tonnages_keeps_three_figures_and_moves_a_sum_by_half_a_per_cent_at_most(self):
+        import random
+        rng = random.Random(20261125)
+        tonnages = list(range(0, 3000)) + list(range(9900, 10100)) + list(range(99900, 100100)) + list(range(999400, 999600))
+        tonnages += [rng.randrange(0, 5_000_000) for _ in range(20000)] + [int(10 ** rng.uniform(0, 7)) for _ in range(20000)]
+        for t in tonnages:
+            v = P.kt(t)
+            self.assertEqual(v, half_up(t), t)
+            self.assertTrue(P._fits_rule(v), (t, v))
+            self.assertLessEqual(abs(P.round_tonnes(t) - t), 0.005 * t, t)
+            self.assertGreaterEqual(Decimal(repr(v)).as_tuple().exponent, -P.MAX_DECIMALS, t)
+        for _ in range(300):    # a sum of 52 weeks of one size and of mixed sizes: never further than 0.5% from the exact one
+            weeks = [int(10 ** rng.uniform(0, 6.5)) for _ in range(52)]
+            exact = sum(weeks)
+            self.assertLessEqual(abs(sum(P.round_tonnes(t) for t in weeks) - exact) / exact, 0.005)
+        with self.assertRaises(ValueError):
+            P.round_tonnes(-1)
+
+    def test_the_document_equals_the_recount_by_the_rule_and_states_the_unit_and_the_most_decimals(self):
         rows = make_table(["port9"], date(2025, 5, 7), date(2026, 2, 3))["port9"]
-        for dp in (0, 1):
-            doc = P.build_doc("port9", "Nine", P.weekly(rows), P.last_day(rows), dp)
-            self.assertEqual((doc["u"], doc["dp"]), ("kt", dp))
-            doc_matches_recount(self, doc, rows, dp)
-            self.assertEqual(P.validate_doc(doc, "port9"), [])
-        self.assertEqual(P.build_doc("port9", "Nine", P.weekly(rows), "2026-02-03")["dp"], P.DECIMALS)
+        doc = P.build_doc("port9", "Nine", P.weekly(rows), P.last_day(rows))
+        self.assertEqual((doc["u"], doc["dp"]), ("kt", 3))
+        self.assertEqual(P.MAX_DECIMALS, 3)
+        doc_matches_recount(self, doc, rows)
+        self.assertEqual(P.validate_doc(doc, "port9"), [])
+        values = {v for k in ("exports", "imports") for t in doc[k] for v in doc[k][t] if v is not None}
+        self.assertTrue(any(isinstance(v, float) for v in values) and any(isinstance(v, int) for v in values))
 
     def test_rounding_error_is_the_difference_of_the_52_week_sums(self):
         rows = make_table(["port9"], date(2024, 1, 1), date(2026, 2, 1))["port9"]
@@ -300,9 +330,9 @@ class WeeklySums(unittest.TestCase):
         worst = 0.0
         for k in ("exports", "imports"):
             exact = sum(weeks[m][k][t] for m in last for t in types)
-            rounded = sum(half_up(weeks[m][k][t]) for m in last for t in types) * 1000
+            rounded = round(sum(half_up(weeks[m][k][t]) for m in last for t in types) * 1000)
             worst = max(worst, abs(rounded - exact) / exact)
-        share, where = P.rounding_error(weeks, 0)
+        share, where = P.rounding_error(weeks)
         self.assertAlmostEqual(share, worst)
         self.assertIn(where, ("exports", "imports"))
         # one type alone
@@ -310,14 +340,14 @@ class WeeklySums(unittest.TestCase):
         for k in ("exports", "imports"):
             for t in types:
                 exact = sum(weeks[m][k][t] for m in last)
-                rounded = sum(half_up(weeks[m][k][t]) for m in last) * 1000
+                rounded = round(sum(half_up(weeks[m][k][t]) for m in last) * 1000)
                 worst = max(worst, abs(rounded - exact) / exact)
-        share_t, where_t = P.rounding_error(weeks, 0, by_type=True)
+        share_t, where_t = P.rounding_error(weeks, by_type=True)
         self.assertAlmostEqual(share_t, worst)
         self.assertGreaterEqual(share_t, share)
+        self.assertLessEqual(share_t, 0.005)
         self.assertIsNotNone(where_t)
-        self.assertLess(P.rounding_error(weeks, 1, by_type=True)[0], share_t + 1e-12)
-        self.assertEqual(P.rounding_error({}, 0), (0.0, None))
+        self.assertEqual(P.rounding_error({}), (0.0, None))
 
     def test_nothing_daily_is_in_a_document(self):
         rows = make_table(["port9"], date(2025, 1, 6), date(2025, 6, 29))["port9"]
@@ -948,6 +978,68 @@ class WeeklyRun(Env):
         self.assertEqual(P.validate_doc(self.read("port2"), "port2"), [])
 
 
+class WindowMergeBySize(Env):
+    """Six ports whose weekly tonnages are of every size the rule knows (from a few tonnes to hundreds of thousands), loaded
+    in full, then a weekly run that reads the window again: the older weeks are the same bytes, the weeks of the window and the
+    new ones are what the rule gives their size, the file never carries a precision of its own for a later week to inherit."""
+
+    FACTORS = [0.0005, 0.005, 0.05, 0.5, 5, 50]
+
+    def table(self, last, change=None):
+        table = make_table(self.ports, date(2025, 11, 3), last)
+        for f, (p, rows) in zip(self.FACTORS, table.items()):
+            for r in rows:
+                for k in P.ASK_FIELDS[2:]:
+                    if k.startswith(("import_", "export_")):
+                        r[k] = round(r[k] * f)
+                if change and r["date"] in change:
+                    r["export_dry_bulk"] += round(change[r["date"]] * f)
+        return table
+
+    def test_the_window_merge_keeps_older_weeks_byte_for_byte_and_gives_the_weeks_of_the_window_the_rule(self):
+        self.start(n_ports=6)
+        self.svc.table = self.table(date(2026, 11, 8))
+        self.run_script("--backfill", "--max-ports", "6", today=date(2026, 11, 12))
+        before = {p: self.read(p) for p in self.ports}
+        sizes = {p: {len(repr(v).split(".")[-1]) if isinstance(v, float) else 0 for k in ("exports", "imports") for t in d[k] for v in d[k][t] if v}
+                 for p, d in before.items()}
+        self.assertEqual(max(sizes["port1"]), 3)             # the smallest port holds values to the tonne
+        self.assertEqual(sizes["port6"], {0})                # the largest holds whole thousand tonnes only
+        self.assertEqual(max(sizes["port3"]), 3)
+        for p, d in before.items():
+            doc_matches_recount(self, d, self.rows(p))
+            self.assertEqual(P.validate_doc(d, p), [])
+        self.svc.table = self.table(date(2026, 11, 20), change={"2026-10-21": 90000, "2026-03-04": 90000})
+        res = self.run_script(today=date(2026, 11, 25))
+        self.assertIsNone(res["error"])
+        for p in self.ports:
+            old, doc = before[p], self.read(p)
+            cut = (P.window_since(old) - date.fromisoformat(old["start"])).days // 7
+            for k in ("calls", "exports", "imports"):
+                for t in ("tanker", "dry", "container", "other"):
+                    self.assertEqual(json.dumps(doc[k][t][:cut]), json.dumps(old[k][t][:cut]), f"{p} {k} {t}: a week before the window changed")
+            self.assertEqual(len(doc["calls"]["tanker"]), len(old["calls"]["tanker"]) + 1)
+            want = recount(self.rows(p))
+            start = date.fromisoformat(doc["start"])
+            for i in range(cut, len(doc["calls"]["tanker"])):
+                m = (start + timedelta(weeks=i)).isoformat()
+                for j, t in enumerate(("tanker", "dry", "container", "other")):
+                    for k in ("exports", "imports"):
+                        self.assertEqual(doc[k][t][i], half_up(want[m][k][j]), f"{p} {m} {k} {t}")
+            self.assertEqual(doc["dp"], P.MAX_DECIMALS)
+            self.assertEqual(P.validate_doc(doc, p, {"portwatch-port-traffic"}), [])
+        # a file that still says whole thousand tonnes (dp 0, as the first load wrote it) is not merged into: it is read in full again
+        old = json.loads(json.dumps(before["port4"]))
+        old["dp"] = 0
+        self.assertTrue(P.validate_doc(old, "port4"))
+        docs, bad, _ = S.read_state(self.out, ["port4"])
+        self.assertEqual((docs, bad), ({"port4": self.read("port4")}, []))
+        with open(os.path.join(self.out, "port4.json"), "w", encoding="utf-8") as fh:
+            fh.write(S.dump(old))
+        docs, bad, _ = S.read_state(self.out, ["port4"])
+        self.assertEqual((docs, bad), ({}, ["port4"]))
+
+
 class Pace(Env):
     def test_the_requests_go_one_after_the_other_with_the_pause_between_them_on_one_thread(self):
         self.start(n_ports=3)
@@ -1160,9 +1252,9 @@ def py_codes(doc, port_id=None, sources=None):
     return sorted({p.split(":")[0] for p in P.validate_doc(doc, port_id, sources)})
 
 
-def good_doc(n=60, dp=0):
+def good_doc(n=60):
     rows = make_table(["port9"], date(2025, 1, 6), date(2025, 1, 6) + timedelta(days=7 * n - 1))["port9"]
-    return P.build_doc("port9", "Nine", P.weekly(rows), (date(2025, 1, 6) + timedelta(days=7 * n - 1)).isoformat(), dp)
+    return P.build_doc("port9", "Nine", P.weekly(rows), (date(2025, 1, 6) + timedelta(days=7 * n - 1)).isoformat())
 
 
 def broken_docs():
@@ -1184,7 +1276,9 @@ def broken_docs():
         ("a start that is not a Monday", "monday", edit(lambda d: d.update(start="2025-01-07", y="2026-03-30"))),
         ("a step that is not a week", "step", edit(lambda d: d.update(step="day"))),
         ("another unit", "unit", edit(lambda d: d.update(u="t"))),
-        ("decimals that are not allowed", "unit", edit(lambda d: d.update(dp=5))),
+        ("a dp that is not the most decimals of the rule", "unit", edit(lambda d: d.update(dp=5))),
+        ("the dp of whole thousand tonnes", "unit", edit(lambda d: d.update(dp=0))),
+        ("a text for dp", "unit", edit(lambda d: d.update(dp="3"))),
         ("a block that is not four arrays", "series", edit(lambda d: d["calls"].pop("other"))),
         ("a block that is not an object", "series", edit(lambda d: d.update(exports=[1]))),
         ("arrays of unequal length", "series", edit(lambda d: d["imports"]["dry"].pop())),
@@ -1194,7 +1288,11 @@ def broken_docs():
         ("a text for a call count", "calls", edit(lambda d: d["calls"]["dry"].__setitem__(4, "3"))),
         ("a boolean for a call count", "calls", edit(lambda d: d["calls"]["dry"].__setitem__(4, True))),
         ("a negative tonnage", "tonnes", edit(lambda d: d["exports"]["tanker"].__setitem__(2, -3))),
-        ("a tonnage with decimals the file does not state", "tonnes", edit(lambda d: d["imports"]["other"].__setitem__(2, 1.5))),
+        ("a tonnage of 100 or more with a decimal", "tonnes", edit(lambda d: d["imports"]["other"].__setitem__(2, 100.5))),
+        ("a tonnage of 10 or more with two decimals", "tonnes", edit(lambda d: d["imports"]["other"].__setitem__(2, 10.25))),
+        ("a tonnage of 1 or more with three decimals", "tonnes", edit(lambda d: d["imports"]["other"].__setitem__(2, 1.005))),
+        ("a tonnage finer than a tonne", "tonnes", edit(lambda d: d["imports"]["other"].__setitem__(2, 0.0005))),
+        ("99.95, which the rule makes 100", "tonnes", edit(lambda d: d["imports"]["other"].__setitem__(2, 99.95))),
         ("a text for a tonnage", "tonnes", edit(lambda d: d["imports"]["other"].__setitem__(2, "1"))),
         ("holes in one array only", "holes", edit(lambda d: d["exports"]["dry"].__setitem__(7, None))),
         ("holes in different places", "holes", edit(lambda d: [d["calls"]["tanker"].__setitem__(3, None), d["calls"]["dry"].__setitem__(4, None)])),
@@ -1206,8 +1304,8 @@ def broken_docs():
 @unittest.skipUnless(NODE, "node is not installed: the rules of web/scripts/port-traffic-rules.mjs cannot be run")
 class OneSetOfRules(Env):
     def test_python_and_javascript_give_the_same_verdict_on_every_document(self):
-        cases = [("a good document", None, good_doc()), ("a good document with a decimal", None, good_doc(dp=1)),
-                 ("holes in all twelve arrays", None, edit_holes(good_doc()))]
+        cases = [("a good document", None, good_doc()), ("holes in all twelve arrays", None, edit_holes(good_doc())),
+                 ("every size of value", None, every_size(good_doc()))]
         cases += broken_docs()
         opts = {"id": "port9", "sources": ["portwatch-port-traffic"]}
         want = node_codes([{"kind": "doc", "doc": d, "opts": opts} for _, _, d in cases])
@@ -1272,6 +1370,13 @@ class OneSetOfRules(Env):
         self.assertEqual(P.index_doc({"port3", "port2"}, "2026-11-25", ["port9", "port4"]),
                          {"checked": "2026-11-25", "none": ["port2", "port3"], "pending": ["port4", "port9"]})
         self.assertEqual(P.index_doc([], "2026-11-25"), {"checked": "2026-11-25", "none": [], "pending": []})
+
+
+def every_size(doc):
+    """One value of each size the rule knows, as the rule writes it: 0.999, 1, 1.01, 9.99, 10, 10.1, 99.9, 100, 1234."""
+    for i, v in enumerate((0, 0.001, 0.999, 1, 1.01, 9.99, 10, 10.1, 99.9, 100, 999, 1235)):
+        doc["exports"]["tanker"][i] = v
+    return doc
 
 
 def edit_holes(doc):

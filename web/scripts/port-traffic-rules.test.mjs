@@ -83,7 +83,7 @@ ok('calls are non-negative integers, tonnes non-negative numbers with the decima
   assert.deepEqual(broken((d) => (d.calls.dry[4] = '3')), ['calls']);
   assert.deepEqual(broken((d) => (d.calls.dry[4] = true)), ['calls']);
   assert.deepEqual(broken((d) => (d.exports.tanker[2] = -3)), ['tonnes']);
-  assert.deepEqual(broken((d) => (d.imports.other[2] = 1.5)), ['tonnes']);
+  assert.deepEqual(broken((d) => (d.imports.other[2] = 100.5)), ['tonnes']);
   assert.deepEqual(broken((d) => (d.imports.other[2] = '1')), ['tonnes']);
 });
 ok('the decimals of a value follow its size: whole from 100, one from 10, two from 1, three below, never finer than a tonne', () => {
