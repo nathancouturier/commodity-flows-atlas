@@ -15,6 +15,12 @@ releases: the About window's "What changed" lists them. The full account of each
 - The About window credits IMF PortWatch for the port series, says what its weekly sums are, and lists the series
   among the sources read every week.
 
+### Changed
+- The eight daily prices from the EIA (Brent, WTI, Henry Hub, New York Harbor gasoline, diesel and heating oil, US
+  Gulf Coast jet fuel, Mont Belvieu propane) are credited "EIA (source: Refinitiv)": the EIA's own pages give
+  Refinitiv as their source. They are no longer offered as CSV files, because no page read says whether they may
+  be redistributed; the monthly World Bank series keep their download.
+
 ## Release 8 (2026-11-25)
 
 ### Added

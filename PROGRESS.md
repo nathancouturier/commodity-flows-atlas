@@ -79,6 +79,21 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   About window carries the credit as the item recommends it. `NOTICE.md` still quotes the IMF's sentence on
   downloads by automated technology and the owner's decision.
 
+### The EIA's daily spot prices
+
+- The eight daily prices the atlas takes from the EIA (Brent, WTI, Henry Hub, New York Harbor gasoline, ULSD and
+  heating oil, US Gulf Coast jet fuel, Mont Belvieu propane) were entered in the registry as "Public domain (US
+  Government)" since the first release. The owner read the line under the EIA's table on 25 November 2026:
+  "Source: Refinitiv"; the EIA's definitions page of the natural gas prices says "Spot Price: Refinitiv, an LSEG
+  business." The EIA's page on reuse lets anyone "use and/or distribute any of our data" and says that "protected
+  items" need "the written permission of the copyright owners"; no page read says to which of the two these
+  prices belong.
+- The owner decided the same day to keep the series, saying where they come from. They are now credited "EIA
+  (source: Refinitiv)" wherever they appear (charts, key figures, price board, the weekly digest and its feed,
+  the About window); the registry holds the quotations and says "terms to be confirmed"; no text calls them
+  public domain; and their CSV is no longer offered: a daily series alone shows "No download", and a chart that
+  mixes a daily series with a World Bank series offers a file of the World Bank series only. No figure changed.
+
 ### Checks
 
 - UNIT-TO-WRITE unit tests (1,899 at the eighth release) and 157 web tests (138), all passing without the raw
