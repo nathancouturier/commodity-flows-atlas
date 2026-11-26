@@ -6,8 +6,18 @@
   "url": "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/",
   "licence": "Public domain (no credit required)",
   "update": "irregular",
-  "access": "Zip from naciscdn.org, read once by pipeline/geo/build_countries.mjs; not refreshed by a workflow",
-  "use": "Country shapes, borders, coastlines and the basemap"
+  "access": "Zip from naciscdn.org (version 5.1.1), read once by pipeline/geo/build_countries.mjs; not refreshed by a workflow",
+  "use": "Country shapes, borders, coastlines and the basemap, in Natural Earth's default view, and country names on the map"
+ },
+ {
+  "id": "naturalearth-marine",
+  "name": "Natural Earth Physical Labels: marine areas 1:50m (version 5.1.0)",
+  "publisher": "Natural Earth",
+  "url": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/",
+  "licence": "Public domain (no credit required)",
+  "update": "irregular",
+  "access": "Zip from naciscdn.org, read once by pipeline/geo/build_seas.mjs; not refreshed by a workflow",
+  "use": "Names and label points of oceans, seas, bays and gulfs on the map"
  },
  {
   "id": "usgs-mcs",

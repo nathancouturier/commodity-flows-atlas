@@ -85,11 +85,17 @@ function AboutTabView(props: { changes: Changes | null | undefined }) {
           <b>No warranty.</b> The data come from third parties and from the atlas's own estimates. They may contain errors or be out of date,
           and are provided as is, without warranty of any kind.
         </li>
-        <li>Boundaries and names on the map come from Natural Earth and do not imply any opinion on the status of a territory.</li>
+        <li>
+          <b>Boundaries and names.</b> Country shapes are Natural Earth's default view (version 5.1.1). Natural Earth does not apply one rule to every
+          disputed or self-administered territory: it draws some as shapes of their own and keeps others inside another country, for some the country
+          that claims them and for others the country that administers them. The boundaries, names and designations on the map do not imply official
+          endorsement or acceptance, and the atlas takes no position on the status of any territory.
+        </li>
       </ul>
       <h3>Credits</h3>
       <p>
-        Basemap: made with <Ext href="https://www.naturalearthdata.com/">Natural Earth</Ext>. Sea routes: Eurostat SeaRoute network, through the{' '}
+        Basemap: made with <Ext href="https://www.naturalearthdata.com/">Natural Earth</Ext>. Place names: country names from Natural Earth admin-0
+        (through the atlas's country index), sea names from Natural Earth marine areas 1:50m; map lettering in Inter (SIL OFL 1.1). Sea routes: Eurostat SeaRoute network, through the{' '}
         <Ext href="https://github.com/genthalili/searoute-py">searoute</Ext> package. Data: {n > 0 ? `${n} public sources` : 'public sources'}, listed
         with their licences under{' '}
         <button class="about-link" onClick={() => (aboutTab.value = 'sources')}>
@@ -175,6 +181,10 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
       <ul class="about-notices">
         <li>
           <b>Basemap.</b> Made with Natural Earth. Free vector and raster map data @ <Ext href="https://www.naturalearthdata.com/">naturalearthdata.com</Ext>.
+        </li>
+        <li>
+          <b>Map lettering.</b> Inter Medium, SIL Open Font License 1.1; the glyph files are a modified version of the font (a change of format), with
+          the licence text next to them.
         </li>
         <li>
           <b>Sea routes.</b> Routes, lanes and distances are computed on the SeaRoute maritime network of Eurostat with the{' '}
@@ -388,6 +398,10 @@ function MethodTabView() {
         <li>Pipeline gas tonnage in customs data is often estimated from value and can be far too low.</li>
         <li>Chokepoint shares computed by the atlas are an Atlas estimate in two figures. {ESTIMATE_DEFINITION}</li>
         <li>Infrastructure is a selection of major mines, fields, refineries, terminals, pipelines and ports, not a complete register.</li>
+        <li>
+          The map follows Natural Earth's default boundaries; trade figures follow the customs codes of CEPII BACI and do not change with the map. A
+          territory that the customs data have no code for has no customs trade flow under its own name.
+        </li>
       </ul>
       <h3>Read more</h3>
       <ul class="about-links">

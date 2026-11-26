@@ -6,10 +6,14 @@ import maplibregl, { type Map as MLMap, type MapMouseEvent, type GeoJSONSource, 
 import { feature } from 'topojson-client';
 import type { FeatureCollection, Feature, LineString, Point } from 'geojson';
 import { baseStyle } from './basemap';
+import { WORLD_BOUNDS, MAX_ZOOM, SCALE_MIN_ZOOM, cameraLimits, canvasSizeOf, centerForPadding, firstViewState, hasPadding } from './camera';
+import { ResetViewControl } from './resetControl';
+import { installLabels } from './labels';
 import { FlowOverlay, type FlowPath } from './flowOverlay';
 import { load, countryName, countries } from '../lib/data';
 import { hovered, linkApplied, mapFailed, panelCollapsed, select, selection } from '../lib/store';
 import { escapeHtml } from '../lib/format';
+import { isSheetLayout, isTabletLayout } from '../lib/layoutQueries';
 
 export interface LineFeatureProps {
   id: string;
@@ -30,18 +34,13 @@ export interface LineFeatureProps {
   label?: string;
 }
 
-/** Layout switches to bottom sheets at this width; keep in sync with the @media rules in styles/app.css. */
-export const SHEET_BP = 1024;
 /** Height of the side-panel sheet in its "peek" snap, px. */
 export const SHEET_PEEK_PX = 96;
-const sheetQuery = `(max-width: ${SHEET_BP}px)`;
-export const isSheetLayout = () => window.matchMedia(sheetQuery).matches;
-
-/** Bounds of the trading world framed on first load (Americas to Japan). */
-const WORLD_BOUNDS: LngLatBoundsLike = [[-125, -45], [150, 65]];
+// the three layouts and their queries are in lib/layoutQueries.ts (the sheet layout is the phone's, not the tablet's)
+export { isSheetLayout, isTabletLayout };
 
 /** Padding that keeps a fitted area clear of the panels (measured from the real DOM). */
-function viewPadding(opts: { detail: boolean }): { top: number; bottom: number; left: number; right: number } {
+export function viewPadding(opts: { detail: boolean }): { top: number; bottom: number; left: number; right: number } {
   const H = window.innerHeight;
   if (isSheetLayout()) {
     // short screens (a phone held sideways): the detail sheet is a column on the right, the map keeps the left
@@ -54,9 +53,19 @@ function viewPadding(opts: { detail: boolean }): { top: number; bottom: number; 
     const bottom = opts.detail ? H * 0.6 + 16 : Math.min(sheetH + 12, H * 0.55);
     return { top: 64, bottom, left: 16, right: 16 };
   }
+  const detailW = opts.detail ? (document.querySelector('.detail-panel')?.getBoundingClientRect().width || 400) + 12 : 0;
+  if (isTabletLayout()) {
+    // the legend lies along the bottom edge and is taller than on a desktop. The left edge comes from the folded state and
+    // the column's CSS variables, not from the panel's rectangle: when a page closes the controls come back in a signal and
+    // the camera moves before the column is drawn again, so the rectangle would still be the folded button's
+    const dock = document.querySelector('.legend-dock')?.getBoundingClientRect().height ?? 0;
+    const css = getComputedStyle(document.documentElement);
+    const gap = parseFloat(css.getPropertyValue('--gap')) || 10;
+    const panelW = parseFloat(css.getPropertyValue('--panel-w')) || 276;
+    return { top: 80, bottom: Math.max(40, dock + 20), left: panelCollapsed.peek() ? 24 : gap + panelW + 24, right: 24 + detailW };
+  }
   const panel = document.querySelector('.side-panel')?.getBoundingClientRect();
   const left = panelCollapsed.peek() ? 24 : (panel ? panel.right : 296) + 24;
-  const detailW = opts.detail ? (document.querySelector('.detail-panel')?.getBoundingClientRect().width || 400) + 12 : 0;
   return { top: opts.detail ? 90 : 70, bottom: opts.detail ? 60 : 40, left, right: 24 + detailW };
 }
 
@@ -78,14 +87,21 @@ export function onMapReady(fn: (m: MLMap) => void) {
 /** Null when the map cannot start (no WebGL): the caller shows a message and the panels carry on. */
 export function initMap(container: HTMLElement): MLMap | null {
   if (map) return map;
+  const canvasSize = () => canvasSizeOf(container, window);
+  const limits = cameraLimits(canvasSize);
+  first = firstViewState(canvasSize);
   try {
     map = new maplibregl.Map({
       container,
       style: baseStyle(),
       center: [20, 22],
       zoom: 1.2,
-      minZoom: 0.5,
-      maxZoom: 9,
+      minZoom: limits.minZoom(),
+      maxZoom: MAX_ZOOM,
+      transformConstrain: (c, z) => {
+        const r = limits.constrain(c.lng, c.lat, z);
+        return { center: new maplibregl.LngLat(r.lng, r.lat), zoom: r.zoom };
+      },
       renderWorldCopies: true,
       attributionControl: false,
       dragRotate: false,
@@ -99,20 +115,37 @@ export function initMap(container: HTMLElement): MLMap | null {
     mapFailed.value = true;
     return null;
   }
+  map.on('movestart', () => first?.moveStart());
   // first-load framing: fit the trading world into the area the panels leave free; a link that opens a
   // page (a commodity above all, whose view does not move the map) keeps the world clear of that page too
   try {
-    map.fitBounds(WORLD_BOUNDS, { padding: viewPadding({ detail: selection.peek() !== null }), maxZoom: 2.4, duration: 0 });
+    fitWorld(map, selection.peek() !== null, 0);
   } catch (e) {
     console.error('initial framing failed', e);
   }
   map.touchZoomRotate.disableRotation();
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+  map.addControl(new ResetViewControl(() => flyToWorld()), 'top-right');
+  // under Mercator one pixel is a different length at each latitude: the bar reads the line through the middle of the
+  // canvas, so it is only drawn from the zoom at which the view is narrow enough for that to be close (the control
+  // stays mounted, the stylesheet shows it)
+  map.addControl(new maplibregl.ScaleControl({ maxWidth: 100, unit: 'nautical' }), 'top-right');
+  const syncScale = () => map!.getContainer().classList.toggle('scale-on', map!.getZoom() >= SCALE_MIN_ZOOM);
+  map.on('zoom', syncScale);
+  syncScale();
+  // a phone turned on its side, a desktop window made narrower: the floor follows the canvas, and a camera that is
+  // still where the atlas put it is put there again for the new canvas (once the visitor or a page moved it, a resize
+  // leaves it alone)
+  map.on('resize', () => {
+    map!.setMinZoom(limits.minZoom());
+    if (first?.resize()) fitWorld(map!, !!document.querySelector('.detail-panel.open'), 0);
+  });
   // no attribution box on the map: Natural Earth and every data source are credited in the About / Sources window
 
   map.on('load', async () => {
     const m = map!;
     overlay = new FlowOverlay(m);
+    installLabels(m);
     await loadCountries(m);
     wireCountryInteraction(m);
     isReady = true;
@@ -363,14 +396,58 @@ export function setParticlesVisible(v: boolean) {
 
 // ---------------------------------------------------------------- camera
 
+/**
+ * A fit adds the padding it is given to the one the camera already has, and a camera move that is given a `padding`
+ * keeps it (`fitBounds` itself leaves none behind): a padding left by a page would make the next fit give up with a
+ * warning. Every fit of the controller starts from none.
+ */
+function clearPadding(m: MLMap) {
+  if (hasPadding(m.getPadding())) m.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
+}
+
+/** Whether the camera is still where the atlas put it (a resize then fits the first view again); see `firstViewState`. */
+let first: ReturnType<typeof firstViewState> | null = null;
+
+/**
+ * Where the first view is centred on a tablet whose free width cannot hold the whole frame (Europe, Africa, the Middle East
+ * and India in view; the Pacific and Japan are cut): the middle of the Americas-to-Japan frame, an Atlas convention (tried
+ * by hand at 768 and 820 px wide), longitude then latitude.
+ */
+const TABLET_FIRST_CENTRE: [number, number] = [12.5, 10];
+
+/**
+ * The library works out the centre of a fit for the zoom the fit asks for; when the map's lowest zoom is higher (a narrow
+ * free area on a portrait tablet) it then keeps that centre and takes the zoom the map allows, and the frame lands off-centre.
+ * Here the centre is worked out again for the zoom the map holds, with the same padding (never given to the camera: a padding
+ * left on it breaks the next fit). Returns whether it moved the camera.
+ */
+function fitTabletWorld(m: MLMap, padding: ReturnType<typeof viewPadding>, duration: number): boolean {
+  if (!isTabletLayout()) return false;
+  const zoom = m.getMinZoom();
+  const asked = m.cameraForBounds(WORLD_BOUNDS, { padding, maxZoom: 2.4 })?.zoom;
+  if (asked === undefined || asked >= zoom) return false;
+  m.flyTo({ center: centerForPadding(TABLET_FIRST_CENTRE, zoom, padding), zoom, duration });
+  return true;
+}
+
+function fitWorld(m: MLMap, detail: boolean, duration: number) {
+  clearPadding(m);
+  const padding = viewPadding({ detail });
+  const fit = () => {
+    if (!fitTabletWorld(m, padding, duration)) m.fitBounds(WORLD_BOUNDS, { padding, maxZoom: 2.4, duration });
+  };
+  if (first) first.fit(fit);
+  else fit();
+}
+
 export function flyToBounds(b: LngLatBoundsLike, maxZoom = 5, detail = true) {
   const m = map;
   if (!m) return;
+  clearPadding(m);
   m.fitBounds(b, {
     padding: viewPadding({ detail }),
     maxZoom,
     duration: 1600,
-    essential: true,
   });
 }
 
@@ -381,7 +458,7 @@ export function flyToWorld(detail = !!document.querySelector('.detail-panel.open
   // a camera that drifted onto a wrapped copy of the world would fly to the Pacific-centred copy
   const c = m.getCenter();
   if (c.lng < -180 || c.lng > 180) m.jumpTo({ center: c.wrap() });
-  m.fitBounds(WORLD_BOUNDS, { padding: viewPadding({ detail }), maxZoom: 2.4, duration: 1400 });
+  fitWorld(m, detail, 1400);
 }
 
 // Closing a selection (close button, Escape, tab change) zooms back out to the world view.
@@ -389,9 +466,13 @@ let hadSelection = selection.peek() !== null;
 selection.subscribe((s) => {
   if (hadSelection && s === null) {
     // an action can close a selection and open another in one go: only zoom out if it stays closed
-    queueMicrotask(() => {
+    const zoomOut = () => {
       if (selection.peek() === null) flyToWorld(false);
-    });
+    };
+    // on a tablet the legend is a column beside the page and a bar along the bottom without it: its height, which the
+    // padding reads, is the old one until the page has been drawn again, so the camera waits for that frame
+    if (isTabletLayout()) requestAnimationFrame(zoomOut);
+    else queueMicrotask(zoomOut);
   }
   hadSelection = s !== null;
 });

@@ -18,7 +18,7 @@ import {
 } from './store';
 import { groupKinds, matchKind, norm, prepare, rank, tokens, type Searchable, type Tier } from './searchMatch';
 import { loadInfra } from '../map/modules/infrastructure';
-import { flyToWorld, isSheetLayout } from '../map/controller';
+import { flyToWorld, isSheetLayout, isTabletLayout } from '../map/controller';
 import { INFRA_META } from '../components/ui';
 import { companySlug, loadAllCompanies, type CompanyMap } from '../components/Companies';
 import { nameForms } from './companyAssets';
@@ -104,8 +104,8 @@ function openFinder(k: string, from: 'o' | 'd', iso: string) {
     rfGroup.value = null;
     routeFinderOpen.value = true;
     panelCollapsed.value = false;
-    // tablet and phone: the controls are a sheet under the page, so the page gives way to it
-    if (isSheetLayout()) {
+    // phone: the controls are a sheet under the page; tablet: they are a column that the page folds. Either way the page gives way
+    if (isSheetLayout() || isTabletLayout()) {
       select(null);
       sheetSnap.value = 'half';
     }

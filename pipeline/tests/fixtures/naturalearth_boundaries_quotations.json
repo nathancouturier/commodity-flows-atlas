@@ -1,0 +1,18 @@
+{
+ "about": "Quotations of two sentences, with their page address, from the pages of Natural Earth that say how its country boundaries are drawn (the 1:50m cultural vectors page and the page of the Admin-0 countries file), kept so that the sentences METHODOLOGY.md quotes can be compared with them on every machine. Nothing else of the pages is copied here; the pages belong to their publisher.",
+ "read": "2026-11-25",
+ "quotations": [
+  {
+   "key": "de_facto_by_default",
+   "address": "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/",
+   "read": "2026-11-25",
+   "quotation": "Natural Earth shows de facto boundaries by default according to who controls the territory, versus de jure."
+  },
+  {
+   "key": "admin_0_disclaimer",
+   "address": "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/",
+   "read": "2026-11-25",
+   "quotation": "Natural Earth Vector draws boundaries of countries according to defacto status. We show who actually controls the situation on the ground. Please feel free to mashup our disputed areas theme to match your particular political outlook."
+  }
+ ]
+}

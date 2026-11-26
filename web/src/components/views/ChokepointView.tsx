@@ -4,7 +4,8 @@ import type { Chokepoint, ChokepointLanes, Fig, FreightEvent, PortwatchSeries } 
 import { commodityMeta, countryName, load } from '../../lib/data';
 import { fig as fmtFig, fmt as fmtNum, pctText } from '../../lib/format';
 import { ESTIMATE_DEFINITION, GROUP_LABEL, chokepointName, loadChokepoints, loadEvents, loadLaneFile, loadPortwatch, SHARE_LABEL } from '../../lib/freight';
-import { getMap } from '../../map/controller';
+import { getMap, isTabletLayout, viewPadding } from '../../map/controller';
+import { centerForPadding, passagePadding } from '../../map/camera';
 import { select } from '../../lib/store';
 import { Section, SourceLine, SourcesLine, Kpi, Skeleton, Placeholder, AlertBanners, FoldNote, WayBack } from '../ui';
 import { TimeChart, DAY, parseDate, parseEnd } from '../charts/TimeChart';
@@ -325,13 +326,15 @@ export default function ChokepointView({ id }: { id: string }) {
 
   useEffect(() => {
     if (!cp) return;
-    const wide = window.innerWidth >= 760;
+    // the passage lands in the free area beside the open page; the flight leaves no padding on the camera (the next
+    // fit of the map would add its own to it), so the centre is moved instead. On a tablet the free area is the one the
+    // columns leave (the page, the folded controls, the legend along the bottom), not the desktop's fixed one
+    const zoom = 4.2;
+    const pad = isTabletLayout() ? viewPadding({ detail: true }) : passagePadding(window.innerWidth, window.innerHeight);
     getMap()?.flyTo({
-      center: cp.at,
-      zoom: 4.2,
+      center: centerForPadding(cp.at, zoom, pad),
+      zoom,
       duration: 1600,
-      essential: true,
-      padding: wide ? { top: 60, bottom: 40, left: 340, right: 420 } : { top: 80, bottom: window.innerHeight * 0.5, left: 10, right: 10 },
     });
   }, [cp]);
 

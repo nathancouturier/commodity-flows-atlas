@@ -6,6 +6,8 @@
  * Screen-space geometry is cached and recomputed only when the map moves.
  */
 import type { Map as MLMap } from 'maplibre-gl';
+import { copyShifts } from './copies';
+import { afterEvent, frameStep, lngRange, particlePhase, type OverlayEvent } from './overlayRules';
 
 export interface FlowPath {
   id: string;
@@ -33,7 +35,10 @@ export class FlowOverlay {
   private dirty = true;
   private raf = 0;
   private t0 = performance.now();
-  private reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  private motionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+  private reduced = this.motionQuery.matches;
+  /** a frame must be drawn although nothing moved (first frame, setting changed, shown again, resized) */
+  private repaint = true;
   private visible = true;
 
   constructor(private map: MLMap) {
@@ -42,18 +47,31 @@ export class FlowOverlay {
     this.canvas.setAttribute('aria-hidden', 'true');
     map.getContainer().appendChild(this.canvas);
     this.ctx = this.canvas.getContext('2d')!;
-    const invalidate = () => (this.dirty = true);
-    map.on('move', invalidate);
+    map.on('move', () => this.on('move'));
     map.on('resize', () => {
       this.resize();
-      invalidate();
+      this.on('resize');
     });
     this.resize();
+    // the setting can change while the page is open
+    this.motionQuery.addEventListener('change', () => {
+      this.reduced = this.motionQuery.matches;
+      this.on('motion-setting');
+    });
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) cancelAnimationFrame(this.raf);
-      else this.loop();
+      cancelAnimationFrame(this.raf);
+      if (document.hidden) return;
+      this.on('tab-shown');
+      // one chain of frames: a page first opened in a hidden tab still has the frame its constructor asked for
+      this.loop();
     });
     this.loop();
+  }
+
+  private on(e: OverlayEvent) {
+    const f = afterEvent({ dirty: this.dirty, repaint: this.repaint }, e);
+    this.dirty = f.dirty;
+    this.repaint = f.repaint;
   }
 
   /** Set the particle paths of one named line set; sets are merged. */
@@ -61,12 +79,13 @@ export class FlowOverlay {
     if (paths.length) this.pathSets.set(key, paths);
     else this.pathSets.delete(key);
     this.paths = [...this.pathSets.values()].flat();
-    this.dirty = true;
+    this.on('paths');
   }
 
   setVisible(v: boolean) {
     this.visible = v;
     this.canvas.style.display = v ? '' : 'none';
+    if (v) this.on('shown');
   }
 
   private resize() {
@@ -80,33 +99,40 @@ export class FlowOverlay {
   }
 
   private project() {
-    const center = this.map.getCenter().lng;
-    this.projected = this.paths.map((path) => {
+    const { clientWidth: w, clientHeight: h } = this.map.getContainer();
+    // the longitudes in view, with the 20 px margin `draw` culls at
+    const { west, east } = lngRange((x, y) => this.map.unproject([x, y]).lng, w, h, 20);
+    const out: Projected[] = [];
+    for (const path of this.paths) {
       const n = path.coords.length;
-      // shift the whole path by k*360 so it is drawn on the world copy nearest the view
-      const mid = path.coords[Math.floor(n / 2)][0];
-      const shift = Math.round((center - mid) / 360) * 360;
-      const xs = new Float32Array(n);
-      const ys = new Float32Array(n);
-      const cum = new Float32Array(n);
-      let len = 0;
-      for (let i = 0; i < n; i++) {
-        const p = this.map.project([path.coords[i][0] + shift, path.coords[i][1]]);
-        xs[i] = p.x;
-        ys[i] = p.y;
-        if (i > 0) len += Math.hypot(xs[i] - xs[i - 1], ys[i] - ys[i - 1]);
-        cum[i] = len;
+      if (n < 2) continue;
+      // the world is drawn again on each side: one projection per copy of the path that is in view
+      for (const shift of copyShifts(path.coords, west, east)) {
+        const xs = new Float32Array(n);
+        const ys = new Float32Array(n);
+        const cum = new Float32Array(n);
+        let len = 0;
+        for (let i = 0; i < n; i++) {
+          const p = this.map.project([path.coords[i][0] + shift, path.coords[i][1]]);
+          xs[i] = p.x;
+          ys[i] = p.y;
+          if (i > 0) len += Math.hypot(xs[i] - xs[i - 1], ys[i] - ys[i - 1]);
+          cum[i] = len;
+        }
+        out.push({ path, xs, ys, cum, len });
       }
-      return { path, xs, ys, cum, len };
-    });
+    }
+    this.projected = out;
     this.dirty = false;
   }
 
   private loop = () => {
     this.raf = requestAnimationFrame(this.loop);
-    if (!this.visible) return;
-    if (this.dirty) this.project();
-    this.draw((performance.now() - this.t0) / 1000);
+    // under reduced motion the particles stand still: a still frame is drawn once, not on every animation frame
+    const step = frameStep({ visible: this.visible, reduced: this.reduced, dirty: this.dirty, repaint: this.repaint });
+    if (step.project) this.project();
+    this.repaint = step.repaint;
+    if (step.draw) this.draw((performance.now() - this.t0) / 1000);
   };
 
   private draw(t: number) {
@@ -124,7 +150,7 @@ export class FlowOverlay {
       const r = 1.1 + 1.9 * path.weight;
       const alpha = path.dim ? 0.18 : 0.9;
       ctx.fillStyle = path.color;
-      const phase = this.reduced ? 0 : (t * speed) % spacing;
+      const phase = particlePhase(this.reduced, t, speed, spacing);
       for (let k = 0; k < count; k++) {
         const d = k * spacing + phase;
         if (d > pr.len) break;

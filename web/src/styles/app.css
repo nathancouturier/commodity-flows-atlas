@@ -682,18 +682,6 @@ button {
   display: inline-flex;
 }
 
-.status-key {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2px solid;
-  box-sizing: border-box;
-}
-
-.status-key.dashed {
-  border-style: dashed;
-}
-
 /* ---------------------------------------------------------------- empty / loading */
 
 .placeholder {
@@ -742,6 +730,36 @@ button {
 
 .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
   filter: invert(0.85);
+}
+
+/* the Reset view icon is an inline SVG drawn in the zoom icons' own colour (#333) and given their filter */
+.maplibregl-ctrl-group button.reset-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+}
+
+.maplibregl-ctrl-group button.reset-view svg {
+  filter: invert(0.85);
+}
+
+/* the scale bar (nautical miles, MapLibre's own control): the dark panel's colours, the open-top shape of a scale, its
+   sides and foot in the third ink (the panels' hairline is too faint to read a length from); the controller puts
+   `scale-on` on the map from the zoom at which it is drawn; it takes no pointer, so a drag that starts on it moves the map */
+.app .maplibregl-ctrl-scale {
+  display: none;
+  pointer-events: none;
+  background: var(--panel);
+  color: var(--ink-2);
+  font-size: 11px;
+  border: 1px solid var(--ink-3);
+  border-top: 0;
+  box-shadow: var(--shadow);
+}
+
+.app .scale-on .maplibregl-ctrl-scale {
+  display: block;
 }
 
 .app .maplibregl-ctrl-top-right {

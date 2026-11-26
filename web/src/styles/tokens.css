@@ -26,7 +26,9 @@
   --ink-2: #98a4b2;
   --ink-3: #7d8896;
 
-  /* family colours (flows, chips, accents) */
+  /* family colours (flows, chips, accents). lib/palette.ts holds the same values for the code (CSS cannot import
+     TypeScript) and scripts/palette.test.mjs compares them: change both together. The surfaces above are not
+     compared: the map draws its own set (`C` in lib/palette.ts), the gradient behind it is hidden. */
   --energy: #ffb547;
   --metals: #9db7ff;
   --softs: #7ee0a1;
