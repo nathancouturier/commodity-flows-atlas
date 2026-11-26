@@ -2512,24 +2512,32 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   is still drawn at every zoom. The values are an Atlas convention, chosen by looking at 390 and 360 px wide screens.
 - **The Pacific.** A line that crosses the antimeridian continues past 180 degrees so that it is drawn in one piece;
   the map draws the world again on each side, so a line is seen whole when the screen shows the world twice. On a
-  screen that shows about one turn (the first view of a desktop spans 358 degrees) such a line is two stubs, one at
-  each edge, and nothing joins them. Particles are drawn on every copy of a line that is in view.
+  screen that shows about one turn of the world (a 1440 by 900 screen shows 358 degrees at its first view, which the
+  test of the copies prints; other screens show other widths) such a line is two stubs, one at each edge, and nothing
+  joins them. Particles are drawn on every copy of a line that is in view.
 - **Reduced motion.** Under the system's reduced-motion setting the camera moves without animation and the
   particles stand still: the overlay is drawn when something changes (a move, a resize, a new set of lines, the
   setting itself) and not on every frame. The Route finder's scroll to its result is not the camera and does not
   follow the setting.
 - **Country names.** The names are those of the country index (`data/countries/index.json`), the same as on the pages:
-  the short forms such as "Central African Rep." come from Natural Earth through `NAME_FIX` in
-  `pipeline/geo/build_countries.mjs`. The place of a name is Natural Earth's `LABEL_X`, `LABEL_Y`, kept as the `at` of
+  Natural Earth's `NAME`, except where the atlas writes the name itself in `NAME_FIX` of `pipeline/geo/build_countries.mjs`
+  (35 entries; some of them repeat Natural Earth's own spelling). The abbreviations that are not in that list are
+  Natural Earth's, such as "Central African Rep." and "Antigua and Barb.". The place of a name is Natural Earth's `LABEL_X`, `LABEL_Y`, kept as the `at` of
   the index, not a computed centre. The names come in four size classes by the area of the country's box in square
   degrees, above 300, above 40, above 6 and below (`COUNTRY_TIERS` in `web/src/map/labelRules.ts`): 21, 65, 62 and 91
   of the 239 rows of the index. The thresholds are an Atlas convention, chosen to show the largest countries at the
   world view; they are not an area of land. The largest class is drawn at every zoom (the first view of a phone is
   below zoom 0, which a layer's zoom limit cannot express); the others from zoom 2.0, 3.2 and 4.4, also an Atlas
-  convention: Natural Earth's `min_label` is for its own tile pyramid and is not used. A name is never moved to avoid a flow: lanes, routes and icons are drawn over the names. A
+  convention: Natural Earth's `min_label` is for its own tile pyramid and is not used. A name is never moved to avoid a flow: lanes, routes and icons are drawn over the names,
+  and a name is covered by the flows and the icons that cross it. A
   name that would overlap a name already placed is not drawn at that zoom (the rule of the map library: the larger box
   first inside a class, the larger class first), so that at the world view of a phone most names are left out. While a
-  colouring is on, the countries that carry a share label have no name, since the label sits on the same point.
+  colouring is on, the countries that carry a share label have no name, since the label sits on the same point, and the
+  names that stay sit on the colouring: they are drawn in white at 0.95 with a halo 2 px wide instead of the grey
+  with a halo of 1.2 px (`LABEL_ON_FILL`), chosen by looking at three colourings (crude oil, wheat exports, copper) at the first view and
+  at zoom 3.5 on Europe. No contrast of a glyph against a coloured fill is claimed: what a test computes is the text against its halo, the halo
+  against the strongest tint of each family colour, and the text against the plain land. The cut of a name by the edge of the screen is dealt with
+  for the first rank only: see "Names at the edge" below.
 - **Sea names.** The names and places of the oceans, seas, bays and gulfs are those of Natural Earth's marine areas
   1:50m (Physical Labels), in the version `data/geo/seas.json` states (5.1.0), built by `pipeline/geo/build_seas.mjs`.
   The file holds the polygons of scale rank 0 to 3 of the classes ocean, sea, bay and gulf: 68 names, of which 7 oceans
@@ -2537,16 +2545,19 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   passages as markers (`data/freight/chokepoints.json`) and a passage should not be named twice: of the 74 polygons of
   rank 0 to 3, 6 are dropped for that reason (Luzon Strait, Davis Strait, Hudson Strait, Mozambique Channel, Drake
   Passage and English Channel); the polygons of rank 4 and above are not used. The place of a name is the polygon's point
-  of inaccessibility (the point of the polygon farthest from its edge), rounded to 0.1 degree, not a hand-placed label.
-  The names are Natural Earth's English names as published (`name_en`; the oceans are written in capitals in the file and
-  are set in title case by the builder), and they are the words the site's own pages use: when it was written,
+  of inaccessibility (the point of the polygon farthest from its edge), rounded to 0.1 degree, not a hand-placed label;
+  the Scotia Sea is a sliver, whose point rounded to 0.1 degree falls outside it, so the builder keeps the fewest decimals at
+  which every point is inside its polygon (two for that one) and stops if none is.
+  The names are Natural Earth's English names as published (`name_en`; for the oceans `name`, because the two Atlantic
+  polygons share one `name_en` and so do the two Pacific ones; two of the seven, the Indian and the Southern, are written
+  in capitals in the file and are set in title case by the builder), and they are the words the site's own pages use: when it was written,
   `web/src` and `data` held "Persian Gulf" throughout, "Sea of Japan" and "South China Sea" in the passages file,
   "Arabian Gulf" once (the note of one oil field) and "East Sea" nowhere. The atlas takes no position on any naming
   dispute: it shows the names Natural Earth publishes. The names are drawn in capitals, spaced, and in a blue that is
   not the colour of a country name; the oceans have no zoom limit, the other ranks appear from zoom 1.8, 3.0 and 4.2
   (`SEA_MINZOOM` in `web/src/map/labelRules.ts`), an Atlas convention like the country thresholds. Sea names sit under
-  the country names in the order of placement: when a sea name and a country name would overlap, the country name is
-  drawn and the sea name is not, and flows are drawn over both. Natural Earth's README says of these polygons: "The
+  the country names and under the names of the ports and assets in the order of placement: when a sea name and another name would overlap, the other
+  name is drawn and the sea name is not, and flows are drawn over all of them. Natural Earth's README says of these polygons: "The
   boundaries of physical regions should be taken with a grain of salt."
 - **Names of ports and assets.** The ports, terminals, mines, refineries, smelters, fields and stores are named from zoom
   4.2 (`ASSET_LABEL_MINZOOM` in `web/src/map/labelRules.ts`), to the right of their icon, in the name the atlas's own
@@ -2555,12 +2566,23 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   line has no single point, and its name is on its page and in its tooltip. The icons are those of the layer: every
   asset is drawn at every zoom, icons may overlap, and a name is drawn under the icons, so that an icon always covers a
   name it overlaps. A name never moves to avoid a flow or an icon, and a name that would overlap a name already placed is
-  not drawn at that zoom while the icon always is. The atlas has no one measure of size across the asset types
+  not drawn at that zoom while the icon always is. A country name wins a collision with the name of an asset: the
+  layers are stacked, from the bottom, as the sea names, the pipeline lines, the asset names, the country names, the icons
+  and the opened asset, then every lane and route (`NAME_STACK` in `web/src/map/labelRules.ts`, which a test checks against the style a browser holds), so that a country name
+  is under every icon and every flow and over a pipeline line. The atlas has no one measure of size across the asset types
   (capacities are in different units), so the name that wins a collision is chosen by type, in this order: port, LNG
   export terminal, LNG import terminal, refinery, smelter, mine, field, store (`ASSET_ORDER`), and inside a type by the
   order of the data files. That order and the zoom of 4.2 are Atlas conventions, choices made without the owner and listed in PROGRESS.md. A
   dimmed asset (one that opens after the year selected in History) keeps its dimming in its name, and the opened asset
   keeps its name at every zoom.
+- **Names at the edge.** A name of the first rank, an ocean or a country of the largest class, is not drawn cut by an edge of
+  the map: when the camera comes to rest, and when the canvas is resized (never during a move), the box of each such name
+  is estimated from its place, its size, its wrapping and its letter spacing on each copy of the world in view
+  (`namesAtEdge` in `web/src/map/labelRules.ts`; the estimate takes every letter wider than the lettering has it, which a test
+  checks against the glyph file), and a name whose box crosses an edge of the canvas is left out by its layer's filter until the camera comes to
+  rest where it fits. A name wholly in view or wholly out of it is untouched. This is an Atlas rule, chosen because the map library
+  draws a name that is only partly on the screen: without it the first view of a phone showed "OUTH ACIFIC CEAN". The
+  names of a smaller rank may be cut by the edge of the screen, as on any map that is panned.
 - **Scale bar.** From zoom 4 the map shows a scale bar in nautical miles under its buttons (the map library's own
   control, 100 px wide at most; the unit of the distances on the freight pages). A nautical mile is 1,852 metres. The
   length is worked out on a sphere of the library's mean radius, 6,371,008.8 m (`earthRadius` in the installed

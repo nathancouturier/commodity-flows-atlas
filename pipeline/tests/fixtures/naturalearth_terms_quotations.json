@@ -39,8 +39,14 @@
    "quotation": "Our data downloads are generously hosted by Amazon Web Services since 2021 and previously Florida State University."
   },
   {
+   "key": "copyright-line",
+   "where": "terms page, footer",
+   "address": "https://www.naturalearthdata.com/about/terms-of-use/",
+   "quotation": "© 2009 - 2026. Natural Earth."
+  },
+  {
    "key": "rights-reserved",
-   "where": "terms page",
+   "where": "terms page, footer, after the copyright line",
    "address": "https://www.naturalearthdata.com/about/terms-of-use/",
    "quotation": "All rights reserved."
   },

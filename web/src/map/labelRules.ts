@@ -39,6 +39,13 @@ export const LABEL_COLOR = {
 } as const;
 
 /**
+ * The paint of the country names while a colouring is on: they then sit on a coloured fill, where the grey of `LABEL_COLOR.country` is about 1.3 to 1
+ * and the dark halo alone kept them legible. A white text and a wider halo read better on the three colourings looked at (crude oil, wheat exports,
+ * copper); no contrast of a glyph against a fill is claimed, the legibility is the text against its halo and the halo against the fill.
+ */
+export const LABEL_ON_FILL = { color: '#ffffff', opacity: 0.95, haloWidth: 2 } as const;
+
+/**
  * Size class of a country's name from the area of its box in square degrees: 0 the largest names, 3 the smallest.
  * An Atlas convention, chosen to show the largest countries at the world view; not an area of land.
  */
@@ -49,6 +56,22 @@ export const COUNTRY_TIERS = [300, 40, 6] as const;
  * of a phone is below it; the size stops of the text clamp below their first stop.
  */
 export const COUNTRY_MINZOOM = [null, 2.0, 3.2, 4.4] as const;
+
+/** The size of a country name in px as a function of the zoom: pairs of a zoom and a size, joined linearly, flat outside the first and last. */
+export const COUNTRY_SIZE_STOPS = [0.5, 9, 3, 11, 6, 14] as const;
+
+/** The size of a country name at this zoom, read from `COUNTRY_SIZE_STOPS` as the layer's interpolation reads it. */
+export function countrySizeAt(zoom: number): number {
+  const s = COUNTRY_SIZE_STOPS;
+  if (zoom <= s[0]) return s[1];
+  for (let i = 2; i < s.length; i += 2) {
+    if (zoom <= s[i]) return s[i - 1] + ((zoom - s[i - 2]) / (s[i] - s[i - 2])) * (s[i + 1] - s[i - 1]);
+  }
+  return s[s.length - 1];
+}
+
+/** The width at which a country name wraps, in ems of its size. */
+export const COUNTRY_TEXT = { maxWidth: 6 } as const;
 
 export type CountryTier = 0 | 1 | 2 | 3;
 
@@ -91,12 +114,20 @@ export function countryFilter(t: number, hiddenIds: readonly string[]): Expressi
  */
 export const SEA_MINZOOM = [null, 1.8, 3.0, 4.2] as const;
 
+/** How the sea names are set: the size of the oceans and of the other ranks, the width at which a name wraps, and the spacing, the last two in ems of the size. */
+export const SEA_TEXT = { oceanSize: 12, size: 10.5, maxWidth: 6, letterSpacing: 0.16 } as const;
+
 export type SeaRank = 0 | 1 | 2 | 3;
 
 export interface Sea {
   n: string;
   r: number;
   at: [number, number];
+}
+
+/** The names of one rank of seas, less the names that are left out (an ocean that the edge of the canvas would cut). */
+export function seaFilter(r: number, leftOut: readonly string[] = []): ExpressionSpecification {
+  return ['all', ['==', ['get', 'r'], r], ['!', ['in', ['get', 'n'], ['literal', [...leftOut]]]]];
 }
 
 /** One point per row of the sea table, carrying its name and its rank. */
@@ -115,21 +146,21 @@ export function seaPoints(seas: readonly Sea[]): FeatureCollection<Point> {
  * The four layers of sea names, in the order they are added (rank 3 first, the oceans last). The names are upper case, which the
  * glyph file covers for the ASCII names of the table.
  */
-export function seaLayerSpecs(): SymbolLayerSpecification[] {
+export function seaLayerSpecs(oceansLeftOut: readonly string[] = []): SymbolLayerSpecification[] {
   return ([3, 2, 1, 0] as const).map((r) => {
     const layer: SymbolLayerSpecification = {
       id: `names-seas-${r}`,
       type: 'symbol',
       source: 'names-seas',
-      filter: ['==', ['get', 'r'], r],
+      filter: seaFilter(r, r === 0 ? oceansLeftOut : []),
       layout: {
         'text-field': ['get', 'n'],
         'text-font': LABEL_FONT,
         'text-transform': 'uppercase',
-        'text-letter-spacing': 0.16,
-        'text-max-width': 6,
+        'text-letter-spacing': SEA_TEXT.letterSpacing,
+        'text-max-width': SEA_TEXT.maxWidth,
         'text-padding': 3,
-        'text-size': r === 0 ? 12 : 10.5,
+        'text-size': r === 0 ? SEA_TEXT.oceanSize : SEA_TEXT.size,
       },
       paint: {
         'text-color': LABEL_COLOR.sea,
@@ -158,9 +189,9 @@ export function countryLayerSpecs(hiddenIds: readonly string[] = []): SymbolLaye
       layout: {
         'text-field': ['get', 'n'],
         'text-font': LABEL_FONT,
-        'text-max-width': 6,
+        'text-max-width': COUNTRY_TEXT.maxWidth,
         'text-padding': 3,
-        'text-size': ['interpolate', ['linear'], ['zoom'], 0.5, 9, 3, 11, 6, 14],
+        'text-size': ['interpolate', ['linear'], ['zoom'], ...COUNTRY_SIZE_STOPS],
         'symbol-sort-key': ['-', 0, ['get', 'a']],
       },
       paint: {
@@ -180,8 +211,140 @@ export function countryLayerSpecs(hiddenIds: readonly string[] = []): SymbolLaye
  * Every layer of names in the order they are added. MapLibre places the last layer of the style first: the country layers come
  * after the sea layers so that a country name wins a collision with a sea name, and the oceans, placed last, are the ones dropped.
  */
-export function labelLayerSpecs(hiddenIds: readonly string[] = []): SymbolLayerSpecification[] {
-  return [...seaLayerSpecs(), ...countryLayerSpecs(hiddenIds)];
+export function labelLayerSpecs(hiddenIds: readonly string[] = [], oceansLeftOut: readonly string[] = []): SymbolLayerSpecification[] {
+  return [...seaLayerSpecs(oceansLeftOut), ...countryLayerSpecs(hiddenIds)];
+}
+
+/**
+ * What the layers of names are stacked on, bottom to top, among the layers they share the map with (the ids that are in a style are
+ * checked, the others skipped). MapLibre places the top layer first, so the lower a layer is the sooner it gives way: the sea names give
+ * way to everything, the asset names to the country names, and every name is under the icons, the opened asset and the flows.
+ */
+export const NAME_STACK = [
+  'names-seas-3', 'names-seas-2', 'names-seas-1', 'names-seas-0',
+  'infra-lines-glow', 'infra-lines-solid', 'infra-lines-dash', 'infra-lines-hit',
+  'infra-names',
+  'names-countries-3', 'names-countries-2', 'names-countries-1', 'names-countries-0',
+  'infra-pts-all', 'infra-halo', 'infra-pts-sel',
+] as const;
+
+/** The layer of the icons: the country names are put under it, on top of the asset names. */
+export const ICON_LAYER = 'infra-pts-all';
+
+/** The pairs of layers of `NAME_STACK` that a style holds in the wrong order (empty when it follows the stack). */
+export function stackViolations(ids: readonly string[]): string[] {
+  const at = new Map(ids.map((id, i) => [id, i]));
+  const present = NAME_STACK.filter((id) => at.has(id));
+  const bad: string[] = [];
+  for (let i = 1; i < present.length; i++) if (at.get(present[i - 1])! > at.get(present[i])!) bad.push(`${present[i - 1]} above ${present[i]}`);
+  return bad;
+}
+
+/** The box of a text on the canvas, centred on its point: width and height in px. */
+export interface TextBox {
+  w: number;
+  h: number;
+}
+
+/**
+ * The advances the estimate below takes, in ems. A capital 0.72: above the mean of the capitals A to Z (0.69) and of the letters of every
+ * ocean name (0.61 to 0.67), under the widest, W (1.0). A lower-case letter 0.64: above the mean of the letters of the country names (0.52)
+ * and of the letters of each of the largest names. The space is 0.27 in the file, the estimate takes 0.3.
+ */
+export const CAPITAL_ADVANCE = 0.72;
+export const LOWER_ADVANCE = 0.64;
+export const SPACE_ADVANCE = 0.3;
+/** MapLibre's line height, in ems. */
+const LINE_HEIGHT = 1.2;
+/** Px added on every side of a box: the halo and the rounding of the estimate. */
+export const BOX_MARGIN = 2;
+
+/**
+ * An estimate of the box of a name as a layer sets it (wrapped at `maxWidth` ems, spaced by `letterSpacing` ems; the text is given as it is
+ * drawn, so a sea name in upper case), on the wide side: every letter is taken at the advance of its case. The lines are counted by a
+ * greedy break. The width is the most a line can be: the whole name if it fits `maxWidth`, else `maxWidth`, and never less than the
+ * widest word, which keeps its own line as in the library. So a name that the estimate wraps and the library does not is still covered.
+ */
+export function textBox(text: string, size: number, maxWidth: number, letterSpacing: number): TextBox {
+  const em = (word: string) => [...word].reduce((a, ch) => a + (ch === ch.toLowerCase() ? LOWER_ADVANCE : CAPITAL_ADVANCE) + letterSpacing, 0);
+  const gap = SPACE_ADVANCE + letterSpacing;
+  let lines = 1;
+  let line = 0;
+  let total = 0;
+  let widest = 0;
+  for (const word of text.split(/\s+/).filter(Boolean)) {
+    const w = em(word);
+    widest = Math.max(widest, w);
+    total += (total ? gap : 0) + w;
+    if (line === 0) line = w;
+    else if (line + gap + w <= maxWidth) line += gap + w;
+    else {
+      line = w;
+      lines++;
+    }
+  }
+  return { w: Math.max(widest, Math.min(total, maxWidth)) * size + 2 * BOX_MARGIN, h: lines * LINE_HEIGHT * size + 2 * BOX_MARGIN };
+}
+
+/** Whether a box centred on (x, y) is partly on the canvas and partly off it: a box wholly inside or wholly outside is not cut. */
+export function boxCrossesEdge(x: number, y: number, box: TextBox, canvasW: number, canvasH: number): boolean {
+  const x1 = x - box.w / 2;
+  const x2 = x + box.w / 2;
+  const y1 = y - box.h / 2;
+  const y2 = y + box.h / 2;
+  const outside = x2 <= 0 || x1 >= canvasW || y2 <= 0 || y1 >= canvasH;
+  const inside = x1 >= 0 && x2 <= canvasW && y1 >= 0 && y2 <= canvasH;
+  return !outside && !inside;
+}
+
+/** The copies of the world on each side of the one the point is on, whose names are tested (a canvas shows three at the most at the lowest zoom of a wide screen). */
+export const EDGE_COPIES = 3;
+
+/** A name to test against the edge: an id, the point it is drawn at and the box of its text. */
+export interface EdgeName {
+  id: string;
+  at: readonly [number, number];
+  box: TextBox;
+}
+
+/** The ocean names as `EdgeName`s (the id is the name). */
+export function oceanEdgeNames(seas: readonly Sea[]): EdgeName[] {
+  return seas
+    .filter((s) => s.r === 0)
+    .map((s) => ({ id: s.n, at: s.at, box: textBox(s.n.toUpperCase(), SEA_TEXT.oceanSize, SEA_TEXT.maxWidth, SEA_TEXT.letterSpacing) }));
+}
+
+/** The names of the largest class of countries as `EdgeName`s at this zoom (the id is the country code). */
+export function countryEdgeNames(list: readonly NamedCountry[], zoom: number): EdgeName[] {
+  const size = countrySizeAt(zoom);
+  return list
+    .filter((r) => r.at && r.bb && countryTier(r.bb) === 0)
+    .map((r) => ({ id: r.c, at: r.at!, box: textBox(r.name, size, COUNTRY_TEXT.maxWidth, 0) }));
+}
+
+/**
+ * The ids of the names that the edge of the canvas would cut, from where the map projects their points: a name is listed when its box
+ * crosses an edge on any copy of the world in view. A name wholly in view or wholly out of it is not listed. Pure: the map is only asked
+ * for `project`.
+ */
+export function namesAtEdge(
+  names: readonly EdgeName[],
+  project: (lng: number, lat: number) => { x: number; y: number },
+  canvasW: number,
+  canvasH: number,
+): string[] {
+  const out: string[] = [];
+  if (canvasW <= 0 || canvasH <= 0) return out;
+  for (const n of names) {
+    for (let k = -EDGE_COPIES; k <= EDGE_COPIES; k++) {
+      const p = project(n.at[0] + 360 * k, n.at[1]);
+      if (boxCrossesEdge(p.x, p.y, n.box, canvasW, canvasH)) {
+        out.push(n.id);
+        break;
+      }
+    }
+  }
+  return out;
 }
 
 /**

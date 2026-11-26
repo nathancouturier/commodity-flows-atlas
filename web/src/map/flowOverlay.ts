@@ -7,7 +7,7 @@
  */
 import type { Map as MLMap } from 'maplibre-gl';
 import { copyShifts } from './copies';
-import { shouldDraw } from './overlayRules';
+import { afterEvent, frameStep, lngRange, particlePhase, type OverlayEvent } from './overlayRules';
 
 export interface FlowPath {
   id: string;
@@ -47,27 +47,31 @@ export class FlowOverlay {
     this.canvas.setAttribute('aria-hidden', 'true');
     map.getContainer().appendChild(this.canvas);
     this.ctx = this.canvas.getContext('2d')!;
-    const invalidate = () => (this.dirty = true);
-    map.on('move', invalidate);
+    map.on('move', () => this.on('move'));
     map.on('resize', () => {
       this.resize();
-      invalidate();
-      this.repaint = true;
+      this.on('resize');
     });
     this.resize();
     // the setting can change while the page is open
     this.motionQuery.addEventListener('change', () => {
       this.reduced = this.motionQuery.matches;
-      this.repaint = true;
+      this.on('motion-setting');
     });
     document.addEventListener('visibilitychange', () => {
-      if (document.hidden) cancelAnimationFrame(this.raf);
-      else {
-        this.repaint = true;
-        this.loop();
-      }
+      cancelAnimationFrame(this.raf);
+      if (document.hidden) return;
+      this.on('tab-shown');
+      // one chain of frames: a page first opened in a hidden tab still has the frame its constructor asked for
+      this.loop();
     });
     this.loop();
+  }
+
+  private on(e: OverlayEvent) {
+    const f = afterEvent({ dirty: this.dirty, repaint: this.repaint }, e);
+    this.dirty = f.dirty;
+    this.repaint = f.repaint;
   }
 
   /** Set the particle paths of one named line set; sets are merged. */
@@ -75,13 +79,13 @@ export class FlowOverlay {
     if (paths.length) this.pathSets.set(key, paths);
     else this.pathSets.delete(key);
     this.paths = [...this.pathSets.values()].flat();
-    this.dirty = true;
+    this.on('paths');
   }
 
   setVisible(v: boolean) {
     this.visible = v;
     this.canvas.style.display = v ? '' : 'none';
-    if (v) this.repaint = true;
+    if (v) this.on('shown');
   }
 
   private resize() {
@@ -96,11 +100,8 @@ export class FlowOverlay {
 
   private project() {
     const { clientWidth: w, clientHeight: h } = this.map.getContainer();
-    // the longitudes in view, with the 20 px margin `draw` culls at; `unproject` does not wrap them, so a camera
-    // centred beyond +-180 (a selected trans-Pacific lane) gives a range beyond +-180
-    const edges = [[-20, -20], [w + 20, -20], [-20, h + 20], [w + 20, h + 20]].map(([x, y]) => this.map.unproject([x, y]).lng);
-    const west = Math.min(...edges);
-    const east = Math.max(...edges);
+    // the longitudes in view, with the 20 px margin `draw` culls at
+    const { west, east } = lngRange((x, y) => this.map.unproject([x, y]).lng, w, h, 20);
     const out: Projected[] = [];
     for (const path of this.paths) {
       const n = path.coords.length;
@@ -127,13 +128,11 @@ export class FlowOverlay {
 
   private loop = () => {
     this.raf = requestAnimationFrame(this.loop);
-    if (!this.visible) return;
-    const changed = this.dirty;
-    if (changed) this.project();
     // under reduced motion the particles stand still: a still frame is drawn once, not on every animation frame
-    if (!shouldDraw({ reduced: this.reduced, dirty: changed, repaint: this.repaint })) return;
-    this.repaint = false;
-    this.draw((performance.now() - this.t0) / 1000);
+    const step = frameStep({ visible: this.visible, reduced: this.reduced, dirty: this.dirty, repaint: this.repaint });
+    if (step.project) this.project();
+    this.repaint = step.repaint;
+    if (step.draw) this.draw((performance.now() - this.t0) / 1000);
   };
 
   private draw(t: number) {
@@ -151,7 +150,7 @@ export class FlowOverlay {
       const r = 1.1 + 1.9 * path.weight;
       const alpha = path.dim ? 0.18 : 0.9;
       ctx.fillStyle = path.color;
-      const phase = this.reduced ? 0 : (t * speed) % spacing;
+      const phase = particlePhase(this.reduced, t, speed, spacing);
       for (let k = 0; k < count; k++) {
         const d = k * spacing + phase;
         if (d > pr.len) break;

@@ -16,6 +16,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { GLYPH_RANGE, GLYPH_STACK, LABEL_FONT, assetLabel } from '../src/map/labelRules.ts';
+import { decode } from './glyph-file.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, '../..');
@@ -27,57 +28,6 @@ const readJson = (rel) => JSON.parse(fs.readFileSync(path.join(repo, rel), 'utf8
 const sha = (file) => crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
 const build = (...args) => spawnSync(process.execPath, [builder, ...args], { encoding: 'utf8' });
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'glyphs-test-'));
-
-// ---- the decoder: fontstack { 1 name, 2 range, 3 glyph { 1 id, 2 bitmap, 3 width, 4 height, 5 left, 6 top, 7 advance } }
-function decode(buf) {
-  let p = 0;
-  const varint = () => {
-    let r = 0;
-    let shift = 0;
-    for (;;) {
-      const b = buf[p++];
-      r += (b & 127) * 2 ** shift;
-      if (!(b & 128)) return r;
-      shift += 7;
-    }
-  };
-  const zigzag = (n) => (n % 2 ? -(n + 1) / 2 : n / 2);
-  const fields = (end, onField) => {
-    while (p < end) {
-      const tag = varint();
-      const wire = tag & 7;
-      if (wire === 0) onField(tag >> 3, varint());
-      else if (wire === 2) {
-        const len = varint();
-        onField(tag >> 3, [p, p + len]);
-        p += len;
-      } else throw new Error(`unexpected wire type ${wire}`);
-    }
-  };
-  const out = { name: null, range: null, glyphs: new Map() };
-  fields(buf.length, (f, [s, e]) => {
-    assert.equal(f, 1, 'the file holds one fontstack');
-    const after = p;
-    p = s;
-    fields(e, (f2, v) => {
-      if (f2 === 1) out.name = buf.toString('utf8', v[0], v[1]);
-      else if (f2 === 2) out.range = buf.toString('utf8', v[0], v[1]);
-      else if (f2 === 3) {
-        const g = { bitmap: null };
-        const inner = p;
-        p = v[0];
-        fields(v[1], (f3, x) => {
-          if (f3 === 2) g.bitmap = buf.subarray(x[0], x[1]);
-          else g[{ 1: 'id', 3: 'width', 4: 'height', 5: 'left', 6: 'top', 7: 'advance' }[f3]] = f3 === 5 || f3 === 6 ? zigzag(x) : x;
-        });
-        p = inner;
-        out.glyphs.set(g.id, g);
-      } else throw new Error(`unexpected fontstack field ${f2}`);
-    });
-    p = after;
-  });
-  return out;
-}
 
 // ---- the characters the map writes, read from the files
 const labels = [];
@@ -102,6 +52,9 @@ assert.ok(labels.length > 800, `names read: ${labels.length}`);
 // every character of every label has a glyph (a missing one is dropped from the name by the library)
 for (const text of labels) for (const ch of text) assert.ok(file.glyphs.has(ch.codePointAt(0)), `no glyph for ${JSON.stringify(ch)} (U+${ch.codePointAt(0).toString(16)}) of "${text}"`);
 // and the file holds no more than it needs: the set is derived, so a name that left the data leaves the file at the next build
+const hex = (codes) => codes.map((c) => `U+${c.toString(16).toUpperCase().padStart(4, '0')} ${String.fromCodePoint(c)}`).join(', ');
+const extra = [...file.glyphs.keys()].filter((c) => !needed.has(c));
+assert.equal(extra.length, 0, `no label writes ${hex(extra)} any more: rebuild the glyph file with node pipeline/geo/build_glyphs.mjs (docs/UPDATING.md, "The glyph file of the lettering")`);
 assert.deepEqual([...file.glyphs.keys()].sort((a, b) => a - b), [...needed].sort((a, b) => a - b), 'the glyphs are exactly the characters of the labels and printable ASCII');
 assert.ok([...file.glyphs.keys()].every((id) => id <= 255), 'one range: U+0000 to U+00FF');
 

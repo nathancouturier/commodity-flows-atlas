@@ -25,9 +25,10 @@ export const BUDGET = {
   // file sizes: 36,100 kB of disk blocks by `du -sk`) gives 42,400 kB, and the largest file, data/freight/chokepoint-lanes.json, 1,817 kB gives 2,200 kB.
   dataFile: 2200 * KB,
   data: 42400 * KB,
-  // The glyph files of the map's lettering (web/public/glyphs/**: the signed-distance bitmaps and the licence text next to them) measured 45 kB
-  // for the 104 characters of the names today; a fifth over, rounded up to 10 kB. They are served as they are, outside assets/ and data/, so
-  // they had no budget before: a second range or a larger character set is a growth to look at.
+  // The glyph files of the map's lettering (web/public/glyphs/**: the signed-distance bitmaps and the licence text next to them) measure 51 kB
+  // (45 kB of bitmaps and 5 kB of licence text) for the 104 characters of the names today. The budget was set from the bitmaps, a fifth over
+  // rounded up to 10 kB, and leaves 18% over the whole 51 kB. They are served as they are, outside assets/ and data/, so they had no
+  // budget before: a second range or a larger character set is a growth to look at.
   glyphs: 60 * KB,
 };
 

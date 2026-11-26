@@ -394,7 +394,9 @@ The characters are not typed: printable ASCII, and every other character found i
 point features of `data/infrastructure/*.geojson` once the places in brackets at their end are dropped (`assetLabel` of `web/src/map/labelRules.ts`), and in the
 sea names of `data/geo/seas.json` in upper case. The file is therefore rebuilt only when a character appears or a name changes, and the check comes first:
 `web/scripts/glyphs.test.mjs` fails ("no glyph for ...") on a name with a character the file does not hold, and says so in the run of `cd web && npm test`; the
-builder itself stops on a character above U+00FF (one range file, `0-255`; a second one is not built). A run changes no byte if nothing changed, and
+builder itself stops on a character above U+00FF (one range file, `0-255`; a second one is not built). The same test also fails when a character leaves the
+data (a name rewritten without the last use of an accented letter): its message names the character, and the way out is the same run of the builder, which
+needs the font. A run changes no byte if nothing changed, and
 `glyphs.test.mjs` compares the tracked file with a run to a temporary folder wherever `raw/fonts/Inter-Medium.otf` exists. The size budget of the glyph files
 (`glyphs` in `web/scripts/check-size.mjs`) is checked on the built site. Nothing is scheduled and no workflow runs the builder.
 

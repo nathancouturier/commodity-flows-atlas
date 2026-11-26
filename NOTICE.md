@@ -386,11 +386,12 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
   reproduces four third-party releases, each licensed to Natural Earth "for the sole purpose of creating a world base map": the page names a
   theme for three of them (rivers and lakes of Europe, roads of North America, time zones) and none for the first, "The authors used data from
   The Washington Post, here is their release:". On the same page (<https://www.naturalearthdata.com/about/terms-of-use/>, read 25 November
-  2026): "The authors’ used name data for more than 20 languages from Wikidata which is under a CC0 (public domain) license."; the sea names take
-  the `name_en` attribute of the marine areas file, and the page does not say which attributes these name data fill. The page ends with "All
-  rights reserved." and says of the downloads, which the atlas takes from naciscdn.org (<https://www.naturalearthdata.com/about/terms-of-use/>,
+  2026): "The authors’ used name data for more than 20 languages from Wikidata which is under a CC0 (public domain) license."; the names of the
+  seas, bays and gulfs take the `name_en` attribute of the marine areas file (the oceans take `name`), and the page does not say which attributes
+  these name data fill. The footer of the page (<https://www.naturalearthdata.com/about/terms-of-use/>, read 25 November 2026), after its
+  copyright line "© 2009 - 2026. Natural Earth.", reads "All rights reserved."; the page says of its downloads (<https://www.naturalearthdata.com/about/terms-of-use/>,
   read 25 November 2026): "Our data downloads are generously hosted by Amazon Web Services since 2021 and previously Florida State
-  University." The README of the marine areas zip (offered at
+  University." The atlas's copy of the marine areas zip was fetched from naciscdn.org, an address that the page does not name. The README of the marine areas zip (offered at
   <https://www.naturalearthdata.com/downloads/50m-physical-vectors/>, read 25 November 2026) says: "The boundaries of physical regions should be
   taken with a grain of salt." The country shapes are the default view of version 5.1.1; what that means for the map is in METHODOLOGY.md,
   "The map: boundaries and territories".

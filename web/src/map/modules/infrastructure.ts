@@ -20,7 +20,8 @@ import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
 import { figuresOf } from '../../lib/capacity';
 import { OUTPUT_LABEL, figureText, isOperating, monthYear, sourceText, stateAt, statusClassOf, statusText, yearText, type Figure, type StatusClass } from '../../lib/infra';
 import { INFRA_META, infraSvg } from '../../components/ui';
-import { ASSET_ORDER, assetLabel, assetLayerSpec, assetSelectedTextLayout, assetTextPaint } from '../labelRules';
+import { ASSET_ORDER, ICON_LAYER, assetLabel, assetLayerSpec, assetSelectedTextLayout, assetTextPaint } from '../labelRules';
+import { raiseCountryNames } from '../labels';
 
 // ---------------------------------------------------------------- data access (shared with the detail views)
 
@@ -283,7 +284,9 @@ registerLayerModule((m) => {
     paint: { 'icon-opacity': ['get', 'op'] },
   });
   // the names of ports and assets: above the pipeline lines, under the icons (an icon always covers a name it overlaps)
-  m.addLayer(assetLayerSpec(SRC_PTS), 'infra-pts-all');
+  m.addLayer(assetLayerSpec(SRC_PTS), ICON_LAYER);
+  // a country name wins a collision with an asset name: the country layers go above the asset names, still under the icons
+  raiseCountryNames(m, ICON_LAYER);
   // selection halo and the opened asset (own source, on top)
   m.addLayer({
     id: 'infra-halo',

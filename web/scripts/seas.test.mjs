@@ -15,6 +15,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import mapshaper from 'mapshaper';
+import { inGeometry, inRing, roundInside } from '../../pipeline/geo/polygon.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, '../..');
@@ -29,6 +30,41 @@ const sha = (file) => crypto.createHash('sha256').update(fs.readFileSync(file)).
 const build = (...args) => spawnSync(process.execPath, [builder, ...args], { encoding: 'utf8' });
 const trackedSha = sha(tracked);
 const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'seas-test-'));
+
+// ---- the point-in-polygon rule of the builder (runs everywhere)
+{
+  const square = [[0, 0], [10, 0], [10, 10], [0, 10], [0, 0]];
+  const hole = [[4, 4], [6, 4], [6, 6], [4, 6], [4, 4]];
+  assert.equal(inRing(5, 5, square), true);
+  assert.equal(inRing(11, 5, square), false);
+  assert.equal(inRing(5, -1, square), false);
+  assert.equal(inGeometry([5, 5], { type: 'Polygon', coordinates: [square, hole] }), false, 'a hole is outside');
+  assert.equal(inGeometry([2, 2], { type: 'Polygon', coordinates: [square, hole] }), true);
+  const far = square.map(([x, y]) => [x + 100, y]);
+  const multi = { type: 'MultiPolygon', coordinates: [[square], [far]] };
+  assert.equal(inGeometry([105, 5], multi), true, 'any polygon of a multipolygon');
+  assert.equal(inGeometry([50, 5], multi), false);
+  assert.equal(inGeometry([5, 5], { type: 'Point', coordinates: [5, 5] }), false);
+
+  // a sliver 0.009 degree high: the point rounds to 0.1 and to 0.01 outside it, to 0.001 inside
+  const sliver = { type: 'Polygon', coordinates: [[[0, 0.0405], [1, 0.0405], [1, 0.0495], [0, 0.0495], [0, 0.0405]]] };
+  assert.deepEqual(roundInside([0.5, 0.04491], sliver), { at: [0.5, 0.045], decimals: 3 });
+  // a polygon that holds the point rounded to 0.1 keeps the 0.1
+  assert.deepEqual(roundInside([5.04, 5.06], { type: 'Polygon', coordinates: [square] }), { at: [5, 5.1], decimals: 1 });
+  // one decimal outside, two inside
+  const strip = { type: 'Polygon', coordinates: [[[0, 0.11], [1, 0.11], [1, 0.19], [0, 0.19], [0, 0.11]]] };
+  assert.deepEqual(roundInside([0.5, 0.1349], strip), { at: [0.5, 0.13], decimals: 2 });
+  // none inside to 0.001 degree: no row is written from it
+  const thread = { type: 'Polygon', coordinates: [[[0.1002, 0.2002], [0.1004, 0.2002], [0.1004, 0.2004], [0.1002, 0.2004], [0.1002, 0.2002]]] };
+  assert.equal(roundInside([0.1003, 0.2003], thread), null);
+  assert.equal(roundInside([50, 50], { type: 'Polygon', coordinates: [square] }), null, 'a point that is not inside to begin with');
+}
+
+// METHODOLOGY says how a point that the rounding puts outside its polygon is kept (runs everywhere)
+assert.ok(
+  fs.readFileSync(path.join(repo, 'METHODOLOGY.md'), 'utf8').replace(/\s+/g, ' ').includes('the builder keeps the fewest decimals at which every point is inside its polygon'),
+  'METHODOLOGY states the rule of the label points',
+);
 
 // ---- without the shapefile: one line, nothing written, exit 0
 {
@@ -93,6 +129,29 @@ if (!fs.existsSync(rawShp)) {
     // and every polygon of a kept class and of rank 3 or less is there
     const kept = [...classOf].filter(([, c]) => KEPT.includes(c)).map(([n]) => n).sort();
     assert.deepEqual(trackedDoc.seas.map((r) => r.n).sort(), kept);
+  }
+
+  // what METHODOLOGY says of the oceans' names: `name`, not `name_en` (two polygons share one), and only some are in capitals in the file
+  {
+    const oceans = all.filter((p) => p.featurecla === 'ocean');
+    assert.equal(oceans.length, trackedDoc.seas.filter((r) => r.r === 0).length);
+    assert.ok(new Set(oceans.map((p) => p.name_en)).size < oceans.length, 'two polygons share a name_en, which is why the oceans take `name`');
+    const capitals = oceans.filter((p) => p.name === p.name.toUpperCase()).map(nameOf).sort();
+    assert.deepEqual(capitals, ['Indian Ocean', 'Southern Ocean']);
+    const md = fs.readFileSync(path.join(repo, 'METHODOLOGY.md'), 'utf8').replace(/\s+/g, ' ');
+    assert.ok(md.includes('for the oceans `name`, because the two Atlantic polygons share one `name_en` and so do the two Pacific ones; two of the seven, the Indian and the Southern, are written in capitals in the file'));
+    assert.ok(!md.includes('the oceans are written in capitals in the file'));
+  }
+
+  // each label point is inside its own polygon, rounded as it is in the file (the Scotia Sea is a sliver: 0.1 degree would put its point outside)
+  {
+    const shapes = JSON.parse((await mapshaper.applyCommands(`-i "${rawShp}" encoding=utf8 -filter "scalerank <= 3" -o out.json format=geojson`))['out.json']).features;
+    const polygonOf = new Map(shapes.map((f) => [nameOf(f.properties), f.geometry]));
+    for (const r of trackedDoc.seas) assert.ok(inGeometry(r.at, polygonOf.get(r.n)), `${r.n} ${JSON.stringify(r.at)} is outside its polygon`);
+    const scotia = trackedDoc.seas.find((r) => r.n === 'Scotia Sea');
+    assert.ok(scotia && scotia.at.some((v) => Math.abs(v * 10 - Math.round(v * 10)) > 1e-9), 'the Scotia Sea keeps more than one decimal');
+    const others = trackedDoc.seas.filter((r) => r.n !== 'Scotia Sea');
+    assert.ok(others.every((r) => r.at.every((v) => Math.abs(v * 10 - Math.round(v * 10)) < 1e-9)), 'every other row is rounded to 0.1 degree');
   }
 
   // smaller copies of the shapefile: what the builder refuses

@@ -9,10 +9,13 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  COUNTRY_MINZOOM, COUNTRY_TIERS, LABEL_COLOR, LABEL_FONT, GLYPH_STACK, SEA_MINZOOM, countryFilter, countryLayerSpecs, countryPoints, countryTier,
-  labelLayerSpecs, seaLayerSpecs, seaPoints,
+  COUNTRY_MINZOOM, COUNTRY_SIZE_STOPS, COUNTRY_TEXT, COUNTRY_TIERS, LABEL_COLOR, LABEL_FONT, LABEL_ON_FILL, GLYPH_STACK, SEA_MINZOOM, SEA_TEXT,
+  BOX_MARGIN, EDGE_COPIES, ICON_LAYER, NAME_STACK,
+  boxCrossesEdge, countryEdgeNames, countryFilter, countryLayerSpecs, countryPoints, countrySizeAt, countryTier, namesAtEdge, oceanEdgeNames,
+  labelLayerSpecs, seaFilter, seaLayerSpecs, seaPoints, stackViolations, textBox,
   ASSET_LABEL_MINZOOM, ASSET_ORDER, assetLabel, assetLayerSpec, assetSelectedTextLayout, assetTextPaint,
 } from '../src/map/labelRules.ts';
+import { decode } from './glyph-file.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, '../..');
@@ -171,6 +174,8 @@ test('the style names the glyph files of the site: an absolute address from the 
   assert.ok(m, 'a glyphs key in baseStyle()');
   assert.ok(m[1].endsWith('{fontstack}/{range}.pbf'), m[1]);
   assert.ok(m[1].includes('document.baseURI'), 'built from the address of the page');
+  // `new URL('/', ...)` would be the root of the site: on GitHub Pages the atlas is served under a sub-path and every glyph request would be a 404
+  assert.ok(m[1].startsWith("${new URL('./', document.baseURI).href}"), `relative to the page's own address, not to the root: ${m[1]}`);
   assert.ok(!m[1].includes('http'), 'no address typed');
   assert.ok(/typeof document !== 'undefined'/.test(basemapSrc), 'a test that imports the file has no document');
   assert.ok(!/https?:\/\/[^\s'"`]*glyph/i.test(basemapSrc + labelsSrc + controllerSrc), 'no glyph server');
@@ -223,7 +228,7 @@ test('the oceans have no zoom limit and the other ranks appear later as they get
   assert.ok(!('minzoom' in byRank[0]), 'a limit below zero is not allowed, and the phone first view is below it');
   for (const r of [1, 2, 3]) assert.equal(byRank[r].minzoom, SEA_MINZOOM[r]);
   assert.ok(byRank[1].minzoom < byRank[2].minzoom && byRank[2].minzoom < byRank[3].minzoom);
-  for (const s of seaLayerSpecs()) assert.deepEqual(s.filter, ['==', ['get', 'r'], Number(s.id.slice(-1))]);
+  for (const s of seaLayerSpecs()) assert.deepEqual(s.filter, seaFilter(Number(s.id.slice(-1)), []));
 });
 
 test('a sea layer is a symbol layer of the sea source in the glyph file font, upper case, spaced, in the sea colour', () => {
@@ -260,14 +265,17 @@ test('the sea names are read from the sea table, and a table that is missing lea
   const loads = labelsSrc.match(/\.catch\(\(\) => undefined\)/g) ?? [];
   assert.equal(loads.length, 2, 'one .catch for the countries and one for the seas');
   const seas = labelsSrc.slice(labelsSrc.indexOf("load<{ seas"));
-  assert.ok(/\.catch\(/.test(seas.slice(0, seas.indexOf(';'))), 'the load of the seas has its own catch');
+  assert.ok(/\.catch\(/.test(seas.slice(0, seas.indexOf('\n}\n'))), 'the load of the seas has its own catch');
   assert.ok(/addSource\(SEA_SOURCE/.test(labelsSrc) && /labelLayerSpecs\(/.test(labelsSrc));
+  // a colouring that is on before the layers are added must leave its names out from the first frame
+  assert.ok(/for \(const spec of labelLayerSpecs\(hidden\)\) m\.addLayer\(spec\);/.test(labelsSrc), 'installLabels gives the hidden ids to the layer specs');
   assert.ok(!/countryLayerSpecs\(/.test(labelsSrc), 'the layers come from labelLayerSpecs');
 });
 
 test('the sea names are not interactive, and the sea source has no click handler', () => {
   assert.ok(!/names-seas/.test(controllerSrc));
-  assert.ok(!/(registerInteractiveLayer|registerPointLayer|\.on\()/.test(labelsSrc));
+  assert.ok(!/(registerInteractiveLayer|registerPointLayer)/.test(labelsSrc));
+  assert.ok(!/\.on\('(click|dblclick|contextmenu|mouse\w+|touch\w+)'/.test(labelsSrc), 'no handler of a pointer on a name');
 });
 
 test('METHODOLOGY and the About window name the sea names as they are built', () => {
@@ -352,7 +360,8 @@ test('the opened asset keeps its name at every zoom: the same text, allowed to o
 });
 
 test('infrastructure.ts adds the names under the icons and leaves the icons as they were', () => {
-  const add = "m.addLayer(assetLayerSpec(SRC_PTS), 'infra-pts-all');";
+  const add = 'm.addLayer(assetLayerSpec(SRC_PTS), ICON_LAYER);';
+  assert.equal(ICON_LAYER, 'infra-pts-all');
   assert.ok(infraSrc.includes(add), 'the layer is added with the icon layer as its before-id');
   const icons = infraSrc.indexOf("id: 'infra-pts-all'");
   assert.ok(icons > 0 && infraSrc.indexOf(add) > icons, 'added after the icon layer exists');
@@ -388,4 +397,247 @@ test('METHODOLOGY states how the names of ports and assets are placed', () => {
   const byRank = Object.entries(ASSET_ORDER).sort((a, b) => a[1] - b[1]).map(([type]) => words[type]);
   assert.ok(byRank.every(Boolean), 'a word for every type');
   assert.ok(md.includes(byRank.join(', ')), 'the order of the table, in the words of the page');
+});
+
+// ---------------------------------------------------------------- a name is not drawn cut by an edge of the canvas
+
+const glyphs = decode(fs.readFileSync(path.join(repo, 'web/public/glyphs', GLYPH_STACK, '0-255.pbf'))).glyphs;
+/** The advance of a character in ems, read from the glyph file (its bitmaps are 24 px). */
+const advance = (ch) => glyphs.get(ch.codePointAt(0)).advance / 24;
+/** The widest line and the number of lines of a name set as the library sets it, with the true advances and a greedy break. */
+function setTrue(text, maxWidth, spacing) {
+  const width = (w) => [...w].reduce((a, ch) => a + advance(ch) + spacing, 0);
+  let lines = 1;
+  let widest = 0;
+  let line = 0;
+  for (const word of text.split(/\s+/).filter(Boolean)) {
+    const w = width(word);
+    const gap = advance(' ') + spacing;
+    if (line === 0) line = w;
+    else if (line + gap + w <= maxWidth) line += gap + w;
+    else {
+      widest = Math.max(widest, line);
+      line = w;
+      lines++;
+    }
+  }
+  return { widest: Math.max(widest, line), lines };
+}
+
+test('the estimated box of a name is never narrower or lower than the lettering: every ocean, and every country of the largest class at every size', () => {
+  const seaRows = seaFile.seas.filter((s) => s.r === 0);
+  assert.equal(seaRows.length, 7);
+  for (const s of seaRows) {
+    const text = s.n.toUpperCase();
+    const box = textBox(text, SEA_TEXT.oceanSize, SEA_TEXT.maxWidth, SEA_TEXT.letterSpacing);
+    const real = setTrue(text, SEA_TEXT.maxWidth, SEA_TEXT.letterSpacing);
+    assert.ok(box.w >= real.widest * SEA_TEXT.oceanSize + 2 * BOX_MARGIN, `${s.n}: ${box.w} px for ${real.widest * SEA_TEXT.oceanSize}`);
+    assert.ok(box.h >= real.lines * 1.2 * SEA_TEXT.oceanSize + 2 * BOX_MARGIN, `${s.n}: ${box.h} px high`);
+  }
+  const tier0 = index.filter((c) => countryTier(c.bb) === 0);
+  assert.ok(tier0.length > 10);
+  for (const c of tier0) {
+    for (const size of [COUNTRY_SIZE_STOPS[1], COUNTRY_SIZE_STOPS[3], COUNTRY_SIZE_STOPS[5]]) {
+      const box = textBox(c.name, size, COUNTRY_TEXT.maxWidth, 0);
+      const real = setTrue(c.name, COUNTRY_TEXT.maxWidth, 0);
+      assert.ok(box.w >= real.widest * size + 2 * BOX_MARGIN, `${c.name} at ${size}: ${box.w} px for ${real.widest * size}`);
+      assert.ok(box.h >= real.lines * 1.2 * size + 2 * BOX_MARGIN, `${c.name} at ${size}: ${box.h} px high`);
+    }
+  }
+});
+
+test('a name wraps at its maximum width, a word wider than it keeps its own line, and the box grows with the size', () => {
+  const one = textBox('ARCTIC', 12, 6, 0.16);
+  const two = textBox('SOUTH PACIFIC', 12, 6, 0.16);
+  assert.ok(two.h > one.h && two.w >= one.w, 'two lines');
+  assert.equal(textBox('SOUTH PACIFIC OCEAN', 12, 6, 0.16).h, 3 * 1.2 * 12 + 2 * BOX_MARGIN, 'three lines of 12 px');
+  assert.equal(textBox('Peru', 10, 6, 0).h, 1.2 * 10 + 2 * BOX_MARGIN);
+  assert.ok(textBox('Peru', 20, 6, 0).w > textBox('Peru', 10, 6, 0).w);
+  assert.ok(textBox('SOUTH PACIFIC OCEAN', 12, 100, 0.16).h < two.h * 2, 'a wide limit keeps one line');
+});
+
+test('a box is cut when it is partly on the canvas and partly off it, on each of the four edges', () => {
+  const box = { w: 80, h: 30 };
+  const [W, H] = [600, 400];
+  assert.equal(boxCrossesEdge(300, 200, box, W, H), false, 'inside');
+  assert.equal(boxCrossesEdge(40, 200, box, W, H), false, 'touching the left edge is inside');
+  assert.equal(boxCrossesEdge(W - 40, 200, box, W, H), false, 'touching the right edge is inside');
+  assert.equal(boxCrossesEdge(300, 15, box, W, H), false, 'touching the top edge');
+  assert.equal(boxCrossesEdge(300, H - 15, box, W, H), false, 'touching the bottom edge');
+  assert.equal(boxCrossesEdge(39, 200, box, W, H), true, 'left, by a pixel');
+  assert.equal(boxCrossesEdge(W - 39, 200, box, W, H), true, 'right');
+  assert.equal(boxCrossesEdge(300, 14, box, W, H), true, 'top');
+  assert.equal(boxCrossesEdge(300, H - 14, box, W, H), true, 'bottom');
+  assert.equal(boxCrossesEdge(0, 200, box, W, H), true, 'centred on the edge');
+  assert.equal(boxCrossesEdge(-40, 200, box, W, H), false, 'wholly outside, on the left edge');
+  assert.equal(boxCrossesEdge(-60, 200, box, W, H), false);
+  assert.equal(boxCrossesEdge(W + 40, 200, box, W, H), false);
+  assert.equal(boxCrossesEdge(300, -15, box, W, H), false);
+  assert.equal(boxCrossesEdge(300, H + 15, box, W, H), false);
+  assert.equal(boxCrossesEdge(-30, -10, box, W, H), true, 'across a corner');
+});
+
+test('the names the edge cuts: those that cross it on any copy of the world, and none of those wholly in or wholly out', () => {
+  const [W, H] = [600, 500];
+  const box = { w: 80, h: 30 };
+  // ten px a degree, the camera on 170 degrees east: the point at 170 is on the middle of the canvas, the world is 3600 px wide
+  const project = (lng, lat) => ({ x: W / 2 + (lng - 170) * 10, y: H / 2 - lat * 10 });
+  const at = (id, lng, lat) => ({ id, at: [lng, lat], box });
+  const names = [
+    at('inside', 170, 0), // x 300
+    at('left edge', 170 - 29, 0), // x 10, the box reaches x -30
+    at('right edge', 170 + 29, 0), // x 590
+    at('top edge', 170, 24), // y 10
+    at('bottom edge', 170, -24),
+    at('outside', 170 + 80, 0), // x 1100
+    at('antimeridian copy', -161, 0), // its own copy is at x -3010, the copy 360 degrees east at 199 degrees is x 590
+    at('antimeridian inside', -174, 0), // the copy at 186 degrees is x 460: inside
+  ];
+  assert.deepEqual(namesAtEdge(names, project, W, H).sort(), ['antimeridian copy', 'bottom edge', 'left edge', 'right edge', 'top edge']);
+  assert.deepEqual(namesAtEdge(names, project, 0, H), [], 'a canvas with no size has no names to cut');
+  assert.ok(EDGE_COPIES >= 2, 'at least the copies on each side of the camera');
+  // the copy that crosses the edge is only found on the copy it is on
+  assert.deepEqual(namesAtEdge([at('far copy', 170 - 29 + 720, 0)], project, W, H), ['far copy']);
+});
+
+test('the oceans are the seven rows of rank 0 and the largest class of countries is the rows of the index of that class', () => {
+  const o = oceanEdgeNames(seaFile.seas);
+  assert.deepEqual(o.map((x) => x.id), seaFile.seas.filter((s) => s.r === 0).map((s) => s.n));
+  for (const x of o) assert.deepEqual(x.box, textBox(x.id.toUpperCase(), SEA_TEXT.oceanSize, SEA_TEXT.maxWidth, SEA_TEXT.letterSpacing));
+  const c = countryEdgeNames(index, 1.5);
+  assert.deepEqual(c.map((x) => x.id), index.filter((r) => countryTier(r.bb) === 0).map((r) => r.c));
+  assert.ok(!c.some((x) => x.id === 'EU27'));
+  for (const x of c) assert.deepEqual(x.box, textBox(index.find((r) => r.c === x.id).name, countrySizeAt(1.5), COUNTRY_TEXT.maxWidth, 0));
+  assert.ok(countryEdgeNames(index, 4)[0].box.w > countryEdgeNames(index, 1)[0].box.w, 'the size follows the zoom');
+});
+
+test('the size of a country name at a zoom is the layer\'s interpolation, flat outside its first and last stops', () => {
+  const size = countryLayerSpecs()[0].layout['text-size'];
+  assert.deepEqual(size, ['interpolate', ['linear'], ['zoom'], ...COUNTRY_SIZE_STOPS]);
+  const stops = COUNTRY_SIZE_STOPS;
+  for (let i = 0; i < stops.length; i += 2) assert.equal(countrySizeAt(stops[i]), stops[i + 1]);
+  assert.equal(countrySizeAt(-1), stops[1]);
+  assert.equal(countrySizeAt(20), stops[stops.length - 1]);
+  assert.equal(countrySizeAt((stops[0] + stops[2]) / 2), (stops[1] + stops[3]) / 2);
+});
+
+test('the edge rule runs when the camera comes to rest and when the canvas is resized, never during a move, and sets a filter only when the list changes', () => {
+  assert.ok(/m\.on\('moveend', \(\) => leaveOutCut\(m\)\);/.test(labelsSrc));
+  assert.ok(/m\.on\('resize', \(\) => leaveOutCut\(m\)\);/.test(labelsSrc));
+  assert.ok(!/\.on\('(move|movestart|zoom|zoomstart|drag|render|data|sourcedata|idle|rotate|pitch)'/.test(labelsSrc), 'no handler of a move in progress');
+  assert.equal((labelsSrc.match(/\.on\(/g) ?? []).length, 2, 'two handlers, no other');
+  const fn = labelsSrc.slice(labelsSrc.indexOf('function leaveOutCut'));
+  assert.ok(/if \(!same\(now, cutOceans\)\)/.test(fn) && /if \(!same\(now, cutCountries\)\)/.test(fn));
+  assert.ok(/m\.setFilter\(OCEANS, seaFilter\(0, cutOceans\)\)/.test(fn));
+  assert.ok(/m\.setFilter\(LARGEST, countryFilter\(0, \[\.\.\.hidden, \.\.\.cutCountries\]\)\)/.test(fn), 'the colouring\'s hidden ids stay in the filter of the largest class');
+  assert.ok(/hideCountryNames[\s\S]*t === 0 \? \[\.\.\.hidden, \.\.\.cutCountries\] : hidden/.test(labelsSrc), 'and the cut names stay out when the colouring changes');
+});
+
+test('the filter of the oceans carries the names left out and nothing else changes', () => {
+  assert.deepEqual(seaFilter(0, ['Arctic Ocean']), ['all', ['==', ['get', 'r'], 0], ['!', ['in', ['get', 'n'], ['literal', ['Arctic Ocean']]]]]);
+  const left = seaLayerSpecs(['Arctic Ocean']);
+  assert.deepEqual(left.find((s) => s.id === 'names-seas-0').filter, seaFilter(0, ['Arctic Ocean']));
+  for (const s of left.filter((x) => x.id !== 'names-seas-0')) assert.deepEqual(s.filter, seaFilter(Number(s.id.slice(-1)), []), 'the other ranks are left as they are');
+  assert.deepEqual(labelLayerSpecs(['FRA'], ['Arctic Ocean']).slice(0, 4), left);
+});
+
+// ---------------------------------------------------------------- the order of the layers
+
+test('the names are stacked under the icons: seas, pipelines, asset names, country names, icons; a style in another order is told', () => {
+  assert.deepEqual(stackViolations(NAME_STACK), []);
+  assert.deepEqual(stackViolations(['land', ...NAME_STACK, 'ls-lanes-line']), []);
+  assert.deepEqual(stackViolations(['names-countries-0', 'infra-names']), ['infra-names above names-countries-0'], 'the asset names above the country names');
+  assert.deepEqual(stackViolations(['infra-names', 'names-countries-3', 'names-countries-2']), []);
+  assert.equal(stackViolations(['names-countries-0', 'infra-pts-all', 'infra-names']).length > 0, true, 'asset names above the icons');
+  assert.equal(stackViolations(['names-countries-0', 'names-seas-0']).length, 1, 'sea names above the country names');
+  assert.equal(stackViolations(['infra-lines-glow', 'names-seas-3']).length, 1, 'sea names above the pipelines');
+  assert.deepEqual(stackViolations(['land', 'borders']), [], 'layers outside the stack are not looked at');
+  assert.equal(NAME_STACK.indexOf('infra-names') < NAME_STACK.indexOf('names-countries-3'), true, 'a country name is placed before an asset name');
+  assert.equal(NAME_STACK.indexOf('names-countries-0') + 1, NAME_STACK.indexOf(ICON_LAYER), 'and is under the icons');
+  assert.ok(NAME_STACK.indexOf('names-seas-0') < NAME_STACK.indexOf('infra-lines-glow'), 'sea names give way to both');
+});
+
+test('the specs add the country layers from the smallest to the largest and the module of the icons raises them above the asset names', () => {
+  const asset = infraSrc.indexOf('m.addLayer(assetLayerSpec(SRC_PTS), ICON_LAYER);');
+  const raise = infraSrc.indexOf('raiseCountryNames(m, ICON_LAYER);');
+  assert.ok(asset > 0 && raise > asset && raise < infraSrc.indexOf("id: 'infra-halo'"), 'raised right after the asset names exist');
+  assert.ok(/import \{ raiseCountryNames \} from '\.\.\/labels';/.test(infraSrc));
+  // the other order of the two modules: the asset names are there already when the country layers are added
+  assert.ok(/if \(m\.getLayer\(ICON_LAYER\)\) raiseCountryNames\(m, ICON_LAYER\);/.test(labelsSrc));
+  assert.ok(labelsSrc.indexOf('labelLayerSpecs(hidden)') < labelsSrc.indexOf('raiseCountryNames(m, ICON_LAYER)'));
+  const fn = labelsSrc.slice(labelsSrc.indexOf('export function raiseCountryNames'));
+  assert.ok(/for \(const t of \[\.\.\.TIERS\]\.reverse\(\)\)/.test(fn) && /m\.moveLayer\(id, before\)/.test(fn), 'the smallest first, so the largest ends on top');
+});
+
+// ---------------------------------------------------------------- the names on a colouring
+
+const hexOf = (c) => [1, 3, 5].map((i) => parseInt(c.slice(i, i + 2), 16));
+const luminance = (c) => lum(c.map((v) => v / 255));
+const ratio = (a, b) => {
+  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x);
+  return (hi + 0.05) / (lo + 0.05);
+};
+const blend = (fg, a, bg) => fg.map((v, i) => v * a + bg[i] * (1 - a));
+
+test('the names on a colouring: the text against its halo, the halo against the brightest fill of the scale, the text against the land', () => {
+  const format = text('web/src/lib/format.ts');
+  const family = Object.fromEntries([...format.match(/FAMILY_COLOR: Record<Family, string> = \{([\s\S]*?)\};/)[1].matchAll(/(\w+): '(#[0-9a-f]{6})'/g)].map((m) => [m[1], m[2]]));
+  assert.ok(Object.keys(family).length >= 3, JSON.stringify(family));
+  const stops = [...format.match(/SHARE_STOPS: \[number, number\]\[\] = \[([\s\S]*?)\];/)[1].matchAll(/\[([\d.]+), ([\d.]+)\]/g)].map((m) => [Number(m[1]), Number(m[2])]);
+  const top = stops[stops.length - 1][1];
+  const land = hexOf(base('land'));
+  const halo = hexOf(LABEL_ON_FILL.haloColor ?? LABEL_COLOR.halo);
+  const ink = blend(hexOf(LABEL_ON_FILL.color), LABEL_ON_FILL.opacity, halo);
+  assert.ok(ratio(ink, halo) >= 7, `text against its halo: ${ratio(ink, halo).toFixed(1)}`);
+  assert.ok(ratio(blend(hexOf(LABEL_ON_FILL.color), LABEL_ON_FILL.opacity, land), land) >= 7, 'text against the land colour');
+  for (const [name, color] of Object.entries(family)) {
+    // the strongest tint of the scale over the land: the lightest fill a name sits on
+    const fill = blend(hexOf(color), top, land);
+    assert.ok(ratio(halo, fill) >= 4.5, `halo against the ${name} fill at its strongest tint: ${ratio(halo, fill).toFixed(1)}`);
+  }
+  assert.ok(LABEL_ON_FILL.haloWidth > LABEL_COLOR.haloWidth, 'a wider halo than on the plain land');
+  assert.ok(ratio(hexOf(LABEL_ON_FILL.color), land) > ratio(hexOf(LABEL_COLOR.country), land), 'lighter than the grey of the plain land');
+});
+
+test('the colouring puts the paint on the names and the switch-off puts the plain one back', () => {
+  const fn = labelsSrc.slice(labelsSrc.indexOf('export function colourNamesOnFill'));
+  for (const [prop, on, off] of [['text-color', 'LABEL_ON_FILL.color', 'LABEL_COLOR.country'], ['text-opacity', 'LABEL_ON_FILL.opacity', 'LABEL_COLOR.countryOpacity'], ['text-halo-width', 'LABEL_ON_FILL.haloWidth', 'LABEL_COLOR.haloWidth']]) {
+    assert.ok(fn.includes(`m.setPaintProperty(id, '${prop}', on ? ${on} : ${off});`), prop);
+  }
+  assert.ok(/colourNamesOnFill\(m, true\);/.test(choroplethSrc));
+  assert.ok(/function clear\(m: MLMap\) \{[\s\S]*colourNamesOnFill\(m, false\)/.test(choroplethSrc));
+  for (const s of countryLayerSpecs()) {
+    assert.equal(s.paint['text-color'], LABEL_COLOR.country, 'the layers start with the plain paint');
+    assert.equal(s.paint['text-halo-width'], LABEL_COLOR.haloWidth);
+  }
+});
+
+// ---------------------------------------------------------------- what METHODOLOGY says of the names
+
+test('METHODOLOGY counts the entries of NAME_FIX as the builder has them, and says which names are Natural Earth\'s', () => {
+  const src = text('pipeline/geo/build_countries.mjs');
+  const body = src.slice(src.indexOf('const NAME_FIX = {'), src.indexOf('};', src.indexOf('const NAME_FIX = {')));
+  const entries = [...body.matchAll(/\b([A-Z]{3}): (?:'[^']*'|"[^"]*")/g)];
+  assert.ok(entries.length > 20);
+  const md = text('METHODOLOGY.md').replace(/\s+/g, ' ');
+  assert.ok(md.includes(`except where the atlas writes the name itself in \`NAME_FIX\` of \`pipeline/geo/build_countries.mjs\` (${entries.length} entries;`), `${entries.length} entries`);
+  assert.ok(!/short forms such as "Central African Rep\." come from Natural Earth through/.test(md), 'the wrong sentence is gone');
+  // an abbreviation that stays Natural Earth's is a row of the index that NAME_FIX does not hold
+  const fixed = new Set(entries.map((m) => m[1]));
+  assert.ok(index.some((c) => c.name === 'Antigua and Barb.' && !fixed.has(c.c)), 'the example of an abbreviation that is Natural Earth\'s');
+  assert.ok(md.includes('a name is covered by the flows and the icons that cross it'));
+});
+
+test('METHODOLOGY states the order of the layers, the names at the edge and the paint on a colouring', () => {
+  const md = text('METHODOLOGY.md').replace(/\s+/g, ' ');
+  assert.ok(md.includes('A country name wins a collision with the name of an asset'));
+  assert.ok(md.includes('the sea names, the pipeline lines, the asset names, the country names, the icons and the opened asset, then every lane and route'));
+  assert.ok(md.includes('`NAME_STACK`'));
+  assert.ok(md.includes('**Names at the edge.**') && md.includes('`namesAtEdge`') && md.includes('never during a move'));
+  assert.ok(md.includes('The names of a smaller rank may be cut by the edge of the screen'));
+  assert.ok(md.includes('`LABEL_ON_FILL`') && md.includes('No contrast of a glyph against a coloured fill is claimed'));
+  assert.ok(md.includes(`white at ${LABEL_ON_FILL.opacity} with a halo ${LABEL_ON_FILL.haloWidth} px wide instead of the grey with a halo of ${LABEL_COLOR.haloWidth} px`));
+  assert.equal(LABEL_ON_FILL.color, '#ffffff');
+  assert.ok(md.includes('about one turn of the world (a 1440 by 900 screen shows 358 degrees at its first view'), 'the width of a first view is given with its screen');
+  assert.ok(!md.includes('the first view of a desktop spans'));
 });

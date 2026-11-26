@@ -3,11 +3,12 @@ tied to the sentences they quote.
 
 The sentences were read on Natural Earth's terms of use page and in the README of the marine areas zip on 25 November 2026 and are kept, with
 their address, in fixtures/naturalearth_terms_quotations.json, so that they are typed once: NOTICE.md must hold each of them word for word, next
-to its address and the day it was read. Where the saved copy of the page is on the machine, each sentence of the page is also looked up in its text;
+to its address and the day it was read. Where the saved copy of the page is named by the environment variable NATURALEARTH_TERMS_PAGE (the path of the saved HTML file; no default), each sentence of the page is also looked up in its text;
 where the unzipped README is under raw/, the sentence of the README is looked up in it (the test skips those two comparisons elsewhere, as on GitHub's
 machines). The data file itself is tied to its builder by web/scripts/seas.test.mjs and to its rules by web/scripts/validate-labels.mjs.
 
 Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_naturalearth_marine.py"
+With the saved page: NATURALEARTH_TERMS_PAGE=<saved ne_terms.html> .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_naturalearth_marine.py"
 """
 import html
 import json
@@ -19,7 +20,8 @@ ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 FIXTURE = os.path.join(ROOT, "pipeline", "tests", "fixtures", "naturalearth_terms_quotations.json")
 REGISTRY = os.path.join(ROOT, "data", "sources.json")
 NOTICE = os.path.join(ROOT, "NOTICE.md")
-SAVED_TERMS_PAGE = "/tmp/claude-0/audit/work/7A/MAPL/dl/ne_terms.html"
+# the saved copy of the terms page: the path is the machine's own, given in the environment (nothing is assumed)
+SAVED_TERMS_PAGE = os.environ.get("NATURALEARTH_TERMS_PAGE")
 RAW_README = os.path.join(ROOT, "raw", "naturalearth", "ne_50m_marine", "ne_50m_geography_marine_polys.README.html")
 READ = "read 25 November 2026"
 TERMS_ADDRESS = "https://www.naturalearthdata.com/about/terms-of-use/"
@@ -70,14 +72,28 @@ class NaturalEarthMarine(unittest.TestCase):
             self.assertIn(READ, near, f"{q['key']}: the day the page was read is next to the quotation")
 
     def test_every_sentence_of_the_terms_page_is_in_the_saved_copy_of_the_page(self):
-        if not os.path.exists(SAVED_TERMS_PAGE):
-            self.skipTest("the saved copy of the terms page is not on this machine")
+        if not SAVED_TERMS_PAGE or not os.path.exists(SAVED_TERMS_PAGE):
+            self.skipTest("NATURALEARTH_TERMS_PAGE does not name a saved copy of the terms page")
         with open(SAVED_TERMS_PAGE, encoding="utf-8", errors="replace") as fh:
             text = page_text(fh.read())
         terms = [q for q in self.fixture["quotations"] if q["address"] == TERMS_ADDRESS]
         self.assertGreaterEqual(len(terms), 7)
         for q in terms:
             self.assertIn(q["quotation"], text, q["key"])
+
+    def test_the_footer_and_the_host_are_said_as_the_saved_page_has_them(self):
+        # the notice says where "All rights reserved." is (the footer, after the copyright line) and does not give the page the host the atlas used
+        by_key = {q["key"]: q["quotation"] for q in self.fixture["quotations"]}
+        self.assertIn(f'after its copyright line "{by_key["copyright-line"]}", reads "{by_key["rights-reserved"]}"', self.notice)
+        self.assertNotIn("The page ends with", self.notice)
+        self.assertIn("an address that the page does not name", self.notice)
+        if not SAVED_TERMS_PAGE or not os.path.exists(SAVED_TERMS_PAGE):
+            self.skipTest("NATURALEARTH_TERMS_PAGE does not name a saved copy of the terms page")
+        with open(SAVED_TERMS_PAGE, encoding="utf-8", errors="replace") as fh:
+            text = page_text(fh.read())
+        self.assertIn(f'{by_key["copyright-line"]} {by_key["rights-reserved"]}', text, "the footer: the copyright line, then the sentence")
+        self.assertEqual(text.count(by_key["rights-reserved"]), 1)
+        self.assertNotIn("naciscdn", text, "the page does not name the host the atlas fetched the zip from")
 
     def test_the_sentence_of_the_readme_is_in_the_readme_of_the_zip(self):
         if not os.path.exists(RAW_README):

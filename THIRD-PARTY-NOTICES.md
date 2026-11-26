@@ -412,7 +412,7 @@ not, stays entirely under the SIL Open Font License (condition 5 of the licence 
 no Reserved Font Name and carries the line "Inter UI and Inter is a trademark of rsms."; the stack that names the glyph file is called `inter-medium`.
 The copyright line and the licence string below are the font file's own; the licence text is the one of the installed Inter Tight package
 (`web/node_modules/@fontsource-variable/inter-tight/LICENSE`), which is the same SIL OFL 1.1 text as the Debian package's copy (that copy omits the
-quotation marks around the defined terms).
+quotation marks around the defined terms and the two double hyphens of "substituting -- in part or in whole --", and is set in other lines).
 
 ```text
 Copyright 2016 The Inter Project Authors

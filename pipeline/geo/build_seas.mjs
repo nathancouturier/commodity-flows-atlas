@@ -12,7 +12,9 @@
  * Output  { s, n, seas: [{ n: name, r: Natural Earth's scalerank 0 to 3, at: [lon, lat] }] }, sorted by r then n.
  *   The classes kept are ocean, sea, bay and gulf. Straits, channels, rivers, reefs and sounds are left out: the atlas
  *   draws its passages as markers (data/freight/chokepoints.json), and a passage must not be named twice.
- *   `at` is the pole of inaccessibility of the polygon (mapshaper `-points inner`), rounded to 0.1 degree.
+ *   `at` is the pole of inaccessibility of the polygon (mapshaper `-points inner`), rounded to 0.1 degree. A point that the rounding
+ *   puts outside its polygon (a thin one, the Scotia Sea) is rounded to 0.01, then to 0.001 degree, the fewest decimals that
+ *   keep it inside; the script stops if no rounding is inside.
  *   There is no `y`: no page read gives the year of the release, so `n` carries the version (read from the
  *   VERSION file next to the shapefile) and the day the files were read.
  *
@@ -23,6 +25,7 @@
  * Natural Earth's terms (https://www.naturalearthdata.com/about/terms-of-use/) are quoted in NOTICE.md.
  */
 import mapshaper from '../../web/node_modules/mapshaper/mapshaper.js';
+import { roundInside } from './polygon.mjs';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -76,28 +79,38 @@ const version = fs.readFileSync(versionFile, 'utf8').trim();
 if (!version) stop(`${path.basename(versionFile)} is empty`);
 
 let gj;
+let polygons;
 try {
   const res = await mapshaper.applyCommands(`-i "${shp}" encoding=utf8 -filter "scalerank <= ${MAX_RANK}" -points inner -o out.json format=geojson`);
   gj = JSON.parse(res['out.json']);
+  // the same polygons, for the check that each rounded point is inside its own
+  const shapes = await mapshaper.applyCommands(`-i "${shp}" encoding=utf8 -filter "scalerank <= ${MAX_RANK}" -o out.json format=geojson`);
+  polygons = JSON.parse(shapes['out.json']);
 } catch (e) {
   stop(`the shapefile could not be read (${e.message}); the builder reads ${FIELDS.join(', ')}`);
 }
 if (!Array.isArray(gj.features) || !gj.features.length) stop('no polygon of scale rank 3 or less in the shapefile');
+if (polygons.features.length !== gj.features.length || polygons.features.some((f, i) => f.properties?.name !== gj.features[i].properties?.name)) {
+  stop('the polygons and their label points do not match one to one');
+}
 
 for (const f of FIELDS) {
   if (gj.features.some((x) => !x.properties || !(f in x.properties))) stop(`the shapefile has no field "${f}" on every polygon`);
 }
 
 const rows = [];
-for (const f of gj.features) {
+for (const [i, f] of gj.features.entries()) {
   const p = f.properties;
   if (!KEEP.has(p.featurecla)) continue;
-  // the ocean polygons are written in capitals ("SOUTHERN OCEAN"), and the two Pacific polygons share one name_en
+  // the oceans take `name`, not `name_en`: the two Atlantic polygons share one name_en and so do the two Pacific ones. Two of the seven
+  // (INDIAN OCEAN, SOUTHERN OCEAN) are written in capitals in the file, the other five already in mixed case: all are set in title case
   const n = p.featurecla === 'ocean' ? String(p.name).toLowerCase().replace(/\b\w/g, (c) => c.toUpperCase()) : p.name_en || p.name;
   if (!Number.isInteger(p.scalerank) || p.scalerank < 0 || p.scalerank > MAX_RANK) stop(`"${n}" has scalerank ${JSON.stringify(p.scalerank)}`);
   const c = f.geometry?.coordinates;
   if (f.geometry?.type !== 'Point' || !Array.isArray(c) || c.length < 2 || !c.every(Number.isFinite)) stop(`"${n}" has no label point`);
-  rows.push({ n, r: p.scalerank, at: c.slice(0, 2).map((x) => Math.round(x * 10) / 10) });
+  const placed = roundInside(c, polygons.features[i].geometry);
+  if (!placed) stop(`the label point of "${n}" is not inside its polygon at any rounding to 0.001 degree`);
+  rows.push({ n, r: p.scalerank, at: placed.at });
 }
 rows.sort((a, b) => a.r - b.r || (a.n < b.n ? -1 : a.n > b.n ? 1 : 0));
 
