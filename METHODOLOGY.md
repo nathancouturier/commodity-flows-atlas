@@ -1,8 +1,9 @@
 # Methodology
 
-How the atlas turns public statistics into flows, lanes, routes and shares. Figures computed by
-the atlas (rather than copied from a publisher) are labelled **"Atlas estimate"** in the interface
-and carry the source id `atlas`; the note of each says how it was computed. A rule that the atlas
+How the atlas turns public statistics into flows, lanes, routes and shares. Figures that the atlas
+estimates (rather than copying them from a publisher, or computing sums and ratios of one publisher's
+own figures, which keep that publisher's credit and say "data adapted") are labelled **"Atlas
+estimate"** in the interface and carry the source id `atlas`; the note of each says how it was computed. A rule that the atlas
 sets by judgement (a typical port, a mode list, a routing threshold) is an **Atlas assumption**, and
 is called one where it is shown. The figures below are those of the build from CEPII BACI V202601
 (latest year 2024).

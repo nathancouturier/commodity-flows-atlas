@@ -50,7 +50,7 @@ It does not cover data. Data files kept in the repository follow the terms of th
 ## The atlas's own figures: CC BY 4.0
 
 Figures that the atlas computes itself carry the source id `atlas` (and the label "Atlas estimate" where they are
-estimates): shares of seaborne trade, vessel-class tonne-mile shares, computed totals, laden days and alternative
+estimates): shares of seaborne trade, vessel-class tonne-mile shares, totals computed from several sources, laden days and alternative
 routings, estimates written in the notes, and the geometry of the lanes and routes (`data/freight/`). The owner of
 the project releases them under the Creative Commons Attribution 4.0 International licence
 (<https://creativecommons.org/licenses/by/4.0/>).

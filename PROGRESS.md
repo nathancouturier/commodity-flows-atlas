@@ -46,7 +46,14 @@ of Hormuz would give; one series a week behind the others). The third was a cont
 About window on what "Atlas estimate" marks. A third package corrected the twelve points and proved the checks on
 seventeen states built on copies by the builder itself; on the way it found two more tests of the same kind, in
 the tests of the update jobs, which would have failed after the next weekly run. The checks also skip the
-comparison when the digest's own step failed at its last run. VERIFY2-TO-WRITE
+comparison when the digest's own step failed at its last run. A last reader verified these corrections on a
+third frozen copy, built its own states (twenty and more, among them a year of zeros and files with a later week)
+and found no defect in them: "ready to publish". It left four points: the opening of METHODOLOGY still said that
+every figure the atlas computes is labelled "Atlas estimate" (corrected before publication); an older test of the
+PortWatch pace compares a text with the size of the table and will fail when the table passes 82,000 rows, about
+seven weekly runs from now; the web rebuild of the digest stops on a weekly value with more decimals than the
+weekly files carry, where the builder would accept it; a digest dated after one weekly file fails the checks by
+design. The last three are listed under the known limits and go into the next package.
 
 ### The page "Freight market now"
 
@@ -1448,6 +1455,13 @@ These were needed to finish the work; each is reversible.
   that the atlas read does not say what each of its five ship classes holds); the weekly count of grain vessels
   of the USDA is linked, not shown yet. The new step of the PortWatch
   job has not run on GitHub.
+- Found by the last verification of the tenth release, for the next package: `test_portwatch_pace.py` compares
+  the words "about 41 pages" of `NOTICE.md` and of the workflow with the size of the PortWatch table recorded in
+  the status file (80,724 rows today, 2,000 a page): the test will fail, and hold back a week's republication, when
+  the table passes 82,000 rows, about seven weekly runs from now (mid-January 2027); the web rebuild of the
+  freight market digest stops with an error, where it should skip, on a weekly value that has more decimals than
+  the weekly files carry today; a digest dated after one weekly file fails the checks by design (a weekly file
+  that lost its last week, which the table kept between runs makes very unlikely).
 - Older than the tenth release and found while it was checked: ten of the thirty passages have no file of
   recorded lanes and their page asks for it all the same, which leaves a "404" line in the browser's console on
   the public site and changes nothing on the page; an unknown board id in the address shows the heading of the
