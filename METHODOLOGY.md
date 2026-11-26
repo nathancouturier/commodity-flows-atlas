@@ -2496,3 +2496,41 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
 - **Icon size below zoom 0.5.** An icon is smaller below the zoom a desktop can reach (0.72 of its size at zoom 0.5,
   0.5 at zoom -0.5, in between linearly), so that the 626 point assets stay apart on a phone's first view. Every asset
   is still drawn at every zoom. The values are an Atlas convention, chosen by looking at 390 and 360 px wide screens.
+- **The Pacific.** A line that crosses the antimeridian continues past 180 degrees so that it is drawn in one piece;
+  the map draws the world again on each side, so a line is seen whole when the screen shows the world twice. On a
+  screen that shows about one turn (the first view of a desktop spans 358 degrees) such a line is two stubs, one at
+  each edge, and nothing joins them. Particles are drawn on every copy of a line that is in view.
+- **Reduced motion.** Under the system's reduced-motion setting the camera moves without animation and the
+  particles stand still: the overlay is drawn when something changes (a move, a resize, a new set of lines, the
+  setting itself) and not on every frame. The Route finder's scroll to its result is not the camera and does not
+  follow the setting.
+- **Country names.** The names are those of the country index (`data/countries/index.json`), the same as on the pages:
+  the short forms such as "Central African Rep." come from Natural Earth through `NAME_FIX` in
+  `pipeline/geo/build_countries.mjs`. The place of a name is Natural Earth's `LABEL_X`, `LABEL_Y`, kept as the `at` of
+  the index, not a computed centre. The names come in four size classes by the area of the country's box in square
+  degrees, above 300, above 40, above 6 and below (`COUNTRY_TIERS` in `web/src/map/labelRules.ts`): 21, 65, 62 and 91
+  of the 239 rows of the index. The thresholds are an Atlas convention, chosen to show the largest countries at the
+  world view; they are not an area of land. The largest class is drawn at every zoom (the first view of a phone is
+  below zoom 0, which a layer's zoom limit cannot express); the others from zoom 2.0, 3.2 and 4.4, also an Atlas
+  convention: Natural Earth's `min_label` is for its own tile pyramid and is not used. A name is never moved to avoid a flow: lanes, routes and icons are drawn over the names. A
+  name that would overlap a name already placed is not drawn at that zoom (the rule of the map library: the larger box
+  first inside a class, the larger class first), so that at the world view of a phone most names are left out. While a
+  colouring is on, the countries that carry a share label have no name, since the label sits on the same point.
+- **Sea names.** The names and places of the oceans, seas, bays and gulfs are those of Natural Earth's marine areas
+  1:50m (Physical Labels), in the version `data/geo/seas.json` states (5.1.0), built by `pipeline/geo/build_seas.mjs`.
+  The file holds the polygons of scale rank 0 to 3 of the classes ocean, sea, bay and gulf: 68 names, of which 7 oceans
+  (rank 0), 22 of rank 1, 28 of rank 2 and 11 of rank 3. Straits and channels are left out, because the atlas draws its
+  passages as markers (`data/freight/chokepoints.json`) and a passage should not be named twice: of the 74 polygons of
+  rank 0 to 3, 6 are dropped for that reason (Luzon Strait, Davis Strait, Hudson Strait, Mozambique Channel, Drake
+  Passage and English Channel); the polygons of rank 4 and above are not used. The place of a name is the polygon's point
+  of inaccessibility (the point of the polygon farthest from its edge), rounded to 0.1 degree, not a hand-placed label.
+  The names are Natural Earth's English names as published (`name_en`; the oceans are written in capitals in the file and
+  are set in title case by the builder), and they are the words the site's own pages use: when it was written,
+  `web/src` and `data` held "Persian Gulf" throughout, "Sea of Japan" and "South China Sea" in the passages file,
+  "Arabian Gulf" once (the note of one oil field) and "East Sea" nowhere. The atlas takes no position on any naming
+  dispute: it shows the names Natural Earth publishes. The names are drawn in capitals, spaced, and in a blue that is
+  not the colour of a country name; the oceans have no zoom limit, the other ranks appear from zoom 1.8, 3.0 and 4.2
+  (`SEA_MINZOOM` in `web/src/map/labelRules.ts`), an Atlas convention like the country thresholds. Sea names sit under
+  the country names in the order of placement: when a sea name and a country name would overlap, the country name is
+  drawn and the sea name is not, and flows are drawn over both. Natural Earth's README says of these polygons: "The
+  boundaries of physical regions should be taken with a grain of salt."

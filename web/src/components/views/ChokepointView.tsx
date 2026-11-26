@@ -330,7 +330,6 @@ export default function ChokepointView({ id }: { id: string }) {
       center: cp.at,
       zoom: 4.2,
       duration: 1600,
-      essential: true,
       padding: wide ? { top: 60, bottom: 40, left: 340, right: 420 } : { top: 80, bottom: window.innerHeight * 0.5, left: 10, right: 10 },
     });
   }, [cp]);

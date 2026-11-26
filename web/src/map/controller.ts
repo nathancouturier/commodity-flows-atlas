@@ -8,6 +8,7 @@ import type { FeatureCollection, Feature, LineString, Point } from 'geojson';
 import { baseStyle } from './basemap';
 import { WORLD_BOUNDS, MAX_ZOOM, minZoomFor, constrainCamera } from './camera';
 import { ResetViewControl } from './resetControl';
+import { installLabels } from './labels';
 import { FlowOverlay, type FlowPath } from './flowOverlay';
 import { load, countryName, countries } from '../lib/data';
 import { hovered, linkApplied, mapFailed, panelCollapsed, select, selection } from '../lib/store';
@@ -126,6 +127,7 @@ export function initMap(container: HTMLElement): MLMap | null {
   map.on('load', async () => {
     const m = map!;
     overlay = new FlowOverlay(m);
+    installLabels(m);
     await loadCountries(m);
     wireCountryInteraction(m);
     isReady = true;
@@ -383,7 +385,6 @@ export function flyToBounds(b: LngLatBoundsLike, maxZoom = 5, detail = true) {
     padding: viewPadding({ detail }),
     maxZoom,
     duration: 1600,
-    essential: true,
   });
 }
 
