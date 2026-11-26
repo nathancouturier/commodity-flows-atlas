@@ -385,6 +385,13 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
   acknowledgment ("Source: U.S. Energy Information Administration"). The EIA material used includes the International
   Energy Data, the country analysis briefs (refinery towns and ports of entry of the gateway tables, the Saudi coast
   rule), the company-level crude and products imports, the refinery capacity report and the natural gas data.
+  The EIA's daily spot prices (Brent, WTI, Henry Hub and the five other series of the price drawer) are not covered by this line:
+  the EIA's pages give Refinitiv, an LSEG business, as their source, and no page read says whether they may be redistributed. The
+  eight series are published in full in `data/prices/*-d.json`, which the charts read. They are shown with the credit "EIA (source:
+  Refinitiv)" on the commodity pages, the price drawer and the price board, and as a few figures of the weekly digest and its feed.
+  No button offers a CSV file or a copy of them, and no text of the atlas calls them public domain. The owner decided on 25 November
+  2026 to keep them, saying where they come from. Terms to be confirmed; the pages read, with their quotations, are in the registry
+  entry `eia-spot` and in DATA_SOURCES.md.
 - **Queensland Government** (the Metallurgical coal page): the dataset "Quarterly coal reports", workbook "Quarterly Coal Sales" (exports by country and
   by port), CC BY 4.0. Credit as the workbook gives it: "Source: Department of Natural Resources and Mines, Manufacturing and Regional and Rural
   Development (NRMMRRD)". The workbook reads "Data through to 30 June 2026" and "Current as at October 2026", and says that the data may be revised and
@@ -518,23 +525,24 @@ Port traffic. For the ports of the infrastructure layer that have a PortWatch po
 PortWatch's daily table of port calls and estimated trade volumes (ArcGIS item "Daily_Ports_Data", registry id
 `portwatch-port-traffic`; the licence field of the item points to the same IMF terms of use as the two other PortWatch items,
 read in the item's metadata on 25 November 2026). What the atlas publishes of it, in `data/freight/port-traffic/` (one file
-per PortWatch port, written by the series' first load, which is being made by hand; no page of the site shows the series yet): the weekly sums, Monday to Sunday and complete weeks only, of the
+per PortWatch port, written by the series' first load, made by hand in small sittings, and then kept up to date by the weekly step of the PortWatch job; the "Weekly port traffic" block of the page of each port that has a file shows them): the weekly sums, Monday to Sunday and complete weeks only, of the
 daily port calls and of PortWatch's estimated import and export tonnes, by ship type (tanker, dry bulk, container, and other,
 which is general cargo and ro-ro together). Credit line: **IMF PortWatch (IMF and University of Oxford), data adapted**; the
 item's own recommended citation is "Sources: UN Global Platform; IMF PortWatch (portwatch.imf.org)" (the UN Global Platform
 supplies the ship signals: nothing of it is taken). The transformation, stated as the IMF's terms ask: the daily figures are
 added into weeks; the atlas adds the ship types itself and does not use the table's own total columns; the tonnes are rounded
 to the unit each file states; and the tonnes are PortWatch's estimate, made from each ship's dimensions and draught on
-entering and leaving the port boundary, not a customs or port-authority statistic. What the atlas does not publish or keep:
+entering and leaving the port boundary, not a customs or port-authority statistic. On the page of a port the block names PortWatch's own port, calls the tonnes PortWatch's estimates,
+and shows no figure of the port's own beside them. What the atlas does not publish or keep:
 no daily row, no vessel, no position or track, no time finer than a day. No row of the table is kept in the repository (no
 file under `pipeline/cache/`, nothing under `raw/`) or as a workflow artifact: the published weekly files are the only state
-that the weekly step will read back. Pace: the same as for the chokepoint table, one request at a time with a pause of 8 to 14
+that the weekly step reads back. Pace: the same as for the chokepoint table, one request at a time with a pause of 8 to 14
 seconds before the next (the script's reading of the owner's rule of 25 November 2026, not his figure), the first load in
-small sittings; the weekly step that will follow reads only recent weeks of the ports and a longer stretch of a part of them in turn; the
-counts of requests are those of the script and of `docs/UPDATING.md`. The terms are those quoted above, with the same two
+small sittings; the weekly step, which runs after the chokepoint step of the same job on Wednesdays, reads only recent weeks of the ports and a longer stretch of a part of them in turn, and waits one such pause before its first request, because the
+chokepoint step asks the same host from another process; the counts of requests are those of the script and of `docs/UPDATING.md`. The terms are those quoted above, with the same two
 open points (PortWatch is not named among the page's examples of statistical data; the sentence on bulk download), which
-now cover the chokepoint series, the ports database and the port series alike. The CSV of a port series will be offered as the CSV
-of a chokepoint series is (no page offers it yet), with its source and licence columns, because the registry licence text of the three PortWatch
+now cover the chokepoint series, the ports database and the port series alike. The CSV of a port series is offered as the CSV
+of a chokepoint series is, with its source and licence columns, because the registry licence text of the three PortWatch
 entries opens with the same words: a choice made without the owner, listed in PROGRESS.md (he was asked how PortWatch is read
 by script, not about the CSV).
 
@@ -630,6 +638,8 @@ heading and the release.
 - Whether single points taken from OpenStreetMap make the infrastructure files a database derived from it under the
   ODbL's share-alike clause, or should be re-sourced.
 - Terms of the Norwegian Offshore Directorate, Natural Resources Canada, Wilhelmsen and Cochilco.
+- Whether the EIA's daily spot prices, which the EIA credits to Refinitiv, may be redistributed (registry entry `eia-spot`): the
+  eight series stay on the site with that credit and are served as JSON for the charts, without a CSV button.
 - The terms of use, and the edition, of the World Port Index file used: the statement read is on the 2017 edition of the
   publication and not on the file, the publisher's page held no text in the archived copies, and the file is the Internet Archive's
   copy of 29 September 2026, for which no terms of the archive's own were read.

@@ -6,6 +6,13 @@
 # older than a month) the job downloads the whole table (about 80,000 rows, 41 requests, one at a time and at least
 # 8 seconds apart: about ten minutes. The owner's rule for PortWatch is: slowly, in small pieces, one request at a
 # time; the pause in seconds is the script's reading of it, see fetch_portwatch.py).
+# After the chokepoint step, a second PortWatch step keeps the weekly port series (data/freight/port-traffic, one file per
+# port) up to date: it asks again for the last weeks of every port and, in rotation, a year of one quarter of the ports, at
+# the same pace and one request at a time; it waits one pause of its own before its first request, because the step before
+# it asked the same host (the wait is in the script, not here: pipeline/freight/fetch_portwatch_port_traffic.py;
+# docs/UPDATING.md says what it asks for and in how many requests: never more than its MAX_REQUESTS, not counting a request
+# repeated after an error). It writes nothing that the data checks refuse, and
+# a failure of that step costs the chokepoint update nothing: both are recorded and committed apart, by the same finish step.
 # Never fails because a source is down: each step is continue-on-error, invalid data is discarded, a step that did not
 # finish is recorded as failed, and the owner is alerted by one GitHub issue per source (after 3 failed runs in a row,
 # at the first failure of the alert banners).
@@ -30,7 +37,10 @@ concurrency:
 jobs:
   update:
     runs-on: ubuntu-latest
-    timeout-minutes: 50
+    # the limits of the steps add up to 66 minutes (10 + 5 + 25 + 15 + 1 + 5 + 5); the checkout, the setups, the finish step and
+    # the artifact upload have none, so the job gets 15 minutes more: a job limit that is hit is a red run and an e-mail
+    # (pipeline/tests/test_update_jobs.py keeps it at the sum plus 15)
+    timeout-minutes: 81
     outputs:
       deploy: ${{ steps.finish.outputs.deploy }}
     steps:
@@ -64,6 +74,18 @@ jobs:
         # the step is stopped, recorded as failed by the finish step, and the job still finishes green
         timeout-minutes: 25
         run: python pipeline/freight/fetch_portwatch.py
+      - name: Fetch PortWatch port traffic and rebuild the port series
+        id: ports
+        continue-on-error: true
+        # the script stops asking after twelve minutes and always exits 0; this limit is for a service that hangs
+        timeout-minutes: 15
+        run: python pipeline/freight/fetch_portwatch_port_traffic.py
+      - name: Remove a port file left half written
+        continue-on-error: true
+        timeout-minutes: 1
+        # a step killed between the writing of a file and its move into place leaves `<id>.json.tmp`, a name that the data checks
+        # refuse, and a refusal discards the whole update, the chokepoint series with it
+        run: rm -f data/freight/port-traffic/*.tmp
       - name: Rebuild the alert banners from the new series
         id: alerts
         continue-on-error: true
@@ -78,11 +100,12 @@ jobs:
         id: finish
         uses: ./.github/actions/finish-data-update
         with:
-          sources: "portwatch build-alerts build-changes"
-          paths: "data/freight/portwatch data/freight/chokepoints.json data/freight/alerts.json data/_status web/public/changes.atom"
-          message: "data: update PortWatch chokepoint transits"
+          sources: "portwatch portwatch-port-traffic build-alerts build-changes"
+          paths: "data/freight/portwatch data/freight/port-traffic data/freight/chokepoints.json data/freight/alerts.json data/_status web/public/changes.atom"
+          message: "data: update PortWatch chokepoint transits and port traffic"
           steps: |
             ${{ steps.fetch.outcome }} portwatch
+            ${{ steps.ports.outcome }} portwatch-port-traffic
             ${{ steps.alerts.outcome }} build-alerts
             ${{ steps.changes.outcome }} build-changes
           since: ${{ steps.start.outputs.t }}

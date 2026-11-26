@@ -1163,6 +1163,87 @@ type, not one commercial class, whose fleet, age and orderbook are not published
   previous run's records, or ending earlier, is refused and the previous files are kept. The annual job
   has no table on its runner: `build_freight.py` then reads the annual PortWatch tonnages from the weekly
   series and does not rebuild them.
+- **Port traffic** (the "Weekly port traffic" block of a port page; `data/freight/port-traffic/`,
+  `pipeline/freight/portwatch_ports.py`, `pipeline/freight/fetch_portwatch_port_traffic.py`). The block draws, for a port that
+  has a PortWatch port, IMF PortWatch's weekly port calls and PortWatch's estimate of the tonnes exported and imported through
+  the port, by ship type (tanker, dry bulk, container, and Other, which is general cargo and ro-ro together, as on the chokepoint
+  pages), under the buttons Calls, Exports and Imports; under the chart a table gives the sums of the last 52 weeks and of the
+  52 weeks before them, and a CSV file offers the whole weekly series with its source and licence. The block opens on Exports
+  when the exports of the last 52 weeks are at least the imports, on Imports when they are less, and on Calls when both are zero.
+  - **What PortWatch says its figures are**, in the words of the text of its item "Daily_Ports_Data" (read on 25 November 2026):
+    "a port call is defined when a ship enters the port boundary. Port calls with a turnaround time of less than 5 hours and no
+    draft change between the current and next port are excluded to filter out vessels in transit"; and, of the tonnes, "we use the
+    vessel information (length, width, draft, capacity, block coefficient) to estimate the payload (or utilization rate) of the
+    vessel when entering and leaving the port boundary. The change in the vessel payload (in percentage points) multiplied by the
+    vessel’s deadweight tonnage (the maximum carrying capacity) in metric tons is the resulting trade flow (either import or export)
+    in metric tons." The same text warns that some of the ship signals it rests on are "entered manually and, hence, may have human
+    errors", and that "ships can turn off their AIS transponder to avoid being detected"; it says that this is "mostly limited to
+    fishing vessels conducting illegal fishing or oil tankers circumventing international sanctions, usually in international waters"
+    and "not common for container and other cargo ships" entering a port. The atlas reads from these words that a ship which
+    sends no signal at a port is not counted there, so the series of a port where ships do so reads low (the known limits of
+    `PROGRESS.md` name the terminals whose series read lowest); the block prints these words of PortWatch, and the exclusion of
+    short calls, under every series and corrects nothing. The tonnes are therefore PortWatch's estimates: the block says so wherever they appear ("Exports (est.)", "kt/week,
+    estimate") and never labels them "Atlas estimate". They are not customs flows and not a port authority's statistic, and the
+    atlas does not add them to, compare them with or reconcile them with the figure of the same port in its own tile (for
+    example "Throughput"), which counts another period and another scope; that figure keeps its own source.
+  - **The weekly sum** is made by the atlas from the daily rows of the table: a week runs from Monday to Sunday (the table's dates
+    are UTC), is stored only when the table has all seven of its days, and the last, partial week is not stored. A week that is
+    missing inside a series is empty in every array of the file, drawn as a gap and shown as a dash, never as a zero; a real zero
+    is a zero. The atlas adds the ship types itself and does not use the table's own total columns, which on the rows of Port
+    Hedland read when the method was designed differ from the sum of the types by a tonne or two on some days. Tonnes are stored in thousand tonnes, each value with three significant figures at
+    least and never finer than a tonne (a value of 100 t or more is rounded by at most 0.5% of itself, a smaller one by at most half
+    a tonne); for each port it reads in full the script prints how far the rounding moves the 52-week sums of the four types and of
+    each type, and flags a port where it is over 0.5%. The "52 weeks to" sums of the table are sums of weekly values ending on the Sunday of the
+    last stored week, not calendar years.
+  - **Which ports have a series, and how they were paired** (`pipeline/infrastructure/portwatch_pairs.py`, which prints the pair
+    of every port with `--report`). A port of the atlas has a series when its `portwatch` id names a row of the PortWatch ports
+    table (`pipeline/cache/portwatch_ports.csv`) of its own country. The rule: the row is at most 15 km from the port's point and
+    either has the port's UN/LOCODE (R1; the nearest row when several share it) or, where none does, has the same name once
+    accents, parentheses and the words port, terminal, harbor, oil, marine, of, de and international are removed (R2; a row whose
+    own name has a parenthesis is not offered). Nothing else pairs a port: a nearer row of another name is not evidence, and one
+    PortWatch port serves at most one port of the atlas in this release (a choice made without the owner, listed in
+    `PROGRESS.md`). Of the 190 ports, 163 have an id: the rule reproduces 146 of them (116 by UN/LOCODE, 30 by name), and the other
+    17 were paired when their position was taken from the row of the ports table, so each stands at the row's own point
+    (0.0 km). Of the 27 without an id, 18 have a row near them that the rule cannot pair and 9 have no PortWatch port of their
+    country within 15 km; they show no block and no sentence. The rule is a test of plausibility, not a proof that the PortWatch
+    port and the asset have the same boundary.
+  - **The scope of a PortWatch port is not always the scope of the asset.** PortWatch counts a call when a ship enters "the port
+    boundary" and no page read says what that boundary covers, so every series is that of PortWatch's own boundary of the port,
+    which the source line of the block says is not always the asset's. The block names PortWatch's own port ("PortWatch port:
+    Surigao City") wherever its name differs from the asset's, and four pairings carry a sentence typed on the asset
+    (`portwatchNote` in `ports.geojson`) that claims only what a file gives: Rosario (the asset is the up-river complex, which its
+    note says is far larger than the municipal port; no page read says which of the two PortWatch's port covers), Richards Bay (the
+    asset is its coal terminal; no page read says whether PortWatch's port is the terminal or the whole port), Itaqui (no page
+    read says whether PortWatch's port includes Vale's Ponta da Madeira terminal, which sits next to the public port the asset
+    describes) and Ras Lanuf. Ras Lanuf is a known limit: the asset stands at the point of PortWatch's port "Ras Lanuf (Al
+    Burayqah)", whose position is 1.1 km from the World Port Index's entry "Al Burayqah" (also called Marsa Brega) and 99.6 km
+    east of its entry "Ras Lanuf", so the series is of a port that stands next to the index's Al Burayqah, not next to its Ras Lanuf; the asset is to be
+    moved to Ras Lanuf's own position, and its pairing then dropped, in a later change. A port that
+    PortWatch shows with few or no calls in recent weeks is drawn as PortWatch publishes it, with its date: the atlas does not say
+    why, which may be the boundary or the coverage as much as the traffic.
+  - **Revisions.** PortWatch revises its recent days. Each weekly run reads again the last 6 weeks of every port that has a file
+    and, for a quarter of the ports in turn (the ports in a fixed order, the quarter chosen by the week number), the last 52 weeks,
+    so that every port is re-read over a year once every four weeks and never all at once; older weeks are kept as published. A
+    revision older than that is not seen; a deep pass that finds the older weeks of more than a tenth of the ports changed by more
+    than a quarter is refused as "history revised" and the ports are read in full again by hand (`--full`, which `docs/UPDATING.md`
+    describes). A port is read in full (three requests while the table holds under 3,000 days of it) when it has no file: the first
+    load was made by hand in sittings of at most 15 ports (45 requests), and a weekly run fills in at most 5 ports a run.
+  - **No vessel is read.** The table holds one row per port and day with counts and tonnes by ship type, published by
+    PortWatch; no ship name or number, no position or track, no time finer than a day and no signal is read, stored or shown, and
+    no daily row is kept in the repository, in a cache or as a workflow artifact: the published weekly files are the only state the
+    weekly step reads back.
+  - **Pace** (the owner's decision of 25 November 2026, in his words, translated: "behave like a human, download little by little,
+    move slowly on the page, one request at a time, and we will mention them"). The script asks one request at a time, with a pause
+    of 8 to 14 seconds before the next (the chokepoint script's figures, read from its code; the seconds are the script's reading of
+    "slowly", not the owner's figure), and waits out a quota answer of the service for the delay it names. The weekly run of the job
+    also waits one such pause before its first request, because the chokepoint step before it asks the same host from another
+    process. A normal weekly run asks for 23 requests and never more than 42 (not counting a request repeated after an error), which
+    at that pace is a few minutes and never more than the 12 minutes after which the script stops asking. IMF PortWatch is credited on the block, in the CSV, in the registry, in `NOTICE.md` and in the
+    About window; the IMF's terms, and the open points on them, are in `NOTICE.md`.
+  - **Assumptions.** (1) A PortWatch port stands for the atlas port it is paired with, and the page names PortWatch's port. (2) A
+    week with seven daily rows is complete. (3) The table has one row per port and day: a missing day makes its week a gap. (4) The
+    recent weeks that PortWatch revises are those the weekly run reads again. (5) The rounding above does not move the 52-week sum of a
+    port by more than 0.5% (the script flags a port where it does).
 - **Alerts** (`pipeline/freight/build_alerts.py`, `data/freight/alerts.json`). The title, the text, the
   start, the event (or the list of events: the main one first, the banner opens each) and the passages of a banner are written by hand; the date the text was **checked
   against its source** (`checked`) is set only when someone has read the page it cites and kept the
@@ -1353,7 +1434,13 @@ totals of the series by year are the same for every country: they are in one fil
   monthly series of the IMF, which has both, is not loaded (a new source: an open question for the owner). Sunflower oil, which had no page, is on the
   sunflower page; the rapeseed page keeps the rapeseed oil series, and both pages say that the price is the oil's.
 - Daily prices: EIA spot series (Brent, WTI, Henry Hub, New York Harbor gasoline, ULSD and heating
-  oil, US Gulf jet fuel, Mont Belvieu propane).
+  oil, US Gulf jet fuel, Mont Belvieu propane). The EIA's table page of the petroleum spot prices reads "Source: Refinitiv" under
+  the table and its natural gas definitions page gives "Spot Price: Refinitiv, an LSEG business." (read on 25 November 2026); no
+  page read says whether these prices may be redistributed, whatever the EIA's sentence on its own publications. The atlas
+  therefore credits them as "EIA (source: Refinitiv)" and offers no download of them: the files `data/prices/*-d.json` that the charts
+  read are served with the site, and no button offers a CSV file or a copy of them (the owner decided on 25 November 2026 to
+  keep these series, saying where they come from: see "Decisions of the owner" in PROGRESS.md); the quotations and the
+  addresses are in the registry entry `eia-spot` (terms to be confirmed).
 - Freight (the "Freight" family of the price drawer and the board): no freight rate is shown, because
   none is both free and republishable. Three indicators are, each taken from its publisher and each
   labelled for what it is (`pipeline/prices/freight_indicators.py`):
@@ -1510,7 +1597,9 @@ totals of the series by year are the same for every country: they are in one fil
   months, or 120 days for a daily one, behind the newest series of its own source) is marked
   `closed` by the build: it is recorded once in the status of its source (state `closed`, with its last
   period), listed as closed, hidden from the board and no longer checked; a series that is only late
-  keeps raising its alert. The annual job rebuilds the prices after a new USGS edition. On a price
+  keeps raising its alert. In the "Data freshness" table of the About window, a source that has never succeeded and has failed fewer runs
+  than its alert threshold (three for a weekly source) shows the badge "Retrying", with the note that the last check did not complete, and
+  its family line says "retrying"; at the threshold the badge reads "Check failing". The annual job rebuilds the prices after a new USGS edition. On a price
   chart an event that names commodities is shown when one of them is charted, or when an alert that covers
   one points to it, and an event that names none is always shown (the rule of the timeline). `web/scripts/validate-data.mjs` checks that the series files agree with the index.
 - Baltic Exchange freight indices are proprietary and are not shown.
@@ -1534,6 +1623,9 @@ See `NOTICE.md`.
   `NOTICE.md` lists the articles.
 - Figures compared with or capped by IMF PortWatch (the chokepoint shares and check K9) carry
   "IMF PortWatch, data adapted" and stay subject to the IMF's terms.
+- The weekly port traffic sums (section 5) are PortWatch's figures added into weeks and keep the source id
+  `portwatch-port-traffic`, as the chokepoint weekly averages keep `portwatch`, not `atlas`: they carry "IMF PortWatch
+  (IMF and University of Oxford), data adapted", are never labelled "Atlas estimate" and stay subject to the IMF's terms.
 - A few coordinates of the infrastructure layer come from OpenStreetMap (ODbL 1.0, "© OpenStreetMap
   contributors"); `NOTICE.md` lists them.
 
@@ -2107,7 +2199,8 @@ ports of the trade engine, in its spellings ("Pusan", "Odessa"): the alias table
 `pipeline/infrastructure/route_assets.py` links them to the asset; a port of a generated route that is no asset
 links to the largest lane through it of a commodity the route carries (a steel route does not open a coal lane),
 and a port that is neither, or that has no such lane, stays plain text. Positions
-come from the IMF PortWatch ports database (IMF terms of use; no vessel count or traffic figure is taken from it), or,
+come from the IMF PortWatch ports database (IMF terms of use; no vessel count or traffic figure is taken from it: the port traffic
+of a port's page comes from the daily table, section 5), or,
 for a place it does not list, from OpenStreetMap or Wikipedia; a database point stands for the whole port, so a port
 of several terminals is marked "Approximate location", and only a single terminal is placed on its site. A port's
 commodities rest on a page read (its own page, or an article named in its note) or on a route or lane of the atlas

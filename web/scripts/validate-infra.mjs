@@ -20,7 +20,7 @@
  *    a unit fits the type (a refinery in kb/d, an LNG terminal in Mtpa, ...); a status "not-stated" has no `statusAsOf`;
  *    `capacity.planned`, when present, is `true` and belongs to a capacity;
  *  - ports: `locode` is a five-character code and `portwatch` a PortWatch port id that is a row of
- *    pipeline/cache/portwatch_ports.csv, in the asset's country, and used by one asset only; `limits` (a port only) give at least
+ *    pipeline/cache/portwatch_ports.csv, in the asset's country, and used by one asset only, and `portwatchNote` (a short text) only on a port that has the id; `limits` (a port only) give at least
  *    one of draught, loa, beam (metres) and dwt, with `n`, `s`, `url` and an optional year, `seg` (a segment), `cls` (a
  *    class of that segment), `depth` (true: the draught is a water depth) and `at` (the berth); `maxClass` needs `limits`,
  *    names vessel classes of freight/vessel-classes.json by segment and says its method in `n`; `prices` are ids of
@@ -61,6 +61,7 @@ const LIMIT_KEYS = ['draught', 'loa', 'beam', 'dwt'];
 const SEGMENTS = ['dry', 'tanker', 'gas'];
 const LOCODE = /^[A-Z]{2}[A-Z0-9]{3}$/;
 const PORTWATCH_ID = /^(port|fso)\d+$/;
+const PORTWATCH_NOTE_MAX = 400;
 const NEAR_KM = 60;
 /** Types that can stand at sea: they may lie up to 200 nautical miles out (the limit of the exclusive economic zone).
  * A port may be an island or offshore oil terminal (Halul Island, Zirku Island, LOOP). */
@@ -287,6 +288,12 @@ export async function validateInfra(root, errors, warnings, opts = {}) {
         if (!portwatchRows) portwatchUnchecked = true;
         else if (!portwatchRows.has(p.portwatch)) shape(`${at}: "portwatch" ${p.portwatch} is not in the PortWatch ports table (pipeline/cache/portwatch_ports.csv)`);
         else if (portwatchRows.get(p.portwatch) !== p.c) shape(`${at}: "portwatch" ${p.portwatch} is a port of ${portwatchRows.get(p.portwatch)}, the asset is in ${p.c}`);
+      }
+      // the sentence the port page prints under the name of the PortWatch port, where the series is not quite the asset's
+      if (p.portwatchNote !== undefined) {
+        if (typeof p.portwatchNote !== 'string' || !p.portwatchNote.trim() || p.portwatchNote.length > PORTWATCH_NOTE_MAX) shape(`${at}: "portwatchNote" must be a short text (${PORTWATCH_NOTE_MAX} characters at most)`);
+        else if (p.portwatch === undefined) shape(`${at}: "portwatchNote" belongs to a port that has a "portwatch" id`);
+        else if (WORKING_NOTE.test(p.portwatchNote)) shape(`${at}: the portwatchNote holds a working phrase ("${p.portwatchNote.match(WORKING_NOTE)[0]}"): notes are for readers`);
       }
       if (p.limits !== undefined) {
         const l = p.limits;

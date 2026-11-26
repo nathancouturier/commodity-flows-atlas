@@ -265,6 +265,8 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
   const one = { id: 'capesize', by: 'By deadweight', basis: 'The limit is in the band.' };
   const ok = await run((fs) => (fs[0] = feat(port({ limits: lim, maxClass: { dry: { classes: [{ id: 'capesize', by: 'By deadweight', basis: 'The limit is in the band.' }] }, n: 'Atlas estimate' }, prices: ['wti-d'] }), [-72.1, -17.0])));
   assert.deepEqual(ok.errors, [], ok.all);
+  const withNote = await run((fs) => (fs[0] = feat(port({ portwatchNote: 'The series is that of PortWatch\'s port "Port test". No page read says what it covers.' }), [-72.1, -17.0])));
+  assert.deepEqual(withNote.errors, [], withNote.all);
   const cases = {
     'bad locode': [{ locode: 'RU PRI' }, /"locode" must be/],
     'bad portwatch id': [{ portwatch: '1020' }, /"portwatch" must be/],
@@ -291,6 +293,10 @@ for (const [name, [edit, re]] of Object.entries(breaks)) {
     'the same class twice': [{ limits: lim, maxClass: { dry: { classes: [one, one] }, n: 'x' } }, /same class twice/],
     'class without method': [{ limits: lim, maxClass: { dry: { classes: [one] } } }, /needs "n"/],
     'unknown price series': [{ prices: ['brent-x'] }, /price series "brent-x"/],
+    'portwatch note without an id': [{ portwatch: undefined, portwatchNote: 'The series is that of a port of another name.' }, /"portwatchNote" belongs to a port that has a "portwatch" id/],
+    'portwatch note empty': [{ portwatchNote: '  ' }, /"portwatchNote" must be a short text/],
+    'portwatch note not text': [{ portwatchNote: 3 }, /"portwatchNote" must be a short text/],
+    'portwatch note too long': [{ portwatchNote: 'x'.repeat(401) }, /"portwatchNote" must be a short text/],
   };
   for (const [name, [extra, re]] of Object.entries(cases)) {
     const r = await run((fs) => (fs[0] = feat(port(extra), [-72.1, -17.0])));

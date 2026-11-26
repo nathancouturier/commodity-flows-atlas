@@ -10,6 +10,7 @@ import '../styles/changes.css';
 const FAMILIES: { name: string; keys: string[] }[] = [
   { name: 'Prices', keys: ['eia-spot', 'wb-pink', 'bls', 'dallasfed', 'nyfed'] },
   { name: 'Chokepoint traffic', keys: ['portwatch'] },
+  { name: 'Port traffic', keys: ['portwatch-port-traffic'] },
   { name: 'Trade flows between countries', keys: ['baci'] },
   { name: 'Production, reserves and consumption', keys: ['usgs-mcs', 'usda-psd', 'eia-intl'] },
   { name: 'Cocoa, uranium and fertilisers', keys: ['faostat-wna'] },
@@ -54,14 +55,14 @@ export function FamilySummary(props: { status: StatusView; vintages: Record<stri
         const runs = rs
           .map((r) => {
             const to = dataTo(r, vintages);
-            return to ? `${to} (${shortSource(r.sources[0])})` : null;
+            return to ? `${to} (${shortSource(r.sources[0]).replace(/\s*\((.*)\)$/, ', $1')})` : null;
           })
           .filter(Boolean);
         const upd = latest(rs.map((r) => r.checked));
         return (
           <li key={f.name} data-family={f.name}>
             <b>{f.name}:</b> {runs.length ? <>run to <span class="num">{runs.join(', ')}</span>.</> : 'no end date recorded.'}{' '}
-            {upd ? <>Last successful update <span class="num">{fmtDate(upd)}</span>.</> : 'No successful update recorded.'}
+            {upd ? <>Last successful update <span class="num">{fmtDate(upd)}</span>.</> : rs.some((r) => r.health === 'retrying') ? 'No successful update recorded; the first checks did not complete, retrying.' : 'No successful update recorded.'}
           </li>
         );
       })}

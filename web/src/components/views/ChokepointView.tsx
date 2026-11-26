@@ -7,21 +7,15 @@ import { ESTIMATE_DEFINITION, GROUP_LABEL, chokepointName, loadChokepoints, load
 import { getMap } from '../../map/controller';
 import { select } from '../../lib/store';
 import { Section, SourceLine, SourcesLine, Kpi, Skeleton, Placeholder, AlertBanners, FoldNote, WayBack } from '../ui';
-import { TimeChart, DAY, YEAR, parseDate, parseEnd } from '../charts/TimeChart';
+import { TimeChart, DAY, parseDate, parseEnd } from '../charts/TimeChart';
 import type { TimeMarker } from '../charts/TimeChart';
+import { PW_COLORS, RANGES } from '../charts/pwChart';
 import { EVENT_COLOR, EVENT_KIND_LABEL, fmtEventDate } from './EventView';
 import { publisher, useFreightCatalogue, useLoaded } from './shared';
 import { sources } from '../../lib/data';
 import { ATLAS_LICENCE, csvCell, downloadCsv, licenceColumn, licenceTexts, publisherOf, slug, sourceColumn, sourceName, toCsv } from '../../lib/csv';
 import { CsvAction } from '../CsvAction';
 import '../../styles/lane-table.css';
-
-const RANGES = [
-  { label: '1Y', seconds: YEAR },
-  { label: '3Y', seconds: 3 * YEAR },
-  { label: 'All', seconds: null },
-];
-const PW_COLORS = { tanker: '#ffb547', dry: '#9db7ff', container: '#c7a3ff', other: '#7d8a99' };
 
 /** The one rule for the atlas's own tonnages on this page (estimates and cargo rows): three significant digits. */
 const nf3 = new Intl.NumberFormat('en-US', { maximumSignificantDigits: 3 });

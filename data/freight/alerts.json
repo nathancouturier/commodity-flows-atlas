@@ -17,24 +17,24 @@
 {
 "chokepoint": "hormuz",
 "name": "Strait of Hormuz",
-"to": "2026-11-15",
+"to": "2026-11-22",
 "days": 28,
-"yearAgoTo": "2025-11-16",
+"yearAgoTo": "2025-11-23",
 "refYear": 2023,
 "transits": {
-"now": 97.0,
-"yearAgo": 2432.0,
+"now": 93.0,
+"yearAgo": 2142.0,
 "avg2023": 2585.0
 },
 "mt": {
-"now": 1.48,
-"yearAgo": 94.92,
+"now": 1.65,
+"yearAgo": 81.6,
 "avg2023": 103.42
 },
-"gapYear": -96.0,
-"gap2023": -96.2,
-"gapMtYear": -98.4,
-"gapMt2023": -98.6,
+"gapYear": -95.7,
+"gap2023": -96.4,
+"gapMtYear": -98.0,
+"gapMt2023": -98.4,
 "s": "portwatch"
 }
 ],
@@ -112,7 +112,7 @@
 "decidedBy": {
 "chokepoint": "hormuz",
 "name": "Strait of Hormuz",
-"gap": -96.2,
+"gap": -96.4,
 "refYear": 2023
 },
 "override": {
@@ -142,47 +142,47 @@
 {
 "chokepoint": "bab-el-mandeb",
 "name": "Bab el-Mandeb",
-"to": "2026-11-15",
+"to": "2026-11-22",
 "days": 28,
-"yearAgoTo": "2025-11-16",
+"yearAgoTo": "2025-11-23",
 "refYear": 2023,
 "transits": {
-"now": 756.0,
-"yearAgo": 1025.0,
+"now": 743.0,
+"yearAgo": 1048.0,
 "avg2023": 2072.0
 },
 "mt": {
-"now": 26.2,
-"yearAgo": 40.01,
+"now": 26.79,
+"yearAgo": 40.4,
 "avg2023": 94.33
 },
-"gapYear": -26.2,
-"gap2023": -63.5,
-"gapMtYear": -34.5,
-"gapMt2023": -72.2,
+"gapYear": -29.1,
+"gap2023": -64.1,
+"gapMtYear": -33.7,
+"gapMt2023": -71.6,
 "s": "portwatch"
 },
 {
 "chokepoint": "suez",
 "name": "Suez Canal",
-"to": "2026-11-15",
+"to": "2026-11-22",
 "days": 28,
-"yearAgoTo": "2025-11-16",
+"yearAgoTo": "2025-11-23",
 "refYear": 2023,
 "transits": {
-"now": 1224.0,
-"yearAgo": 1196.0,
+"now": 1254.0,
+"yearAgo": 1177.0,
 "avg2023": 2063.0
 },
 "mt": {
-"now": 51.82,
-"yearAgo": 44.46,
+"now": 53.25,
+"yearAgo": 42.85,
 "avg2023": 93.84
 },
-"gapYear": 2.3,
-"gap2023": -40.7,
-"gapMtYear": 16.6,
-"gapMt2023": -44.8,
+"gapYear": 6.5,
+"gap2023": -39.2,
+"gapMtYear": 24.3,
+"gapMt2023": -43.3,
 "s": "portwatch"
 }
 ],
@@ -316,7 +316,7 @@
 "decidedBy": {
 "chokepoint": "bab-el-mandeb",
 "name": "Bab el-Mandeb",
-"gap": -63.5,
+"gap": -64.1,
 "refYear": 2023
 },
 "override": {
@@ -345,28 +345,28 @@
 {
 "chokepoint": "bosphorus",
 "name": "Turkish Straits (Bosphorus and Dardanelles)",
-"to": "2026-11-15",
+"to": "2026-11-22",
 "days": 28,
-"yearAgoTo": "2025-11-16",
+"yearAgoTo": "2025-11-23",
 "refYear": 2023,
 "transits": {
-"now": 1345.0,
-"yearAgo": 2816.0,
+"now": 1312.0,
+"yearAgo": 2773.0,
 "avg2023": 2707.0
 },
 "mt": {
-"now": 15.63,
-"yearAgo": 32.76,
+"now": 15.48,
+"yearAgo": 32.62,
 "avg2023": 31.93
 },
-"gapYear": -52.2,
-"gap2023": -50.3,
-"gapMtYear": -52.3,
-"gapMt2023": -51.0,
+"gapYear": -52.7,
+"gap2023": -51.5,
+"gapMtYear": -52.5,
+"gapMt2023": -51.5,
 "s": "portwatch"
 }
 ],
-"severityNote": "Severity from the 28-day transits against the 2023 average: high when 60% or more below, medium when 25% or more below, otherwise low. Decided by Turkish Straits (Bosphorus and Dardanelles): 50% below.",
+"severityNote": "Severity from the 28-day transits against the 2023 average: high when 60% or more below, medium when 25% or more below, otherwise low. Decided by Turkish Straits (Bosphorus and Dardanelles): 52% below.",
 "commodities": [
 "sunflower",
 "wheat",
@@ -434,7 +434,7 @@
 "decidedBy": {
 "chokepoint": "bosphorus",
 "name": "Turkish Straits (Bosphorus and Dardanelles)",
-"gap": -50.3,
+"gap": -51.5,
 "refYear": 2023
 }
 }

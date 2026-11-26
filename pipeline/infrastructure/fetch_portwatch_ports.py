@@ -10,7 +10,8 @@ Output  pipeline/cache/portwatch_ports.csv   portid, name, ISO3, UN/LOCODE, lati
 Only the identity and the position of each port are kept: no vessel count and no traffic figure. The ports of
 data/infrastructure/ports.geojson take their position and their UN/LOCODE from this table (`portwatch` holds the
 `portid`, the PortWatch port page is https://portwatch.imf.org/pages/<pageid>). Run it by hand when the table must be
-refreshed; no scheduled job calls it.
+refreshed; no scheduled job calls it. The traffic of a port comes from another table, the daily one, read by
+pipeline/freight/fetch_portwatch_port_traffic.py (the port that each asset is paired with: pipeline/infrastructure/portwatch_pairs.py).
 """
 import csv
 import os

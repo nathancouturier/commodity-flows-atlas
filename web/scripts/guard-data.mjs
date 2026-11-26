@@ -15,6 +15,12 @@
  *    tested. A series whose unit is a deviation (data/prices/index.json: it crosses zero, and its past months can be
  *    revised) is checked on its shape only. Annual series are left out of the step test: a yearly price can halve
  *    (lithium). The replay of the published history is in docs/UPDATING.md.
+ *  - a weekly port traffic file (data/freight/port-traffic/<port id>.json), which only grows: fewer weeks than in the last
+ *    commit, a first week that moved, a last day of data that went back, or a week older than the weekly job re-reads (more
+ *    than PORT_DEEP_WEEKS before the last week of the last commit) that is not the same, is refused; so is a port file that
+ *    is gone. index.json of that folder lists the ports not read yet and those with no rows: its lists shrink as ports are
+ *    read, so they are not held to the row rule. A first load or a reading in full by hand (`--full`) is accepted the way
+ *    any real move is (DATA_GUARD=off).
  *  - the coverage file (data/coverage.json) when a page lost a block that the floor file lists
  *    (pipeline/commodities/coverage_floor.json), unless the last commit already lacked it: a loss accepted by hand is
  *    refused once. This is the one rule that reads a hand-typed file, so it sits here, where "accept large moves"
@@ -39,6 +45,8 @@ export const MIN_BYTES = 1024;
 export const PRICE_MOVE = 0.5;
 export const SCALE_POWER = 3;
 export const MAX_RATIO = 5;
+export const PORT_TRAFFIC_DIR = 'freight/port-traffic';
+export const PORT_DEEP_WEEKS = 52; // pipeline/freight/portwatch_ports.py DEEP_WEEKS: the weeks before the last one that a run reads again
 export const COVERAGE_FILE = 'data/coverage.json';
 export const COVERAGE_FLOOR = 'pipeline/commodities/coverage_floor.json';
 
@@ -167,10 +175,13 @@ export function compareFile(rel, beforeText, afterText, units = new Map()) {
   }
   const rb = rowCounts(before);
   const ra = rowCounts(after);
-  for (const [place, n] of rb) {
-    const m = ra.get(place) ?? 0;
-    if (n >= MIN_ROWS && m < (1 - ROW_LOSS) * n) out.push(`${rel}: ${place} lost ${n - m} of its ${n} rows, more than a tenth`);
-  }
+  // the lists of freight/port-traffic/index.json (the ports not read yet, those with no rows) shrink as the ports are read
+  if (rel !== `${PORT_TRAFFIC_DIR}/index.json`)
+    for (const [place, n] of rb) {
+      const m = ra.get(place) ?? 0;
+      if (n >= MIN_ROWS && m < (1 - ROW_LOSS) * n) out.push(`${rel}: ${place} lost ${n - m} of its ${n} rows, more than a tenth`);
+    }
+  if (PORT_FILE.test(rel)) out.push(...comparePortTraffic(rel, before, after));
   if (/^prices\/[^/]+\.json$/.test(rel) && !/\/(index|figures)\.json$/.test(rel))
     out.push(...comparePrice(rel, before, after, units.get(path.posix.basename(rel, '.json'))));
   return out;
@@ -209,6 +220,39 @@ export function compareCoverage(afterText, floorText, beforeText = null) {
       if (before && before[page]?.[block] !== 'p') continue;
       out.push(`${COVERAGE_FILE}: page ${page} lost the block ${block} that ${COVERAGE_FLOOR} lists`);
     }
+  return out;
+}
+
+const PORT_FILE = new RegExp(`^${PORT_TRAFFIC_DIR}/(port|fso)\\d+\\.json$`); // a path under data/
+const PORT_ARRAYS = ['calls', 'exports', 'imports'].flatMap((k) => ['tanker', 'dry', 'container', 'other'].map((t) => [k, t]));
+const weeksOf = (d) => (Array.isArray(d?.calls?.tanker) ? d.calls.tanker.length : null);
+
+/** Problems of a weekly port traffic file between two versions: it only grows (more weeks, the same first week, a last day of
+ *  data that does not go back) and the weeks that a run does not read again are the same. Documents that are not port files
+ *  give no finding: the shape is the validator's. */
+export function comparePortTraffic(rel, before, after) {
+  const nb = weeksOf(before);
+  const na = weeksOf(after);
+  if (nb === null || na === null) return [];
+  const out = [];
+  if (after.start !== before.start) out.push(`${rel}: the first week moved from ${before.start} to ${after.start}`);
+  const short = PORT_ARRAYS.filter(([k, t]) => !Array.isArray(after[k]?.[t]) || after[k][t].length < nb);
+  if (na < nb || short.length) out.push(`${rel}: lost weeks (${nb} before, ${na} now): a weekly file only grows`);
+  if (typeof before.y === 'string' && typeof after.y === 'string' && after.y < before.y)
+    out.push(`${rel}: the last day of data went back from ${before.y} to ${after.y}`);
+  if (after.start === before.start) {
+    const fixed = Math.max(0, nb - PORT_DEEP_WEEKS - 1);
+    for (const [k, t] of PORT_ARRAYS) {
+      const a = before[k]?.[t];
+      const b = after[k]?.[t];
+      if (!Array.isArray(a) || !Array.isArray(b)) continue;
+      const i = a.slice(0, fixed).findIndex((v, j) => v !== b[j]);
+      if (i >= 0) {
+        out.push(`${rel}: week ${i + 1} (${k} ${t}) is older than the ${PORT_DEEP_WEEKS} weeks a run reads again and was rewritten`);
+        break;
+      }
+    }
+  }
   return out;
 }
 
@@ -258,6 +302,7 @@ export function guardRepo(repo, paths = []) {
     const rel = f.slice('data/'.length);
     const dir = path.posix.dirname(f);
     if (!fs.existsSync(path.join(repo, f))) {
+      if (PORT_FILE.test(rel)) problems.push(`${rel}: the port file was removed (weekly files only grow)`);
       if (!folders[dir]) {
         const n = git(['ls-tree', '--name-only', 'HEAD', `${dir}/`], repo).split('\n').filter(Boolean).length;
         const m = fs.existsSync(path.join(repo, dir)) ? fs.readdirSync(path.join(repo, dir)).length : 0;

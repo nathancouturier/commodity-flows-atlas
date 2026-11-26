@@ -23,6 +23,7 @@ for sub in ("", "common", "freight", "infrastructure"):
 import changes as C  # noqa: E402
 import fetch_portwatch as FP  # noqa: E402
 import fetch_portwatch_ports as FPP  # noqa: E402
+import portwatch_ports as PP  # noqa: E402
 import staleness as S  # noqa: E402
 
 NEW = "portwatch-port-traffic"
@@ -50,8 +51,10 @@ def stamp(iso):
 
 
 def the_workflow_reads_the_port_series():
-    """True when the workflow of the PortWatch job has a step that runs the script of the port series."""
-    return "fetch_portwatch_port_traffic" in read(".github", "workflows", "update-portwatch.yml")
+    """True when the workflow of the PortWatch job has a step that runs the script of the port series: a `run:` line that names it,
+    not a comment that does."""
+    return re.search(r"^\s*run:\s*python\s+pipeline/freight/fetch_portwatch_port_traffic\.py(\s|$)",
+                     read(".github", "workflows", "update-portwatch.yml"), re.M) is not None
 
 
 class Registry(unittest.TestCase):
@@ -59,42 +62,62 @@ class Registry(unittest.TestCase):
         s = REGISTRY[NEW]
         self.assertEqual(s["publisher"], "IMF and University of Oxford")
         self.assertIn("Daily_Ports_Data", s["name"])
-        # the item the licence field was read on: its address is the one the service answered to on 25 November 2026
-        self.assertIn("83b1bbc7b3354c5fb1f40673bb8f852e", s["url"])
+        # the link of the source line and of the Sources window opens a page, as the two other PortWatch entries do; the item and the
+        # service, which answer with JSON, are named in `access`
+        self.assertEqual(s["url"], "https://portwatch.imf.org/")
+        self.assertEqual(s["url"], REGISTRY["portwatch"]["url"])
+        self.assertEqual(s["url"], REGISTRY["portwatch-ports"]["url"])
         self.assertIn("83b1bbc7b3354c5fb1f40673bb8f852e", s["access"])
         self.assertIn("Daily_Ports_Data/FeatureServer", s["access"])
         for field in ("name", "publisher", "url", "licence", "update", "access", "use"):
             self.assertTrue(str(s.get(field) or "").strip(), field)
 
-    def test_the_texts_say_weekly_only_when_a_scheduled_step_reads_the_port_series_and_say_what_is_true_today_before(self):
-        """The weekly wording comes back with the step that makes it true, and not before: the Sources window shows `update`."""
+    def test_the_texts_say_weekly_only_when_a_scheduled_step_reads_the_port_series_and_say_what_is_true_otherwise(self):
+        """The weekly wording is true when the workflow has the step that runs the script, and false without it: with the step the registry,
+        NOTICE.md and the update guide say so, without it they say that no scheduled job reads the table. The port page has the block and its
+        CSV in both cases. The Sources window shows `update` as the publisher's rhythm."""
         s = REGISTRY[NEW]
         notice = flat(read("NOTICE.md"))
         i = notice.index("Port traffic. For the ports of the infrastructure layer")
         para = notice[i:notice.index("Ports database. The ports of the infrastructure layer", i)]
-        if the_workflow_reads_the_port_series():
-            self.assertEqual(s["update"], "weekly")
-            self.assertIn("weekly run", s["access"])
-            return
-        self.assertNotEqual(s["update"], "weekly")
-        self.assertTrue(s["update"].startswith("by hand for now"), s["update"])
-        self.assertIn("no scheduled job reads this table yet", s["update"])
-        self.assertIn("The first load is made by hand in sittings of a few ports; no scheduled job reads this table yet.", s["access"])
-        self.assertIn("The files are being loaded and no page of the site shows them yet", s["use"])
-        for field in ("update", "access", "use"):
-            self.assertIsNone(re.search(r"weekly run|each week|every week|updated weekly|updates weekly", s[field], re.I), field)
-        self.assertNotIn("each weekly run", para)
-        self.assertIn("the weekly step that will follow reads only recent weeks", para)
-        self.assertIn("that the weekly step will read back", para)
-        self.assertIn("The CSV of a port series will be offered", para)
-        self.assertIn("no page of the site shows the series yet", para)
-        # the update guide says the same: no job, no page, the weekly step not in place, and no pointer to a section that is not there
         guide = flat(read("docs", "UPDATING.md"))
-        j = guide.index("### Port traffic: the first load in sittings")
+        j = guide.index("### Port traffic")
         section = guide[j:guide.index("## Releasing", j)]
-        self.assertIn("no scheduled job runs the script", section)
+        # the page shows the series and offers its CSV: the sentences that said it did not are gone
+        for text in (s["use"], para, section):
+            self.assertNotIn("no page of the site shows", text)
+            self.assertNotIn("being loaded", text)
+            self.assertNotIn("will be offered", text)
+            self.assertNotIn("no page offers it yet", text)
+        self.assertIn('Shown in the "Weekly port traffic" block of the page of each port that has a file', s["use"])
+        self.assertIn('the "Weekly port traffic" block of the page of each port that has a file shows them', para)
+        self.assertIn("The CSV of a port series is offered as the CSV of a chokepoint series is", para)
+        self.assertIn("METHODOLOGY.md (section 5, \"Port traffic\")", section)
+        self.assertNotEqual(s["update"], "weekly")
+        if the_workflow_reads_the_port_series():
+            # the registry's `update` is the publisher's rhythm (the Sources window prints it as "Updates:", the calendar as "Published"):
+            # no saved page states one for this table, so it says what is true on both sides
+            self.assertEqual(s["update"], "daily rows; rhythm not stated by the publisher; read weekly by the atlas")
+            self.assertIn("each weekly run reads the recent weeks of every port and a longer stretch of part of the ports in turn", s["access"])
+            self.assertNotIn("no scheduled job reads this table yet", s["access"])
+            self.assertNotIn("each weekly run", para.replace("the weekly step, which runs after the chokepoint step", ""))
+            self.assertIn("that the weekly step reads back", para)
+            self.assertNotIn("will read back", para)
+            self.assertIn("the weekly step, which runs after the chokepoint step of the same job on Wednesdays, reads only recent weeks", para)
+            self.assertNotIn("The weekly step is not in place", section)
+            self.assertNotIn("no scheduled job runs the script", section)
+            self.assertIn("update-portwatch.yml", section)
+            return
+        # no step in the workflow: the texts say that no scheduled job reads the table, and no text says that a weekly run does
+        self.assertIn("no scheduled job reads this table yet", s["update"])
+        self.assertIn("no scheduled job reads this table yet", s["access"])
+        for field in ("update", "access"):
+            self.assertIsNone(re.search(r"weekly run|each week|every week|updated weekly|updates weekly|read weekly", s[field], re.I), field)
+        self.assertNotIn("each weekly run", para)
+        self.assertNotIn("the weekly step, which runs after the chokepoint step", para)
+        self.assertIn("no scheduled job reads the series yet", para)
         self.assertIn("The weekly step is not in place", section)
-        self.assertNotIn("METHODOLOGY.md", section)
+        self.assertIn("no scheduled job runs the script", section)
 
     def test_the_use_says_what_is_published_and_how_it_is_transformed(self):
         use = REGISTRY[NEW]["use"]
@@ -132,6 +155,10 @@ class Registry(unittest.TestCase):
         pace = f"{lo:g} to {hi:g} seconds apart"
         self.assertIn(pace, REGISTRY["portwatch"]["access"])
         self.assertIn(pace, REGISTRY[NEW]["access"])
+        # the size of a request of the weekly run is the constant of the code, and the first load asks for one port at a time
+        self.assertIn(f"asked for one port at a time in the first load and for up to {PP.MAX_IDS} ports at a time in a weekly run, one request at a time",
+                      REGISTRY[NEW]["access"])
+        self.assertNotIn("a few ports at a time", REGISTRY[NEW]["access"])
         self.assertIn(f"at least {FPP.MIN_INTERVAL_S:g} seconds apart", REGISTRY["portwatch-ports"]["access"])
         self.assertEqual(FPP.MIN_INTERVAL_S, lo)
         for sid in PORTWATCH:

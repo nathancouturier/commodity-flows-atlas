@@ -5,7 +5,8 @@ data/_status/updates.json and compares, for each source, the date of its last su
 reach with the cadence the atlas expects. It uses the same rules as the "Data freshness" table of the site
 (web/src/lib/status.ts), so that an issue and the table never disagree:
 
-  last successful check   older than 16 days for a weekly source, 64 days for a monthly one (two runs missed plus a
+  last successful check   none yet, once the source has failed as many runs as its alert threshold (before that it is retrying),
+                          or older than 16 days for a weekly source, 64 days for a monthly one (two runs missed plus a
                           margin), 80 + 64 days for FAOSTAT/WNA (checked every 80 days)
   daily data (EIA spot, PortWatch)   the last day is more than 21 days old
   monthly data (Pink Sheet, and the BLS, Dallas Fed and New York Fed freight indicators)
@@ -72,6 +73,11 @@ def reason(source, entry, now):
     kind, max_age = TRACKED[source]
     checked = _iso(entry.get("last_success")) if entry.get("last_success") else None
     if checked is None and max_age is not None:
+        # a source whose first runs failed fewer times than its alert threshold is retrying, not stale (the issue "Data update failing" and
+        # the table's "failing" take over at the threshold)
+        limit = int(entry.get("alert_after") or status.ALERT_AFTER_SOURCE.get(source, status.ALERT_AFTER))
+        if 0 < int(entry.get("consecutive_failures") or 0) < limit:
+            return None
         return "no successful check recorded"
     age = (now - checked).days if checked else 0
     if max_age is not None and age > max_age:

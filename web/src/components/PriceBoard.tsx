@@ -26,7 +26,7 @@ const COLUMNS: { key: Key; label: string; title: string; cls: string }[] = [
 /** The publisher, and what its published values are, of the sources on the board (which shows no source per row). */
 const SOURCE_WORDS: Record<string, { by: string; values: string }> = {
   'wb-pink': { by: 'World Bank', values: 'World Bank monthly averages' },
-  'eia-spot': { by: 'EIA', values: 'EIA daily spot prices' },
+  'eia-spot': { by: 'EIA (source: Refinitiv)', values: 'EIA daily spot prices with Refinitiv as their source' },
   bls: { by: 'BLS', values: 'BLS monthly producer price index' },
   dallasfed: { by: 'Dallas Fed', values: 'Dallas Fed monthly index' },
   nyfed: { by: 'New York Fed', values: 'New York Fed monthly index' },
@@ -46,7 +46,7 @@ function Change({ v }: { v: number | null | undefined }) {
   return <span class={v > 0 ? 'pb-up' : v < 0 ? 'pb-dn' : ''}>{fmtPct(v)}</span>;
 }
 
-/** "Prices to 17 Nov 2026 (EIA, daily) and Oct 2026 (World Bank, monthly) · checked 22 Nov 2026", from data/_status/updates.json. */
+/** "Prices to 17 Nov 2026 (EIA, daily; source: Refinitiv) and Oct 2026 (World Bank, monthly) · checked 22 Nov 2026", from data/_status/updates.json. */
 export function PriceStatusLine() {
   const [rows, setRows] = useState<Freshness[] | null>(null);
   useEffect(() => {
@@ -61,7 +61,7 @@ export function PriceStatusLine() {
   if (!rows) return null;
   const eia = rows.find((r) => r.key === 'eia-spot');
   const wb = rows.find((r) => r.key === 'wb-pink');
-  const parts = [eia?.dataTo ? `${eia.dataTo} (EIA, daily)` : null, wb?.dataTo ? `${wb.dataTo} (World Bank, monthly)` : null].filter(Boolean);
+  const parts = [eia?.dataTo ? `${eia.dataTo} (EIA, daily; source: Refinitiv)` : null, wb?.dataTo ? `${wb.dataTo} (World Bank, monthly)` : null].filter(Boolean);
   if (!parts.length) return null;
   const checked = [eia?.checked, wb?.checked].filter((x): x is string => !!x).sort().pop();
   return (

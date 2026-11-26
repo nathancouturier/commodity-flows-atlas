@@ -60,10 +60,10 @@
             "@id": "https://nathancouturier.github.io/commodity-flows-atlas/#dataset",
             "url": "https://nathancouturier.github.io/commodity-flows-atlas/",
             "name": "Commodity Flows Atlas data",
-            "description": "Open data compiled for the atlas, as JSON files: trade flows between countries by commodity (CEPII BACI), production, reserves and consumption by country (USGS, EIA, USDA, FAOSTAT), monthly and daily commodity prices (World Bank, EIA), benchmark shipping routes and sea lanes, chokepoint transits (IMF PortWatch) and major mines, fields, refineries, terminals and ports. Every figure carries its source and its year. Licences are mixed: the atlas's own derived figures are CC BY 4.0, material adapted from Wikipedia is CC BY-SA 4.0, and each third-party dataset keeps the licence of its source (see NOTICE.md).",
+            "description": "Data compiled for the atlas, as JSON files: trade flows between countries by commodity (CEPII BACI), production, reserves and consumption by country (USGS, EIA, USDA, FAOSTAT), monthly commodity prices (World Bank) and daily spot prices (U.S. Energy Information Administration, which gives Refinitiv as their source), benchmark shipping routes and sea lanes, chokepoint transits (IMF PortWatch) and major mines, fields, refineries, terminals and ports. Every figure carries its source and its year. Licences are mixed: the atlas's own derived figures are CC BY 4.0, material adapted from Wikipedia is CC BY-SA 4.0, and each third-party dataset keeps the licence of its source. The terms of some sources are still to be confirmed (see NOTICE.md).",
             "keywords": ["commodities", "raw materials", "international trade", "shipping routes", "freight", "chokepoints", "crude oil", "LNG", "coal", "iron ore", "copper", "grains", "fertilisers", "commodity prices"],
             "isAccessibleForFree": true,
-            "license": ["https://creativecommons.org/licenses/by/4.0/", "https://creativecommons.org/licenses/by-sa/4.0/"],
+            "license": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/NOTICE.md",
             "usageInfo": "https://github.com/nathancouturier/commodity-flows-atlas/blob/main/NOTICE.md",
             "inLanguage": "en",
             "spatialCoverage": { "@type": "Place", "name": "World" },
@@ -71,7 +71,6 @@
             "includedInDataCatalog": { "@type": "DataCatalog", "name": "Commodity Flows Atlas on GitHub", "url": "https://github.com/nathancouturier/commodity-flows-atlas/tree/main/data" },
             "distribution": [
               { "@type": "DataDownload", "name": "Commodity catalogue", "encodingFormat": "application/json", "contentUrl": "https://nathancouturier.github.io/commodity-flows-atlas/data/commodities/index.json" },
-              { "@type": "DataDownload", "name": "Price series catalogue", "encodingFormat": "application/json", "contentUrl": "https://nathancouturier.github.io/commodity-flows-atlas/data/prices/index.json" },
               { "@type": "DataDownload", "name": "Sources and licences", "encodingFormat": "application/json", "contentUrl": "https://nathancouturier.github.io/commodity-flows-atlas/data/sources.json" }
             ]
           }

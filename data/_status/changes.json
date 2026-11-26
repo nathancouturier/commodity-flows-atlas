@@ -1,6 +1,6 @@
 {
  "weekly": {
-  "to": "2026-11-17",
+  "to": "2026-11-24",
   "moves": [
    {
     "id": "usgc-jet-d",
@@ -8,35 +8,47 @@
     "k": "refined-products",
     "unit": "USD/gal",
     "s": "eia-spot",
-    "from": "2026-11-10",
-    "to": "2026-11-17",
-    "v0": 3.983,
-    "v1": 3.763,
-    "pct": -5.5
+    "from": "2026-11-17",
+    "to": "2026-11-24",
+    "v0": 3.763,
+    "v1": 3.397,
+    "pct": -9.7
    },
    {
-    "id": "propane-mb-d",
-    "name": "Propane, Mont Belvieu, daily spot",
-    "k": "lpg",
-    "unit": "USD/gal",
-    "s": "eia-spot",
-    "from": "2026-11-10",
-    "to": "2026-11-17",
-    "v0": 1.071,
-    "v1": 1.019,
-    "pct": -4.9
-   },
-   {
-    "id": "nyh-gasoline-d",
-    "name": "Gasoline, New York Harbor, daily spot",
+    "id": "nyh-heatingoil-d",
+    "name": "No. 2 heating oil, New York Harbor, daily spot",
     "k": "refined-products",
     "unit": "USD/gal",
     "s": "eia-spot",
-    "from": "2026-11-10",
-    "to": "2026-11-17",
-    "v0": 2.415,
-    "v1": 2.328,
-    "pct": -3.6
+    "from": "2026-11-17",
+    "to": "2026-11-24",
+    "v0": 3.96,
+    "v1": 3.603,
+    "pct": -9.0
+   },
+   {
+    "id": "wti-d",
+    "name": "WTI crude, daily spot (Cushing)",
+    "k": "crude-oil",
+    "unit": "USD/bbl",
+    "s": "eia-spot",
+    "from": "2026-11-17",
+    "to": "2026-11-24",
+    "v0": 89.53,
+    "v1": 82.24,
+    "pct": -8.1
+   },
+   {
+    "id": "nyh-ulsd-d",
+    "name": "Ultra-low sulphur diesel, New York Harbor, daily spot",
+    "k": "refined-products",
+    "unit": "USD/gal",
+    "s": "eia-spot",
+    "from": "2026-11-17",
+    "to": "2026-11-24",
+    "v0": 4.093,
+    "v1": 3.793,
+    "pct": -7.3
    },
    {
     "id": "hh-d",
@@ -44,23 +56,11 @@
     "k": "natural-gas",
     "unit": "USD/MMBtu",
     "s": "eia-spot",
-    "from": "2026-11-10",
-    "to": "2026-11-17",
-    "v0": 3.0,
-    "v1": 3.1,
-    "pct": 3.3
-   },
-   {
-    "id": "brent-d",
-    "name": "Brent crude, daily spot (FOB)",
-    "k": "crude-oil",
-    "unit": "USD/bbl",
-    "s": "eia-spot",
-    "from": "2026-11-10",
-    "to": "2026-11-17",
-    "v0": 90.16,
-    "v1": 92.94,
-    "pct": 3.1
+    "from": "2026-11-17",
+    "to": "2026-11-24",
+    "v0": 3.1,
+    "v1": 3.3,
+    "pct": 6.5
    }
   ],
   "refused": []
@@ -132,62 +132,93 @@
   "refused": []
  },
  "passages": {
-  "to": "2026-11-15",
+  "to": "2026-11-22",
   "moves": [
    {
     "id": "hormuz",
     "name": "Strait of Hormuz",
-    "to": "2026-11-15",
-    "week": 2.29,
-    "prior28": 3.82,
-    "prior365": 23.83,
-    "gap28": -40.1,
-    "gap365": -90.4
+    "to": "2026-11-22",
+    "week": 2.71,
+    "prior28": 3.46,
+    "prior365": 22.34,
+    "gap28": -21.7,
+    "gap365": -87.9
    },
    {
-    "id": "ombai",
-    "name": "Ombai Strait",
-    "to": "2026-11-15",
-    "week": 11.14,
-    "prior28": 7.39,
-    "prior365": 9.46,
-    "gap28": 50.7,
-    "gap365": 17.8
-   },
-   {
-    "id": "magellan",
-    "name": "Magellan Strait",
-    "to": "2026-11-15",
-    "week": 5.57,
-    "prior28": 4.04,
-    "prior365": 4.34,
-    "gap28": 37.9,
-    "gap365": 28.3
+    "id": "tsugaru",
+    "name": "Tsugaru Strait",
+    "to": "2026-11-22",
+    "week": 26.71,
+    "prior28": 38.89,
+    "prior365": 46.9,
+    "gap28": -31.3,
+    "gap365": -43.0
    },
    {
     "id": "bosphorus",
     "name": "Turkish Straits",
-    "to": "2026-11-15",
-    "week": 48.57,
-    "prior28": 47.54,
-    "prior365": 76.58,
-    "gap28": 2.2,
-    "gap365": -36.6
+    "to": "2026-11-22",
+    "week": 49.0,
+    "prior28": 48.04,
+    "prior365": 75.58,
+    "gap28": 2.0,
+    "gap365": -35.2
    },
    {
-    "id": "luzon",
-    "name": "Luzon Strait",
-    "to": "2026-11-15",
-    "week": 106.14,
-    "prior28": 93.82,
-    "prior365": 77.89,
-    "gap28": 13.1,
-    "gap365": 36.3
+    "id": "mindoro",
+    "name": "Mindoro Strait",
+    "to": "2026-11-22",
+    "week": 59.71,
+    "prior28": 50.79,
+    "prior365": 44.67,
+    "gap28": 17.6,
+    "gap365": 33.7
+   },
+   {
+    "id": "balabac",
+    "name": "Balabac Strait",
+    "to": "2026-11-22",
+    "week": 13.57,
+    "prior28": 11.82,
+    "prior365": 10.26,
+    "gap28": 14.8,
+    "gap365": 32.3
    }
   ]
  },
- "sources": [],
- "sourcesOn": null,
+ "sources": [
+  {
+   "id": "bls",
+   "name": "BLS Producer Price Index, deep sea freight transportation (series PCU483111483111)",
+   "data_to": "2026-10",
+   "t": "2026-11-25T20:38:17Z"
+  },
+  {
+   "id": "dallasfed",
+   "name": "Index of global real economic activity (Kilian index)",
+   "data_to": "2026-10",
+   "t": "2026-11-25T20:38:17Z"
+  },
+  {
+   "id": "eia-spot",
+   "name": "EIA spot prices (petroleum and natural gas)",
+   "data_to": "2026-11-24",
+   "t": "2026-11-25T20:38:17Z"
+  },
+  {
+   "id": "nyfed",
+   "name": "Global Supply Chain Pressure Index (GSCPI)",
+   "data_to": "2026-10",
+   "t": "2026-11-25T20:38:17Z"
+  },
+  {
+   "id": "portwatch",
+   "name": "IMF PortWatch chokepoint transits (Atlas weekly averages of IMF PortWatch daily counts)",
+   "data_to": "2026-11-22",
+   "t": "2026-11-25T20:27:56Z"
+  }
+ ],
+ "sourcesOn": "2026-11-25",
  "jobs": [
   {
    "id": "update-prices",
@@ -211,7 +242,9 @@
    "sources": [
     "eia-spot",
     "wb-pink",
-    "fred"
+    "bls",
+    "dallasfed",
+    "nyfed"
    ]
   },
   {
@@ -227,7 +260,8 @@
     }
    ],
    "sources": [
-    "portwatch"
+    "portwatch",
+    "portwatch-port-traffic"
    ]
   },
   {
@@ -253,16 +287,19 @@
   }
  ],
  "seen": {
-  "weekly": "2026-11-17",
+  "weekly": "2026-11-24",
   "monthly": "2026-10",
-  "passages": "2026-11-15",
+  "passages": "2026-11-22",
   "sources": {
    "baci": "None||V202601|None|None",
+   "bls": "2026-10||None|None|None",
+   "dallasfed": "2026-10||None|None|None",
    "eia-intl": "2026-11-19|2a79be689b8d|None|None|None",
-   "eia-spot": "2026-11-17||None|None|None",
+   "eia-spot": "2026-11-24||None|None|None",
    "faostat-wna": "None||None|None|None",
    "fred": "None||None|None|None",
-   "portwatch": "2026-11-15||None|None|None",
+   "nyfed": "2026-10||None|None|None",
+   "portwatch": "2026-11-22||None|None|None",
    "usda-psd": "2027|a293f2b05b1b|None|None|None",
    "usgs-mcs": "2026|582a0aa231ae|None|696a75d5d4be0228872d3bf8|None",
    "wb-pink": "2026-10||None|None|https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx"
@@ -270,16 +307,55 @@
  },
  "entries": [
   {
+   "id": "2026-11-25-sources",
+   "kind": "sources",
+   "t": "2026-11-25T20:38:17Z",
+   "title": "Sources that published new data",
+   "lines": [
+    "BLS Producer Price Index, deep sea freight transportation (series PCU483111483111): data to Oct 2026, checked on 25 Nov 2026",
+    "Index of global real economic activity (Kilian index): data to Oct 2026, checked on 25 Nov 2026",
+    "EIA spot prices (petroleum and natural gas): data to 24 Nov 2026, checked on 25 Nov 2026",
+    "Global Supply Chain Pressure Index (GSCPI): data to Oct 2026, checked on 25 Nov 2026",
+    "IMF PortWatch chokepoint transits (Atlas weekly averages of IMF PortWatch daily counts): data to 22 Nov 2026, checked on 25 Nov 2026"
+   ]
+  },
+  {
+   "id": "2026-11-25-prices",
+   "kind": "prices",
+   "t": "2026-11-25T20:38:17Z",
+   "title": "Price moves, week to 24 Nov 2026",
+   "lines": [
+    "Jet fuel (kerosene), US Gulf Coast, daily spot: −9.7% in the week to 24 Nov 2026 (3.76 to 3.40 USD/gal; EIA, source: Refinitiv)",
+    "No. 2 heating oil, New York Harbor, daily spot: −9.0% in the week to 24 Nov 2026 (3.96 to 3.60 USD/gal; EIA, source: Refinitiv)",
+    "WTI crude, daily spot (Cushing): −8.1% in the week to 24 Nov 2026 (89.53 to 82.24 USD/bbl; EIA, source: Refinitiv)",
+    "Ultra-low sulphur diesel, New York Harbor, daily spot: −7.3% in the week to 24 Nov 2026 (4.09 to 3.79 USD/gal; EIA, source: Refinitiv)",
+    "Henry Hub natural gas, daily spot: +6.5% in the week to 24 Nov 2026 (3.10 to 3.30 USD/MMBtu; EIA, source: Refinitiv)"
+   ]
+  },
+  {
+   "id": "2026-11-25-passages",
+   "kind": "passages",
+   "t": "2026-11-25T20:27:56Z",
+   "title": "Chokepoint traffic to 22 Nov 2026",
+   "lines": [
+    "Strait of Hormuz: 2.7 vessels a day in the last week, −22% on the 4 weeks before and −88% on the 365 days before (IMF PortWatch, to 22 Nov 2026)",
+    "Tsugaru Strait: 26.7 vessels a day in the last week, −31% on the 4 weeks before and −43% on the 365 days before (IMF PortWatch, to 22 Nov 2026)",
+    "Turkish Straits: 49.0 vessels a day in the last week, +2% on the 4 weeks before and −35% on the 365 days before (IMF PortWatch, to 22 Nov 2026)",
+    "Mindoro Strait: 59.7 vessels a day in the last week, +18% on the 4 weeks before and +34% on the 365 days before (IMF PortWatch, to 22 Nov 2026)",
+    "Balabac Strait: 13.6 vessels a day in the last week, +15% on the 4 weeks before and +32% on the 365 days before (IMF PortWatch, to 22 Nov 2026)"
+   ]
+  },
+  {
    "id": "2026-11-23-prices",
    "kind": "prices",
    "t": "2026-11-23T06:24:48Z",
    "title": "Price moves, week to 17 Nov 2026",
    "lines": [
-    "Jet fuel (kerosene), US Gulf Coast, daily spot: −5.5% in the week to 17 Nov 2026 (3.98 to 3.76 USD/gal; eia-spot)",
-    "Propane, Mont Belvieu, daily spot: −4.9% in the week to 17 Nov 2026 (1.07 to 1.02 USD/gal; eia-spot)",
-    "Gasoline, New York Harbor, daily spot: −3.6% in the week to 17 Nov 2026 (2.42 to 2.33 USD/gal; eia-spot)",
-    "Henry Hub natural gas, daily spot: +3.3% in the week to 17 Nov 2026 (3.00 to 3.10 USD/MMBtu; eia-spot)",
-    "Brent crude, daily spot (FOB): +3.1% in the week to 17 Nov 2026 (90.16 to 92.94 USD/bbl; eia-spot)"
+    "Jet fuel (kerosene), US Gulf Coast, daily spot: −5.5% in the week to 17 Nov 2026 (3.98 to 3.76 USD/gal; EIA, source: Refinitiv)",
+    "Propane, Mont Belvieu, daily spot: −4.9% in the week to 17 Nov 2026 (1.07 to 1.02 USD/gal; EIA, source: Refinitiv)",
+    "Gasoline, New York Harbor, daily spot: −3.6% in the week to 17 Nov 2026 (2.42 to 2.33 USD/gal; EIA, source: Refinitiv)",
+    "Henry Hub natural gas, daily spot: +3.3% in the week to 17 Nov 2026 (3.00 to 3.10 USD/MMBtu; EIA, source: Refinitiv)",
+    "Brent crude, daily spot (FOB): +3.1% in the week to 17 Nov 2026 (90.16 to 92.94 USD/bbl; EIA, source: Refinitiv)"
    ]
   },
   {
@@ -301,13 +377,13 @@
    "t": "2026-11-23T06:24:48Z",
    "title": "Monthly prices for Oct 2026",
    "lines": [
-    "Natural gas, Europe (World Bank series; Dutch TTF hub basis in recent years): +12.1% in Oct 2026 (25.42 to 28.50 USD/MMBtu; wb-pink)",
-    "Silver: −11.8% in Oct 2026 (64.60 to 57.00 USD/troy oz; wb-pink)",
-    "Dubai crude: +10.1% in Oct 2026 (93.30 to 102.7 USD/bbl; wb-pink)",
-    "Platinum: −9.1% in Oct 2026 (1,784 to 1,621 USD/troy oz; wb-pink)",
-    "Natural gas price index (Europe, US, Japan LNG): +8.9% in Oct 2026 (167.7 to 182.7 index (2010 = 100); wb-pink)"
+    "Natural gas, Europe (World Bank series; Dutch TTF hub basis in recent years): +12.1% in Oct 2026 (25.42 to 28.50 USD/MMBtu; World Bank)",
+    "Silver: −11.8% in Oct 2026 (64.60 to 57.00 USD/troy oz; World Bank)",
+    "Dubai crude: +10.1% in Oct 2026 (93.30 to 102.7 USD/bbl; World Bank)",
+    "Platinum: −9.1% in Oct 2026 (1,784 to 1,621 USD/troy oz; World Bank)",
+    "Natural gas price index (Europe, US, Japan LNG): +8.9% in Oct 2026 (167.7 to 182.7 index (2010 = 100); World Bank)"
    ]
   }
  ],
- "generated": "2026-11-23T06:24:48Z"
+ "generated": "2026-11-25T20:38:17Z"
 }

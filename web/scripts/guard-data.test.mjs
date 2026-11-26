@@ -1,7 +1,7 @@
 /**
  * Tests of scripts/guard-data.mjs: an unchanged or normally updated file passes; a truncated table, a file that shrank,
- * a price that jumped or was revised by more than half, and a folder that lost files are refused, in a small git
- * repository built for the test.
+ * a price that jumped or was revised by more than half, a weekly port traffic file that lost weeks or rewrote old ones,
+ * and a folder that lost files are refused, in a small git repository built for the test.
  *
  *     node web/scripts/guard-data.test.mjs
  */
@@ -11,7 +11,7 @@ import fs from 'node:fs';
 import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { compareCoverage, compareFile, comparePrice, guardRepo } from './guard-data.mjs';
+import { PORT_DEEP_WEEKS, compareCoverage, compareFile, comparePortTraffic, comparePrice, guardRepo } from './guard-data.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const table = (n) => ({ id: 'wheat', production: Array.from({ length: n }, (_, i) => ({ c: `C${i}`, v: 100 - i, y: 2024, s: 'usda-psd' })) });
@@ -234,4 +234,100 @@ ok('a loss that was accepted and committed does not stop the next rebuild, which
   assert.equal(r.status, 0, r.stdout + r.stderr);
 });
 fs.rmSync(crepo, { recursive: true, force: true });
+// a weekly port traffic file: twelve arrays of n weeks from the Monday 2025-01-06
+const weeklyPort = (n, { id = 'port1', y, tweak = {} } = {}) => {
+  const arr = (k, t) => Array.from({ length: n }, (_, i) => (tweak[`${k}.${t}.${i}`] ?? ((i * 7 + t.length + k.length) % 50)));
+  const body = Object.fromEntries(['calls', 'exports', 'imports'].map((k) => [k, Object.fromEntries(['tanker', 'dry', 'container', 'other'].map((t) => [t, arr(k, t)]))]));
+  const start = new Date(Date.UTC(2025, 0, 6));
+  const last = new Date(start.getTime() + (7 * n - 1) * 864e5);
+  return { id, name: 'Port', s: 'portwatch-port-traffic', y: y ?? last.toISOString().slice(0, 10), start: '2025-01-06', step: 'week', u: 'kt', dp: 3, ...body };
+};
+const portText = (...a) => JSON.stringify(weeklyPort(...a));
+const FILE = 'freight/port-traffic/port1.json';
+ok('the weekly port file the job extends by a week, or whose last weeks it rewrites, passes', () => {
+  assert.deepEqual(compareFile(FILE, portText(120), portText(121)), []);
+  assert.deepEqual(compareFile(FILE, portText(120), portText(121, { tweak: { 'calls.tanker.119': 99, 'exports.dry.70': 5 } })), []);
+  // the deep pass rewrites the weeks from PORT_DEEP_WEEKS before the last stored week, and no older one
+  const first = 120 - PORT_DEEP_WEEKS - 1;
+  assert.deepEqual(compareFile(FILE, portText(120), portText(121, { tweak: { [`calls.tanker.${first}`]: 99 } })), []);
+});
+ok('a weekly port file that rewrote a week older than the weeks a run reads again is refused, by the week', () => {
+  const first = 120 - PORT_DEEP_WEEKS - 1;
+  const p = compareFile(FILE, portText(120), portText(121, { tweak: { [`imports.other.${first - 1}`]: 99 } }));
+  assert.equal(p.length, 1, p.join('\n'));
+  assert.match(p[0], new RegExp(`week ${first} \\(imports other\\) is older than the ${PORT_DEEP_WEEKS} weeks a run reads again`));
+});
+ok('a weekly port file that lost a week, an array\'s last week, its first week or a day of data is refused', () => {
+  const lost = compareFile(FILE, portText(120), portText(119));
+  assert.ok(lost.some((x) => /lost weeks \(120 before, 119 now\)/.test(x)), lost.join('\n'));
+  const one = weeklyPort(121);
+  one.exports.dry = one.exports.dry.slice(0, 100);
+  assert.ok(compareFile(FILE, portText(120), JSON.stringify(one)).some((x) => /lost weeks/.test(x)));
+  const moved = weeklyPort(120);
+  moved.start = '2025-01-13';
+  assert.ok(compareFile(FILE, portText(120), JSON.stringify(moved)).some((x) => /the first week moved from 2025-01-06 to 2025-01-13/.test(x)));
+  const back = compareFile(FILE, portText(120), portText(120, { y: '2025-03-01' }));
+  assert.ok(back.some((x) => /the last day of data went back/.test(x)), back.join('\n'));
+});
+ok('the guard of the weekly port files is for those files only, and a document that is not one gives no finding', () => {
+  assert.deepEqual(comparePortTraffic(FILE, { a: 1 }, { a: 2 }), []);
+  assert.deepEqual(comparePortTraffic(FILE, weeklyPort(60), 'x'), []);
+  // the same shape under another name is held to the usual rules only
+  assert.deepEqual(compareFile('freight/other/port1.json', portText(120), portText(119)).filter((x) => /lost weeks/.test(x)), []);
+});
+ok('index.json of the port files may lose entries as the ports are read, any other list still may not', () => {
+  const idx = (pending) => JSON.stringify({ checked: '2026-11-25', none: [], pending });
+  const ids = (n) => Array.from({ length: n }, (_, i) => `port${i + 100}`);
+  assert.deepEqual(compareFile('freight/port-traffic/index.json', idx(ids(30)), idx(ids(12))), []);
+  assert.ok(compareFile('freight/other/index.json', idx(ids(30)), idx(ids(12))).some((x) => /lost 18 of its 30 rows/.test(x)));
+});
+
+// the same through the command, in a small repository whose HEAD holds the last weekly files
+const prepo = fs.mkdtempSync(path.join(os.tmpdir(), 'guard-ports-'));
+const pg = (...a) => execFileSync('git', a, { cwd: prepo, stdio: 'ignore' });
+const pwrite = (rel, text) => {
+  fs.mkdirSync(path.dirname(path.join(prepo, rel)), { recursive: true });
+  fs.writeFileSync(path.join(prepo, rel), text);
+};
+pg('init', '-q');
+pg('config', 'user.email', 'test@example.invalid');
+pg('config', 'user.name', 'test');
+pg('config', 'commit.gpgsign', 'false');
+const ports = ['port1', 'port2', 'port3'];
+for (const id of ports) pwrite(`data/freight/port-traffic/${id}.json`, portText(120, { id }));
+pwrite('data/freight/portwatch/hormuz.json', JSON.stringify({ id: 'hormuz', v: [1, 2, 3] }));
+pg('add', '-A');
+pg('commit', '-q', '-m', 'first load');
+fs.mkdirSync(path.join(prepo, 'web', 'scripts'), { recursive: true });
+fs.copyFileSync(path.join(here, 'guard-data.mjs'), path.join(prepo, 'web', 'scripts', 'guard-data.mjs'));
+const portGuard = (env = {}, ...paths) =>
+  spawnSync(process.execPath, [path.join(prepo, 'web', 'scripts', 'guard-data.mjs'), ...paths], { encoding: 'utf8', env: { ...process.env, ...env } });
+const JOB = ['data/freight/portwatch', 'data/freight/port-traffic', 'data/_status'];
+ok('a weekly run that extended the files passes the command, with the paths of the job', () => {
+  for (const id of ports) pwrite(`data/freight/port-traffic/${id}.json`, portText(121, { id, tweak: { 'calls.tanker.119': 77 } }));
+  pwrite('data/freight/portwatch/hormuz.json', JSON.stringify({ id: 'hormuz', v: [1, 2, 3, 4] }));
+  const r = portGuard({}, ...JOB);
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+});
+ok('a port file that lost weeks is refused by the command, the other files of the job with it, and the override accepts it', () => {
+  pwrite('data/freight/port-traffic/port2.json', portText(100, { id: 'port2' }));
+  const r = portGuard({}, ...JOB);
+  assert.equal(r.status, 1, r.stdout + r.stderr);
+  assert.match(r.stderr, /freight\/port-traffic\/port2\.json: lost weeks \(120 before, 100 now\)/);
+  const off = portGuard({ DATA_GUARD: 'off' }, ...JOB);
+  assert.equal(off.status, 0, off.stdout + off.stderr);
+  assert.match(off.stderr, /accepted by hand/);
+  // the job that does not own the folder is not asked about it
+  assert.equal(portGuard({}, 'data/freight/portwatch', 'data/_status').status, 0);
+});
+ok('a port file that was removed is refused by the command, whatever the size of the folder', () => {
+  pg('checkout', '--', 'data/freight/port-traffic/port2.json');
+  fs.rmSync(path.join(prepo, 'data/freight/port-traffic/port3.json'));
+  const r = portGuard({}, ...JOB);
+  assert.equal(r.status, 1, r.stdout + r.stderr);
+  assert.match(r.stderr, /freight\/port-traffic\/port3\.json: the port file was removed/);
+  pg('checkout', '--', 'data/freight/port-traffic/port3.json');
+  assert.equal(portGuard({}, ...JOB).status, 0);
+});
+fs.rmSync(prepo, { recursive: true, force: true });
 console.log(`guard-data: ${n} checks passed`);

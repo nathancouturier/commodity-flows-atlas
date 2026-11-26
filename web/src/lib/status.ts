@@ -24,10 +24,21 @@ const count = (v: unknown, d: number): number => (typeof v === 'number' && Numbe
 const obj = (v: unknown): Record<string, unknown> => (v && typeof v === 'object' && !Array.isArray(v) ? (v as Record<string, unknown>) : {});
 
 /**
- * ok, stale, failing: from the dates and the failure count. manual: the source is fetched by hand on purpose,
- * so a failed scheduled check is not a fault. unconfigured: an optional series that needs a key nobody set.
+ * ok, stale, failing: from the dates and the failure count. retrying: no check has succeeded yet and the runs that failed are
+ * fewer than the alert threshold. manual: the source is fetched by hand on purpose, so a failed scheduled check is not a
+ * fault. unconfigured: an optional series that needs a key nobody set.
  */
-export type Health = 'ok' | 'stale' | 'failing' | 'manual' | 'unconfigured';
+export type Health = 'ok' | 'retrying' | 'stale' | 'failing' | 'manual' | 'unconfigured';
+
+/** The badge text of each health in the freshness table. */
+export const HEALTH_LABEL: Record<Health, string> = {
+  ok: 'On time',
+  retrying: 'Retrying',
+  stale: 'Stale',
+  failing: 'Check failing',
+  manual: 'Checked by hand',
+  unconfigured: 'Not configured',
+};
 
 export interface Freshness {
   /** key in updates.json */
@@ -169,7 +180,9 @@ function clean(raw: RawStatus, now: number): StatusView {
     } else if (fails >= limit) {
       health = 'failing';
       why = `The last ${fails} scheduled checks did not complete. The site keeps the last good data.`;
-    } else if (!checked || ageDays(checked, now) > t.maxAge) {
+    } else if (!checked && fails > 0) {
+      health = 'retrying';
+    } else if ((!checked && fails === 0) || (checked && ageDays(checked, now) > t.maxAge)) {
       if (t.optional && fails === 0) {
         health = 'unconfigured';
         why = 'This optional series is fetched only when its key is set. The site keeps the last values fetched.';

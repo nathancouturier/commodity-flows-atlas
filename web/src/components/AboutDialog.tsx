@@ -7,7 +7,7 @@ import type { ComponentChildren } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { load, sources } from '../lib/data';
 import { ESTIMATE_DEFINITION } from '../lib/freight';
-import { BUILD, RELEASE, fmtDate, loadChanges, loadStatus, loadVintages, type Changes, type Freshness, type StatusView } from '../lib/status';
+import { BUILD, HEALTH_LABEL, RELEASE, fmtDate, loadChanges, loadStatus, loadVintages, type Changes, type Freshness, type StatusView } from '../lib/status';
 import type { Alert } from '../types';
 import { aboutTab, closeAbout, type AboutTab } from './AboutHost';
 import { CloseIcon, Skeleton } from './ui';
@@ -124,6 +124,8 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
   for (const r of props.status?.rows ?? []) if (r.dataTo) for (const s of r.sources) dated.set(s, r.dataTo);
   const vintage = (id: string) => dated.get(id) ?? (props.vintages[id] ? fmtDate(props.vintages[id]) : null);
   const lic = (id: string) => sources.value[id]?.licence;
+  /** The credit a registry licence text carries after "Credit: ", where it has one. */
+  const credit = (id: string) => /Credit: (.+)$/s.exec(lic(id) ?? '')?.[1];
   const st = props.status;
   return (
     <>
@@ -186,8 +188,21 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
           <b>Monthly prices.</b> World Bank Commodity Price Data (The Pink Sheet), World Bank{lic('wb-pink') ? `, ${lic('wb-pink')}` : ''}.
         </li>
         <li>
+          <b>Daily prices.</b> Spot prices of petroleum and natural gas from the{' '}
+          <Ext href={sources.value['eia-spot']?.url ?? 'https://www.eia.gov/dnav/pet/pet_pri_spt_s1_d.htm'}>U.S. Energy Information Administration</Ext>, which gives
+          Refinitiv as their source. No page read says whether they may be redistributed (terms to be confirmed): the atlas shows them with that credit and
+          offers no download of them; the values are served to draw the charts (see the table above).
+        </li>
+        <li>
           <b>Chokepoint traffic.</b> IMF PortWatch, <Ext href="https://portwatch.imf.org/">portwatch.imf.org</Ext>
           {lic('portwatch') ? `. ${lic('portwatch')}` : ''}.
+        </li>
+        <li>
+          <b>Port traffic.</b> The daily port table of IMF PortWatch, <Ext href={sources.value['portwatch-port-traffic']?.url ?? 'https://portwatch.imf.org/'}>portwatch.imf.org</Ext>.
+          {credit('portwatch-port-traffic') ? ` Credit: ${credit('portwatch-port-traffic')}.` : ''} The weekly sums of the "Weekly port traffic" block of a port
+          page are the atlas's own: PortWatch's daily port calls and its estimated tonnes added into weeks (Monday to Sunday, complete weeks only), the ship
+          types added by the atlas, the tonnes rounded. The tonnes are PortWatch's estimates, made from each ship's size and draught, and are not a port
+          statistic; no daily figure, vessel or position is kept. The IMF's terms of use apply (see the table above).
         </li>
         <li>
           <b>Wikipedia.</b> Figures and notes credited to Wikipedia (infrastructure assets, companies, events, vessel classes and chokepoint
@@ -234,14 +249,7 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
 
 // ---------------------------------------------------------------- data freshness
 
-const HEALTH_LABEL: Record<Freshness['health'], string> = {
-  ok: 'On time',
-  stale: 'Stale',
-  failing: 'Check failing',
-  manual: 'Checked by hand',
-  unconfigured: 'Not configured',
-};
-const HEALTH_BADGE: Record<Freshness['health'], string> = { ok: 'badge-ok', stale: 'badge-warn', failing: 'badge-warn', manual: '', unconfigured: '' };
+const HEALTH_BADGE: Record<Freshness['health'], string> = { ok: 'badge-ok', retrying: '', stale: 'badge-warn', failing: 'badge-warn', manual: '', unconfigured: '' };
 
 function FreshnessTabView(props: { status: StatusView | null; failed: boolean; vintages: Record<string, string>; changes: Changes | null | undefined; alerts: Alert[] }) {
   const st = props.status;
@@ -249,7 +257,7 @@ function FreshnessTabView(props: { status: StatusView | null; failed: boolean; v
   return (
     <>
       <p>
-        Scheduled jobs check each source and rebuild the data: prices and chokepoint traffic every week, the annual statistics every month (FAOSTAT and WNA about every 80 days). A
+        Scheduled jobs check each source and rebuild the data: prices, chokepoint traffic and port traffic every week, the annual statistics every month (FAOSTAT and WNA about every 80 days). A
         source is marked stale when its last check, or its latest data, is later than that rhythm allows.
       </p>
       {props.failed ? (

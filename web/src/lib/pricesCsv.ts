@@ -1,6 +1,7 @@
 /** CSV of the price series the drawer shows, over the period it shows: one row per observation. */
 import { findMeta, inEstimate, type LoadedSeries } from './prices';
-import { ATLAS_LICENCE, downloadCsv, licenceColumn, licenceTexts, slug, sourceName, toCsv } from './csv';
+import { ATLAS_LICENCE, downloadCsv, licenceColumn, licenceTexts, slug, sourceName, termsNotConfirmed, toCsv } from './csv';
+import { splitOffered } from './priceFile';
 
 const FREQ = { D: 'daily', M: 'monthly', A: 'annual' } as const;
 
@@ -19,6 +20,9 @@ function sourcesOf(m: LoadedSeries['meta']): string[] {
 /** Every registry source the selection rests on: a CSV is offered only when each of them states a permission to reuse its data. */
 export const priceSources = (data: LoadedSeries[]): string[] => [...new Set(data.flatMap((d) => sourcesOf(d.meta)))];
 
+/** The series of the chart that may go into a file (`offered`) and those whose source states no permission to reuse its data (`withheld`: the daily EIA spot prices). */
+export const offeredPrices = (data: LoadedSeries[]) => splitOffered(data, (d) => sourcesOf(d.meta), (id) => termsNotConfirmed([id]).length === 0);
+
 /** Source and licence of a series: a spread or ratio is computed here from two published series, so it names both. */
 function provenance(m: LoadedSeries['meta']): { source: string; licence: [string, string] } {
   if (!m.spread) return { source: sourceName(m.s), licence: licenceTexts([m.s]) };
@@ -32,7 +36,8 @@ function provenance(m: LoadedSeries['meta']): { source: string; licence: [string
 export function pricesCsv(data: LoadedSeries[], from: number, to: number): string {
   const rows: (string | number | null)[][] = [];
   const lic = licenceColumn();
-  for (const d of data) {
+  // never a row of a series whose source states no permission, whatever the caller gives
+  for (const d of offeredPrices(data).offered) {
     const { source, licence } = provenance(d.meta);
     for (let i = 0; i < d.x.length; i++) {
       const t = d.x[i];
@@ -48,5 +53,7 @@ export function pricesCsv(data: LoadedSeries[], from: number, to: number): strin
 export function downloadPrices(data: LoadedSeries[], from: number, to: number) {
   const first = obsDate(from, 'D');
   const last = obsDate(to, 'D');
-  downloadCsv(`commodity-flows-atlas-prices-${slug(data.map((d) => d.meta.id).join('-'))}-${first}-to-${last}.csv`, pricesCsv(data, from, to));
+  const { offered } = offeredPrices(data);
+  if (!offered.length) return;
+  downloadCsv(`commodity-flows-atlas-prices-${slug(offered.map((d) => d.meta.id).join('-'))}-${first}-to-${last}.csv`, pricesCsv(offered, from, to));
 }

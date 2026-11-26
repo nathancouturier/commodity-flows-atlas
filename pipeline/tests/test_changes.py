@@ -5,6 +5,7 @@ Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_changes
 """
 import json
 import os
+import re
 import sys
 import tempfile
 import unittest
@@ -62,11 +63,80 @@ class PriceMoves(unittest.TestCase):
             self.assertEqual(monthly["moves"][0]["pct"], round(100 * (12 / 9 - 1), 1))  # Oct against Sep
             self.assertEqual(monthly["moves"][0]["from"], "2026-09")
 
+    def test_the_feed_names_the_source_the_eia_gives_for_its_spot_prices(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            prices_folder(tmp)
+            weekly, monthly = C.price_moves(tmp)
+            lines = C.lines_prices(weekly, "week")
+            self.assertTrue(lines and all(l.endswith("; EIA, source: Refinitiv)") for l in lines), lines)
+            self.assertFalse(any("eia-spot" in l for l in lines))
+            # the monthly sources are named in words, not by their registry id
+            m = C.lines_prices(monthly, "month")
+            self.assertTrue(m and all(l.endswith("; World Bank)") for l in m), m)
+            self.assertFalse(any("wb-pink" in l for l in m))
+            # a source without a word of its own is named by its id
+            self.assertTrue(C.lines_prices({"moves": [{"name": "N", "to": "2026-10", "pct": 1.0, "v0": 1, "v1": 2, "unit": "USD", "s": "x-id"}]}, "month")[0].endswith("; x-id)"))
+            # every source of the weekly job that prices come from has a word the site uses
+            with open(os.path.join(ROOT, "web", "src", "components", "PriceBoard.tsx"), encoding="utf-8") as fh:
+                board = fh.read()
+            for sid, word in (("wb-pink", "World Bank"), ("bls", "BLS"), ("dallasfed", "Dallas Fed"), ("nyfed", "New York Fed")):
+                self.assertEqual(C.SOURCE_WORDS[sid], word)
+                self.assertIn(f"{sid}: {{ by: '{word}'" if sid.isidentifier() else f"'{sid}': {{ by: '{word}'", board)
+
     def test_a_series_without_a_quote_a_week_before_is_left_out(self):
         with tempfile.TemporaryDirectory() as tmp:
             write(tmp, "index", [{"id": "n-d", "name": "N", "k": "k", "unit": "USD", "freq": "D", "s": "s", "start": "x", "end": "x"}])
             write(tmp, "n-d", {"id": "n-d", "freq": "D", "d": [day("2026-11-15"), day("2026-11-17")], "v": [1, 2]})
             self.assertEqual(C.price_moves(tmp)[0]["moves"], [])
+
+
+    def test_a_deviation_from_a_trend_or_an_average_has_no_move_in_percent(self):
+        """The price board gives no change for a series whose unit says deviation (it crosses zero): the digest lists none either."""
+        with tempfile.TemporaryDirectory() as tmp:
+            prices_folder(tmp)
+            with open(os.path.join(tmp, "index.json")) as fh:
+                idx = json.load(fh)
+            d1 = day("2026-11-17")
+            write(tmp, "dev-d", {"id": "dev-d", "freq": "D", "d": [d1 - 7, d1], "v": [10.0, 30.0]})
+            idx.append({"id": "dev-d", "name": "DEV-D", "k": "k", "unit": "% deviation from trend", "freq": "D", "s": "eia-spot", "start": "2020-01", "end": "2026-11-17"})
+            write(tmp, "dev-m", {"id": "dev-m", "freq": "M", "start": "2026-01", "v": [1, 2, 3, 4, 5, 6, 7, 8, 9, 40]})
+            idx.append({"id": "dev-m", "name": "DEV-M", "k": "k", "unit": "standard deviations from average", "freq": "M", "s": "wb-pink", "start": "2026-01", "end": "2026-10"})
+            write(tmp, "index", idx)
+            weekly, monthly = C.price_moves(tmp)
+            self.assertEqual([m["id"] for m in weekly["moves"]], ["a-d", "b-d"])
+            self.assertEqual([m["id"] for m in monthly["moves"]], ["m-m"])
+            self.assertEqual((weekly["refused"], monthly["refused"]), ([], []))
+            # the same two series with another unit are moves, and the largest
+            for row in idx:
+                row["unit"] = "USD" if row["id"].startswith("dev-") else row["unit"]
+            write(tmp, "index", idx)
+            weekly, monthly = C.price_moves(tmp)
+            self.assertEqual([m["id"] for m in weekly["moves"]][0], "dev-d")
+            self.assertEqual([m["id"] for m in monthly["moves"]][0], "dev-m")
+
+    def test_the_real_files_list_no_deviation_and_the_other_moves_are_unchanged(self):
+        prices = os.path.join(ROOT, "data", "prices")
+        with open(os.path.join(prices, "index.json")) as fh:
+            idx = json.load(fh)
+        deviations = {m["id"] for m in idx if "deviation" in m["unit"].lower() and m["freq"] in ("D", "M")}
+        self.assertIn("igrea-m", deviations)         # the Dallas Fed index of global real economic activity, in % deviation from trend
+        with tempfile.TemporaryDirectory() as tmp:
+            for m in idx:                            # a copy of the folder whose deviations are given another unit: what the digest listed before
+                os.symlink(os.path.join(prices, m["id"] + ".json"), os.path.join(tmp, m["id"] + ".json"))
+            write(tmp, "index", [{**m, "unit": "index" if m["id"] in deviations else m["unit"]} for m in idx])
+            old_top = C.TOP
+            C.TOP = 10_000
+            try:
+                before = C.price_moves(tmp)
+                now = C.price_moves(prices)
+            finally:
+                C.TOP = old_top
+        for was, is_ in zip(before, now):
+            self.assertEqual([m["id"] for m in is_["moves"]], [m["id"] for m in was["moves"] if m["id"] not in deviations])
+            self.assertEqual(is_["moves"], [m for m in was["moves"] if m["id"] not in deviations])
+            self.assertEqual(is_["refused"], [r for r in was["refused"] if r["id"] not in deviations])
+        self.assertTrue({m["id"] for block in before for m in block["moves"]} & deviations, "the folder before the rule lists a deviation: the test would pass on nothing")
+        self.assertFalse({m["id"] for block in now for m in block["moves"] + block["refused"]} & deviations)
 
 
 class RefusedMoves(unittest.TestCase):
@@ -240,6 +310,52 @@ class Digest(unittest.TestCase):
             run3 = {"sources": {"portwatch": entry("2026-11-29", "2026-12-02T19:20:00Z"), "eia-spot": entry("2026-11-24", "2026-11-25T21:50:00Z")}}
             doc3, _ = C.build(prices_dir=prices, series_dir=empty, now=day1 + timedelta(days=7), previous=doc2, updates=run3, registry=reg)
             self.assertEqual([i["id"] for i in doc3["sources"]], ["portwatch"])
+
+    def test_a_line_carried_over_is_written_with_the_words_of_its_source(self):
+        """An entry stored with the id of its source ("; eia-spot)") comes out of a rebuild with the words, in the digest and in the feed."""
+        with tempfile.TemporaryDirectory() as tmp:
+            prices = os.path.join(tmp, "prices")
+            os.makedirs(prices)
+            prices_folder(prices)
+            empty = os.path.join(tmp, "none")
+            os.makedirs(empty)
+            old = {"generated": "2026-11-18T22:00:00Z", "seen": {"weekly": "2026-11-17", "monthly": "2026-10", "passages": None, "sources": {}}, "entries": [
+                {"id": "2026-11-18-prices", "kind": "prices", "t": "2026-11-18T22:00:00Z", "title": "Price moves, week to 17 Nov 2026",
+                 "lines": ["Brent: +3.1% in the week to 17 Nov 2026 (90.16 to 92.94 USD/bbl; eia-spot)", "Copper: -1.0% in the week to 17 Nov 2026 (5 to 4.95 USD/t; x-id)"]},
+                {"id": "2026-11-18-monthly", "kind": "monthly", "t": "2026-11-18T22:00:00Z", "title": "Monthly prices for Oct 2026",
+                 "lines": ["Pink: +1.0% in Oct 2026 (1 to 1.01 USD; wb-pink)", "Index: +2.0% in Oct 2026 (1 to 1.02 USD; EIA, source: Refinitiv)"]},
+                {"id": "2026-11-18-passages", "kind": "passages", "t": "2026-11-18T22:00:00Z", "title": "Chokepoint traffic to 15 Nov 2026",
+                 "lines": ["Suez Canal: 40.0 vessels a day in the last week, +5% on the 4 weeks before and +2% on the 365 days before (IMF PortWatch, to 15 Nov 2026)"]}]}
+            now = datetime(2026, 11, 25, 18, 0, tzinfo=timezone.utc)
+            doc, _ = C.build(prices_dir=prices, series_dir=empty, now=now, previous=old, updates={"sources": {}}, registry=[])
+            lines = {e["id"]: e["lines"] for e in doc["entries"]}
+            self.assertEqual(lines["2026-11-18-prices"], ["Brent: +3.1% in the week to 17 Nov 2026 (90.16 to 92.94 USD/bbl; EIA, source: Refinitiv)",
+                                                          "Copper: -1.0% in the week to 17 Nov 2026 (5 to 4.95 USD/t; x-id)"])     # a source without words keeps its id
+            self.assertEqual(lines["2026-11-18-monthly"], ["Pink: +1.0% in Oct 2026 (1 to 1.01 USD; World Bank)",
+                                                           "Index: +2.0% in Oct 2026 (1 to 1.02 USD; EIA, source: Refinitiv)"])    # a line already in words is unchanged
+            self.assertEqual(lines["2026-11-18-passages"], old["entries"][2]["lines"])
+            feed = C.atom(doc)
+            self.assertIn("; EIA, source: Refinitiv)", feed)
+            self.assertIn("; World Bank)", feed)
+            self.assertNotIn("eia-spot)", feed)
+            self.assertNotIn("wb-pink)", feed)
+            # a second pass changes nothing
+            again, _ = C.build(prices_dir=prices, series_dir=empty, now=now, previous=doc, updates={"sources": {}}, registry=[])
+            self.assertEqual(again["entries"], doc["entries"])
+            self.assertEqual(C.atom(again), feed)
+            for sid, word in C.SOURCE_WORDS.items():
+                self.assertEqual(C.reword(f"N: +1.0% in Oct 2026 (1 to 2 USD; {sid})"), f"N: +1.0% in Oct 2026 (1 to 2 USD; {word})")
+                self.assertEqual(C.reword(f"N: +1.0% in Oct 2026 (1 to 2 USD; {word})"), f"N: +1.0% in Oct 2026 (1 to 2 USD; {word})")
+
+    def test_no_line_of_the_feed_built_from_the_committed_digest_ends_with_the_id_of_a_source_that_has_words(self):
+        """The feed is rebuilt from changes.json at the release: whatever ids the committed file holds, the feed it makes has none (nothing is written)."""
+        with open(os.path.join(ROOT, "data", "_status", "changes.json"), encoding="utf-8") as fh:
+            committed = json.load(fh)
+        doc, _ = C.build(previous=committed)
+        ids = "|".join(C.SOURCE_WORDS)
+        for text in (C.atom(doc), json.dumps(doc["entries"], indent=0)):
+            self.assertEqual([l for l in text.splitlines() if re.search(rf"; ({ids})\)\W*$", l)], [])
+        self.assertTrue(doc["entries"])
 
     def test_feed_is_valid_atom(self):
         doc = {"generated": "2026-11-24T18:00:00Z", "entries": [

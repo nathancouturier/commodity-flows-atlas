@@ -14,3 +14,11 @@
 .wpi-rows { display: grid; grid-template-columns: minmax(0, 8.25rem) minmax(0, 1fr); gap: 3px 12px; margin: 8px 0 0; }
 .wpi-rows dt { margin: 0; font-size: var(--fs-xs); color: var(--ink-2); line-height: 1.5; overflow-wrap: anywhere; }
 .wpi-rows dd { margin: 0; font-family: var(--font-num); font-size: var(--fs-sm); line-height: 1.4; overflow-wrap: anywhere; }
+/* the "Weekly port traffic" block: the PortWatch port and its sentence above the chart, the sums of the last 52 weeks under it */
+.pt-port { margin: 0 0 4px; font-size: var(--fs-sm); color: var(--ink-0); overflow-wrap: anywhere; }
+.pt-note { margin: 0 0 6px; overflow-wrap: anywhere; }
+.pt-tab { display: grid; grid-template-columns: minmax(0, 1.8fr) repeat(3, minmax(0, 1fr)); gap: 3px 8px; margin: 4px 0 6px; font-size: var(--fs-sm); color: var(--ink-1); }
+.pt-tab > *, .pt-row > * { min-width: 0; overflow-wrap: anywhere; }
+.pt-row { display: contents; }
+.pt-h, .pt-k { font-size: var(--fs-xs); color: var(--ink-2); line-height: 1.4; }
+.pt-h, .pt-tab .num { text-align: right; }
