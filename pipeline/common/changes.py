@@ -269,6 +269,17 @@ def lines_passages(block):
             f"{signed(r['gap365'], 0)} on the 365 days before (IMF PortWatch, to {day_label(r['to'])})" for r in block["moves"]]
 
 
+# Names that a source carried in the registry before it was renamed, with its id. A line of the feed stored under one of them is written again
+# under the name the registry gives the source today, in whatever entry it is: the rule of the previous block (renamed_names) follows a name
+# from one run to the next only, and a job that runs between the renaming and the rebuild moves the source out of that block (it happened on
+# 26 November 2026). When a source is renamed in the registry its former name is added here; a test fails while a stored line starts with
+# a name the registry no longer holds.
+FORMER_NAMES = {
+    "Index of global real economic activity (Kilian index)": "dallasfed",
+    "EIA spot prices (petroleum and natural gas)": "eia-spot",
+}
+
+
 def renamed_names(prev_items, registry):
     """{old name: new name} for the sources of the previous file whose name in the registry has changed since it was stored. A source
     whose id the registry does not hold keeps the name it was stored with.
@@ -276,7 +287,7 @@ def renamed_names(prev_items, registry):
     What the rule covers, and what it does not: ``prev_items`` is the ``sources`` block of the previous file, the sources the last run that
     reported any published (not those of every entry of the feed), so a name is followed only for a source that is in that block. A source
     that is renamed while it is not in it keeps its old name in the older entries it appears in; those entries leave the feed, which keeps a
-    fixed number of them, as newer ones arrive."""
+    fixed number of them, as newer ones arrive. The names listed in FORMER_NAMES are followed in every entry, whatever the block holds."""
     names = {s["id"]: s["name"] for s in registry}
     out = {}
     for i in prev_items or []:
@@ -306,6 +317,8 @@ def build(prices_dir=os.path.join(DATA, "prices"), series_dir=os.path.join(DATA,
     # a source renamed in the registry since the previous run: the name stored with it, and the stored lines that the name starts, follow it. Only
     # the sources of the previous run's block are followed (see renamed_names): the older entries of any other source keep the name they were written with
     renames = renamed_names(prev.get("sources"), reg)
+    names = {s["id"]: s["name"] for s in reg}
+    renames = {**{was: names[sid] for was, sid in FORMER_NAMES.items() if sid in names and names[sid] != was}, **renames}
     kept = [{**i, "name": renames.get(i["name"], i["name"])} for i in prev.get("sources") or []]
     stamp = now.strftime("%Y-%m-%dT%H:%M:%SZ")
     day = now.strftime("%Y-%m-%d")

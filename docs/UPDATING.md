@@ -39,6 +39,13 @@ rebases it on the new tip without taking either side blindly:
   The next run does the update again, and the issue "Data update not pushed" opens (at once, because the job's
   `build-changes` step alerts at its first failure). The same happens when the push is refused five times.
 
+**When a source is renamed in the registry** (`data/sources.json`, the field `name`): the digest and its feed store the names of
+the sources that published, as text. Add the former name to `FORMER_NAMES` in `pipeline/common/changes.py` (former name, then the
+id), run `.venv/bin/python -I pipeline/common/changes.py`, restore `data/_status/updates.json` and `log.jsonl`
+(`git checkout -- data/_status/updates.json data/_status/log.jsonl`) and commit `data/_status/changes.json` and
+`web/public/changes.atom` with the renaming. `pipeline/tests/test_changes.py` fails while a stored line starts with a name that
+the registry no longer holds.
+
 ## When something fails
 
 Every risky step is `continue-on-error`, so a data job always ends green. A failure is recorded in

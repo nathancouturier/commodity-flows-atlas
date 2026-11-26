@@ -9,6 +9,7 @@ import re
 import sys
 import tempfile
 import unittest
+from unittest import mock
 import xml.dom.minidom
 from datetime import date, datetime, timedelta, timezone
 
@@ -423,6 +424,65 @@ class Digest(unittest.TestCase):
         self.assertIn("keeps its old name in the older entries", doc_of)
         with open(os.path.join(ROOT, "pipeline", "common", "changes.py"), encoding="utf-8") as fh:
             self.assertIn("Only\n    # the sources of the previous run's block are followed", fh.read())
+
+    def test_a_former_name_is_followed_in_every_entry_whatever_the_last_block_holds(self):
+        """A job that runs between the renaming of a source and the rebuild of the digest moves the source out of the block of the last
+        run (it happened on 26 November 2026: the port step reported alone): the names of FORMER_NAMES are followed all the same."""
+        with tempfile.TemporaryDirectory() as tmp:
+            prices = os.path.join(tmp, "prices")
+            os.makedirs(prices)
+            prices_folder(prices)
+            empty = os.path.join(tmp, "none")
+            os.makedirs(empty)
+            old = {"generated": "2026-11-26T02:20:00Z", "sourcesOn": "2026-11-26",
+                   "seen": {"weekly": "2026-11-17", "monthly": "2026-10", "passages": None, "sources": {}},
+                   "sources": [{"id": "ports", "name": "Port calls", "data_to": "2026-11-22", "t": "2026-11-26T02:20:00Z"}],
+                   "entries": [
+                       {"id": "2026-11-26-sources", "kind": "sources", "t": "2026-11-26T02:20:00Z", "title": "Sources that published new data",
+                        "lines": ["Port calls: data to 22 Nov 2026, checked on 26 Nov 2026"]},
+                       {"id": "2026-11-25-sources", "kind": "sources", "t": "2026-11-25T22:00:00Z", "title": "Sources that published new data",
+                        "lines": ["Name of before: data to Oct 2026, checked on 25 Nov 2026", "Another of before: new release, checked on 25 Nov 2026"]},
+                       {"id": "2026-11-25-prices", "kind": "prices", "t": "2026-11-25T21:00:00Z", "title": "Price moves",
+                        "lines": ["Name of before: +3.1% in the week to 17 Nov 2026 (90.16 to 92.94 USD/bbl; x-id)"]}]}
+            reg = [{"id": "ports", "name": "Port calls"}, {"id": "idx", "name": "The Bank, name of today"}, {"id": "other", "name": "Another of before"}]
+            now = datetime(2026, 11, 26, 6, 0, tzinfo=timezone.utc)
+            with mock.patch.dict(C.FORMER_NAMES, {"Name of before": "idx", "Never used": "gone", "Another of before": "other"}, clear=True):
+                doc, added = C.build(prices_dir=prices, series_dir=empty, now=now, previous=old, updates={"sources": {}}, registry=reg)
+                again, _ = C.build(prices_dir=prices, series_dir=empty, now=now, previous=doc, updates={"sources": {}}, registry=reg)
+            self.assertFalse(added)
+            lines = {e["id"]: e["lines"] for e in doc["entries"]}
+            self.assertEqual(lines["2026-11-25-sources"], ["The Bank, name of today: data to Oct 2026, checked on 25 Nov 2026",
+                                                           "Another of before: new release, checked on 25 Nov 2026"])   # a name that is still the registry's is left
+            self.assertEqual(lines["2026-11-26-sources"], old["entries"][0]["lines"])
+            self.assertEqual(lines["2026-11-25-prices"], old["entries"][2]["lines"])                                   # a line of another kind is not a source's line
+            self.assertEqual(again, doc)                                                                               # a second pass changes nothing
+
+    def test_the_former_names_are_names_the_registry_no_longer_gives(self):
+        with open(os.path.join(ROOT, "data", "sources.json"), encoding="utf-8") as fh:
+            names = {s["id"]: s["name"] for s in json.load(fh)}
+        for was, sid in C.FORMER_NAMES.items():
+            self.assertIn(sid, names, was)
+            self.assertNotEqual(names[sid], was, sid)
+            self.assertNotIn(was, names.values(), was)      # no other source carries a former name: a line could not be told apart
+
+    def test_every_line_of_the_committed_digest_about_a_source_starts_with_a_name_of_the_registry(self):
+        """In every entry, not only the last block: a source renamed in the registry is followed by a rebuild of the digest (and, when a job has
+        run in between, by its former name in FORMER_NAMES) before the change is published."""
+        with open(os.path.join(ROOT, "data", "sources.json"), encoding="utf-8") as fh:
+            names = {s["id"]: s["name"] for s in json.load(fh)}
+        with open(os.path.join(ROOT, "data", "_status", "changes.json"), encoding="utf-8") as fh:
+            doc = json.load(fh)
+        known = set(names.values()) | {" and ".join(names[s] for s in ids) for ids in C.SOURCES_OF.values() if all(s in names for s in ids)}
+        for e in doc["entries"]:
+            if e["kind"] != "sources":
+                continue
+            for line in e["lines"]:
+                self.assertTrue(any(line.startswith(n + ": ") for n in known), (e["id"], line))
+        with open(os.path.join(ROOT, "web", "public", "changes.atom"), encoding="utf-8") as fh:
+            feed = fh.read()
+        for was in C.FORMER_NAMES:
+            self.assertNotIn("\n" + was + ": ", feed)
+            self.assertNotIn(">" + was + ": ", feed)
 
     def test_the_committed_digest_names_its_sources_as_the_registry_does(self):
         """After a source is renamed in the registry the digest is rebuilt (pipeline/common/changes.py) before the change is published."""

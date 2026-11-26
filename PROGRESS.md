@@ -20,7 +20,7 @@ released. This file is updated at each release.
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
 | 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). A release number with release notes, a way to report an error, a coverage table of the commodity pages, a voyage calculator on the route pages and port facts from the World Port Index (eighth release, 25 November). Weekly traffic per port from IMF PortWatch, loaded little by little and slowly as the owner decided on 25 November, shown on the port pages and read each week by the PortWatch job (ninth release, 25 November). A page on the state of the freight market, as far as free and republishable data go (tenth release, 26 November). Left: freight rates in USD per tonne (for none of the sources it has read has the atlas established that the rates may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
-| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, 2,018 and 165 at the ninth, 2,118 and 207 at the tenth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The two weekly update jobs ran on GitHub in their new form for the first time on 25 November 2026 and ended green; they were started by hand, because GitHub had not started the scheduled run an hour after its time (see the ninth release and the known limits) |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, 2,018 and 165 at the ninth, 2,118 and 207 at the tenth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The two weekly update jobs ran on GitHub in their new form for the first time on 25 November 2026 and ended green; they were started by hand, because GitHub had not started the scheduled run an hour after its time (see the ninth release). GitHub then started both scheduled runs by itself, about seven and six hours after their times, in the night of 25 to 26 November; both ended green (see the tenth release) |
 
 ## Tenth release (26 November 2026): what changed
 
@@ -126,9 +126,26 @@ design. The last three are listed under the known limits and go into the next pa
   figure the atlas shows comes from a free, public source" and counts the publishers that are only linked).
 - The weekly digest of changes and its feed follow a source renamed in the registry: the names they had stored
   on 25 November (the Dallas Fed's index, and the EIA's spot prices, renamed at the ninth release after the
-  prices job had run) are written again as the registry names them, by the script of the digest itself.
+  prices job had run) are written again as the registry names them, by the script of the digest itself. The
+  script follows a name from one run to the next and, for a job that runs in between (it happened on the night
+  of the release), a short list of former names kept in the script; a test fails while a stored line starts with
+  a name the registry no longer holds.
 - Two older sentences of METHODOLOGY said more than the atlas had read ("no freight rate ... is both free and
   republishable"; several publishers' values called "proprietary"): they now say what the atlas read.
+
+### GitHub started the scheduled runs by itself, hours late
+
+- The two weekly jobs of Wednesday 25 November were started by GitHub's own schedule in the night that followed:
+  the PortWatch job (set for 19:17 UTC) at 02:11 UTC on 26 November, about seven hours late, and the prices job
+  (set for 21:43 UTC) at 03:46 UTC, about six hours late. Both ended green and committed to `main`; they are the
+  first runs that GitHub has started by itself in this repository. The jobs started by hand on the evening of
+  the 25th had already brought the data, so these two changed no data file, only the status files and the digest
+  of changes.
+- The PortWatch run was the first to carry the weekly step of the port series on GitHub: it checked the 163
+  ports, found no week to add and ended in about eight minutes. The step of the freight market digest is not in
+  that run (it enters `main` with this release) and will run for the first time with the next weekly run.
+- These two commits were merged into the release before publication, and the digest of changes was rebuilt on
+  top of them.
 
 ### Checks
 
@@ -292,8 +309,9 @@ pages, the weekly step of the job, the method text and the credits), and reviewe
   scheduled run of the job in its present form (25 November, 19:17 UTC) had been seen: nothing of it was
   published before that run.
 - **The two weekly jobs ran on GitHub for the first time in their reworked form on 25 November 2026**, on the
-  code of the eighth release, and both ended green. GitHub did not start the scheduled run of the PortWatch job:
-  an hour after 19:17 UTC nothing had started, and no scheduled run has ever started in this repository. Both
+  code of the eighth release, and both ended green. GitHub had not started the scheduled run of the PortWatch job
+  an hour after 19:17 UTC, and no scheduled run had ever started in this repository until then (GitHub started
+  both about six to seven hours late, in the night: see the tenth release). Both
   jobs were therefore started by hand, PortWatch at 20:19 UTC and prices at 20:37 UTC. The PortWatch job, with
   no table from an earlier run, read the whole table again (80,724 rows in 7 minutes 39 seconds, one request at
   a time), wrote the week to 22 November, rebuilt the three alert banners, passed the checks and republished the
@@ -1432,16 +1450,14 @@ These were needed to finish the work; each is reversible.
 ## Known limits
 
 - Baltic Exchange index values are proprietary and are not shown.
-- **GitHub has not started a scheduled run in this repository yet.** The two weekly jobs ran in their reworked
-  form on 25 November 2026, started by hand, and ended green (see the ninth release). Neither scheduled run of
-  that evening (PortWatch at 19:17 UTC, prices at 21:43 UTC) had started an hour after its time, and whether
-  GitHub starts the scheduled runs of this
-  repository at all is not known: the next are the prices job on Thursday 26 November at 09:43 UTC and the
-  freshness check on Monday 30 November at 13:37 UTC. Until one has started by itself, the weekly jobs may have
-  to be started by hand, and the freshness check, which is itself scheduled, cannot be relied on to say so.
-  The yearly job (the 15th of the month) and the port step of the PortWatch job (first run: Wednesday 2
-  December 2026) have not run on GitHub yet; they were tested with simulated repositories, a mocked GitHub and
-  a fresh clone under Python 3.12.
+- **GitHub starts the scheduled runs of this repository hours late.** The two weekly jobs of Wednesday 25
+  November 2026 were started by GitHub about seven and six hours after their times (02:11 and 03:46 UTC on the
+  26th, for 19:17 and 21:43 UTC), and ended green; nothing says that the delay will be the same every week.
+  GitHub's documentation says that scheduled runs can be delayed at busy times and that some may be dropped: a
+  week in which a run is dropped is caught by the freshness check (Monday, 13:37 UTC, itself scheduled, so late
+  too) and can be started by hand. The yearly job (the 15th of the month) and the step of the freight market
+  digest have not run on GitHub yet; they were tested with simulated repositories, a mocked GitHub and a fresh
+  clone under Python 3.12.
 - The BLS answered the job of 25 November 2026 without a key, and the freight series now takes 2024 to 2026
   from the BLS itself. The older years were asked for and not given (asked for 1988 to 1997, the service
   returned 2024 to 2026: the script refused them): 1988 to 2023 are still the values retrieved through FRED,
@@ -1713,11 +1729,10 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
     owner open its page on policies or on the reuse of its data in a browser (from the foot of
     https://www.fas.usda.gov/) and report what it says, as he did for the BLS? Until then the registry keeps
     "Public domain (US Government)" for it, with no quoted page.
-37. **GitHub's scheduled runs.** If the scheduled jobs do not start by themselves in the coming days: a
-    temporary workflow that only prints the time four times an hour would tell quickly whether GitHub starts
-    scheduled runs here at all (prepared, not added: adding it is the owner's call); and if the cause is that
-    every commit to the workflow files was made under a name that is no GitHub account, a commit by the owner
-    that touches the schedule line would make him the user the schedule is attached to.
+37. **GitHub's scheduled runs.** Answered by the facts: GitHub started both weekly jobs by itself, six to seven
+    hours late (see the tenth release). The temporary workflow that was proposed to find out is no longer needed
+    and was never added. Left to him: if he wants the weekly data earlier in the day, the times of the schedules
+    can be moved earlier by the delay seen.
 38. The choices listed above, each reversible.
 
 ## Update jobs

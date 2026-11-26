@@ -188,37 +188,13 @@
  },
  "sources": [
   {
-   "id": "bls",
-   "name": "BLS Producer Price Index, deep sea freight transportation (series PCU483111483111)",
-   "data_to": "2026-10",
-   "t": "2026-11-25T20:38:17Z"
-  },
-  {
-   "id": "dallasfed",
-   "name": "Federal Reserve Bank of Dallas, index of global real economic activity (Kilian index)",
-   "data_to": "2026-10",
-   "t": "2026-11-25T20:38:17Z"
-  },
-  {
-   "id": "eia-spot",
-   "name": "EIA spot prices of petroleum and natural gas (the EIA gives Refinitiv as the source)",
-   "data_to": "2026-11-24",
-   "t": "2026-11-25T20:38:17Z"
-  },
-  {
-   "id": "nyfed",
-   "name": "Global Supply Chain Pressure Index (GSCPI)",
-   "data_to": "2026-10",
-   "t": "2026-11-25T20:38:17Z"
-  },
-  {
-   "id": "portwatch",
-   "name": "IMF PortWatch chokepoint transits (Atlas weekly averages of IMF PortWatch daily counts)",
-   "data_to": "2026-11-22",
-   "t": "2026-11-25T20:27:56Z"
+   "id": "portwatch-port-traffic",
+   "name": "IMF PortWatch port calls and estimated trade volumes (Daily_Ports_Data; Atlas weekly sums of IMF PortWatch daily figures)",
+   "data_to": "2026-11-20",
+   "t": "2026-11-26T02:20:02Z"
   }
  ],
- "sourcesOn": "2026-11-25",
+ "sourcesOn": "2026-11-26",
  "jobs": [
   {
    "id": "update-prices",
@@ -300,12 +276,22 @@
    "fred": "None||None|None|None",
    "nyfed": "2026-10||None|None|None",
    "portwatch": "2026-11-22||None|None|None",
+   "portwatch-port-traffic": "2026-11-20||None|None|None",
    "usda-psd": "2027|a293f2b05b1b|None|None|None",
    "usgs-mcs": "2026|582a0aa231ae|None|696a75d5d4be0228872d3bf8|None",
    "wb-pink": "2026-10||None|None|https://thedocs.worldbank.org/en/doc/74e8be41ceb20fa0da750cda2f6b9e4e-0050012026/related/CMO-Historical-Data-Monthly.xlsx"
   }
  },
  "entries": [
+  {
+   "id": "2026-11-26-sources",
+   "kind": "sources",
+   "t": "2026-11-26T02:20:03Z",
+   "title": "Sources that published new data",
+   "lines": [
+    "IMF PortWatch port calls and estimated trade volumes (Daily_Ports_Data; Atlas weekly sums of IMF PortWatch daily figures): data to 20 Nov 2026, checked on 26 Nov 2026"
+   ]
+  },
   {
    "id": "2026-11-25-sources",
    "kind": "sources",
@@ -385,5 +371,5 @@
    ]
   }
  ],
- "generated": "2026-11-25T20:38:17Z"
+ "generated": "2026-11-26T02:20:03Z"
 }
