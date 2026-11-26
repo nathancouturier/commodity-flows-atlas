@@ -152,8 +152,13 @@ design. The last three are listed under the known limits and go into the next pa
 - 2,121 unit tests (2,018 at the ninth release) and 207 web tests (165), all passing without the raw downloads
   and with the variables a GitHub machine sets; a second run of every builder changes no file; the checks of
   GitHub rehearsed on a fresh clone, a last time on the commit that holds the two scheduled runs of the night
-  (the browser checks were run again on a frozen copy of that commit: 123 checks and the five older suites). The script of the site stands at 562 of its 600 kB (the page is a separate
-  piece of 9 kB, loaded when it is opened).
+  (the browser checks were run again on a frozen copy of that commit: 123 checks and the five older suites).
+  The script of the site stands at 562 of its 600 kB (the page is a separate piece of 9 kB, loaded when it is
+  opened).
+- Published on 26 November 2026 at 06:25 UTC (commit `82a909b`): the checks and the deployment ran green on
+  GitHub in nine minutes at the first push, then the 104 targeted checks and 19 general ones passed on the
+  public site. The list of released route and lane ids was renewed from that commit (the same 168 generated
+  routes and 3,792 main lanes).
 
 ## Ninth release (25 November 2026): what changed
 
