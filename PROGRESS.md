@@ -67,8 +67,10 @@ that falls outside every shape) and two minor ones. One package corrected them.
   to 95.7 east, so the Americas and East Asia were cut). The lowest zoom follows the width of the screen; a
   desktop's first view did not move (checked to the pixel at six sizes). Below zoom 0.5 the icons are drawn
   smaller, none is hidden.
-- **"Reset view"**, a button under the zoom buttons: back to the first view, clear of the open page, which stays
-  open; the address does not change. Closing a passage page also returns to the first view now: it did not on
+- **"Reset view"**, a button under the zoom buttons: back to the first view, with the open page left open and
+  the address unchanged. The view is clear of the open page where the lowest zoom of the map allows it (on a
+  desktop window about 1,200 to 1,300 px wide the frame is wider than the free area and part of it lies under
+  the page). Closing a passage page also returns to the first view now: it did not on
   the published site, because the flight to a passage left its padding on the camera.
 - A resize fits the first view again while the camera is where the atlas put it, so a phone turned on its side
   and back opens on its first view again; once the visitor or a page moved the map, a resize leaves it.
@@ -99,8 +101,10 @@ that falls outside every shape) and two minor ones. One package corrected them.
   760 px wide, and any screen up to 1,024 px wide that is 500 px tall or less) and the desktop layout (1,025 px
   and wider) did not move (rectangles compared to the pixel).
 - The camera of a tablet: a passage page frames the passage clear of the page; the first view of a portrait
-  tablet, where the frame is wider than the free area, is centred on the middle of the frame (Europe, Africa,
-  the Middle East and India in view); "Reset view" and the closing of a page give the same view. Under a touch
+  tablet, where the frame is wider than the free area, is centred on 12.5 degrees east, the middle longitude of the
+  frame, and 10 degrees north (Europe, Africa, the Middle East and India in view); "Reset view" and the closing
+  of a page give that view again, to within about 20 px of the view at load at 768 and 820 px wide (the legend
+  is still taking its height when the first view is set). Under a touch
   screen the folded Controls button is 34 px tall.
 
 ### Colours, and cues that do not rest on colour
@@ -1609,8 +1613,8 @@ These were needed to finish the work; each is reversible.
      Earth's disputed layer with Natural Earth's own notes (the table and its test can be removed together).
    - **Tablet**: a page folds the controls at every width from 761 to 1,024 px, and a link that opens a page
      loads a tablet with the controls folded; the page column ends above the History bar; the first view of a
-     portrait tablet is centred on the middle of the frame, so that the Pacific west of the Americas and Japan
-     are cut equally.
+     portrait tablet is centred on 12.5 degrees east and 10 degrees north, so that the Pacific west of the
+     Americas and Japan are cut equally.
    - **The legend's status keys are 20 px wide**, the size at which their badges can be told; the legend is
      about 5 px taller.
    - **A dash pattern per vessel class on the freight routes**, which changes the look of the default map; the
@@ -1785,6 +1789,9 @@ These were needed to finish the work; each is reversible.
 - **Boundaries.** The disputed areas are not drawn: Crimea reads and opens Russia, the Moroccan side of Western
   Sahara reads Morocco. A territory that the customs data have no code for has no customs trade flow under its
   own name.
+- On a tablet whose screen is wider than the world at the lowest zoom (1,024 by 768 px), two passage markers
+  (Tsugaru Strait, Torres Strait) are drawn on the other copy of the world after a page has been closed: the map
+  is the same, the markers have moved from its east edge to its west edge.
 - **Tablets.** An on-screen keyboard that shrinks the visible height under 501 px turns the layout into the
   phone's while it is shown (focus, text, the open page and the zoom are kept). At 768 px wide, with a page
   open, a hover card (280 px) is wider than the free strip and runs about 25 px under the page. The vertical
