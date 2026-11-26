@@ -1,8 +1,66 @@
 # Commodity Flows Atlas: progress
 
-_Last updated: 2026-11-26, after the eleventh release of audit fixes_
+_Last updated: 2026-11-26. The tenth release is published; the eleventh is assembled on the session branch and **not published** (see the next section)._
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
+
+## State of the work on 26 November 2026, and where to resume
+
+The work was paused on 26 November 2026 and resumes on Tuesday 1 December 2026. Read this section first.
+
+- **Published**: the tenth release (`main`, commit `392087e`, on the public site since 26 November 06:25 UTC,
+  checked there).
+- **On the session branch `claude/funny-mendel-7ze27e`, not published**: the eleventh release as the section
+  "Eleventh release" below describes it (names on the map, the first view of a phone, "Reset view", a scale bar,
+  the notice on boundaries, the tablet layout, cues that do not rest on colour, seven older defects), and a first
+  set of company figures read from annual reports filed with the SEC. `release.json`, `CHANGELOG.md`, the heading
+  of the section "Eleventh release" and the row 7 of the table below carry the date of 26 November: they are ahead
+  of the truth, and take the real date on the day of publication.
+- **Checked so far**: seven independent reviewers read frozen copies of the eleventh release and found ten
+  important defects and about twenty-five minor or older points; two correction packages closed five of the
+  important ones (the notice on boundaries said of every disputed area what is true of some; the Known-limits
+  sentence on customs codes; a click on the scale bar selected the country under it; an ocean name half hidden
+  under a panel; country names drawn over the overland flows) and most of the minor ones. The rehearsal of the
+  checks of GitHub on the head of the branch: all steps passed on commit `ae2c7b7` (26 November, 09:09 UTC): type check, 386 web tests (385 pass, 1 skipped: a comparison with a saved page that needs an environment variable), data validator, 2,208 unit tests (118 skipped for lack of the raw downloads or of a saved page), production build and size budgets.
+- **Still to do before the eleventh release is published**, in this order:
+  1. A third correction package:
+     - tablet: with a page open the page column covers the search results (the page keeps the phone's stacking
+       order above the top bar); the fold of the controls is decided only when a page opens or closes, never when
+       the layout changes, so a desktop reached by a resize can keep a folded Controls button, and a phone or a
+       desktop resized to a tablet with a page open shows both columns; two smaller points (tests, the focus when
+       the controls fold);
+     - colours: the colour test and METHODOLOGY section 16 say that a pipeline is on land for two pairs of
+       colours, which is false for the nine subsea gas pipelines of the data (those pairs must rest on the dash
+       patterns); smaller points (a pattern without a gap passes the test; "label" means the hover for a
+       pipeline; the dashed sample of the Container series makes one readout wrap; a route's History chart sits
+       one pixel lower; colour codes typed again in five files);
+     - the yearly PortWatch volumes: the block "Calendar years" of the passage pages still prints the sum of the
+       daily values (`annual.mt` of the weekly files) while the estimates, METHODOLOGY and the checks table now use
+       the sums of weekly means, so the site shows two readings of one volume; two tests (`test_shares.py`,
+       `test_fncb.py`) now compare with the live weekly series and would fail, and hold back a republication, if
+       IMF PortWatch revised a past year; one "up to" figure is printed above the cap of its own note (Makassar,
+       steel: 9.51 against 9.5); without the raw files the freight builder drops eight rows of the checks table.
+  2. A last independent verification of the three correction packages on a frozen copy (among its points: hover
+     and click on the dashed routes, the sea lanes now drawn over the overland flows, the names left out when a
+     panel covers part of them, a comparison of every page with the tenth release).
+  3. The account of the verification and the "Checks" block of the section "Eleventh release", the real date, the
+     rehearsal of the checks, the publication, the checks on the public site, the list of released ids.
+- **Company figures from SEC filings** (commit `7304ce5` on the session branch): 24 annual reports of fiscal year
+  2025 read through `pipeline/companies/sec_get.py`, the only program that talks to sec.gov (one request at a
+  time, 56 requests, none refused; the contact that the SEC asks for comes from an environment variable that only
+  the owner sets and is written nowhere); 16 entries of the energy and shipping lists gained one dated figure and
+  5 a corrected line of text; entries with a figure went from 95 to 111 of 435. **Not reviewed yet**: it is
+  published only after an independent reading of each figure against its filing. The metals and agriculture lists
+  are still to read.
+- **After the eleventh release**: the figures shown without a year or a precise source (audit entry C-111, ten
+  packages prepared); the review of the SEC figures and their second half; then the smaller points listed under
+  "Known limits" and "Open questions for the owner".
+- **Scheduled jobs to look at on resuming**: the prices job of Thursday 26 November, the freshness check of Monday
+  30 November, and, on Wednesday 2 December, the first run on GitHub of the PortWatch job with its freight market
+  digest step (GitHub starts these runs six to seven hours late; a failing run opens an issue, never an e-mail).
+- **Outside this repository**: the working material (the briefs of the packages, their reports, the reviewers'
+  findings, the checking scripts, the downloaded source files under `raw/`) lives on the machine of the working
+  session and in a private kit kept by the owner's assistant; none of it is needed to build or to check the site.
 
 ## Where the project stands
 
