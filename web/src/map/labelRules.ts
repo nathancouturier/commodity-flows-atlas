@@ -4,6 +4,7 @@
  */
 import type { ExpressionSpecification, SymbolLayerSpecification } from 'maplibre-gl';
 import type { Feature, FeatureCollection, Point } from 'geojson';
+import type { InfraType } from '../types';
 
 /** The font stack of the glyph file: the folder `web/public/glyphs/<stack>/`, named without a space so that no URL holds one. */
 export const GLYPH_STACK = 'inter-medium';
@@ -181,4 +182,64 @@ export function countryLayerSpecs(hiddenIds: readonly string[] = []): SymbolLaye
  */
 export function labelLayerSpecs(hiddenIds: readonly string[] = []): SymbolLayerSpecification[] {
   return [...seaLayerSpecs(), ...countryLayerSpecs(hiddenIds)];
+}
+
+/**
+ * The priority of the point assets for the collision of their names: the lower number is placed first and wins. The atlas has no one
+ * measure of size across the types (capacities are in different units), so the order is a convention; inside a type, the assets keep the
+ * order of the data files, which MapLibre keeps for equal sort keys. Pipelines are lines and have no name on the map.
+ */
+export const ASSET_ORDER: Record<Exclude<InfraType, 'pipeline'>, number> = {
+  port: 0,
+  'lng-export': 1,
+  'lng-import': 2,
+  refinery: 3,
+  smelter: 4,
+  mine: 5,
+  field: 6,
+  storage: 7,
+};
+
+/** First zoom at which the names of ports and assets are drawn (the icons are drawn at every zoom). An Atlas convention. */
+export const ASSET_LABEL_MINZOOM = 4.2;
+
+const ASSET_TEXT_LAYOUT: NonNullable<SymbolLayerSpecification['layout']> = {
+  'text-field': ['get', 'label'],
+  'text-font': LABEL_FONT,
+  'text-size': 10,
+  'text-anchor': 'left',
+  'text-offset': [1.3, 0],
+  // the icon is never given up for its name
+  'text-optional': true,
+  'text-max-width': 9,
+};
+
+/** The text properties of the opened asset's layer: its name is drawn at every zoom, even over another name. */
+export function assetSelectedTextLayout(): NonNullable<SymbolLayerSpecification['layout']> {
+  return { ...ASSET_TEXT_LAYOUT, 'text-allow-overlap': true };
+}
+
+/** The paint of an asset's name: a dimmed asset (History) keeps its dimming in its name. */
+export function assetTextPaint(): NonNullable<SymbolLayerSpecification['paint']> {
+  return {
+    'text-color': LABEL_COLOR.asset,
+    'text-opacity': ['get', 'op'],
+    'text-halo-color': LABEL_COLOR.halo,
+    'text-halo-width': LABEL_COLOR.haloWidth,
+  };
+}
+
+/**
+ * The layer of the names of ports and assets, read from the features of the icons' source (`label`, `rank`, `op`). It is added
+ * under the icon layer, so that an icon always covers a name it overlaps.
+ */
+export function assetLayerSpec(source: string): SymbolLayerSpecification {
+  return {
+    id: 'infra-names',
+    type: 'symbol',
+    source,
+    minzoom: ASSET_LABEL_MINZOOM,
+    layout: { ...ASSET_TEXT_LAYOUT, 'symbol-sort-key': ['get', 'rank'] },
+    paint: assetTextPaint(),
+  };
 }

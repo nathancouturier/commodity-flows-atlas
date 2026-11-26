@@ -20,6 +20,7 @@ import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
 import { figuresOf } from '../../lib/capacity';
 import { OUTPUT_LABEL, figureText, isOperating, monthYear, sourceText, stateAt, statusClassOf, statusText, yearText, type Figure, type StatusClass } from '../../lib/infra';
 import { INFRA_META, infraSvg } from '../../components/ui';
+import { ASSET_ORDER, assetLabel, assetLayerSpec, assetSelectedTextLayout, assetTextPaint } from '../labelRules';
 
 // ---------------------------------------------------------------- data access (shared with the detail views)
 
@@ -209,7 +210,7 @@ function ensureIcon(m: MLMap, type: InfraType, color: string, st: StatusClass): 
   return p.then(() => name);
 }
 
-type PointProps = { key: string; id: string; type: InfraType; icon: string; op: number; sel: boolean };
+type PointProps = { key: string; id: string; type: InfraType; icon: string; op: number; sel: boolean; label: string; rank: number };
 type LineProps = { key: string; id: string; type: InfraType; color: string; op: number; sel: boolean; dash: boolean; label: string };
 
 const SRC_PTS = 'infra-pts';
@@ -281,6 +282,8 @@ registerLayerModule((m) => {
     layout: iconLayout as never,
     paint: { 'icon-opacity': ['get', 'op'] },
   });
+  // the names of ports and assets: above the pipeline lines, under the icons (an icon always covers a name it overlaps)
+  m.addLayer(assetLayerSpec(SRC_PTS), 'infra-pts-all');
   // selection halo and the opened asset (own source, on top)
   m.addLayer({
     id: 'infra-halo',
@@ -297,8 +300,9 @@ registerLayerModule((m) => {
     id: 'infra-pts-sel',
     type: 'symbol',
     source: SRC_SEL,
-    layout: iconLayout as never,
-    paint: { 'icon-opacity': ['get', 'op'] },
+    // the opened asset keeps its name at every zoom
+    layout: { ...iconLayout, ...assetSelectedTextLayout() } as never,
+    paint: { 'icon-opacity': ['get', 'op'], ...assetTextPaint() } as never,
   });
 
   const hitLayers = ['infra-pts-all', 'infra-pts-sel', 'infra-lines-hit'];
@@ -404,6 +408,8 @@ registerLayerModule((m) => {
               icon: '',
               op,
               sel: isSelected,
+              label: assetLabel(f.p.name),
+              rank: ASSET_ORDER[f.p.type as keyof typeof ASSET_ORDER],
             },
           });
         }

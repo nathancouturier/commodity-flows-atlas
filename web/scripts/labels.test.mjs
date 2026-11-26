@@ -11,6 +11,7 @@ import { fileURLToPath } from 'node:url';
 import {
   COUNTRY_MINZOOM, COUNTRY_TIERS, LABEL_COLOR, LABEL_FONT, GLYPH_STACK, SEA_MINZOOM, countryFilter, countryLayerSpecs, countryPoints, countryTier,
   labelLayerSpecs, seaLayerSpecs, seaPoints,
+  ASSET_LABEL_MINZOOM, ASSET_ORDER, assetLabel, assetLayerSpec, assetSelectedTextLayout, assetTextPaint,
 } from '../src/map/labelRules.ts';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -22,6 +23,7 @@ const labelsSrc = text('web/src/map/labels.ts');
 const basemapSrc = text('web/src/map/basemap.ts');
 const controllerSrc = text('web/src/map/controller.ts');
 const choroplethSrc = text('web/src/map/modules/choropleth.ts');
+const infraSrc = text('web/src/map/modules/infrastructure.ts');
 
 // ---------------------------------------------------------------- size classes
 
@@ -275,4 +277,115 @@ test('METHODOLOGY and the About window name the sea names as they are built', ()
   assert.ok(md.includes(seaFile.n.match(/version (\d+\.\d+\.\d+)/)[1]), 'the version of the file');
   assert.ok(md.includes('Straits and channels are left out'));
   assert.ok(/sea names from Natural Earth marine areas 1:50m; map lettering in Inter/.test(text('web/src/components/AboutDialog.tsx').replace(/\s+/g, ' ')));
+});
+
+// ---------------------------------------------------------------- the ports and assets
+
+/** Every point feature of the infrastructure files (the pipelines are lines and have no name on the map). */
+const infraPoints = fs
+  .readdirSync(path.join(repo, 'data/infrastructure'))
+  .filter((f) => f.endsWith('.geojson'))
+  .flatMap((f) => JSON.parse(text(`data/infrastructure/${f}`)).features)
+  .filter((f) => f.geometry.type === 'Point');
+
+test('the name of every point asset is short, without a bracket at its end, and does not change when the rule is applied again', () => {
+  assert.ok(infraPoints.length > 0);
+  for (const f of infraPoints) {
+    const name = f.properties.name;
+    const label = assetLabel(name);
+    assert.ok(label.length > 0, `${name} has a name on the map`);
+    assert.ok(!/\)\s*$/.test(label), `${name}: the list of places in brackets at the end is dropped`);
+    assert.ok(label.length <= 60, `${name} is ${label.length} characters (one short name, wrapped by the layer)`);
+    assert.equal(assetLabel(label), label, `${name}: idempotent`);
+  }
+  assert.equal(assetLabel('Hydro aluminium smelters (Årdal, Husnes, Karmøy)'), 'Hydro aluminium smelters');
+  assert.equal(assetLabel('Pernis (Shell), Rotterdam'), 'Pernis (Shell), Rotterdam', 'a bracket in the middle of a name stays');
+});
+
+test('every type of the point assets has a place in the priority table, and the table holds no other type', () => {
+  const types = [...new Set(infraPoints.map((f) => f.properties.type))].sort();
+  assert.deepEqual(Object.keys(ASSET_ORDER).sort(), types);
+  assert.ok(!('pipeline' in ASSET_ORDER));
+  const ranks = Object.values(ASSET_ORDER);
+  assert.ok(ranks.every(Number.isInteger), 'integers');
+  assert.equal(new Set(ranks).size, ranks.length, 'distinct');
+  const counts = {};
+  for (const f of infraPoints) counts[f.properties.type] = (counts[f.properties.type] ?? 0) + 1;
+  assert.ok(Object.values(counts).every((n) => n > 0));
+});
+
+test('the layer of asset names: from the zoom of the module, one short name to the right of the icon, an icon never lost for its name', () => {
+  const spec = assetLayerSpec('infra-pts');
+  assert.equal(spec.id, 'infra-names');
+  assert.equal(spec.type, 'symbol');
+  assert.equal(spec.source, 'infra-pts');
+  assert.equal(spec.minzoom, ASSET_LABEL_MINZOOM);
+  assert.ok(ASSET_LABEL_MINZOOM >= 0, 'a layer limit below zero is not valid');
+  assert.deepEqual(spec.layout['text-field'], ['get', 'label']);
+  assert.deepEqual(spec.layout['text-font'], LABEL_FONT);
+  assert.equal(spec.layout['text-optional'], true);
+  assert.equal(spec.layout['text-anchor'], 'left');
+  assert.ok(spec.layout['text-offset'][0] > 0 && spec.layout['text-offset'][1] === 0, 'to the right');
+  assert.deepEqual(spec.layout['symbol-sort-key'], ['get', 'rank']);
+  assert.ok(!('text-transform' in spec.layout), 'the glyph file holds no accented capital');
+  assert.ok(!('text-allow-overlap' in spec.layout), 'a name that would overlap a placed name is not drawn');
+  assert.ok(!('icon-image' in spec.layout), 'the names carry no icon');
+});
+
+test('a name is dimmed as its icon is, and its colour and halo are those of the module', () => {
+  const paint = assetLayerSpec('s').paint;
+  assert.deepEqual(paint['text-opacity'], ['get', 'op']);
+  assert.equal(paint['text-color'], LABEL_COLOR.asset);
+  assert.equal(paint['text-halo-color'], base('ocean'));
+  assert.equal(paint['text-halo-width'], LABEL_COLOR.haloWidth);
+  assert.deepEqual(assetTextPaint(), paint);
+  assert.ok(contrast(paint['text-color'], 1, base('land')) >= 4.5, 'over the land');
+});
+
+test('the opened asset keeps its name at every zoom: the same text, allowed to overlap, with no zoom limit', () => {
+  const sel = assetSelectedTextLayout();
+  assert.equal(sel['text-allow-overlap'], true);
+  assert.ok(!('minzoom' in sel));
+  const { 'text-allow-overlap': _drop, ...rest } = sel;
+  const { 'symbol-sort-key': _key, ...named } = assetLayerSpec('s').layout;
+  assert.deepEqual(rest, named, 'the same text as the other names');
+});
+
+test('infrastructure.ts adds the names under the icons and leaves the icons as they were', () => {
+  const add = "m.addLayer(assetLayerSpec(SRC_PTS), 'infra-pts-all');";
+  assert.ok(infraSrc.includes(add), 'the layer is added with the icon layer as its before-id');
+  const icons = infraSrc.indexOf("id: 'infra-pts-all'");
+  assert.ok(icons > 0 && infraSrc.indexOf(add) > icons, 'added after the icon layer exists');
+  assert.ok(infraSrc.indexOf(add) < infraSrc.indexOf("id: 'infra-halo'"), 'before the selection layers');
+  const lay = infraSrc.slice(infraSrc.indexOf('const iconLayout = {'), infraSrc.indexOf('} as const;'));
+  assert.ok(/'icon-allow-overlap': true/.test(lay), 'icons may overlap');
+  assert.ok(/'icon-ignore-placement': true/.test(lay), 'icons never take a place from another');
+  assert.ok(/'symbol-sort-key': \['get', 'op'\]/.test(lay), 'the sort key of the icons');
+  assert.ok(!/text-/.test(lay), 'no text property in the icon layout');
+  const sel = infraSrc.slice(infraSrc.indexOf("id: 'infra-pts-sel'"));
+  const selLayer = sel.slice(0, sel.indexOf('\n  });'));
+  assert.ok(/assetSelectedTextLayout\(\)/.test(selLayer) && /assetTextPaint\(\)/.test(selLayer), 'the opened asset has the text properties');
+  assert.ok(!/minzoom/.test(selLayer));
+});
+
+test('each point carries its name and its priority; the names are not interactive; the pipelines have no name', () => {
+  assert.ok(/type PointProps = \{[^}]*label: string; rank: number/.test(infraSrc));
+  assert.ok(/label: assetLabel\(f\.p\.name\)/.test(infraSrc));
+  assert.ok(/rank: ASSET_ORDER\[/.test(infraSrc));
+  assert.ok(/const hitLayers = \['infra-pts-all', 'infra-pts-sel', 'infra-lines-hit'\]/.test(infraSrc), 'the layers that answer a hover or a click');
+  assert.ok(/\['infra-pts-all', 'infra-pts-sel'\]\.forEach\(registerPointLayer\)/.test(infraSrc));
+  assert.ok(!/registerInteractiveLayer\('infra-names'|registerPointLayer\('infra-names'/.test(infraSrc));
+  assert.ok(!/infra-names/.test(controllerSrc));
+  const lines = infraSrc.slice(infraSrc.indexOf("f.p.type === 'pipeline'"), infraSrc.indexOf('} else if (f.geom.type'));
+  assert.ok(!/assetLabel|rank:/.test(lines), 'a pipeline has no single point to name');
+});
+
+test('METHODOLOGY states how the names of ports and assets are placed', () => {
+  const md = text('METHODOLOGY.md').replace(/\s+/g, ' ');
+  assert.ok(md.includes('**Names of ports and assets.**'));
+  assert.ok(md.includes(`from zoom ${ASSET_LABEL_MINZOOM}`));
+  const words = { port: 'port', 'lng-export': 'LNG export terminal', 'lng-import': 'LNG import terminal', refinery: 'refinery', smelter: 'smelter', mine: 'mine', field: 'field', storage: 'store' };
+  const byRank = Object.entries(ASSET_ORDER).sort((a, b) => a[1] - b[1]).map(([type]) => words[type]);
+  assert.ok(byRank.every(Boolean), 'a word for every type');
+  assert.ok(md.includes(byRank.join(', ')), 'the order of the table, in the words of the page');
 });
