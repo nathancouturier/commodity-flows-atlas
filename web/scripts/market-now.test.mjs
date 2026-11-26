@@ -408,6 +408,26 @@ test('the rebuild at the digest\'s date: files that have advanced since are comp
   assert.throws(() => assert.deepEqual(wrong.types.tanker[0], r.built.types.tanker[0]));
 });
 
+test('a weekly value with more decimals than the files carry (counts to two, cargo to five) is refused by the page\'s check as the builder refuses it, and the rebuild skips with the reason', () => {
+  // one decimal for a vessel count, four for the cargo in Mt a day: the same rule as pipeline/freight/build_market_now.py (COUNT_DECIMALS, CARGO_DECIMALS)
+  assert.equal(refusal(series('a', 60, { tanker: () => 0.5, dry: () => 12.3, vt: () => 0.1234, vd: () => 0.0001 })), null, 'the decimals of the files themselves are accepted');
+  assert.match(refusal(series('a', 60, { tanker: () => 0.25 })), /a\.json tanker\[0\]: 0\.25 has more than 1 decimals/);
+  assert.match(refusal(series('a', 60, { dry: (i) => (i === 7 ? 3.14 : 1) })), /a\.json dry\[7\]: 3\.14 has more than 1 decimals/);
+  assert.match(refusal(series('a', 60, { vt: () => 0.12345 })), /a\.json vol\.tanker\[0\]: 0\.12345 has more than 4 decimals/);
+  assert.match(refusal(series('a', 60, { vd: () => 1e-7 })), /vol\.dry\[0\]: 1e-7 has more than 4 decimals/, 'a number written with an exponent is counted by its digits');
+  assert.match(refusal(series('a', 60, { vd: () => 1.5e-5 })), /more than 4 decimals/);
+  assert.equal(refusal(series('a', 60, { tanker: () => 1e21, vd: () => 0 })), null, 'a large number has no decimals');
+  // the rebuild never throws on such a file: it is skipped, with the name of the file and the reason, as for a value that is not a number
+  const ids = ['a', 'b', 'c', 'd', 'e', 'f'];
+  const files = ids.map((id, i) => series(id, 133, { vt: (k) => Math.round((0.3 + i / 50 + k / 10000) * 1e4) / 1e4 }));
+  const digest = { s: 'portwatch', weeks: 4, rankWeeks: 52, ...buildDigest(files) };
+  files[3].tanker[100] = 7.25;
+  const r = rebuiltAtDigestDate(files, digest);
+  assert.match(r.skip, /the builder would refuse d\.json \(d\.json tanker\[100\]: 7\.25 has more than 1 decimals\)/);
+  // and the library itself still stops on it, rather than rounding it
+  assert.throws(() => vesselsOver(files[3], 'tanker', lastWeekEnd(files[3]), 52), /more than 1 decimals/);
+});
+
 test('the figures of the digest are those of the status board and the banners within the rounding of the weekly means', () => {
   // `compare` of a weekly file is the 28-day total of all ships; the digest's ship types are parts of it
   const file = json('data/freight/market-now.json');

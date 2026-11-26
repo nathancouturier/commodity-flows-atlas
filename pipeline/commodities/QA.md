@@ -673,63 +673,63 @@ Findings of `pipeline/trade/checks.py`, read from `pipeline/cache/trade_checks.j
 
 | passage | type | at least (Mt) | up to (Mt) | PortWatch, latest year (Mt) | best year (Mt) | at least / best | level |
 |---|---|---|---|---|---|---|---|
-| bab-el-mandeb | cargo | 56.6 | 58.8 | 36.5 | 390.3 (2019) | 0.15 | flag |
-| bab-el-mandeb | dry | 300.5 | 311.5 | 176.9 | 381.1 (2023) | 0.79 | flag |
-| bab-el-mandeb | tanker | 338.5 | 406.0 | 211.9 | 473.2 (2023) | 0.72 | flag |
+| bab-el-mandeb | cargo | 56.6 | 58.8 | 36.5 | 391.0 (2019) | 0.14 | flag |
+| bab-el-mandeb | dry | 300.5 | 311.5 | 177.2 | 381.3 (2023) | 0.79 | flag |
+| bab-el-mandeb | tanker | 338.5 | 406.0 | 211.7 | 473.0 (2023) | 0.72 | flag |
 | bosphorus | cargo | 19.7 | 19.7 | 57.6 | 64.3 (2021) | 0.31 | qa |
-| bosphorus | dry | 206.9 | 240.2 | 203.5 | 241.4 (2021) | 0.86 | flag |
+| bosphorus | dry | 206.9 | 240.2 | 203.5 | 241.3 (2021) | 0.86 | flag |
 | bosphorus | tanker | 105.2 | 197.2 | 173.5 | 184.2 (2019) | 0.57 | qa |
-| cape-good-hope | cargo | 14.8 | 14.9 | 443.2 | 479.7 (2025) | 0.03 | qa |
-| cape-good-hope | dry | 788.4 | 789.8 | 1,054 | 1,183 (2025) | 0.67 | qa |
-| cape-good-hope | tanker | 335.0 | 335.0 | 418.1 | 418.1 (2024) | 0.80 | qa |
+| cape-good-hope | cargo | 14.8 | 14.9 | 443.7 | 479.8 (2025) | 0.03 | qa |
+| cape-good-hope | dry | 788.4 | 789.8 | 1,054 | 1,181 (2025) | 0.67 | qa |
+| cape-good-hope | tanker | 335.0 | 335.0 | 418.6 | 418.6 (2024) | 0.80 | qa |
 | danish-straits | cargo | 11.1 | 11.1 | 16.7 | 22.3 (2020) | 0.50 | qa |
-| danish-straits | dry | 71.2 | 104.5 | 8.80 | 10.7 (2025) | 6.64 | qa |
-| danish-straits | tanker | 95.0 | 187.0 | 9.00 | 12.1 (2025) | 7.84 | qa |
-| dover | cargo | 39.0 | 39.0 | 390.0 | 406.9 (2025) | 0.10 | qa |
-| dover | dry | 195.3 | 221.3 | 337.1 | 366.9 (2022) | 0.53 | qa |
-| dover | tanker | 299.1 | 442.9 | 562.8 | 576.7 (2023) | 0.52 | qa |
-| gibraltar | cargo | 49.8 | 50.5 | 407.5 | 419.7 (2021) | 0.12 | qa |
-| gibraltar | dry | 394.1 | 437.5 | 383.9 | 514.0 (2023) | 0.77 | flag |
-| gibraltar | tanker | 333.1 | 518.2 | 503.8 | 571.0 (2023) | 0.58 | qa |
-| hormuz | cargo | 22.5 | 24.0 | 169.8 | 174.6 (2023) | 0.13 | qa |
-| hormuz | dry | 121.3 | 123.2 | 195.8 | 203.1 (2022) | 0.60 | qa |
-| hormuz | tanker | 827.5 | 1,069 | 915.4 | 1,056 (2022) | 0.78 | qa |
-| korea-strait | cargo | 38.3 | 48.8 | 426.2 | 426.2 (2024) | 0.09 | qa |
-| korea-strait | dry | 163.8 | 289.4 | 428.0 | 433.6 (2025) | 0.38 | qa |
-| korea-strait | tanker | 114.2 | 302.6 | 320.9 | 320.9 (2024) | 0.36 | qa |
+| danish-straits | dry | 71.2 | 104.5 | 8.80 | 10.7 (2025) | 6.66 | qa |
+| danish-straits | tanker | 95.0 | 187.0 | 9.00 | 12.1 (2020) | 7.86 | qa |
+| dover | cargo | 39.0 | 39.0 | 389.9 | 406.6 (2025) | 0.10 | qa |
+| dover | dry | 195.3 | 221.3 | 337.0 | 366.8 (2022) | 0.53 | qa |
+| dover | tanker | 299.1 | 442.9 | 562.6 | 576.4 (2023) | 0.52 | qa |
+| gibraltar | cargo | 49.8 | 50.5 | 407.7 | 419.1 (2021) | 0.12 | qa |
+| gibraltar | dry | 394.1 | 437.5 | 383.5 | 514.5 (2023) | 0.77 | flag |
+| gibraltar | tanker | 333.1 | 518.2 | 504.6 | 570.9 (2023) | 0.58 | qa |
+| hormuz | cargo | 22.5 | 24.0 | 169.7 | 174.6 (2023) | 0.13 | qa |
+| hormuz | dry | 121.3 | 123.2 | 195.5 | 203.3 (2022) | 0.60 | qa |
+| hormuz | tanker | 827.5 | 1,069 | 915.7 | 1,056 (2022) | 0.78 | qa |
+| korea-strait | cargo | 38.3 | 48.8 | 426.5 | 426.5 (2024) | 0.09 | qa |
+| korea-strait | dry | 163.8 | 289.4 | 427.5 | 433.7 (2025) | 0.38 | qa |
+| korea-strait | tanker | 114.2 | 302.6 | 321.0 | 321.0 (2024) | 0.36 | qa |
 | lombok | cargo | 0.00 | 11.7 | 2.80 | 2.80 (2024) | 0.00 | qa |
-| lombok | dry | 849.7 | 1,613 | 950.3 | 1,025 (2025) | 0.83 | qa |
-| lombok | tanker | 3.70 | 184.6 | 48.4 | 53.3 (2022) | 0.07 | qa |
-| luzon | cargo | 0.00 | 134.1 | 81.3 | 84.2 (2025) | 0.00 | qa |
+| lombok | dry | 849.7 | 1,613 | 949.9 | 1,025 (2025) | 0.83 | qa |
+| lombok | tanker | 3.70 | 184.6 | 48.6 | 53.5 (2025) | 0.07 | qa |
+| luzon | cargo | 0.00 | 134.1 | 81.2 | 83.9 (2022) | 0.00 | qa |
 | luzon | dry | 27.3 | 1,924 | 1,169 | 1,169 (2024) | 0.02 | qa |
-| luzon | tanker | 6.80 | 971.3 | 661.0 | 661.0 (2024) | 0.01 | qa |
+| luzon | tanker | 6.80 | 971.3 | 661.6 | 661.6 (2024) | 0.01 | qa |
 | makassar | cargo | 0.00 | 22.0 | 9.50 | 10.3 (2023) | 0.00 | qa |
-| makassar | dry | 1,016 | 1,611 | 1,085 | 1,124 (2023) | 0.90 | qa |
-| makassar | tanker | 15.4 | 165.9 | 21.2 | 27.5 (2022) | 0.56 | qa |
-| malacca | cargo | 69.7 | 97.9 | 670.2 | 727.1 (2025) | 0.10 | qa |
-| malacca | dry | 227.7 | 1,230 | 1,190 | 1,287 (2025) | 0.18 | qa |
-| malacca | tanker | 810.6 | 1,064 | 1,253 | 1,295 (2025) | 0.63 | qa |
+| makassar | dry | 1,016 | 1,611 | 1,084 | 1,123 (2023) | 0.90 | qa |
+| makassar | tanker | 15.4 | 165.9 | 21.1 | 27.4 (2022) | 0.56 | qa |
+| malacca | cargo | 69.7 | 97.9 | 670.1 | 727.5 (2025) | 0.10 | qa |
+| malacca | dry | 227.7 | 1,230 | 1,188 | 1,288 (2025) | 0.18 | qa |
+| malacca | tanker | 810.6 | 1,064 | 1,252 | 1,295 (2023) | 0.63 | qa |
 | ombai | cargo | 0.00 | 1.20 | 10.2 | 10.4 (2021) | 0.00 | qa |
-| ombai | dry | 72.0 | 85.0 | 134.2 | 260.5 (2025) | 0.28 | qa |
-| ombai | tanker | 0.70 | 1.00 | 27.5 | 27.5 (2024) | 0.02 | qa |
-| panama | cargo | 14.2 | 15.3 | 105.4 | 114.8 (2025) | 0.12 | qa |
-| panama | dry | 50.5 | 144.5 | 60.1 | 119.5 (2021) | 0.42 | qa |
-| panama | tanker | 103.9 | 158.4 | 107.1 | 121.7 (2022) | 0.85 | qa |
-| suez | cargo | 57.4 | 58.1 | 79.9 | 392.4 (2021) | 0.15 | qa |
-| suez | dry | 312.0 | 323.4 | 183.9 | 379.8 (2023) | 0.82 | flag |
-| suez | tanker | 350.8 | 360.7 | 226.0 | 452.0 (2023) | 0.78 | flag |
-| sunda | cargo | 0.60 | 31.3 | 37.8 | 37.8 (2024) | 0.02 | qa |
-| sunda | dry | 2.40 | 1,046 | 300.9 | 307.1 (2025) | 0.01 | qa |
-| sunda | tanker | 0.20 | 284.8 | 104.5 | 122.7 (2025) | 0.00 | qa |
-| taiwan-strait | cargo | 0.00 | 133.6 | 707.7 | 740.6 (2025) | 0.00 | qa |
-| taiwan-strait | dry | 49.5 | 1,862 | 1,061 | 1,100 (2025) | 0.04 | qa |
-| taiwan-strait | tanker | 9.00 | 967.0 | 294.6 | 329.2 (2021) | 0.03 | qa |
+| ombai | dry | 72.0 | 85.0 | 134.8 | 260.1 (2025) | 0.28 | qa |
+| ombai | tanker | 0.70 | 1.00 | 27.4 | 27.4 (2024) | 0.02 | qa |
+| panama | cargo | 14.2 | 15.3 | 105.5 | 114.9 (2025) | 0.12 | qa |
+| panama | dry | 50.5 | 144.5 | 60.1 | 119.7 (2021) | 0.42 | qa |
+| panama | tanker | 103.9 | 158.4 | 107.1 | 121.6 (2022) | 0.85 | qa |
+| suez | cargo | 57.4 | 58.1 | 80.0 | 392.4 (2021) | 0.15 | qa |
+| suez | dry | 312.0 | 323.4 | 183.7 | 380.1 (2023) | 0.82 | flag |
+| suez | tanker | 350.8 | 360.7 | 226.2 | 452.3 (2023) | 0.78 | flag |
+| sunda | cargo | 0.60 | 31.3 | 37.9 | 37.9 (2024) | 0.02 | qa |
+| sunda | dry | 2.40 | 1,046 | 300.7 | 308.3 (2025) | 0.01 | qa |
+| sunda | tanker | 0.20 | 284.8 | 104.7 | 122.3 (2025) | 0.00 | qa |
+| taiwan-strait | cargo | 0.00 | 133.6 | 707.6 | 741.0 (2025) | 0.00 | qa |
+| taiwan-strait | dry | 49.5 | 1,862 | 1,061 | 1,101 (2025) | 0.04 | qa |
+| taiwan-strait | tanker | 9.00 | 967.0 | 295.0 | 328.7 (2021) | 0.03 | qa |
 | torres | cargo | 0.50 | 4.50 | 12.9 | 13.8 (2019) | 0.04 | qa |
-| torres | dry | 24.1 | 42.3 | 42.5 | 49.0 (2025) | 0.49 | qa |
+| torres | dry | 24.1 | 42.3 | 42.4 | 49.0 (2025) | 0.49 | qa |
 | torres | tanker | 13.6 | 50.6 | 13.5 | 14.4 (2023) | 0.95 | flag |
 
 - Bab el-Mandeb, dry bulk: at least 301 Mt and up to 311 Mt of the atlas's seaborne groups in 2024, against 177 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 381 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
-- Bab el-Mandeb, container, general cargo and ro-ro: at least 56.6 Mt and up to 58.8 Mt of the atlas's seaborne groups in 2024, against 36.5 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 390 Mt in 2019); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
+- Bab el-Mandeb, container, general cargo and ro-ro: at least 56.6 Mt and up to 58.8 Mt of the atlas's seaborne groups in 2024, against 36.5 Mt for all container, general cargo and ro-ro ships in IMF PortWatch 2024 (best full year since 2019: 391 Mt in 2019); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
 - Bab el-Mandeb, tanker: at least 339 Mt and up to 406 Mt of the atlas's seaborne groups in 2024, against 212 Mt for all tanker ships in IMF PortWatch 2024 (best full year since 2019: 473 Mt in 2023); above PortWatch's 2024 volume: the atlas routes cargo on the normal itinerary. The atlas's alert "Red Sea diversions" says: "Since Houthi attacks on merchant ships near Bab el-Mandeb began on 19 November 2023, hundreds of commercial vessels, container ships above all, have sailed around the Cape of Good Hope instead of through the Red Sea and the Suez Canal" (Wikipedia, Red Sea crisis)
 - Turkish Straits (Bosphorus and Dardanelles), dry bulk: at least 207 Mt and up to 240 Mt of the atlas's seaborne groups in 2024, against 203 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 241 Mt in 2021); above PortWatch's 2024 volume and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it
 - Strait of Gibraltar, dry bulk: at least 394 Mt and up to 437 Mt of the atlas's seaborne groups in 2024, against 384 Mt for all dry bulk ships in IMF PortWatch 2024 (best full year since 2019: 514 Mt in 2023); above PortWatch's 2024 volume and no alert explains it: the ports, routes or ship types the atlas assumes probably overstate it

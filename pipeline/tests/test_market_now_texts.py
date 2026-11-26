@@ -384,13 +384,15 @@ class TheFiguresAreTheConstantsOfTheCode(unittest.TestCase):
             ("has no estimated cargo", "no vol block"),
             ("is not a Monday", "which is not a Monday"),
             ("is not a finite number or is negative", "is not a finite number"),
+            ("has more decimals than the weekly files carry", "has more than {decimals} decimals"),
             ("a week is missing or extra", "a week is missing or extra"),
             ("earlier than the one published", "earlier than the one published"),
         ):
             self.assertIn(code, src)
             # the text words it in its own way: the key words
         for fragment in ("a file is not the series its name says or has no estimated cargo", "its first week is not a Monday",
-                         "a value is not a finite number or is negative", "a week is missing or extra", "fewer than five series exist",
+                         "a value is not a finite number, is negative or has more decimals than the weekly files carry (one for a vessel count, four for the cargo in Mt a day",
+                         "a week is missing or extra", "fewer than five series exist",
                          "`to` is earlier than the one published", "fewer than five can be ranked"):
             self.assertIn(fragment, m)
         self.assertIn("at least {PASSAGES} are needed to name {PASSAGES} passages", src)

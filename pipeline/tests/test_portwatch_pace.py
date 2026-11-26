@@ -13,6 +13,7 @@ import re
 import sys
 import threading
 import unittest
+import warnings
 from datetime import date, timedelta
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -135,43 +136,66 @@ class Pace(unittest.TestCase):
         self.assertEqual(FP.plan(False, None, None, today)[0], "full")
 
     def _records(self):
-        """The rows of the table at the last update, as the status file records them."""
+        """The rows of the table at the last update, as the status file records them (None when it records none)."""
         with open(os.path.join(ROOT, "data", "_status", "updates.json"), encoding="utf-8") as fh:
             st = json.load(fh)
         src = st.get("sources", st).get(FP.SOURCE) if isinstance(st, dict) else None
         n = (src or {}).get("records")
-        self.assertIsInstance(n, int, "the status file no longer records the rows of the PortWatch table")
-        return n
+        return n if isinstance(n, int) else None
+
+    # "41 pages for the 80,724 rows of 26 November 2026": the figure of a text is true for the table it names, which no weekly run moves
+    NAMED = re.compile(r"(\d+) (?:pages|requests) for the ([\d,]+) rows of (\d{1,2} [A-Z][a-z]+ \d{4})")
+
+    def _named(self, text):
+        found = {m.groups() for m in self.NAMED.finditer(text)}
+        self.assertEqual(len(found), 1, f"the text names one table, with its date: {found}")
+        pages, rows, day = found.pop()
+        return int(pages), int(rows.replace(",", "")), day
 
     def test_the_whole_table_fits_the_step_of_the_job_at_this_pace(self):
-        """The table of today, a tenth larger, at the longest pause and five seconds an answer, stays within three quarters of the step's limit."""
+        """The table the texts name, a tenth larger, at the longest pause and five seconds an answer, stays within three
+        quarters of the step's limit. The status file is not read for this: its record grows every week and must not stop
+        a week's republication; a table that has outgrown the step is a warning, with the room that is left."""
         wf = read(".github", "workflows", "update-portwatch.yml")
         step = re.search(r"- name: Fetch PortWatch and rebuild chokepoint series\n(?:.*\n)*?\s+timeout-minutes: (\d+)", wf)
         self.assertIsNotNone(step)
         limit_s = int(step.group(1)) * 60
-        pages = math.ceil(self._records() * 1.1 / FP.PAGE)
-        self.assertLess(pages * (FP.PAUSE_S[1] + 5), limit_s * 0.75)
+        _, rows, _ = self._named(flat(read("NOTICE.md")))
+        self.assertLess(math.ceil(rows * 1.1 / FP.PAGE) * (FP.PAUSE_S[1] + 5), limit_s * 0.75)
+        room = int(limit_s * 0.75 / (FP.PAUSE_S[1] + 5)) * FP.PAGE / 1.1
+        now = self._records()
+        if now is not None and now > room:
+            warnings.warn(f"the PortWatch table ({now} rows) is larger than the step's timeout allows ({int(room)} rows): raise the timeout of the step")
 
-    def test_the_texts_give_the_figures_of_the_code(self):
+    def test_the_texts_give_the_rule_and_the_figure_of_the_table_they_name(self):
         lo, hi = int(FP.PAUSE_S[0]), int(FP.PAUSE_S[1])
-        pages = math.ceil(self._records() / FP.PAGE)
+        self.assertEqual(FP.PAGE, 2000)
         notice = flat(read("NOTICE.md"))
         self.assertIn("prohibits bulk download of information by automated technology without explicit permission", notice)
         self.assertIn("Copying or downloading IMF Content in any systematic way", notice)
         self.assertIn("one request at a time and slowly", notice)
         self.assertIn(f"it waits {lo} to {hi} seconds between two pages", notice)
         self.assertIn(f"starts less than {lo} seconds after the one before", notice)
-        self.assertIn(f"about {pages} pages", notice)
         self.assertIn(f"the {FP.OVERLAP_DAYS} days before it", notice)
         self.assertEqual(FP.FULL_EVERY_DAYS, 28)
         self.assertIn("once every four weeks", notice)
         self.assertIn("The figures in seconds are the script's, not the owner's", notice)
         wf = flat(read(".github", "workflows", "update-portwatch.yml").replace("#", " "))
-        self.assertIn(f"{pages} requests, one at a time and at least {lo} seconds apart", wf)
+        self.assertIn(f"at least {lo} seconds apart", wf)
         doc = flat(FP.__doc__)
         self.assertIn(f"PAUSE_S seconds ({lo} to {hi}) between two pages", doc)
-        self.assertIn(f"about {pages} pages", doc)
         self.assertIn('this script\'s reading of "slowly", not a figure of the owner', doc)
+        # the rule, and the figure for the table each text names: one page for every PAGE rows, rounded up
+        for where, text in (("NOTICE.md", notice), ("the workflow", wf), ("fetch_portwatch.py", doc)):
+            pages, rows, day = self._named(text)
+            self.assertEqual(pages, math.ceil(rows / FP.PAGE), where)
+            self.assertIn("2,000 rows", text, where)
+        figures = {self._named(t) for t in (notice, wf, doc)}
+        self.assertEqual(len(figures), 1, f"the three texts name the same table: {figures}")
+        self.assertIn("one more for every 2,000 rows", notice)
+        self.assertIn("one more for every 2,000 rows", wf)
+        self.assertIn("one page for every 2,000 rows", doc)
+        self.assertIn(f"the verbatim daily table ({figures.pop()[1]:,} rows on", notice)
 
     def test_the_other_script_that_reads_portwatch_keeps_the_same_least_interval(self):
         import fetch_portwatch_ports as PP

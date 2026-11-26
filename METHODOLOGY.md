@@ -1094,8 +1094,8 @@ type, not one commercial class, whose fleet, age and orderbook are not published
       least', without subtracting the other groups. A group cannot exceed the whole volume of its
       ship type. In 2024 this is the rule at the Bosphorus, Gibraltar, Hormuz, Panama and Torres
       Strait (tankers or dry bulk, at 90% to 103% of PortWatch's volume), and at Lombok and Makassar
-      (dry bulk, 89% and 94%). It binds on four groups of 138 estimates: iron ore at Lombok (up to 950.3 Mt, the
-      whole of PortWatch's dry bulk there) and at Makassar (1,084.7 Mt), LNG and refined products
+      (dry bulk, 89% and 94%). It binds on four groups of 138 estimates: iron ore at Lombok (up to 949.9 Mt, the
+      whole of PortWatch's dry bulk there) and at Makassar (1,084.3 Mt), LNG and refined products
       at the Torres Strait (13.5 Mt, the whole of PortWatch's tankers there). The note of such a
       figure says "capped at IMF PortWatch's estimate of the cargo of all ... ships ..., which this
       cargo cannot exceed" and does not speak of the other groups; the note of the ship type, on the passage, says the rule (a group's
@@ -1110,7 +1110,7 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     **The note of a ship type** is written once on the passage record (`typeNotes` of `chokepoints.json`, one object by ship type that has
     something to say: the 'at least' sum of the type, PortWatch's volume of the year and its best year, the regime of the cap, the number of groups of
     the type and of those that the cap cuts, a line `line` and its reason `n`), and not in the note of each estimate, where it had been repeated (the same
-    paragraph on 31 rows at the Bosphorus, 38 at Gibraltar and 48 at Suez; the file was 882,538 bytes and is 728,891). The passage page prints the line above the
+    paragraph on 31 rows at the Bosphorus, 38 at Gibraltar and 48 at Suez; the file was 882,538 bytes and is 728,894). The passage page prints the line above the
     list of estimates, and the reason folds. A type has a note where its 'at least' tonnage is above PortWatch's volume of the year, or from 85% of it. PortWatch's
     volume is an estimate made from ship movements, and the atlas's groups are not all the cargo these ships carry: where the atlas's own sum is above it, the ports,
     routes or ship types the atlas assumes probably overstate the passage (Bosphorus and Gibraltar dry bulk, Torres Strait tankers: 207 against 203 Mt, 394 against 384 Mt,
@@ -1119,13 +1119,22 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     its note says it was capped (a figure whose cap is its own 'at least' has no 'up to' to tag). A tonnage that a note and the page both print is the same figure: the
     note is written from the figure the file stores, to three significant digits with a half rounded up (5.865 Mt is 5.87 in the headline and in the note). Both figures are
     estimates, and the note names both ("IMF PortWatch, data adapted").
-  - **Without the raw PortWatch rows** (the scheduled job has none), the volumes by vessel type are
-    read from the tracked weekly series (Mt a day times the days of each week inside the year)
-    instead of the daily rows that the committed files come from. For the 17 passages that carry an
+  - **The yearly PortWatch volumes are summed from the weekly series, on every machine.** The volumes by vessel type
+    (and the totals the checks compare with) are read from the tracked weekly series of `data/freight/portwatch`, whether or
+    not the daily table is on the machine that builds them (the series are rebuilt from that table first, when it is there): a
+    year's total is the sum of its days, each day of a week (Monday to Sunday) counted at that week's mean in Mt a day, and
+    a full year is a year whose first and last day lie inside the series. A week that straddles 1 January counts its mean on
+    both sides, so the total differs a little from the sum of the daily values. Measured once on 26 November 2026 against the daily
+    values saved in `raw/portwatch_pages_2026-11-22` (a local folder, not in git), over the 28 passages and every full year
+    since 2019 (196 passage-years of all vessel types): the median difference is 0.06% and the largest 0.92% (Kerch Strait, 2024:
+    4.92 Mt from the weekly means against 4.88 Mt from the daily values); for a single vessel type the largest is 2.9%
+    (Kerch dry bulk, 2024: 1.44 against 1.40 Mt, a small volume). For the 17 passages that carry an
     estimate and a PortWatch counter of their own (20 passages carry estimates; Singapore and Cape Horn have no counter, and the counter of the
-    Danish Straits is the Oresund only) the two readings differ by under 0.5% in 2024 (largest: Makassar tankers, 21.2 against
-    21.1 Mt, and Ombai dry bulk, 134.2 against 134.8 Mt), so such a build can move a capped figure or a K9 reference by under 1 Mt (Lombok
-    iron ore "up to": 950.3 Mt from the daily rows, 949.9 Mt from the weekly series).
+    Danish Straits is the Oresund only) the two readings differ by under 0.5% in 2024 (largest: Makassar tankers, 21.2 Mt from the daily values
+    against 21.1 Mt from the weekly means, and Ombai dry bulk, 134.2 against 134.8 Mt), which moves a capped figure or a K9 reference by under 1 Mt.
+    The same series gives the same figures on a fresh clone, on
+    GitHub's yearly job and on a machine that holds the daily table (Hormuz tankers 2024: 915.7 Mt; 915.4 Mt before this reading,
+    from the daily values; Lombok iron ore "up to": 949.9 Mt; 950.3 Mt before).
   - **Check K9** writes, for every passage with a counter, "at least" and "up to" by vessel type
     beside PortWatch's volume of the same year and of its best full year since 2019 (table in
     `QA.md`). A passage is flagged when "at least" is above 110% of the best year (the assumed ports
@@ -1140,12 +1149,12 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     Malacca, Suez and others), it is the headline and the atlas's range is shown below it. `QA.md`
     gives the ratio of the two for crude oil, at 7.33 barrels per tonne: 0.70 for Hormuz and Malacca
     in 2024, 1.24 for Suez and 1.37 for Bab el-Mandeb (where the atlas keeps the normal itinerary).
-  - 2024 examples: Hormuz crude oil at least 27.2% (509 Mt) and up to 40.1% (751 Mt, not capped: it is under PortWatch's 915 Mt of tankers; Saudi
+  - 2024 examples: Hormuz crude oil at least 27.2% (509 Mt) and up to 40.1% (751 Mt, not capped: it is under PortWatch's 916 Mt of tankers; Saudi
     crude for westbound buyers and Emirati crude may load outside the strait); Hormuz LPG 31.3% (32.3% in the released file: its 40.6 Mt are the same, the seaborne LPG total grows by 3.8 Mt);
     Malacca crude 31.0% to 41.9%.
   - The cargo table of a chokepoint page lists these pairs one by one (commodity, origin,
     destination, Mt), from the pairs files, with the pairs that may use the passage marked "may
-    use" (one file per passage, `data/freight/chokepoint-lanes/<id>.json`).
+    use" (one file for every passage of the catalogue, `data/freight/chokepoint-lanes/<id>.json`, with no rows for a passage that no recorded pair crosses).
 - **Chokepoint traffic** is IMF PortWatch's daily count of tankers, dry bulk, container, general
   cargo and ro-ro vessels, and PortWatch's estimate of the trade volume they carry (tonnes of
   cargo, not deadweight). Both are shown as weekly averages (calendar weeks starting on Monday,
@@ -1165,8 +1174,8 @@ type, not one commercial class, whose fleet, age and orderbook are not published
   table; when the monthly download fails it falls back to the incremental update in the same run and
   records the failure in the status file (`full_refresh_failed`). A table with fewer than 95% of the
   previous run's records, or ending earlier, is refused and the previous files are kept. The annual job
-  has no table on its runner: `build_freight.py` then reads the annual PortWatch tonnages from the weekly
-  series and does not rebuild them.
+  has no table on its runner: `build_freight.py` then does not rebuild the weekly series and reads the annual PortWatch
+  tonnages from them, as it does on every machine.
 - **Port traffic** (the "Weekly port traffic" block of a port page; `data/freight/port-traffic/`,
   `pipeline/freight/portwatch_ports.py`, `pipeline/freight/fetch_portwatch_port_traffic.py`). The block draws, for a port that
   has a PortWatch port, IMF PortWatch's weekly port calls and PortWatch's estimate of the tonnes exported and imported through
@@ -1347,7 +1356,7 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     and the source line of IMF PortWatch with the transformation, "weekly averages of PortWatch's daily counts, times 7 and summed over the four weeks".
   - **Refusals.** The builder keeps the previous file, records the failure as `build-market-now` and ends with exit code 0, so a data job never
     fails because of it, when: a file is not the series its name says or has no estimated cargo; its lists are missing or of different lengths;
-    its first week is not a Monday; a value is not a finite number or is negative; a week is missing or extra (wherever the series would rank);
+    its first week is not a Monday; a value is not a finite number, is negative or has more decimals than the weekly files carry (one for a vessel count, four for the cargo in Mt a day; the page's own check of the files says the same); a week is missing or extra (wherever the series would rank);
     fewer than five series exist, or fewer than five can be ranked (a series that does not reach back far enough is only left out of the ranking, see the paragraph on the five passages above); or `to` is earlier than the one published. The file is not rewritten when its content is the same, so a week
     without new data makes no commit. The step alerts after three failed runs in a row, as a weekly source does: it runs on inputs that change every week,
     and a short PortWatch week heals with the next one. The validator of the data checks the shape only (keys, five rows a type, finite numbers

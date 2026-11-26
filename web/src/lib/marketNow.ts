@@ -180,13 +180,21 @@ export const lineText = (l: RowLine): string => `${l.text}: ${l.change}`;
 /** The parts of a weekly file the arithmetic reads. */
 export type WeeklySeries = Pick<PortwatchSeries, 'id' | 'start' | 'y' | 'tanker' | 'dry'> & { vol: Pick<NonNullable<PortwatchSeries['vol']>, 'tanker' | 'dry'> };
 
-/** A value as an integer count of 10^-decimals; refuses a value that has more decimals than the file says it has. */
+/** The decimals of a number as it is written (its shortest form, "1.5e-7" has eight): the builder counts them the same way. */
+function decimalsOf(v: number): number {
+  const [mantissa, exp = '0'] = String(v).split('e');
+  return Math.max(0, (mantissa.split('.')[1] ?? '').length - Number(exp));
+}
+
+/** The decimals of the weekly files: the vessel counts have one, the cargo in Mt a day four (pipeline/freight/build_portwatch.py), and the builder refuses more. */
+const COUNT_DECIMALS = 1;
+const CARGO_DECIMALS = 4;
+
+/** A value as an integer count of 10^-decimals; refuses a value that has more decimals than the weekly files carry. */
 function scaled(v: number, decimals: number, where: string): number {
   if (typeof v !== 'number' || !Number.isFinite(v) || v < 0) throw new Error(`${where}: ${String(v)} is not a finite number that is not negative`);
-  const k = 10 ** decimals;
-  const r = Math.round(v * k);
-  if (Math.abs(v * k - r) > 1e-6) throw new Error(`${where}: ${v} has more than ${decimals} decimals`);
-  return r;
+  if (decimalsOf(v) > decimals) throw new Error(`${where}: ${v} has more than ${decimals} decimals`);
+  return Math.round(v * 10 ** decimals);
 }
 
 /** The Sunday that ends the last complete week of a file; refuses a file whose length does not match its dates. */
@@ -203,14 +211,12 @@ export function lastWeekEnd(s: WeeklySeries): string {
   return addDays(s.start, WEEK_DAYS * complete - 1);
 }
 
-/** Why the builder would refuse the file (the checks it makes of a weekly file: dates and lengths, values that are numbers and not negative), or null when it would not. */
+/** Why the builder would refuse the file (the checks it makes of a weekly file: dates and lengths, values that are numbers, not negative and with the decimals the files carry), or null when it would not. */
 export function refusal(s: WeeklySeries): string | null {
   try {
     lastWeekEnd(s);
-    for (const [what, list] of [['tanker', s.tanker], ['dry', s.dry], ['vol.tanker', s.vol.tanker], ['vol.dry', s.vol.dry]] as const) {
-      list.forEach((v, i) => {
-        if (typeof v !== 'number' || !Number.isFinite(v) || v < 0) throw new Error(`${s.id}.json ${what}[${i}]: ${String(v)} is not a finite number that is not negative`);
-      });
+    for (const [what, list, decimals] of [['tanker', s.tanker, COUNT_DECIMALS], ['dry', s.dry, COUNT_DECIMALS], ['vol.tanker', s.vol.tanker, CARGO_DECIMALS], ['vol.dry', s.vol.dry, CARGO_DECIMALS]] as const) {
+      list.forEach((v, i) => scaled(v, decimals, `${s.id}.json ${what}[${i}]`));
     }
     return null;
   } catch (e) {
@@ -235,7 +241,7 @@ function weeklySum(values: number[], s: WeeklySeries, end: string, weeks: number
 
 /** Vessels over the window before any rounding, in tenths of a vessel: the weekly means (one decimal) times 7, summed. */
 function vesselSum(s: WeeklySeries, type: MarketType, end: string, weeks: number): number {
-  return weeklySum(s[type], s, end, weeks, 1, type) * WEEK_DAYS;
+  return weeklySum(s[type], s, end, weeks, COUNT_DECIMALS, type) * WEEK_DAYS;
 }
 
 /** Vessels over the window: the weekly means times 7, summed, whole vessels, a half rounded up. The weekly means hold one decimal. */
@@ -245,7 +251,7 @@ export function vesselsOver(s: WeeklySeries, type: MarketType, end: string, week
 
 /** Estimated cargo over the window before any rounding, in 10^-4 Mt: the weekly means (four decimals) times 7, summed. */
 function cargoSum(s: WeeklySeries, type: MarketType, end: string, weeks: number): number {
-  return weeklySum(s.vol[type], s, end, weeks, 4, `vol.${type}`) * WEEK_DAYS;
+  return weeklySum(s.vol[type], s, end, weeks, CARGO_DECIMALS, `vol.${type}`) * WEEK_DAYS;
 }
 
 /**
@@ -299,7 +305,7 @@ export function buildDigest(all: WeeklySeries[], at?: string): Pick<MarketNow, '
   const types = { tanker: [] as MarketNowRow[], dry: [] as MarketNowRow[] };
   for (const t of ['tanker', 'dry'] as const) {
     const ranked = ranking
-      .map((s) => ({ s, sum: weeklySum(s.vol[t], s, agoTo, RANK_WEEKS, 4, `vol.${t}`) }))
+      .map((s) => ({ s, sum: weeklySum(s.vol[t], s, agoTo, RANK_WEEKS, CARGO_DECIMALS, `vol.${t}`) }))
       .sort((a, b) => b.sum - a.sum || (a.s.id < b.s.id ? -1 : 1));
     types[t] = ranked.slice(0, PASSAGES).map(({ s, sum }) => {
       const [vNow, vAgo] = [vesselSum(s, t, to, WINDOW_WEEKS), vesselSum(s, t, agoTo, WINDOW_WEEKS)];

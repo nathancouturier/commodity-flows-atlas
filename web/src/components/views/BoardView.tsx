@@ -150,8 +150,9 @@ export default function BoardView({ id }: { id: string }) {
       <h2 class="detail-title">All passages: traffic against 2023</h2>
     </div>
   );
+  // the page of an id that is not a board says what every other unknown page says, under no heading of another page
+  if (id !== 'chokepoints' || rows === null) return (<><div class="detail-head"><div class="detail-kicker">Board</div><h2 class="detail-title">{id}</h2></div><div class="panel-scroll"><Placeholder>This board is not in the atlas catalogue.</Placeholder></div></>);
   if (rows === undefined) return (<>{head}<div class="panel-scroll"><Skeleton lines={8} /></div></>);
-  if (rows === null) return (<>{head}<div class="panel-scroll"><Placeholder>This page is not in the atlas catalogue.</Placeholder></div></>);
   const to = rows.rows[0]?.to;
   return (
     <>

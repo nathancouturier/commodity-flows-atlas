@@ -527,7 +527,7 @@ carries it in the registry's name of the source with the dates of the two window
 concerns how PortWatch is read; this page adds no reading of it. The CC BY 4.0 release does not extend IMF's rights to these figures either. The method is in METHODOLOGY.md,
 section 5, "Freight market now".
 
-What the atlas keeps and does not publish: the verbatim daily table (about 80,000 rows, fifteen fields of the PortWatch
+What the atlas keeps and does not publish: the verbatim daily table (80,724 rows on 26 November 2026, fifteen fields of the PortWatch
 table) is a working file, `pipeline/cache/portwatch/daily_<year>.csv.gz`, ignored by git. It is there so that each weekly
 run asks the service only for the days after the last one stored. On GitHub the weekly workflow keeps it between runs as
 the workflow artifact `portwatch-daily` (90 days; the next run restores it, or downloads the whole table when there is
@@ -553,7 +553,8 @@ the uses that need the IMF's written permission; no page read says whether PortW
 such a permission. The owner's decision of 25 November 2026: the atlas keeps reading PortWatch as a person would, in
 small pieces, one request at a time and slowly, and credits IMF PortWatch (the credit line of this section). How the
 update script reads that decision: once a week it asks for one page (the days since the last one stored and the 14 days
-before it, which PortWatch may revise); when it has to read more (the whole chokepoint table, about 41 pages, when it
+before it, which PortWatch may revise); when it has to read more (the whole chokepoint table, a page of 2,000 rows at a time: 41 pages for
+the 80,724 rows of 26 November 2026, one more for every 2,000 rows it gains, when it
 has no working table or once every four weeks) it waits 8 to 14 seconds between two pages; and no request, one repeated
 after an error included, starts less than 8 seconds after the one before. The figures in seconds are the script's, not
 the owner's.

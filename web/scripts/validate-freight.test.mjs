@@ -71,6 +71,10 @@ function write(root, d) {
   if (d.prices) put('prices/index.json', d.prices);
   if (d.market) put('freight/market-now.json', d.market);
   if (d.weekly) put('freight/portwatch/suez.json', d.weekly);
+  if (d.laneRows) {
+    put('freight/chokepoint-lanes.json', { s: 'atlas', y: 2024, unit: 'Mt', groups: {}, chokepoints: d.laneRows });
+    for (const c of d.chokepoints) if (!d.noSplit?.includes(c.id)) put(`freight/chokepoint-lanes/${c.id}.json`, { s: 'atlas', y: 2024, unit: 'Mt', groups: {}, chokepoints: { [c.id]: d.splitRows?.[c.id] ?? d.laneRows[c.id] ?? [] } });
+  }
   if (d.assets) put('infrastructure/ports.geojson', { type: 'FeatureCollection', features: d.assets.map((id) => ({ properties: { id } })) });
 }
 
@@ -437,6 +441,21 @@ test('a digest file that is not JSON is reported', () => {
   } finally {
     fs.rmSync(root, { recursive: true, force: true });
   }
+});
+
+// ---- the split lane files of the chokepoint pages: one for every passage of the catalogue
+const withLaneRows = (d) => (d.laneRows = { suez: [['coal', 'AUS', 'CHN', 1.2, 1]] });
+test('a split file for every passage, empty where no lane crosses it, passes', () => {
+  const { errors } = run(withLaneRows);
+  assert.deepEqual(errors, []);
+});
+rejects('a passage of the catalogue without its split file', (d) => { withLaneRows(d); d.noSplit = ['panama']; }, 'chokepoint-lanes/panama.json: missing');
+rejects('a passage with lanes and without its split file', (d) => { withLaneRows(d); d.noSplit = ['suez']; }, 'chokepoint-lanes/suez.json: missing');
+rejects('a split file that does not hold the rows of the table', (d) => { withLaneRows(d); d.splitRows = { suez: [] }; }, 'chokepoint-lanes/suez.json: does not hold the rows');
+rejects('a split file that holds rows the table does not', (d) => { withLaneRows(d); d.splitRows = { malacca: [['coal', 'AUS', 'CHN', 1.2, 1]] }; }, 'chokepoint-lanes/malacca.json: does not hold the rows');
+test('a folder with no table of lanes is not checked for split files', () => {
+  const { errors } = run();
+  assert.deepEqual(errors, []);
 });
 
 if (failed) {

@@ -25,10 +25,6 @@ FREIGHT = os.path.join(ROOT, "data", "freight")
 PAIRS = os.path.join(FREIGHT, "pairs")
 COMMOD = os.path.join(ROOT, "data", "commodities")
 CHECKS = os.path.join(ROOT, "pipeline", "cache", "trade_checks.json")
-RAW_PW = os.path.join(ROOT, "raw", "portwatch")
-# the PortWatch caps are checked to 0.05 Mt against the daily table; the weekly series rebuilt from data/ (a fresh clone,
-# the CI) is not that precise
-HAS_PW_DAILY = bool(glob.glob(os.path.join(RAW_PW, "chokepoints_daily_page*.json")))
 YEAR = 2024
 TANKER = {"crude-oil", "refined-products", "lng", "lpg", "palm-oil", "soyoil",
           # package NC1: ammonia (gas carriers), UAN solution and phosphoric acid (chemical tankers)
@@ -101,41 +97,25 @@ _pw = {}
 
 
 def portwatch(cid):
-    """IMF PortWatch estimated volume by vessel type and full year (Mt): raw/portwatch daily files when present,
-    otherwise the weekly series of data/freight/portwatch/<id>.json (Mt/day x days of each week in the year)."""
+    """IMF PortWatch estimated volume by vessel type and full year (Mt): the weekly series of data/freight/portwatch/<id>.json,
+    each day of a week counted at the week's mean Mt/day, which is what build_freight.py reads on every machine."""
     if cid in _pw:
         return _pw[cid]
-    c = chokepoint(cid)
     out = defaultdict(dict)
-    pages = glob.glob(os.path.join(RAW_PW, "chokepoints_daily_page*.json"))
-    if pages and c.get("portwatch"):
-        days = defaultdict(int)
-        for pg in pages:
-            for f in load_json(pg)["features"]:
-                a = f["attributes"]
-                if a["portid"] != c["portwatch"]:
-                    continue
-                y = int(a["year"])
-                days[y] += 1
-                for t, col in (("dry", "capacity_dry_bulk"), ("tanker", "capacity_tanker"), ("cargo", "capacity_container"),
-                               ("cargo", "capacity_general_cargo"), ("cargo", "capacity_roro"), ("all", "capacity")):
-                    out[y][t] = out[y].get(t, 0.0) + (a[col] or 0) / 1e6
-        out = {y: v for y, v in out.items() if days[y] >= 365}
-    else:
-        path = os.path.join(FREIGHT, "portwatch", cid + ".json")
-        if not os.path.exists(path):
-            _pw[cid] = {}
-            return {}
-        s = load_json(path)
-        start = date.fromisoformat(s["start"])
-        for i in range(len(s["vol"]["tanker"])):
-            w0 = start + timedelta(days=7 * i)
-            for k in range(7):
-                dd = w0 + timedelta(days=k)
-                for t, key in (("dry", "dry"), ("tanker", "tanker"), ("cargo", "container"), ("cargo", "other"), ("all", "total")):
-                    out[dd.year][t] = out[dd.year].get(t, 0.0) + s["vol"][key][i]
-        last = date.fromisoformat(s["y"])
-        out = {y: v for y, v in out.items() if y >= start.year + (start.month > 1 or start.day > 1) and date(y, 12, 31) <= last}
+    path = os.path.join(FREIGHT, "portwatch", cid + ".json")
+    if not chokepoint(cid).get("portwatch") or not os.path.exists(path):
+        _pw[cid] = {}
+        return {}
+    s = load_json(path)
+    start = date.fromisoformat(s["start"])
+    for i in range(len(s["vol"]["tanker"])):
+        w0 = start + timedelta(days=7 * i)
+        for k in range(7):
+            dd = w0 + timedelta(days=k)
+            for t, key in (("dry", "dry"), ("tanker", "tanker"), ("cargo", "container"), ("cargo", "other"), ("all", "total")):
+                out[dd.year][t] = out[dd.year].get(t, 0.0) + s["vol"][key][i]
+    last = date.fromisoformat(s["y"])
+    out = {y: v for y, v in out.items() if y >= start.year + (start.month > 1 or start.day > 1) and date(y, 12, 31) <= last}
     _pw[cid] = out
     return out
 
@@ -234,7 +214,6 @@ class Shares(unittest.TestCase):
                 if vtype(e["p"]) == r["type"]:
                     self.assertIn("PortWatch", e["f"]["n"], (r["chokepoint"], e["p"]))
 
-    @unittest.skipUnless(HAS_PW_DAILY, "raw/portwatch daily files are not on this machine")
     def test_C07_low_high_wording_cap(self):
         for c in load_json(os.path.join(FREIGHT, "chokepoints.json")):
             for e in c.get("estimates", []):
@@ -368,7 +347,6 @@ class Shares(unittest.TestCase):
         self.assertAlmostEqual(recs[("suez", "dry")]["value"], by_type(low)["dry"], delta=0.2)
         self.assertAlmostEqual(recs[("suez", "cargo")]["reference"], portwatch("suez")[YEAR]["cargo"], delta=0.5)
 
-    @unittest.skipUnless(HAS_PW_DAILY, "raw/portwatch daily files are not on this machine")
     def test_GE6_8_cap_leaves_room_for_other_groups(self):
         """Review GE6, finding 8: the upper figure is capped at PortWatch's volume of the type less the "at least"
         tonnage of the other groups of that type, never below the group's own "at least". Package FNCB: only while the type's
@@ -403,8 +381,11 @@ class Shares(unittest.TestCase):
         """Review GE6, finding 10: one file per passage, same note and rows as the single file."""
         one = load_json(os.path.join(FREIGHT, "chokepoint-lanes.json"))
         d = os.path.join(FREIGHT, "chokepoint-lanes")
-        self.assertEqual(sorted(f[:-5] for f in os.listdir(d) if f.endswith(".json")), sorted(one["chokepoints"]))
-        for cp, rows in one["chokepoints"].items():
+        # every passage of the catalogue has its file (empty where no recorded lane crosses it): see test_chokepoint_lanes.py
+        every = {c["id"] for c in load_json(os.path.join(FREIGHT, "chokepoints.json"))}
+        self.assertEqual(sorted(f[:-5] for f in os.listdir(d) if f.endswith(".json")), sorted(every | set(one["chokepoints"])))
+        for cp in every:
+            rows = one["chokepoints"].get(cp, [])
             part = load_json(os.path.join(d, cp + ".json"))
             self.assertEqual(part["n"], one["n"])
             self.assertEqual(list(part["chokepoints"]), [cp])

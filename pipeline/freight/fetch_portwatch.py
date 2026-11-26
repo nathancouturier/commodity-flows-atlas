@@ -10,8 +10,9 @@ Source  ArcGIS feature service Daily_Chokepoints_Data (services9.arcgis.com/weJ1
 Pace    the owner's rule for PortWatch (25 November 2026): read it as a person would, in small pieces, one request at a
         time and slowly, and credit it. The pause in seconds is this script's reading of "slowly", not a figure of the
         owner. The IMF's terms page says that it "prohibits bulk download of information by automated technology
-        without explicit permission" (NOTICE.md quotes it): a weekly run asks for one page, the whole table (about 41
-        pages: about ten minutes at this pace, a quarter of an hour at the slowest) is asked for only when there is
+        without explicit permission" (NOTICE.md quotes it): a weekly run asks for one page, the whole table (one page for
+        every 2,000 rows: 41 pages for the 80,724 rows of 26 November 2026, about ten minutes at this pace, a quarter of an
+        hour at the slowest) is asked for only when there is
         no working table or once every FULL_EVERY_DAYS days. Do not shorten the pause or run two requests at once.
 Incremental  the daily table is a working file in pipeline/cache/portwatch/ (one file per year). It is NOT in git: the
         atlas publishes only its own weekly averages and comparisons (data/freight/portwatch/). On GitHub the weekly job

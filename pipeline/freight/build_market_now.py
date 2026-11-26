@@ -30,7 +30,7 @@ raw/ folder, and nothing is read from chokepoints.json (the page takes the atlas
     the ranking, with a line in the output, and the digest is built from the others.
 
 It never fails the job: a series that does not hold together (wherever it would rank), fewer than five series that can be
-ranked, a date earlier than the stored one, a value that is not a finite number or is negative: the previous file is kept,
+ranked, a date earlier than the stored one, a value that is not a finite number, is negative or has more decimals than the weekly files carry: the previous file is kept,
 the failure is recorded in data/_status/updates.json (source ``build-market-now``) and the exit code is 0. A series that
 ends later than ``to`` holds the date back without stopping anything: the output and the note of the status record say how
 many, and the date they end on. The file is not rewritten when its content is the same, so that a week without new data
@@ -65,11 +65,17 @@ RANK_WEEKS = 52             # the weeks that decide which passages are shown, en
 UNIT = "vessel transits in 28 days"
 MT_UNIT = "Mt of estimated cargo in 28 days"
 
+# the decimals the weekly files carry (build_portwatch.py rounds the counts to one decimal and the cargo, in Mt a day, to four): a value
+# with more is not one of its files, and web/src/lib/marketNow.ts, which proves the digest in whole units of the last decimal, refuses it too
+COUNT_DECIMALS = 1
+CARGO_DECIMALS = 4
+
 SIG3 = Context(prec=3, rounding=ROUND_HALF_UP)
 
 
-def number(v, where):
-    """``v`` as a Decimal; refuses what is not a finite number (a string, null, NaN, infinity, a boolean) or is negative."""
+def number(v, where, decimals):
+    """``v`` as a Decimal; refuses what is not a finite number (a string, null, NaN, infinity, a boolean), is negative or has more than
+    ``decimals`` decimals."""
     if isinstance(v, bool) or not isinstance(v, (int, float)):
         raise ValueError(f"{where}: {v!r} is not a number")
     d = Decimal(repr(v))
@@ -77,6 +83,8 @@ def number(v, where):
         raise ValueError(f"{where}: {v!r} is not a finite number")
     if d < 0:
         raise ValueError(f"{where}: {v!r} is negative")
+    if -d.as_tuple().exponent > decimals:
+        raise ValueError(f"{where}: {v!r} has more than {decimals} decimals")
     return d
 
 
@@ -139,8 +147,8 @@ class Series:
             raise ValueError(f"{at}: {self.n} weeks from {self.start}, but the dates (to {last_day}) make {complete + (1 if days % 7 else 0)}: "
                              f"a week is missing or extra, and the values would not be those of their dates")
         self.last_week_end = self.start + timedelta(days=7 * complete - 1)
-        self.cnt = {k: [number(x, f"{at} {k}[{i}]") for i, x in enumerate(raw[(k, False)])] for k in TYPES}
-        self.cargo = {k: [number(x, f"{at} vol.{k}[{i}]") for i, x in enumerate(raw[(k, True)])] for k in TYPES}
+        self.cnt = {k: [number(x, f"{at} {k}[{i}]", COUNT_DECIMALS) for i, x in enumerate(raw[(k, False)])] for k in TYPES}
+        self.cargo = {k: [number(x, f"{at} vol.{k}[{i}]", CARGO_DECIMALS) for i, x in enumerate(raw[(k, True)])] for k in TYPES}
 
     def can_rank(self, ago_to):
         """Whether the file holds the ``RANK_WEEKS`` weeks that end on ``ago_to``."""

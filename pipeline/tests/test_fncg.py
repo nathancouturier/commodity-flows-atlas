@@ -400,8 +400,8 @@ class G9Methodology(unittest.TestCase):
         self.assertNotIn("capped", hormuz["hi"]["n"])  # the example of the weekly reading is a figure that the reading moves: Lombok iron ore
         self.assertIn("up to 40.1% (751 Mt, not capped", self.text)
         lombok = next(e for e in chk["lombok"]["estimates"] if e["p"] == "iron-ore")
-        self.assertEqual(lombok["mt"][1], 950.3)
-        self.assertIn('Lombok iron ore "up to": 950.3 Mt from the daily rows, 949.9 Mt from the weekly series', self.text)
+        self.assertEqual(lombok["mt"][1], 949.9)
+        self.assertIn(f'Lombok iron ore "up to": {lombok["mt"][1]} Mt; 950.3 Mt before', self.text)
         self.assertIn("It binds on four groups of 138 estimates", self.text)
         whole = sum(len(c["estimates"]) for c in chk.values() if any(t["regime"] == "whole" for t in (c.get("typeNotes") or {}).values()))
         self.assertGreater(whole, 100)  # the 138 of the review: the estimates of the types under the whole-volume regime
