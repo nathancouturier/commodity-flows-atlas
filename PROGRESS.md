@@ -1,6 +1,6 @@
 # Commodity Flows Atlas: progress
 
-_Last updated: 2026-11-25, after the ninth release of audit fixes_
+_Last updated: 2026-11-26, after the tenth release of audit fixes_
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
@@ -18,9 +18,142 @@ released. This file is updated at each release.
 | 2 | Trade-flow engine: sea or land rule, lane selection, typical ports, routing, chokepoint shares, Route finder | done, released on 23 November |
 | 3 | Wrong figures per commodity (gas, LNG, copper, precious metals, lithium, nickel, steel, fertilisers, cocoa) | corrections done, released on 23 November; the points that needed a new source (LPG from the United States to Mexico, tin ores from Myanmar, the steel and LNG cross-checks, metallurgical coal by pair of countries) in the seventh release, on 25 November. Left: the lanes and route shares of metallurgical coal, thermal coal by destination |
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
-| 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
+| 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November); 28 company figures read in the companies' annual reports on sec.gov (tenth release, 26 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
 | 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). A release number with release notes, a way to report an error, a coverage table of the commodity pages, a voyage calculator on the route pages and port facts from the World Port Index (eighth release, 25 November). Weekly traffic per port from IMF PortWatch, loaded little by little and slowly as the owner decided on 25 November, shown on the port pages and read each week by the PortWatch job (ninth release, 25 November). Designed, built next: a block on the state of the freight market. Left: freight rates in USD per tonne (no free source may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
-| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, 2,018 and 165 at the ninth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The two weekly update jobs ran on GitHub in their new form for the first time on 25 November 2026 and ended green; they were started by hand, because GitHub had not started the scheduled run an hour after its time (see the ninth release and the known limits) |
+| all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, 2,018 and 165 at the ninth, 2,036 and 165 at the tenth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The two weekly update jobs ran on GitHub in their new form for the first time on 25 November 2026 and ended green; they were started by hand, because GitHub had not started the scheduled run an hour after its time (see the ninth release and the known limits) |
+
+## Tenth release (26 November 2026): what changed
+
+The company entries without a figure were read on sec.gov, under the owner's decision of 24 November 2026 (see
+"Decisions of the owner"). 28 entries gain a dated figure from the company's own annual report, so 116 of the 403
+entries now have one (88 before), and 18 more were checked against the same filings and keep none. Every figure
+was checked by a script, then by a reviewer who read the filing, by an arbiter wherever the reviewer objected, and
+by a critic who read the whole set against the other entries (see "Checks").
+
+### Reading sec.gov
+
+- `pipeline/companies/sec_edgar.py` reads sec.gov and is the only script that reads the variable
+  `SEC_CONTACT_EMAIL`, set by the owner. It adds the address to the shared User-Agent of the update scripts, for
+  sec.gov's three hosts only (www, data and efts). It sends nothing without the address and does not follow a
+  redirect to another host. It asks for one page at a time, at least 2 seconds apart (sec.gov's published limit is
+  10 requests a second), stops at an HTTP 403 or 429 without asking again, and keeps the pages it fetched in
+  `pipeline/cache/sec/`, outside git. It downloads through the shared downloader, which gained two options for
+  it: a redirect handed back to the caller, and the list of statuses asked again. It finds a filer, lists its
+  annual reports and their exhibits, and prints the passages of a document that match a pattern, with their place
+  in its text. 18 unit tests hold these rules, among them one that fails if a file of the repository contains the
+  address. No workflow runs it.
+- The round sent about 640 requests to sec.gov: 233 searches, 344 filer records and 59 pages of www.sec.gov (the
+  list of tickers, filing indexes, reports and exhibits).
+- `pipeline/companies/README.md` says how a filing is read ("Reading a filing on sec.gov") and now lists the rules
+  that a figure read in a filing follows: the latest year, the filing's own units, a sum only of parts stated alike,
+  production before sales, an LNG capacity only when no volume is stated, one commodity. Its "Sources" line now also
+  names the exhibits of a 20-F that hold the annual report or a part of it.
+
+### Which entries were read
+
+- The 228 companies of the 315 entries without a figure were all looked up on EDGAR by name. 33 of them have a
+  recent annual report there (10-K, 20-F or 40-F), and Raízen's figures are in Cosan's 20-F: 33 filings and their
+  exhibits were read for 46 entries of 34 companies.
+- Not read, and why: Glencore, Fresnillo, ITOCHU, Mitsui & Co. and Yara file no annual report on EDGAR, and
+  Chalco's and Mechel's last ones cover 2022 and 2021. U.S. Steel's last 10-K covers 2024, before its acquisition by
+  Nippon Steel on 18 June 2025, which its entry describes. BHP's Jansen potash mine is under construction. The other
+  names gave only namesakes (a search for K+S finds Kaspi.kz and Kelly Services).
+
+### The figures
+
+- Crude oil: Chevron 2,304 kb/d (liquids: crude oil with condensate 1,827 plus NGL 477), ConocoPhillips 1,697 kb/d
+  (liquids with bitumen), Pemex 1,618.5 kb/d (crude oil including condensates).
+- Refined products: refinery throughput of Marathon Petroleum 2,989, Valero Energy 2,988 and Phillips 66 1,883 kb/d,
+  all refinery inputs. Phillips 66's figure includes its share of joint-venture refineries.
+- LNG: TotalEnergies 15.1 Mt of LNG sold from its equity production; Woodside Energy 12.77 bcm of LNG production as
+  a volume of gas (its share, 450.9 Bcf); Venture Global 30.0 Mtpa of nameplate liquefaction capacity (Calcasieu
+  Pass and Plaquemines at 100%), because its 10-K states its 2025 exports only in cargoes and TBtu.
+- Natural gas: net production of Expand Energy 68.2 bcm and EQT 63.4 bcm; Equinor's entitlement production,
+  59.4 bcm, from the reserves report filed with its 20-F.
+- LPG: Enterprise Products Partners 697 kb/d and Targa Resources 429.1 kb/d, loaded for export at their terminals
+  on the Houston Ship Channel.
+- Coal: Peabody Energy 89.1 Mt of thermal coal (its two US thermal segments); Alpha Metallurgical Resources 12.4 Mt
+  of steelmaking coal produced; Core Natural Resources 6.88 Mt of coking coal sold.
+- Iron ore and steel: Cleveland-Cliffs 17.3 Mt of iron ore pellets (its share) and 17.1 Mt of crude steel; CSN
+  2.9 Mt of crude steel (the Presidente Vargas flat steel works).
+- Lead: Teck Resources 107 kt in concentrate (Red Dog).
+- Agriculture: ADM 18.5 Mt of corn processed; Raízen 5.1 Mt of sugar (crop 2024/25, financial year to 31 March
+  2025).
+- Fertilisers: potash (KCl) of Mosaic 8.5 Mt (its Canadian mines), ICL 4.377 Mt and Intrepid Potash 0.254 Mt; ICL
+  4.7 Mt of enriched phosphate rock (its Chinese joint venture at 100%); Nutrien 4.14 Mt of urea liquor.
+- Conversions, each with its factor in the note: short tons × 0.9072 (Peabody, Alpha, Core, Cleveland-Cliffs'
+  steel, Intrepid), long tons × 1.016047 (Cleveland-Cliffs' pellets), cubic feet × 0.0283168 (Woodside, Expand,
+  EQT, Equinor), a year of barrels ÷ 365 days (Phillips 66). The other figures are as the filing states them.
+- 18 entries keep no figure, because the filing states none that the rules admit:
+  - volumes stated only in TBtu: Cheniere Energy's LNG;
+  - a segment volume that mixes coal grades: Peabody's metallurgical coal;
+  - nothing produced: BHP's nickel, in the year to 30 June 2026;
+  - volumes that cover several crops: ADM (5 entries), Bunge (4) and CHS (2);
+  - a stake, not output: Cosan's sugar, which is Raízen's and stands on Raízen's row;
+  - no volume stated: Starbucks' coffee, and the cocoa of Mondelez and Hershey.
+
+  Nine of these entries now cite the filing, with a dated detail.
+
+### Details, roles and wording
+
+- Details that the filings contradict are corrected:
+  - Bunge: its head office is in Chesterfield, Missouri, and it acquired Viterra (not "merged with") on 2 July
+    2025; its 2025 volumes count Viterra from that day. The correction is made in all six of its entries.
+  - Core Natural Resources is the former CONSOL Energy, renamed when it merged with Arch Resources on 14 January
+    2025. Its entry linked to the article on Arch Resources.
+  - Cosan and Shell formed Raízen in 2011, not 2010. Cosan's share of Raízen was 30.84% at 31 December 2025, not
+    "44% each".
+  - Israel Corporation held 43.11% of ICL's capital and 43.93% of its votes at 31 December 2025, not 43.98%.
+  - Intrepid Potash has four mines (two near Carlsbad), not three near Carlsbad.
+  - Alpha was named Contura Energy until February 2021, and no longer mines in Northern Appalachia.
+- Other details now come from the filing, with their dates: Raízen filed for an out-of-court reorganization of its
+  financial debt on 11 March 2026; Chevron acquired Hess in July 2025; BHP's nickel
+  operations have been suspended since December 2024 and produced none in the year to 30 June 2026; Nutrien shut
+  its Trinidad plant down on 23 October 2025; Peabody's two segments that mix coal grades give their 2025 sales.
+- Roles that the filings now cited do not support: Enterprise Products Partners and Targa Resources are terminal
+  operators, not exporters (their customers export through their terminals). Cosan is a holding company, partner in
+  Raízen.
+- Two rows that the new figures meet:
+  - PetroChina's refined-products figure is labelled "crude oil processed", which is what its note states. It no
+    longer ranks with the refinery throughputs, which for the three US refiners count all inputs.
+  - POSCO's "crude steel output" now reads "crude steel production", so it ranks with ArcelorMittal,
+    Cleveland-Cliffs and CSN.
+
+### Checks
+
+- Every proposed figure was first checked by a script: each quotation found word for word at its place in the
+  filing's text, each number of the note found in the quotations, the value reproduced from the stated numbers with
+  the allowed factors, the builder's rules run on the patched data, and the block of the page each figure would
+  join. The script found three numbers that no quotation held, in the notes of Valero, Cleveland-Cliffs' steel
+  and Teck. Valero's and Cleveland-Cliffs' were dropped or written as the filing states them; Teck's is in its MD&A.
+- One reviewer per filing (33) then read the filing on disk, with no network, against written rules. They objected
+  on 14 filings; an arbiter settled each one, and each decision changed something in the proposal:
+  - Peabody's thermal coal is production (89.1 Mt), not sales (88.8 Mt).
+  - Equinor's first figure, 56.6 bcm, was its marketing segment's sales; the company's own volumes were 60.6 bcm.
+  - Four labels name their basis: Phillips 66's joint-venture share, Woodside's share (with the feed gas it buys
+    from its Pluto partners), Venture Global's two plants at 100%, and Mosaic's Canadian mines (its Brazilian mine
+    was sold in November 2025).
+  - The notes of Valero, Targa, Enterprise and Cleveland-Cliffs' steel follow the filing's words; Core's names the
+    technical reports that define its short ton; Raízen's says that a table of the 20-F puts the crop under 2024.
+  - The details of Bunge and Intrepid follow their filings.
+- A critic then read the whole set against the other entries and raised 16 points. They were settled one by one
+  (see "Details, roles and wording" and the choices of this release). After it, two exhibits were read on sec.gov:
+  - Equinor's reserves report (Exhibit 15.5) states the 2025 entitlement production of gas, 2,098 billion cubic
+    feet. The rules take production before sales, so it became the figure, 59.4 bcm, in place of the 60.6 bcm
+    sold.
+  - TotalEnergies' glossary (Exhibit 15.1) defines "M = million" and "t = (Metric) ton".
+- 2,036 unit tests (2,018 at the ninth release) and the 165 web tests of the ninth, all passing without the raw downloads; the
+  builder of the companies changes no file on a second run; `node web/scripts/validate-data.mjs`, the type check,
+  the production build and the size budget pass. The address of `SEC_CONTACT_EMAIL` is in no tracked file
+  (the test ran with the variable set).
+- In a browser, on the production build: the company lists of 18 of the 21 commodity pages whose rows changed open
+  with no error, and each block holds the rows expected. For example, the "natural gas production" block runs from
+  Saudi Aramco's 117.5 bcm to Sinopec's 41.2 bcm, nine rows with Equinor's 59.4 among them, and PetroChina's
+  refined products stand in a block of their own. The three pages left out (wheat, soybean meal, rapeseed) changed
+  only in the text of rows without a figure. No page was compared with the published site.
+- The ninth release was published from another branch while this round ran; it was merged in first. The one
+  conflict was in the shared downloader, which keeps both changes: the quota handling of the ninth release, and
+  the two options the SEC reader needs.
 
 ## Ninth release (25 November 2026): what changed
 
@@ -924,7 +1057,7 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
   - 32 shipping companies by segment.
 - **51 commodities**: production and reserves (USGS, EIA), agriculture (USDA PSD, FAOSTAT), trade
   and flows (CEPII BACI 2024), every country in every table, series by country and year, monthly
-  energy series, crop balances, metals consumption estimates, 403 company entries (88 with a dated figure).
+  energy series, crop balances, metals consumption estimates, 403 company entries (116 with a dated figure).
   Energy (7): Crude oil, Refined products, LNG, Natural gas, LPG, Thermal coal, Uranium.
   Metals and minerals (23): Iron ore, Metallurgical coal, Steel, Ferrous scrap, Pig iron & DRI, Copper,
   Aluminium, Bauxite & alumina, Nickel, Zinc, Lead, Tin, Lithium, Cobalt, Rare earths, Manganese, Chromium,
@@ -971,7 +1104,11 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
   - **SEC EDGAR.** The owner accepts that a contact address is sent to the SEC, and to nobody else, when its
     filings are read. He set it himself as an environment variable (`SEC_CONTACT_EMAIL`) that the reading
     script takes its `User-Agent` from; the address is written in no file of the repository. The company
-    entries without a figure will be read on sec.gov under these rules in a later round.
+    entries without a figure will be read on sec.gov under these rules in a later round. What was done with it
+    (tenth release, 26 November 2026): `pipeline/companies/sec_edgar.py` is the only script that reads the
+    variable and sends the address, to sec.gov's hosts only, one request at a time and at least 2 seconds apart;
+    a test fails if a file of the repository holds the address; the 315 entries without a figure were looked up and
+    the 46 whose company files an annual report on EDGAR were read (28 figures).
   - **Pace.** Several packages may run at the same time.
   - **Lines under the charts.** "Drag to zoom · double-click to reset" and the like stay under the charts of the
     passage pages and of the price drawer: the rule against hint text does not cover them.
@@ -1300,6 +1437,27 @@ These were needed to finish the work; each is reversible.
    - **What the registry says of the rhythm** of the port table: "daily rows; rhythm not stated by the
      publisher; read weekly by the atlas", because no page read states how often PortWatch updates it.
 
+15. Tenth release, each reversible:
+   - **The rules of a figure read in a filing** (`pipeline/companies/README.md`) were written for this round:
+     production before sales, an LNG capacity only when no volume is stated, a sum only of parts stated alike, a
+     crop year dated by the end of the fiscal year it belongs to. Raízen's crop 2024/25 is therefore 2025, although
+     a table of Cosan's 20-F puts it under 2024; its note says so.
+   - **A named part ranks with company totals**, as BHP's share and Vale's purchases already did: CSN's flat steel
+     works, Peabody's two US thermal segments, Mosaic's Canadian mines, Cleveland-Cliffs' share of its pellets and
+     Venture Global's two plants at 100%, each named in the label of its figure.
+   - **Equinor's gas** is its entitlement production with the companies it accounts for by equity, from the reserves
+     report filed as an exhibit of its 20-F, which the figure cites; the entry cites the 20-F.
+   - **ADM's corn processed** stands on a trader row: corn has no processors group, and the filing states no corn
+     merchandised.
+   - **Totals of several crops stay in the text**: Bunge's 67.2 Mt of grains sold, ADM's 36.3 Mt of oilseeds
+     processed, CHS's 2.61 billion bushels.
+   - **Roles**: "terminal operator" for Enterprise Products Partners and Targa Resources, "holding company (equity
+     partner)" for Cosan, as the trading houses of the iron ore list are equity partners.
+   - **Wording outside the round**: PetroChina's and POSCO's labels follow their own notes; Glencore's "energy coal"
+     is left as Glencore writes it, so it does not rank with Peabody's thermal coal.
+   - **U.S. Steel keeps no figure**: its last 10-K covers 2024, and its entry describes the company after Nippon
+     Steel acquired it in June 2025.
+
 ## Known limits
 
 - Baltic Exchange index values are proprietary and are not shown.
@@ -1332,9 +1490,15 @@ These were needed to finish the work; each is reversible.
 - Vessel classes: six classes have no standard vessel (Newcastlemax, Panamax, Supramax, chemical tanker, mid-size
   gas carrier, container ship); the Bosporus and the Great Belt have no sourced limit; the fleet, age and
   orderbook of a commercial class are not published for free.
-- Companies: 315 of 403 entries have no figure (the company publishes none, or its report was not read: sec.gov
-  is not fetched); shipping has 32 companies, 7 with a fleet figure, no container line and no Greek owner; there
-  is no page per company.
+- Companies: 287 of 403 entries have no figure. Either the company states none that the rules admit (volumes in
+  TBtu, totals of several crops, a stake rather than output), or it files no annual report on EDGAR and its own report
+  has not been read (Glencore, Fresnillo, ITOCHU, Mitsui & Co., Yara and most companies outside the United States).
+  U.S. Steel's last 10-K covers 2024, before Nippon Steel acquired it. Some rows that count the same thing stand in
+  separate blocks only because of their wording (Glencore's "energy coal" and Peabody's "thermal coal"; Rio Tinto's
+  "Pilbara shipments" and Fortescue's "iron ore shipments"; Kumba's iron ore), and some blocks rank figures on
+  different bases, each named on its row (net and gross gas, gas with ethane, liquids with bitumen, a works or the
+  company's share beside company totals). Shipping has 32 companies, 7 with a fleet figure, no container line and
+  no Greek owner. There is no page per company.
 - Metals production by year: the USGS file on disk holds two years only; earlier editions are not downloaded.
 - Metals consumption is an Atlas estimate (production plus imports minus exports of the same product) for three
   metals only; a large importer with no production line is named in the note, not ranked.

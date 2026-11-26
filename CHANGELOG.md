@@ -4,6 +4,41 @@ What a visitor sees changed on the site, release by release, newest first. The w
 releases: the About window's "What changed" lists them. The full account of each release is in
 [`PROGRESS.md`](PROGRESS.md).
 
+## Release 10 (2026-11-26)
+
+### Added
+- Companies: 28 more rows carry a dated figure, read in the company's annual report filed with the US Securities and
+  Exchange Commission and linked to it on sec.gov (116 of the 403 rows now). Each gives the number as the filing states
+  it and the factor of any unit conversion:
+  - crude oil: Chevron, ConocoPhillips and Pemex;
+  - refinery throughput: Marathon Petroleum, Valero Energy and Phillips 66;
+  - LNG: TotalEnergies, Woodside Energy and Venture Global (its liquefaction capacity);
+  - natural gas: Equinor, Expand Energy and EQT;
+  - LPG loaded for export: Enterprise Products Partners and Targa Resources;
+  - coal: Peabody Energy (thermal), Alpha Metallurgical Resources and Core Natural Resources (steelmaking);
+  - metals: Cleveland-Cliffs (iron ore pellets and crude steel), CSN (crude steel), Teck Resources (lead);
+  - agriculture: ADM (corn processed), Raízen (sugar);
+  - fertilisers: Mosaic, ICL Group and Intrepid Potash (potash), ICL Group (phosphate rock), Nutrien (urea liquor).
+
+### Changed
+- Eighteen other rows were checked against the same filings and keep no figure, because the filing states no volume
+  that fits: none at all, one in an energy unit (TBtu), or one total for several crops. Nine of them now link to the
+  filing, with a dated description.
+- Refined products: PetroChina's figure is labelled "crude oil processed", what its report states, and stands apart
+  from the refinery throughputs of the other refiners. Steel: POSCO's crude steel ranks with ArcelorMittal, Cleveland-Cliffs
+  and CSN.
+- Enterprise Products Partners and Targa Resources are described as terminal operators, and Cosan as a holding company,
+  partner in Raízen.
+
+### Corrected
+- Descriptions that the companies' filings contradict:
+  - Bunge's head office (Chesterfield, Missouri) and its acquisition of Viterra on 2 July 2025, on all six of its rows;
+  - Core Natural Resources, the former CONSOL Energy (its row linked to the article on Arch Resources);
+  - the year Cosan and Shell formed Raízen (2011), and Cosan's share of it (30.84% at the end of 2025);
+  - Israel Corporation's share of ICL;
+  - Intrepid Potash's mines;
+  - Alpha Metallurgical Resources' former name and its mines.
+
 ## Release 9 (2026-11-25)
 
 ### Added
