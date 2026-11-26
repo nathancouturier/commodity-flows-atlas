@@ -41,3 +41,9 @@
 {"t":"2026-11-26T03:47:05Z","source":"dallasfed","outcome":"ok","note":"updated","records":706,"data_to":"2026-10","consecutive_failures":0}
 {"t":"2026-11-26T03:47:05Z","source":"nyfed","outcome":"ok","note":"updated","records":346,"data_to":"2026-10","consecutive_failures":0}
 {"t":"2026-11-26T03:47:06Z","source":"build-changes","outcome":"ok","note":"updated","records":7,"data_to":"2026-11-26","consecutive_failures":0}
+{"t":"2026-11-26T19:16:34Z","source":"wb-pink","outcome":"ok","note":"updated","records":802,"data_to":"2026-10","consecutive_failures":0}
+{"t":"2026-11-26T19:16:34Z","source":"eia-spot","outcome":"ok","note":"updated","records":63825,"data_to":"2026-11-24","consecutive_failures":0}
+{"t":"2026-11-26T19:16:34Z","source":"bls","outcome":"ok","note":"updated; older years still to fetch: 1988-1997, 1998-2007, 2008-2017, 2018-2023; refused: 1988-1997: asked for 1988-1997, got 2024-2026: the years were not taken into account; 1998-2007: asked for 1998-2007,","records":461,"data_to":"2026-10","consecutive_failures":0}
+{"t":"2026-11-26T19:16:34Z","source":"dallasfed","outcome":"ok","note":"updated","records":706,"data_to":"2026-10","consecutive_failures":0}
+{"t":"2026-11-26T19:16:34Z","source":"nyfed","outcome":"ok","note":"updated","records":346,"data_to":"2026-10","consecutive_failures":0}
+{"t":"2026-11-26T19:16:35Z","source":"build-changes","outcome":"ok","note":"updated","records":7,"data_to":"2026-11-26","consecutive_failures":0}
