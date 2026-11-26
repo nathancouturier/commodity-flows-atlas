@@ -190,3 +190,41 @@ test('the controller and the finder use the predicates of the query module', () 
   const s = read('src/lib/search.ts');
   assert.match(s, /if \(isSheetLayout\(\) \|\| isTabletLayout\(\)\) \{\s*select\(null\);/);
 });
+
+// ---------------------------------------------------------------- the camera of the tablet, as text
+
+test('a passage page on a tablet frames the passage with the tablet padding of the controller', () => {
+  const v = read('src/components/views/ChokepointView.tsx');
+  assert.match(v, /import \{[^}]*\bgetMap\b[^}]*\} from '\.\.\/\.\.\/map\/controller';/);
+  assert.match(v, /import \{[^}]*\bisTabletLayout\b[^}]*\} from '\.\.\/\.\.\/map\/controller';/);
+  assert.match(v, /import \{[^}]*\bviewPadding\b[^}]*\} from '\.\.\/\.\.\/map\/controller';/);
+  assert.match(v, /isTabletLayout\(\)\s*\?\s*viewPadding\(\{ detail: true \}\)\s*:\s*passagePadding\(window\.innerWidth, window\.innerHeight\)/);
+  assert.match(v, /centerForPadding\(cp\.at, zoom, pad\)/);
+  const flight = v.slice(v.indexOf('getMap()?.flyTo({'), v.indexOf('}, [cp]);'));
+  assert.ok(flight.length > 20, 'the flight was found');
+  assert.doesNotMatch(flight, /\bpadding\s*[:,]/, 'the flight leaves no padding on the camera');
+});
+
+test('the first view of a tablet is centred again when the fit asks for a zoom the map refuses', () => {
+  const c = read('src/map/controller.ts');
+  const tablet = c.slice(c.indexOf('function fitTabletWorld('), c.indexOf('function fitWorld('));
+  const fit = c.slice(c.indexOf('function fitWorld('), c.indexOf('export function flyToBounds('));
+  assert.match(c, /const TABLET_FIRST_CENTRE: \[number, number\] = \[12\.5, 10\];/);
+  assert.match(tablet, /if \(!isTabletLayout\(\)\) return false;/, 'only in the tablet layout');
+  assert.match(tablet, /m\.cameraForBounds\(WORLD_BOUNDS, \{ padding, maxZoom: 2\.4 \}\)/);
+  assert.match(tablet, /asked >= zoom\) return false/, 'only when the asked zoom is under the one the map holds');
+  assert.match(tablet, /m\.getMinZoom\(\)/);
+  assert.match(tablet, /centerForPadding\(TABLET_FIRST_CENTRE, zoom, padding\)/);
+  assert.doesNotMatch(tablet, /\b(flyTo|jumpTo|easeTo)\(\{[^}]*\bpadding\s*[:,]/, 'no padding on a camera call');
+  assert.match(fit, /if \(!fitTabletWorld\(m, padding, duration\)\) m\.fitBounds\(WORLD_BOUNDS, \{ padding, maxZoom: 2\.4, duration \}\);/, 'every other view keeps the plain fit');
+  // "Reset view" and the closing of a page reach it through fitWorld, as the first load does
+  assert.match(c, /fitWorld\(m, detail, 1400\)/);
+  assert.match(c, /fitWorld\(map, selection\.peek\(\) !== null, 0\)/);
+});
+
+test('a closing page waits for its frame on a tablet, where the legend changes size with it', () => {
+  const c = read('src/map/controller.ts');
+  const at = c.indexOf('if (hadSelection && s === null)');
+  const block = c.slice(at, c.indexOf('hadSelection = s !== null;', at));
+  assert.match(block, /if \(isTabletLayout\(\)\) requestAnimationFrame\(zoomOut\);\s*else queueMicrotask\(zoomOut\);/);
+});

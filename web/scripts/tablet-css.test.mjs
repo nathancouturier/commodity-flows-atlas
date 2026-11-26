@@ -40,7 +40,7 @@ test('the file is exactly one @media rule, and its condition is TABLET_QUERY', (
   const { condition, body, after } = theBlock(tabletCss);
   assert.equal(condition, norm(TABLET_QUERY));
   assert.equal(after, '', 'nothing follows the rule');
-  assert.doesNotMatch(body, /@media|@container|@supports|@import|@font-face|@keyframes/, 'no at-rule inside it');
+  assert.doesNotMatch(body.replace(/@media \(pointer: coarse\)/g, ''), /@media|@container|@supports|@import|@font-face|@keyframes/, 'no at-rule inside it but the touch rule');
   assert.equal((body.match(/\{/g) || []).length, (body.match(/\}/g) || []).length, 'the braces of the body balance');
 });
 
@@ -55,6 +55,17 @@ test('every selector starts with `html .app`, or is :root', () => {
     }
   }
   assert.deepEqual(bad, [], 'selectors that would not beat the single-class rules of app.css and drawers.css');
+});
+
+test('the touch rule is inside the media block, and nothing else of the file mentions the pointer', () => {
+  const { body } = theBlock(tabletCss);
+  const nested = [...body.matchAll(/@media \(pointer: coarse\)\s*\{([^{}]*\{[^{}]*\})\s*\}/g)];
+  assert.equal(nested.length, 1, 'one touch rule inside the block');
+  assert.equal(norm(nested[0][1]), 'html .app .panel-head { min-height: 34px; }');
+  assert.equal((stripComments(tabletCss).match(/\(\s*(any-)?(pointer|hover)\s*:/g) || []).length, 1, 'no other pointer or hover query (the property pointer-events is not one)');
+  assert.equal((stripComments(tabletCss).match(/@media/g) || []).length, 2, 'the block and the touch rule');
+  // the 34 px of the other buttons under a coarse pointer, which this one matches
+  assert.match(stripComments(drawersCss), /@media \(pointer: coarse\)[\s\S]*?min-height: 34px/);
 });
 
 test('every variable the file uses is defined somewhere', () => {

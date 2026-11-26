@@ -208,7 +208,9 @@ test('no camera move of the site passes a padding, except the fit that leaves no
   assert.deepEqual(hits, ['map/controller.ts: setPadding']);
   assert.match(controller, /m\.setPadding\(\{ top: 0, bottom: 0, left: 0, right: 0 \}\)/);
   const view = fs.readFileSync(path.join(dir, 'components/views/ChokepointView.tsx'), 'utf8');
-  assert.match(view, /\.flyTo\(\{\s*center: centerForPadding\(cp\.at, zoom, passagePadding\(window\.innerWidth, window\.innerHeight\)\),/);
+  // the padding is the phone and desktop one, or on a tablet the controller's
+  assert.match(view, /\.flyTo\(\{\s*center: centerForPadding\(cp\.at, zoom, pad\),/);
+  assert.match(view, /const pad = isTabletLayout\(\) \? viewPadding\(\{ detail: true \}\) : passagePadding\(window\.innerWidth, window\.innerHeight\);/);
 });
 
 test('every fit of the controller clears a padding that was left on the camera first', () => {

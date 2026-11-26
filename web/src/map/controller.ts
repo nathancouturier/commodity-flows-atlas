@@ -6,7 +6,7 @@ import maplibregl, { type Map as MLMap, type MapMouseEvent, type GeoJSONSource, 
 import { feature } from 'topojson-client';
 import type { FeatureCollection, Feature, LineString, Point } from 'geojson';
 import { baseStyle } from './basemap';
-import { WORLD_BOUNDS, MAX_ZOOM, SCALE_MIN_ZOOM, cameraLimits, canvasSizeOf, firstViewState, hasPadding } from './camera';
+import { WORLD_BOUNDS, MAX_ZOOM, SCALE_MIN_ZOOM, cameraLimits, canvasSizeOf, centerForPadding, firstViewState, hasPadding } from './camera';
 import { ResetViewControl } from './resetControl';
 import { installLabels } from './labels';
 import { FlowOverlay, type FlowPath } from './flowOverlay';
@@ -408,9 +408,34 @@ function clearPadding(m: MLMap) {
 /** Whether the camera is still where the atlas put it (a resize then fits the first view again); see `firstViewState`. */
 let first: ReturnType<typeof firstViewState> | null = null;
 
+/**
+ * Where the first view is centred on a tablet whose free width cannot hold the whole frame (Europe, Africa, the Middle East
+ * and India in view; the Pacific and Japan are cut): the middle of the Americas-to-Japan frame, an Atlas convention (tried
+ * by hand at 768 and 820 px wide), longitude then latitude.
+ */
+const TABLET_FIRST_CENTRE: [number, number] = [12.5, 10];
+
+/**
+ * The library works out the centre of a fit for the zoom the fit asks for; when the map's lowest zoom is higher (a narrow
+ * free area on a portrait tablet) it then keeps that centre and takes the zoom the map allows, and the frame lands off-centre.
+ * Here the centre is worked out again for the zoom the map holds, with the same padding (never given to the camera: a padding
+ * left on it breaks the next fit). Returns whether it moved the camera.
+ */
+function fitTabletWorld(m: MLMap, padding: ReturnType<typeof viewPadding>, duration: number): boolean {
+  if (!isTabletLayout()) return false;
+  const zoom = m.getMinZoom();
+  const asked = m.cameraForBounds(WORLD_BOUNDS, { padding, maxZoom: 2.4 })?.zoom;
+  if (asked === undefined || asked >= zoom) return false;
+  m.flyTo({ center: centerForPadding(TABLET_FIRST_CENTRE, zoom, padding), zoom, duration });
+  return true;
+}
+
 function fitWorld(m: MLMap, detail: boolean, duration: number) {
   clearPadding(m);
-  const fit = () => m.fitBounds(WORLD_BOUNDS, { padding: viewPadding({ detail }), maxZoom: 2.4, duration });
+  const padding = viewPadding({ detail });
+  const fit = () => {
+    if (!fitTabletWorld(m, padding, duration)) m.fitBounds(WORLD_BOUNDS, { padding, maxZoom: 2.4, duration });
+  };
   if (first) first.fit(fit);
   else fit();
 }
@@ -441,9 +466,13 @@ let hadSelection = selection.peek() !== null;
 selection.subscribe((s) => {
   if (hadSelection && s === null) {
     // an action can close a selection and open another in one go: only zoom out if it stays closed
-    queueMicrotask(() => {
+    const zoomOut = () => {
       if (selection.peek() === null) flyToWorld(false);
-    });
+    };
+    // on a tablet the legend is a column beside the page and a bar along the bottom without it: its height, which the
+    // padding reads, is the old one until the page has been drawn again, so the camera waits for that frame
+    if (isTabletLayout()) requestAnimationFrame(zoomOut);
+    else queueMicrotask(zoomOut);
   }
   hadSelection = s !== null;
 });
