@@ -1279,7 +1279,8 @@ type, not one commercial class, whose fleet, age and orderbook are not published
   lists five passages each, with the vessel transits and IMF PortWatch's estimate of the cargo over the last four complete weeks (28 days)
   against the same four weeks a year earlier, and the change; below them it shows two indicators from the price files and five links. It
   shows no freight rate, no Baltic Exchange value and no gas carrier figure, and no world total. The digest is arithmetic on the weekly chokepoint series
-  of IMF PortWatch, credited to it (source id `portwatch`, "data adapted") and not marked "Atlas estimate". The method below is the atlas's
+  of IMF PortWatch, credited to it (source id `portwatch`, "data adapted") and not marked "Atlas estimate": the totals and the changes are sums and ratios of PortWatch's own
+  published figures, not an estimate of the atlas, so they carry PortWatch's source id and the words "data adapted", as the alert banners and the status board do. The method below is the atlas's
   own, a choice made without the owner, listed in `PROGRESS.md`. The assumptions, in the order the builder applies them:
   - **Input.** Only the weekly files `data/freight/portwatch/<passage>.json` that `build_portwatch.py` writes: no network, no daily table, nothing
     under `raw/` or `pipeline/cache/`. The digest holds no name: the page takes the atlas's name of each passage from `chokepoints.json` and,
@@ -1289,42 +1290,64 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     value by one week) is refused. A week is the calendar week from Monday to Sunday, as in the weekly series.
   - **The last complete week.** For a file it is the week that ends on the last Sunday not after the file's last day, so the partial week at the
     end is left out. `to`, the date the page prints, is the earliest of those Sundays over all the files: a series that lags dates the digest
-    earlier, it does not stop it.
+    earlier, it does not stop it. The builder says so, in its output and in the note of its status record, when some series end later than `to`:
+    how many, and the date they end on. When that date would be earlier than the stored digest's, the run is refused (see the paragraph on refusals below).
   - **The windows.** The four weeks that end on `to` (28 days, the window of the alert banners), and the same four weeks 52 weeks (364 days,
     the same weekdays) earlier, which end on `yearAgoTo`.
   - **The totals.** For a passage and a ship type the weekly means (vessels a day, which `build_portwatch.py` rounds to 0.1) times 7, summed over
     the four weeks, as whole vessels with a half rounded up; and the same on PortWatch's estimate of the cargo (Mt a day, weekly means to four
     decimals), written to three significant figures. The arithmetic is in decimals, so that a half is never decided by a binary rounding. The totals
     agree with the 28-day comparison of the alert banners (all ships) except for the rounding of the weekly means to 0.1 vessels a day;
-    a test holds the gap to a bound.
+    a test holds the gap to a bound. The change in per cent, (now - year earlier) / year earlier, is computed by the builder on these sums before any
+    rounding, stored (`pct` for the transits, `mt.pct` for the cargo) to one decimal with a half rounded away from zero, and printed as it is stored: a
+    figure worked out on the whole vessels or on the three-figure cargo could differ from the one worked out on the weekly files by more than the last
+    digit. It is null where the year-earlier sum is zero, and −99.9 where a fall that one decimal would round to −100.0 leaves something.
   - **Which five.** The five passages with the most estimated cargo of the ship type over the 52 weeks that end with the year-earlier window
-    (`rankMt`, Mt, three significant figures; a tie goes by id). They are ranked a year back so that a collapse this year does not remove the
+    (ranked on the sum before rounding; `rankMt` is that sum in Mt to three significant figures, so two passages can show the same figure;
+    only an exact tie of the sums goes by id). They are ranked a year back so that a collapse this year does not remove the
     passage that explains the market. This is a rule of the atlas, not of PortWatch, and the page says so above each list; a
     passage that matters this year and carried little a year ago is not shown; one passage can be in both lists. Five passages, four weeks and
-    52 weeks are the atlas's choices.
+    52 weeks are the atlas's choices. A weekly file that starts after the first of those 52 weeks (a passage mapped lately) cannot be ranked: it is left out
+    of the ranking, with a line in the builder's output, and the digest is built from the others.
   - **Counting.** A ship that crosses several passages is counted at each of them: the rows are not added, the page says so, and it has no
     world total (the weekly series hold none).
-  - **Ship classes.** PortWatch's text for its chokepoint table (the ArcGIS item "Daily_Chokepoints_Data",
-    https://www.arcgis.com/sharing/rest/content/items/3da2b9ca97684916b75c4013f95d18ab?f=json, read 25 November 2026) says that "all the
-    indicators are available by 5 main ship categories: container, dry bulk, general cargo, ro-ro and tanker", and does not define any of them;
-    it does not mention gas, LNG or LPG carriers. The page therefore says that the atlas cannot tell whether gas carriers are in PortWatch's tanker
-    class, that the tanker figures may include them, and shows no gas carrier figure. The atlas's own convention of comparing LNG and LPG carriers with
+  - **Ship classes.** The description of PortWatch's chokepoint table that the atlas read (the text of the ArcGIS item "Daily_Chokepoints_Data",
+    https://www.arcgis.com/sharing/rest/content/items/3da2b9ca97684916b75c4013f95d18ab?f=json, read 25 November 2026; it is the one description read, and
+    other PortWatch documents may say more) says that "all the
+    indicators are available by 5 main ship categories: container, dry bulk, general cargo, ro-ro and tanker". It does not say what each class holds
+    and does not mention gas, LNG or LPG carriers. The page therefore says that the atlas cannot tell whether gas carriers are in PortWatch's tanker
+    class, that the tanker figures may include them or not, and shows no gas carrier figure. That sentence is printed under the tanker list only when the list has rows. The atlas's own convention of comparing LNG and LPG carriers with
     the tankers of PortWatch in its passage estimates (section 4) is its assumption, not a statement of PortWatch. The cargo is what PortWatch says
     it is: "we use the vessel information (length, width, draft, capacity, block coefficient) to estimate the payload (or utilization rate) of the
     vessel when transiting through the chokepoint" (same text), an estimate and not a customs statistic.
-  - **What the page prints.** The change is (now - ago) / ago on the whole vessels and on the three-figure cargo, with one decimal and a true
-    minus. A fall that one decimal would round to 100% while ships remain reads −99.9%: −100% is printed only when nothing is left. There is
-    no change in per cent where the year-earlier figure is zero (a dash). A cargo under 0.05 Mt, the status board's limit, is printed "under 0.05 Mt" and has no
-    figure, and its change is a bound ("down more than N%"). The page prints the dates of both windows, the unit words of the status board
+  - **What the page prints.** Each passage has two lines, one for the transits and one for the cargo: the figure of the last four weeks, the figure of
+    the same four weeks a year earlier, and the change between them. A count has thousands separators. A cargo is in Mt to three significant figures
+    (up to four decimals); it reads `0 Mt` when it is zero and "under 0.05 Mt", the status board's limit, when it is above zero and under 0.05 Mt. The
+    change is the one the builder stored (see the paragraph on the totals above), printed with its sign, one decimal and a true minus; the page works out
+    no change, except the bound below. The cases, each with when it applies:
+    - a sign and one decimal (`+12.4%`, `−13.7%`): the stored change is a number; `0.0%` when it is zero, which is no change.
+    - `−99.9%`: a fall that one decimal would round to 100% while something is left in the window. The builder stores −99.9 and the page prints it as
+      it is; `−100%` is printed only when the stored change is exactly −100, that is when nothing is left.
+    - a dash, for the transits or the cargo: the stored change is null, which is nothing a year earlier (the year-earlier sum is zero). Its hover text says so.
+    - a dash, for the cargo only: the year-earlier cargo is above zero and under 0.05 Mt, whatever was stored. A cargo that small is the length of a rounding
+      error, so there is nothing to compare it with; the hover text says that the year-earlier cargo is under the bound.
+    - a bound, for the cargo only ("down more than N%"): the cargo of the last four weeks is above zero and under 0.05 Mt, so its figure is a bound and not a
+      measure. N is the whole number of per cent below 100 x (year earlier - 0.05) / year earlier, worked out from the bound and the year-earlier figure the
+      row prints (the stored change is not used: it is the change of the unrounded sums). It is the one figure the page works out.
+    - every other row: the stored change as it is. The page prints no `<0.1%` (a stored change is a multiple of 0.1), no `+100%` or `0%` without a
+      decimal, and does not clamp a fall to −99.9 itself.
+
+    A digest in which a row has no stored change (`pct` or `mt.pct` missing: an older file) cannot be read as a whole, and the page prints the line for a missing
+    digest (see the paragraph on refusals below). The page prints the dates of both windows, the unit words of the status board
     and the source line of IMF PortWatch with the transformation, "weekly averages of PortWatch's daily counts, times 7 and summed over the four weeks".
   - **Refusals.** The builder keeps the previous file, records the failure as `build-market-now` and ends with exit code 0, so a data job never
     fails because of it, when: a file is not the series its name says or has no estimated cargo; its lists are missing or of different lengths;
-    its first week is not a Monday; a value is not a finite number or is negative; a week is missing or extra; a series does not reach back far
-    enough; fewer than five series exist; or `to` is earlier than the one published. The file is not rewritten when its content is the same, so a week
+    its first week is not a Monday; a value is not a finite number or is negative; a week is missing or extra (wherever the series would rank);
+    fewer than five series exist, or fewer than five can be ranked (a series that does not reach back far enough is only left out of the ranking, see the paragraph on the five passages above); or `to` is earlier than the one published. The file is not rewritten when its content is the same, so a week
     without new data makes no commit. The step alerts after three failed runs in a row, as a weekly source does: it runs on inputs that change every week,
     and a short PortWatch week heals with the next one. The validator of the data checks the shape only (keys, five rows a type, finite numbers
-    that are not negative, two dates 364 days apart, the ranking figure not increasing) and reads no other file, so that it is never stricter than the
-    builder. The step is the last build step of the weekly PortWatch job; the annual job rebuilds neither the weekly series nor this file. The digest
+    that are not negative, the two changes a number or null, two dates 364 days apart, the ranking figure not increasing) and reads no other file, so that it is never stricter than the
+    builder. The step follows the alert banners in the weekly PortWatch job and comes before the digest of changes; the annual job rebuilds neither the weekly series nor this file. The digest
     has no freshness entry of its own: it follows `portwatch`, and its own date is `to`. With the file missing or unreadable the page prints
     one line, "No traffic figures are available.", and keeps the indicators and the links.
   - **The two indicators** are series of the price files shown as they are (`igrea-m` and `freight-ppi-m`, section 7), and neither is a freight
@@ -1332,7 +1355,7 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     index (https://www.dallasfed.org/research/igrea, read 25 November 2026), "derived from a panel of dollar-denominated global bulk dry cargo
     shipping rates and may be viewed as a proxy for the volume of shipping in global industrial commodity markets": a deflated, detrended measure
     of activity in percent deviation from trend, built on rates. The page cites Kilian (2009) with the correction of Kilian (2019), as the Bank does.
-    The producer price index of deep-sea freight (U.S. Bureau of Labor Statistics, for all ships, June 1988 = 100) measures the prices that US
+    The producer price index of deep-sea freight (U.S. Bureau of Labor Statistics, June 1988 = 100; the page labels it "US deep-sea carriers", as the series' basis says) measures the prices that US
     deep-sea carriers receive, not a spot rate. The value of the same month a year earlier is found by its date; the change on one year is the
     price board's own figure for the series and a deviation from a trend has none; the mark "late" is the price board's (a monthly series is late
     from the 15th of the second month after its last month). The Global Supply Chain Pressure Index is not shown: its own description says that it
@@ -1353,7 +1376,9 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     tables state the attribution "USDA Agricultural Marketing Service" (line-up) and "O'Neil Commodity Consulting" (rates) and no licence field
     (https://agtransport.usda.gov/api/views/vh5k-mnyv.json and https://agtransport.usda.gov/api/views/ehs5-yac3.json). The page of the datasets
     (https://www.ams.usda.gov/services/transportation-analysis/gtr-datasets) says "These data series are aggregated from non-confidential and
-    non-copyrighted sources." and gives "SOURCE: O'Neil Commodity Consulting" for the grain vessel rates, U.S. to Japan. The atlas does not read the
+    non-copyrighted sources."; it names the table of the vessel count "Weekly port region grain ocean vessel activity (number of vessels)" and says that it
+    holds the "Weekly number of grain vessels loaded during the week and expected to be loaded within the next 10 days in the Gulf, PNW, and Vancouver, B.C."; and it gives "SOURCE: O'Neil Commodity Consulting" for the grain vessel rates, U.S. to Japan. The page's line for the table uses
+    that name and says what it counts, Vancouver included. The atlas does not read the
     privacy sentence as covering rates credited to a private firm, and it shows neither series: the line-up and the rates are links, to the AMS page of the datasets.
 - **Events** carry `commodities`, `countries` and `assets` when their own text (title, summary,
   impact, and the names of the assets they link to) names them, by whole words (`pipeline/freight/event_links.py`
@@ -1522,8 +1547,8 @@ totals of the series by year are the same for every country: they are in one fil
   read are served with the site, and no button offers a CSV file or a copy of them (the owner decided on 25 November 2026 to
   keep these series, saying where they come from: see "Decisions of the owner" in PROGRESS.md); the quotations and the
   addresses are in the registry entry `eia-spot` (terms to be confirmed).
-- Freight (the "Freight" family of the price drawer and the board): the atlas shows no freight rate: none
-  of the sources it has read is both free and open to republication. Three indicators are shown, each taken
+- Freight (the "Freight" family of the price drawer and the board): the atlas shows no freight rate: for none
+  of the sources it has read has it established that the rates may be republished (see "Freight rates that are not stored" below). Three indicators are shown, each taken
   from its publisher and each labelled for what it is (`pipeline/prices/freight_indicators.py`):
   - US deep-sea freight services, producer price index (U.S. Bureau of Labor Statistics, series
     PCU483111483111, June 1988 = 100, not seasonally adjusted, monthly). It measures the prices US

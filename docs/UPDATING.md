@@ -462,11 +462,12 @@ The port page (the "Weekly port traffic" block, `PortTrafficSection.tsx`) reads 
 neither list: for a port in `none` or in `pending` it shows nothing. What the block shows, and the rules of the weekly sums, the pairing of the ports and
 the revisions, are in METHODOLOGY.md (section 5, "Port traffic").
 
-### Freight market digest: the last build step of the PortWatch job
+### Freight market digest: a build step of the PortWatch job
 
 `pipeline/freight/build_market_now.py` writes `data/freight/market-now.json` (about 1 kB): for tankers and for dry bulk carriers, the five
 passages with the most estimated cargo of that ship type over the 52 weeks that end a year back, with the vessel transits and PortWatch's
-estimated cargo (Mt) over the last four complete weeks (28 days) and over the same four weeks 364 days earlier, the window of the alert banners.
+estimated cargo (Mt) over the last four complete weeks (28 days) and over the same four weeks 364 days earlier, the window of the alert banners,
+and the change between the two in per cent, which the builder computes on the sums before rounding (the page prints it and computes none).
 The method is in METHODOLOGY.md. **It uses no network and reads nothing but `data/freight/portwatch/*.json`**: no download, no request to
 PortWatch, no `raw/` folder, no daily table, no `chokepoints.json`. It therefore runs on a fresh clone and on the runners of GitHub as it is
 (`pipeline/bootstrap.sh` runs it after the alert banners).
@@ -480,12 +481,22 @@ the weekly series nor anything this file holds.
 **When it fails.** The step never fails the job. It refuses, keeps the previous file, records a failure of `build-market-now` and exits 0 when: a
 weekly file is not the one its name says, has no `vol` block or lists of different lengths, does not start on a Monday, holds a value that is not a
 finite number or is negative, or has a week missing or extra (the weeks are taken by date, rebuilt from `start`: a week dropped by the weekly
-series would otherwise shift every later value by one week); fewer than five weekly files exist, or one does not reach back 104 weeks; the new
-digest would end on a date earlier than the file published. The file is not rewritten when its content is the same, so a week without new data
+series would otherwise shift every later value by one week), whether or not the file would rank; fewer than five weekly files exist, or fewer than
+five can be ranked; the new digest would end on a date earlier than the file published. A file that starts after the first of the 52 ranking weeks
+(a passage mapped lately, which has fewer than 104 weeks) is not a refusal: it is left out of the ranking, the output names it
+("left out of the ranking: <passage>.json starts on ..."), and the digest is built from the others. The file is not rewritten when its content is the same, so a week without new data
 makes no commit. After three failed runs in a row (not at the first, which is the rule of the other build steps: its inputs change every week and
 a short week heals with the next) "Data update failing: build-market-now" opens, with the last error. The usual cause is a week that PortWatch
 did not deliver: look at `data/freight/portwatch` (the last `y` of each file, and the number of weeks since `start`); the next weekly run
-rebuilds the digest from the files it finds. The digest has no source of its own in the staleness check: it follows `portwatch`, whose last day
+rebuilds the digest from the files it finds.
+
+**A series that lags.** `to` is the earliest last complete week of all the files, so one series that lags holds the digest's date back for
+every passage and the figures of every row are those of the earlier week, without any failure. Whenever some series end later than that date,
+the output of the step and the note of its status record (`data/_status/log.jsonl`, the last line of `build-market-now`) say how many, the date
+they end on, and which series the digest waits for, whether the file is rewritten or unchanged ("N series end later than the digest, on ...").
+If a lag appears when the digest has already reached the later week, the new date would be earlier than the file published and the run is
+refused (the failure above, with the same sentence in its error). What to look at: the file named as the last complete week of the digest,
+in `data/freight/portwatch`: its last `y`, and whether the weekly PortWatch download of that passage was short. The digest has no source of its own in the staleness check: it follows `portwatch`, whose last day
 it carries as `to`.
 
 ## Releasing

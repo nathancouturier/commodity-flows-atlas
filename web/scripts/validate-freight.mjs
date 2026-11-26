@@ -29,7 +29,8 @@
  *  - the freight market digest (freight/market-now.json, written by pipeline/freight/build_market_now.py): its shape only, which is never
  *    stricter than the builder, which is the guard (a rule here discards the whole weekly update): exactly the keys the page reads, the source
  *    id of the registry, two ISO dates 364 days apart, five rows of distinct ids for each of the two ship types, every figure a finite number
- *    that is not negative, the ranking figure not increasing down a list (two passages may print the same one). No rule reads chokepoints.json:
+ *    that is not negative, the two changes in per cent of a row (`pct`, `mt.pct`: a finite number or null, never recomputed here), the ranking figure
+ *    not increasing down a list (two passages may print the same one). No rule reads chokepoints.json:
  *    a passage that the catalogue does not hold is a page that says so, not a reason to refuse the week's data.
  * Called by validate-data.mjs; `node validate-freight.mjs [data folder]` runs it alone.
  * A tree from before the pairs table (no data/freight/pairs folder) is checked by the rules that its lane files
@@ -498,7 +499,7 @@ function validateEvents(root, errors, { read, list, chokepoints, knownCountries 
 }
 
 const MARKET_KEYS = ['s', 'to', 'yearAgoTo', 'weeks', 'days', 'rankWeeks', 'unit', 'mtUnit', 'types'];
-const MARKET_ROW_KEYS = ['id', 'now', 'ago', 'mt', 'rankMt'];
+const MARKET_ROW_KEYS = ['id', 'now', 'ago', 'pct', 'mt', 'rankMt'];
 const MARKET_TYPES = ['tanker', 'dry'];
 const MARKET_ROWS = 5;
 const isoDay = (v) => (typeof v === 'string' && ISO_DATE.test(v) && new Date(`${v}T00:00:00Z`).toISOString().slice(0, 10) === v ? Date.parse(`${v}T00:00:00Z`) : NaN);
@@ -535,9 +536,13 @@ function validateMarketNow(doc, sources, errors) {
       if (typeof r.id !== 'string' || !r.id) bad(`${at}: no id`);
       else if (ids.has(r.id)) bad(`${at}: passage ${r.id} appears twice in the list`);
       ids.add(r.id);
-      if (!sameKeys(r.mt, ['now', 'ago'])) bad(`${at}.mt must have exactly now and ago`);
+      if (!sameKeys(r.mt, ['now', 'ago', 'pct'])) bad(`${at}.mt must have exactly now, ago and pct`);
       for (const [k, v] of [['now', r.now], ['ago', r.ago], ['rankMt', r.rankMt], ['mt.now', r.mt?.now], ['mt.ago', r.mt?.ago]]) {
         if (!figure(v)) bad(`${at}.${k}: ${JSON.stringify(v)} is not a finite number that is 0 or more`);
+      }
+      // a change in per cent is a number that may be negative, or null when there was nothing a year earlier: its value is the builder's, not checked here
+      for (const [k, v] of [['pct', r.pct], ['mt.pct', r.mt?.pct]]) {
+        if (v !== null && !(typeof v === 'number' && Number.isFinite(v))) bad(`${at}.${k}: ${JSON.stringify(v)} is not a finite number or null`);
       }
       // the figures are rounded to three significant figures, so two passages may print the same one: ties are allowed
       if (i > 0 && figure(r.rankMt) && figure(rows[i - 1]?.rankMt) && r.rankMt > rows[i - 1].rankMt) bad(`${at}: rankMt ${r.rankMt} is larger than the one above it (${rows[i - 1].rankMt}): the list is not in order`);

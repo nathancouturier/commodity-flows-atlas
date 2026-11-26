@@ -24,6 +24,20 @@
    "quotation": "These data series are aggregated from non-confidential and non-copyrighted sources."
   },
   {
+   "key": "ams-datasets-vessel-activity-table",
+   "registry": "usda-ams",
+   "address": "https://www.ams.usda.gov/services/transportation-analysis/gtr-datasets",
+   "kind": "page text",
+   "quotation": "Weekly port region grain ocean vessel activity (number of vessels)"
+  },
+  {
+   "key": "ams-datasets-vessel-activity-counts",
+   "registry": "usda-ams",
+   "address": "https://www.ams.usda.gov/services/transportation-analysis/gtr-datasets",
+   "kind": "page text",
+   "quotation": "Weekly number of grain vessels loaded during the week and expected to be loaded within the next 10 days in the Gulf, PNW, and Vancouver, B.C."
+  },
+  {
    "key": "ams-datasets-vessel-rates-source",
    "registry": "usda-ams",
    "address": "https://www.ams.usda.gov/services/transportation-analysis/gtr-datasets",

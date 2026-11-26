@@ -70,6 +70,7 @@ function write(root, d) {
   if (d.commodities) put('commodities/index.json', d.commodities);
   if (d.prices) put('prices/index.json', d.prices);
   if (d.market) put('freight/market-now.json', d.market);
+  if (d.weekly) put('freight/portwatch/suez.json', d.weekly);
   if (d.assets) put('infrastructure/ports.geojson', { type: 'FeatureCollection', features: d.assets.map((id) => ({ properties: { id } })) });
 }
 
@@ -344,16 +345,11 @@ rejects('a bench that names a class with no standard vessel', withClasses((d) =>
 rejects('a bench whose class lost the legs of its standard vessel', withClasses((d) => delete d.classes[0].std.cons.laden), 'bench names big');
 
 // ---- the digest of the freight market page: its shape only, never stricter than the builder (a rule here discards the whole weekly update)
-const marketRow = (id, rank) => ({ id, now: 1200, ago: 1500, mt: { now: 40.5, ago: 52.1 }, rankMt: rank });
-const market = () => ({
-  s: 'portwatch', to: '2026-11-22', yearAgoTo: '2025-11-23', weeks: 4, days: 28, rankWeeks: 52,
-  unit: 'vessel transits in 28 days', mtUnit: 'Mt of estimated cargo in 28 days',
-  // passages that chokepoints.json of base() does not hold: the digest is checked on its own
-  types: {
-    tanker: ['p1', 'p2', 'p3', 'p4', 'p5'].map((id, i) => marketRow(id, 900 - 100 * i)),
-    dry: ['p6', 'p2', 'p7', 'p8', 'p9'].map((id, i) => marketRow(id, 800 - 100 * i)),
-  },
-});
+// the example is the builder's own file (a digest of the real weekly files): its passages are not those of chokepoints.json of base(),
+// so the digest is checked on its own
+const publishedDigest = path.join(path.dirname(script), '../../data/freight/market-now.json');
+const market = () => JSON.parse(fs.readFileSync(publishedDigest, 'utf8'));
+const marketRow = (id, rank) => ({ ...market().types.tanker[0], id, rankMt: rank });
 const withMarket = (mutate) => (d) => {
   d.sources = [{ id: 'portwatch' }, { id: 'atlas' }];
   d.market = market();
@@ -375,6 +371,15 @@ test('a tie in the ranking figure is accepted: the figures are rounded to three 
   assert.deepEqual(errors, []);
   assert.equal(status, 0);
 });
+test('a digest older than the weekly files is accepted: the weekly job keeps it when the builder refuses the new files', () => {
+  const { errors, status } = run(withMarket((m, d) => {
+    m.to = '2026-11-15';
+    m.yearAgoTo = '2025-11-16';
+    d.weekly = { id: 'suez', start: '2018-12-31', y: '2026-11-22', tanker: [], dry: [], vol: { tanker: [], dry: [] } }; // a file that ends a week after the digest, and is not even whole
+  }));
+  assert.deepEqual(errors, []);
+  assert.equal(status, 0);
+});
 test('a passage that chokepoints.json does not hold is accepted: the page says so, the week\'s data is not discarded', () => {
   const { errors, status } = run(withMarket((m) => {
     m.types.tanker[0].id = 'renamed-last-month';
@@ -384,8 +389,11 @@ test('a passage that chokepoints.json does not hold is accepted: the page says s
 });
 test('a passage in both lists, a figure of 0 and a whole-tonne cargo are accepted', () => {
   const { errors } = run(withMarket((m) => {
-    m.types.tanker[0].mt = { now: 0, ago: 1280 };
+    m.types.tanker[0].mt = { now: 0, ago: m.types.tanker[0].mt.ago, pct: -100 };
     m.types.tanker[0].now = 0;
+    m.types.tanker[0].pct = -100;
+    m.types.dry[0].pct = null; // nothing a year earlier: no change
+    m.types.dry[0].mt.pct = null;
   }));
   assert.deepEqual(errors, []);
 });
@@ -403,15 +411,19 @@ market_rejects('a name in a row (the atlas names are read from chokepoints.json 
 market_rejects('a gas list', (m) => (m.types.gas = []), 'types must have exactly the ship types tanker and dry');
 market_rejects('a list of four passages', (m) => m.types.tanker.pop(), 'types.tanker must be a list of 5 rows');
 market_rejects('a list of six passages', (m) => m.types.dry.push(marketRow('p10', 1)), 'types.dry must be a list of 5 rows');
-market_rejects('a passage twice in a list', (m) => (m.types.tanker[3].id = 'p1'), 'passage p1 appears twice');
+market_rejects('a passage twice in a list', (m) => (m.types.tanker[3].id = m.types.tanker[0].id), `passage ${market().types.tanker[0].id} appears twice`);
 market_rejects('a row without an id', (m) => (m.types.tanker[2].id = ''), 'types.tanker[2]: no id');
 market_rejects('a negative count', (m) => (m.types.tanker[0].now = -1), 'types.tanker[0].now: -1 is not a finite number');
-market_rejects('a count that is a text', (m) => (m.types.tanker[0].ago = '1500'), 'types.tanker[0].ago: "1500"');
+market_rejects('a count that is a text', (m) => (m.types.tanker[0].ago = String(m.types.tanker[0].ago)), `types.tanker[0].ago: "${market().types.tanker[0].ago}"`);
 market_rejects('a cargo that is not a number (null: NaN in a JSON file)', (m) => (m.types.dry[1].mt.now = null), 'types.dry[1].mt.now: null');
 market_rejects('a negative cargo a year back', (m) => (m.types.dry[1].mt.ago = -0.5), 'types.dry[1].mt.ago: -0.5');
-market_rejects('a cargo block with a third key', (m) => (m.types.dry[1].mt.avg = 3), 'types.dry[1].mt must have exactly now and ago');
+market_rejects('a cargo block with a fourth key', (m) => (m.types.dry[1].mt.avg = 3), 'types.dry[1].mt must have exactly now, ago and pct');
+market_rejects('a cargo block without its change', (m) => delete m.types.dry[1].mt.pct, 'types.dry[1].mt must have exactly now, ago and pct');
+market_rejects('a row without its change', (m) => delete m.types.tanker[1].pct, 'types.tanker[1] must have exactly the keys');
+market_rejects('a change of the transits that is a text', (m) => (m.types.tanker[1].pct = '-9.9'), 'types.tanker[1].pct: "-9.9" is not a finite number or null');
+market_rejects('a change of the cargo that is a boolean', (m) => (m.types.dry[2].mt.pct = true), 'types.dry[2].mt.pct: true is not a finite number or null');
 market_rejects('a ranking figure that is missing', (m) => (m.types.tanker[4].rankMt = null), 'types.tanker[4].rankMt: null');
-market_rejects('a ranking figure that increases down the list', (m) => (m.types.tanker[2].rankMt = 950), 'rankMt 950 is larger than the one above it');
+market_rejects('a ranking figure that increases down the list', (m) => (m.types.tanker[2].rankMt = m.types.tanker[1].rankMt + 1), `rankMt ${market().types.tanker[1].rankMt + 1} is larger than the one above it`);
 market_rejects('a digest that is not an object', (m, d) => (d.market = [1, 2]), 'must be an object with exactly the keys');
 test('a digest file that is not JSON is reported', () => {
   const root = fs.mkdtempSync(path.join(os.tmpdir(), 'freight-validate-'));

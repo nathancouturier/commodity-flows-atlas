@@ -269,6 +269,20 @@ def lines_passages(block):
             f"{signed(r['gap365'], 0)} on the 365 days before (IMF PortWatch, to {day_label(r['to'])})" for r in block["moves"]]
 
 
+def renamed_names(prev_items, registry):
+    """{old name: new name} for the sources of the previous file whose name in the registry has changed since it was stored. A source
+    whose id the registry does not hold keeps the name it was stored with."""
+    names = {s["id"]: s["name"] for s in registry}
+    out = {}
+    for i in prev_items or []:
+        ids = SOURCES_OF.get(i["id"], [i["id"]])
+        if all(s in names for s in ids):
+            want = " and ".join(names[s] for s in ids)
+            if want != i["name"]:
+                out[i["name"]] = want
+    return out
+
+
 def lines_sources(items):
     return [f"{i['name']}: " + (f"data to {day_label(i['data_to'])}" if i.get("data_to") else "new release") + f", checked on {day_label(i['t'])}"
             for i in items]
@@ -282,23 +296,33 @@ def build(prices_dir=os.path.join(DATA, "prices"), series_dir=os.path.join(DATA,
     seen = prev.get("seen")
     weekly, monthly = price_moves(prices_dir)
     passages = passage_moves(series_dir)
-    items, prints = published(updates if updates is not None else status.load(), registry if registry is not None else load(DATA, "sources.json", default=[]),
-                              (seen or {}).get("sources") if seen else None)
+    reg = registry if registry is not None else load(DATA, "sources.json", default=[])
+    items, prints = published(updates if updates is not None else status.load(), reg, (seen or {}).get("sources") if seen else None)
+    # a source renamed in the registry since the previous run: the name stored with it, and the stored lines that the name starts, follow it
+    renames = renamed_names(prev.get("sources"), reg)
+    kept = [{**i, "name": renames.get(i["name"], i["name"])} for i in prev.get("sources") or []]
     stamp = now.strftime("%Y-%m-%dT%H:%M:%SZ")
     day = now.strftime("%Y-%m-%d")
     if items and prev.get("sourcesOn") == day:
         # a second run on the same UTC day (the PortWatch and the prices jobs both run on Wednesday): the sources that the first
         # run reported stay, those of this run replace theirs
         mine = {i["id"] for i in items}
-        items = items + [i for i in prev.get("sources") or [] if i["id"] not in mine]
+        items = items + [i for i in kept if i["id"] not in mine]
     new = {
-        "weekly": weekly, "monthly": monthly, "passages": passages, "sources": items if items else (prev.get("sources") or []),
+        "weekly": weekly, "monthly": monthly, "passages": passages, "sources": items if items else kept,
         "sourcesOn": day if items else prev.get("sourcesOn"),
         "jobs": jobs(),
         "seen": {"weekly": weekly["to"], "monthly": monthly["to"], "passages": passages["to"], "sources": prints},
     }
     # a line stored before its source had words (or by an older script) is written again with them: the feed is made from these lines
-    entries = [{**e, "lines": [reword(l) for l in e.get("lines") or []]} for e in prev.get("entries") or []]
+    def under_its_name(e, line):
+        if e.get("kind") == "sources":
+            for was, now_named in renames.items():
+                if line.startswith(was + ": "):
+                    return now_named + line[len(was):]
+        return line
+
+    entries = [{**e, "lines": [under_its_name(e, reword(l)) for l in e.get("lines") or []]} for e in prev.get("entries") or []]
     add = []
     s = seen or {}
     if weekly["moves"] and weekly["to"] != s.get("weekly"):

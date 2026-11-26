@@ -1,22 +1,20 @@
 /** Freight market now: tankers and dry bulk carriers at the five passages with the most cargo of the type, the last four weeks against the same four weeks a year earlier (IMF PortWatch). */
 import '../../styles/freight-now.css';
 import type { Chokepoint, MarketNow, MarketNowRow } from '../../types';
+import type { ComponentChildren } from 'preact';
 import { load, sourceLabel, sources } from '../../lib/data';
 import { FAMILY_COLOR, FAMILY_LABEL } from '../../lib/format';
 import { loadChokepoints } from '../../lib/freight';
-import { INDICATORS, LINK_ONLY, NOT_A_RATE, indicatorNote, percentOnYear, valueInMonth, yearEarlier, type LinkOnly } from '../../lib/freightIndicators';
-import { MARKET_TYPES, readMarketNow, rowText } from '../../lib/marketNow';
+import { INDICATORS, LINK_ONLY, indicatorLines, indicatorNote, indicatorOf, type Indicator, type IndicatorLine, type LinkOnly } from '../../lib/freightIndicators';
+import { MARKET_TYPES, classesNote, leadText, readMarketNow, rowLines } from '../../lib/marketNow';
 import { fmtPct, fmtPrice, isLate, loadSeries, openPrices, type PriceMeta } from '../../lib/prices';
 import { fmtDate } from '../../lib/status';
 import { select } from '../../lib/store';
 import { Section, SourceLine, Skeleton } from '../ui';
 import { useLoaded } from './shared';
 
-const LEAD = 'This page shows traffic at the main passages and two indicators, none of them a freight rate: the atlas shows no spot rate for tankers or gas carriers and no Baltic Exchange index value, since the sources it knows for them are proprietary or cannot be republished.';
 const NO_FIGURES = 'No traffic figures are available.';
 const NO_INDICATORS = 'No indicator figures are available.';
-const CLASSES =
-  'PortWatch lists five ship classes (container, dry bulk, general cargo, ro-ro and tanker) and defines none, so the atlas cannot say whether gas carriers are in its tanker class: the tanker figures above may include them or not. The atlas shows no separate gas carrier figure.';
 
 /** The digest, and the atlas's name of each passage (data/freight/chokepoints.json: a passage that the catalogue lacks keeps its id and has no page to open). */
 async function loadPage(): Promise<{ digest: MarketNow | null; names: Map<string, string> }> {
@@ -27,40 +25,32 @@ async function loadPage(): Promise<{ digest: MarketNow | null; names: Map<string
   return { digest, names: new Map((Array.isArray(catalogue) ? catalogue : []).map((c) => [c.id, c.name])) };
 }
 
-/** An indicator of the price files, with the value of the same month a year earlier (found by its date). A series that fails to load has no row. */
-interface Indicator {
-  meta: PriceMeta;
-  segment: string;
-  ago: number | null;
-}
-async function loadIndicators(): Promise<Indicator[]> {
+/** The indicators of the price files, each with the value of the same month a year earlier (found by its date). A series that fails to load has no row. */
+async function loadIndicators(): Promise<Indicator<PriceMeta>[]> {
   const rows = await Promise.all(
-    INDICATORS.map(async ({ id, segment }): Promise<Indicator | null> => {
+    INDICATORS.map(async ({ id, segment }): Promise<Indicator<PriceMeta> | null> => {
       try {
         const s = await loadSeries(id);
-        const last = s.meta.stats?.last;
-        if (!last) return null;
-        return { meta: s.meta, segment, ago: valueInMonth(s.x, s.v, yearEarlier(last.t)) };
+        return indicatorOf(s.meta, s.x, s.v, segment);
       } catch {
         return null;
       }
     }),
   );
-  return rows.filter((r): r is Indicator => r !== null);
+  return rows.filter((r): r is Indicator<PriceMeta> => r !== null);
 }
 
 function PassageRow({ row, name, src, y }: { row: MarketNowRow; name?: string; src: string; y: string }) {
-  const t = rowText(row);
+  const lines = rowLines(row);
   const body = (
     <>
       <b class="fn-name">{name ?? row.id}</b>
       <span class="muted small num fn-fig">
-        <span>
-          Transits {t.transits.now} vs {t.transits.ago} a year earlier: <b title={t.transits.change === '—' ? 'No per cent to print: nothing a year earlier' : undefined}>{t.transits.change}</b>
-        </span>
-        <span>
-          Cargo {t.cargo.now} vs {t.cargo.ago} a year earlier: <b title={t.cargo.change === '—' ? 'No per cent to print: nothing a year earlier' : undefined}>{t.cargo.change}</b>
-        </span>
+        {[lines.transits, lines.cargo].map((l) => (
+          <span key={l.text}>
+            {l.text}: <b title={l.title}>{l.change}</b>
+          </span>
+        ))}
       </span>
     </>
   );
@@ -76,39 +66,28 @@ function PassageRow({ row, name, src, y }: { row: MarketNowRow; name?: string; s
   );
 }
 
+const part = (p: IndicatorLine['parts'][number], i: number): ComponentChildren => (typeof p === 'string' ? p : <b key={i}>{p.b}</b>);
+
 /** The row opens the series in the price explorer; the source line under it carries the source and the month for "Copy citation". */
-function IndicatorRow({ ind }: { ind: Indicator }) {
-  const { meta: m, segment, ago } = ind;
+function IndicatorRow({ ind }: { ind: Indicator<PriceMeta> }) {
+  const m = ind.meta;
   const last = m.stats!.last;
-  const late = isLate(m);
-  const pct = percentOnYear(m);
+  const lines = indicatorLines(ind, { price: fmtPrice, date: fmtDate, pct: fmtPct, isLate: (now) => isLate(m, now) }, Date.now());
   const publisher = sources.value[m.s]?.publisher ?? m.s;
+  const sourceName = sources.value[m.s]?.name ?? m.s;
   return (
     <div class="fn-ind" data-src={m.s} data-y={last.t}>
       <button class="list-btn fn-row" onClick={() => openPrices({ series: [m.id] })} title={`Open ${m.name} in the price explorer · ${sourceLabel(m.s)}${m.basis ? ' · ' + m.basis : ''}`}>
         <b class="fn-name">{m.name}</b>
         <span class="muted small num fn-fig">
-          <span>
-            {segment} · {NOT_A_RATE}
-          </span>
-          <span title={late ? `No value since ${fmtDate(last.t)}: this series is late` : undefined}>
-            {fmtPrice(last.v)} {m.unit} in {fmtDate(last.t)}
-            {late ? ' · late' : ''}
-          </span>
-          {ago != null && (
-            <span>
-              A year earlier, {fmtDate(yearEarlier(last.t))}: {fmtPrice(ago)}
-              {pct != null && <> · <b>{fmtPct(pct)}</b> on the year</>}
+          {lines.map((l, i) => (
+            <span key={i} title={l.title}>
+              {l.parts.map(part)}
             </span>
-          )}
-          {ago == null && pct != null && (
-            <span>
-              Change on one year: <b>{fmtPct(pct)}</b>
-            </span>
-          )}
+          ))}
         </span>
       </button>
-      <SourceLine s={m.s} y={last.t} n={indicatorNote(m.id, publisher, m.note)} />
+      <SourceLine s={m.s} y={last.t} n={indicatorNote(m.id, publisher, m.note, sourceName)} />
     </div>
   );
 }
@@ -148,7 +127,7 @@ export default function FreightNowView() {
     <>
       {head}
       <div class="panel-scroll">
-        <p class="prose" style={{ margin: '8px 0 0' }}>{LEAD}</p>
+        {indicators !== undefined && <p class="prose" style={{ margin: '8px 0 0' }}>{leadText(indicators?.length ?? 0)}</p>}
         {page === undefined ? (
           <Skeleton lines={6} />
         ) : !digest ? (
@@ -160,6 +139,7 @@ export default function FreightNowView() {
             </p>
             {MARKET_TYPES.map(({ type, title, noun }) => {
               const rows = digest.types[type];
+              const classes = classesNote(type, rows);
               return (
                 <Section key={type} title={title}>
                   {rows.length === 0 ? (
@@ -179,7 +159,7 @@ export default function FreightNowView() {
                       />
                     </>
                   )}
-                  {type === 'tanker' && <p class="muted small fn-classes">{CLASSES}</p>}
+                  {classes && <p class="muted small fn-classes">{classes}</p>}
                 </Section>
               );
             })}

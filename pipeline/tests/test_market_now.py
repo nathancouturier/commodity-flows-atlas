@@ -20,6 +20,7 @@ import tempfile
 import time
 import unittest
 from datetime import date, timedelta
+from fractions import Fraction
 from unittest import mock
 
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
@@ -67,6 +68,11 @@ def series_doc(pid, weeks=120, last_day=None, **lists):
         else:
             doc[k] = v
     return doc
+
+
+def young(pid, total=120, have=60, **lists):
+    """A passage mapped lately: ``have`` weeks that end on the same Sunday as a series of ``total`` weeks."""
+    return series_doc(pid, have, last_day=START + timedelta(days=7 * total - 1), start=str(START + timedelta(days=7 * (total - have))), **lists)
 
 
 class Folder(unittest.TestCase):
@@ -199,6 +205,20 @@ class TheRanking(Folder):
         # nothing carried now: the passages are still there, with their year-earlier figures
         self.assertTrue(all(r["mt"]["now"] == 0 and r["mt"]["ago"] > 0 for r in rows))
 
+    def test_passages_are_ranked_on_the_sum_before_rounding_the_same_printed_figure_keeps_the_order_of_the_sums_and_only_an_exact_tie_goes_by_id(self):
+        w = 120
+        # 52 weeks x 7 days x the weekly mean: 512.9124 and 512.6576 both print 513, and the id of the larger one sorts last
+        means = {"a": 1.4084, "z": 1.4091, "b": 2.0, "c": 1.9, "d": 1.8, "e": 0.1, "f": 0.1}
+        for pid, v in means.items():
+            self.put(series_doc(pid, w, vol_tanker=[v] * w))
+        rows = BM.build(self.dir)[0]["types"]["tanker"]
+        self.assertEqual([r["id"] for r in rows], ["b", "c", "d", "z", "a"])
+        self.assertEqual((rows[3]["rankMt"], rows[4]["rankMt"]), (513, 513))
+        # the same sums: the id decides
+        self.put(series_doc("z", w, vol_tanker=[1.4084] * w))
+        rows = BM.build(self.dir)[0]["types"]["tanker"]
+        self.assertEqual([r["id"] for r in rows], ["b", "c", "d", "a", "z"])
+
     def test_a_passage_may_rank_in_both_lists_and_the_two_lists_are_ranked_apart(self):
         self.seven(weeks=120)
         doc = BM.build(self.dir)[0]
@@ -215,7 +235,150 @@ class TheRanking(Folder):
         self.assertNotIn("gas", text.lower())
         self.assertEqual(set(doc), {"s", "to", "yearAgoTo", "weeks", "days", "rankWeeks", "unit", "mtUnit", "types"})
         for r in doc["types"]["dry"]:
-            self.assertEqual(set(r), {"id", "now", "ago", "mt", "rankMt"})
+            self.assertEqual(set(r), {"id", "now", "ago", "pct", "mt", "rankMt"})
+            self.assertEqual(set(r["mt"]), {"now", "ago", "pct"})
+
+
+class TheChangeInPerCent(Folder):
+    """The builder computes the change, on the sums before any rounding: the page prints it and works out none."""
+
+    def put_six(self, **aa):
+        """Passage "aa" with the lists given, and five others; returns aa's row of the tankers."""
+        self.put(series_doc("aa", 120, **aa))
+        for pid in ("bb", "cc", "dd", "ee", "ff"):
+            self.put(series_doc(pid, 120, vol_tanker=[0.01] * 120))
+        return {r["id"]: r for r in BM.build(self.dir)[0]["types"]["tanker"]}["aa"]
+
+    def test_the_change_is_computed_on_the_sums_before_rounding_not_on_the_three_figures_of_the_file(self):
+        # 4 weeks x 7 x 0.1234 = 3.4552 Mt now, 4 x 7 x 0.2 = 5.6 Mt a year back: the three-figure values 3.46 and 5.6 give -38.2%, the sums -38.3%
+        w = 120
+        r = self.put_six(vol_tanker=[0.2] * (w - 4 - 48) + [0.2] * 48 + [0.1234] * 4)
+        self.assertEqual((r["mt"]["now"], r["mt"]["ago"]), (3.46, 5.6))
+        self.assertEqual(r["mt"]["pct"], -38.3)
+        self.assertEqual(round(100 * (3.46 - 5.6) / 5.6, 1), -38.2)      # what the page used to print
+        # the transits: 7 x (0.3 + 0.3 + 0.3 + 0.4) = 9.1 vessels now, 7 x 2.0 = 14 a year back: whole vessels 9 and 14 would give -35.7%, the sums -35.0%
+        r = self.put_six(tanker=[0.5] * (w - 4) + [0.3, 0.3, 0.3, 0.4])
+        self.assertEqual((r["now"], r["ago"]), (9, 14))
+        self.assertEqual(r["pct"], -35.0)
+        self.assertEqual(round(100 * (9 - 14) / 14, 1), -35.7)
+
+    def test_a_half_goes_away_from_zero_a_zero_year_earlier_is_null_and_a_fall_never_reads_minus_100_while_something_is_left(self):
+        D = BM.Decimal
+        self.assertEqual(BM.pct(D("1125"), D("1000")), 12.5)
+        self.assertEqual(BM.pct(D("875"), D("1000")), -12.5)
+        self.assertEqual(BM.pct(D("100.05"), D("100")), 0.1)          # 0.05%: a half, up
+        self.assertEqual(BM.pct(D("99.95"), D("100")), -0.1)          # and away from zero for a fall
+        self.assertEqual(BM.pct(D("100.049"), D("100")), 0.0)
+        z = BM.pct(D("99.99"), D("100"))
+        self.assertEqual(z, 0.0)
+        self.assertEqual(json.dumps(z), "0.0", "never -0.0")
+        self.assertIsNone(BM.pct(D("5"), D("0")))
+        self.assertIsNone(BM.pct(D("0"), D("0")))
+        self.assertEqual(BM.pct(D("0"), D("7")), -100.0)
+        self.assertEqual(BM.pct(D("0.1"), D("100000")), -99.9)        # -99.9999%: one decimal says -100.0, but something is left
+        self.assertEqual(BM.pct(D("0.04"), D("100")), -99.9)
+        self.assertEqual(BM.pct(D("300"), D("100")), 200.0)
+        # a division that is not exact is still decided by the sums, not by a binary or a 28-digit rounding
+        self.assertEqual(BM.pct(D("1.000000000000000000000000000049"), D("1")), 0.0)
+
+    def test_the_file_stores_null_where_nothing_was_carried_a_year_earlier(self):
+        w = 120
+        # cargo over the ranking weeks, none in the last four of them (the year-earlier window), then some in the window now
+        r = self.put_six(vol_tanker=[1.0] * (w - 56) + [0.0] * 52 + [0.5] * 4, tanker=[1.0] * (w - 56) + [0.0] * 52 + [1.0] * 4)
+        self.assertEqual((r["ago"], r["mt"]["ago"]), (0, 0))
+        self.assertIsNone(r["mt"]["pct"])
+        self.assertIsNone(r["pct"])
+        self.assertEqual(r["mt"]["now"], 14)
+
+    def test_the_stored_changes_of_the_published_file_are_recomputed_from_the_weekly_files_here(self):
+        """On the published file: the change is the one of the exact sums (Fraction arithmetic here), not of the figures it stores."""
+        if not os.path.exists(PUBLISHED):
+            self.skipTest("no published digest yet")
+        doc = json.loads(read("data", "freight", "market-now.json"))
+        built = None
+        try:
+            built, _ = BM.build(SERIES)
+        except ValueError as e:
+            self.skipTest(f"the builder refuses the weekly files as they are ({e}): the digest is kept")
+        if built["to"] != doc["to"]:
+            self.skipTest("the published digest is of another week than the weekly files")
+        for t, rows in doc["types"].items():
+            for r in rows:
+                with open(os.path.join(SERIES, r["id"] + ".json"), encoding="utf-8") as fh:
+                    s = json.load(fh)
+                n = len(s[t])
+                last = n - 1 if date.fromisoformat(s["y"]).weekday() == 6 else n - 2
+                for key, lists in (("pct", s[t]), ("mt.pct", s["vol"][t])):
+                    now = sum(Fraction(repr(x)) for x in lists[last - 3:last + 1])
+                    ago = sum(Fraction(repr(x)) for x in lists[last - 55:last - 51])
+                    tenths = (now - ago) * 1000 / ago
+                    want = int(abs(tenths) + Fraction(1, 2)) * (1 if tenths >= 0 else -1)
+                    if want == -1000 and now != 0:
+                        want = -999
+                    got = r["pct"] if key == "pct" else r["mt"]["pct"]
+                    self.assertEqual(got, want / 10 if want else 0.0, (t, r["id"], key))
+
+
+class TheSeriesThatCannotBeRankedAndTheOnesThatLag(Folder):
+    def test_a_series_too_short_to_be_ranked_is_left_out_named_in_the_output_and_the_digest_is_built_from_the_others(self):
+        self.seven(weeks=120)
+        reference = BM.build(self.dir)[0]
+        self.put(young("newpass", vol_tanker=[50.0] * 60, vol_dry=[50.0] * 60))          # larger than any of them, but mapped lately
+        out = self.main()
+        with open(self.out, encoding="utf-8") as fh:
+            self.assertEqual(json.loads(fh.read())["types"], reference["types"])
+        self.assertIn("left out of the ranking: newpass.json starts on", out)
+        self.assertEqual(status.get("build-market-now")["consecutive_failures"], 0)
+        self.assertEqual(status.get("build-market-now")["records"], 10)
+        self.assertIn("1 series left out of the ranking (newpass)", self.last_note())
+        # a file that starts on the first Monday of the 52 ranking weeks is ranked
+        # 52 ranking weeks end 53 weeks before the last one: 104 weeks of a file of 120 hold them
+        self.put(young("edge", total=120, have=104, vol_tanker=[50.0] * 104))
+        self.assertEqual(BM.build(self.dir)[0]["types"]["tanker"][0]["id"], "edge")
+        # one week later is not
+        self.put(young("edge", total=120, have=103, vol_tanker=[50.0] * 103))
+        self.assertNotIn("edge", [r["id"] for r in BM.build(self.dir)[0]["types"]["tanker"]])
+
+    def last_note(self):
+        with open(status.LOG, encoding="utf-8") as fh:
+            return json.loads(fh.read().splitlines()[-1])["note"]
+
+    def test_series_that_end_later_than_the_digest_are_counted_in_the_output_and_in_the_note_whether_the_file_changes_or_not(self):
+        w = 120
+        self.seven(weeks=w)
+        self.put(series_doc("gg", w - 1))                       # one passage lags a week behind the six others
+        out = self.main()
+        self.assertIn("6 series end later than the digest, on " + str(START + timedelta(days=7 * w - 1)), out)
+        self.assertIn("the digest ends on " + str(START + timedelta(days=7 * (w - 1) - 1)), out)
+        self.assertIn("last complete week of gg", out)
+        self.assertEqual(self.last_note(), "updated; 6 series end later than " + str(START + timedelta(days=7 * (w - 1) - 1)) + " (on " + str(START + timedelta(days=7 * w - 1)) + ")")
+        # the next run changes nothing: the date is held back all the same, and the record says so
+        out = self.main()
+        self.assertIn("(unchanged)", out)
+        self.assertIn("6 series end later than the digest", out)
+        self.assertTrue(self.last_note().startswith("unchanged; 6 series end later than "))
+        # all the series end on the same week: nothing to say
+        self.put(series_doc("gg", w))
+        out = self.main()
+        self.assertNotIn("end later", out)
+        self.assertEqual(self.last_note(), "updated")
+
+    def test_a_lag_that_would_date_the_digest_earlier_than_the_one_published_is_refused_and_says_who_holds_it_back(self):
+        w = 120
+        self.seven(weeks=w)
+        self.main()
+        with open(self.out, encoding="utf-8") as fh:
+            before = fh.read()
+        self.put(series_doc("gg", w - 1))
+        out = self.main()
+        with open(self.out, encoding="utf-8") as fh:
+            self.assertEqual(fh.read(), before)
+        e = status.get("build-market-now")
+        self.assertEqual(e["consecutive_failures"], 1)
+        self.assertIn("earlier than the one published", e["last_error"])
+        self.assertIn("6 series end later", e["last_error"])
+        self.assertIn("failed, previous file kept", out)
+        self.assertIn("last complete week of gg", out)
 
 
 class Refusals(Folder):
@@ -247,10 +410,25 @@ class Refusals(Folder):
         self.put(doc)
         self.refused("a week is missing or extra")
 
-    def test_a_series_that_stops_before_the_digest_can_look_back_is_refused(self):
+    def test_fewer_than_five_series_that_can_be_ranked_are_refused(self):
         self.seven(weeks=120)
-        self.put(series_doc("gg", 100))
-        self.refused("no week ends on")
+        for pid in ("cc", "dd", "ee"):
+            self.put(young(pid))
+        self.refused("4 of 7 weekly series reach back 52 weeks")
+        self.refused("at least 5 are needed")
+
+    def test_a_series_that_is_malformed_is_refused_wherever_it_would_rank(self):
+        self.seven(weeks=120)
+        doc = young("gg")                                   # too short to rank, and a week short
+        for k in ("tanker", "dry"):
+            doc[k].pop()
+        for k in ("tanker", "dry"):
+            doc["vol"][k].pop()
+        self.put(doc)
+        self.refused("a week is missing or extra")
+        doc = young("gg", tanker=[1.0] * 59 + ["x"])
+        self.put(doc)
+        self.refused("not a number")
 
     def test_lists_of_different_lengths_a_missing_vol_a_missing_list_and_a_start_that_is_not_a_monday_are_refused(self):
         self.seven(weeks=120)
@@ -407,6 +585,8 @@ class AsAScript(unittest.TestCase):
             self.assertFalse(os.path.exists(os.path.join(tmp, "pipeline", "cache")))
             r = self.run_script(tmp)
             self.assertEqual(r.returncode, 0, r.stderr)
+            if "previous file kept" in r.stdout:
+                self.skipTest("the builder refuses the weekly files as they are (the previous digest is kept, the failure is recorded and alerted)")
             made = slurp(tmp, "data", "freight", "market-now.json")
             if json.loads(made)["to"] != json.loads(read("data", "freight", "market-now.json"))["to"]:
                 self.skipTest("the published digest is of an earlier week than the weekly files (its step failed: the failure is recorded and alerted)")
@@ -448,7 +628,12 @@ class ThePublishedDigest(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.doc = json.loads(read("data", "freight", "market-now.json"))
-        cls.built, _ = BM.build(SERIES)
+        # the weekly job can write files that the builder then refuses, and keep the digest: that is not a failure of this file
+        try:
+            cls.built, _ = BM.build(SERIES)
+            cls.refused = None
+        except ValueError as e:
+            cls.built, cls.refused = None, str(e)
         cls.series = {}
         for f in os.listdir(SERIES):
             if f.endswith(".json"):
@@ -456,6 +641,13 @@ class ThePublishedDigest(unittest.TestCase):
                     cls.series[os.path.splitext(f)[0]] = json.load(fh)
 
     def current(self):
+        """The comparisons below need the digest to be that of the weekly files as they are: otherwise the step kept the old digest (it
+        refused the new files, or they have advanced and it failed), which is recorded and alerted, and the republication of the site
+        does not wait for it. A digest dated after the files is not skipped: nothing explains it."""
+        if self.refused:
+            self.skipTest(f"the builder refuses the weekly files as they are ({self.refused}): the previous digest is kept, the failure recorded and alerted")
+        if self.doc["to"] > self.built["to"]:
+            self.fail(f"the published digest ends on {self.doc['to']}, after the weekly files ({self.built['to']})")
         if self.doc["to"] != self.built["to"]:
             self.skipTest("the published digest is of an earlier week than the weekly files: its step failed, which is recorded and alerted")
 
@@ -476,7 +668,8 @@ class ThePublishedDigest(unittest.TestCase):
             self.assertTrue(all(r["id"] in self.series for r in rows), t)
             self.assertTrue(all(rows[i]["rankMt"] >= rows[i + 1]["rankMt"] for i in range(4)), t)
             for r in rows:
-                self.assertEqual(set(r), {"id", "now", "ago", "mt", "rankMt"})
+                self.assertEqual(set(r), {"id", "now", "ago", "pct", "mt", "rankMt"})
+                self.assertEqual(set(r["mt"]), {"now", "ago", "pct"})
                 self.assertIsInstance(r["now"], int)
         self.assertNotIn('"name"', read("data", "freight", "market-now.json"))
 

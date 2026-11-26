@@ -9,11 +9,16 @@ releases: the About window's "What changed" lists them. The full account of each
 ### Added
 - Freight market now: a page opened from a new row under "Routes by vessel class". For tankers and for dry bulk
   carriers it gives the five passages with the most cargo of that ship type, with the vessels that crossed each and
-  PortWatch's estimate of their cargo over the last four weeks against the same four weeks a year earlier. Below, the
-  Dallas Fed index of global real economic activity and the BLS deep-sea freight producer price index, each marked as
-  not a freight rate, and links to the Baltic Exchange, the Shanghai Shipping Exchange and the USDA grain vessel
-  line-up and grain ocean rates, of which no value is shown.
-- The About window lists the Shanghai Shipping Exchange and the USDA Agricultural Marketing Service among the sources.
+  PortWatch's estimate of their cargo over the last four weeks against the same four weeks a year earlier, and the
+  change in per cent. Below, the Dallas Fed index of global real economic activity and the BLS deep-sea freight
+  producer price index, each marked as not a freight rate, and links to the Baltic Exchange, the Shanghai Shipping
+  Exchange and the USDA's weekly count of grain vessels and grain ocean rates, of which no value is shown.
+- The About window lists the Shanghai Shipping Exchange and the USDA Agricultural Marketing Service among the sources,
+  and says that sums and ratios of one source's own published figures are not labelled "Atlas estimate".
+
+### Changed
+- The Dallas Fed's index of global real economic activity is credited with the Bank's name first, in its source lines,
+  in "Copy citation", in the About window and in the weekly digest of changes and its feed.
 
 ## Release 9 (2026-11-25)
 

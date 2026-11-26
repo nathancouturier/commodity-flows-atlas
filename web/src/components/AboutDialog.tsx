@@ -151,7 +151,7 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
                 <tr key={s.id}>
                   <th scope="row">
                     <Ext href={s.url}>{s.name}</Ext>
-                    <small>{s.publisher}</small>
+                    {!s.name.startsWith(s.publisher) && <small>{s.publisher}</small>}
                   </th>
                   <td data-label="Licence">
                     <LicenceText text={s.licence} />
@@ -367,8 +367,12 @@ function MethodTabView() {
           standard vessel as starting values. It is not a market rate and not a Baltic Exchange assessment, and nothing typed is saved.
         </li>
         <li>
-          Figures computed by the atlas, such as route and chokepoint shares, are labelled "Atlas estimate". So is a tonnage that customs data lack and
+          Estimates computed by the atlas, such as route and chokepoint shares, are labelled "Atlas estimate". So is a tonnage that customs data lack and
           the atlas computed from the declared value, or (LPG from the United States to Mexico) from a volume in the United States' own export statistics; it is shown to two significant digits.
+        </li>
+        <li>
+          Sums and ratios of one source's own published figures, such as the weekly averages and the changes against a year earlier of IMF PortWatch's traffic, are not estimates: they keep the
+          source's credit and say "data adapted".
         </li>
         <li>When sources disagree, the official or primary source is shown and the difference is noted.</li>
       </ul>

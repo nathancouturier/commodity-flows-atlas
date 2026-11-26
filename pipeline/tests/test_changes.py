@@ -347,6 +347,63 @@ class Digest(unittest.TestCase):
                 self.assertEqual(C.reword(f"N: +1.0% in Oct 2026 (1 to 2 USD; {sid})"), f"N: +1.0% in Oct 2026 (1 to 2 USD; {word})")
                 self.assertEqual(C.reword(f"N: +1.0% in Oct 2026 (1 to 2 USD; {word})"), f"N: +1.0% in Oct 2026 (1 to 2 USD; {word})")
 
+    def test_a_source_renamed_in_the_registry_is_renamed_where_its_name_was_stored(self):
+        """The digest stores the name of a source with the date it published, and a line of the feed starts with it: both follow a
+        new name of the registry at the next run, a source the registry no longer holds keeps its stored name, and no other line moves."""
+        with tempfile.TemporaryDirectory() as tmp:
+            prices = os.path.join(tmp, "prices")
+            os.makedirs(prices)
+            prices_folder(prices)
+            empty = os.path.join(tmp, "none")
+            os.makedirs(empty)
+            old = {"generated": "2026-11-25T22:00:00Z", "sourcesOn": "2026-11-25",
+                   "seen": {"weekly": "2026-11-17", "monthly": "2026-10", "passages": None, "sources": {}},
+                   "sources": [{"id": "dallasfed", "name": "Index of activity", "data_to": "2026-10", "t": "2026-11-25T20:38:17Z"},
+                               {"id": "gone", "name": "A source of before", "data_to": None, "t": "2026-11-25T20:38:17Z"},
+                               {"id": "faostat-wna", "name": "FAO and WNA of before", "data_to": "2024", "t": "2026-11-25T20:38:17Z"}],
+                   "entries": [
+                       {"id": "2026-11-25-sources", "kind": "sources", "t": "2026-11-25T22:00:00Z", "title": "Sources that published new data",
+                        "lines": ["Index of activity: data to Oct 2026, checked on 25 Nov 2026", "A source of before: new release, checked on 25 Nov 2026",
+                                  "FAO and WNA of before: data to 2024, checked on 25 Nov 2026"]},
+                       {"id": "2026-11-18-prices", "kind": "prices", "t": "2026-11-18T22:00:00Z", "title": "Price moves, week to 17 Nov 2026",
+                        "lines": ["Index of activity: +3.1% in the week to 17 Nov 2026 (90.16 to 92.94 USD/bbl; x-id)"]}]}
+            reg = [{"id": "dallasfed", "name": "The Bank, index of activity"}, {"id": "faostat", "name": "FAO"}, {"id": "wna", "name": "WNA"}]
+            now = datetime(2026, 11, 26, 3, 0, tzinfo=timezone.utc)
+            doc, added = C.build(prices_dir=prices, series_dir=empty, now=now, previous=old, updates={"sources": {}}, registry=reg)
+            self.assertFalse(added)                                     # a new name is not news: no entry is added
+            self.assertEqual([i["name"] for i in doc["sources"]], ["The Bank, index of activity", "A source of before", "FAO and WNA"])
+            lines = {e["id"]: e["lines"] for e in doc["entries"]}
+            self.assertEqual(lines["2026-11-25-sources"], ["The Bank, index of activity: data to Oct 2026, checked on 25 Nov 2026",
+                                                           "A source of before: new release, checked on 25 Nov 2026",
+                                                           "FAO and WNA: data to 2024, checked on 25 Nov 2026"])
+            self.assertEqual(lines["2026-11-18-prices"], old["entries"][1]["lines"])   # a line of another kind is not a source's line
+            self.assertEqual(doc["generated"], old["generated"])
+            feed = C.atom(doc)
+            self.assertIn("The Bank, index of activity: data to Oct 2026", feed)
+            self.assertNotIn("\nIndex of activity: data to", feed)
+            again, _ = C.build(prices_dir=prices, series_dir=empty, now=now, previous=doc, updates={"sources": {}}, registry=reg)
+            self.assertEqual({k: v for k, v in again.items()}, {k: v for k, v in doc.items()})   # a second pass changes nothing
+            # without the registry (or with an empty one) nothing is renamed
+            bare, _ = C.build(prices_dir=prices, series_dir=empty, now=now, previous=old, updates={"sources": {}}, registry=[])
+            self.assertEqual(bare["sources"], old["sources"])
+            self.assertEqual(bare["entries"][0]["lines"], old["entries"][0]["lines"])
+
+    def test_the_committed_digest_names_its_sources_as_the_registry_does(self):
+        """After a source is renamed in the registry the digest is rebuilt (pipeline/common/changes.py) before the change is published."""
+        with open(os.path.join(ROOT, "data", "sources.json"), encoding="utf-8") as fh:
+            reg = json.load(fh)
+        with open(os.path.join(ROOT, "data", "_status", "changes.json"), encoding="utf-8") as fh:
+            doc = json.load(fh)
+        self.assertEqual(C.renamed_names(doc.get("sources"), reg), {})
+        names = {s["id"]: s["name"] for s in reg}
+        for i in doc.get("sources") or []:
+            ids = C.SOURCES_OF.get(i["id"], [i["id"]])
+            if all(s in names for s in ids):
+                want = " and ".join(names[s] for s in ids)
+                for e in doc["entries"]:
+                    if e["kind"] == "sources" and e["t"][:10] == doc.get("sourcesOn"):
+                        self.assertTrue(any(l.startswith(want + ": ") for l in e["lines"]), (i["id"], e["lines"]))
+
     def test_no_line_of_the_feed_built_from_the_committed_digest_ends_with_the_id_of_a_source_that_has_words(self):
         """The feed is rebuilt from changes.json at the release: whatever ids the committed file holds, the feed it makes has none (nothing is written)."""
         with open(os.path.join(ROOT, "data", "_status", "changes.json"), encoding="utf-8") as fh:

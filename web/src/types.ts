@@ -1452,8 +1452,10 @@ export interface MarketNowRow {
   /** vessel transits of the ship type in the window (whole vessels) */
   now: number;
   ago: number;
-  /** PortWatch's estimated cargo of the ship type, Mt over the window (three significant figures) */
-  mt: { now: number; ago: number };
+  /** the change of the transits in per cent, one decimal, worked out by the builder on the sums before rounding; null when there was nothing a year earlier */
+  pct: number | null;
+  /** PortWatch's estimated cargo of the ship type, Mt over the window (three significant figures), and its change in per cent (as `pct`) */
+  mt: { now: number; ago: number; pct: number | null };
   /** the cargo of the ship type over the 52 weeks that end with the year-earlier window: what ranks the passage (Mt) */
   rankMt: number;
 }

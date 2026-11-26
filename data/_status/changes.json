@@ -195,13 +195,13 @@
   },
   {
    "id": "dallasfed",
-   "name": "Index of global real economic activity (Kilian index)",
+   "name": "Federal Reserve Bank of Dallas, index of global real economic activity (Kilian index)",
    "data_to": "2026-10",
    "t": "2026-11-25T20:38:17Z"
   },
   {
    "id": "eia-spot",
-   "name": "EIA spot prices (petroleum and natural gas)",
+   "name": "EIA spot prices of petroleum and natural gas (the EIA gives Refinitiv as the source)",
    "data_to": "2026-11-24",
    "t": "2026-11-25T20:38:17Z"
   },
@@ -313,8 +313,8 @@
    "title": "Sources that published new data",
    "lines": [
     "BLS Producer Price Index, deep sea freight transportation (series PCU483111483111): data to Oct 2026, checked on 25 Nov 2026",
-    "Index of global real economic activity (Kilian index): data to Oct 2026, checked on 25 Nov 2026",
-    "EIA spot prices (petroleum and natural gas): data to 24 Nov 2026, checked on 25 Nov 2026",
+    "Federal Reserve Bank of Dallas, index of global real economic activity (Kilian index): data to Oct 2026, checked on 25 Nov 2026",
+    "EIA spot prices of petroleum and natural gas (the EIA gives Refinitiv as the source): data to 24 Nov 2026, checked on 25 Nov 2026",
     "Global Supply Chain Pressure Index (GSCPI): data to Oct 2026, checked on 25 Nov 2026",
     "IMF PortWatch chokepoint transits (Atlas weekly averages of IMF PortWatch daily counts): data to 22 Nov 2026, checked on 25 Nov 2026"
    ]

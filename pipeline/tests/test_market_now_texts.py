@@ -34,6 +34,8 @@ SAVED = {
     "sse-footer": ("html", f"{WORK}/FNOW/dl/sse-home.html"),
     "ams-privacy-public-information": ("html", f"{WORK}/FNOW/critic/dl/ams-privacy.html"),
     "ams-datasets-non-copyrighted": ("html", f"{WORK}/FNOW/dl/ams-gtr-datasets.html"),
+    "ams-datasets-vessel-activity-table": ("html", f"{WORK}/FNOW/dl/ams-gtr-datasets.html"),
+    "ams-datasets-vessel-activity-counts": ("html", f"{WORK}/FNOW/dl/ams-gtr-datasets.html"),
     "ams-datasets-vessel-rates-source": ("html", f"{WORK}/FNOW/dl/ams-gtr-datasets.html"),
     "agtransport-vessel-loading-attribution": ("field", f"{WORK}/FNOW/dl/views-vh5k-mnyv.json", "attribution"),
     "agtransport-vessel-rates-attribution": ("field", f"{WORK}/FNOW/dl/views-ehs5-yac3.json", "attribution"),
@@ -161,7 +163,7 @@ class Quotations(unittest.TestCase):
         if not found:
             self.skipTest("the saved pages are not on this machine")
 
-    def test_the_saved_item_names_five_classes_defines_none_and_does_not_mention_gas_carriers(self):
+    def test_the_saved_item_names_five_classes_does_not_say_what_each_holds_and_does_not_mention_gas_carriers(self):
         text = saved_text(SAVED["portwatch-ship-categories"])
         if text is None:
             self.skipTest("the saved item is not on this machine")
@@ -186,8 +188,9 @@ class Quotations(unittest.TestCase):
     def test_each_publisher_quotation_the_page_relies_on_is_in_its_passages_with_its_address(self):
         wanted = {
             "method-links": ["baltic-terms-clause-5-1", "sse-footer", "ams-privacy-public-information", "ams-datasets-non-copyrighted",
-                             "ams-datasets-vessel-rates-source", "agtransport-vessel-loading-attribution", "agtransport-vessel-rates-attribution"],
-            "notice-links": ["sse-footer", "ams-privacy-public-information", "ams-datasets-non-copyrighted", "ams-datasets-vessel-rates-source",
+                             "ams-datasets-vessel-activity-table", "ams-datasets-vessel-activity-counts", "ams-datasets-vessel-rates-source", "agtransport-vessel-loading-attribution", "agtransport-vessel-rates-attribution"],
+            "notice-links": ["sse-footer", "ams-privacy-public-information", "ams-datasets-non-copyrighted",
+                             "ams-datasets-vessel-activity-table", "ams-datasets-vessel-activity-counts", "ams-datasets-vessel-rates-source",
                              "agtransport-vessel-loading-attribution", "agtransport-vessel-rates-attribution"],
             "method": ["portwatch-ship-categories", "portwatch-chokepoint-trade-estimate", "dallasfed-proxy"],
             "notice-dallas": ["dallasfed-proxy"],
@@ -233,8 +236,15 @@ class NoClaimThatNoPageMakes(unittest.TestCase):
         for name, text in P.items():
             self.assertIsNone(pat.search(text), f"{name}: {pat.search(text) and pat.search(text).group(0)}")
         # the sentence about the atlas, not about the world, is the page's
-        self.assertIn("the atlas shows no spot rate for tankers or gas carriers and no Baltic Exchange index value", WEB["view"])
+        self.assertIn("the atlas shows no spot rate for tankers or gas carriers and no Baltic Exchange index value", WEB["lib"])
         self.assertNotRegex(WEB["view"] + WEB["lib"] + WEB["ind"], r"(?i)no free (source|series)")
+
+    def test_the_freight_family_of_the_prices_claims_no_more_than_the_pages_read(self):
+        text = flat(METHOD)
+        self.assertIn("the atlas shows no freight rate: for none of the sources it has read has it established that the rates may be republished "
+                      "(see \"Freight rates that are not stored\" below)", text)
+        self.assertNotRegex(text, r"(?i)is both free and open to republication|none of the sources it has read is")
+        self.assertIn("- Freight rates that are not stored.", METHOD)
 
     def test_the_passages_name_no_package_review_or_state_that_was_never_published(self):
         for name, text in P.items():
@@ -265,6 +275,47 @@ class TheFiguresAreTheConstantsOfTheCode(unittest.TestCase):
         self.assertIn(f"{NUMBER_WORDS[BM.WEEKS]} complete weeks ({7 * BM.WEEKS} days)", P["notice-digest"])
         self.assertEqual(BM.TYPES, ("tanker", "dry"))
 
+    def test_the_paragraph_of_the_notice_gives_the_same_constants_as_the_method_and_every_count_in_both_is_the_builders(self):
+        n, m = P["notice-digest"], P["method"]
+        self.assertIn(f"for tankers and for dry bulk carriers at {NUMBER_WORDS[BM.PASSAGES]} passages each", n)
+        self.assertIn(f"lists {NUMBER_WORDS[BM.PASSAGES]} passages each", m)
+        self.assertIn(f"over the {BM.RANK_WEEKS} weeks that end with the year-earlier window", n)
+        self.assertIn(f"{NUMBER_WORDS[BM.WEEKS]} complete weeks ({7 * BM.WEEKS} days) and over the same {NUMBER_WORDS[BM.WEEKS]} weeks a year earlier", n)
+        self.assertIn(f"multiplied by 7 and added over the {NUMBER_WORDS[BM.WEEKS]} weeks", n)
+        # every count of days, weeks and passages of the two passages is one of the builder's (what a quotation says of the pages of others is not)
+        days = {str(7 * BM.WEEKS), str(7 * BM.YEAR_BACK)}
+        for name, text in (("method", m), ("notice-digest", n)):
+            text = re.sub(r'"[^"]*"', " ", text)
+            self.assertLessEqual(set(re.findall(r"\b(\d+) days?\b", text)), days, f"{name}: days")
+            self.assertLessEqual(set(re.findall(r"\b(\d+) weeks?\b", text)), {str(BM.RANK_WEEKS)}, f"{name}: weeks in figures")
+            self.assertLessEqual(set(re.findall(r"\b(one|two|three|four|five|six|seven|eight) weeks\b", text)), {NUMBER_WORDS[BM.WEEKS]}, f"{name}: weeks in words")
+            self.assertLessEqual(set(re.findall(r"\b(\w+) passages each\b", text)), {NUMBER_WORDS[BM.PASSAGES]}, f"{name}: passages a list")
+
+    def test_no_total_is_made_and_the_ship_classes_are_the_ones_the_item_lists(self):
+        n, m = P["notice-digest"], P["method"]
+        self.assertIn("a ship that crosses several passages is counted at each of them, and no total is made", n)
+        self.assertIn("it has no world total", m)
+        self.assertIn("no gas carrier figure, and no world total", m)
+        # the classes, in the item's own words and order, in the passage of the method (a quotation) and in the notice
+        classes = "container, dry bulk, general cargo, ro-ro and tanker"
+        self.assertIn(classes, QUOTES["portwatch-ship-categories"]["quotation"])
+        self.assertIn(f"({classes})", n)
+        self.assertIn(f"lists five ({classes}) and does not say what each holds", n)
+        self.assertIn(f"({classes}) and does not say what each holds", WEB["lib"])
+        for text in (m, n):
+            self.assertNotRegex(text, r"(?i)(ro-ro,? tanker and gas|and gas carriers? (class|are a class))")
+
+    def test_the_ranking_is_on_the_unrounded_sum_in_the_method_and_in_the_notice_and_only_an_exact_tie_goes_by_id(self):
+        m, n = P["method"], P["notice-digest"]
+        self.assertIn("ranked on the sum before rounding; `rankMt` is that sum in Mt to three significant figures, so two passages can show the same figure; only an exact tie of the sums goes by id", m)
+        self.assertIn("ranked on the sum before rounding, a rule of the atlas and not of PortWatch", n)
+        for text in (m, n):
+            self.assertNotRegex(text, r"(?i)a tie goes by (id|name)|tie[s]? (is|are)? ?broken by name|ties? by name")
+        # the builder and the page do what the text says
+        src = read("pipeline", "freight", "build_market_now.py")
+        self.assertIn("key=lambda r: (-r[0], r[1])", src)  # the unrounded sum, then the id
+        self.assertIn("b.sum - a.sum || (a.s.id < b.s.id ? -1 : 1)", WEB["lib"])
+
     def test_the_rounding_and_the_significant_figures_are_those_of_the_builders(self):
         m = P["method"]
         self.assertEqual(BM.SIG3.prec, 3)
@@ -282,9 +333,19 @@ class TheFiguresAreTheConstantsOfTheCode(unittest.TestCase):
 
     def test_the_page_rule_for_a_small_cargo_and_a_fall_to_nearly_nothing_is_the_pages(self):
         tiny = re.search(r"TINY_MT = ([0-9.]+)", WEB["lib"]).group(1)
-        self.assertIn(f"A cargo under {tiny} Mt, the status board's limit, is printed \"under {tiny} Mt\"", P["method"])
-        self.assertIn("body = '99.9'", WEB["lib"])
-        self.assertIn("reads −99.9%", P["method"])
+        self.assertIn(f"\"under {tiny} Mt\", the status board's limit, when it is above zero and under {tiny} Mt", P["method"])
+        self.assertIn(f"the year-earlier cargo is above zero and under {tiny} Mt, whatever was stored", P["method"])
+        self.assertIn(f"the cargo of the last four weeks is above zero and under {tiny} Mt", P["method"])
+        self.assertIn(f"100 x (year earlier - {tiny}) / year earlier", P["method"])
+        self.assertIn("TINY_AGO_TITLE", WEB["lib"])
+        # the −99.9 is stored by the builder, which is where the rule is: the page prints what it is given
+        self.assertIn("r = -999", read("pipeline", "freight", "build_market_now.py"))
+        self.assertIn("r = -999", WEB["lib"])
+        self.assertIn("`−99.9%`: a fall that one decimal would round to 100% while something is left in the window", P["method"])
+        self.assertIn("`−100%` is printed only when the stored change is exactly −100", P["method"])
+        # the cases the page no longer prints are not in the code
+        self.assertNotIn("<0.1", WEB["lib"])
+        self.assertNotIn("Math.max(-99.9", WEB["lib"])
         self.assertIn("down more than ${", WEB["lib"])
         # the status board's own limit is the same number
         board = read("web", "src", "components", "views", "BoardView.tsx")
@@ -330,7 +391,7 @@ class TheFiguresAreTheConstantsOfTheCode(unittest.TestCase):
             # the text words it in its own way: the key words
         for fragment in ("a file is not the series its name says or has no estimated cargo", "its first week is not a Monday",
                          "a value is not a finite number or is negative", "a week is missing or extra", "fewer than five series exist",
-                         "`to` is earlier than the one published", "a series does not reach back far enough"):
+                         "`to` is earlier than the one published", "fewer than five can be ranked"):
             self.assertIn(fragment, m)
         self.assertIn("at least {PASSAGES} are needed to name {PASSAGES} passages", src)
         self.assertIn(f"fewer than {NUMBER_WORDS[BM.PASSAGES]} series exist", m)
@@ -341,7 +402,13 @@ class TheFiguresAreTheConstantsOfTheCode(unittest.TestCase):
         wf = read(".github", "workflows", "update-portwatch.yml")
         self.assertIn("python pipeline/freight/build_market_now.py", wf)
         self.assertIn("data/freight/market-now.json", wf)
-        self.assertIn("the last build step of the weekly PortWatch job", P["method"])
+        self.assertIn("follows the alert banners in the weekly PortWatch job and comes before the digest of changes", P["method"])
+        self.assertNotIn("last build step", P["method"])
+        self.assertNotIn("last build step", read("docs", "UPDATING.md"))
+        self.assertIn("### Freight market digest: a build step of the PortWatch job", read("docs", "UPDATING.md"))
+        # the order the text gives is the workflow's: alert banners, then the market digest, then the digest of changes
+        self.assertLess(wf.index("python pipeline/freight/build_alerts.py"), wf.index("python pipeline/freight/build_market_now.py"))
+        self.assertLess(wf.index("python pipeline/freight/build_market_now.py"), wf.index("python pipeline/common/changes.py"))
         # the annual job rebuilds neither the weekly series nor this file
         self.assertNotIn("build_market_now", read(".github", "workflows", "update-annual.yml"))
         self.assertIn("the annual job rebuilds neither the weekly series nor this file", P["method"])
@@ -366,9 +433,17 @@ class ThePageSaysWhatTheTextSays(unittest.TestCase):
         self.assertIn("A link is not cited: it has no source line and no date", P["method-links"])
 
     def test_the_gas_carrier_wording_is_the_pages(self):
-        self.assertIn("PortWatch lists five ship classes (container, dry bulk, general cargo, ro-ro and tanker) and defines none", WEB["view"])
-        self.assertIn("the atlas cannot say whether gas carriers are in its tanker class", WEB["view"])
-        self.assertIn("The atlas shows no separate gas carrier figure.", WEB["view"])
+        lib = WEB["lib"]
+        self.assertIn("The description of PortWatch's passage data that the atlas read lists five ship classes (container, dry bulk, general cargo, ro-ro and tanker) and does not say what each holds", lib)
+        self.assertIn("the atlas cannot say whether gas carriers are in its tanker class: the tanker figures may include them or not", lib)
+        self.assertIn("The atlas shows no separate gas carrier figure.", lib)
+        # no text of the repository says that PortWatch "defines none" of its classes: the atlas read one description
+        for text in (WEB["view"], lib, WEB["ind"], METHOD, NOTICE):
+            self.assertNotRegex(text, r"(?i)defines none|does not define any of them|and does not define\b")
+        # shown under the tanker list only when it has rows, and the lead counts the indicators the page has
+        self.assertIn("type === 'tanker' && rows.length > 0", lib)
+        self.assertIn("leadText(indicators?.length ?? 0)", WEB["view"])
+        self.assertIn("it is the one description read, and\n    other PortWatch documents may say more", METHOD)
         self.assertIn("the atlas cannot tell whether gas carriers are in PortWatch's tanker class", P["method"])
         self.assertIn("shows no gas carrier figure", P["method"])
         self.assertIn("section 4", P["method"])
@@ -389,6 +464,10 @@ class ThePageSaysWhatTheTextSays(unittest.TestCase):
             if name.startswith(("Baltic", "China Import")):
                 self.assertIn(name, P["method-links"] if name.startswith("China") else METHOD)
         self.assertIn("weekly grain vessel line-up", P["method-links"])
+        # the page's line for the vessel count is the table's own name and says what the table counts, Vancouver included
+        self.assertIn(f"name: '{QUOTES['ams-datasets-vessel-activity-table']['quotation']}'", WEB["ind"])
+        self.assertIn("in the Gulf, the Pacific Northwest and Vancouver, B.C.", WEB["ind"])
+        self.assertIn("Vancouver, B.C.", REGISTRY["usda-ams"]["use"])
         self.assertIn("grain ocean freight rates", P["method-links"])
 
     def test_the_two_indicators_are_the_ones_the_page_shows_and_the_registry_has_them(self):

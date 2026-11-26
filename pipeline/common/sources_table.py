@@ -6,7 +6,8 @@ Regenerates the sources table of DATA_SOURCES.md from data/sources.json, so the 
 
 The table sits between the markers <!-- sources:start --> and <!-- sources:end -->; the rest of the file is
 written by hand. Fields read from each registry entry: id, name, publisher, url, licence, update, access
-(how it is fetched), use (what it feeds) and, when an account or key is needed, key.
+(how it is fetched), use (what it feeds) and, when an account or key is needed, key. An entry whose use says "no value is stored or shown"
+is one the atlas only links to: the introduction names those entries and does not call their pages free to read.
 """
 import json
 import os
@@ -18,17 +19,31 @@ DOC = os.path.join(ROOT, "DATA_SOURCES.md")
 START, END = "<!-- sources:start -->", "<!-- sources:end -->"
 
 
+# a registry entry whose use says this is a publisher the atlas only links to: nothing of it is fetched, no figure of it is shown
+LINK_ONLY_MARK = "no value is stored or shown"
+
+
+def link_only(sources):
+    return [s["id"] for s in sources if LINK_ONLY_MARK in str(s.get("use") or "")]
+
+
 def cell(text):
     return str(text or "").replace("|", "\\|").replace("\n", " ").strip()
 
 
 def render(sources):
     keyed = [s for s in sources if s.get("key")]
+    linked = link_only(sources)
+    # a link-only entry shows no value, so the sentence on what is free to read is about the figures shown, not about every entry
+    intro = f"{len(sources)} sources are registered. Every figure shown comes from a source that is free to read."
+    if linked:
+        ids = ", ".join(f"`{i}`" for i in linked)
+        intro += f" The entries that are only linked ({ids}) show no value."
     lines = [
         START,
         "<!-- Generated from data/sources.json by pipeline/common/sources_table.py. Do not edit by hand. -->",
         "",
-        f"{len(sources)} sources are registered. Every one is free to read.",
+        intro,
     ]
     if keyed:
         lines.append("")
@@ -39,7 +54,9 @@ def render(sources):
     lines += ["", "| Id | Source | Licence | Cadence | How it is fetched | Used for |", "|---|---|---|---|---|---|"]
     for s in sources:
         name = f"[{cell(s['name'])}]({s['url']})" if s.get("url") else cell(s["name"])
-        src = f"{name}, {cell(s.get('publisher'))}"
+        pub = cell(s.get("publisher"))
+        # a name that already starts with its publisher does not name it twice in a row
+        src = name if pub and cell(s["name"]).startswith(pub) else f"{name}, {pub}"
         lines.append(
             f"| `{s['id']}` | {src} | {cell(s.get('licence'))} | {cell(s.get('update'))} | "
             f"{cell(s.get('access'))} | {cell(s.get('use'))} |"

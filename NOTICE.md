@@ -495,9 +495,9 @@ averages, built each week by the PortWatch job from the weekly files already pub
 What it publishes, for tankers and for dry bulk carriers at five passages each: the vessel transits and PortWatch's estimate of the cargo over the last
 four complete weeks (28 days) and over the same four weeks a year earlier, and the change between them. The transformation, stated as the IMF's terms
 ask: the weekly means of the atlas's weekly series (vessels a day, one decimal; Mt a day) are multiplied by 7 and added over the four weeks, as whole
-vessels and to three significant figures; the five passages of each ship type are the five with the most estimated cargo of that type over the 52 weeks that end
-with the year-earlier window, a rule of the atlas and not of PortWatch; a ship that crosses several passages is counted at each of them, and no total is made. The ship classes are
-PortWatch's own, which its item "Daily_Chokepoints_Data" lists (container, dry bulk, general cargo, ro-ro and tanker) and does not define; the atlas does not say whether gas carriers
+vessels and to three significant figures; the change between the two windows is computed on those sums before that rounding and stored to one decimal; the five passages of each ship type are the five with the most estimated cargo of that type over the 52 weeks that end
+with the year-earlier window, ranked on the sum before rounding, a rule of the atlas and not of PortWatch; a ship that crosses several passages is counted at each of them, and no total is made. The ship classes are
+PortWatch's own: the description of its item "Daily_Chokepoints_Data" that the atlas read lists five (container, dry bulk, general cargo, ro-ro and tanker) and does not say what each holds, so the atlas does not say whether gas carriers
 are among the tankers and shows no gas carrier figure. The credit line is the one above, **IMF PortWatch (IMF and University of Oxford), data adapted**, and each list of the page
 carries it in the registry's name of the source with the dates of the two windows. The owner's decision of 25 November 2026 quoted below
 concerns how PortWatch is read; this page adds no reading of it. The CC BY 4.0 release does not extend IMF's rights to these figures either. The method is in METHODOLOGY.md,
@@ -613,7 +613,8 @@ Agricultural Marketing Service (`usda-ams`). Nothing of them is fetched, stored 
   (agtransport.usda.gov), whose tables carry the attribution "USDA Agricultural Marketing Service" for the vessel line-up and "O'Neil Commodity Consulting" for the grain vessel rates, and no licence
   field (https://agtransport.usda.gov/api/views/vh5k-mnyv.json and https://agtransport.usda.gov/api/views/ehs5-yac3.json).
 - USDA Agricultural Marketing Service, datasets of the Grain Transportation Report (https://www.ams.usda.gov/services/transportation-analysis/gtr-datasets): "These data series
-  are aggregated from non-confidential and non-copyrighted sources." and, for the grain vessel rates, U.S. to Japan, "SOURCE: O'Neil Commodity Consulting".
+  are aggregated from non-confidential and non-copyrighted sources."; the table of the vessel count is named "Weekly port region grain ocean vessel activity (number of vessels)" and holds the "Weekly number of grain vessels
+  loaded during the week and expected to be loaded within the next 10 days in the Gulf, PNW, and Vancouver, B.C."; and, for the grain vessel rates, U.S. to Japan, "SOURCE: O'Neil Commodity Consulting".
 
 The atlas does not read the privacy sentence as covering rates credited to a private firm. Neither publisher is affiliated with the atlas or endorses it. The registry entries state the same sentences.
 

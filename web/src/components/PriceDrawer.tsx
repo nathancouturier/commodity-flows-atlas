@@ -6,7 +6,8 @@
  */
 import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { commodity, priceDrawer, priceSeries, priceView, select } from '../lib/store';
-import { commodityMeta, sourceLabel } from '../lib/data';
+import { commodityMeta, sourceLabel, sources } from '../lib/data';
+import { withoutCredit } from '../lib/credit';
 import { FAMILY_COLOR, TOUCH } from '../lib/format';
 import { downloadPrices, offeredPrices, priceSources } from '../lib/pricesCsv';
 import { CsvAction } from './CsvAction';
@@ -755,7 +756,7 @@ export function PriceDrawer() {
                   <i />
                   <span>
                     {d.meta.name}: {sourceLabel(d.meta.s)}
-                    {d.meta.basis ? ` · ${shortBasis(d.meta.basis)}` : ''}
+                    {d.meta.basis ? ` · ${shortBasis(withoutCredit(d.meta.basis, sources.value[d.meta.s]))}` : ''}
                     {d.meta.note ? ` · ${d.meta.note}` : ''} · {d.meta.unit} · {FREQ_WORD[d.meta.freq]} {d.meta.start.slice(0, 7)} to {d.meta.end.slice(0, 7)}
                     {d.gaps?.length ? ` · ${d.gaps.length} stretch${d.gaps.length === 1 ? '' : 'es'} of more than 7 days without a quote left blank` : ''}
                     {isLate(d.meta) ? ' · late: no new value yet' : ''}
