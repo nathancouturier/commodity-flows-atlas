@@ -715,7 +715,9 @@ class PortStepInTheJob(unittest.TestCase):
         for f in ("out.txt", "journal", "data-validation.log"):
             if os.path.exists(os.path.join(box, f)):
                 os.remove(os.path.join(box, f))
-        self.since = "2026-11-25T19:17:00Z"
+        # when the simulated job begins: after every record the committed status file holds (the weekly job writes them, and the checks run after it),
+        # so that a source this job does not record is one that did not finish
+        self.since = status._now()
 
     def sh(self, script, **env):
         r = subprocess.run(["bash", "-c", script], cwd=self.repo, env={**self.env, **env}, capture_output=True, text=True)
@@ -776,6 +778,12 @@ class PortStepInTheJob(unittest.TestCase):
         r = subprocess.run(["git", "--git-dir", self.remote, "diff", "--name-only", self.base, "main"], capture_output=True, text=True)
         return [x for x in r.stdout.split("\n") if x]
 
+    def before(self, source):
+        """The record of ``source`` in the status file the simulation starts from, which is the committed one: whatever the weekly job left there
+        (a source that never ran, one that succeeded, one that failed once or twice) is the state a test must hold on, so the tests count from it."""
+        e = self.status().get(source) or {}
+        return {"failures": e.get("consecutive_failures") or 0, "last_success": e.get("last_success")}
+
     def a_port_file(self):
         d = os.path.join(self.repo, "data", "freight", "port-traffic")
         name = sorted(f for f in os.listdir(d) if re.match(r"port\d+\.json$", f))[0]
@@ -788,6 +796,7 @@ class PortStepInTheJob(unittest.TestCase):
     def test_a_port_step_that_fails_costs_the_chokepoint_update_nothing(self):
         """The script ends with exit 0 and a failure recorded (the service was down): the step succeeds, the files are as they were."""
         path, text = self.chokepoint_update()
+        before = self.before(self.PORTS)
         self.py(f"status.record_failure({self.PORTS!r}, 'HTTP 503 after 4 attempts (services9.arcgis.com)')")
         res = self.finish({"fetch": "success", "ports": "success", "alerts": "success", "changes": "success"})
         self.assertEqual(res["validate"], 0, res["validation"])
@@ -795,22 +804,23 @@ class PortStepInTheJob(unittest.TestCase):
         self.assertIn("data/_status/updates.json", self.remote_changed())
         self.assertFalse([x for x in self.remote_changed() if "port-traffic" in x])
         st = json.loads(self.remote_file("data/_status/updates.json"))["sources"]
-        self.assertEqual((st["portwatch"]["consecutive_failures"], st[self.PORTS]["consecutive_failures"]), (0, 1))
-        self.assertIsNone(st[self.PORTS]["last_success"])
+        self.assertEqual((st["portwatch"]["consecutive_failures"], st[self.PORTS]["consecutive_failures"]), (0, before["failures"] + 1))
+        self.assertEqual(st[self.PORTS]["last_success"], before["last_success"], "a failure keeps the last success")
 
     def test_a_port_step_killed_by_its_limit_is_recorded_as_failed_and_the_chokepoint_update_is_committed(self):
         path, text = self.chokepoint_update()
+        before = self.before(self.PORTS)
         # GitHub reports a step stopped by its timeout-minutes as a failure (continue-on-error keeps the job going); nothing was recorded
         res = self.finish({"fetch": "success", "ports": "failure", "alerts": "success", "changes": "success"})
         self.assertEqual(res["validate"], 0, res["validation"])
         self.assertEqual(self.remote_file(os.path.relpath(path, self.repo)), text)
         st = json.loads(self.remote_file("data/_status/updates.json"))["sources"]
         self.assertEqual(st["portwatch"]["consecutive_failures"], 0)
-        self.assertEqual(st[self.PORTS]["consecutive_failures"], 1)
+        self.assertEqual(st[self.PORTS]["consecutive_failures"], before["failures"] + 1)
         self.assertIn("timed out, crashed or cancelled", st[self.PORTS]["last_error"])
         # and the alert step opens its issue at the third run, not before
         report = json.loads(self.sh("python pipeline/common/status.py report").stdout)
-        self.assertNotIn(self.PORTS, report["failing"])
+        self.assertEqual(self.PORTS in report["failing"], before["failures"] + 1 >= 3)
         self.assertIn(self.PORTS, report["all"])
 
     def test_a_port_file_left_half_written_is_refused_by_the_checks_unless_the_step_that_removes_it_ran(self):
@@ -841,6 +851,8 @@ class PortStepInTheJob(unittest.TestCase):
     def test_when_the_checks_refuse_a_port_file_the_whole_update_is_discarded_the_chokepoint_series_with_it(self):
         """The coupling that the script exists to avoid (it writes nothing that the checks refuse): when it does happen, every path of the job
         is put back to the last commit and a failure is recorded for each source of the job."""
+        sources = ("portwatch", self.PORTS, "build-alerts", "build-market-now", "build-changes")
+        before = {source: self.before(source)["failures"] for source in sources}      # the committed record: the discard puts it back, then adds the failure
         path, text = self.chokepoint_update()
         port = self.a_port_file()
         with open(port, encoding="utf-8") as fh:
@@ -856,8 +868,8 @@ class PortStepInTheJob(unittest.TestCase):
         with open(path, encoding="utf-8") as fh:
             self.assertNotIn("updated_by_the_test", fh.read(), "the chokepoint update was discarded with the rest")
         st = json.loads(self.remote_file("data/_status/updates.json"))["sources"]
-        for source in ("portwatch", self.PORTS, "build-alerts", "build-market-now", "build-changes"):
-            self.assertEqual(st[source]["consecutive_failures"], 1, source)
+        for source in sources:
+            self.assertEqual(st[source]["consecutive_failures"], before[source] + 1, source)
             self.assertTrue(st[source]["last_error"].startswith("update discarded: data validation failed"), source)
 
     def test_a_port_file_that_lost_weeks_is_refused_by_the_guard_in_the_same_way(self):

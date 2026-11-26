@@ -490,10 +490,17 @@ a short week heals with the next) "Data update failing: build-market-now" opens,
 did not deliver: look at `data/freight/portwatch` (the last `y` of each file, and the number of weeks since `start`); the next weekly run
 rebuilds the digest from the files it finds.
 
+**A failed step does not hold back the site.** The checks that run before the site is republished compare the digest with the weekly
+files at the digest's own date. They skip that comparison, with the reason, when the builder would refuse a weekly file, when a file no
+longer holds the digest's window, and when the record of `build-market-now` in `data/_status/updates.json` says that the step failed at its
+last run (the previous digest is then kept under weekly files that the same job has rewritten, perhaps with revised values). A digest dated
+after the weekly files, or a row that differs from a recount while the step's last run succeeded, still fails.
+
 **A series that lags.** `to` is the earliest last complete week of all the files, so one series that lags holds the digest's date back for
 every passage and the figures of every row are those of the earlier week, without any failure. Whenever some series end later than that date,
-the output of the step and the note of its status record (`data/_status/log.jsonl`, the last line of `build-market-now`) say how many, the date
-they end on, and which series the digest waits for, whether the file is rewritten or unchanged ("N series end later than the digest, on ...").
+whether the file is rewritten or unchanged, the output of the step names the series the digest waits for ("N series end later than the digest, on ...; the
+digest ends on ..., the last complete week of <passage>") and the note of its status record (`data/_status/log.jsonl`, the last line of
+`build-market-now`) gives the count and the date ("unchanged; N series end later than <to> (on <date>)"), without naming any.
 If a lag appears when the digest has already reached the later week, the new date would be earlier than the file published and the run is
 refused (the failure above, with the same sentence in its error). What to look at: the file named as the last complete week of the digest,
 in `data/freight/portwatch`: its last `y`, and whether the weekly PortWatch download of that passage was short. The digest has no source of its own in the staleness check: it follows `portwatch`, whose last day

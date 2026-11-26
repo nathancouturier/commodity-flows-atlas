@@ -26,15 +26,27 @@ released. This file is updated at each release.
 
 One addition of wave 6 (audit point A-028): a page that says what the atlas can say of the freight market today,
 from data that are free and may be republished. Its design was read by a critic before anything was built (five
-points of the critique changed it, the largest: the weekly grain vessel line-up of the USDA was wrongly said to
+points of the critique changed it, the largest: the USDA's weekly count of grain vessels was wrongly said to
 have no permission of reuse, see below). Four packages built it in one chain. Three independent reviewers then
-read the candidate on a frozen copy. They found nothing wrong in the weekly job or in the registry, three
-important defects on the page and in its texts (a test that would have held back the weekly republication of the
-site whenever the digest step kept the file of the week before; the change of the cargo in per cent computed on
-rounded figures, up to 0.2 point off; the rule that ranks the passages described wrongly) and fifteen smaller
-points, one of them older than this release. Two packages corrected seventeen of the eighteen; the older one (an
-unknown board id shows the heading of the status board, and the address that "Report an error" builds encodes a
-colon twice) is left for a later package and listed under the known limits. VERIFY-TO-WRITE
+read the candidate on a frozen copy. They found nothing wrong in the workflow or in the registry, two minor
+points in the digest step of the weekly job (a series too short to be ranked stopped the digest; a series that
+lags dated it without a word), three important defects on the page and in its texts (a test that would have held
+back the weekly republication of the site whenever the digest step kept the file of the week before; the change
+of the cargo in per cent computed on rounded figures, up to 0.2 point off; the rule that ranks the passages
+described wrongly) and thirteen other points, one of them older than this release. Two packages corrected
+seventeen of the eighteen; the older one (an unknown board id shows the heading of the status board, and the
+address that "Report an error" builds encodes a colon twice) is left for a later package and listed under the
+known limits.
+
+A fourth reviewer then verified the corrections on a new frozen copy. The figures, the words and the digest of
+changes held; three more important defects and nine minor points were found. Two of the three were of the same
+kind as the first: checks that would have failed, and so held back a week's republication, on states that the
+weekly job can really leave (a passage with no transit at all in the window, which a full closure of the Strait
+of Hormuz would give; one series a week behind the others). The third was a contradiction between two tabs of the
+About window on what "Atlas estimate" marks. A third package corrected the twelve points and proved the checks on
+seventeen states built on copies by the builder itself; on the way it found two more tests of the same kind, in
+the tests of the update jobs, which would have failed after the next weekly run. The checks also skip the
+comparison when the digest's own step failed at its last run. VERIFY2-TO-WRITE
 
 ### The page "Freight market now"
 
@@ -78,9 +90,14 @@ colon twice) is left for a later package and listed under the known limits. VERI
   source. The validator checks the shape of the file only, so that no rule of the validator can refuse a
   digest that the builder can write.
 - The checks that run before the site is republished compare the digest with the weekly files at the digest's
-  own date, and skip, with the reason, when the builder would refuse a weekly file: a digest that the step kept
-  from the week before no longer holds back the week's republication. A digest dated later than the weekly
-  files, or a row that differs from a recount, still fails.
+  own date, and skip, with the reason, when the builder would refuse a weekly file, when a file no longer holds
+  the digest's window, or when the record of the step says that it failed at its last run: a digest that the step
+  kept from the week before no longer holds back the week's republication. A digest dated later than the weekly
+  files, or a row that differs from a recount while the step's last run succeeded, still fails. The rule behind
+  it, written in the tests: a check that starts from the published state may assert only what holds for every
+  state the weekly job can leave. It was proved on seventeen such states built on copies by the builder (a passage
+  with no transit, nothing a year earlier, a cargo under 0.05 Mt, one series a week behind, every series ahead of
+  a kept digest, a series too short to be ranked, a changed ranking, a status file as weekly runs leave it).
 
 ### Texts and terms
 
@@ -91,13 +108,15 @@ colon twice) is left for a later package and listed under the known limits. VERI
   Agricultural Marketing Service. The AMS says of its web site: "Information presented on the AMS web site is
   considered public information and may be distributed or copied. Use of appropriate byline/photo/image credits
   is requested." The design had concluded that no page allowed reuse; the critic found this page. The weekly
-  vessel line-up is also published as a file on that web site: a later release can show it, credited, from
+  count of grain vessels is also published as a file on that web site: a later release can show it, credited, from
   there. The grain ocean rates stay a link: the AMS credits them to a private firm.
 - The registry entry of the Dallas Fed's index now starts with the Bank's name, so that "Copy citation", the
   source lines and the About window credit the Bank (its terms ask for the credit) without printing it twice. The
-  head of `DATA_SOURCES.md` says that the two link-only entries show no value. The About window says that sums
+  head of `DATA_SOURCES.md` says that the two link-only entries show no value; that table and the Sources tab of
+  the About window no longer repeat a publisher under a name that starts with it (nine entries). The About window says that sums
   and ratios of one source's own published figures are not labelled "Atlas estimate": they keep the source's
-  credit and say "data adapted".
+  credit and say "data adapted" (its Method tab and its Sources tab say the same; the Sources tab reads "Every
+  figure the atlas shows comes from a free, public source" and counts the publishers that are only linked).
 - The weekly digest of changes and its feed follow a source renamed in the registry: the names they had stored
   on 25 November (the Dallas Fed's index, and the EIA's spot prices, renamed at the ninth release after the
   prices job had run) are written again as the registry names them, by the script of the digest itself.
@@ -1397,7 +1416,7 @@ These were needed to finish the work; each is reversible.
    - **The alert of the new build step after three failed runs**, as a weekly source, where the other build
      steps alert at their first failure.
    - **Links only** for the Shanghai Shipping Exchange, the USDA's grain ocean rates and, in this release, the
-     USDA's weekly grain vessel line-up (the AMS sentence would allow showing it from the AMS web site's file).
+     USDA's weekly count of grain vessels (the AMS sentence would allow showing it from the AMS web site's file).
    - **Two older sentences of METHODOLOGY reworded** so that they speak of what the atlas read.
    - **How the small cases print**: a change that rounds to zero reads "0.0%"; a cargo under 0.05 Mt reads
      "under 0.05 Mt" and its change "down more than N%" (the words of the status board), not the stored change.

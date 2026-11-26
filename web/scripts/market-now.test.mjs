@@ -10,8 +10,8 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { test } from 'node:test';
-import { DALLAS_WORDS, INDICATORS, LINK_ONLY, NOT_A_RATE, dallasNote, indicatorLineText, indicatorLines, indicatorNote, indicatorOf, isDeviation, percentOnYear, valueInMonth, yearEarlier } from '../src/lib/freightIndicators.ts';
-import { withoutCredit } from '../src/lib/credit.ts';
+import { DALLAS_WORDS, INDICATORS, LINK_ONLY, NOT_A_RATE, dallasNote, indicatorLineText, indicatorLines, indicatorNote, indicatorOf, indicatorSourceNote, isDeviation, percentOnYear, valueInMonth, yearEarlier } from '../src/lib/freightIndicators.ts';
+import { basisSuffix, withoutCredit } from '../src/lib/credit.ts';
 import { CLASSES_NOTE, NO_CHANGE_TITLE, TINY_AGO_TITLE, TINY_MT, addDays, buildDigest, canRank, cargoOver, changeBetween, changeText, countText, isIsoDay, lastWeekEnd, classesNote, leadText, lineText, mtChangeText, mtText, readMarketNow, refusal, rowLines, rowText, sig3, vesselsOver, weekIndex } from '../src/lib/marketNow.ts';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -297,6 +297,20 @@ test('the window ends on the earliest last complete week of the files', () => {
  * compared with what they say of its own week. What the files no longer allow is a skip with the reason, not a failure: a file the
  * builder would refuse, or one that no longer reaches back to the digest's window. A digest that ends after the files do is a failure.
  */
+/**
+ * The reason to skip the comparison when the digest's own step failed at its last run: the script records the failure in
+ * data/_status/updates.json and keeps the previous digest, and the weekly files written before it in the same job may have been revised
+ * under that digest. The failure is recorded and alerted; the republication of the site does not wait for it. Null when the step succeeded
+ * at its last run or has never run.
+ */
+function stepFailedLast(updates) {
+  const e = updates?.sources?.['build-market-now'];
+  return e && e.consecutive_failures > 0
+    ? `the digest step failed at its last run (${e.last_error}): the previous digest is kept, the failure is recorded and alerted, and the digest is compared with the weekly files again after a run that succeeds`
+    : null;
+}
+const statusNow = () => { try { return json('data/_status/updates.json'); } catch { return null; } };
+
 function rebuiltAtDigestDate(all, file) {
   const refused = all.map((s) => [s.id, refusal(s)]).filter(([, why]) => why);
   const sound = all.filter((s) => !refusal(s));
@@ -312,8 +326,10 @@ test('every row of the digest is rebuilt from the weekly files, by date, at the 
   const all = weekly();
   assert.ok(all.length >= 5);
   const file = json('data/freight/market-now.json');
-  const r = rebuiltAtDigestDate(all, file);
+  const r = rebuiltAtDigestDate(all, file);   // a digest dated after the files fails here, whatever the status says
   if (r.skip) return t.skip(r.skip);
+  const failed = stepFailedLast(statusNow());
+  if (failed) return t.skip(failed);
   const built = r.built;
   assert.equal(built.to, file.to, 'the window ends where the digest says');
   assert.equal(built.yearAgoTo, file.yearAgoTo);
@@ -333,6 +349,19 @@ test('every row of the digest is rebuilt from the weekly files, by date, at the 
     assert.deepEqual([...x].sort((a, b) => b - a), x);
     assert.equal(new Set(file.types[ty].map((row) => row.id)).size, file.types[ty].length);
   }
+});
+
+test('a digest whose own step failed at its last run is not compared with the files; another step\'s failure, or none, changes nothing', () => {
+  assert.equal(stepFailedLast(null), null);
+  assert.equal(stepFailedLast({ sources: {} }), null);
+  assert.equal(stepFailedLast({ sources: { 'build-market-now': { consecutive_failures: 0, last_error: null } } }), null);
+  assert.equal(stepFailedLast({ sources: { portwatch: { consecutive_failures: 3, last_error: 'x' } } }), null);
+  const why = stepFailedLast({ sources: { 'build-market-now': { consecutive_failures: 1, last_error: 'TimeoutError: stopped' } } });
+  assert.match(why, /TimeoutError: stopped/);
+  assert.match(why, /the previous digest is kept/);
+  // the published state: skipped only if its own record says the step failed
+  const e = statusNow()?.sources?.['build-market-now'];
+  assert.equal(stepFailedLast(statusNow()) !== null, !!(e && e.consecutive_failures > 0));
 });
 
 test('the rebuild at the digest\'s date: files that have advanced since are compared with their own past; what the files no longer allow is skipped, a digest later than them fails', () => {
@@ -393,31 +422,114 @@ test('the figures of the digest are those of the status board and the banners wi
   }
 });
 
-test('every row of the real digest prints the way the page prints it: the stored changes, the figures of the file, nothing worked out', () => {
+/**
+ * What METHODOLOGY ("What the page prints") says a row prints, written again here from the STORED values alone, case by case and with no
+ * knowledge of the library: the digest holds whatever the builder can write (a passage with no transit, nothing a year earlier, a cargo of
+ * a few thousand tonnes), so no test may guess which case a real row is. The cases are the document's, in its order.
+ */
+const printedCount = (n) => String(n).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+const printedMt = (v) => {
+  if (v === 0) return '0 Mt';
+  if (v < 0.05) return 'under 0.05 Mt';
+  const [whole, decimals] = String(v).split('.');
+  return `${printedCount(whole)}${decimals ? `.${decimals}` : ''} Mt`;
+};
+/** A stored change: a dash for null, "−100%" for exactly −100, otherwise the sign, one decimal and a true minus. */
+const printedChange = (p) => {
+  if (p === null) return '—';
+  if (p === -100) return '−100%';
+  return `${p < 0 ? '−' : p > 0 ? '+' : ''}${Math.abs(p).toFixed(1)}%`;
+};
+const printedCargoChange = (mt) => {
+  if (mt.pct === null) return '—'; // nothing a year earlier
+  if (mt.ago > 0 && mt.ago < 0.05) return '—'; // a year-earlier cargo that small has nothing to compare with, whatever was stored
+  if (mt.now > 0 && mt.now < 0.05) return `down more than ${Math.floor((100 * (mt.ago - 0.05)) / mt.ago)}%`; // and only then, a bound
+  return printedChange(mt.pct);
+};
+const printedLines = (r) => ({
+  transits: { text: `Transits ${printedCount(r.now)} vs ${printedCount(r.ago)} a year earlier`, change: printedChange(r.pct) },
+  cargo: { text: `Cargo ${printedMt(r.mt.now)} vs ${printedMt(r.mt.ago)} a year earlier`, change: printedCargoChange(r.mt) },
+});
+const expectLines = (r, what) => {
+  const want = printedLines(r);
+  const got = rowLines(r);
+  assert.equal(got.transits.text, want.transits.text, `${what}: the transits line`);
+  assert.equal(got.transits.change, want.transits.change, `${what}: the change of the transits`);
+  assert.equal(got.cargo.text, want.cargo.text, `${what}: the cargo line`);
+  assert.equal(got.cargo.change, want.cargo.change, `${what}: the change of the cargo`);
+  assert.equal(lineText(got.transits), `${want.transits.text}: ${want.transits.change}`, what);
+  assert.equal(lineText(got.cargo), `${want.cargo.text}: ${want.cargo.change}`, what);
+  // a dash says why, in the hover text; a change that is printed has none
+  assert.equal(got.transits.title, want.transits.change === '—' ? NO_CHANGE_TITLE : undefined, `${what}: the hover text of the transits`);
+  assert.equal(got.cargo.title, want.cargo.change !== '—' ? undefined : r.mt.ago > 0 && r.mt.ago < 0.05 ? TINY_AGO_TITLE : NO_CHANGE_TITLE, `${what}: the hover text of the cargo`);
+};
+
+/**
+ * Whether a stored change can be the change of figures that were rounded: whole vessels (a half rounded up, so the sum is within a half of
+ * the figure) and three significant figures (within a half per cent of the figure). One decimal of rounding, and the 0.1 that the −99.9 rule
+ * of the builder can move a fall by, are allowed for. Holds for every digest the builder can write.
+ */
+function agreesWithFigures(pct, now, ago, halfNow, halfAgo, relative) {
+  if (pct === null) return true; // nothing a year earlier: the sum was zero, the figure may be a rounded zero or not
+  const [nowLo, nowHi] = relative ? [now * (1 - 0.005), now * (1 + 0.005)] : [Math.max(now - halfNow, 0), now + halfNow];
+  const [agoLo, agoHi] = relative ? [ago * (1 - 0.005), ago * (1 + 0.005)] : [Math.max(ago - halfAgo, 0), ago + halfAgo];
+  if (agoLo <= 0) return true; // the year-earlier sum may be as small as the rounding: any change is possible
+  const lo = (100 * (nowLo - agoHi)) / agoHi;
+  const hi = (100 * (nowHi - agoLo)) / agoLo;
+  return pct >= lo - 0.2 && pct <= hi + 0.1;
+}
+
+test('every row of the real digest prints what METHODOLOGY says of its stored values, case by case: the library against an independent writing', () => {
   const file = json('data/freight/market-now.json');
   const d = readMarketNow(file);
-  let collapsed = 0;
+  assert.ok(d);
   for (const t of ['tanker', 'dry']) {
-    for (const [i, r] of d.types[t].entries()) {
-      const l = rowLines(r);
-      assert.equal(lineText(l.transits), `Transits ${r.now.toLocaleString('en-US')} vs ${r.ago.toLocaleString('en-US')} a year earlier: ${changeText(file.types[t][i].pct)}`, `${t} ${r.id}`);
-      assert.equal(l.transits.change, changeText(file.types[t][i].pct), 'the change printed is the one stored');
-      assert.equal(l.cargo.change, mtChangeText(r.mt.now, r.mt.ago, file.types[t][i].mt.pct));
-      assert.ok(lineText(l.cargo).startsWith(`Cargo ${mtText(r.mt.now)} vs ${mtText(r.mt.ago)} a year earlier: `));
-      // the stored change agrees with the printed figures within what their rounding allows (whole vessels; three significant figures)
-      if (r.ago > 0) {
-        const fromFigures = (100 * (r.now - r.ago)) / r.ago;
-        assert.ok(Math.abs(r.pct - fromFigures) <= (100 * 0.5 * (1 + r.now / r.ago)) / (r.ago - 0.5) + 0.06, `${r.id}: ${r.pct} against ${fromFigures}`);
-        const fromCargo = (100 * (r.mt.now - r.mt.ago)) / r.mt.ago;
-        assert.ok(Math.abs(r.mt.pct - fromCargo) <= 100 * (r.mt.now / r.mt.ago) * 0.0101 + 0.06, `${r.id} cargo: ${r.mt.pct} against ${fromCargo}`);
-        if (r.now / r.ago < 0.1) {
-          collapsed++;
-          assert.match(l.transits.change, /^−9\d\.\d%$/, 'a collapse reads as a fall of more than 90%');
-        }
-      }
-    }
+    d.types[t].forEach((r, i) => {
+      const stored = file.types[t][i];
+      // the page reads the stored values as they are
+      assert.deepEqual(r, stored, `${t} ${r.id}: read as stored`);
+      expectLines(stored, `${t} ${r.id}`);
+      assert.ok(agreesWithFigures(stored.pct, stored.now, stored.ago, 0.5, 0.5, false), `${t} ${r.id}: ${stored.pct} is not the change of ${stored.now} and ${stored.ago}, rounded to whole vessels`);
+      assert.ok(agreesWithFigures(stored.mt.pct, stored.mt.now, stored.mt.ago, 0, 0, true), `${t} ${r.id} cargo: ${stored.mt.pct} is not the change of ${stored.mt.now} and ${stored.mt.ago}, to three figures`);
+    });
   }
-  if (!collapsed) console.log('no passage of the file has fallen below a tenth of a year earlier: the collapse wording is tested on the changes above');
+});
+
+test('the cases of "What the page prints", on rows the test makes: a stopped passage, nothing a year earlier, a tiny cargo, a change that rounds to zero, a rise past 100%, a collapse', () => {
+  const row = (now, ago, pct, mtNow, mtAgo, mtPct) => ({ id: 'x', now, ago, pct, mt: { now: mtNow, ago: mtAgo, pct: mtPct }, rankMt: 1 });
+  const cases = [
+    // a passage with no transit and no cargo in the window: the builder stores −100.0 and prints nothing smaller
+    ['no transit, no cargo', row(0, 1211, -100, 0, 87.2, -100), { transits: '−100%', cargo: '−100%' }],
+    ['no cargo only', row(22, 1211, -98.2, 0, 87.2, -100), { transits: '−98.2%', cargo: '−100%' }],
+    // nothing a year earlier: null for the transits, for the cargo, for both
+    ['nothing a year earlier, transits', row(10, 0, null, 3.5, 4, -12.5), { transits: '—', cargo: '−12.5%' }],
+    ['nothing a year earlier, cargo', row(10, 20, -50, 3.5, 0, null), { transits: '−50.0%', cargo: '—' }],
+    ['nothing a year earlier, both', row(10, 0, null, 3.5, 0, null), { transits: '—', cargo: '—' }],
+    // a cargo under the bound, now, a year earlier, both
+    ['a tiny cargo now', row(10, 20, -50, 0.0123, 40, -99.9), { transits: '−50.0%', cargo: `down more than ${Math.floor((100 * (40 - 0.05)) / 40)}%` }],
+    ['a tiny cargo a year earlier', row(10, 20, -50, 40, 0.0123, 325000), { transits: '−50.0%', cargo: '—' }],
+    ['a tiny cargo both', row(10, 20, -50, 0.0021, 0.0056, -62.5), { transits: '−50.0%', cargo: '—' }],
+    ['the bound itself is not tiny', row(10, 20, -50, 0.05, 0.05, 0), { transits: '−50.0%', cargo: '0.0%' }],
+    // a change that rounds to 0.0, a rise above 100%, a collapse that is not a stop
+    ['a change that rounds to 0.0', row(10, 10, 0, 5, 5, 0), { transits: '0.0%', cargo: '0.0%' }],
+    ['a rise above 100%', row(2900, 100, 2800, 1280, 12.5, 10140), { transits: '+2800.0%', cargo: '+10140.0%' }],
+    ['a collapse that leaves something', row(1, 10000, -99.9, 0.0512, 4000, -99.9), { transits: '−99.9%', cargo: '−99.9%' }],
+  ];
+  for (const [what, r, want] of cases) {
+    expectLines(r, what);
+    const got = rowLines(r);
+    assert.equal(got.transits.change, want.transits, `${what}: transits`);
+    assert.equal(got.cargo.change, want.cargo, `${what}: cargo`);
+  }
+  // the stored changes of those rows are readable as a digest row
+  for (const [what, r] of cases) assert.ok(readMarketNow({ s: 'portwatch', to: '2026-11-22', yearAgoTo: '2025-11-23', unit: 'u', mtUnit: 'm', types: { tanker: [r], dry: [r] } }), what);
+  // the bound and the dash that share a row: the year-earlier cargo under the bound wins, as METHODOLOGY says
+  assert.equal(mtChangeText(0.0021, 0.0056, -62.5), '—');
+  assert.equal(mtChangeText(0.0021, 0.06, -96.5), `down more than ${Math.floor((100 * (0.06 - 0.05)) / 0.06)}%`);
+  // the consistency rule holds for every one of them, a collapse and a stop included
+  for (const [what, r] of cases) assert.ok(agreesWithFigures(r.pct, r.now, r.ago, 0.5, 0.5, false) && agreesWithFigures(r.mt.pct, r.mt.now, r.mt.ago, 0, 0, true), what);
+  assert.ok(agreesWithFigures(-99.9, 0, 2000, 0.5, 0.5, false), 'a stop after a long year: the sum was a few hundredths of a vessel, the builder stores −99.9, the figure is 0');
+  assert.ok(!agreesWithFigures(-20, 90, 100, 0.5, 0.5, false), 'a change that the figures do not allow is caught');
 });
 
 // ---------------------------------------------------------------- the view, the entry and what they must not do
@@ -740,13 +852,66 @@ test('the price drawer does not name the Bank twice in a row: the basis is print
   assert.match(src('components/PriceDrawer.tsx'), /shortBasis\(withoutCredit\(d\.meta\.basis, sources\.value\[d\.meta\.s\]\)\)/);
 });
 
+test('the hover titles name the Bank once: the tail of the title built for the real registry entry and the real series basis', () => {
+  const reg = json('data/sources.json');
+  for (const { id } of INDICATORS) {
+    const m = metaOf(id);
+    const entry = reg.find((s) => s.id === m.s);
+    // the three titles (the row of the page, the name button of the price board, the figure of a commodity) end with the registry's name of the source and the basis
+    const tail = `${entry.name}${basisSuffix(m.basis, entry)}`;
+    assert.ok(tail.startsWith(entry.name));
+    assert.ok(tail.split(entry.publisher).length - 1 <= 1, `${id}: the publisher is named at most once in "${tail}"`);
+    assert.equal(tail, `${entry.name} · ${withoutCredit(m.basis, entry)}`);
+  }
+  const bank = reg.find((s) => s.id === 'dallasfed');
+  const bankTail = `${bank.name}${basisSuffix(metaOf('igrea-m').basis, bank)}`;
+  assert.equal(bankTail.split(bank.publisher).length - 1, 1, `the Bank is named once in "${bankTail}"`);
+  assert.equal(`${bank.name}${' · ' + metaOf('igrea-m').basis}`.split(bank.publisher).length - 1, 2, 'and twice without the rule');
+  // the Dallas Fed series: the basis credits the Bank, and so does the name of its source; the title keeps the quotation and drops the repeat
+  const dallas = reg.find((s) => s.id === 'dallasfed');
+  assert.ok(metaOf('igrea-m').basis.startsWith(`${dallas.publisher}: `));
+  assert.ok(basisSuffix(metaOf('igrea-m').basis, dallas).startsWith(' · “Updated index'));
+  // a source whose name does not start with its publisher, a series with no basis, and a registry without the source
+  assert.equal(basisSuffix(metaOf('freight-ppi-m').basis, reg.find((s) => s.id === 'bls')), ` · ${metaOf('freight-ppi-m').basis}`);
+  assert.equal(basisSuffix(undefined, dallas), '');
+  assert.equal(basisSuffix('', dallas), '');
+  assert.equal(basisSuffix('A basis', undefined), ' · A basis');
+  // the three components build their titles with it, and none joins the basis itself any more
+  for (const f of ['components/views/FreightNowView.tsx', 'components/PriceBoard.tsx', 'components/PriceFigure.tsx']) {
+    assert.match(src(f), /\$\{basisSuffix\(m\.basis, sources\.value\[m\.s\]\)\}/, f);
+    assert.doesNotMatch(src(f), /m\.basis \? ' · ' \+ m\.basis/, f);
+  }
+});
+
+test('the note under an indicator row is built from the registry\'s real entry, so that the Bank is printed once by the source line and the note together', () => {
+  const reg = json('data/sources.json');
+  for (const { id } of INDICATORS) {
+    const m = metaOf(id);
+    const entry = reg.find((s) => s.id === m.s);
+    const note = indicatorSourceNote(m, entry);
+    const line = `${entry.name} · ${m.stats.last.t} · ${note}`;
+    assert.equal(line.split(entry.publisher).length - 1, 1, `${id}: the publisher is named once in "${line}"`);
+    assert.equal(note, indicatorNote(m.id, entry.publisher, m.note, entry.name));
+    assert.equal(line.split(entry.publisher).length - 1, 1);
+  }
+  // without the name of the source (the call the view used to make wrongly) the Bank would be named twice in a row
+  const dallas = reg.find((s) => s.id === 'dallasfed');
+  assert.equal(`${dallas.name} · ${indicatorNote('igrea-m', dallas.publisher, metaOf('igrea-m').note)}`.split(dallas.publisher).length - 1, 2);
+  // a registry that lacks the source: the id stands for the publisher and the name
+  assert.equal(indicatorSourceNote({ id: 'x', s: 'zz', note: 'a note' }, undefined), 'a note');
+  // the view gives the registry's entry, and calls nothing else for the note
+  const view = src('components/views/FreightNowView.tsx');
+  assert.match(view, /n=\{indicatorSourceNote\(m, sources\.value\[m\.s\]\)\}/);
+  assert.doesNotMatch(view, /indicatorNote\(/);
+});
+
 // ---------------------------------------------------------------- what the atlas links to and shows no value of
 
 test('the link-only list names each publisher of the registry, has no figure, and its addresses are the registry\'s or pages read and named there', () => {
   const reg = json('data/sources.json');
   const entry = (id) => reg.find((s) => s.id === id);
   assert.deepEqual([...new Set(LINK_ONLY.map((l) => l.s))], ['baltic', 'sse', 'usda-ams']);
-  assert.equal(LINK_ONLY.length, 5, 'Baltic, the two Shanghai indices, the grain vessel line-up and the grain ocean rates');
+  assert.equal(LINK_ONLY.length, 5, 'Baltic, the two Shanghai indices, the weekly count of grain vessels and the grain ocean rates');
   for (const l of LINK_ONLY) {
     const e = entry(l.s);
     assert.ok(e, `${l.s} is in the registry`);
@@ -812,7 +977,7 @@ test('"Copy citation" is fed by the figures of the page: PortWatch, the Dallas F
   assert.match(view, /<div class="fn-ind" data-src=\{m\.s\} data-y=\{last\.t\}>/);
   // the Dallas Fed's licence asks that the Bank be credited: the row's note names it, from the registry's publisher
   assert.equal(reg.find((r) => r.id === 'dallasfed').publisher, 'Federal Reserve Bank of Dallas');
-  assert.match(view, /sources\.value\[m\.s\]\?\.publisher/);
+  assert.match(view, /indicatorSourceNote\(m, sources\.value\[m\.s\]\)/, 'the note is built from the registry entry of the series\' source');
 });
 
 test('the indicators section and the link list stay when the digest is missing, and say so when no indicator loads', () => {

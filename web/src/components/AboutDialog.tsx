@@ -7,6 +7,7 @@ import type { ComponentChildren } from 'preact';
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { load, sources } from '../lib/data';
 import { ESTIMATE_DEFINITION } from '../lib/freight';
+import { isLinkOnly, linkOnlyClause } from '../lib/linkOnly';
 import { BUILD, HEALTH_LABEL, RELEASE, fmtDate, loadChanges, loadStatus, loadVintages, type Changes, type Freshness, type StatusView } from '../lib/status';
 import type { Alert } from '../types';
 import { aboutTab, closeAbout, type AboutTab } from './AboutHost';
@@ -45,8 +46,9 @@ function longDate(iso: string): string {
 // ---------------------------------------------------------------- about
 
 function AboutTabView(props: { changes: Changes | null | undefined }) {
-  // the registry also lists the atlas's own figures (id `atlas`), which are not a third-party source
-  const n = Object.keys(sources.value).filter((id) => id !== 'atlas').length;
+  // the registry also lists the atlas's own figures (id `atlas`), which are not a third-party source, and the publishers the atlas only links to,
+  // of which it takes no data
+  const n = Object.values(sources.value).filter((s) => s.id !== 'atlas' && !isLinkOnly(s)).length;
   return (
     <>
       {RELEASE.number && /^\d{4}-\d{2}-\d{2}$/.test(RELEASE.date) && (
@@ -120,6 +122,7 @@ function LicenceText(props: { text: string }) {
 
 function SourcesTabView(props: { status: StatusView | null; vintages: Record<string, string> }) {
   const list = Object.values(sources.value);
+  const linked = list.filter(isLinkOnly).length;
   const dated = new Map<string, string>();
   for (const r of props.status?.rows ?? []) if (r.dataTo) for (const s of r.sources) dated.set(s, r.dataTo);
   const vintage = (id: string) => dated.get(id) ?? (props.vintages[id] ? fmtDate(props.vintages[id]) : null);
@@ -130,8 +133,10 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
   return (
     <>
       <p>
-        The atlas uses free, public sources only. Each figure on the site names its source and its year; this table lists every source with its
-        licence. "Atlas estimate" marks a figure computed by the atlas.
+        Every figure the atlas shows comes from a free, public source. Each figure on the site names its source and its year; this table lists every source with its
+        licence{linkOnlyClause(linked)}.
+        "Atlas estimate" marks an estimate computed by the atlas; sums and ratios of one source's own published figures keep that source's credit and say "data
+        adapted" (see the Method tab).
       </p>
       {list.length === 0 ? (
         <Skeleton lines={5} />

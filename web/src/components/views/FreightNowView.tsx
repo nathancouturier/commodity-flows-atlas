@@ -2,10 +2,11 @@
 import '../../styles/freight-now.css';
 import type { Chokepoint, MarketNow, MarketNowRow } from '../../types';
 import type { ComponentChildren } from 'preact';
+import { basisSuffix } from '../../lib/credit';
 import { load, sourceLabel, sources } from '../../lib/data';
 import { FAMILY_COLOR, FAMILY_LABEL } from '../../lib/format';
 import { loadChokepoints } from '../../lib/freight';
-import { INDICATORS, LINK_ONLY, indicatorLines, indicatorNote, indicatorOf, type Indicator, type IndicatorLine, type LinkOnly } from '../../lib/freightIndicators';
+import { INDICATORS, LINK_ONLY, indicatorLines, indicatorOf, indicatorSourceNote, type Indicator, type IndicatorLine, type LinkOnly } from '../../lib/freightIndicators';
 import { MARKET_TYPES, classesNote, leadText, readMarketNow, rowLines } from '../../lib/marketNow';
 import { fmtPct, fmtPrice, isLate, loadSeries, openPrices, type PriceMeta } from '../../lib/prices';
 import { fmtDate } from '../../lib/status';
@@ -73,11 +74,9 @@ function IndicatorRow({ ind }: { ind: Indicator<PriceMeta> }) {
   const m = ind.meta;
   const last = m.stats!.last;
   const lines = indicatorLines(ind, { price: fmtPrice, date: fmtDate, pct: fmtPct, isLate: (now) => isLate(m, now) }, Date.now());
-  const publisher = sources.value[m.s]?.publisher ?? m.s;
-  const sourceName = sources.value[m.s]?.name ?? m.s;
   return (
     <div class="fn-ind" data-src={m.s} data-y={last.t}>
-      <button class="list-btn fn-row" onClick={() => openPrices({ series: [m.id] })} title={`Open ${m.name} in the price explorer · ${sourceLabel(m.s)}${m.basis ? ' · ' + m.basis : ''}`}>
+      <button class="list-btn fn-row" onClick={() => openPrices({ series: [m.id] })} title={`Open ${m.name} in the price explorer · ${sourceLabel(m.s)}${basisSuffix(m.basis, sources.value[m.s])}`}>
         <b class="fn-name">{m.name}</b>
         <span class="muted small num fn-fig">
           {lines.map((l, i) => (
@@ -87,7 +86,7 @@ function IndicatorRow({ ind }: { ind: Indicator<PriceMeta> }) {
           ))}
         </span>
       </button>
-      <SourceLine s={m.s} y={last.t} n={indicatorNote(m.id, publisher, m.note, sourceName)} />
+      <SourceLine s={m.s} y={last.t} n={indicatorSourceNote(m, sources.value[m.s])} />
     </div>
   );
 }

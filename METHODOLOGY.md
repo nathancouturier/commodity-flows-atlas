@@ -1331,9 +1331,10 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     - a dash, for the transits or the cargo: the stored change is null, which is nothing a year earlier (the year-earlier sum is zero). Its hover text says so.
     - a dash, for the cargo only: the year-earlier cargo is above zero and under 0.05 Mt, whatever was stored. A cargo that small is the length of a rounding
       error, so there is nothing to compare it with; the hover text says that the year-earlier cargo is under the bound.
-    - a bound, for the cargo only ("down more than N%"): the cargo of the last four weeks is above zero and under 0.05 Mt, so its figure is a bound and not a
-      measure. N is the whole number of per cent below 100 x (year earlier - 0.05) / year earlier, worked out from the bound and the year-earlier figure the
-      row prints (the stored change is not used: it is the change of the unrounded sums). It is the one figure the page works out.
+    - a bound, for the cargo only ("down more than N%"): the cargo of the last four weeks is above zero and under 0.05 Mt and the year-earlier cargo is not
+      under 0.05 Mt (the dashes above come first: a row with nothing a year earlier, or with both cargoes under it, prints a dash), so its figure is a bound
+      and not a measure. N is the whole number of per cent below 100 x (year earlier - 0.05) / year earlier, worked out from the bound and the year-earlier
+      figure the row prints (the stored change is not used: it is the change of the unrounded sums). It is the one figure the page works out.
     - every other row: the stored change as it is. The page prints no `<0.1%` (a stored change is a multiple of 0.1), no `+100%` or `0%` without a
       decimal, and does not clamp a fall to −99.9 itself.
 
@@ -1361,7 +1362,7 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     from the 15th of the second month after its last month). The Global Supply Chain Pressure Index is not shown: its own description says that it
     combines the Baltic Dry Index, the Harpex index and air freight costs with survey components (section 7).
   - **Links, no value.** The page links to, and shows no value of, the Baltic Exchange indices (registry `baltic`), the China Import Dry Bulk Freight Index
-    and the China Import Crude Oil Tanker Freight Index of the Shanghai Shipping Exchange (`sse`) and the weekly grain vessel line-up and the grain
+    and the China Import Crude Oil Tanker Freight Index of the Shanghai Shipping Exchange (`sse`) and the weekly count of grain vessels and the grain
     ocean freight rates of the USDA Agricultural Marketing Service (`usda-ams`). A link is not cited: it has no source line and no date. What the pages
     say, read on 25 November 2026. Baltic Exchange, clause 5.1 of its Terms and Conditions
     (https://www.balticexchange.com/en/site-services/terms-and-conditions.html): no part of the website or its content "may be copied or reproduced
@@ -1372,14 +1373,14 @@ type, not one commercial class, whose fleet, age and orderbook are not published
     https://en.sse.net.cn/indices/ctfinew2.jsp) carry too; the home page has a block headed laws that links to a page of laws and regulations, which was not read, and no page of terms was read.
     The index pages fill their tables by script, so no value was read; both indices measure freight into China only. USDA Agricultural Marketing Service: its privacy page (https://www.ams.usda.gov/about-ams/privacy) says "Information
     presented on the AMS web site is considered public information and may be distributed or copied. Use of appropriate byline/photo/image credits is
-    requested." It names the AMS web site, not the AgTransport host (agtransport.usda.gov) whose tables carry the vessel line-up and the rates, and those
-    tables state the attribution "USDA Agricultural Marketing Service" (line-up) and "O'Neil Commodity Consulting" (rates) and no licence field
+    requested." It names the AMS web site, not the AgTransport host (agtransport.usda.gov) whose tables carry the vessel count and the rates, and those
+    tables state the attribution "USDA Agricultural Marketing Service" (vessel count) and "O'Neil Commodity Consulting" (rates) and no licence field
     (https://agtransport.usda.gov/api/views/vh5k-mnyv.json and https://agtransport.usda.gov/api/views/ehs5-yac3.json). The page of the datasets
     (https://www.ams.usda.gov/services/transportation-analysis/gtr-datasets) says "These data series are aggregated from non-confidential and
     non-copyrighted sources."; it names the table of the vessel count "Weekly port region grain ocean vessel activity (number of vessels)" and says that it
     holds the "Weekly number of grain vessels loaded during the week and expected to be loaded within the next 10 days in the Gulf, PNW, and Vancouver, B.C."; and it gives "SOURCE: O'Neil Commodity Consulting" for the grain vessel rates, U.S. to Japan. The page's line for the table uses
     that name and says what it counts, Vancouver included. The atlas does not read the
-    privacy sentence as covering rates credited to a private firm, and it shows neither series: the line-up and the rates are links, to the AMS page of the datasets.
+    privacy sentence as covering rates credited to a private firm, and it shows neither series: the vessel count and the rates are links, to the AMS page of the datasets.
 - **Events** carry `commodities`, `countries` and `assets` when their own text (title, summary,
   impact, and the names of the assets they link to) names them, by whole words (`pipeline/freight/event_links.py`
   is the rule; the tests check every event against it: "tin" is not "tinplate", "gas" is not
@@ -1593,7 +1594,7 @@ totals of the series by year are the same for every country: they are in one fil
   "Ocean tankers").
   Every route page says that Baltic assessments are proprietary and links to the Baltic Exchange. The voyage calculator
   of the route pages stores no rate either: its freight and hire are typed by the visitor and are not kept (section 3). The Freight market now page
-  links to the Baltic Exchange indices, to the two China import indices of the Shanghai Shipping Exchange and to the weekly grain vessel line-up and the grain
+  links to the Baltic Exchange indices, to the two China import indices of the Shanghai Shipping Exchange and to the weekly count of grain vessels and the grain
   ocean freight rates of the USDA Agricultural Marketing Service, and shows no value of them; the sentences read on their pages are in section 5, under
   "Freight market now".
 - Annual prices: USGS Mineral Commodity Summaries 2026, rows "Price" of the Salient Statistics

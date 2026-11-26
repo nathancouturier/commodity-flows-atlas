@@ -7,7 +7,8 @@
  * with no price series.
  */
 import { useEffect } from 'preact/hooks';
-import { sourceLabel } from '../lib/data';
+import { basisSuffix } from '../lib/credit';
+import { sourceLabel, sources } from '../lib/data';
 import { annualWord, fmtPct, fmtSeriesValue, inEstimate, isAnnualSeries, isLate, loadPriceFigures, priceFigures } from '../lib/prices';
 import { fmtDate } from '../lib/status';
 import { shortSource } from './ui';
@@ -38,7 +39,7 @@ export function PriceFigure({ commodity }: { commodity: string }) {
   return (
     <div class="kpis pf">
       {/* data-src: read by "Copy citation" (lib/cite.ts), like a source line */}
-      <div class="kpi" title={`${m.name} · ${sourceLabel(m.s)} · ${what}${annual ? '' : ` · ${when}`}${m.basis ? ' · ' + m.basis : ''}`} data-src={m.s} data-y={st.last.t.slice(0, 4)}>
+      <div class="kpi" title={`${m.name} · ${sourceLabel(m.s)} · ${what}${annual ? '' : ` · ${when}`}${basisSuffix(m.basis, sources.value[m.s])}`} data-src={m.s} data-y={st.last.t.slice(0, 4)}>
         <div class="kpi-label">
           {annual ? `Annual average ${when}` : closed ? 'Last price' : 'Latest price'} · {name}
         </div>

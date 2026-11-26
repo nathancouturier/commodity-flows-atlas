@@ -19,7 +19,7 @@ for sub in ("", "common", "freight"):
         sys.path.insert(0, p)
 
 import build_market_now as BM  # noqa: E402
-from common import status  # noqa: E402
+from common import sources_table, status  # noqa: E402
 
 FIXTURES = os.path.join(ROOT, "pipeline", "tests", "fixtures")
 OWN = os.path.join(FIXTURES, "market_now_texts_quotations.json")
@@ -414,6 +414,122 @@ class TheFiguresAreTheConstantsOfTheCode(unittest.TestCase):
         self.assertIn("the annual job rebuilds neither the weekly series nor this file", P["method"])
 
 
+class TheRulesOfTheDigestAreSaidAsTheyAre(unittest.TestCase):
+    """The sentences of METHODOLOGY.md and docs/UPDATING.md about what the builder stores, refuses and says: each is pinned whole, so that a
+    sentence turned into its opposite fails a test."""
+
+    def test_the_stored_minus_99_9_and_the_printed_minus_100_are_the_rules_of_the_code(self):
+        self.assertIn("`−99.9%`: a fall that one decimal would round to 100% while something is left in the window. The builder stores −99.9 and the page prints it as it is; "
+                      "`−100%` is printed only when the stored change is exactly −100, that is when nothing is left.", P["method"])
+        # the builder stores it: a fall that rounds to −100.0 while something is left
+        D = BM.Decimal
+        self.assertEqual(BM.pct(D("0.1"), D("100000")), -99.9)
+        self.assertEqual(BM.pct(D("0"), D("7")), -100.0)
+
+    def test_a_series_that_lags_dates_the_digest_earlier_and_a_date_that_would_go_back_is_a_refusal(self):
+        m = P["method"]
+        self.assertIn("a series that lags dates the digest earlier, it does not stop it", m)
+        self.assertIn("When that date would be earlier than the stored digest's, the run is refused (see the paragraph on refusals below).", m)
+        self.assertIn("or `to` is earlier than the one published", m)
+        # and the builder refuses it
+        self.assertIn("earlier than the one published", read("pipeline", "freight", "build_market_now.py"))
+
+    def test_a_series_too_short_to_rank_is_left_out_with_a_line_and_the_digest_is_built_from_the_others(self):
+        m = P["method"]
+        self.assertIn("A weekly file that starts after the first of those 52 weeks (a passage mapped lately) cannot be ranked: it is left out of the ranking, "
+                      "with a line in the builder's output, and the digest is built from the others.", m)
+        self.assertIn("(a series that does not reach back far enough is only left out of the ranking, see the paragraph on the five passages above)", m)
+        self.assertNotRegex(m, r"(?i)a series that does not reach back far enough is refused|too short[^.]* is refused")
+        # the builder's line, which the text and UPDATING.md quote
+        notes = BM.Notes()
+        notes.left_out = [("newpass", "2026-01-05")]
+        self.assertEqual(notes.lines(), [f"left out of the ranking: newpass.json starts on 2026-01-05, after the first of the {BM.RANK_WEEKS} ranking weeks"])
+        self.assertIn("left out of the ranking: <passage>.json starts on", flat(read("docs", "UPDATING.md")))
+
+    def test_updating_says_what_the_output_and_what_the_status_note_say_of_a_series_that_lags(self):
+        u = flat(read("docs", "UPDATING.md"))
+        self.assertIn("one series that lags holds the digest's date back for every passage and the figures of every row are those of the earlier week, without any failure", u)
+        self.assertIn("the output of the step names the series the digest waits for", u)
+        self.assertIn("the note of its status record", u)
+        self.assertIn("gives the count and the date", u)
+        self.assertIn("without naming any", u)
+        self.assertIn("the new date would be earlier than the file published and the run is refused", u)
+        self.assertNotRegex(u, r"output of the step and the note of its status record")
+        # what the builder does: the output names the series, the note gives the count and the date and names none
+        notes = BM.Notes()
+        notes.ahead = (6, "2026-11-29", ["gg", "hh"], "2026-11-22")
+        out = " ".join(notes.lines())
+        self.assertIn("6 series end later than the digest, on 2026-11-29", out)
+        self.assertIn("the last complete week of gg, hh", out)
+        self.assertEqual(notes.note(), "; 6 series end later than 2026-11-22 (on 2026-11-29)")
+        self.assertNotIn("gg", notes.note())
+
+    def test_the_bound_applies_only_when_the_year_earlier_cargo_is_not_under_it_and_the_dashes_come_first(self):
+        tiny = re.search(r"TINY_MT = ([0-9.]+)", WEB["lib"]).group(1)
+        m = P["method"]
+        self.assertIn(f"the cargo of the last four weeks is above zero and under {tiny} Mt and the year-earlier cargo is not under {tiny} Mt "
+                      "(the dashes above come first: a row with nothing a year earlier, or with both cargoes under it, prints a dash)", m)
+        # the page decides in that order: a stored null, then a year-earlier cargo under the bound, then the bound
+        body = WEB["lib"][WEB["lib"].index("export function mtChangeText"):WEB["lib"].index("/** What a row prints")]
+        self.assertLess(body.index("pct == null || tinyMt(ago)"), body.index("tinyMt(now)"))
+
+
+class TheAboutWindowAgreesWithItself(unittest.TestCase):
+    """The Sources tab and the Method tab of the About window say the same of the figures the atlas computes, and the introduction of the Sources
+    tab claims no more than its table lists."""
+
+    ABOUT = flat(read("web", "src", "components", "AboutDialog.tsx"))
+
+    def test_the_introduction_of_the_sources_tab_says_every_figure_comes_from_a_free_public_source_and_names_the_publishers_only_linked(self):
+        a = self.ABOUT
+        self.assertIn("Every figure the atlas shows comes from a free, public source. Each figure on the site names its source and its year; this table lists every "
+                      "source with its licence{linkOnlyClause(linked)}.", a)
+        self.assertNotIn("The atlas uses free, public sources only. Each figure on the site", a)
+        # the number is read from the registry as sources_table.py reads it: an entry whose use says that no value is stored or shown
+        self.assertIn("const linked = list.filter(isLinkOnly).length;", a)
+        lib = read("web", "src", "lib", "linkOnly.ts")
+        self.assertIn(f"LINK_ONLY_MARK = '{sources_table.LINK_ONLY_MARK}'", lib)
+        self.assertEqual(sources_table.link_only(list(REGISTRY.values())), ["sse", "usda-ams"])
+        self.assertIn("of which it shows no value", lib)
+        # the credits paragraph counts the publishers that give a value, not those that are only linked
+        self.assertIn("s.id !== 'atlas' && !isLinkOnly(s)", a)
+
+    def test_the_two_tabs_name_the_same_rule_for_the_figures_the_atlas_computes(self):
+        a = self.ABOUT
+        sources_tab = 'marks an estimate computed by the atlas; sums and ratios of one source\'s own published figures keep that source\'s credit and say "data adapted" (see the Method tab).'
+        self.assertIn('"Atlas estimate" ' + sources_tab, a)
+        self.assertNotIn("marks a figure computed by the atlas", a)
+        method_tab = ("Sums and ratios of one source's own published figures, such as the weekly averages and the changes against a year earlier of IMF PortWatch's traffic, "
+                      'are not estimates: they keep the source\'s credit and say "data adapted".')
+        self.assertIn(method_tab, a)
+        self.assertIn('Estimates computed by the atlas, such as route and chokepoint shares, are labelled "Atlas estimate".', a)
+        # both tabs: sums and ratios of one source's own published figures, the source's credit, "data adapted"; and the tab the sentence points to exists
+        for text in (sources_tab, method_tab):
+            self.assertRegex(text, r"(?i)sums and ratios of one source's own published figures")
+            self.assertRegex(text, r"credit and say \"data adapted\"")
+        self.assertIn("{ id: 'method', label: 'Method' }", a)
+        # METHODOLOGY gives the reason for the digest the same way: sums and ratios of PortWatch's own figures, not an estimate, its source id and "data adapted"
+        self.assertIn("sums and ratios of PortWatch's own published figures, not an estimate of the atlas, so they carry PortWatch's source id and the words \"data adapted\"", P["method"])
+
+    def test_the_sentence_that_says_the_atlas_uses_free_public_sources_is_about_what_it_uses(self):
+        # the "What it does not do" list: the atlas takes no value from a publisher it only links to, so the claim there stays true; it is not a claim about the table
+        self.assertIn("No Baltic Exchange index values and no other paid data: the atlas uses free, public sources only.", self.ABOUT)
+
+
+class NoWordThePageNeverUses(unittest.TestCase):
+    def test_the_table_of_the_usda_is_named_as_the_page_names_it_everywhere_the_atlas_describes_it(self):
+        pattern = r"(?i)\bline[- ]?up\b"
+        for name, text in (("registry", json.dumps(REGISTRY)), ("NOTICE.md", NOTICE), ("METHODOLOGY.md", METHOD), ("DATA_SOURCES.md", read("DATA_SOURCES.md")),
+                           ("README.md", read("README.md")), ("page", WEB["view"]), ("library", WEB["lib"]), ("indicators", WEB["ind"])):
+            self.assertIsNone(re.search(pattern, text), name)
+        self.assertEqual(REGISTRY["usda-ams"]["name"], "USDA Agricultural Marketing Service, Grain Transportation Report datasets (weekly port region grain ocean vessel activity, grain ocean freight rates)")
+        self.assertIn("Weekly port region grain ocean vessel activity (number of vessels)", QUOTES["ams-datasets-vessel-activity-table"]["quotation"])
+        self.assertIn("weekly port region grain ocean vessel activity", NOTICE)
+        # in running text: the weekly count of grain vessels
+        self.assertIn("the weekly count of grain vessels", P["method-links"])
+        self.assertIn("the weekly count of grain vessels", P["notice-links"])
+
+
 class ThePageSaysWhatTheTextSays(unittest.TestCase):
     def test_the_sentences_of_the_page_that_the_text_gives_are_the_pages(self):
         self.assertIn("No traffic figures are available.", WEB["view"])
@@ -463,7 +579,7 @@ class ThePageSaysWhatTheTextSays(unittest.TestCase):
         for name in re.findall(r"name: '([^']+)'", WEB["ind"]):
             if name.startswith(("Baltic", "China Import")):
                 self.assertIn(name, P["method-links"] if name.startswith("China") else METHOD)
-        self.assertIn("weekly grain vessel line-up", P["method-links"])
+        self.assertIn("weekly count of grain vessels", P["method-links"])
         # the page's line for the vessel count is the table's own name and says what the table counts, Vancouver included
         self.assertIn(f"name: '{QUOTES['ams-datasets-vessel-activity-table']['quotation']}'", WEB["ind"])
         self.assertIn("in the Gulf, the Pacific Northwest and Vancouver, B.C.", WEB["ind"])

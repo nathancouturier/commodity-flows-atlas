@@ -75,6 +75,73 @@ def young(pid, total=120, have=60, **lists):
     return series_doc(pid, have, last_day=START + timedelta(days=7 * total - 1), start=str(START + timedelta(days=7 * (total - have))), **lists)
 
 
+def week_at(start, end):
+    """The position of the week that ends on ``end`` in a file whose first week starts on ``start``, counted here from the dates (not
+    through the builder); None when no week ends on that day."""
+    days = (end - start).days + 1
+    return days // 7 - 1 if days >= 7 and days % 7 == 0 else None
+
+
+def step_failed_last(updates=None):
+    """The reason to skip a comparison of the published digest with the weekly files when the digest's own step failed at its last run:
+    the script records the failure in data/_status/updates.json and keeps the previous digest, and the weekly files written before it in
+    the same job may have been revised under that digest (the same last week, other values). The failure is recorded and alerted; the
+    republication of the site does not wait for it. None when the step succeeded at its last run or has never run. ``updates`` stands for
+    the status file in the tests of this rule."""
+    if updates is None:
+        try:
+            updates = json.loads(read("data", "_status", "updates.json"))
+        except (OSError, ValueError):
+            return None
+    e = (updates.get("sources") or {}).get(BM.SOURCE) or {}
+    if e.get("consecutive_failures"):
+        return (f"the digest step failed at its last run ({e.get('last_error')}): the previous digest is kept, the failure is recorded and "
+                "alerted, and the digest is compared with the weekly files again after a run that succeeds")
+    return None
+
+
+class PublishedFiles:
+    """The published digest and the weekly files as they are on disk, read once, for the tests that compare them. The files may be newer than
+    the digest (the weekly job keeps the old digest when its step refuses the new files, or when one series lags), so every comparison is made
+    on the week the digest ends on, found from each file's own dates; ``window`` says whether a file can still be compared that way."""
+
+    def __init__(self):
+        self.doc = json.loads(read("data", "freight", "market-now.json"))
+        self.to = date.fromisoformat(self.doc["to"])
+        self.ago_to = self.to - timedelta(days=7 * BM.YEAR_BACK)
+        self.failed = step_failed_last()
+        self.raw, self.parsed = {}, {}
+        for f in sorted(os.listdir(SERIES)):
+            if not f.endswith(".json"):
+                continue
+            pid = os.path.splitext(f)[0]
+            self.raw[pid] = json.loads(slurp(SERIES, f))
+            try:
+                self.parsed[pid] = BM.Series(os.path.join(SERIES, f))
+            except ValueError as e:
+                self.parsed[pid] = str(e)         # a file the builder would refuse: its reason
+
+    def window(self, pid, rank=False):
+        """(raw document, position of the week that ends on the digest's date) when the file can be compared with the digest, else a reason
+        (a string) to skip with. A file that ends before the digest does has no reason: the digest cannot be later than the files, which
+        is a failure. ``rank`` asks for the 52 weeks that rank the passage too."""
+        p = self.parsed.get(pid)
+        if p is None:
+            return f"{pid}.json is not in the weekly files"
+        if isinstance(p, str):
+            return f"the builder would refuse {p}: the digest is kept and is compared again when the files hold together"
+        if p.last_week_end < self.to:
+            raise AssertionError(f"the digest ends on {self.to}, after the weekly file of {pid} (its last complete week ends on {p.last_week_end})")
+        if self.failed:
+            return self.failed
+        w = week_at(p.start, self.to)
+        # the weeks back that the digest's windows need: the four a year earlier, or the 52 ranking weeks that end with them
+        back = BM.YEAR_BACK + (BM.RANK_WEEKS - 1 if rank else BM.WEEKS - 1)
+        if w is None or w < back:
+            return f"{pid}.json starts on {p.start}, after the first week the digest's windows need: left out of the comparison (a passage mapped lately cannot be ranked)"
+        return self.raw[pid], w
+
+
 class Folder(unittest.TestCase):
     """A temporary data/freight/portwatch folder, an output path, and a status file that is not the real one."""
 
@@ -291,32 +358,30 @@ class TheChangeInPerCent(Folder):
         self.assertEqual(r["mt"]["now"], 14)
 
     def test_the_stored_changes_of_the_published_file_are_recomputed_from_the_weekly_files_here(self):
-        """On the published file: the change is the one of the exact sums (Fraction arithmetic here), not of the figures it stores."""
+        """On the published file: the change is the one of the exact sums (Fraction arithmetic here), not of the figures it stores. The weeks are
+        the ones that end on the digest's own date, found from each file's dates: the files may have advanced since the digest was written."""
         if not os.path.exists(PUBLISHED):
             self.skipTest("no published digest yet")
-        doc = json.loads(read("data", "freight", "market-now.json"))
-        built = None
-        try:
-            built, _ = BM.build(SERIES)
-        except ValueError as e:
-            self.skipTest(f"the builder refuses the weekly files as they are ({e}): the digest is kept")
-        if built["to"] != doc["to"]:
-            self.skipTest("the published digest is of another week than the weekly files")
-        for t, rows in doc["types"].items():
+        files = PublishedFiles()
+        for t, rows in files.doc["types"].items():
             for r in rows:
-                with open(os.path.join(SERIES, r["id"] + ".json"), encoding="utf-8") as fh:
-                    s = json.load(fh)
-                n = len(s[t])
-                last = n - 1 if date.fromisoformat(s["y"]).weekday() == 6 else n - 2
-                for key, lists in (("pct", s[t]), ("mt.pct", s["vol"][t])):
-                    now = sum(Fraction(repr(x)) for x in lists[last - 3:last + 1])
-                    ago = sum(Fraction(repr(x)) for x in lists[last - 55:last - 51])
-                    tenths = (now - ago) * 1000 / ago
-                    want = int(abs(tenths) + Fraction(1, 2)) * (1 if tenths >= 0 else -1)
-                    if want == -1000 and now != 0:
-                        want = -999
-                    got = r["pct"] if key == "pct" else r["mt"]["pct"]
-                    self.assertEqual(got, want / 10 if want else 0.0, (t, r["id"], key))
+                with self.subTest(type=t, id=r["id"]):
+                    found = files.window(r["id"], rank=True)
+                    if isinstance(found, str):
+                        self.skipTest(found)
+                    s, w = found
+                    for key, lists in (("pct", s[t]), ("mt.pct", s["vol"][t])):
+                        now = sum(Fraction(repr(x)) for x in lists[w - 3:w + 1])
+                        ago = sum(Fraction(repr(x)) for x in lists[w - 55:w - 51])
+                        got = r["pct"] if key == "pct" else r["mt"]["pct"]
+                        if ago == 0:
+                            self.assertIsNone(got, (t, r["id"], key))
+                            continue
+                        tenths = (now - ago) * 1000 / ago
+                        want = int(abs(tenths) + Fraction(1, 2)) * (1 if tenths >= 0 else -1)
+                        if want == -1000 and now != 0:
+                            want = -999
+                        self.assertEqual(got, want / 10 if want else 0.0, (t, r["id"], key))
 
 
 class TheSeriesThatCannotBeRankedAndTheOnesThatLag(Folder):
@@ -590,6 +655,8 @@ class AsAScript(unittest.TestCase):
             made = slurp(tmp, "data", "freight", "market-now.json")
             if json.loads(made)["to"] != json.loads(read("data", "freight", "market-now.json"))["to"]:
                 self.skipTest("the published digest is of an earlier week than the weekly files (its step failed: the failure is recorded and alerted)")
+            if step_failed_last():
+                self.skipTest(step_failed_last())
             self.assertEqual(made, read("data", "freight", "market-now.json"))
             st = json.loads(slurp(tmp, "data", "_status", "updates.json"))["sources"]["build-market-now"]
             self.assertEqual((st["consecutive_failures"], st["records"]), (0, 10))
@@ -598,6 +665,11 @@ class AsAScript(unittest.TestCase):
 
     @unittest.skipUnless(os.path.exists(PUBLISHED), "no published digest yet")
     def test_a_copy_with_a_series_that_lost_a_week_keeps_the_old_file_records_the_failure_and_exits_0(self):
+        try:
+            BM.build(SERIES)
+        except ValueError as e:
+            # the builder names the first file it refuses: another refusal would hide the one this test makes
+            self.skipTest(f"the builder already refuses the weekly files as they are ({e}): the failure to read is the first one it finds")
         tmp = tempfile.mkdtemp()
         try:
             self.tree(tmp)
@@ -625,24 +697,25 @@ class AsAScript(unittest.TestCase):
 
 @unittest.skipUnless(os.path.exists(PUBLISHED), "no published digest yet")
 class ThePublishedDigest(unittest.TestCase):
+    """The published digest against the weekly files. These checks run before the site is republished, so each asserts only what holds for every
+    digest the builder can write and every lag the weekly job can leave: the digest older than the files (the step refused them, or one series
+    lagged and the others went on), a file that the builder would refuse, a passage mapped lately. Weeks are taken by the digest's own date."""
+
     @classmethod
     def setUpClass(cls):
-        cls.doc = json.loads(read("data", "freight", "market-now.json"))
+        cls.files = PublishedFiles()
+        cls.doc = cls.files.doc
+        cls.series = cls.files.raw
         # the weekly job can write files that the builder then refuses, and keep the digest: that is not a failure of this file
         try:
             cls.built, _ = BM.build(SERIES)
             cls.refused = None
         except ValueError as e:
             cls.built, cls.refused = None, str(e)
-        cls.series = {}
-        for f in os.listdir(SERIES):
-            if f.endswith(".json"):
-                with open(os.path.join(SERIES, f), encoding="utf-8") as fh:
-                    cls.series[os.path.splitext(f)[0]] = json.load(fh)
 
     def current(self):
-        """The comparisons below need the digest to be that of the weekly files as they are: otherwise the step kept the old digest (it
-        refused the new files, or they have advanced and it failed), which is recorded and alerted, and the republication of the site
+        """The whole file is the digest of the weekly files as they are only when it is dated as they are: otherwise the step kept the old digest
+        (it refused the new files, or they have advanced and it failed), which is recorded and alerted, and the republication of the site
         does not wait for it. A digest dated after the files is not skipped: nothing explains it."""
         if self.refused:
             self.skipTest(f"the builder refuses the weekly files as they are ({self.refused}): the previous digest is kept, the failure recorded and alerted")
@@ -650,6 +723,8 @@ class ThePublishedDigest(unittest.TestCase):
             self.fail(f"the published digest ends on {self.doc['to']}, after the weekly files ({self.built['to']})")
         if self.doc["to"] != self.built["to"]:
             self.skipTest("the published digest is of an earlier week than the weekly files: its step failed, which is recorded and alerted")
+        if step_failed_last():
+            self.skipTest(step_failed_last())
 
     def test_the_published_file_is_the_digest_of_the_weekly_files_as_they_are(self):
         self.current()
@@ -674,50 +749,92 @@ class ThePublishedDigest(unittest.TestCase):
         self.assertNotIn('"name"', read("data", "freight", "market-now.json"))
 
     def test_each_figure_is_the_weekly_means_of_its_file_times_seven(self):
-        """Recomputed here by position, which is right on the published files because each one has every week (a test above refuses one that has not)."""
-        self.current()
+        """Recomputed here from the dates of each file, on the week that ends on the digest's own date (the files may have gone on since)."""
         for t, rows in self.doc["types"].items():
             for r in rows:
-                s = self.series[r["id"]]
-                n = len(s[t])
-                self.assertEqual(n, (date.fromisoformat(s["y"]) - date.fromisoformat(s["start"])).days // 7 + 1, r["id"])
-                last = n - 1 if date.fromisoformat(s["y"]).weekday() == 6 else n - 2
-                end = date.fromisoformat(s["start"]) + timedelta(days=7 * last + 6)
-                self.assertEqual(str(end), self.doc["to"], r["id"])
-                now, ago = last - 3, last - 3 - 52
-                self.assertAlmostEqual(r["now"], 7 * sum(s[t][now:now + 4]), delta=0.5 + 1e-6, msg=r["id"])
-                self.assertAlmostEqual(r["ago"], 7 * sum(s[t][ago:ago + 4]), delta=0.5 + 1e-6, msg=r["id"])
-                for key, lo in (("now", now), ("ago", ago)):
-                    exact = 7 * sum(s["vol"][t][lo:lo + 4])
-                    self.assertAlmostEqual(r["mt"][key], exact, delta=max(abs(exact) * 0.0051, 1e-9), msg=(r["id"], key))
-                rk = last - 52 - 51
-                exact = 7 * sum(s["vol"][t][rk:rk + 52])
-                self.assertAlmostEqual(r["rankMt"], exact, delta=max(exact * 0.0051, 1e-9), msg=r["id"])
-        # and no passage outside the five carries more of that type a year back than the fifth
+                with self.subTest(type=t, id=r["id"]):
+                    found = self.files.window(r["id"], rank=True)
+                    if isinstance(found, str):
+                        self.skipTest(found)
+                    s, last = found
+                    self.assertEqual(str(date.fromisoformat(s["start"]) + timedelta(days=7 * last + 6)), self.doc["to"], r["id"])
+                    now, ago = last - 3, last - 3 - 52
+                    self.assertAlmostEqual(r["now"], 7 * sum(s[t][now:now + 4]), delta=0.5 + 1e-6, msg=r["id"])
+                    self.assertAlmostEqual(r["ago"], 7 * sum(s[t][ago:ago + 4]), delta=0.5 + 1e-6, msg=r["id"])
+                    for key, lo in (("now", now), ("ago", ago)):
+                        exact = 7 * sum(s["vol"][t][lo:lo + 4])
+                        self.assertAlmostEqual(r["mt"][key], exact, delta=max(abs(exact) * 0.0051, 1e-9), msg=(r["id"], key))
+                    rk = last - 52 - 51
+                    exact = 7 * sum(s["vol"][t][rk:rk + 52])
+                    self.assertAlmostEqual(r["rankMt"], exact, delta=max(exact * 0.0051, 1e-9), msg=r["id"])
+
+    def test_no_passage_outside_the_five_carries_more_of_the_type_a_year_back_than_the_fifth(self):
         for t, rows in self.doc["types"].items():
             fifth = rows[-1]["rankMt"]
-            for pid, s in self.series.items():
-                last = len(s[t]) - 1 if date.fromisoformat(s["y"]).weekday() == 6 else len(s[t]) - 2
-                rk = last - 52 - 51
-                if pid not in {r["id"] for r in rows}:
+            shown = {r["id"] for r in rows}
+            for pid in self.series:
+                if pid in shown:
+                    continue
+                with self.subTest(type=t, id=pid):
+                    found = self.files.window(pid, rank=True)
+                    if isinstance(found, str):
+                        self.skipTest(found)
+                    s, last = found
+                    rk = last - 52 - 51
                     self.assertLessEqual(7 * sum(s["vol"][t][rk:rk + 52]), fifth * 1.0051, (t, pid))
 
     def test_the_four_weeks_agree_with_the_28_days_of_the_alert_banners_within_the_rounding_of_the_weekly_means(self):
         """The banners' ``compare`` is summed from the daily table, the digest from weekly means rounded to 0.1 vessels a day (4 weeks x 7 days
-        x 0.05 = 1.4 vessels at most) and, for the cargo, to four decimals. Read on all ships: ``compare`` has no ship type."""
-        self.current()
+        x 0.05 = 1.4 vessels at most) and, for the cargo, to four decimals. Read on all ships: ``compare`` has no ship type. Compared on the
+        series whose banner window ends on the digest's date: the banners are rebuilt with the series, the digest may be a week behind them."""
         checked = 0
         for pid, s in self.series.items():
-            c = s["compare"]
-            if c["to"] != self.doc["to"]:
+            c = s.get("compare")
+            if not c or c["to"] != self.doc["to"]:
                 continue
-            n = len(s["total"]) - (0 if date.fromisoformat(s["y"]).weekday() == 6 else 1)
-            for lo, key in ((n - 4, "now"), (n - 56, "yearAgo")):
+            found = self.files.window(pid)
+            if isinstance(found, str):
+                continue
+            _, n = found
+            for lo, key in ((n - 3, "now"), (n - 55, "yearAgo")):
                 self.assertAlmostEqual(7 * sum(s["total"][lo:lo + 4]), c["transits"][key], delta=1.4, msg=(pid, key))
                 self.assertAlmostEqual(7 * sum(s["vol"]["total"][lo:lo + 4]), c["mt"][key], delta=0.01, msg=(pid, key))
             self.assertEqual(c["yearAgoTo"], self.doc["yearAgoTo"], pid)
             checked += 1
-        self.assertGreaterEqual(checked, 5)
+        if checked < 5:
+            self.skipTest(f"only {checked} series carry a banner window that ends on the digest's date ({self.doc['to']}): the banners are ahead of the digest, which is compared again when five agree")
+
+
+class AFailedStepIsNotComparedWithTheFiles(unittest.TestCase):
+    """When the digest's step failed at its last run the previous digest is kept under weekly files that the same job has rewritten: the
+    comparisons skip with the recorded error, they do not hold back the republication of the site. A digest dated after the files still
+    fails, whatever the status says, and a step that succeeded, or never ran, is compared as usual."""
+
+    def test_the_reason_is_read_from_the_status_record_of_the_step(self):
+        self.assertIsNone(step_failed_last({"sources": {}}))
+        self.assertIsNone(step_failed_last({}))
+        self.assertIsNone(step_failed_last({"sources": {BM.SOURCE: {"consecutive_failures": 0, "last_error": None}}}))
+        self.assertIsNone(step_failed_last({"sources": {"portwatch": {"consecutive_failures": 4, "last_error": "x"}}}))   # another step's failure is not this one's
+        why = step_failed_last({"sources": {BM.SOURCE: {"consecutive_failures": 2, "last_error": "TimeoutError: stopped"}}})
+        self.assertIn("TimeoutError: stopped", why)
+        self.assertIn("the previous digest is kept", why)
+
+    def test_the_published_state_is_compared_unless_its_own_record_says_the_step_failed(self):
+        e = (json.loads(read("data", "_status", "updates.json")).get("sources") or {}).get(BM.SOURCE) or {}
+        self.assertEqual(step_failed_last() is not None, bool(e.get("consecutive_failures")))
+
+    def test_a_row_is_skipped_with_the_recorded_error_and_a_digest_after_the_files_still_fails(self):
+        if not os.path.exists(PUBLISHED):
+            self.skipTest("no published digest yet")
+        files = PublishedFiles()
+        pid = json.loads(read("data", "freight", "market-now.json"))["types"]["dry"][0]["id"]
+        if isinstance(files.parsed.get(pid), str):
+            self.skipTest("the builder refuses the weekly file of the first row as it is")
+        files.failed = "the digest step failed at its last run (X)"
+        self.assertEqual(files.window(pid), files.failed)
+        files.to = files.parsed[pid].last_week_end + timedelta(days=7)      # a digest dated after the file: no status explains it
+        with self.assertRaises(AssertionError):
+            files.window(pid)
 
 
 class TheStepInTheJob(unittest.TestCase):

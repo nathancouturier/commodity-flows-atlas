@@ -142,3 +142,7 @@ export const indicatorNote = (id: string, publisher: string, note?: string, sour
   const credit = sourceName.startsWith(publisher) ? '' : publisher;
   return id === 'igrea-m' ? dallasNote(credit) : `${credit ? credit + '; ' : ''}${note ?? NOT_A_RATE}`;
 };
+
+/** The note of a series of the price index, from the registry's entry of its source (the publisher and the name its source line prints); the id when the registry lacks it. */
+export const indicatorSourceNote = (m: { id: string; s: string; note?: string }, entry?: { name: string; publisher: string }): string =>
+  indicatorNote(m.id, entry?.publisher ?? m.s, m.note, entry?.name ?? m.s);

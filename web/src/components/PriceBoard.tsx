@@ -6,7 +6,8 @@
  * Opened from the price drawer; a row opens its series on the chart.
  */
 import { useEffect, useMemo, useState } from 'preact/hooks';
-import { sourceLabel } from '../lib/data';
+import { basisSuffix } from '../lib/credit';
+import { sourceLabel, sources } from '../lib/data';
 import { GROUP_LABEL, GROUP_ORDER, FREQ_WORD, fmtPct, fmtPrice, groupOf, isLate, priceIndex, type PriceGroup, type PriceMeta } from '../lib/prices';
 import { fmtDate, loadStatus, type Freshness } from '../lib/status';
 import { FAMILY_COLOR } from '../lib/format';
@@ -190,7 +191,7 @@ export function PriceBoard(props: { onClose: () => void; onOpen: (id: string) =>
                   return (
                     <tr key={m.id} class={late ? 'pb-late' : ''}>
                       <th scope="row">
-                        <button class="pb-name" onClick={() => props.onOpen(m.id)} title={`Open ${m.name} on the chart · ${sourceLabel(m.s)}${m.basis ? ' · ' + m.basis : ''}`}>
+                        <button class="pb-name" onClick={() => props.onOpen(m.id)} title={`Open ${m.name} on the chart · ${sourceLabel(m.s)}${basisSuffix(m.basis, sources.value[m.s])}`}>
                           {m.name}
                         </button>
                         <small class="pb-unit">

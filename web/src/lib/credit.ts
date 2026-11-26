@@ -8,3 +8,6 @@ export function withoutCredit(basis: string, source?: { name: string; publisher?
   if (!pub || !source.name.startsWith(pub) || !basis.startsWith(`${pub}: `)) return basis;
   return basis.slice(pub.length + 2);
 }
+
+/** The tail of a hover title that names the source and then the series' basis: " · <basis>", with the credit the source name already holds left out; "" with no basis. */
+export const basisSuffix = (basis: string | undefined, source?: { name: string; publisher?: string }): string => (basis ? ` · ${withoutCredit(basis, source)}` : '');

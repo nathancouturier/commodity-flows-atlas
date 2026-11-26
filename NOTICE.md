@@ -469,7 +469,7 @@ verdict (redistribute, cite a few facts, link only).
 | IMF PortWatch | Only the atlas's own weekly averages and comparisons are published, with credit (and, for the ports, weekly sums, see below); the daily rows are a working file kept out of git. The identity and position of about 2,000 ports (ports database) are kept and used with credit. See below. |
 | Baltic Exchange route names and definitions | Names and codes of the benchmark routes and their public definitions are used as facts. No index value or rate is shown. Not affiliated with the Baltic Exchange. |
 | Shanghai Shipping Exchange indices | Two index pages are linked from the "Freight market now" page; no value is stored or shown. The only statement read on its pages is the footer "All Rights Reserved". See below. |
-| USDA Agricultural Marketing Service (weekly grain vessel line-up, grain ocean freight rates) | The datasets page is linked from the "Freight market now" page; no value is stored or shown. The sentences read are quoted below. |
+| USDA Agricultural Marketing Service (weekly port region grain ocean vessel activity, grain ocean freight rates) | The datasets page is linked from the "Freight market now" page; no value is stored or shown. The sentences read are quoted below. |
 | GIIGNL and other association reports | A few cited figures with attribution. No table, text or file is redistributed. |
 | World Steel Association, World Gold Council, International Cocoa Organization, International Gas Union | One world total each (crude steel production, gold mine production, cocoa bean production, LNG trade), with publisher, year and link, beside the atlas's own table. Their tables are not copied. |
 | Natural Resources Canada (conversion factors), Wilhelmsen (LPG carrier sizes) | A conversion factor and a size band, cited with attribution. Reuse terms to be confirmed. |
@@ -601,7 +601,7 @@ The "Freight market now" page links to the Baltic Exchange's page of indices (th
 ### Shanghai Shipping Exchange and USDA Agricultural Marketing Service (linked, no value shown)
 
 The "Freight market now" page links to three publications and shows no value of any of them: the China Import Dry Bulk Freight Index and the China Import Crude Oil
-Tanker Freight Index of the Shanghai Shipping Exchange (registry id `sse`), and the weekly grain vessel line-up and the grain ocean freight rates of the USDA
+Tanker Freight Index of the Shanghai Shipping Exchange (registry id `sse`), and the weekly count of grain vessels and the grain ocean freight rates of the USDA
 Agricultural Marketing Service (`usda-ams`). Nothing of them is fetched, stored or offered for download, and a link has no source line. What the pages say, read on 25 November 2026:
 
 - Shanghai Shipping Exchange, home page (https://en.sse.net.cn/): "© 2001-2026 Shanghai Shipping Exchange Institute(Prep.) All Rights Reserved." (spacing
@@ -610,7 +610,7 @@ Agricultural Marketing Service (`usda-ams`). Nothing of them is fetched, stored 
   of terms was read. The index pages fill their tables by script and no value was read. The two indices measure freight into China only.
 - USDA Agricultural Marketing Service, privacy page of its web site (https://www.ams.usda.gov/about-ams/privacy): "Information presented on the AMS web site is
   considered public information and may be distributed or copied. Use of appropriate byline/photo/image credits is requested." It names the AMS web site and not the AgTransport host
-  (agtransport.usda.gov), whose tables carry the attribution "USDA Agricultural Marketing Service" for the vessel line-up and "O'Neil Commodity Consulting" for the grain vessel rates, and no licence
+  (agtransport.usda.gov), whose tables carry the attribution "USDA Agricultural Marketing Service" for the vessel count and "O'Neil Commodity Consulting" for the grain vessel rates, and no licence
   field (https://agtransport.usda.gov/api/views/vh5k-mnyv.json and https://agtransport.usda.gov/api/views/ehs5-yac3.json).
 - USDA Agricultural Marketing Service, datasets of the Grain Transportation Report (https://www.ams.usda.gov/services/transportation-analysis/gtr-datasets): "These data series
   are aggregated from non-confidential and non-copyrighted sources."; the table of the vessel count is named "Weekly port region grain ocean vessel activity (number of vessels)" and holds the "Weekly number of grain vessels

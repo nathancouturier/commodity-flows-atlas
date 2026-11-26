@@ -271,7 +271,12 @@ def lines_passages(block):
 
 def renamed_names(prev_items, registry):
     """{old name: new name} for the sources of the previous file whose name in the registry has changed since it was stored. A source
-    whose id the registry does not hold keeps the name it was stored with."""
+    whose id the registry does not hold keeps the name it was stored with.
+
+    What the rule covers, and what it does not: ``prev_items`` is the ``sources`` block of the previous file, the sources the last run that
+    reported any published (not those of every entry of the feed), so a name is followed only for a source that is in that block. A source
+    that is renamed while it is not in it keeps its old name in the older entries it appears in; those entries leave the feed, which keeps a
+    fixed number of them, as newer ones arrive."""
     names = {s["id"]: s["name"] for s in registry}
     out = {}
     for i in prev_items or []:
@@ -298,7 +303,8 @@ def build(prices_dir=os.path.join(DATA, "prices"), series_dir=os.path.join(DATA,
     passages = passage_moves(series_dir)
     reg = registry if registry is not None else load(DATA, "sources.json", default=[])
     items, prints = published(updates if updates is not None else status.load(), reg, (seen or {}).get("sources") if seen else None)
-    # a source renamed in the registry since the previous run: the name stored with it, and the stored lines that the name starts, follow it
+    # a source renamed in the registry since the previous run: the name stored with it, and the stored lines that the name starts, follow it. Only
+    # the sources of the previous run's block are followed (see renamed_names): the older entries of any other source keep the name they were written with
     renames = renamed_names(prev.get("sources"), reg)
     kept = [{**i, "name": renames.get(i["name"], i["name"])} for i in prev.get("sources") or []]
     stamp = now.strftime("%Y-%m-%dT%H:%M:%SZ")

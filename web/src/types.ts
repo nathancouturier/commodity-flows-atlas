@@ -38,6 +38,8 @@ export interface Source {
   licence: string;
   /** human-readable update cadence, e.g. "annual (January)" */
   update: string;
+  /** what the source feeds; an entry whose use says that no value is stored or shown is a publisher the atlas only links to */
+  use?: string;
 }
 
 /** A ranked country table (production, reserves, exports...). Shares are computed against `world`. */

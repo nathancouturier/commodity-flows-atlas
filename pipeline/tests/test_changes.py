@@ -388,6 +388,42 @@ class Digest(unittest.TestCase):
             self.assertEqual(bare["sources"], old["sources"])
             self.assertEqual(bare["entries"][0]["lines"], old["entries"][0]["lines"])
 
+    def test_a_source_renamed_while_it_is_not_in_the_last_block_keeps_its_old_name_in_the_older_entries(self):
+        """The limit of the rule, as it is: the names followed are those of the sources of the previous file's block, the last run that reported
+        sources. A line of an older "sources" entry about a source that is not in that block keeps the name it was written with, whatever the
+        registry says now; it leaves the feed, which keeps KEEP entries, as newer ones arrive."""
+        with tempfile.TemporaryDirectory() as tmp:
+            prices = os.path.join(tmp, "prices")
+            os.makedirs(prices)
+            prices_folder(prices)
+            empty = os.path.join(tmp, "none")
+            os.makedirs(empty)
+            old = {"generated": "2026-11-25T22:00:00Z", "sourcesOn": "2026-11-25",
+                   "seen": {"weekly": "2026-11-17", "monthly": "2026-10", "passages": None, "sources": {}},
+                   # the last run reported one source: the other one was only in the run of the week before
+                   "sources": [{"id": "dallasfed", "name": "Index of activity", "data_to": "2026-10", "t": "2026-11-25T20:38:17Z"}],
+                   "entries": [
+                       {"id": "2026-11-25-sources", "kind": "sources", "t": "2026-11-25T22:00:00Z", "title": "Sources that published new data",
+                        "lines": ["Index of activity: data to Oct 2026, checked on 25 Nov 2026"]},
+                       {"id": "2026-11-18-sources", "kind": "sources", "t": "2026-11-18T22:00:00Z", "title": "Sources that published new data",
+                        "lines": ["Index of activity: data to Sep 2026, checked on 18 Nov 2026", "Old name of the bank: new release, checked on 18 Nov 2026"]}]}
+            # the registry has a new name for both sources
+            reg = [{"id": "dallasfed", "name": "The Bank, index of activity"}, {"id": "bls", "name": "New name of the bank"}]
+            now = datetime(2026, 11, 26, 3, 0, tzinfo=timezone.utc)
+            doc, _ = C.build(prices_dir=prices, series_dir=empty, now=now, previous=old, updates={"sources": {}}, registry=reg)
+            lines = {e["id"]: e["lines"] for e in doc["entries"]}
+            self.assertEqual(lines["2026-11-25-sources"], ["The Bank, index of activity: data to Oct 2026, checked on 25 Nov 2026"])
+            # the source of the last block is followed in every entry that holds its old name, the one that is not in the block is not
+            self.assertEqual(lines["2026-11-18-sources"], ["The Bank, index of activity: data to Sep 2026, checked on 18 Nov 2026",
+                                                           "Old name of the bank: new release, checked on 18 Nov 2026"])
+            self.assertEqual(C.renamed_names(old["sources"], reg), {"Index of activity": "The Bank, index of activity"})
+        # what the docstring and the comment of build() say
+        doc_of = C.renamed_names.__doc__
+        self.assertIn("only for a source that is in that block", doc_of)
+        self.assertIn("keeps its old name in the older entries", doc_of)
+        with open(os.path.join(ROOT, "pipeline", "common", "changes.py"), encoding="utf-8") as fh:
+            self.assertIn("Only\n    # the sources of the previous run's block are followed", fh.read())
+
     def test_the_committed_digest_names_its_sources_as_the_registry_does(self):
         """After a source is renamed in the registry the digest is rebuilt (pipeline/common/changes.py) before the change is published."""
         with open(os.path.join(ROOT, "data", "sources.json"), encoding="utf-8") as fh:
