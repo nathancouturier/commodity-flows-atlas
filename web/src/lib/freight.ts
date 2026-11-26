@@ -78,13 +78,8 @@ export const SEGMENT_LABEL: Record<Segment, string> = {
   container: 'Container',
 };
 
-/** Route line colours by vessel segment (freight layer). */
-export const SEGMENT_COLOR: Record<Segment, string> = {
-  dry: '#9db7ff',
-  tanker: '#ffb547',
-  gas: '#7ef0d8',
-  container: '#c7a3ff',
-};
+/** Route line colours by vessel segment (freight layer): lib/palette.ts. */
+export { SEGMENT_COLOR } from './palette';
 
 /** Human labels for chokepoint share keys that are not commodity ids. */
 export const SHARE_LABEL: Record<string, string> = {

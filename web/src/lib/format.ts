@@ -82,12 +82,7 @@ export function cite(f: { s: string; y: number | string } | undefined): string {
   return `${sourceLabel(f.s)}, ${f.y}`;
 }
 
-export const FAMILY_COLOR: Record<Family, string> = {
-  energy: '#ffb547',
-  metals: '#9db7ff',
-  softs: '#7ee0a1',
-  freight: '#3ee6ff',
-};
+export { FAMILY_COLOR } from './palette';
 
 export const FAMILY_LABEL: Record<Family, string> = {
   energy: 'Energy',

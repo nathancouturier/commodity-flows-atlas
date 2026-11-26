@@ -17,6 +17,7 @@ import { isMarkerHover, registerInteractiveLayer, registerPointLayer } from '../
 import { commodity, family, hovered, infraAvailable, infraHidden, layers, select, selection, year } from '../../lib/store';
 import { commodities, commodityMeta, countryName, loadOptional, sourceLabel, sources } from '../../lib/data';
 import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
+import { PIPELINE_COLOR, STATUS_COLOR } from '../../lib/palette';
 import { figuresOf } from '../../lib/capacity';
 import { OUTPUT_LABEL, figureText, isOperating, monthYear, sourceText, stateAt, statusClassOf, statusText, yearText, type Figure, type StatusClass } from '../../lib/infra';
 import { INFRA_META, infraSvg } from '../../components/ui';
@@ -105,13 +106,7 @@ export type { StatusClass };
 /** Visual class of an asset status: damaged = red, idle / suspended = amber, construction / planned = dashed ring, closed = grey. */
 export const statusClass = statusClassOf;
 
-export const STATUS_COLOR: Record<Exclude<StatusClass, 'ok'>, string> = {
-  damaged: '#ff4d5e',
-  idle: '#ffc233',
-  construction: '#e6edf5',
-  planned: '#9aa7b5',
-  closed: '#6f7b88',
-};
+export { STATUS_COLOR };
 
 export function infraRef(f: InfraFeature) {
   return { kind: 'infra' as const, id: f.p.id, layer: f.p.type };
@@ -147,14 +142,10 @@ export function infraTooltip(f: InfraFeature): string {
 
 // ---------------------------------------------------------------- pipeline colours
 
-const PIPE_CRUDE = '#b8741a';
-const PIPE_PRODUCTS = '#ffd08a';
-const PIPE_GAS = '#3ed8c3';
-
 export function pipelineColor(k: string[]): string {
-  if (k.includes('crude-oil')) return PIPE_CRUDE;
-  if (k.includes('refined-products') || k.includes('lpg')) return PIPE_PRODUCTS;
-  return PIPE_GAS;
+  if (k.includes('crude-oil')) return PIPELINE_COLOR.crude;
+  if (k.includes('refined-products') || k.includes('lpg')) return PIPELINE_COLOR.products;
+  return PIPELINE_COLOR.gas;
 }
 
 // ---------------------------------------------------------------- map layer

@@ -15,6 +15,7 @@ import {
   labelLayerSpecs, seaFilter, seaLayerSpecs, seaPoints, stackViolations, textBox,
   ASSET_LABEL_MINZOOM, ASSET_ORDER, assetLabel, assetLayerSpec, assetSelectedTextLayout, assetTextPaint,
 } from '../src/map/labelRules.ts';
+import { FAMILY_COLOR } from '../src/lib/palette.ts';
 import { decode } from './glyph-file.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -145,9 +146,10 @@ function contrast(fg, opacity, bg) {
   const [hi, lo] = [lum(blend), lum(b)].sort((x, y) => y - x);
   return (hi + 0.05) / (lo + 0.05);
 }
+const paletteSrc = text('web/src/lib/palette.ts');
 const base = (key) => {
-  const m = basemapSrc.match(new RegExp(`\\b${key}: '(#[0-9a-f]{6})'`));
-  assert.ok(m, `C.${key} in basemap.ts`);
+  const m = paletteSrc.match(new RegExp(`\\b${key}: '(#[0-9a-f]{6})'`));
+  assert.ok(m, `C.${key} in lib/palette.ts`);
   return m[1];
 };
 
@@ -581,7 +583,7 @@ const blend = (fg, a, bg) => fg.map((v, i) => v * a + bg[i] * (1 - a));
 
 test('the names on a colouring: the text against its halo, the halo against the brightest fill of the scale, the text against the land', () => {
   const format = text('web/src/lib/format.ts');
-  const family = Object.fromEntries([...format.match(/FAMILY_COLOR: Record<Family, string> = \{([\s\S]*?)\};/)[1].matchAll(/(\w+): '(#[0-9a-f]{6})'/g)].map((m) => [m[1], m[2]]));
+  const family = FAMILY_COLOR;
   assert.ok(Object.keys(family).length >= 3, JSON.stringify(family));
   const stops = [...format.match(/SHARE_STOPS: \[number, number\]\[\] = \[([\s\S]*?)\];/)[1].matchAll(/\[([\d.]+), ([\d.]+)\]/g)].map((m) => [Number(m[1]), Number(m[2])]);
   const top = stops[stops.length - 1][1];

@@ -6,16 +6,9 @@
 import type { StyleSpecification } from 'maplibre-gl';
 import type { FeatureCollection, LineString } from 'geojson';
 import { SHARE_STOPS } from '../lib/format';
+import { C } from '../lib/palette';
 
-export const C = {
-  ocean: '#05090f',
-  land: '#111821',
-  landHover: '#1b2734',
-  landSelected: '#233a52',
-  border: '#24313f',
-  coast: '#2d3e53',
-  graticule: 'rgba(120, 150, 190, 0.07)',
-};
+export { C };
 
 function graticule(step = 30): FeatureCollection<LineString> {
   const features: FeatureCollection<LineString>['features'] = [];

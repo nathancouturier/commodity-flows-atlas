@@ -10,6 +10,7 @@ import { LANE_GROUPS, loadEvents, loadLaneFile } from '../lib/freight';
 import { eventShownFor, loadAlertEvents, type AlertEvents } from '../lib/events';
 import { lowerName, toggleHistory } from '../lib/prices';
 import { fmt, TOUCH } from '../lib/format';
+import { EVENT_COLOR } from '../lib/palette';
 import { isSheetLayout } from '../map/controller';
 import { parseDate } from './charts/TimeChart';
 import { CloseIcon } from './ui';
@@ -17,15 +18,6 @@ import type { FreightEvent, LaneFile } from '../types';
 import '../styles/drawers.css';
 
 const STEP_MS = 1200;
-const KIND_COLOR: Record<FreightEvent['kind'], string> = {
-  conflict: '#ff5c7a',
-  canal: '#3ee6ff',
-  weather: '#9db7ff',
-  policy: '#c7a3ff',
-  accident: '#ff7a59',
-  market: '#ffb547',
-  infrastructure: '#7ee0a1',
-};
 
 // a shared link with #y=2016 opens the timeline
 if (year.value != null) historyOpen.value = true;
@@ -258,7 +250,7 @@ export function Timeline() {
               key={e.id}
               data-id={e.id}
               class={`tl-tick${selTick?.e.id === e.id ? ' on' : ''}`}
-              style={{ left: `${pos * 100}%`, '--tc': KIND_COLOR[e.kind] ?? '#8d9fb3' }}
+              style={{ left: `${pos * 100}%`, '--tc': EVENT_COLOR[e.kind] ?? '#8d9fb3' }}
               title={`${e.date}${e.end ? ' to ' + e.end : ''} · ${e.title}`}
               aria-label={`Event ${e.date}: ${e.title}`}
             />

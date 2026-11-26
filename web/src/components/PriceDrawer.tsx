@@ -8,6 +8,7 @@ import { useEffect, useMemo, useRef, useState } from 'preact/hooks';
 import { commodity, priceDrawer, priceSeries, priceView, select } from '../lib/store';
 import { commodityMeta, sourceLabel } from '../lib/data';
 import { FAMILY_COLOR, TOUCH } from '../lib/format';
+import { EVENT_COLOR, HUES, PRICE_PALETTE as PALETTE } from '../lib/palette';
 import { downloadPrices, offeredPrices, priceSources } from '../lib/pricesCsv';
 import { CsvAction } from './CsvAction';
 import { loadEvents } from '../lib/freight';
@@ -60,7 +61,6 @@ import type { FreightEvent } from '../types';
 import '../styles/drawers.css';
 import { seriesCovers } from '../lib/priceWindow';
 
-const PALETTE = ['#3ee6ff', '#ffb547', '#c7a3ff', '#7ee0a1', '#9db7ff'];
 const MAX_SERIES = 3;
 const RANGES = [
   { label: '1M', seconds: 30 * DAY_S, dailyOnly: true },
@@ -95,16 +95,6 @@ function pickColors(list: PriceMeta[]): string[] {
   });
 }
 
-/** Same colours as the event pages and the history timeline. */
-const EVENT_COLOR: Record<FreightEvent['kind'], string> = {
-  conflict: '#ff5c7a',
-  canal: '#3ee6ff',
-  weather: '#9db7ff',
-  policy: '#c7a3ff',
-  accident: '#ff7a59',
-  market: '#ffb547',
-  infrastructure: '#7ee0a1',
-};
 const EVENT_KINDS = Object.keys(EVENT_COLOR) as FreightEvent['kind'][];
 const MON = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 const WEEKDAY = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
@@ -466,7 +456,7 @@ export function PriceDrawer() {
         const t = parseDate(a);
         const end = parseEnd(b);
         if (end < xMin || t > xMax) continue;
-        m.push({ t, end, shade: true, color: '#ffb547', tag: 'estimate', title: `${d.meta.name} · ${eventDate(a)}${b !== a ? ' to ' + eventDate(b) : ''}: estimated by the source` });
+        m.push({ t, end, shade: true, color: HUES.amber, tag: 'estimate', title: `${d.meta.name} · ${eventDate(a)}${b !== a ? ' to ' + eventDate(b) : ''}: estimated by the source` });
       }
     });
     if (lookup) {
@@ -475,7 +465,7 @@ export function PriceDrawer() {
         t: lookup.parsed.t,
         end: e > lookup.parsed.t ? e : undefined,
         title: `Lookup · ${lookupLabel(lookup.parsed)}`,
-        color: '#3ee6ff',
+        color: HUES.cyan,
       });
     }
     return m;
