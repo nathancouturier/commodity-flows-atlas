@@ -6,7 +6,7 @@ import maplibregl, { type Map as MLMap, type MapMouseEvent, type GeoJSONSource, 
 import { feature } from 'topojson-client';
 import type { FeatureCollection, Feature, LineString, Point } from 'geojson';
 import { baseStyle } from './basemap';
-import { WORLD_BOUNDS, MAX_ZOOM, minZoomFor, constrainCamera } from './camera';
+import { WORLD_BOUNDS, MAX_ZOOM, SCALE_MIN_ZOOM, minZoomFor, constrainCamera } from './camera';
 import { ResetViewControl } from './resetControl';
 import { installLabels } from './labels';
 import { FlowOverlay, type FlowPath } from './flowOverlay';
@@ -117,6 +117,13 @@ export function initMap(container: HTMLElement): MLMap | null {
   map.touchZoomRotate.disableRotation();
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
   map.addControl(new ResetViewControl(() => flyToWorld()), 'top-right');
+  // under Mercator one pixel is a different length at each latitude: the bar reads the line through the middle of the
+  // canvas, so it is only drawn from the zoom at which the view is narrow enough for that to be close (the control
+  // stays mounted, the stylesheet shows it)
+  map.addControl(new maplibregl.ScaleControl({ maxWidth: 100, unit: 'nautical' }), 'top-right');
+  const syncScale = () => map!.getContainer().classList.toggle('scale-on', map!.getZoom() >= SCALE_MIN_ZOOM);
+  map.on('zoom', syncScale);
+  syncScale();
   // a phone turned on its side, a desktop window made narrower: the floor follows the canvas
   map.on('resize', () => {
     const { w, h } = canvasSize();

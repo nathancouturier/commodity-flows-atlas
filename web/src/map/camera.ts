@@ -9,6 +9,9 @@ export const WORLD_BOUNDS: [[number, number], [number, number]] = [[-125, -45], 
 /** The map's highest zoom. */
 export const MAX_ZOOM = 9;
 
+/** The zoom from which the scale bar is shown: below it one length per pixel is right on no more than a thin band of the view (METHODOLOGY, "The map: first view, names and scale"). */
+export const SCALE_MIN_ZOOM = 4;
+
 /** The latitude the library cuts the Mercator world at (`MAX_VALID_LATITUDE` of maplibre-gl); a test compares it with the installed library. */
 export const MAX_LATITUDE = 85.051129;
 

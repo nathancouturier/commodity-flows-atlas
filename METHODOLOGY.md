@@ -2534,3 +2534,27 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   the country names in the order of placement: when a sea name and a country name would overlap, the country name is
   drawn and the sea name is not, and flows are drawn over both. Natural Earth's README says of these polygons: "The
   boundaries of physical regions should be taken with a grain of salt."
+- **Names of ports and assets.** The ports, terminals, mines, refineries, smelters, fields and stores are named from zoom
+  4.2 (`ASSET_LABEL_MINZOOM` in `web/src/map/labelRules.ts`), to the right of their icon, in the name the atlas's own
+  files give them without the list of places in brackets that ends some of them ("Hydro aluminium smelters (Årdal,
+  Husnes, ...)" reads "Hydro aluminium smelters"; a bracket in the middle of a name stays). Pipelines are not named: a
+  line has no single point, and its name is on its page and in its tooltip. The icons are those of the layer: every
+  asset is drawn at every zoom, icons may overlap, and a name is drawn under the icons, so that an icon always covers a
+  name it overlaps. A name never moves to avoid a flow or an icon, and a name that would overlap a name already placed is
+  not drawn at that zoom while the icon always is. The atlas has no one measure of size across the asset types
+  (capacities are in different units), so the name that wins a collision is chosen by type, in this order: port, LNG
+  export terminal, LNG import terminal, refinery, smelter, mine, field, store (`ASSET_ORDER`), and inside a type by the
+  order of the data files. That order and the zoom of 4.2 are Atlas conventions, choices made without the owner and listed in PROGRESS.md. A
+  dimmed asset (one that opens after the year selected in History) keeps its dimming in its name, and the opened asset
+  keeps its name at every zoom.
+- **Scale bar.** From zoom 4 the map shows a scale bar in nautical miles under its buttons (the map library's own
+  control, 100 px wide at most; the unit of the distances on the freight pages). A nautical mile is 1,852 metres. The
+  length is worked out on a sphere of the library's mean radius, 6,371,008.8 m (`earthRadius` in the installed
+  `maplibre-gl`), between two points 100 px apart on the horizontal line through the middle of the canvas, and the bar
+  is cut to a round figure (1, 2, 3 or 5 times a power of ten). It is right on that line only: under Mercator one pixel
+  stands for a different length at each latitude, in proportion to the cosine of the latitude. On a canvas 900 px high
+  centred on 45 degrees the length per pixel at the top and bottom edges differs from that on the middle line by about
+  24% at zoom 4 (the view spans 29 to 57 degrees of latitude) and by about 6% at zoom 6. At the world view no single
+  length is right, so none is drawn: the bar appears from zoom 4 (`SCALE_MIN_ZOOM` in `web/src/map/camera.ts`), an Atlas
+  convention. On a phone the middle of the canvas is behind the sheet, a few degrees of latitude from the middle of
+  the part of the map that stays in view, and the bar still reads the middle of the canvas.
