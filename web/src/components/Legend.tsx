@@ -2,9 +2,10 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { choroInfo, mapNotice, commodity, family, landFlowsShown, layers, selection, year } from '../lib/store';
 import { commodityMeta } from '../lib/data';
-import { SEGMENT_COLOR, SEGMENT_LABEL } from '../lib/freight';
+import { SEGMENT_LABEL } from '../lib/freight';
 import { FAMILY_COLOR, FAMILY_LABEL, fmt, pct, shareOpacity } from '../lib/format';
 import { statusRingSvg } from '../lib/palette';
+import { RouteSwatch } from './RouteSwatch';
 import { LANE_PX, laneGap, laneScale, laneWidthPx, mixedLanesShown } from '../map/modules/lanes';
 import { mixedArcsShown } from '../map/modules/landflows';
 import { ROUTE_W } from '../map/modules/routes';
@@ -173,7 +174,7 @@ export function Legend() {
           <span class="legend-label">Freight routes</span>
           {SEGMENTS.map((s) => (
             <span class="legend-item">
-              <span class="legend-swatch" style={{ background: SEGMENT_COLOR[s] }} />
+              <RouteSwatch segment={s} />
               {SEGMENT_LABEL[s]}
             </span>
           ))}

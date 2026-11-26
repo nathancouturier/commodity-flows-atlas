@@ -14,7 +14,7 @@ import { MEASURES, SHIP_TYPES, csvRows, defaultMeasure, holeGaps, readoutFormatt
 import { Section, shortSource } from '../ui';
 import { CsvAction } from '../CsvAction';
 import { TimeChart, fmtTime, parseDate } from '../charts/TimeChart';
-import { PW_COLORS, RANGES } from '../charts/pwChart';
+import { PW_COLORS, PW_DASH, RANGES } from '../charts/pwChart';
 import { useLoaded } from './shared';
 import '../../styles/infra.css';
 
@@ -53,7 +53,7 @@ function Block({ doc, name, note }: { doc: PortTraffic; name: string; note?: str
   const x = useMemo(() => weekTimes(doc), [doc]);
   const gaps = useMemo(() => holeGaps(doc), [doc]);
   const series = useMemo(
-    () => SHIP_TYPES.map(([t, label]) => ({ label, values: doc[measure][t], color: PW_COLORS[t], ...(gaps.length ? { gaps } : {}) })),
+    () => SHIP_TYPES.map(([t, label]) => ({ label, values: doc[measure][t], color: PW_COLORS[t], ...(t === 'container' ? { dash: PW_DASH.container } : {}), ...(gaps.length ? { gaps } : {}) })),
     [doc, measure, gaps],
   );
   const readoutFormat = useMemo(() => readoutFormatter(measure, fmt), [measure]);

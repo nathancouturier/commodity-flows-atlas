@@ -644,6 +644,19 @@ button {
   border-radius: 2px;
 }
 
+/* the line of a freight route in its vessel segment's colour and dash pattern (legend, route and vessel-class pages) */
+.route-swatch {
+  flex: none;
+  vertical-align: middle;
+}
+/* the swatch follows the words of the kicker; where the line is too narrow for both it takes a short line of its own */
+.detail-kicker.kicker-swatch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px 8px;
+}
+
 .legend-dash {
   background: repeating-linear-gradient(90deg, currentColor 0 5px, transparent 5px 8px);
   opacity: 0.8;

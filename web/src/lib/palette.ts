@@ -49,6 +49,61 @@ export const SEGMENT_COLOR: Record<Segment, string> = {
   container: HUES.violet,
 };
 
+/*
+ * Dash patterns of the lines of the map, as MapLibre takes them: lengths in multiples of the line width, alternating
+ * drawn and empty, so a rule on ratios holds at every width. A dash already means "overland, alternative or not operating"
+ * (ALT_DASH, PIPELINE_DASH and the legend's overland swatch); the patterns of the vessel classes must not be read as any
+ * of them, which `dashDistinct` checks and scripts/palette.test.mjs tests.
+ */
+/** Alternative routings of a selected route, the mixed lanes and the overland arcs. */
+export const ALT_DASH: number[] = [2, 2];
+/** Pipelines that are not operating. */
+export const PIPELINE_DASH: number[] = [2.5, 2];
+
+/**
+ * The line of a freight route by vessel segment, which tells it from a lane of the same colour (Tankers and the Energy
+ * lanes are one amber, Dry bulk and the Metals lanes one lavender). Dry bulk long dashes, Tankers dash and dot, Gas
+ * carriers dots, Container short dashes far apart. An Atlas convention: a route drawn solid is a route of an unknown
+ * class or the selected one. Container's is not the first thought, `[3, 2.5]`: it cannot be told from ALT_DASH.
+ */
+export const ROUTE_DASH: Record<Segment, number[]> = {
+  dry: [6, 3],
+  tanker: [6, 2, 1, 2],
+  gas: [1, 2.2],
+  container: [3, 6],
+};
+
+/** Every dash pattern the map draws, each with its name. A pattern typed anywhere else makes the palette test fail. */
+export const DASH_VOCABULARY: { name: string; dash: number[] }[] = [
+  { name: 'Alternative routing, mixed lane, overland arc', dash: ALT_DASH },
+  { name: 'Pipeline not operating', dash: PIPELINE_DASH },
+  { name: 'Dry bulk route', dash: ROUTE_DASH.dry },
+  { name: 'Tankers route', dash: ROUTE_DASH.tanker },
+  { name: 'Gas carriers route', dash: ROUTE_DASH.gas },
+  { name: 'Container route', dash: ROUTE_DASH.container },
+];
+
+/** The Atlas's rule of distinct dash patterns, written once; two patterns are told apart when the counts of their elements differ, or: a difference of the dash share (drawn length over the period) of at least this. */
+export const DASH_SHARE_GAP = 0.15;
+/** A longer period at least this many times the shorter one. */
+export const DASH_PERIOD_RATIO = 1.5;
+
+function dashShape(a: number[]): { count: number; period: number; share: number } {
+  const e = a.length % 2 ? [...a, ...a] : a; // an odd list is read twice, as the renderer does
+  const period = e.reduce((x, y) => x + y, 0);
+  const drawn = e.reduce((x, y, i) => (i % 2 ? x : x + y), 0);
+  return { count: e.length, period, share: drawn / period };
+}
+
+/** Whether two dash patterns are told apart by the Atlas's rule (the same count of elements, then the shares, then the periods). */
+export function dashDistinct(a: number[], b: number[]): boolean {
+  const A = dashShape(a);
+  const B = dashShape(b);
+  if (A.count !== B.count) return true;
+  if (Math.abs(A.share - B.share) >= DASH_SHARE_GAP - 1e-9) return true;
+  return Math.max(A.period, B.period) / Math.min(A.period, B.period) >= DASH_PERIOD_RATIO - 1e-9;
+}
+
 /** Rings and badges of the assets whose status is not "operating". */
 export const STATUS_COLOR: Record<Exclude<StatusClass, 'ok'>, string> = {
   damaged: '#ff4d5e',
@@ -110,6 +165,12 @@ export const EVENT_COLOR: Record<FreightEvent['kind'], string> = {
 
 /** Ship-type series of the port and passage charts. */
 export const PW_COLORS: Record<'tanker' | 'dry' | 'container' | 'other', string> = { tanker: HUES.amber, dry: HUES.lavender, container: HUES.violet, other: HUES.grey };
+
+/**
+ * The stroke pattern, in px, of the one ship-type series that is dashed: Container, whose violet and the lavender of
+ * Dry bulk are one colour to a deuteranope. The other three series are solid.
+ */
+export const PW_DASH: { container: number[] } = { container: [6, 4] };
 
 /** Colours the price drawer gives its series, in the order it takes them (at most three at a time). */
 export const PRICE_PALETTE: string[] = [HUES.cyan, HUES.amber, HUES.violet, HUES.green, HUES.lavender];

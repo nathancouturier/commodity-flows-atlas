@@ -8,6 +8,7 @@ import { select } from '../../lib/store';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder } from '../ui';
 import { CommodityChips, FreightWayBack, publisher, useFreightCatalogue, useLoaded } from './shared';
 import { ShippingCompaniesBlock } from '../Companies';
+import { RouteSwatch } from '../RouteSwatch';
 
 /** A figure's own page (an article or a service page) when it has one, else the registry entry. */
 function PageLine(props: { s?: string; url?: string; y?: number }) {
@@ -164,7 +165,7 @@ export default function VesselView({ id }: { id: string }) {
   return (
     <>
       <div class="detail-head" style={{ '--kicker': SEGMENT_COLOR[v.segment] }}>
-        <div class="detail-kicker">Vessel class · {SEGMENT_LABEL[v.segment]}</div>
+        <div class="detail-kicker kicker-swatch">Vessel class · {SEGMENT_LABEL[v.segment]}<RouteSwatch segment={v.segment} px={2} length={32} /></div>
         <h2 class="detail-title">{v.name}</h2>
       </div>
       <div class="panel-scroll">

@@ -2764,3 +2764,70 @@ It has no point-of-view switch (nothing is persisted, and every view would need 
 outline claimed or self-administered areas and draws no claim line. It draws no maritime claim and no territory that
 Natural Earth's countries file does not draw. It is not refreshed by a workflow and no job watches for a new version of
 the file (the registry says "not refreshed by a workflow"): a new version is read by hand.
+
+## 16. Colours and the cues that do not rest on colour
+
+The atlas checks its colours against a simulation of colour vision and against the surfaces of the map, and where two
+colours stay close it names what tells them apart besides the colour. No data method of this file depends on it.
+`web/scripts/colour-screens.test.mjs` does the checking; every figure below is computed there or read from the palette
+module, and the same test reads this section and fails if a number written here is not the one it holds.
+
+- **The simulation.** Protanopia, deuteranopia and tritanopia are simulated at severity 1.0 in linear sRGB, with the
+  matrices of Machado, Oliveira & Fernandes (2009), as the validator of the `dataviz` skill gives them ("CVD transforms at
+  severity 1.0 (linear RGB)", read on 26 November 2026) and as `web/scripts/cvd.mjs` copies them. *Atlas assumption*: this
+  is a model of colour vision, not a measure of any person's. Partial colour vision (anomalous trichromacy) is milder
+  than the dichromacies simulated here, so a pair that passes is not clear to everyone and a pair that fails is not lost to
+  everyone.
+- **The distance and the thresholds.** The distance of two colours is 100 times their Euclidean distance in OKLab, after
+  the simulation when there is one. Two colours of one screen must be at least 15 apart for unsimulated vision and at least 8
+  apart under each of the three simulations; a pair between 6 and 8 is accepted only with a second cue; a data colour must
+  reach a contrast ratio of 3.0:1 (WCAG 2.x relative luminance) against the ocean and against the land of the map. Below 8
+  every pair is accepted only with a second cue, and the test marks those under 6 when it prints them. These numbers are the
+  constants of that validator, taken as the atlas's own rule. They are not a standard.
+- **The screens.** A screen is a set of colours drawn at the same time. On the map: the lanes by family, the routes by
+  vessel class, the pipelines and the accent (the Freight family's cyan), compared with one another as lines; the five status
+  rings, the chokepoint and the alert colour, as points; and each status ring against the family colour of the icon it
+  circles. Then the four ship-type series of the port and passage charts, the three series the price drawer charts at most,
+  and the seven event kinds of the History bar and the event pages. A line and a point differ in shape before they differ in
+  colour, so lines are not compared with points. The lists are in the test and take their colours from the module.
+- **Pairs that stay close.** The test lists each pair that falls under the thresholds with a cue from a closed list and a
+  reason. `dash`: a pattern. `glyph`: a shape, the ring and badge of a status. `label`: a word beside the colour. `place`: the
+  marks are not drawn where each other is, such as sea and land. A `dash` or `glyph` cue is backed by a test of
+  `web/scripts/palette.test.mjs`, which the colour test checks is still there; a `label` or `place` cue is a statement, and its
+  entry names the files where it is true, which the test reads. A pair in the list that is already far enough apart fails
+  the test, so the list cannot keep a pair that no longer needs it. The Energy lane and the Tankers route are one amber, the
+  Metals lane and the Dry bulk route one lavender, and Dry bulk and Container are one colour to a deuteranope: `dash`. The
+  Idle ring on the icon of an energy asset, and the Damaged ring against the chokepoint marker: `glyph`. Gas carriers, the
+  freight cyan, Softs and the gas pipeline: `dash` for a route against a lane, `place` and `label` otherwise. Conflict and Accident, Canal and Infrastructure, Weather and
+  Policy, and the other event pairs that fall short: `label`, since the kind of an event is a word on its page, in the
+  lists of events and in the price drawer; the tick of the History bar gives the date and the title, not the kind.
+- **One module.** The colours of the families, the vessel classes, the statuses, the pipelines, the events and the charts,
+  the surfaces of the map, the dash patterns and the rule below, are written once, in `web/src/lib/palette.ts`. The legend's
+  status keys and the map's status icons draw the rings with one function of that module, and the tests read it.
+- **Dash patterns.** The patterns of the map's lines are lengths in multiples of the line width: long dashes for Dry bulk, dash
+  and dot for Tankers, dots for Gas carriers, short dashes far apart for Container. The selected route is solid. Alternative
+  routings, mixed lanes and overland arcs have a pattern of their own, and so do pipelines that are not operating. *Atlas
+  convention*: two patterns are told apart when the numbers of their elements differ, or their shares of the drawn length
+  differ by at least 0.15, or the longer period is at least 1.5 times the shorter; the module holds the two numbers, and the
+  test of the patterns applies the rule to the four routes and to every other pattern the map draws. The Container series of the port and passage charts is dashed with 6 px
+  drawn and 4 px empty, and the sample before its name in the readout has the same pattern; the pattern was chosen by looking.
+  The dashed edge is cut at each weekly corner, so on a very jagged series it can read as dots.
+
+What is not done, and why:
+
+- **No alternative or high-contrast palette.** It would be a setting to remember, and nothing is stored in the browser.
+- **No new hue for Container or Policy.** Dry bulk and Container, and Weather and Policy, are one colour to a deuteranope; the
+  dash and the word carry the difference. No hue was changed.
+- **No brighter outline.** The land is 1.12:1 on the ocean; the country outline is 1.51:1 on the ocean and 1.35:1 on the land;
+  the colour `coast` of the palette, which no layer draws, would be 1.83:1 on the ocean. They are measured and left as they are.
+  Only the data lines carry data: every data colour reaches the minimum, and the lowest, the Closed status ring, is 4.6:1 on
+  the ocean and 4.1:1 on the land.
+- **The dash of a route is read where the lines are isolated:** in the legend, on the route and vessel-class pages, and on the thin
+  routes. On the corridor from Hormuz to Bab el-Mandeb at zoom 3.6 the trunk through the Red Sea and the Gulf of Aden stays a
+  solid band under the glow, the particles and several routes laid exactly on each other, and longer elements did not help. So on that
+  corridor the Energy lane and the Tankers route, and the Metals lane and the Dry bulk route, are told apart only where a line
+  stands alone.
+- **The Container class is drawn on four routes** (the test counts them in `data/freight/routes.json`) and is not named in the
+  legend, which lists Dry bulk, Tankers and Gas carriers.
+
+These are choices made without the owner, listed in PROGRESS.md.

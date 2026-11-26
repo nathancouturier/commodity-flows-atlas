@@ -12,7 +12,12 @@
  *     not on the list has none;
  *  4. the three copies of the event colours are gone, and the old names re-export the module;
  *  5. the status rings: each of the five differs from the others in something that is not its colour or its stroke width
- *     (a dash array or a badge path), and the map and the legend both draw them with the module's functions.
+ *     (a dash array or a badge path), and the map and the legend both draw them with the module's functions;
+ *  6. the dash patterns of the freight routes: the four are told apart from each other and from every pattern the map draws
+ *     (the Atlas's rule, `dashDistinct`), a lane and a route of one colour differ in the dash, and the map, the legend and
+ *     the two pages draw them from the module;
+ *  7. the ship-type charts: the Container series of the port and passage charts is dashed, no other series is, and the chart
+ *     draws the dash on its line and in its readout.
  *
  * `rgb()` and `rgba()` strings are outside this test. A package that adds a colour puts it in `lib/palette.ts`; for a
  * one-off neutral that is not a code it raises its file's allowance by exactly the literals added and says why in its report.
@@ -23,7 +28,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { C, EVENT_COLOR, FAMILY_COLOR, HUES, NEUTRAL_LINE, PIPELINE_COLOR, PRICE_PALETTE, PW_COLORS, SEGMENT_COLOR, STATUS_COLOR, statusDecoration, statusRingSvg } from '../src/lib/palette.ts';
+import { ALT_DASH, C, DASH_VOCABULARY, EVENT_COLOR, FAMILY_COLOR, HUES, NEUTRAL_LINE, PIPELINE_COLOR, PIPELINE_DASH, PRICE_PALETTE, PW_COLORS, PW_DASH, ROUTE_DASH, SEGMENT_COLOR, STATUS_COLOR, dashDistinct, statusDecoration, statusRingSvg } from '../src/lib/palette.ts';
 import { LABEL_COLOR } from '../src/map/labelRules.ts';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -161,7 +166,7 @@ test('the event colours have one copy, and the old names re-export the module', 
   const REEXPORT = [
     ['lib/format.ts', /export\s*\{\s*FAMILY_COLOR\s*\}\s*from\s*'\.\/palette'/],
     ['lib/freight.ts', /export\s*\{\s*SEGMENT_COLOR\s*\}\s*from\s*'\.\/palette'/],
-    ['components/charts/pwChart.ts', /export\s*\{\s*PW_COLORS\s*\}\s*from\s*'\.\.\/\.\.\/lib\/palette'/],
+    ['components/charts/pwChart.ts', /export\s*\{\s*PW_COLORS(?:,\s*PW_DASH)?\s*\}\s*from\s*'\.\.\/\.\.\/lib\/palette'/],
     ['components/views/EventView.tsx', /export\s*\{\s*EVENT_COLOR\s*\}/],
     ['map/basemap.ts', /import\s*\{\s*C\s*\}\s*from\s*'\.\.\/lib\/palette'/],
     ['map/modules/infrastructure.ts', /import\s*\{[^}]*\bSTATUS_COLOR\b[^}]*\}\s*from\s*'\.\.\/\.\.\/lib\/palette'/],
@@ -217,4 +222,120 @@ test('the legend and the map draw the status rings with the module', () => {
   for (const css of fs.readdirSync(path.join(SRC, 'styles')).filter((n) => n.endsWith('.css'))) {
     assert.doesNotMatch(fs.readFileSync(path.join(SRC, 'styles', css), 'utf8'), /\.status-key/, `${css} has no .status-key rule`);
   }
+});
+
+// ---------------------------------------------------------------- the dash patterns of the freight routes
+
+const SEGMENTS = Object.keys(SEGMENT_COLOR);
+
+test('cues exist for routes: the four vessel patterns are told apart from each other and from every pattern the map draws', () => {
+  assert.deepEqual(Object.keys(ROUTE_DASH).sort(), [...SEGMENTS].sort(), 'a pattern for each vessel segment');
+  for (let i = 0; i < SEGMENTS.length; i++) {
+    for (let j = i + 1; j < SEGMENTS.length; j++) {
+      assert.ok(dashDistinct(ROUTE_DASH[SEGMENTS[i]], ROUTE_DASH[SEGMENTS[j]]), `${SEGMENTS[i]} and ${SEGMENTS[j]} are not told apart: ${JSON.stringify(ROUTE_DASH[SEGMENTS[i]])} and ${JSON.stringify(ROUTE_DASH[SEGMENTS[j]])}`);
+    }
+  }
+  for (const s of SEGMENTS) {
+    for (const v of DASH_VOCABULARY) {
+      if (v.dash === ROUTE_DASH[s]) continue; // the entry of the route itself
+      assert.ok(dashDistinct(ROUTE_DASH[s], v.dash), `the ${s} route pattern ${JSON.stringify(ROUTE_DASH[s])} is not told apart from "${v.name}" ${JSON.stringify(v.dash)}`);
+    }
+    assert.notDeepEqual(ROUTE_DASH[s], ALT_DASH, `${s} must not draw as an alternative routing`);
+  }
+  // the two patterns that exist (ALT_DASH, PIPELINE_DASH) are not asked to differ from each other: one is a sea or land route, the other a pipeline
+  // the rule itself, on its three clauses and on the pair that made Container's first choice fail
+  assert.ok(dashDistinct([6, 3], [6, 2, 1, 2]), 'the numbers of elements differ');
+  assert.ok(dashDistinct([2, 2], [6, 3]), 'the shares differ by 0.15 or more');
+  assert.equal(dashDistinct([3, 2.5], ALT_DASH), false, '[3, 2.5] cannot be told from [2, 2]');
+  assert.equal(dashDistinct(ALT_DASH, ALT_DASH), false);
+  assert.ok(dashDistinct([1, 1], [1.6, 1.6]) && !dashDistinct([1, 1], [1.4, 1.4]), 'a period 1.5 times the other tells two patterns apart, 1.4 times does not');
+});
+
+test('cues exist for routes: a lane and a route of one colour differ in the dash', () => {
+  // the selected route is solid on purpose: it is the one highlighted line, and its alternative is ALT_DASH
+  const pairs = [];
+  for (const [f, lane] of Object.entries(FAMILY_COLOR)) for (const [s, route] of Object.entries(SEGMENT_COLOR)) if (lane === route) pairs.push([f, s]);
+  assert.ok(pairs.length > 0, 'a lane colour is a route colour (the pair the audit names); if it no longer is, this part is not needed');
+  // a lane is solid, or ALT_DASH (a mixed lane, an overland arc); a route carries its pattern
+  for (const [f, s] of pairs) {
+    for (const [what, laneDash] of [['solid lane', null], ['mixed lane or overland arc', ALT_DASH]]) {
+      const differs = laneDash === null ? ROUTE_DASH[s].length > 0 : dashDistinct(laneDash, ROUTE_DASH[s]);
+      assert.ok(differs, `a ${f} ${what} and a ${s} route are of one colour and not told apart`);
+    }
+  }
+  // the lanes that are dashed are drawn with ALT_DASH: the layer of dashed features
+  assert.match(byRel['map/modules/lanes.ts'], /isMixed \? \{ dash: true/, 'a mixed lane is a dashed feature');
+  assert.match(byRel['map/modules/landflows.ts'], /dash: true/, 'an overland arc is a dashed feature');
+  assert.doesNotMatch(byRel['map/modules/lanes.ts'] + byRel['map/modules/landflows.ts'], /\bpat:/, 'no lane carries a route pattern');
+});
+
+test('the routes are drawn with the module\'s patterns, and no other pattern is typed', () => {
+  const routes = byRel['map/modules/routes.ts'];
+  assert.match(routes, /\bpat\b[^\n]*knownSegmentOf|knownSegmentOf[^\n]*\bpat\b/, 'routes.ts sets pat from the segment of the class');
+  assert.match(routes, /\.\.\.\(pat \? \{ pat \} : \{\}\)/, 'a route without a known class carries no pat');
+  const ctl = byRel['map/controller.ts'];
+  assert.match(ctl, /\bpat\?: string/, 'LineFeatureProps documents pat');
+  assert.match(ctl, /id: `\$\{src\}-pat`/, 'a layer of patterned routes');
+  const pat = ctl.slice(ctl.indexOf('id: `${src}-pat`'), ctl.indexOf('id: `${src}-alt`'));
+  assert.match(pat, /'line-cap': 'butt'/, 'the patterned routes have butt caps (round caps stretch every dash by the width)');
+  assert.match(pat, /ROUTE_DASH|dashOf/, 'the layer takes its patterns from ROUTE_DASH');
+  assert.match(ctl, /dashOf = \['match', \['get', 'pat'\], \.\.\.Object\.entries\(ROUTE_DASH\)/, 'dashOf is built from ROUTE_DASH');
+  const alt = ctl.slice(ctl.indexOf('id: `${src}-alt`'), ctl.indexOf('id: hit'));
+  assert.match(alt, /'line-dasharray': ALT_DASH/, 'the alternative layer uses ALT_DASH');
+  assert.match(byRel['map/modules/infrastructure.ts'], /'line-dasharray': PIPELINE_DASH/, 'the pipelines use PIPELINE_DASH');
+  assert.match(ctl, /filter: key === 'routes' \? \['all', notDashed, \['!', \['has', 'pat'\]\]\] : notDashed/, 'the solid line layer leaves the patterned routes to the other layer');
+  // a scan: every 'line-dasharray' of the sources names a constant of the module (or the one built from it), never an array
+  for (const f of files) {
+    for (const m of f.text.matchAll(/'line-dasharray':\s*([^,}\n]+)/g)) {
+      assert.match(m[1].trim(), /^(ALT_DASH|PIPELINE_DASH|dashOf)$/, `${f.rel} draws a dash pattern of its own (${m[1].trim()}): put it in DASH_VOCABULARY of lib/palette.ts, with a name, so that the test can tell it from the others`);
+    }
+  }
+});
+
+test('the legend and the two pages draw the route swatch from the module', () => {
+  const sw = byRel['components/RouteSwatch.tsx'];
+  assert.match(sw, /ROUTE_DASH\[segment\]/, 'RouteSwatch takes its dashes from ROUTE_DASH');
+  assert.match(sw, /stroke-width=\{px\}/, 'the dashes are the pattern times the stroke width, as the map draws them');
+  assert.match(sw, /aria-hidden="true"/, 'the swatch is decoration: the words beside it name the class');
+  assert.match(sw, /stroke-linecap="butt"/);
+  const legend = byRel['components/Legend.tsx'];
+  assert.match(legend, /<RouteSwatch segment=\{s\} \/>/, 'the legend draws each class with RouteSwatch');
+  assert.doesNotMatch(legend, /legend-swatch[^\n]*background:\s*SEGMENT_COLOR/, 'no plain coloured bar for a vessel class in the legend');
+  assert.match(byRel['components/views/RouteView.tsx'], /<RouteSwatch segment=\{seg\}/, 'the route page shows the swatch');
+  assert.match(byRel['components/views/VesselView.tsx'], /<RouteSwatch segment=\{v\.segment\}/, 'the vessel-class page shows the swatch');
+  assert.doesNotMatch(byRel['components/ui.tsx'], /RouteSwatch/, 'ui.tsx is not edited for it');
+});
+
+// ---------------------------------------------------------------- the ship-type series of the port and passage charts
+
+test('cues exist for charts: the Container series is dashed, with a pattern of positive numbers, and no other ship type is', () => {
+  assert.deepEqual(Object.keys(PW_DASH), ['container'], 'the module holds a pattern for Container only');
+  const d = PW_DASH.container;
+  assert.ok(Array.isArray(d) && d.length > 0 && d.every((n) => typeof n === 'number' && Number.isFinite(n) && n > 0), 'a non-empty list of positive numbers');
+  assert.notEqual(PW_COLORS.container, PW_COLORS.dry, 'the two series differ in colour as well, only slightly to some eyes: the dash is the second cue');
+  assert.match(byRel['components/charts/pwChart.ts'], /export \{ PW_COLORS, PW_DASH \} from '..\/..\/lib\/palette'/, 'pwChart re-exports the pattern with the colours');
+  // the passage chart: one object per series; only Container carries a dash
+  const passage = byRel['components/views/ChokepointView.tsx'];
+  const rows = passage.split('\n').filter((l) => /^\s*\{ label: '(Tanker|Dry bulk|Container|Other)', values:/.test(l));
+  assert.equal(rows.length, 4, 'the four series of the passage chart');
+  for (const r of rows) {
+    if (/label: 'Container'/.test(r)) assert.match(r, /dash: PW_DASH\.container\b/, 'the Container series of the passage chart has the dash');
+    else assert.doesNotMatch(r, /\bdash\b/, `no dash on ${r.trim().slice(0, 30)}`);
+  }
+  // the port chart: one map over the ship types, the dash is added for container only
+  const port = byRel['components/views/PortTrafficSection.tsx'];
+  assert.match(port, /\.\.\.\(t === 'container' \? \{ dash: PW_DASH\.container \} : \{\}\)/, 'the Container series of the port chart has the dash');
+  assert.equal((port.match(/\bdash\b/g) ?? []).length, 1, 'the port chart names dash once: for Container');
+  for (const f of ['components/views/ChokepointView.tsx', 'components/views/PortTrafficSection.tsx']) assert.match(byRel[f], /import \{[^}]*\bPW_DASH\b[^}]*\} from '..\/charts\/pwChart'/, `${f} imports the pattern from the chart module`);
+});
+
+test('the chart draws a series\' dash on its line and in its readout, and leaves a series without one as it was', () => {
+  const tc = byRel['components/charts/TimeChart.tsx'];
+  assert.match(tc, /\n  dash\?: number\[\];/, 'TimeSeries documents dash');
+  assert.match(tc, /\.\.\.\(s\.dash \? \{ dash: s\.dash \} : \{\}\),/, 'the uPlot series option is passed only when the series has a dash');
+  assert.match(tc, /s\.dash \? \(\s*<svg class="tc-dash"[^>]*aria-hidden="true">\s*<line [^>]*stroke=\{s\.color\}[^>]*stroke-dasharray=\{s\.dash\.join\(' '\)\}/, 'the readout shows a line sample with the series\' colour and dash');
+  assert.match(tc, /\) : \(\s*<i style=\{\{ background: s\.color \}\} \/>\s*\)\}/, 'the other series keep the dot');
+  assert.match(fs.readFileSync(path.join(SRC, 'styles/timechart.css'), 'utf8'), /\.tc-item svg\.tc-dash \{/, 'the sample has its rule');
+  // the sample's width holds two dashes of the pattern at least (the viewBox is 16 wide)
+  assert.ok(PW_DASH.container[0] + PW_DASH.container[1] + PW_DASH.container[0] <= 16, 'the sample shows a dash, a gap and a dash');
 });
