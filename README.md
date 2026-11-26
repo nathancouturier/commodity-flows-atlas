@@ -175,8 +175,8 @@ from the address it is served on, so it also works on a custom domain.
   out of date, and are provided as is, without warranty of any kind.
 
 Country shapes are Natural Earth's default view (version 5.1.1). Natural Earth does not apply one rule to every
-disputed or self-administered territory: it draws some as shapes of their own and keeps others inside another country,
-for some the country that claims them and for others the country that administers them. The boundaries, names and
+disputed or self-administered territory: it draws some as shapes of their own and keeps others inside the shape of a
+country, for most of them the country that claims them or the country that administers them; some lie in no shape of the map. The boundaries, names and
 designations on the map do not imply official endorsement or acceptance, and the atlas takes no position on the status of
 any territory.
 The same text is in the About window of the site.

@@ -15,7 +15,7 @@ import os from 'node:os';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import mapshaper from 'mapshaper';
-import { inGeometry, inRing, roundInside } from '../../pipeline/geo/polygon.mjs';
+import { inGeometry, inRing, onEdge, roundInside } from '../../pipeline/geo/polygon.mjs';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, '../..');
@@ -58,6 +58,38 @@ const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'seas-test-'));
   const thread = { type: 'Polygon', coordinates: [[[0.1002, 0.2002], [0.1004, 0.2002], [0.1004, 0.2004], [0.1002, 0.2004], [0.1002, 0.2002]]] };
   assert.equal(roundInside([0.1003, 0.2003], thread), null);
   assert.equal(roundInside([50, 50], { type: 'Polygon', coordinates: [square] }), null, 'a point that is not inside to begin with');
+
+  // a point on an edge: inRing counts the left and the bottom edges (and the corner they meet in) as inside, the right and the top as outside;
+  // onEdge tells every one of them, and roundInside refuses it
+  const squarePolygon = { type: 'Polygon', coordinates: [square] };
+  const sides = { left: [0, 5], bottom: [5, 0], right: [10, 5], top: [5, 10] };
+  assert.deepEqual(
+    Object.fromEntries(Object.entries(sides).map(([side, [x, y]]) => [side, inRing(x, y, square)])),
+    { left: true, bottom: true, right: false, top: false },
+    'what the even-odd rule says of a point on each side',
+  );
+  for (const [side, at] of Object.entries(sides)) assert.equal(onEdge(at, squarePolygon), true, `a point on the ${side} side is on an edge`);
+  for (const at of [[0, 0], [10, 0], [10, 10], [0, 10]]) assert.equal(onEdge(at, squarePolygon), true, `the corner ${at} is on an edge`);
+  assert.equal(onEdge([5, 5], squarePolygon), false);
+  assert.equal(onEdge([1e-6, 5], squarePolygon), false, 'a point a millionth of a degree from an edge is not on it');
+  assert.equal(onEdge([5e-10, 5], squarePolygon), true, 'a point closer than 1e-9 degree is');
+  assert.equal(onEdge([5, 5], { type: 'Point', coordinates: [5, 5] }), false);
+  // the edge of a hole is an edge of the polygon: the point on the hole's left edge reads as in the hole (outside), on its right edge as in the polygon
+  const holed = { type: 'Polygon', coordinates: [square, hole] };
+  assert.equal(inGeometry([4, 5], holed), false);
+  assert.equal(inGeometry([6, 5], holed), true);
+  for (const at of [[4, 5], [6, 5], [5, 4], [5, 6]]) assert.equal(onEdge(at, holed), true, `a point on the hole's edge ${at}`);
+  assert.equal(onEdge([5, 5], holed), false, 'the middle of the hole is on no edge');
+  assert.equal(onEdge([105, 5], multi), false);
+  assert.equal(onEdge([100, 5], multi), true, 'any polygon of a multipolygon');
+  // a point that rounds onto an edge is refused there and taken at the next number of decimals, or by none
+  const unit = { type: 'Polygon', coordinates: [[[0, 0], [1, 0], [1, 1], [0, 1], [0, 0]]] };
+  assert.equal(inGeometry([0, 0.5], unit), true, 'the left edge counts as inside for inRing');
+  assert.deepEqual(roundInside([0.04, 0.5], unit), { at: [0.04, 0.5], decimals: 2 }, 'rounded to 0.1 the point is on the left edge: refused');
+  const narrow = { type: 'Polygon', coordinates: [[[0, 0], [0.0004, 0], [0.0004, 10], [0, 10], [0, 0]]] };
+  assert.equal(roundInside([0.00031, 5.0004], narrow), null, 'rounded at every number of decimals the point is on the left edge');
+  // a point that is inside the polygon and far from every edge is unchanged by the rule
+  assert.deepEqual(roundInside([5.04, 5.06], squarePolygon), { at: [5, 5.1], decimals: 1 });
 }
 
 // METHODOLOGY says how a point that the rounding puts outside its polygon is kept (runs everywhere)

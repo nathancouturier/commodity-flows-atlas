@@ -4,6 +4,8 @@ recomputed here from the files of the repository, the pairing rule, the module a
 of them moves; none is typed in the test as a number the text could share.
 
 Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_port_traffic_texts.py"
+With the saved item (a JSON file; without the variable the test does not compare the quotations with the item):
+PORTWATCH_DAILY_PORTS_ITEM=<saved item_....json> .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_port_traffic_texts.py"
 """
 import json
 import os
@@ -27,8 +29,9 @@ import portwatch_ports as P  # noqa: E402
 NEW = "portwatch-port-traffic"
 # the sentences of the item "Daily_Ports_Data" that the texts quote, with their source and the date they were read (in the repository)
 FIXTURE = os.path.join(ROOT, "pipeline", "tests", "fixtures", "portwatch_daily_ports_data_quotations.json")
-# the whole text of the item as it was saved when the design was made (outside the repository: compared with the fixture where it exists)
-ITEM = "/tmp/claude-0/audit/work/6B/PORTS/samples/item_83b1bbc7b3354c5fb1f40673bb8f852e.json"
+# the whole text of the item as it was saved when the design was made (outside the repository: the path of the saved JSON file is the machine's own,
+# given in the environment, no default; the fixture is compared with it where it is set)
+ITEM = os.environ.get("PORTWATCH_DAILY_PORTS_ITEM")
 
 
 def read(*parts):
@@ -47,7 +50,7 @@ def fixture():
 
 def item_text():
     """The text of the saved item, tags removed, on one line; None where the saved file is not on this machine."""
-    if not os.path.exists(ITEM):
+    if not ITEM or not os.path.exists(ITEM):
         return None
     import html
     with open(ITEM, encoding="utf-8") as fh:
@@ -303,7 +306,7 @@ class Quotes(unittest.TestCase):
     def test_the_fixture_is_the_text_of_the_saved_item_where_that_file_exists(self):
         text = item_text()
         if text is None:
-            self.skipTest("the saved text of the item is not on this machine: " + ITEM)
+            self.skipTest("PORTWATCH_DAILY_PORTS_ITEM does not name the saved item")
         fx = fixture()
         for key, x in fx["quotations"].items():
             self.assertIn(x.rstrip("."), text, key)

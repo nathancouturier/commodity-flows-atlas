@@ -2536,7 +2536,14 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   without the owner, listed in PROGRESS.md: the whole box in view is the rule of the first view on every narrow
   screen. A phone held sideways stays cut: the band the panels leave is too short for the box. The camera is not kept
   in the address and nothing about it is stored. The "Reset view" button under the zoom buttons returns to this view,
-  clear of the open page (a passage page too), and leaves the page open; closing a page returns to it as well. While
+  clear of the open page where the lowest zoom allows it (a passage page too), and leaves the page open; closing a page returns to it as well.
+  Where the lowest zoom is higher than the zoom that would fit the box in the free area, the box stays wider than that area and lies under
+  the page and the Controls column: measured with a lane page open, at 1,200 by 900 pixels (56 px under the page, 100 px under the Controls)
+  and at 1,280 by 1,024 (65 and 105 px); it is clear of both, by 24 to 26 px, at 1,366 by 768, 1,440 by 900, 1,280 by 720 and 1,920 by 1,080.
+  On a tablet (761 to 1,024 px wide and at least 501 px tall) whose free width cannot hold the box, the first view is centred on 12.5 degrees east
+  and 10 degrees north (`TABLET_FIRST_CENTRE` in `web/src/map/controller.ts`), an Atlas convention tried by hand, a choice made without the owner
+  and listed in PROGRESS.md; the first view of such a tablet can sit up to about 20 px from the view that "Reset view" and the closing of a page
+  give (10 to 19 px at 768 and 820 px wide over repeated loads), because the legend is still taking its height when the first view is set. While
   the camera is where the atlas put it (the first view, or a "Reset view"), a resize (a phone turned on its side and
   back, a window made narrower and wider) fits the view again for the new size, so a phone turned and turned back
   opens on the first view again. Once the visitor or a page has moved the map (a drag, a wheel, a pinch, the zoom
@@ -2564,15 +2571,15 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   of the 239 rows of the index. The thresholds are an Atlas convention, chosen to show the largest countries at the
   world view; they are not an area of land. The largest class is drawn at every zoom (the first view of a phone is
   below zoom 0, which a layer's zoom limit cannot express); the others from zoom 2.0, 3.2 and 4.4, also an Atlas
-  convention: Natural Earth's `min_label` is for its own tile pyramid and is not used. A name is never moved to avoid a flow: lanes, routes and icons are drawn over the names,
-  and a name is covered by the flows and the icons that cross it. A
+  convention: Natural Earth's `min_label` is for its own tile pyramid and is not used. A name is never moved to avoid a flow: lanes, routes, overland flows and icons are drawn over the
+  names, and a name is covered by the flows and the icons that cross it. A
   name that would overlap a name already placed is not drawn at that zoom (the rule of the map library: the larger box
   first inside a class, the larger class first), so that at the world view of a phone most names are left out. While a
   colouring is on, the countries that carry a share label have no name, since the label sits on the same point, and the
   names that stay sit on the colouring: they are drawn in white at 0.95 with a halo 2 px wide instead of the grey
   with a halo of 1.2 px (`LABEL_ON_FILL`), chosen by looking at three colourings (crude oil, wheat exports, copper) at the first view and
   at zoom 3.5 on Europe. No contrast of a glyph against a coloured fill is claimed: what a test computes is the text against its halo, the halo
-  against the strongest tint of each family colour, and the text against the plain land. The cut of a name by the edge of the screen is dealt with
+  against the strongest tint of each family colour, and the text against the plain land. The cut of a name by the edge of the screen or by a panel is dealt with
   for the first rank only: see "Names at the edge" below.
 - **Sea names.** The names and places of the oceans, seas, bays and gulfs are those of Natural Earth's marine areas
   1:50m (Physical Labels), in the version `data/geo/seas.json` states (5.1.0), built by `pipeline/geo/build_seas.mjs`.
@@ -2603,22 +2610,30 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   asset is drawn at every zoom, icons may overlap, and a name is drawn under the icons, so that an icon always covers a
   name it overlaps. A name never moves to avoid a flow or an icon, and a name that would overlap a name already placed is
   not drawn at that zoom while the icon always is. A country name wins a collision with the name of an asset: the
-  layers are stacked, from the bottom, as the sea names, the pipeline lines, the asset names, the country names, the icons
+  layers are stacked, from the bottom, as the sea names, the pipeline lines, the asset names, the country names, the overland flows, the icons
   and the opened asset, then every lane and route (`NAME_STACK` in `web/src/map/labelRules.ts`, which a test checks against the style a browser holds), so that a country name
-  is under every icon and every flow and over a pipeline line. The atlas has no one measure of size across the asset types
+  is under every icon and every flow (the overland flows of a commodity page too, which lie over the names) and over a pipeline line of the infrastructure layer. The atlas has no one measure of size across the asset types
   (capacities are in different units), so the name that wins a collision is chosen by type, in this order: port, LNG
   export terminal, LNG import terminal, refinery, smelter, mine, field, store (`ASSET_ORDER`), and inside a type by the
   order of the data files. That order and the zoom of 4.2 are Atlas conventions, choices made without the owner and listed in PROGRESS.md. A
   dimmed asset (one that opens after the year selected in History) keeps its dimming in its name, and the opened asset
   keeps its name at every zoom.
 - **Names at the edge.** A name of the first rank, an ocean or a country of the largest class, is not drawn cut by an edge of
-  the map: when the camera comes to rest, and when the canvas is resized (never during a move), the box of each such name
-  is estimated from its place, its size, its wrapping and its letter spacing on each copy of the world in view
-  (`namesAtEdge` in `web/src/map/labelRules.ts`; the estimate takes every letter wider than the lettering has it, which a test
-  checks against the glyph file), and a name whose box crosses an edge of the canvas is left out by its layer's filter until the camera comes to
-  rest where it fits. A name wholly in view or wholly out of it is untouched. This is an Atlas rule, chosen because the map library
-  draws a name that is only partly on the screen: without it the first view of a phone showed "OUTH ACIFIC CEAN". The
-  names of a smaller rank may be cut by the edge of the screen, as on any map that is panned.
+  the map or by a panel drawn over it. When the camera comes to rest, when the canvas is resized and when a panel changes
+  (a page opens or closes, the Controls or the Legend fold or unfold, the sheet takes another snap, the price drawer or the
+  History bar opens or closes: one frame after the change, and again when the panel has finished sliding), never during a move,
+  the box of each such name is estimated from its place, its size, its wrapping and its letter spacing on each copy of the world in
+  view (`namesAtEdge` in `web/src/map/labelRules.ts`; the estimate takes every letter wider than the lettering has it, which a test
+  checks against the glyph file). A name whose box crosses an edge of the canvas, or the border of one of the rectangles of the
+  top bar, the Controls panel (or its folded button), the Legend (or its button), the open page (the column or the sheet), the
+  price drawer and the History bar (`OVERLAYS` in the same file; each is the element's `getBoundingClientRect()` in the map's
+  coordinates, taken only while the element is displayed) is left out by its layer's filter until the camera or the panel comes to
+  rest where it fits. A name wholly in view, wholly out of it, or wholly under a panel (where it is not seen) is untouched. A
+  name is tested on every copy of the world in view and its layer draws every copy, so a name cut on one copy leaves the others
+  too. This is an Atlas rule, chosen because the map library draws a name that is only partly on the screen: without it the first
+  view of a phone showed "OUTH ACIFIC CEAN" and a window 1,024 by 768 pixels wide showed "TH PACIFIC OCEAN" beside the
+  Controls panel. What it does not cover: the names of a smaller rank may be cut by the edge of the screen and by the panels, as
+  on any map that is panned, and a name can be seen cut for the time of a move, since the rule runs when the camera stops.
 - **Scale bar.** From zoom 4 the map shows a scale bar in nautical miles under its buttons (the map library's own
   control, 100 px wide at most; the unit of the distances on the freight pages). A nautical mile is 1,852 metres. The
   length is worked out on a sphere of the library's mean radius, 6,371,008.8 m (`earthRadius` in the installed
@@ -2642,8 +2657,8 @@ actually controls the situation on the ground. Please feel free to mashup our di
 particular political outlook."
 (<https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/>, read 25 November 2026).
 Natural Earth does not apply one rule to every disputed or self-administered territory: a point inside some of them
-falls in a shape of their own and a point inside others falls in the shape of the country that claims them, or of the
-country that administers them (read on the shapes the site serves, `data/geo/countries.topo.json`, at places of Natural
+falls in a shape of their own, a point inside others falls in the shape of a country (for most of them the country that claims
+them or the country that administers them), and a point inside some falls in no shape (read on the shapes the site serves, `data/geo/countries.topo.json`, at places of Natural
 Earth's populated-places file, at points that the atlas computed inside the polygons of Natural Earth's disputed-areas
 layer, and at two points that the atlas chose by hand). The atlas has not chosen a view of its own and does not judge Natural Earth's. *Atlas assumption A1*: the atlas
 treats Natural Earth's default view, in the version named, as its convention, so the map shows the situation of that
@@ -2693,7 +2708,7 @@ notes are Natural Earth's words, as its file spells them, not the atlas's.
 | East Jerusalem (B98) | "Admin. By Israel; Claimed by Palestine" | Interior point, East Jerusalem | Palestine (PSE) | yes |
 | Europa Island (B26) | "Admin. by France; Claimed by Madagascar" | Interior point, Europa Island (in no shape) | (in no shape) | - |
 | Falkland Is. (B12) | "Admin. by U.K.; Claimed by Argentina" | Interior point, Falkland Is. polygon; Stanley | Falkland Islands (FLK) | yes |
-| Gaza (B53) | no note | Interior point, Gaza; Gaza | Palestine (PSE) | yes |
+| Gaza (B53) | no note | Interior point, Gaza; Gaza City | Palestine (PSE) | yes |
 | Gibraltar (B55) | "Admin. By U.K.; Claimed by Spain" | Interior point, Gibraltar (in no shape) | (in no shape) | - |
 | Gilgit-Baltistan (B08) | "Admin. by Pakistan; Claimed by India" | Interior point, Gilgit-Baltistan polygon; Gilgit | Pakistan (PAK) | yes |
 | Glorioso Is. (B24) | "Admin. by France; Claimed by Madagascar" | Interior point, Glorioso Is. (in no shape) | (in no shape) | - |
@@ -2755,7 +2770,7 @@ notes are Natural Earth's words, as its file spells them, not the atlas's.
 | Tromelin I. (B25) | "Admin. by France; Claimed by Mauritius and the Seychelles" | Interior point, Tromelin I. (in no shape) | (in no shape) | - |
 | UNDOF Zone (B49) | "UN Patrolled Zone in Syria" | Interior point, UNDOF Zone | Syria (SYR) | yes |
 | Vukovar Island (B96) | no note | Interior point, Vukovar Island | Croatia (HRV) | yes |
-| W. Sahara (B19) | "Admin. by Morocco; Claimed by Western Sahara" | Interior point, W. Sahara claim polygon held by Morocco; Laayoune; Dakhla (in no shape); Smara; Point chosen inland of Dakhla | Morocco (MAR) | yes |
+| W. Sahara (B19) | "Admin. by Morocco; Claimed by Western Sahara" | Interior point, W. Sahara claim polygon held by Morocco; Laayoune; Ad Dakhla (in no shape); Smara; Point chosen inland of Dakhla | Morocco (MAR) | yes |
 | W. Sahara (B28) | "Self admin.; Claimed by Morocco" | Interior point, W. Sahara polygon held by the Sahrawi side; Bir Lehlou | Western Sahara (ESH) | no |
 | Wake Atoll (B59) | "Admin. by U.S.A.; Claimed by Marshall Islands" | Interior point, Wake Atoll (in no shape) | (in no shape) | - |
 | West Bank (B54) | no note | Interior point, West Bank; Ramallah | Palestine (PSE) | yes |
@@ -2790,8 +2805,8 @@ that it draws inside another country, and moves no trade figure with the map.
 **The notice.** The About window and the README carry the same text:
 
 Country shapes are Natural Earth's default view (version 5.1.1). Natural Earth does not apply one rule to every disputed
-or self-administered territory: it draws some as shapes of their own and keeps others inside another country, for some
-the country that claims them and for others the country that administers them. The boundaries, names and designations
+or self-administered territory: it draws some as shapes of their own and keeps others inside the shape of a country,
+for most of them the country that claims them or the country that administers them; some lie in no shape of the map. The boundaries, names and designations
 on the map do not imply official endorsement or acceptance, and the atlas takes no position on the status of any
 territory.
 

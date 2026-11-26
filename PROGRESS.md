@@ -76,17 +76,19 @@ that falls outside every shape) and two minor ones. One package corrected them.
   and back opens on its first view again; once the visitor or a page moved the map, a resize leaves it.
 - **A scale bar in nautical miles** from zoom 4 (below, a length on a world map means little).
 - **Particles on both sides of the Pacific**: they are drawn on every copy of the world that is in view (245 of
-  the 3,792 main lanes and 27 of the 341 routes cross the 180th meridian).
+  the 3,792 main lanes and 27 of the 341 route lines, 301 routes and 40 alternative paths, cross the 180th
+  meridian).
 - **Reduced motion**: with the system's setting on, the camera moves in one step instead of flying and the
   particles stand still.
 
 ### Boundaries and territories
 
 - The About window, the README and METHODOLOGY (section 15) carry one notice, the same words in the three
-  places: the map draws Natural Earth's default view of the countries (version 5.1.1), which draws some disputed
-  or self-administered areas as shapes of their own and keeps others inside another country, for some the
-  country that claims them and for others the country that administers them; the atlas takes no position on the
-  status of any territory. Nothing on the map changed: no tint, no claim line.
+  places: the map draws Natural Earth's default view of the countries (version 5.1.1); Natural Earth does not
+  apply one rule to every disputed or self-administered territory: it draws some as shapes of their own and
+  keeps others inside the shape of a country, for most of them the country that claims them or the country that
+  administers them, and some lie in no shape of the map; the atlas takes no position on the status of any
+  territory. Nothing on the map changed: no tint, no claim line.
 - METHODOLOGY lists every area of Natural Earth's layer of breakaway and disputed areas (99), each with Natural
   Earth's own note and the shape of the map that holds a point inside it; tests keep the table, the notice and
   the map in line. It also says that the shapes are Natural Earth's 1:50m shapes simplified by the atlas, and

@@ -367,20 +367,23 @@ leaves the tracked file as it is. When Natural Earth publishes a new version, fr
 1. **Read the terms again, then copy.** Open <https://www.naturalearthdata.com/about/terms-of-use/> and the download page
    <https://www.naturalearthdata.com/downloads/50m-physical-vectors/>. Copy the sentences that `NOTICE.md` quotes (the bullet on Natural Earth) from the
    page, word for word, into `NOTICE.md` and into `pipeline/tests/fixtures/naturalearth_terms_quotations.json`, with the day you read them; change a sentence
-   that the page no longer says and say nothing the page does not say. `test_naturalearth_marine.py` fails while `NOTICE.md` and the fixture differ.
+   that the page no longer says and say nothing the page does not say. `test_naturalearth_marine.py` fails while `NOTICE.md` and the fixture differ. Save the terms
+   page as HTML and run `NATURALEARTH_TERMS_PAGE=<saved page> .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_naturalearth_marine.py"`: without the
+   variable the test does not compare the sentences with the page, and a sentence mistyped in both `NOTICE.md` and the fixture passes.
 2. **Download the zip** of the marine areas 1:50m into `raw/naturalearth/ne_50m_marine/` and unzip it there (`raw/` is not tracked), keeping the old
    folder aside until the checks pass. Read the README in the zip.
 3. **Run the builder.** `node pipeline/geo/build_seas.mjs`. It takes the version for the note of the file from `ne_50m_geography_marine_polys.VERSION.txt` and the day
    from the constant `READ_ON` at the head of the script, which you edit to the day you read the zip and the terms page. A second run changes no byte.
    It stops, writes nothing and exits 1 when a field it reads (`name`, `name_en`, `featurecla`, `scalerank`) is missing, when it would write
-   fewer than 60 names, when a name holds a bracket or comes twice, or when the new file would hold fewer names than the tracked one (`--accept-fewer`
-   overrides the last one, once you have read which names went). Read its report and compare the names with the old file; a name that changed is a
+   fewer than 60 names, when a name holds a bracket or comes twice, when a label point is not inside its polygon at any rounding to 0.001 degree, or when the new file would hold fewer
+   names than the tracked one (`--accept-fewer` overrides the last one, once you have read which names went). Read its report and compare the names with the old file; a name that changed is a
    change on the map.
 4. **Rebuild the lettering if a character appeared** in a name: `node pipeline/geo/build_glyphs.mjs` (the builder of the map's glyph file, which takes its characters
    from the names; see "The glyph file of the lettering" below).
 5. **Check.** `node web/scripts/validate-data.mjs` (its rules for `data/geo/seas.json` and for the country index are in `web/scripts/validate-labels.mjs`: a sea
    named like a passage of `data/freight/chokepoints.json` is refused, since the atlas draws its passages as markers), `cd web && npx tsc --noEmit && npm test`,
-   `.venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_naturalearth_marine.py"` and `.venv/bin/python -I pipeline/common/sources_table.py --check`.
+   `NATURALEARTH_TERMS_PAGE=<saved terms page> .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_naturalearth_marine.py"` (the same command as in step 1:
+   without the variable the test does not compare the sentences with the page) and `.venv/bin/python -I pipeline/common/sources_table.py --check`.
    If the version changed, edit the `name` of the entry `naturalearth-marine` in `data/sources.json` and run `.venv/bin/python -I pipeline/common/sources_table.py`.
 6. **Commit** `data/geo/seas.json` together with the glyph file if it was rebuilt, and the notice, the fixture and the registry if they changed.
 

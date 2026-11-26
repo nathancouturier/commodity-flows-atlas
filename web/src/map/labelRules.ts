@@ -215,21 +215,48 @@ export function labelLayerSpecs(hiddenIds: readonly string[] = [], oceansLeftOut
   return [...seaLayerSpecs(oceansLeftOut), ...countryLayerSpecs(hiddenIds)];
 }
 
+/** The four layers of the country names, in the order they are stacked (the smallest class at the bottom: MapLibre places the top layer first). */
+export const COUNTRY_NAME_LAYERS = ['names-countries-3', 'names-countries-2', 'names-countries-1', 'names-countries-0'] as const;
+
+/** The four layers of the overland flows (the line set `land`: `ls-land-` and glow, line, alt, hit), in the order the controller adds them. */
+export const LAND_FLOW_LAYERS = ['ls-land-glow', 'ls-land-line', 'ls-land-alt', 'ls-land-hit'] as const;
+
 /**
  * What the layers of names are stacked on, bottom to top, among the layers they share the map with (the ids that are in a style are
  * checked, the others skipped). MapLibre places the top layer first, so the lower a layer is the sooner it gives way: the sea names give
- * way to everything, the asset names to the country names, and every name is under the icons, the opened asset and the flows.
+ * way to everything, the asset names to the country names, and every name is under the overland flows, the icons, the opened asset and
+ * the sea lanes and routes.
  */
 export const NAME_STACK = [
   'names-seas-3', 'names-seas-2', 'names-seas-1', 'names-seas-0',
   'infra-lines-glow', 'infra-lines-solid', 'infra-lines-dash', 'infra-lines-hit',
   'infra-names',
-  'names-countries-3', 'names-countries-2', 'names-countries-1', 'names-countries-0',
+  ...COUNTRY_NAME_LAYERS,
+  ...LAND_FLOW_LAYERS,
   'infra-pts-all', 'infra-halo', 'infra-pts-sel',
 ] as const;
 
-/** The layer of the icons: the country names are put under it, on top of the asset names. */
+/** The layer of the icons: the country names and the overland flows are put under it, on top of the asset names. */
 export const ICON_LAYER = 'infra-pts-all';
+
+/** The part of a map's style that the order of the layers needs: a layer's presence and its move. */
+export interface LayerOrder {
+  getLayer(id: string): unknown;
+  moveLayer(id: string, beforeId?: string): void;
+}
+
+/**
+ * Puts the layers of `ids` that the style holds, in this order, directly under `before` (`moveLayer` puts a layer under the one it is
+ * given, so each one lands between the one before it and `before`). Idempotent.
+ */
+export function moveUnder(m: LayerOrder, ids: readonly string[], before: string): void {
+  for (const id of ids) if (m.getLayer(id)) m.moveLayer(id, before);
+}
+
+/** The layer the overland flows are added under: the icons when they are there already, else the top of the style (their module then moves them). */
+export function landFlowBefore(m: Pick<LayerOrder, 'getLayer'>): string | undefined {
+  return m.getLayer(ICON_LAYER) ? ICON_LAYER : undefined;
+}
 
 /** The pairs of layers of `NAME_STACK` that a style holds in the wrong order (empty when it follows the stack). */
 export function stackViolations(ids: readonly string[]): string[] {
@@ -248,8 +275,9 @@ export interface TextBox {
 
 /**
  * The advances the estimate below takes, in ems. A capital 0.72: above the mean of the capitals A to Z (0.69) and of the letters of every
- * ocean name (0.61 to 0.67), under the widest, W (1.0). A lower-case letter 0.64: above the mean of the letters of the country names (0.52)
- * and of the letters of each of the largest names. The space is 0.27 in the file, the estimate takes 0.3.
+ * ocean name (0.64 to 0.70, name by name), under the widest, W (1.0). A lower-case letter 0.64: above the mean of the letters of the country names (0.52)
+ * and of the letters of each of the largest names (0.40 to 0.59). The space is 0.25 in the file, the estimate takes 0.3. The means are read from the
+ * advances of the glyph file; a test checks that the estimate is wider than the lettering word by word.
  */
 export const CAPITAL_ADVANCE = 0.72;
 export const LOWER_ADVANCE = 0.64;
@@ -286,15 +314,31 @@ export function textBox(text: string, size: number, maxWidth: number, letterSpac
   return { w: Math.max(widest, Math.min(total, maxWidth)) * size + 2 * BOX_MARGIN, h: lines * LINE_HEIGHT * size + 2 * BOX_MARGIN };
 }
 
-/** Whether a box centred on (x, y) is partly on the canvas and partly off it: a box wholly inside or wholly outside is not cut. */
-export function boxCrossesEdge(x: number, y: number, box: TextBox, canvasW: number, canvasH: number): boolean {
+/** A rectangle in the canvas's own coordinates (px from its top left corner). */
+export interface Rect {
+  left: number;
+  top: number;
+  right: number;
+  bottom: number;
+}
+
+/**
+ * Whether a box centred on (x, y) crosses the border of `r`: it overlaps it and is not wholly inside it. A box wholly outside is not
+ * touched, and one wholly inside is not seen (a panel hides it, or the canvas shows it), so neither is cut. Touching is not overlapping.
+ */
+export function boxCrossesRect(x: number, y: number, box: TextBox, r: Rect): boolean {
   const x1 = x - box.w / 2;
   const x2 = x + box.w / 2;
   const y1 = y - box.h / 2;
   const y2 = y + box.h / 2;
-  const outside = x2 <= 0 || x1 >= canvasW || y2 <= 0 || y1 >= canvasH;
-  const inside = x1 >= 0 && x2 <= canvasW && y1 >= 0 && y2 <= canvasH;
+  const outside = x2 <= r.left || x1 >= r.right || y2 <= r.top || y1 >= r.bottom;
+  const inside = x1 >= r.left && x2 <= r.right && y1 >= r.top && y2 <= r.bottom;
   return !outside && !inside;
+}
+
+/** Whether a box centred on (x, y) is partly on the canvas and partly off it: a box wholly inside or wholly outside is not cut. */
+export function boxCrossesEdge(x: number, y: number, box: TextBox, canvasW: number, canvasH: number): boolean {
+  return boxCrossesRect(x, y, box, { left: 0, top: 0, right: canvasW, bottom: canvasH });
 }
 
 /** The copies of the world on each side of the one the point is on, whose names are tested (a canvas shows three at the most at the lowest zoom of a wide screen). */
@@ -323,28 +367,61 @@ export function countryEdgeNames(list: readonly NamedCountry[], zoom: number): E
 }
 
 /**
- * The ids of the names that the edge of the canvas would cut, from where the map projects their points: a name is listed when its box
- * crosses an edge on any copy of the world in view. A name wholly in view or wholly out of it is not listed. Pure: the map is only asked
- * for `project`.
+ * The ids of the names that the edge of the canvas, or a panel drawn over it (`covers`), would cut, from where the map projects their
+ * points: a name is listed when its box crosses the edge or the border of a rectangle on any copy of the world in view. A name wholly in
+ * view or wholly out of it, or wholly under a panel, is not listed. Pure: the map is only asked for `project`.
  */
 export function namesAtEdge(
   names: readonly EdgeName[],
   project: (lng: number, lat: number) => { x: number; y: number },
   canvasW: number,
   canvasH: number,
+  covers: readonly Rect[] = [],
 ): string[] {
   const out: string[] = [];
   if (canvasW <= 0 || canvasH <= 0) return out;
   for (const n of names) {
     for (let k = -EDGE_COPIES; k <= EDGE_COPIES; k++) {
       const p = project(n.at[0] + 360 * k, n.at[1]);
-      if (boxCrossesEdge(p.x, p.y, n.box, canvasW, canvasH)) {
+      if (boxCrossesEdge(p.x, p.y, n.box, canvasW, canvasH) || covers.some((r) => boxCrossesRect(p.x, p.y, n.box, r))) {
         out.push(n.id);
         break;
       }
     }
   }
   return out;
+}
+
+/**
+ * What is drawn over the map, as the selectors of its elements: the boxes of the top bar (brand, search, tools), the Controls panel or its button, the Legend and its
+ * button, the open page (a column, or the sheet), the price drawer and the History bar. The three that are always in the page and hidden when
+ * closed (`OVERLAYS_WHEN_OPEN`) count only with the class `open`; the others count when they are displayed.
+ */
+export const OVERLAYS = ['.topbar > .glass', '.topbar > .search', '.side-panel', '.legend-dock > *', '.detail-panel', '.pd', '.tl'] as const;
+export const OVERLAYS_WHEN_OPEN = ['.detail-panel', '.pd', '.tl'] as const;
+
+/**
+ * The elements whose size is watched: the overlays, and the wrapper of the Legend, which grows when the legend opens beside its button (the box
+ * that comes is not in the page yet when the rule last ran, so its own size cannot be watched).
+ */
+export const OVERLAYS_WATCHED = [...OVERLAYS, '.legend-dock'] as const;
+
+/** What the rectangles of the overlays are measured from: the element's box and whether it is drawn. */
+export interface OverlayBox {
+  selector: string;
+  open: boolean;
+  shown: boolean;
+  rect: { left: number; top: number; right: number; bottom: number };
+}
+
+/**
+ * The rectangles of the overlays that count, in the canvas's own coordinates: those that are drawn, with a box of some size, and, for
+ * the elements that are always in the page, open. `origin` is the canvas's top left corner in the same coordinates as the boxes.
+ */
+export function overlayRects(boxes: readonly OverlayBox[], origin: { left: number; top: number }): Rect[] {
+  return boxes
+    .filter((b) => b.shown && (b.open || !(OVERLAYS_WHEN_OPEN as readonly string[]).includes(b.selector)) && b.rect.right > b.rect.left && b.rect.bottom > b.rect.top)
+    .map((b) => ({ left: b.rect.left - origin.left, top: b.rect.top - origin.top, right: b.rect.right - origin.left, bottom: b.rect.bottom - origin.top }));
 }
 
 /**

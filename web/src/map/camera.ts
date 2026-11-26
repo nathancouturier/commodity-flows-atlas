@@ -97,6 +97,11 @@ export function hasPadding(p: { top?: number; bottom?: number; left?: number; ri
   return Boolean(p.top || p.bottom || p.left || p.right);
 }
 
+/** The padding to set on the camera before a fit so that none is left on it: the zero padding when it holds one, `null` when there is nothing to clear. */
+export function paddingToClear(p: { top?: number; bottom?: number; left?: number; right?: number }): { top: number; bottom: number; left: number; right: number } | null {
+  return hasPadding(p) ? { top: 0, bottom: 0, left: 0, right: 0 } : null;
+}
+
 /** The padding that the flight to a passage keeps it clear of the open page with (a window of 760 px or more: the side panel and the page; a narrower one: the sheet). */
 export function passagePadding(innerWidth: number, innerHeight: number): { top: number; bottom: number; left: number; right: number } {
   return innerWidth >= 760 ? { top: 60, bottom: 40, left: 340, right: 420 } : { top: 80, bottom: innerHeight * 0.5, left: 10, right: 10 };

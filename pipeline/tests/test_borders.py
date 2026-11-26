@@ -8,9 +8,12 @@ compare with the version file of raw/ or with the saved pages of the day they we
 The class Table keeps the table of the section (what the country shapes of the map do with the points of every area of Natural Earth's disputed-areas
 layer) in line with the shapes the site serves, with fixtures/border_probes.json and with the customs codes. Where raw/naturalearth/ne_10m_disputed
 (the unzipped layer) or raw/naturalearth/ne_50m (the countries file) is on the machine, the fixture, the rows and the points the text names are also
-compared with those files; the tests that need them skip otherwise.
+compared with those files; the tests that need them skip otherwise. The points the text names as moved by the simplification are compared, without the file of
+countries, with the code of the shape of that file that the fixture keeps for every point (`raw50`).
 
 Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_borders.py"
+With the saved pages of Natural Earth (the folder that holds ne_50m_cultural.html and ne_50m_countries_about.html; without the variable the test does not compare
+the two quotations with the pages): NATURALEARTH_BOUNDARIES_PAGES=<folder> .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_borders.py"
 """
 import ast
 import csv
@@ -27,22 +30,31 @@ import unittest
 ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), "..", ".."))
 FIXTURE = os.path.join(ROOT, "pipeline", "tests", "fixtures", "naturalearth_boundaries_quotations.json")
 VERSION_FILE = os.path.join(ROOT, "raw", "naturalearth", "ne_50m", "ne_50m_admin_0_countries.VERSION.txt")
+# the folder of the saved pages (ne_50m_cultural.html and ne_50m_countries_about.html): the machine's own, given in the environment (no default)
+SAVED_PAGES_FOLDER = os.environ.get("NATURALEARTH_BOUNDARIES_PAGES")
 SAVED_PAGES = {
-    "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/": "/tmp/claude-0/audit/work/7A/BORD/dl/ne_50m_cultural.html",
-    "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/":
-        "/tmp/claude-0/audit/work/7A/BORD/dl/ne_50m_countries_about.html",
+    "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/": "ne_50m_cultural.html",
+    "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/": "ne_50m_countries_about.html",
 }
 TITLE = "The map: boundaries and territories"
 READ = "read 25 November 2026"
 VERSION = r"\d+\.\d+\.\d+"
 HINT_WORDS = ("click", "hover", "tap", "drag", "choose", "select", "press")
-OLD_SENTENCES = ("imply any opinion", "Boundaries and names on the map come from", "keeps others inside the country that claims them")
-NOTICE = ("Country shapes are Natural Earth's default view (version {version}). Natural Earth does not apply one rule to every disputed or "
-          "self-administered territory: it draws some as shapes of their own and keeps others inside another country, for some the country "
-          "that claims them and for others the country that administers them. The boundaries, names and designations on the map do not "
+OLD_SENTENCES = ("imply any opinion", "Boundaries and names on the map come from", "keeps others inside the country that claims them",
+                 "keeps others inside another country, for some the country that claims them and for others the country that administers them",
+                 "a point inside others falls in the shape of the country that claims them, or of the country that administers them",
+                 "trade figures follow the customs codes of CEPII BACI")
+# the sentence of the notice that says what Natural Earth does with the areas, and the clauses of it that the Convention paragraph of METHODOLOGY
+# says again; the test of the cases checks every clause against the rows of the table
+NOT_ONE_RULE = "Natural Earth does not apply one rule to every disputed or self-administered territory:"
+OWN_CLAUSE = "it draws some as shapes of their own and"
+INSIDE_CLAUSE = "keeps others inside the shape of a country, for most of them the country that claims them or the country that administers them;"
+NONE_CLAUSE = "some lie in no shape of the map."
+NOTICE = ("Country shapes are Natural Earth's default view (version {version}). " + NOT_ONE_RULE + " " + OWN_CLAUSE + " " + INSIDE_CLAUSE + " "
+          + NONE_CLAUSE + " The boundaries, names and designations on the map do not "
           "imply official endorsement or acceptance, and the atlas takes no position on the status of any territory.")
-BULLET = ("The map follows Natural Earth's default boundaries; trade figures follow the customs codes of CEPII BACI and do not change with "
-          "the map. A territory that the customs data have no code for has no customs trade flow under its own name.")
+BULLET = ("The map follows Natural Earth's default boundaries; the trade flows between countries follow the customs codes of CEPII BACI and do "
+          "not change with the map. A territory that the customs data have no code for has no customs trade flow under its own name.")
 
 
 def read(*parts):
@@ -151,6 +163,26 @@ def read_polygons(path):
     return out
 
 
+def countries_file_shapes(path):
+    """The shapes of Natural Earth's 1:50m file of countries (`path` without its extension) by the rule of codes of pipeline/geo/build_countries.mjs:
+    the code is ISO_A3_EH, or ADM0_A3 where that is empty or -99; Antarctica is left out; the parts that share a code are one shape."""
+    from shapely.ops import unary_union
+    by_code = {}
+    for r, g in zip(read_dbf(path + ".dbf"), read_polygons(path + ".shp")):
+        code = r["ISO_A3_EH"] if r["ISO_A3_EH"] not in ("", "-99") else r["ADM0_A3"]
+        if code != "ATA" and g is not None:
+            by_code.setdefault(code, []).append(g)
+    return {code: unary_union(parts) for code, parts in by_code.items()}
+
+
+def code_of_the_shape_holding(shapes, lon, lat):
+    """The code of the shape (of a dict code -> geometry) that holds the point, None for no shape; two shapes holding it is an error."""
+    from shapely.geometry import Point
+    held = [code for code, g in shapes.items() if g.contains(Point(lon, lat))]
+    assert len(held) <= 1, held
+    return held[0] if held else None
+
+
 def customs_codes():
     """The ids of the shapes that have a customs code in CEPII BACI (by the code list or by CODE_FIX), and the CODE_FIX table."""
     with open(os.path.join(ROOT, "pipeline", "cache", "baci_country_codes.csv"), encoding="utf-8", newline="") as fh:
@@ -193,9 +225,7 @@ class Notice(unittest.TestCase):
             self.assertNotIn(word, low)
 
     def test_the_notice_says_what_natural_earth_does_not_do_and_what_the_atlas_does_not(self):
-        for part in ("does not apply one rule to every disputed or self-administered territory",
-                     "draws some as shapes of their own and keeps others inside another country, for some the country that claims them "
-                     "and for others the country that administers them",
+        for part in (NOT_ONE_RULE, OWN_CLAUSE, INSIDE_CLAUSE, NONE_CLAUSE,
                      "do not imply official endorsement or acceptance",
                      "the atlas takes no position on the status of any territory"):
             self.assertIn(part, self.notice)
@@ -271,9 +301,10 @@ class Quotations(unittest.TestCase):
             self.assertIn(READ, near, f"{q['key']}: the day is next to the quotation")
 
     def test_each_sentence_is_in_the_saved_page_where_the_page_is_on_this_machine(self):
-        saved = [(q, SAVED_PAGES[q["address"]]) for q in self.fixture["quotations"] if os.path.exists(SAVED_PAGES.get(q["address"], ""))]
-        if not saved:
-            self.skipTest("the saved pages are not on this machine")
+        if not SAVED_PAGES_FOLDER:
+            self.skipTest("NATURALEARTH_BOUNDARIES_PAGES does not name the folder of the saved pages")
+        saved = [(q, os.path.join(SAVED_PAGES_FOLDER, SAVED_PAGES[q["address"]])) for q in self.fixture["quotations"]]
+        self.assertEqual([os.path.exists(path) for _, path in saved], [True] * len(saved), "a saved page is missing from NATURALEARTH_BOUNDARIES_PAGES")
         for q, path in saved:
             with open(path, encoding="utf-8", errors="replace") as fh:
                 page = fh.read()
@@ -343,7 +374,7 @@ class KnownLimits(unittest.TestCase):
         bullet = known_limits_bullet()
         self.assertEqual(bullet, BULLET, "both sentences of the bullet, as written")
         self.assertIn("CEPII BACI", bullet)
-        self.assertIn("trade figures follow the customs codes of CEPII BACI and do not change with the map", bullet)
+        self.assertIn("the trade flows between countries follow the customs codes of CEPII BACI and do not change with the map", bullet)
         index = {e["c"]: e["name"] for e in load("data", "countries", "index.json")}
         for iso in ("KOS", "ESH", "SOL", "CYN"):
             self.assertNotIn(index[iso], bullet, iso)
@@ -388,9 +419,9 @@ class KnownLimits(unittest.TestCase):
 
 
 class Registry(unittest.TestCase):
-    def test_the_licence_is_unchanged_and_the_use_names_the_default_view(self):
+    def test_the_licence_is_the_terms_page_in_its_own_words_and_the_use_names_the_default_view(self):
         entry = {s["id"]: s for s in load("data", "sources.json")}["naturalearth"]
-        self.assertEqual(entry["licence"], "Public domain (no credit required)")
+        self.assertTrue(entry["licence"].startswith('Natural Earth terms of use: "'), entry["licence"])
         self.assertIn("default view", entry["use"])
         self.assertIn("not refreshed by a workflow", entry["access"])
 
@@ -510,6 +541,16 @@ class Table(unittest.TestCase):
             self.assertEqual(bool(self.INTERIOR.match(p["src"])), p["kind"] == "interior", p["label"])
             self.assertEqual(p["src"].startswith("point chosen by hand ("), p["kind"] == "by hand", p["label"])
             self.assertNotIn("audit", (p["label"] + p["src"] + p["why"]).lower(), "the points chosen by hand are named for what they are")
+            # the code of the shape of Natural Earth's own 1:50m file that holds the point (None for none)
+            self.assertIn("raw50", p, p["label"])
+            self.assertTrue(p["raw50"] is None or p["raw50"] in set(self.codes), f"{p['label']}: {p['raw50']}")
+            if p["kind"] == "place":
+                # the label is the name Natural Earth gives the place; the one point that is followed by a bracket is told from the interior points
+                # of the two Jerusalem areas, which are not Natural Earth's points
+                name = self.PLACE.match(p["src"]).group(1)
+                if p["label"] != name:
+                    self.assertEqual(p["label"], name + " (NE point)", p["label"])
+                    self.assertTrue(any(name in q["label"] for q in fx["probes"] if q is not p), f"{p['label']}: no other label holds {name}")
         by_hand = [p["label"] for p in fx["probes"] if p["kind"] == "by hand"]
         self.assertTrue(by_hand)
         ids = [a["BRK_A3"] for a in fx["areas"]]
@@ -723,34 +764,70 @@ class Table(unittest.TestCase):
                 out["claimants"] |= {i for i in (self.resolve(w) for w in re.split(r", and |, | and ", m.group("who"))) if i}
         return out
 
-    def kind_of(self, area):
-        """Where the map puts the interior point of the area, read against the area's own note."""
-        note = self.read_note(area["NOTE_BRK"])
+    # the three cases of the sentence of the notice and of the Convention paragraph, told from the rows
+    OWN, INSIDE, NONE = "a shape of its own", "inside the shape of a country", "in no shape"
+
+    def holders(self):
+        """For each shape of the table, the ids of the areas whose row lists it."""
+        out = {}
+        for a, row in zip(self.sorted_areas(), self.rows):
+            for _, iso in self.shapes_of_row(row):
+                out.setdefault(iso, set()).add(a["BRK_A3"])
+        return out
+
+    def named_by_a_note(self, iso):
+        """Whether a note of the table names the country of the shape: its name in the index, or its id read as a claimant or the administrator."""
+        pattern = r"(?<![\w.])" + re.escape(self.index[iso]) + r"(?!\w)"
+        for a in self.fixture["areas"]:
+            note = self.read_note(a["NOTE_BRK"])
+            if re.search(pattern, a["NOTE_BRK"]) or iso in note["claimants"] or iso == note["administrator"]:
+                return True
+        return False
+
+    def case_of(self, area):
+        """Where the map puts the interior point of the area: in no shape; in a shape of the area's own (the note says "Self admin." and the shape is
+        not a claimant's, or the shape holds no other area and no note of the table names its country); or in the shape of a country."""
         shape = self.shape_of(self.own_label(area["BRK_A3"]))
         if shape is None:
-            return "in no shape"
-        if shape == note["administrator"] and note["claimants"] - {shape}:
-            return "inside the country that administers it while another claims it"
-        if shape in note["claimants"] and shape != note["administrator"]:
-            return "inside a country that claims it and is not said to administer it"
-        if note["self"] and shape not in note["claimants"]:
-            return "a shape of its own"
-        return "other"
+            return self.NONE
+        note = self.read_note(area["NOTE_BRK"])
+        if (note["self"] and shape not in note["claimants"]) or (self.holders()[shape] == {area["BRK_A3"]} and not self.named_by_a_note(shape)):
+            return self.OWN
+        return self.INSIDE
 
-    def kinds(self):
+    def named_by_its_note(self, area):
+        """Whether the shape that holds the interior point of the area is that of a country that its note names as a claimant or as the administrator."""
+        shape = self.shape_of(self.own_label(area["BRK_A3"]))
+        note = self.read_note(area["NOTE_BRK"])
+        return shape in note["claimants"] or shape == note["administrator"]
+
+    def cases(self):
+        """The areas of each case, in the order of the table."""
         out = {}
         for a in self.sorted_areas():
-            out.setdefault(self.kind_of(a), []).append(f"{a['BRK_NAME']} ({a['BRK_A3']})")
+            out.setdefault(self.case_of(a), []).append(a)
         return out
 
     def test_the_convention_and_the_notice_say_only_what_the_notes_and_the_shapes_of_the_rows_show(self):
-        kinds = self.kinds()
-        for kind in ("inside a country that claims it and is not said to administer it",
-                     "inside the country that administers it while another claims it", "a shape of its own"):
-            self.assertTrue(kinds.get(kind), f"no area is {kind}: {sorted(kinds)}")
+        cases = self.cases()
+        # every row falls in one of the cases the sentence names, and each case it names has a row
+        self.assertEqual(set(cases), {self.OWN, self.INSIDE, self.NONE}, {k: [a["BRK_A3"] for a in v] for k, v in cases.items()})
+        self.assertEqual(sum(len(v) for v in cases.values()), len(self.rows))
+        # the sentence names the country that claims the area and the country that administers it: each holds the interior point of some area
+        inside = cases[self.INSIDE]
+        notes = {a["BRK_A3"]: self.read_note(a["NOTE_BRK"]) for a in inside}
+        held = {a["BRK_A3"]: self.shape_of(self.own_label(a["BRK_A3"])) for a in inside}
+        self.assertTrue([a for a in inside if held[a["BRK_A3"]] in notes[a["BRK_A3"]]["claimants"]], "no area lies in the shape of a country that claims it")
+        self.assertTrue([a for a in inside if held[a["BRK_A3"]] == notes[a["BRK_A3"]]["administrator"]],
+                        "no area lies in the shape of the country that administers it")
+        # "for most of them": more than half of the areas kept inside the shape of a country, and not all of them
+        named = [a for a in inside if self.named_by_its_note(a)]
+        self.assertGreater(2 * len(named), len(inside), "for most of them")
+        self.assertLess(len(named), len(inside), "for most of them, not for all")
         para = next(p for p in paragraphs(section(read("METHODOLOGY.md"))) if p.startswith("**Convention.**"))
-        self.assertIn("a point inside some of them falls in a shape of their own and a point inside others falls in the shape of the country "
-                      "that claims them, or of the country that administers them", para)
+        self.assertIn("a point inside some of them falls in a shape of their own, a point inside others falls in the shape of a country (for most of them "
+                      "the country that claims them or the country that administers them), and a point inside some falls in no shape", para)
+        self.assertIn(NOT_ONE_RULE, para)
         self.assertIn("at places of Natural Earth's populated-places file, at points that the atlas computed inside the polygons of Natural "
                       "Earth's disputed-areas layer, and at two points that the atlas chose by hand", para)
         self.assertNotIn("own populated-places and disputed-areas files", para)
@@ -799,27 +876,19 @@ class Table(unittest.TestCase):
             self.assertFalse(any(g is not None and g.contains(Point(self.probes[label]["lon"], self.probes[label]["lat"]))
                                  for g in polygons.values()), label)
 
-    def test_the_points_that_the_simplification_moves_are_those_the_text_names_where_the_countries_file_is_on_this_machine(self):
+    def test_the_points_that_the_simplification_moves_are_those_the_text_names(self):
+        """Without the countries file: the points whose raw50 (the shape of Natural Earth's own file, kept in the fixture) is not the shape of the
+        map are the ones the paragraph names, with both shapes."""
+        differing = {p["label"]: (p["raw50"], self.shape_of(p["label"])) for p in self.fixture["probes"] if p["raw50"] != self.shape_of(p["label"])}
+        self.assertEqual(differing, {label: (raw_iso, served) for label, raw_iso, served in self.simplification_items()})
+
+    def test_the_raw50_of_the_fixture_is_the_shape_of_the_countries_file_where_the_countries_file_is_on_this_machine(self):
         if not os.path.exists(self.COUNTRIES + ".shp"):
             self.skipTest("raw/naturalearth/ne_50m is not on this machine")
-        from shapely.geometry import Point
-        from shapely.ops import unary_union
-        records = read_dbf(self.COUNTRIES + ".dbf")
-        by_code = {}
-        for r, g in zip(records, read_polygons(self.COUNTRIES + ".shp")):
-            code = r["ISO_A3_EH"] if r["ISO_A3_EH"] not in ("", "-99") else r["ADM0_A3"]   # the rule of build_countries.mjs
-            if code != "ATA" and g is not None:
-                by_code.setdefault(code, []).append(g)
-        raw = {code: unary_union(parts) for code, parts in by_code.items()}
+        raw = countries_file_shapes(self.COUNTRIES)
         self.assertEqual(set(raw), set(self.codes), "the shapes of the file and the shapes of the map are the same countries")
-        differing = {}
         for p in self.fixture["probes"]:
-            pt = Point(p["lon"], p["lat"])
-            in_file = [c for c, g in raw.items() if g.contains(pt)]
-            self.assertLessEqual(len(in_file), 1, p["label"])
-            if (in_file[0] if in_file else None) != self.shape_of(p["label"]):
-                differing[p["label"]] = (in_file[0] if in_file else None, self.shape_of(p["label"]))
-        self.assertEqual(differing, {label: (raw_iso, served) for label, raw_iso, served in self.simplification_items()})
+            self.assertEqual(code_of_the_shape_holding(raw, p["lon"], p["lat"]), p["raw50"], p["label"])
 
 
 if __name__ == "__main__":

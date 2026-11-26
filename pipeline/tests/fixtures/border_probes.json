@@ -1,5 +1,5 @@
 {
- "about": "Points tested against the country shapes of the map, and the areas they belong to. The areas are every record of Natural Earth's 1:10m layer of breakaway and disputed areas (version 5.1.1), each with its name, id and note as the layer's file spells them. The points are of three kinds: places of Natural Earth's populated-places file (version 5.1.2); for each area, a point inside its polygon that the atlas computed from the layer (mapshaper -points inner, one point per area, inside one part for an area of several parts); and two points that the atlas chose by hand. Two names begin with a byte order mark in the layer's file; the mark is dropped. Read 25 November 2026.",
+ "about": "Points tested against the country shapes of the map, and the areas they belong to. The areas are every record of Natural Earth's 1:10m layer of breakaway and disputed areas (version 5.1.1), each with its name, id and note as the layer's file spells them. The points are of three kinds: places of Natural Earth's populated-places file (version 5.1.2); for each area, a point inside its polygon that the atlas computed from the layer (mapshaper -points inner, one point per area, inside one part for an area of several parts); and two points that the atlas chose by hand. Two names begin with a byte order mark in the layer's file; the mark is dropped. Read 25 November 2026. The field raw50 of every point is the code of the shape of Natural Earth's own 1:50m file of countries (ne_50m_admin_0_countries, version 5.1.1; the file ne_50m_admin_0_countries.shp, 1613020 bytes, sha256 94799b91827fb9f32c0c517d60281572abcf5e4647d19b7f52217071cc4fd30d) that holds the point, null for none, by the rule of codes of pipeline/geo/build_countries.mjs; it was computed on 26 November 2026 with the functions countries_file_shapes and code_of_the_shape_holding of pipeline/tests/test_borders.py, which the test runs again where raw/naturalearth/ne_50m is on the machine.",
  "read": "2026-11-25",
  "sources": {
   "populated": {
@@ -22,6 +22,7 @@
    "src": "NE 10m populated places \"Sevastopol\" (adm0 RUS)",
    "lon": 33.52439491312476,
    "lat": 44.60392525649835,
+   "raw50": "RUS",
    "why": "Crimea"
   },
   {
@@ -30,6 +31,7 @@
    "src": "NE 10m populated places \"Simferopol\" (adm0 RUS)",
    "lon": 34.0987349,
    "lat": 44.9491543,
+   "raw50": "RUS",
    "why": "Crimea"
   },
   {
@@ -38,6 +40,7 @@
    "src": "NE 10m populated places \"Kerch\" (adm0 RUS)",
    "lon": 36.4880981,
    "lat": 45.3685085,
+   "raw50": "RUS",
    "why": "east end of Crimea"
   },
   {
@@ -46,14 +49,16 @@
    "src": "NE 10m populated places \"Laayoune\" (adm0 MAR)",
    "lon": -13.2000059,
    "lat": 27.1499823,
+   "raw50": "MAR",
    "why": "Western Sahara"
   },
   {
-   "label": "Dakhla",
+   "label": "Ad Dakhla",
    "kind": "place",
    "src": "NE 10m populated places \"Ad Dakhla\" (adm0 MAR)",
    "lon": -15.9368109,
    "lat": 23.7140559,
+   "raw50": "MAR",
    "why": "Western Sahara, on the coast"
   },
   {
@@ -62,6 +67,7 @@
    "src": "NE 10m populated places \"Smara\" (adm0 MAR)",
    "lon": -11.6833285,
    "lat": 26.7332894,
+   "raw50": "MAR",
    "why": "inland Western Sahara"
   },
   {
@@ -70,6 +76,7 @@
    "src": "NE 10m populated places \"Bir Lehlou\" (adm0 SAH)",
    "lon": -9.6525222,
    "lat": 26.1191667,
+   "raw50": "ESH",
    "why": "east of the berm, Sahrawi-administered"
   },
   {
@@ -78,6 +85,7 @@
    "src": "NE 10m populated places \"Srinagar\" (adm0 IND)",
    "lon": 74.82830910981222,
    "lat": 34.069473874645354,
+   "raw50": "IND",
    "why": "Kashmir valley"
   },
   {
@@ -86,6 +94,7 @@
    "src": "NE 10m populated places \"Gilgit\" (adm0 PAK)",
    "lon": 74.300002,
    "lat": 35.9170958,
+   "raw50": "PAK",
    "why": "Gilgit-Baltistan"
   },
   {
@@ -94,6 +103,7 @@
    "src": "NE 10m populated places \"Leh\" (adm0 IND)",
    "lon": 77.57229066274353,
    "lat": 34.16155933706067,
+   "raw50": "IND",
    "why": "Ladakh"
   },
   {
@@ -102,6 +112,7 @@
    "src": "NE 10m populated places \"Taipei\" (adm0 TWN)",
    "lon": 121.5683333,
    "lat": 25.0358333,
+   "raw50": "TWN",
    "why": "Taiwan"
   },
   {
@@ -110,6 +121,7 @@
    "src": "NE 10m populated places \"Pristina\" (adm0 KOS)",
    "lon": 21.1659843,
    "lat": 42.6667096,
+   "raw50": "KOS",
    "why": "Kosovo"
   },
   {
@@ -118,6 +130,7 @@
    "src": "NE 10m populated places \"Hargeisa\" (adm0 SOL)",
    "lon": 44.06531,
    "lat": 9.5600224,
+   "raw50": "SOL",
    "why": "Somaliland"
   },
   {
@@ -126,6 +139,7 @@
    "src": "NE 10m populated places \"Berbera\" (adm0 SOL)",
    "lon": 45.0164148,
    "lat": 10.4355504,
+   "raw50": "SOL",
    "why": "Somaliland port"
   },
   {
@@ -134,6 +148,7 @@
    "src": "NE 10m populated places \"Nicosia\" (adm0 CYP)",
    "lon": 33.3666349,
    "lat": 35.1666765,
+   "raw50": "CYN",
    "why": "divided city, point of the Republic side"
   },
   {
@@ -142,6 +157,7 @@
    "src": "NE 10m populated places \"Kyrenia\" (adm0 CYN)",
    "lon": 33.3330036,
    "lat": 35.3259991,
+   "raw50": "CYN",
    "why": "north Cyprus"
   },
   {
@@ -150,6 +166,7 @@
    "src": "NE 10m populated places \"Famagusta\" (adm0 CYN)",
    "lon": 33.9500101,
    "lat": 35.1250252,
+   "raw50": null,
    "why": "north Cyprus port"
   },
   {
@@ -158,6 +175,7 @@
    "src": "NE 10m populated places \"Stanley\" (adm0 FLK)",
    "lon": -57.8499679,
    "lat": -51.700011,
+   "raw50": "FLK",
    "why": "Falkland Islands"
   },
   {
@@ -166,6 +184,7 @@
    "src": "NE 10m populated places \"Tskhinvali\" (adm0 GEO)",
    "lon": 43.9750313,
    "lat": 42.2324984,
+   "raw50": "GEO",
    "why": "South Ossetia"
   },
   {
@@ -174,6 +193,7 @@
    "src": "NE 10m populated places \"Sukhumi\" (adm0 GEO)",
    "lon": 41.0200179,
    "lat": 43.0200214,
+   "raw50": "GEO",
    "why": "Abkhazia"
   },
   {
@@ -182,6 +202,7 @@
    "src": "NE 10m populated places \"Stepanakert\" (adm0 AZE)",
    "lon": 46.7519677,
    "lat": 39.8156433,
+   "raw50": "AZE",
    "why": "Nagorno-Karabakh"
   },
   {
@@ -190,6 +211,7 @@
    "src": "NE 10m populated places \"Tiraspol\" (adm0 MDA)",
    "lon": 29.639989,
    "lat": 46.8530949,
+   "raw50": "MDA",
    "why": "Transnistria"
   },
   {
@@ -198,6 +220,7 @@
    "src": "NE 10m populated places \"Donetsk\" (adm0 UKR)",
    "lon": 37.8280342,
    "lat": 48.0019475,
+   "raw50": "UKR",
    "why": "Donetsk"
   },
   {
@@ -206,6 +229,7 @@
    "src": "NE 10m populated places \"Luhansk\" (adm0 UKR)",
    "lon": 39.3343843,
    "lat": 48.5697602,
+   "raw50": "UKR",
    "why": "Luhansk"
   },
   {
@@ -214,14 +238,16 @@
    "src": "NE 10m populated places \"Mariupol\" (adm0 UKR)",
    "lon": 37.5561983,
    "lat": 47.0961808,
+   "raw50": "UKR",
    "why": "Azov port"
   },
   {
-   "label": "Gaza",
+   "label": "Gaza City",
    "kind": "place",
    "src": "NE 10m populated places \"Gaza City\" (adm0 PSX)",
    "lon": 34.4450187,
    "lat": 31.5299992,
+   "raw50": "PSE",
    "why": "Gaza"
   },
   {
@@ -230,6 +256,7 @@
    "src": "NE 10m populated places \"Ramallah\" (adm0 PSX)",
    "lon": 35.2062094,
    "lat": 31.9029448,
+   "raw50": "PSE",
    "why": "West Bank"
   },
   {
@@ -238,6 +265,7 @@
    "src": "NE 10m populated places \"Jerusalem\" (adm0 ISR)",
    "lon": 35.2066259,
    "lat": 31.7784078,
+   "raw50": "PSE",
    "why": "Natural Earth puts the point in the west of the city"
   },
   {
@@ -246,6 +274,7 @@
    "src": "NE 10m disputed areas B05 (\"Jammu and Kashmir\") interior point",
    "lon": 77.2306968142936,
    "lat": 34.00207174668811,
+   "raw50": "IND",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -254,6 +283,7 @@
    "src": "NE 10m disputed areas B07 (\"Aksai Chin\") interior point",
    "lon": 79.15375958758442,
    "lat": 35.06191663403681,
+   "raw50": "CHN",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -262,6 +292,7 @@
    "src": "NE 10m disputed areas B53 (\"Gaza\") interior point",
    "lon": 34.2962983560928,
    "lat": 31.322339600097234,
+   "raw50": "PSE",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -270,6 +301,7 @@
    "src": "NE 10m disputed areas B54 (\"West Bank\") interior point",
    "lon": 35.28183651561043,
    "lat": 32.11805396782916,
+   "raw50": "PSE",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -278,6 +310,7 @@
    "src": "NE 10m disputed areas B16 (\"Golan Heights\") interior point",
    "lon": 35.73328602635888,
    "lat": 33.00207730762111,
+   "raw50": "ISR",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -286,6 +319,7 @@
    "src": "NE 10m disputed areas B30 (\"Somaliland\") interior point",
    "lon": 46.763994448690795,
    "lat": 9.440501872888827,
+   "raw50": "SOL",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -294,6 +328,7 @@
    "src": "NE 10m disputed areas B19 (\"W. Sahara\") interior point",
    "lon": -13.811042183809079,
    "lat": 25.065614077224918,
+   "raw50": "MAR",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -302,6 +337,7 @@
    "src": "NE 10m disputed areas B28 (\"W. Sahara\") interior point",
    "lon": -12.584236647965238,
    "lat": 24.04554791790775,
+   "raw50": "ESH",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -310,6 +346,7 @@
    "src": "NE 10m disputed areas B35 (\"Abkhazia\") interior point",
    "lon": 41.25120454813599,
    "lat": 43.08961546317457,
+   "raw50": "GEO",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -318,6 +355,7 @@
    "src": "NE 10m disputed areas B37 (\"South Ossetia\") interior point",
    "lon": 44.08384449571103,
    "lat": 42.38749713107038,
+   "raw50": "GEO",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -326,6 +364,7 @@
    "src": "NE 10m disputed areas B57 (\"Kosovo\") interior point",
    "lon": 20.873742976741802,
    "lat": 42.572883356037444,
+   "raw50": "KOS",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -334,6 +373,7 @@
    "src": "NE 10m disputed areas B38 (\"Artsakh\") interior point",
    "lon": 46.69436777511758,
    "lat": 39.884154322509346,
+   "raw50": "AZE",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -342,6 +382,7 @@
    "src": "NE 10m disputed areas B08 (\"Gilgit-Baltistan\") interior point",
    "lon": 74.91067400009288,
    "lat": 35.85098535658891,
+   "raw50": "PAK",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -350,6 +391,7 @@
    "src": "NE 10m disputed areas B36 (\"Transnistria\") interior point",
    "lon": 29.272634972657816,
    "lat": 47.28292913366364,
+   "raw50": "MDA",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -358,6 +400,7 @@
    "src": "NE 10m disputed areas C03 (\"Luhansk People's Republic\") interior point",
    "lon": 39.18387814366246,
    "lat": 48.307777299369256,
+   "raw50": "UKR",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -366,6 +409,7 @@
    "src": "NE 10m disputed areas C02 (\"Donetsk People's Republic\") interior point",
    "lon": 38.0989746685938,
    "lat": 47.894569546448366,
+   "raw50": "UKR",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -374,6 +418,7 @@
    "src": "NE 10m disputed areas B13 (\"Abyei\") interior point",
    "lon": 28.41426351895815,
    "lat": 9.767834976113146,
+   "raw50": "SDN",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -382,6 +427,7 @@
    "src": "NE 10m disputed areas B20 (\"N. Cyprus\") interior point",
    "lon": 33.60791730317709,
    "lat": 35.20812587148565,
+   "raw50": "CYN",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -390,6 +436,7 @@
    "src": "NE 10m disputed areas B43 (\"Cyprus U.N. Buffer Zone\") interior point",
    "lon": 33.28686076049294,
    "lat": 35.14095231152092,
+   "raw50": "CYP",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -398,6 +445,7 @@
    "src": "NE 10m disputed areas B45 (\"Siachen Glacier\") interior point",
    "lon": 77.18395152050303,
    "lat": 35.36413540078617,
+   "raw50": "KAS",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -406,6 +454,7 @@
    "src": "NE 10m disputed areas B89 (\"Crimea\") interior point",
    "lon": 34.33469585912164,
    "lat": 45.32596279352552,
+   "raw50": "RUS",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -414,6 +463,7 @@
    "src": "NE 10m disputed areas B93 (\"Halayib Triangle\") interior point",
    "lon": 35.509548611745196,
    "lat": 22.403806698217842,
+   "raw50": "EGY",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -422,6 +472,7 @@
    "src": "NE 10m disputed areas B98 (\"East Jerusalem\") interior point",
    "lon": 35.2356081941488,
    "lat": 31.819366657665093,
+   "raw50": "PSE",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -430,6 +481,7 @@
    "src": "NE 10m disputed areas B09 (\"Azad Kashmir\") interior point",
    "lon": 73.85819460635557,
    "lat": 33.4498874298868,
+   "raw50": "PAK",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -438,6 +490,7 @@
    "src": "NE 10m disputed areas B77 (\"Taiwan\") interior point",
    "lon": 120.94300886336725,
    "lat": 23.761191107601633,
+   "raw50": "TWN",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -446,6 +499,7 @@
    "src": "NE 10m disputed areas B12 (\"Falkland Is.\") interior point",
    "lon": -58.72063742738593,
    "lat": -51.65876526883073,
+   "raw50": "FLK",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -454,6 +508,7 @@
    "src": "point chosen by hand (14.5 W, 23.5 N)",
    "lon": -14.5,
    "lat": 23.5,
+   "raw50": "MAR",
    "why": "a point chosen by hand, inland of the coast of Western Sahara"
   },
   {
@@ -462,6 +517,7 @@
    "src": "point chosen by hand (35.8 E, 33.0 N)",
    "lon": 35.8,
    "lat": 33,
+   "raw50": "ISR",
    "why": "a point chosen by hand, in the Golan Heights"
   },
   {
@@ -470,6 +526,7 @@
    "src": "NE 10m disputed areas B91 (\"Israel\") interior point",
    "lon": 34.854720268276296,
    "lat": 30.906300524262267,
+   "raw50": "ISR",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -478,6 +535,7 @@
    "src": "NE 10m disputed areas B17 (\"Ilemi Triangle\") interior point",
    "lon": 35.1198793065369,
    "lat": 4.771443075295808,
+   "raw50": "KEN",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -486,6 +544,7 @@
    "src": "NE 10m disputed areas B00 (\"Arunachal Pradesh\") interior point",
    "lon": 94.30193649500663,
    "lat": 28.187108537416787,
+   "raw50": "IND",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -494,6 +553,7 @@
    "src": "NE 10m disputed areas B49 (\"UNDOF Zone\") interior point",
    "lon": 35.86360241583174,
    "lat": 33.15177170009371,
+   "raw50": "SYR",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -502,6 +562,7 @@
    "src": "NE 10m disputed areas B14 (\"Lawa Headwaters\") interior point",
    "lon": -54.1776019285453,
    "lat": 2.585330358573803,
+   "raw50": "FRA",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -510,6 +571,7 @@
    "src": "NE 10m disputed areas B15 (\"Courantyne Headwaters\") interior point",
    "lon": -57.43713199073045,
    "lat": 2.3167139977132454,
+   "raw50": "GUY",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -518,6 +580,7 @@
    "src": "NE 10m disputed areas B10 (\"Korean Demilitarized Zone (south)\") interior point",
    "lon": 126.6916366709372,
    "lat": 37.91555511873433,
+   "raw50": "KOR",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -526,6 +589,7 @@
    "src": "NE 10m disputed areas B11 (\"Korean Demilitarized Zone (north)\") interior point",
    "lon": 127.8005749855096,
    "lat": 38.322086499119465,
+   "raw50": "PRK",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -534,6 +598,7 @@
    "src": "NE 10m disputed areas B60 (\"Ceuta\") interior point",
    "lon": -5.3489928464637755,
    "lat": 35.89004501405571,
+   "raw50": "MAR",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -542,6 +607,7 @@
    "src": "NE 10m disputed areas B56 (\"West of Essequibo River\") interior point",
    "lon": -59.57861317888175,
    "lat": 5.987822842493229,
+   "raw50": "GUY",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -550,6 +616,7 @@
    "src": "NE 10m disputed areas B82 (\"Dragonja River\") interior point",
    "lon": 13.610989715903207,
    "lat": 45.470819020218286,
+   "raw50": "HRV",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -558,6 +625,7 @@
    "src": "NE 10m disputed areas B06 (\"Shaksam Valley\") interior point",
    "lon": 76.3617439307408,
    "lat": 36.048692097603094,
+   "raw50": "CHN",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -566,6 +634,7 @@
    "src": "NE 10m disputed areas B61 (\"Melilla\") interior point",
    "lon": -2.945054953261629,
    "lat": 35.2951390988946,
+   "raw50": "MAR",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -574,6 +643,7 @@
    "src": "NE 10m disputed areas B50 (\"Guantanamo Bay USNB\") interior point",
    "lon": -75.12014655935734,
    "lat": 19.91824409306059,
+   "raw50": "CUB",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -582,6 +652,7 @@
    "src": "NE 10m disputed areas B88 (\"Near Om Parvat\") interior point",
    "lon": 80.94554611750632,
    "lat": 30.212932897936177,
+   "raw50": "IND",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -590,6 +661,7 @@
    "src": "NE 10m disputed areas B85 (\"Brazilian Island\") interior point",
    "lon": -57.62305537546003,
    "lat": -30.18783370810666,
+   "raw50": "ARG",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -598,6 +670,7 @@
    "src": "NE 10m disputed areas B67 (\"Olivenza\") interior point",
    "lon": -7.126904315055483,
    "lat": 38.669414524824845,
+   "raw50": "ESP",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -606,6 +679,7 @@
    "src": "NE 10m disputed areas B55 (\"Gibraltar\") interior point",
    "lon": -5.346845825752411,
    "lat": 36.12993645877145,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -614,6 +688,7 @@
    "src": "NE 10m disputed areas B03 (\"Demchok\") interior point",
    "lon": 79.36632790491265,
    "lat": 32.80528168491948,
+   "raw50": "CHN",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -622,6 +697,7 @@
    "src": "NE 10m disputed areas B04 (\"Samdu Valleys\") interior point",
    "lon": 78.50916821703385,
    "lat": 32.15202049833945,
+   "raw50": "IND",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -630,6 +706,7 @@
    "src": "NE 10m disputed areas B01 (\"Tirpani Valleys\") interior point",
    "lon": 79.11206134977544,
    "lat": 31.234054078261014,
+   "raw50": "IND",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -638,6 +715,7 @@
    "src": "NE 10m disputed areas B02 (\"Bara Hotii Valleys\") interior point",
    "lon": 80.11073424427009,
    "lat": 30.72205860264216,
+   "raw50": "IND",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -646,6 +724,7 @@
    "src": "NE 10m disputed areas B40 (\"Baykonur\") interior point",
    "lon": 63.38389700315938,
    "lat": 45.97833013824065,
+   "raw50": "KAZ",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -654,6 +733,7 @@
    "src": "NE 10m disputed areas B51 (\"Belize\") interior point",
    "lon": -88.62918123838175,
    "lat": 16.534645916135812,
+   "raw50": "BLZ",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -662,6 +742,7 @@
    "src": "NE 10m disputed areas B97 (\"Southern Patagonian Ice Field\") interior point",
    "lon": -73.31883356382386,
    "lat": -49.512342815817135,
+   "raw50": "ARG",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -670,6 +751,7 @@
    "src": "NE 10m disputed areas B75 (\"Bhutan (northwest valleys)\") interior point",
    "lon": 90.05240451033423,
    "lat": 28.247778123182236,
+   "raw50": "BTN",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -678,6 +760,7 @@
    "src": "NE 10m disputed areas B76 (\"Bhutan (Chumbi salient)\") interior point",
    "lon": 89.06988375431327,
    "lat": 27.560892081277782,
+   "raw50": "BTN",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -686,6 +769,7 @@
    "src": "NE 10m disputed areas B58 (\"Shebaa Farms\") interior point",
    "lon": 35.68061307027771,
    "lat": 33.29385815653981,
+   "raw50": "ISR",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -694,6 +778,7 @@
    "src": "NE 10m disputed areas B74 (\"Ilemi Triange\") interior point",
    "lon": 35.6825107056039,
    "lat": 4.607689805093586,
+   "raw50": "KEN",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -702,6 +787,7 @@
    "src": "NE 10m disputed areas B92 (\"Corner of Artigas\") interior point",
    "lon": -55.943866385474685,
    "lat": -31.00775209232043,
+   "raw50": "BRA",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -710,6 +796,7 @@
    "src": "NE 10m disputed areas B94 (\"Bir Tawil\") interior point",
    "lon": 33.681601757518145,
    "lat": 21.870402556658817,
+   "raw50": "SDN",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -718,6 +805,7 @@
    "src": "NE 10m disputed areas B96 (\"Vukovar Island\") interior point",
    "lon": 19.030554251863357,
    "lat": 45.34808844638024,
+   "raw50": "HRV",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -726,6 +814,7 @@
    "src": "NE 10m disputed areas B95 (\"Šarengrad Island\") interior point",
    "lon": 19.247877090116834,
    "lat": 45.26085660707723,
+   "raw50": "HRV",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -734,6 +823,7 @@
    "src": "NE 10m disputed areas B78 (\"No Man's Land (Fort Latrun)\") interior point",
    "lon": 34.979643991664055,
    "lat": 31.853934706238377,
+   "raw50": "PSE",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -742,6 +832,7 @@
    "src": "NE 10m disputed areas B79 (\"No Man's Land (Jerusalem)\") interior point",
    "lon": 35.23405275812768,
    "lat": 31.75419500116223,
+   "raw50": "PSE",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -750,6 +841,7 @@
    "src": "NE 10m disputed areas B99 (\"Mount Scopus\") interior point",
    "lon": 35.24563570111553,
    "lat": 31.795053617302123,
+   "raw50": "PSE",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -758,6 +850,7 @@
    "src": "NE 10m disputed areas C01 (\"Junagadh and Manavadar\") interior point",
    "lon": 70.1750456063953,
    "lat": 21.29145576369431,
+   "raw50": "IND",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -766,6 +859,7 @@
    "src": "NE 10m disputed areas C04 (\"North Borneo\") interior point",
    "lon": 117.62360653737426,
    "lat": 5.385975219322314,
+   "raw50": "MYS",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -774,6 +868,7 @@
    "src": "NE 10m disputed areas B68 (\"Tiran and Sanafir Is.\") interior point",
    "lon": 34.54916477518709,
    "lat": 27.94555626063628,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -782,6 +877,7 @@
    "src": "NE 10m disputed areas B23 (\"Juan De Nova I.\") interior point",
    "lon": 42.743828828722805,
    "lat": -17.065173239358536,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -790,6 +886,7 @@
    "src": "NE 10m disputed areas B22 (\"Mayotte\") interior point",
    "lon": 45.14457150660358,
    "lat": -12.789658251173742,
+   "raw50": "FRA",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -798,6 +895,7 @@
    "src": "NE 10m disputed areas B44 (\"Diego Garcia NSF\") interior point",
    "lon": 72.38542016712994,
    "lat": -7.290532571653232,
+   "raw50": "IOT",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -806,6 +904,7 @@
    "src": "NE 10m disputed areas B29 (\"Kuril Is.\") interior point",
    "lon": 147.8431221559278,
    "lat": 45.07739196464656,
+   "raw50": "RUS",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -814,6 +913,7 @@
    "src": "NE 10m disputed areas B69 (\"Br. Indian Ocean Ter.\") interior point",
    "lon": 71.34910383804683,
    "lat": -6.190520948469707,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -822,6 +922,7 @@
    "src": "NE 10m disputed areas B33 (\"S. Sandwich Is.\") interior point",
    "lon": -26.33940597049897,
    "lat": -58.427731854452084,
+   "raw50": "SGS",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -830,6 +931,7 @@
    "src": "NE 10m disputed areas B32 (\"S. Georgia\") interior point",
    "lon": -36.34439206298883,
    "lat": -54.487849193584736,
+   "raw50": "SGS",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -838,6 +940,7 @@
    "src": "NE 10m disputed areas B47 (\"Paracel Is.\") interior point",
    "lon": 111.20083568080169,
    "lat": 15.782871856023784,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -846,6 +949,7 @@
    "src": "NE 10m disputed areas B26 (\"Europa Island\") interior point",
    "lon": 40.345737341582115,
    "lat": -22.335281553464764,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -854,6 +958,7 @@
    "src": "NE 10m disputed areas B71 (\"Swains Island\") interior point",
    "lon": -171.07975745141022,
    "lat": -11.057942758321314,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -862,6 +967,7 @@
    "src": "NE 10m disputed areas B46 (\"Spratly Is.\") interior point",
    "lon": 115.82095667074029,
    "lat": 10.730135338798892,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -870,6 +976,7 @@
    "src": "NE 10m disputed areas B48 (\"Bird Island\") interior point",
    "lon": -63.638150376808724,
    "lat": 15.698722868695235,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -878,6 +985,7 @@
    "src": "NE 10m disputed areas B59 (\"Wake Atoll\") interior point",
    "lon": 166.64435601580868,
    "lat": 19.286230183675837,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -886,6 +994,7 @@
    "src": "NE 10m disputed areas B84 (\"Korean islands under UN jurisdiction\") interior point",
    "lon": 125.69200821454884,
    "lat": 37.66742799800874,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -894,6 +1003,7 @@
    "src": "NE 10m disputed areas B31 (\"Rockall I.\") interior point",
    "lon": -13.689543650143992,
    "lat": 57.597011872297074,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -902,6 +1012,7 @@
    "src": "NE 10m disputed areas B34 (\"Navassa I.\") interior point",
    "lon": -75.01378686900969,
    "lat": 18.407373525056702,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -910,6 +1021,7 @@
    "src": "NE 10m disputed areas B27 (\"Bassas da India\") interior point",
    "lon": 39.69507904011439,
    "lat": -21.49754543424147,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -918,6 +1030,7 @@
    "src": "NE 10m disputed areas B25 (\"Tromelin I.\") interior point",
    "lon": 54.51891789001504,
    "lat": -15.889608097535826,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -926,6 +1039,7 @@
    "src": "NE 10m disputed areas B24 (\"Glorioso Is.\") interior point",
    "lon": 47.29797068390822,
    "lat": -11.562025649384653,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -934,6 +1048,7 @@
    "src": "NE 10m disputed areas B18 (\"Pinnacle Is.\") interior point",
    "lon": 123.52718905923165,
    "lat": 25.766737677508857,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -942,6 +1057,7 @@
    "src": "NE 10m disputed areas B73 (\"Abu Musa I.\") interior point",
    "lon": 55.03409812352303,
    "lat": 25.873936105797004,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -950,6 +1066,7 @@
    "src": "NE 10m disputed areas B41 (\"Bajo Nuevo Bank (Petrel Is.)\") interior point",
    "lon": -79.84561112133093,
    "lat": 15.791774804628266,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -958,6 +1075,7 @@
    "src": "NE 10m disputed areas B42 (\"Serranilla Bank\") interior point",
    "lon": -78.63813229123038,
    "lat": 15.864467677941478,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -966,6 +1084,7 @@
    "src": "NE 10m disputed areas B80 (\"Sapodilla Cayes\") interior point",
    "lon": -88.25649180753658,
    "lat": 16.105867375349384,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -974,6 +1093,7 @@
    "src": "NE 10m disputed areas B21 (\"Hans Island\") interior point",
    "lon": -66.33918879759209,
    "lat": 80.82642933996534,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -982,6 +1102,7 @@
    "src": "NE 10m disputed areas B39 (\"Dokdo\") interior point",
    "lon": 131.8613393543343,
    "lat": 37.24278159940836,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -990,6 +1111,7 @@
    "src": "NE 10m disputed areas B52 (\"Mbane Island\") interior point",
    "lon": 9.380139747390679,
    "lat": 0.8086888352344656,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -998,6 +1120,7 @@
    "src": "NE 10m disputed areas B63 (\"Peñón de Vélez de la Gomera\") interior point",
    "lon": -4.299331416212334,
    "lat": 35.17220717854254,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -1006,6 +1129,7 @@
    "src": "NE 10m disputed areas B64 (\"Penon de Alhucemas\") interior point",
    "lon": -3.9025197343700255,
    "lat": 35.215308594131955,
+   "raw50": "MAR",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -1014,6 +1138,7 @@
    "src": "NE 10m disputed areas B65 (\"Islas Chafarinas\") interior point",
    "lon": -2.4313569716234706,
    "lat": 35.18257002808311,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -1022,6 +1147,7 @@
    "src": "NE 10m disputed areas B62 (\"Isla del Perejil\") interior point",
    "lon": -5.418611831072255,
    "lat": 35.91320548490359,
+   "raw50": "MAR",
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -1030,6 +1156,7 @@
    "src": "NE 10m disputed areas B66 (\"Matthew and Hunter Is.\") interior point",
    "lon": 172.05683128503935,
    "lat": -22.397443355150653,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -1038,6 +1165,7 @@
    "src": "NE 10m disputed areas B70 (\"Scarborough Reef\") interior point",
    "lon": 117.7538115897259,
    "lat": 15.152112773942395,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   },
   {
@@ -1046,6 +1174,7 @@
    "src": "NE 10m disputed areas B87 (\"Doumera Island\") interior point",
    "lon": 43.146500193344906,
    "lat": 12.715500269514106,
+   "raw50": null,
    "why": "a point inside the polygon of the area, computed by the atlas from the layer"
   }
  ],

@@ -7,7 +7,7 @@
  *   data/geo/countries.topo.json   simplified TopoJSON, one object "countries", property c = ISO3
  *   data/countries/index.json      [{c, name, at:[lon,lat], bb:[w,s,e,n], region}]
  *
- * Natural Earth is public domain (https://www.naturalearthdata.com/about/terms-of-use/).
+ * Natural Earth's terms of use say that its map data "are in the public domain" (https://www.naturalearthdata.com/about/terms-of-use/).
  */
 import mapshaper from '../../web/node_modules/mapshaper/mapshaper.js';
 import fs from 'node:fs';

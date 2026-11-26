@@ -6,9 +6,10 @@ import maplibregl, { type Map as MLMap, type MapMouseEvent, type GeoJSONSource, 
 import { feature } from 'topojson-client';
 import type { FeatureCollection, Feature, LineString, Point } from 'geojson';
 import { baseStyle } from './basemap';
-import { WORLD_BOUNDS, MAX_ZOOM, SCALE_MIN_ZOOM, cameraLimits, canvasSizeOf, centerForPadding, firstViewState, hasPadding } from './camera';
+import { WORLD_BOUNDS, MAX_ZOOM, SCALE_MIN_ZOOM, cameraLimits, canvasSizeOf, centerForPadding, firstViewState, paddingToClear } from './camera';
 import { ResetViewControl } from './resetControl';
 import { installLabels } from './labels';
+import { landFlowBefore } from './labelRules';
 import { FlowOverlay, type FlowPath } from './flowOverlay';
 import { load, countryName, countries } from '../lib/data';
 import { hovered, linkApplied, mapFailed, panelCollapsed, select, selection } from '../lib/store';
@@ -276,9 +277,12 @@ function ensureLineSet(m: MLMap, key: string) {
   const isSoft: ExpressionSpecification = ['boolean', ['get', 'soft'], false];
   const isHover: ExpressionSpecification = ['boolean', ['feature-state', 'hover'], false];
   m.addSource(src, { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+  // the overland flows lie under the icons and over the names: when the icons are there already they are added under them (see `NAME_STACK`)
+  const before = key === 'land' ? landFlowBefore(m) : undefined;
+  const add = (spec: LineLayerSpecification) => m.addLayer(spec, before);
   // freight routes overlap heavily at world zoom: their glow fades in between zoom 2 and 3
   const glowOp: ExpressionSpecification = ['case', isDim, 0.03, isHl, 0.3, 0.13];
-  m.addLayer({
+  add({
     id: `${src}-glow`,
     type: 'line',
     source: src,
@@ -298,7 +302,7 @@ function ensureLineSet(m: MLMap, key: string) {
   };
   // the routes that carry a pattern are drawn by the next layer: round caps would stretch every dash by the line's width
   const notDashed: ExpressionSpecification = ['!', ['boolean', ['get', 'dash'], false]];
-  m.addLayer({
+  add({
     id: `${src}-line`,
     type: 'line',
     source: src,
@@ -309,7 +313,7 @@ function ensureLineSet(m: MLMap, key: string) {
   if (key === 'routes') {
     // one dash pattern per vessel segment (a multiple of the line's width, so it holds at every width)
     const dashOf = ['match', ['get', 'pat'], ...Object.entries(ROUTE_DASH).flatMap(([seg, d]) => [seg, ['literal', d]]), ['literal', [1, 0]]] as unknown as ExpressionSpecification;
-    m.addLayer({
+    add({
       id: `${src}-pat`,
       type: 'line',
       source: src,
@@ -319,7 +323,7 @@ function ensureLineSet(m: MLMap, key: string) {
     });
   }
   // alternative routings are always dashed
-  m.addLayer({
+  add({
     id: `${src}-alt`,
     type: 'line',
     source: src,
@@ -332,7 +336,7 @@ function ensureLineSet(m: MLMap, key: string) {
       'line-dasharray': ALT_DASH,
     },
   });
-  m.addLayer({
+  add({
     id: hit,
     type: 'line',
     source: src,
@@ -421,7 +425,8 @@ export function setParticlesVisible(v: boolean) {
  * warning. Every fit of the controller starts from none.
  */
 function clearPadding(m: MLMap) {
-  if (hasPadding(m.getPadding())) m.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
+  const zero = paddingToClear(m.getPadding());
+  if (zero) m.setPadding(zero);
 }
 
 /** Whether the camera is still where the atlas put it (a resize then fits the first view again); see `firstViewState`. */

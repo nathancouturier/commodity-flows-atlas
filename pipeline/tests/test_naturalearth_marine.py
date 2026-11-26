@@ -130,6 +130,15 @@ class NaturalEarthMarine(unittest.TestCase):
         self.assertIn("are in the public domain", by_key["public-domain"])
         self.assertIn("Crediting the authors is unnecessary", by_key["no-permission"])
 
+    def test_the_licence_field_of_both_entries_is_the_terms_page_in_its_own_words(self):
+        by_key = {q["key"]: q["quotation"] for q in self.fixture["quotations"]}
+        for sid in ("naturalearth", "naturalearth-marine"):
+            licence = self.registry[sid]["licence"]
+            self.assertTrue(licence.startswith('Natural Earth terms of use: "'), f"{sid}: the licence names the page")
+            for key in ("public-domain", "no-permission"):
+                self.assertIn('"' + by_key[key] + '"', licence, f"{sid}: {key} is quoted word for word")
+            self.assertEqual(re.sub(r'"[^"]*"', "", licence).strip(), "Natural Earth terms of use:", f"{sid}: nothing outside the quotation marks but the page")
+
     def test_the_notice_says_public_domain_of_the_marine_areas_only_inside_a_quotation(self):
         i = self.notice.index("- **Natural Earth** (basemap")
         bullet = self.notice[i:self.notice.index("- **World Bank Pink Sheet**", i)]

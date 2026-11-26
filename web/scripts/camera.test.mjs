@@ -9,7 +9,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   WORLD_BOUNDS, MAX_ZOOM, MAX_LATITUDE, minZoomFor, fitZoomFor, constrainCamera,
-  canvasSizeOf, cameraLimits, hasPadding, passagePadding, centerForPadding, firstViewState,
+  canvasSizeOf, cameraLimits, hasPadding, paddingToClear, passagePadding, centerForPadding, firstViewState,
 } from '../src/map/camera.ts';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -191,6 +191,15 @@ test('passagePadding: the side panel and the page beside a wide window, the shee
   assert.ok(narrow.left < 20 && narrow.right < 20);
 });
 
+test('paddingToClear: the zero padding when the camera holds one, nothing when it does not', () => {
+  const zero = { top: 0, bottom: 0, left: 0, right: 0 };
+  assert.equal(paddingToClear(zero), null);
+  assert.equal(paddingToClear({}), null);
+  assert.deepEqual(paddingToClear(padding), zero);
+  for (const side of ['top', 'bottom', 'left', 'right']) assert.deepEqual(paddingToClear({ ...zero, [side]: 1 }), zero, side);
+  assert.deepEqual(paddingToClear({ ...zero, left: -3 }), zero, 'a negative side is a padding too');
+});
+
 test('no camera move of the site passes a padding, except the fit that leaves none behind', () => {
   const dir = path.join(here, '../src');
   const files = [];
@@ -206,7 +215,7 @@ test('no camera move of the site passes a padding, except the fit that leaves no
   }
   // the one that sets a padding is the reset of it
   assert.deepEqual(hits, ['map/controller.ts: setPadding']);
-  assert.match(controller, /m\.setPadding\(\{ top: 0, bottom: 0, left: 0, right: 0 \}\)/);
+  assert.match(controller, /function clearPadding\(m: MLMap\) \{\s*const zero = paddingToClear\(m\.getPadding\(\)\);\s*if \(zero\) m\.setPadding\(zero\);\s*\}/, 'clearPadding sets what paddingToClear returns, and only then');
   const view = fs.readFileSync(path.join(dir, 'components/views/ChokepointView.tsx'), 'utf8');
   // the padding is the phone and desktop one, or on a tablet the controller's
   assert.match(view, /\.flyTo\(\{\s*center: centerForPadding\(cp\.at, zoom, pad\),/);
@@ -226,6 +235,34 @@ test('every fit of the controller clears a padding that was left on the camera f
   assert.ok(toBounds.includes('clearPadding(m)') && toBounds.indexOf('clearPadding(m)') < toBounds.indexOf('.fitBounds('));
   assert.match(controller.match(/export function flyToWorld[\s\S]*?\n\}/)[0], /fitWorld\(m, detail, 1400\)/);
   assert.match(controller, /fitWorld\(map, selection\.peek\(\) !== null, 0\)/, 'the first load fits through the same function');
+});
+
+test('METHODOLOGY states the centre of the tablet\'s first view and the width of a tablet as the code has them', () => {
+  const md = fs.readFileSync(path.join(here, '../../METHODOLOGY.md'), 'utf8').replace(/\s+/g, ' ');
+  const centre = controller.match(/const TABLET_FIRST_CENTRE: \[number, number\] = \[(-?[\d.]+), (-?[\d.]+)\];/);
+  assert.ok(centre, 'the constant is where the test looks for it');
+  const [lng, lat] = [Number(centre[1]), Number(centre[2])];
+  assert.ok(md.includes(`the first view is centred on ${lng} degrees ${lng < 0 ? 'west' : 'east'} and ${lat} degrees ${lat < 0 ? 'south' : 'north'} (\`TABLET_FIRST_CENTRE\` in \`web/src/map/controller.ts\`)`), `${lng}, ${lat}`);
+  assert.ok(md.includes('an Atlas convention tried by hand, a choice made without the owner and listed in PROGRESS.md'));
+  assert.ok(!/TABLET_FIRST_CENTRE[^.]*the owner (decided|chose|accepted)/.test(md), 'no text calls it the owner\'s choice');
+  // the widths of a tablet are the layout query's
+  const q = fs.readFileSync(path.join(here, '../src/lib/layoutQueries.ts'), 'utf8').match(/TABLET_QUERY = '\(min-width: (\d+)px\) and \(max-width: (\d+)px\) and \(min-height: (\d+)px\)'/);
+  assert.ok(q);
+  const n = (v) => Number(v).toLocaleString('en-US');
+  assert.ok(md.includes(`On a tablet (${q[1]} to ${n(q[2])} px wide and at least ${q[3]} px tall)`), 'the tablet of the sentence is the layout\'s');
+  assert.ok(md.includes('can sit up to about 20 px from the view that "Reset view" and the closing of a page give'));
+  assert.ok(md.includes('because the legend is still taking its height when the first view is set'));
+  // the first view of a tablet is set once at the load: no second move of the camera follows it
+  assert.equal((controller.match(/fitWorld\(map, selection\.peek\(\) !== null, 0\)/g) ?? []).length, 1);
+});
+
+test('METHODOLOGY says where "Reset view" is clear of the open page and where the lowest zoom keeps the box under it', () => {
+  const md = fs.readFileSync(path.join(here, '../../METHODOLOGY.md'), 'utf8').replace(/\s+/g, ' ');
+  assert.ok(md.includes('clear of the open page where the lowest zoom allows it (a passage page too)'));
+  assert.ok(!md.includes('clear of the open page (a passage page too)'), 'the unconditional sentence is gone');
+  // the sizes it names as under the page are windows whose lowest zoom is the floor of the canvas, not the fit of the free area
+  for (const [w, h] of [[1200, 900], [1280, 1024]]) assert.equal(minZoomFor(w, h), Math.log2(h / 512), `${w}x${h}: the floor is the desktop's`);
+  for (const [w, h] of [[1200, 900], [1280, 1024]]) assert.ok(md.includes(`${w.toLocaleString('en-US')} by ${h.toLocaleString('en-US')}`), `${w}x${h} is named`);
 });
 
 // ---- a resize and the first view

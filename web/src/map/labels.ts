@@ -1,15 +1,17 @@
 /**
  * Country and sea names on the map: symbol layers over the atlas's own glyph files (public/glyphs), added before any module
  * layer so that the lanes, routes and icons are drawn over the names; the module of the icons then raises the country
- * names above the asset names (`raiseCountryNames`). The layers are not interactive: a click or a hover on a name is a
- * click or a hover on the country under it.
+ * names, and the overland flows, above the asset names (`raiseAboveAssetNames`). The layers are not interactive: a click or a hover on a
+ * name is a click or a hover on the country under it.
  */
+import { effect } from '@preact/signals';
 import type { Map as MLMap, GeoJSONSource } from 'maplibre-gl';
 import type { FeatureCollection } from 'geojson';
 import { load } from '../lib/data';
+import { choroInfo, historyOpen, layers, panelCollapsed, priceDrawer, selection, sheetSnap } from '../lib/store';
 import type { CountryMeta } from '../types';
-import { ICON_LAYER, LABEL_COLOR, LABEL_ON_FILL, countryEdgeNames, countryFilter, countryPoints, labelLayerSpecs, namesAtEdge, oceanEdgeNames, seaFilter, seaPoints } from './labelRules';
-import type { EdgeName, Sea } from './labelRules';
+import { COUNTRY_NAME_LAYERS, ICON_LAYER, LABEL_COLOR, LABEL_ON_FILL, LAND_FLOW_LAYERS, OVERLAYS, OVERLAYS_WATCHED, countryEdgeNames, countryFilter, countryPoints, labelLayerSpecs, moveUnder, namesAtEdge, oceanEdgeNames, overlayRects, seaFilter, seaPoints } from './labelRules';
+import type { EdgeName, Rect, Sea } from './labelRules';
 
 const SOURCE = 'names-countries';
 const SEA_SOURCE = 'names-seas';
@@ -32,10 +34,11 @@ export function installLabels(m: MLMap) {
   m.addSource(SEA_SOURCE, { type: 'geojson', data: empty() });
   for (const spec of labelLayerSpecs(hidden)) m.addLayer(spec);
   // when the asset names are already there the country names go above them; if they come later, their module does it
-  if (m.getLayer(ICON_LAYER)) raiseCountryNames(m, ICON_LAYER);
+  if (m.getLayer(ICON_LAYER)) raiseAboveAssetNames(m, ICON_LAYER);
   // the oceans are the largest names and the ones the edge of a phone cuts: tested when the camera comes to rest, never during a move
   m.on('moveend', () => leaveOutCut(m));
   m.on('resize', () => leaveOutCut(m));
+  watchOverlays(m);
   // the rows of the index file, not the signal of the pages: that one holds the European Union as a row of its own
   load<CountryMeta[]>('countries/index.json')
     .then((list) => {
@@ -56,23 +59,42 @@ export function installLabels(m: MLMap) {
 
 const same = (a: readonly string[], b: readonly string[]) => a.length === b.length && a.every((x, i) => x === b[i]);
 
+/** The rectangles of what is drawn over the map now, in the canvas's own coordinates: the elements of `OVERLAYS` that are displayed (and open, where they have to be). */
+function coveredBy(m: MLMap): Rect[] {
+  const origin = m.getContainer().getBoundingClientRect();
+  const boxes = OVERLAYS.flatMap((selector) =>
+    [...document.querySelectorAll(selector)].map((el) => {
+      const style = getComputedStyle(el);
+      return {
+        selector,
+        open: el.classList.contains('open'),
+        shown: style.display !== 'none' && style.visibility !== 'hidden',
+        rect: el.getBoundingClientRect(),
+      };
+    }),
+  );
+  return overlayRects(boxes, origin);
+}
+
 /**
- * A name of the first rank (an ocean, a country of the largest class) is never drawn cut by an edge of the canvas when the map is at rest:
- * the names whose box (an estimate, see `textBox`) crosses an edge are left out by their layer's filter, the others are untouched. The
- * smaller names are left as on any map that is panned. A filter is set only when its list changes.
+ * A name of the first rank (an ocean, a country of the largest class) is never drawn cut by an edge of the canvas, or by a panel drawn over
+ * it, when the map is at rest: the names whose box (an estimate, see `textBox`) crosses an edge or the border of a panel are left out by
+ * their layer's filter, the others are untouched. The smaller names are left as on any map that is panned. A filter is set only when its
+ * list changes.
  */
 function leaveOutCut(m: MLMap) {
   const box = m.getContainer();
   const project = (lng: number, lat: number) => m.project([lng, lat]);
+  const covers = coveredBy(m);
   if (oceans.length && m.getLayer(OCEANS)) {
-    const now = namesAtEdge(oceans, project, box.clientWidth, box.clientHeight);
+    const now = namesAtEdge(oceans, project, box.clientWidth, box.clientHeight, covers);
     if (!same(now, cutOceans)) {
       cutOceans = now;
       m.setFilter(OCEANS, seaFilter(0, cutOceans));
     }
   }
   if (countryRows.length && m.getLayer(LARGEST)) {
-    const now = namesAtEdge(countryEdgeNames(countryRows, m.getZoom()), project, box.clientWidth, box.clientHeight);
+    const now = namesAtEdge(countryEdgeNames(countryRows, m.getZoom()), project, box.clientWidth, box.clientHeight, covers);
     if (!same(now, cutCountries)) {
       cutCountries = now;
       m.setFilter(LARGEST, countryFilter(0, [...hidden, ...cutCountries]));
@@ -80,15 +102,51 @@ function leaveOutCut(m: MLMap) {
   }
 }
 
+/** The properties of a transition that move or resize a panel (the others, a colour above all, change nothing the rule reads). */
+const GEOMETRY = new Set(['transform', 'height', 'max-height', 'width', 'top', 'right', 'bottom', 'left']);
+
 /**
- * The country names are put on top of the asset names and under the icons: a country name wins a collision with the name of an asset.
- * MapLibre places the top layer first. Idempotent; the order of the four layers is kept.
+ * The panels change without the map moving: a page opens or closes, the Controls and the Legend fold, the sheet takes another snap, the
+ * price drawer and the History bar open. The rule runs again one frame after a change of what decides them (the signals; the size of
+ * the elements and of the Legend's wrapper, for the Legend, whose fold is its own state, and for a panel that grows with its contents) and when a panel has finished
+ * moving (a panel slides in over 280 ms). Nothing runs while nothing changes.
  */
-export function raiseCountryNames(m: MLMap, before: string) {
-  for (const t of [...TIERS].reverse()) {
-    const id = `names-countries-${t}`;
-    if (m.getLayer(id)) m.moveLayer(id, before);
-  }
+function watchOverlays(m: MLMap) {
+  let frame = 0;
+  const later = () => {
+    if (frame) return;
+    frame = requestAnimationFrame(() => {
+      frame = 0;
+      observeNew();
+      leaveOutCut(m);
+    });
+  };
+  const resized = new ResizeObserver(later);
+  const seen = new Set<Element>();
+  // an element that comes later (the Legend is drawn only while something is shown) is picked up at the next run
+  const observeNew = () => {
+    for (const el of document.querySelectorAll(OVERLAYS_WATCHED.join(','))) {
+      if (seen.has(el)) continue;
+      seen.add(el);
+      resized.observe(el);
+    }
+  };
+  effect(() => {
+    void [selection.value, panelCollapsed.value, sheetSnap.value, priceDrawer.value, historyOpen.value, layers.value, choroInfo.value];
+    later();
+  });
+  (m.getContainer().closest('.app') ?? document.body).addEventListener('transitionend', (e) => {
+    if (GEOMETRY.has((e as TransitionEvent).propertyName) && (e.target as Element).matches?.(OVERLAYS.join(','))) later();
+  });
+}
+
+/**
+ * The country names, then the overland flows, are put on top of the asset names and under the icons: a country name wins a collision with
+ * the name of an asset, and an overland flow is drawn over the names, as every flow is. MapLibre places the top layer first. Idempotent;
+ * the order of the layers inside each group is kept.
+ */
+export function raiseAboveAssetNames(m: MLMap, before: string) {
+  moveUnder(m, [...COUNTRY_NAME_LAYERS, ...LAND_FLOW_LAYERS], before);
 }
 
 /** While a colouring is on the country names are drawn in the paint of `LABEL_ON_FILL`; switched off, they go back to `LABEL_COLOR`. */

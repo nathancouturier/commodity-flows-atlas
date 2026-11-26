@@ -11,7 +11,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { copyShifts } from '../src/map/copies.ts';
+import { copyShifts, pathCopies } from '../src/map/copies.ts';
 import { WORLD_BOUNDS, fitZoomFor } from '../src/map/camera.ts';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -72,6 +72,34 @@ test('a path with nothing in view has no copy, and a path wider than the view me
   assert.deepEqual(copyShifts([[10, 0], [20, 5]], 100, 200), []);
   assert.deepEqual(copyShifts([[10, 0], [20, 5]], 360, 400), [360]);
   assert.deepEqual(copyShifts([[170, 0], [200, 5]], -190, 190), [-360, 0]);
+});
+
+test('the copies of a path are its coordinates moved by each shift, latitudes as they were, and the path itself is not changed', () => {
+  const path_ = [[170, -10], [185, 0], [200, 12.5]];
+  const before = JSON.stringify(path_);
+  // a view of one turn centred on the antimeridian meets the path on the copy it was drawn for and on the one before it
+  assert.deepEqual(copyShifts(path_, -190, 190), [-360, 0]);
+  assert.deepEqual(pathCopies(path_, -190, 190), [
+    [[-190, -10], [-175, 0], [-160, 12.5]],
+    [[170, -10], [185, 0], [200, 12.5]],
+  ]);
+  assert.equal(JSON.stringify(path_), before, 'the made-up path is left as it was');
+  // one copy when only one is in view, none when none is
+  assert.deepEqual(pathCopies([[10, 1], [20, 2]], 360, 400), [[[370, 1], [380, 2]]]);
+  assert.deepEqual(pathCopies([[10, 1], [20, 2]], 100, 200), []);
+  assert.deepEqual(pathCopies([], -180, 180), []);
+  // a path a view meets on two copies gives two lists of the same length, as many points as the path has, the second moved 360 degrees from the first
+  const two = pathCopies([[-175, 5], [175, 6], [179, 7]], -180, 300);
+  assert.equal(two.length, 2);
+  assert.deepEqual(two.map((c) => c.length), [3, 3]);
+  assert.deepEqual(two[1].map(([x, y]) => [x - 360, y]), two[0].map(([x, y]) => [x, y]));
+  // the shift list and the copies agree for every lane of the files and a view of one turn
+  for (const l of lanes.slice(0, 400)) {
+    const shifts = copyShifts(l.g, -180, 180);
+    const copies = pathCopies(l.g, -180, 180);
+    assert.equal(copies.length, shifts.length, l.id);
+    copies.forEach((c, k) => assert.deepEqual(c, l.g.map(([x, y]) => [x + shifts[k], y]), l.id));
+  }
 });
 
 test('the lanes that continue past 180 degrees are counted, and those that get two copies at the first view', () => {

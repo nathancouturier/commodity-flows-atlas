@@ -10,8 +10,8 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
   COUNTRY_MINZOOM, COUNTRY_SIZE_STOPS, COUNTRY_TEXT, COUNTRY_TIERS, LABEL_COLOR, LABEL_FONT, LABEL_ON_FILL, GLYPH_STACK, SEA_MINZOOM, SEA_TEXT,
-  BOX_MARGIN, EDGE_COPIES, ICON_LAYER, NAME_STACK,
-  boxCrossesEdge, countryEdgeNames, countryFilter, countryLayerSpecs, countryPoints, countrySizeAt, countryTier, namesAtEdge, oceanEdgeNames,
+  BOX_MARGIN, CAPITAL_ADVANCE, LOWER_ADVANCE, SPACE_ADVANCE, COUNTRY_NAME_LAYERS, EDGE_COPIES, ICON_LAYER, LAND_FLOW_LAYERS, NAME_STACK, OVERLAYS, OVERLAYS_WATCHED, OVERLAYS_WHEN_OPEN,
+  boxCrossesEdge, boxCrossesRect, landFlowBefore, moveUnder, overlayRects, countryEdgeNames, countryFilter, countryLayerSpecs, countryPoints, countrySizeAt, countryTier, namesAtEdge, oceanEdgeNames,
   labelLayerSpecs, seaFilter, seaLayerSpecs, seaPoints, stackViolations, textBox,
   ASSET_LABEL_MINZOOM, ASSET_ORDER, assetLabel, assetLayerSpec, assetSelectedTextLayout, assetTextPaint,
 } from '../src/map/labelRules.ts';
@@ -448,6 +448,23 @@ test('the estimated box of a name is never narrower or lower than the lettering:
   }
 });
 
+test('the figures the comment of the estimate gives are the glyph file\'s: the means of the ocean letters, the space, the capitals', () => {
+  const rules = text('web/src/map/labelRules.ts');
+  const mean = (chars) => chars.reduce((a, ch) => a + advance(ch), 0) / chars.length;
+  const perOcean = seaFile.seas.filter((s) => s.r === 0).map((s) => mean([...s.n.toUpperCase()].filter((ch) => ch !== ' ')));
+  const two = (n) => n.toFixed(2);
+  assert.ok(rules.includes(`ocean name (${two(Math.min(...perOcean))} to ${two(Math.max(...perOcean))}, name by name)`), `${two(Math.min(...perOcean))} to ${two(Math.max(...perOcean))}`);
+  assert.ok(rules.includes(`The space is ${two(advance(' '))} in the file`), `the space is ${advance(' ')}`);
+  assert.ok(rules.includes(`the mean of the capitals A to Z (${two(mean([...'ABCDEFGHIJKLMNOPQRSTUVWXYZ']))})`));
+  assert.ok(rules.includes(`under the widest, W (${advance('W').toFixed(1)})`));
+  // the estimate is above each of them
+  assert.ok(CAPITAL_ADVANCE > Math.max(...perOcean) && CAPITAL_ADVANCE > mean([...'ABCDEFGHIJKLMNOPQRSTUVWXYZ']) && CAPITAL_ADVANCE < advance('W'));
+  assert.ok(SPACE_ADVANCE > advance(' '));
+  const lower = index.filter((c) => countryTier(c.bb) === 0).map((c) => mean([...c.name].filter((ch) => ch !== ' ' && ch === ch.toLowerCase() && ch !== ch.toUpperCase())));
+  assert.ok(LOWER_ADVANCE > Math.max(...lower), 'above the lower-case letters of each name of the largest class');
+  assert.ok(rules.includes(`(${two(Math.min(...lower))} to ${two(Math.max(...lower))})`), `${two(Math.min(...lower))} to ${two(Math.max(...lower))}`);
+});
+
 test('a name wraps at its maximum width, a word wider than it keeps its own line, and the box grows with the size', () => {
   const one = textBox('ARCTIC', 12, 6, 0.16);
   const two = textBox('SOUTH PACIFIC', 12, 6, 0.16);
@@ -502,6 +519,129 @@ test('the names the edge cuts: those that cross it on any copy of the world, and
   assert.deepEqual(namesAtEdge([at('far copy', 170 - 29 + 720, 0)], project, W, H), ['far copy']);
 });
 
+test('a box crosses the border of a rectangle when it overlaps it and is not wholly inside it; wholly inside, wholly outside and touching do not', () => {
+  const box = { w: 80, h: 30 };
+  const panel = { left: 100, top: 50, right: 400, bottom: 350 };
+  const at = (x, y) => boxCrossesRect(x, y, box, panel);
+  assert.equal(at(250, 200), false, 'wholly inside: not seen, left as it is');
+  assert.equal(at(140, 200), false, 'inside, touching the left border');
+  assert.equal(at(139, 200), true, 'a pixel across the left border');
+  assert.equal(at(361, 200), true, 'right');
+  assert.equal(at(250, 64), true, 'top');
+  assert.equal(at(250, 336), true, 'bottom');
+  assert.equal(at(60, 200), false, 'wholly outside, touching the left border');
+  assert.equal(at(61, 200), true, 'a pixel over it');
+  assert.equal(at(440, 200), false, 'touching the right border from outside');
+  assert.equal(at(250, 35), false, 'touching the top border from outside');
+  assert.equal(at(0, 0), false, 'far away');
+  assert.equal(at(100, 50), true, 'across a corner');
+  // the canvas is the rectangle the edge rule has always tested
+  for (const [x, y] of [[300, 200], [40, 200], [39, 200], [-40, 200], [-30, -10], [0, 200]]) assert.equal(boxCrossesEdge(x, y, box, 600, 400), boxCrossesRect(x, y, box, { left: 0, top: 0, right: 600, bottom: 400 }), `${x},${y}`);
+});
+
+test('a name that a panel drawn over the map would cut is left out like one the edge cuts; one wholly under a panel, or wholly clear of it, is left as it is', () => {
+  const [W, H] = [800, 600];
+  const box = { w: 100, h: 40 };
+  const project = (lng, lat) => ({ x: W / 2 + (lng - 170) * 10, y: H / 2 - lat * 10 });
+  const at = (id, x, y) => ({ id, at: [170 + (x - W / 2) / 10, (H / 2 - y) / 10], box });
+  const panel = { left: 0, top: 100, right: 300, bottom: 450 }; // a panel on the left, as the Controls column
+  const sheet = { left: 0, top: 500, right: W, bottom: H }; // a sheet along the bottom
+  const names = [
+    at('clear', 600, 300),
+    at('beside the panel', 400, 300),
+    at('across the panel border', 300, 300),
+    at('wholly under the panel', 150, 300),
+    at('across the top of the panel', 150, 100),
+    at('across the sheet', 400, 500),
+    at('wholly under the sheet', 400, 560),
+    at('across the edge', 20, 300),
+  ];
+  assert.deepEqual(namesAtEdge(names, project, W, H), ['across the edge'], 'with no panel only the edge cuts');
+  assert.deepEqual(namesAtEdge(names, project, W, H, []), ['across the edge']);
+  assert.deepEqual(namesAtEdge(names, project, W, H, [panel]), ['across the panel border', 'across the top of the panel', 'across the edge']);
+  assert.deepEqual(namesAtEdge(names, project, W, H, [panel, sheet]), ['across the panel border', 'across the top of the panel', 'across the sheet', 'across the edge']);
+  assert.deepEqual(namesAtEdge(names, project, W, H, [sheet]), ['across the sheet', 'across the edge']);
+  // a panel on another copy of the world: the name is tested on every copy in view, as at the edge (a world 720 px wide here)
+  const small = (lng, lat) => ({ x: W / 2 + (lng - 170) * 2, y: H / 2 - lat * 2 });
+  const copy = { id: 'copy', at: [480, 0], box }; // x 1020 on its own copy, 300 on the copy 360 degrees west
+  assert.deepEqual(namesAtEdge([copy], small, W, H, []), [], 'clear of the edge on every copy');
+  assert.deepEqual(namesAtEdge([copy], small, W, H, [panel]), ['copy'], 'across the border of the panel on one of them');
+});
+
+test('the overlays that count are those that are drawn, of some size, and open where they are always in the page; in the canvas\'s own coordinates', () => {
+  const rect = (l, t, r, b) => ({ left: l, top: t, right: r, bottom: b });
+  const boxes = [
+    { selector: '.side-panel', open: false, shown: true, rect: rect(10, 70, 286, 340) },
+    { selector: '.legend-dock > *', open: false, shown: true, rect: rect(10, 850, 94, 900) },
+    { selector: '.detail-panel', open: false, shown: true, rect: rect(1454, 70, 1826, 900) },
+    { selector: '.detail-panel', open: true, shown: true, rect: rect(1000, 70, 1430, 900) },
+    { selector: '.pd', open: true, shown: false, rect: rect(0, 0, 100, 100) },
+    { selector: '.tl', open: true, shown: true, rect: rect(5, 5, 5, 80) },
+    { selector: '.topbar > .glass', open: false, shown: true, rect: rect(10, 20, 286, 60) },
+  ];
+  // the map's container starts 10 px down and 4 px right of the page's corner
+  assert.deepEqual(overlayRects(boxes, { left: 4, top: 10 }), [
+    rect(6, 60, 282, 330),
+    rect(6, 840, 90, 890),
+    rect(996, 60, 1426, 890),
+    rect(6, 10, 282, 50),
+  ]);
+  assert.deepEqual(overlayRects([], { left: 0, top: 0 }), []);
+  assert.ok(OVERLAYS_WHEN_OPEN.every((sel) => OVERLAYS.includes(sel)));
+});
+
+test('the overlays are the elements the components draw, and those that hide by a class are open by the class `open`', () => {
+  const comps = fs.readdirSync(path.join(repo, 'web/src/components')).filter((f) => f.endsWith('.tsx')).map((f) => text(`web/src/components/${f}`)).join('\n');
+  const classes = (sel) => [...sel.matchAll(/\.([a-z-]+)/g)].map((m) => m[1]);
+  for (const sel of OVERLAYS) {
+    for (const cls of classes(sel)) assert.ok(new RegExp(`class=\\{?[\`"'][^\`"']*\\b${cls}\\b`).test(comps), `${sel}: a component draws class ${cls}`);
+  }
+  for (const sel of OVERLAYS_WHEN_OPEN) {
+    const cls = classes(sel)[0];
+    assert.ok(new RegExp(`class=\\{\`${cls}[^\`]*'\\s?open'`).test(comps), `${cls} is open by the class open`);
+  }
+  // what the top bar holds that is drawn: its three blocks
+  assert.ok(OVERLAYS.includes('.topbar > .glass') && OVERLAYS.includes('.topbar > .search'));
+  assert.ok(/<header class="topbar">/.test(text('web/src/components/TopBar.tsx')));
+});
+
+test('the rule is given the rectangles of the overlays and runs again when a panel changes, one frame later, and not on every frame or every move', () => {
+  const fn = labelsSrc.slice(labelsSrc.indexOf('function leaveOutCut'), labelsSrc.indexOf('const GEOMETRY'));
+  assert.ok(fn.includes('const covers = coveredBy(m);'));
+  assert.equal((fn.match(/, covers\)/g) ?? []).length, 2, 'the oceans and the largest countries are both tested against the panels');
+  assert.ok(/const origin = m\.getContainer\(\)\.getBoundingClientRect\(\);/.test(labelsSrc) && /overlayRects\(boxes, origin\)/.test(labelsSrc), 'measured from the map\'s container');
+  assert.ok(/getComputedStyle\(el\)/.test(labelsSrc) && /style\.display !== 'none' && style\.visibility !== 'hidden'/.test(labelsSrc), 'only what is displayed');
+  assert.ok(/watchOverlays\(m\);/.test(labelsSrc.slice(0, labelsSrc.indexOf('const same'))), 'installed with the layers');
+  const watch = labelsSrc.slice(labelsSrc.indexOf('function watchOverlays'), labelsSrc.indexOf('const same') > 0 ? labelsSrc.indexOf('export function raiseAboveAssetNames') : undefined);
+  // the signals that open, close, fold or snap a panel are all read by the effect, and each exists in the store
+  const store = text('web/src/lib/store.ts');
+  for (const name of ['selection', 'panelCollapsed', 'sheetSnap', 'priceDrawer', 'historyOpen']) {
+    assert.ok(new RegExp(`export const ${name} = signal`).test(store), `${name} is a signal of the store`);
+    assert.ok(watch.includes(`${name}.value`), `${name} is watched`);
+  }
+  assert.ok(/effect\(\(\) => \{[\s\S]*later\(\);\s*\}\);/.test(watch), 'a signal change schedules the rule');
+  assert.ok(/requestAnimationFrame\(\(\) => \{\s*frame = 0;\s*observeNew\(\);\s*leaveOutCut\(m\);/.test(watch) && /if \(frame\) return;/.test(watch), 'one frame later, once for several changes');
+  assert.equal((watch.match(/new ResizeObserver\(/g) ?? []).length, 1, 'one observer of the size of the panels');
+  assert.ok(/resized\.observe\(el\)/.test(watch) && /OVERLAYS_WATCHED\.join\(','\)/.test(watch));
+  assert.ok(OVERLAYS_WATCHED.includes('.legend-dock') && OVERLAYS.every((sel) => OVERLAYS_WATCHED.includes(sel)), 'the legend\'s wrapper is watched, so that the box that opens beside its button is noticed');
+  assert.ok(/<div class=\{`legend-dock\$\{folded/.test(text('web/src/components/Legend.tsx')), 'and the wrapper is the element the component draws');
+  assert.ok(/addEventListener\('transitionend'/.test(watch) && /GEOMETRY\.has\(/.test(watch), 'when a panel has finished sliding or growing');
+  assert.ok(!/addEventListener\('(pointermove|mousemove|scroll|wheel|touchmove)'/.test(watch));
+});
+
+test('the data wiring: each file sets its source with the names it brought and runs the edge rule again, and the oceans and the rows are kept for it', () => {
+  const countries = labelsSrc.slice(labelsSrc.indexOf("load<CountryMeta[]>('countries/index.json')"), labelsSrc.indexOf("load<{ seas: Sea[] }>"));
+  assert.ok(/countryRows = list;/.test(countries));
+  assert.ok(/\.setData\(countryPoints\(list\)\);\s*leaveOutCut\(m\);\s*\}\)/.test(countries), 'the country names are the index\'s points and the rule runs after them');
+  const seas = labelsSrc.slice(labelsSrc.indexOf("load<{ seas: Sea[] }>"), labelsSrc.indexOf('const same'));
+  assert.ok(/oceans = oceanEdgeNames\(d\.seas\);/.test(seas));
+  assert.ok(/\.setData\(seaPoints\(d\.seas\)\);\s*leaveOutCut\(m\);\s*\}\)/.test(seas), 'the sea names are the file\'s points and the rule runs after them');
+  assert.ok(!/setData\(empty\(\)\)/.test(countries + seas), 'neither source is ever given an empty collection once the data are there');
+  // and the points those calls set are the whole index and the whole table
+  assert.equal(countryPoints(index).features.length, index.filter((r) => r.at && r.bb).length);
+  assert.equal(seaPoints(seaFile.seas).features.length, seaFile.seas.length);
+});
+
 test('the oceans are the seven rows of rank 0 and the largest class of countries is the rows of the index of that class', () => {
   const o = oceanEdgeNames(seaFile.seas);
   assert.deepEqual(o.map((x) => x.id), seaFile.seas.filter((s) => s.r === 0).map((s) => s.n));
@@ -545,7 +685,7 @@ test('the filter of the oceans carries the names left out and nothing else chang
 
 // ---------------------------------------------------------------- the order of the layers
 
-test('the names are stacked under the icons: seas, pipelines, asset names, country names, icons; a style in another order is told', () => {
+test('the names are stacked under the overland flows and the icons: seas, pipelines, asset names, country names, overland flows, icons; a style in another order is told', () => {
   assert.deepEqual(stackViolations(NAME_STACK), []);
   assert.deepEqual(stackViolations(['land', ...NAME_STACK, 'ls-lanes-line']), []);
   assert.deepEqual(stackViolations(['names-countries-0', 'infra-names']), ['infra-names above names-countries-0'], 'the asset names above the country names');
@@ -555,20 +695,103 @@ test('the names are stacked under the icons: seas, pipelines, asset names, count
   assert.equal(stackViolations(['infra-lines-glow', 'names-seas-3']).length, 1, 'sea names above the pipelines');
   assert.deepEqual(stackViolations(['land', 'borders']), [], 'layers outside the stack are not looked at');
   assert.equal(NAME_STACK.indexOf('infra-names') < NAME_STACK.indexOf('names-countries-3'), true, 'a country name is placed before an asset name');
-  assert.equal(NAME_STACK.indexOf('names-countries-0') + 1, NAME_STACK.indexOf(ICON_LAYER), 'and is under the icons');
   assert.ok(NAME_STACK.indexOf('names-seas-0') < NAME_STACK.indexOf('infra-lines-glow'), 'sea names give way to both');
+  // the overland flows: over every name, under the icons
+  assert.deepEqual(stackViolations(['names-countries-0', 'ls-land-glow', 'ls-land-line', 'ls-land-alt', 'ls-land-hit', 'infra-pts-all']), []);
+  assert.deepEqual(stackViolations(['ls-land-glow', 'names-countries-3']), ['ls-land-glow above names-countries-3'].map(() => 'names-countries-3 above ls-land-glow'), 'a country name above an overland flow');
+  for (const id of LAND_FLOW_LAYERS) assert.equal(stackViolations(['names-countries-0', id]).length, 0, id);
+  for (const id of LAND_FLOW_LAYERS) assert.equal(stackViolations([id, 'names-countries-0']).length, 1, `${id} under the country names`);
+  for (const id of LAND_FLOW_LAYERS) assert.equal(stackViolations([id, 'infra-names']).length, 1, `${id} under the asset names`);
+  assert.equal(stackViolations(['infra-pts-all', 'ls-land-hit']).length, 1, 'an overland flow over the icons');
+  assert.deepEqual(NAME_STACK.slice(NAME_STACK.indexOf('names-countries-0') + 1, NAME_STACK.indexOf(ICON_LAYER)), [...LAND_FLOW_LAYERS], 'the overland flows are right under the icons, over the country names');
+  assert.deepEqual(NAME_STACK.slice(NAME_STACK.indexOf('infra-names') + 1, NAME_STACK.indexOf('infra-names') + 5), [...COUNTRY_NAME_LAYERS]);
 });
 
-test('the specs add the country layers from the smallest to the largest and the module of the icons raises them above the asset names', () => {
+test('the four overland-flow layers are those that the controller adds for the line set `land`, in the order it adds them', () => {
+  const fn = controllerSrc.slice(controllerSrc.indexOf('function ensureLineSet'), controllerSrc.indexOf('export function setLineSet'));
+  const ids = [...fn.matchAll(/\n {2,4}add\(\{\n\s+id: ([^,]+),/g)].map((m) => m[1]);
+  assert.deepEqual(ids, ['`${src}-glow`', '`${src}-line`', '`${src}-pat`', '`${src}-alt`', 'hit'], 'the layers of a line set; the pattern layer is the routes\' only');
+  assert.ok(fn.includes('const hit = `${src}-hit`;') && fn.includes('const src = `ls-${key}`;'));
+  assert.deepEqual(LAND_FLOW_LAYERS, ['glow', 'line', 'alt', 'hit'].map((k) => `ls-land-${k}`));
+  assert.ok(fn.includes("const before = key === 'land' ? landFlowBefore(m) : undefined;") && fn.includes('m.addLayer(spec, before)'), 'added under the icons when they are there');
+  assert.ok(/import \{ landFlowBefore \} from '\.\/labelRules';/.test(controllerSrc));
+});
+
+/** A style's list of layers with the library's rules for `addLayer(spec, before)` and `moveLayer(id, before)`: under `before` when it is there, else on top. */
+function fakeStyle() {
+  const ids = [];
+  const put = (id, before) => {
+    const at = before !== undefined ? ids.indexOf(before) : -1;
+    if (at < 0) ids.push(id);
+    else ids.splice(at, 0, id);
+  };
+  return {
+    ids,
+    getLayer: (id) => (ids.includes(id) ? { id } : undefined),
+    addLayer: (id, before) => put(id, before),
+    moveLayer(id, before) {
+      if (id === before) return;
+      ids.splice(ids.indexOf(id), 1);
+      put(id, before);
+    },
+  };
+}
+
+// what each module does, with the functions of labelRules the real modules call (their calls are checked as text below)
+const installNames = (st) => {
+  for (const spec of labelLayerSpecs()) st.addLayer(spec.id);
+  if (st.getLayer(ICON_LAYER)) moveUnder(st, [...COUNTRY_NAME_LAYERS, ...LAND_FLOW_LAYERS], ICON_LAYER);
+};
+const installLand = (st) => {
+  for (const id of LAND_FLOW_LAYERS) st.addLayer(id, landFlowBefore(st));
+};
+const installInfra = (st) => {
+  for (const id of ['infra-lines-glow', 'infra-lines-solid', 'infra-lines-dash', 'infra-lines-hit', ICON_LAYER]) st.addLayer(id);
+  st.addLayer('infra-names', ICON_LAYER);
+  moveUnder(st, [...COUNTRY_NAME_LAYERS, ...LAND_FLOW_LAYERS], ICON_LAYER);
+  st.addLayer('infra-halo');
+  st.addLayer('infra-pts-sel');
+};
+
+test('the order holds whichever of the names, the overland flows and the icons is installed first (the six orders), and the sea lanes and routes added after stay on top', () => {
+  const steps = { names: installNames, land: installLand, infra: installInfra };
+  const orders = [['names', 'land', 'infra'], ['names', 'infra', 'land'], ['land', 'names', 'infra'], ['land', 'infra', 'names'], ['infra', 'names', 'land'], ['infra', 'land', 'names']];
+  for (const order of orders) {
+    const st = fakeStyle();
+    for (const k of order) steps[k](st);
+    for (const id of ['ls-lanes-glow', 'ls-routes-glow']) st.addLayer(id);
+    // the sea names are added at load, before any module, whatever the order tried here: the order of the country names and the flows is what is tried
+    assert.deepEqual(stackViolations(st.ids.filter((id) => !id.startsWith('names-seas'))), [], order.join(' then '));
+    assert.equal(NAME_STACK.filter((id) => st.ids.includes(id)).length, NAME_STACK.length, 'every layer of the stack is there');
+    const at = (id) => st.ids.indexOf(id);
+    for (const id of LAND_FLOW_LAYERS) assert.ok(at(id) > at('names-countries-0') && at(id) < at(ICON_LAYER), `${id} between the country names and the icons: ${order.join(' then ')}`);
+    assert.ok(at('ls-lanes-glow') > at('infra-pts-sel') && at('ls-routes-glow') > at('infra-pts-sel'), 'the lanes and routes on top');
+  }
+});
+
+test('the specs add the country layers from the smallest to the largest and the module of the icons raises them, and the overland flows, above the asset names', () => {
   const asset = infraSrc.indexOf('m.addLayer(assetLayerSpec(SRC_PTS), ICON_LAYER);');
-  const raise = infraSrc.indexOf('raiseCountryNames(m, ICON_LAYER);');
+  const raise = infraSrc.indexOf('raiseAboveAssetNames(m, ICON_LAYER);');
   assert.ok(asset > 0 && raise > asset && raise < infraSrc.indexOf("id: 'infra-halo'"), 'raised right after the asset names exist');
-  assert.ok(/import \{ raiseCountryNames \} from '\.\.\/labels';/.test(infraSrc));
+  assert.ok(/import \{ raiseAboveAssetNames \} from '\.\.\/labels';/.test(infraSrc));
   // the other order of the two modules: the asset names are there already when the country layers are added
-  assert.ok(/if \(m\.getLayer\(ICON_LAYER\)\) raiseCountryNames\(m, ICON_LAYER\);/.test(labelsSrc));
-  assert.ok(labelsSrc.indexOf('labelLayerSpecs(hidden)') < labelsSrc.indexOf('raiseCountryNames(m, ICON_LAYER)'));
-  const fn = labelsSrc.slice(labelsSrc.indexOf('export function raiseCountryNames'));
-  assert.ok(/for \(const t of \[\.\.\.TIERS\]\.reverse\(\)\)/.test(fn) && /m\.moveLayer\(id, before\)/.test(fn), 'the smallest first, so the largest ends on top');
+  assert.ok(/if \(m\.getLayer\(ICON_LAYER\)\) raiseAboveAssetNames\(m, ICON_LAYER\);/.test(labelsSrc));
+  assert.ok(labelsSrc.indexOf('labelLayerSpecs(hidden)') < labelsSrc.indexOf('raiseAboveAssetNames(m, ICON_LAYER)'));
+  const fn = labelsSrc.slice(labelsSrc.indexOf('export function raiseAboveAssetNames'));
+  assert.ok(fn.includes('moveUnder(m, [...COUNTRY_NAME_LAYERS, ...LAND_FLOW_LAYERS], before);'), 'the names first, then the flows, so that the flows end nearest the icons');
+  assert.deepEqual(COUNTRY_NAME_LAYERS, countryLayerSpecs().map((l) => l.id), 'the smallest first, so the largest ends on top');
+});
+
+test('moveUnder puts the layers it finds under the one named, in order, and skips the others; asking again changes nothing', () => {
+  const st = fakeStyle();
+  for (const id of ['a', 'x', 'b', 'icons', 'c']) st.addLayer(id);
+  moveUnder(st, ['c', 'missing', 'a', 'b'], 'icons');
+  assert.deepEqual(st.ids, ['x', 'c', 'a', 'b', 'icons']);
+  moveUnder(st, ['c', 'missing', 'a', 'b'], 'icons');
+  assert.deepEqual(st.ids, ['x', 'c', 'a', 'b', 'icons']);
+  assert.equal(landFlowBefore(st), undefined);
+  st.addLayer(ICON_LAYER);
+  assert.equal(landFlowBefore(st), ICON_LAYER);
 });
 
 // ---------------------------------------------------------------- the names on a colouring
@@ -633,10 +856,13 @@ test('METHODOLOGY counts the entries of NAME_FIX as the builder has them, and sa
 test('METHODOLOGY states the order of the layers, the names at the edge and the paint on a colouring', () => {
   const md = text('METHODOLOGY.md').replace(/\s+/g, ' ');
   assert.ok(md.includes('A country name wins a collision with the name of an asset'));
-  assert.ok(md.includes('the sea names, the pipeline lines, the asset names, the country names, the icons and the opened asset, then every lane and route'));
+  assert.ok(md.includes('the sea names, the pipeline lines, the asset names, the country names, the overland flows, the icons and the opened asset, then every lane and route'));
+  assert.ok(md.includes('the overland flows of a commodity page too, which lie over the names'));
   assert.ok(md.includes('`NAME_STACK`'));
   assert.ok(md.includes('**Names at the edge.**') && md.includes('`namesAtEdge`') && md.includes('never during a move'));
-  assert.ok(md.includes('The names of a smaller rank may be cut by the edge of the screen'));
+  assert.ok(md.includes('the names of a smaller rank may be cut by the edge of the screen and by the panels'));
+  assert.ok(md.includes('or by a panel drawn over it') && md.includes('wholly under a panel') && md.includes('`OVERLAYS`') && md.includes('a name can be seen cut for the time of a move'));
+  for (const what of ['a page opens or closes', 'the Controls or the Legend fold or unfold', 'the sheet takes another snap', 'the price drawer or the History bar opens or closes']) assert.ok(md.includes(what), what);
   assert.ok(md.includes('`LABEL_ON_FILL`') && md.includes('No contrast of a glyph against a coloured fill is claimed'));
   assert.ok(md.includes(`white at ${LABEL_ON_FILL.opacity} with a halo ${LABEL_ON_FILL.haloWidth} px wide instead of the grey with a halo of ${LABEL_COLOR.haloWidth} px`));
   assert.equal(LABEL_ON_FILL.color, '#ffffff');

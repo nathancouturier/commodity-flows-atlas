@@ -43,7 +43,7 @@ It does not cover data. Data files kept in the repository follow the terms of th
   the US Census Bureau's export detail file (its Public-Use Statement, credited below) and of EIA's exports by destination (public domain), `comtrade_tin_china.json` the few figures of UN Comtrade that
   the tin page prints ("Source: UN Comtrade", no answer of the service is published) and `aus_req_lng.json` one table of the Australian Department of
   Industry, Science and Resources' Resources and Energy Quarterly (CC BY 4.0), all three credited below; `wna_uranium.json` is World Nuclear Association data
-  (terms to be confirmed); `adjacency.json` is derived from Natural Earth (public domain); `geom_cache.json` and
+  (terms to be confirmed); `adjacency.json` is derived from Natural Earth ("in the public domain", as its terms of use say); `geom_cache.json` and
   `route_cache.json` hold computed routes (see the next section); `trade_checks.json` holds the findings of the atlas's
   checks, which quote CEPII BACI, USDA PSD, EIA, USGS and IMF PortWatch figures under the terms of each.
 

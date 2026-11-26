@@ -6,7 +6,7 @@
  * Screen-space geometry is cached and recomputed only when the map moves.
  */
 import type { Map as MLMap } from 'maplibre-gl';
-import { copyShifts } from './copies';
+import { pathCopies } from './copies';
 import { afterEvent, frameStep, lngRange, particlePhase, type OverlayEvent } from './overlayRules';
 
 export interface FlowPath {
@@ -54,19 +54,24 @@ export class FlowOverlay {
     });
     this.resize();
     // the setting can change while the page is open
-    this.motionQuery.addEventListener('change', () => {
-      this.reduced = this.motionQuery.matches;
-      this.on('motion-setting');
-    });
-    document.addEventListener('visibilitychange', () => {
-      cancelAnimationFrame(this.raf);
-      if (document.hidden) return;
-      this.on('tab-shown');
-      // one chain of frames: a page first opened in a hidden tab still has the frame its constructor asked for
-      this.loop();
-    });
+    this.motionQuery.addEventListener('change', this.onMotionSetting);
+    document.addEventListener('visibilitychange', this.onVisibility);
     this.loop();
   }
+
+  // kept as fields so that destroy() removes the same functions it added
+  private onMotionSetting = () => {
+    this.reduced = this.motionQuery.matches;
+    this.on('motion-setting');
+  };
+
+  private onVisibility = () => {
+    cancelAnimationFrame(this.raf);
+    if (document.hidden) return;
+    this.on('tab-shown');
+    // one chain of frames: a page first opened in a hidden tab still has the frame its constructor asked for
+    this.loop();
+  };
 
   private on(e: OverlayEvent) {
     const f = afterEvent({ dirty: this.dirty, repaint: this.repaint }, e);
@@ -107,13 +112,13 @@ export class FlowOverlay {
       const n = path.coords.length;
       if (n < 2) continue;
       // the world is drawn again on each side: one projection per copy of the path that is in view
-      for (const shift of copyShifts(path.coords, west, east)) {
+      for (const copy of pathCopies(path.coords, west, east)) {
         const xs = new Float32Array(n);
         const ys = new Float32Array(n);
         const cum = new Float32Array(n);
         let len = 0;
         for (let i = 0; i < n; i++) {
-          const p = this.map.project([path.coords[i][0] + shift, path.coords[i][1]]);
+          const p = this.map.project(copy[i]);
           xs[i] = p.x;
           ys[i] = p.y;
           if (i > 0) len += Math.hypot(xs[i] - xs[i - 1], ys[i] - ys[i - 1]);
@@ -189,6 +194,8 @@ export class FlowOverlay {
 
   destroy() {
     cancelAnimationFrame(this.raf);
+    this.motionQuery.removeEventListener('change', this.onMotionSetting);
+    document.removeEventListener('visibilitychange', this.onVisibility);
     this.canvas.remove();
   }
 }

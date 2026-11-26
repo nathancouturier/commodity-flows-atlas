@@ -818,12 +818,6 @@ test('a late series is marked as the price board marks it, on the day the page i
 test('the Dallas Fed row carries the citation the registry asks for and the Bank\'s own words, found word for word in the series\' basis', () => {
   const dallas = metaOf('igrea-m');
   for (const piece of Object.values(DALLAS_WORDS)) assert.ok(dallas.basis.includes(piece), `the basis holds: ${piece}`);
-  // the saved copy of the Dallas Fed page, when this machine has it
-  const saved = '/tmp/claude-0/audit/work/6B/FNOW/critic/dl/dallasfed-igrea.html';
-  if (fs.existsSync(saved)) {
-    const page = fs.readFileSync(saved, 'utf8').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
-    for (const piece of Object.values(DALLAS_WORDS)) assert.ok(page.includes(piece), `the page holds: ${piece}`);
-  }
   // the registry asks for Kilian (2009) and Kilian (2019)
   const lic = json('data/sources.json').find((s) => s.id === 'dallasfed').licence;
   assert.match(lic, /Kilian \(2009\)/);
@@ -852,6 +846,15 @@ test('the Dallas Fed row carries the citation the registry asks for and the Bank
   assert.equal(indicatorNote('freight-ppi-m', 'U.S. Bureau of Labor Statistics', bls.note), `U.S. Bureau of Labor Statistics; ${bls.note}`, 'a registry name that does not start with the publisher keeps the credit');
   assert.match(bls.note, /not a freight rate/);
   assert.match(metaOf('igrea-m').note, /not a freight rate/);
+});
+
+// the saved copy of the Dallas Fed page: the path is the machine's own, given in the environment (no default); without it the words are not
+// compared with the page: DALLASFED_IGREA_PAGE=<saved dallasfed-igrea.html> node --test web/scripts/market-now.test.mjs
+test('the Dallas Fed words are found word for word in the saved page', {
+  skip: process.env.DALLASFED_IGREA_PAGE ? false : 'DALLASFED_IGREA_PAGE does not name the saved page, so the words are not compared with it',
+}, () => {
+  const page = fs.readFileSync(process.env.DALLASFED_IGREA_PAGE, 'utf8').replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ');
+  for (const piece of Object.values(DALLAS_WORDS)) assert.ok(page.includes(piece), `the page holds: ${piece}`);
 });
 
 test('the price drawer does not name the Bank twice in a row: the basis is printed from what follows the credit its source name already holds', () => {

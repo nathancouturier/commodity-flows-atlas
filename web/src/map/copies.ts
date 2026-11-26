@@ -15,3 +15,11 @@ export function copyShifts(coords: readonly (readonly number[])[], west: number,
   for (let k = Math.ceil((west - hi) / 360) + 0; k <= Math.floor((east - lo) / 360); k++) out.push(k * 360);
   return out;
 }
+
+/**
+ * The copies of a path that the screen shows, as coordinate lists: one for each shift of `copyShifts`, every longitude moved by it and every
+ * latitude as it was. None when no copy has a point in view.
+ */
+export function pathCopies(coords: readonly (readonly number[])[], west: number, east: number): [number, number][][] {
+  return copyShifts(coords, west, east).map((shift) => coords.map((c): [number, number] => [c[0] + shift, c[1]]));
+}

@@ -169,9 +169,37 @@ test('every handler of the overlay passes the event it is for, and the frame, th
   assert.ok(!/this\.repaint = (true|false)|this\.dirty = true/.test(o), 'a flag is raised by afterEvent only (project() clears `dirty`, a frame clears `repaint`)');
 });
 
+test('the setting is read when the overlay is made, a projection clears the flag it answers, the copies are the ones of the pure function and a hidden overlay stays hidden', () => {
+  const o = read('map/flowOverlay.ts').replace(/\s+/g, ' ');
+  // the state at load is the setting's: an overlay made under reduced motion does not animate until the setting changes
+  assert.match(o, /private reduced = this\.motionQuery\.matches;/);
+  // the paths are projected again only once after a move: the projection clears `dirty` at its end
+  assert.match(o, /this\.projected = out; this\.dirty = false; \}/);
+  // the world is drawn again on each side: one projection for every copy the pure function returns, each point projected as the copy has it
+  assert.match(o, /for \(const copy of pathCopies\(path\.coords, west, east\)\) \{/);
+  assert.match(o, /this\.map\.project\(copy\[i\]\)/);
+  assert.ok(!/copyShifts/.test(o), 'the shifts are taken in copies.ts only');
+  // the flag that frameStep reads is the one setVisible sets
+  assert.match(o, /setVisible\(v: boolean\) \{ this\.visible = v;/);
+});
+
+test('destroy() removes the two listeners the overlay added to the document and to the media query, the same functions it added', () => {
+  const o = read('map/flowOverlay.ts').replace(/\s+/g, ' ');
+  // the handlers are fields, not functions written where they are added
+  assert.match(o, /private onMotionSetting = \(\) => \{ this\.reduced = this\.motionQuery\.matches; this\.on\('motion-setting'\); \};/);
+  assert.match(o, /private onVisibility = \(\) => \{ cancelAnimationFrame\(this\.raf\);/);
+  assert.equal([...o.matchAll(/this\.motionQuery\.addEventListener\('change', this\.onMotionSetting\);/g)].length, 1);
+  assert.equal([...o.matchAll(/document\.addEventListener\('visibilitychange', this\.onVisibility\);/g)].length, 1);
+  assert.equal([...o.matchAll(/addEventListener\(/g)].length, 2, 'no other listener is added to the document or the query');
+  const destroy = o.match(/destroy\(\) \{(.*?)\n?\}\s*$/)?.[1] ?? o.slice(o.indexOf('destroy() {'));
+  assert.ok(destroy.includes("this.motionQuery.removeEventListener('change', this.onMotionSetting);"), destroy);
+  assert.ok(destroy.includes("document.removeEventListener('visibilitychange', this.onVisibility);"), destroy);
+  assert.ok(destroy.includes('cancelAnimationFrame(this.raf);') && destroy.includes('this.canvas.remove();'), destroy);
+});
+
 test('a page first opened in a hidden tab runs one chain of frames: the frame already asked for is cancelled before another is', () => {
   const o = read('map/flowOverlay.ts').replace(/\s+/g, ' ');
-  const handler = o.match(/addEventListener\('visibilitychange', \(\) => \{(.*?)\}\);/)?.[1] ?? '';
+  const handler = o.match(/private onVisibility = \(\) => \{(.*?)\};/)?.[1] ?? '';
   const cancel = handler.indexOf('cancelAnimationFrame(this.raf)');
   const hidden = handler.indexOf('if (document.hidden) return;');
   const tab = handler.indexOf("this.on('tab-shown')");
