@@ -2573,53 +2573,142 @@ actually controls the situation on the ground. Please feel free to mashup our di
 particular political outlook."
 (<https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/>, read 25 November 2026).
 Natural Earth does not apply one rule to every disputed or self-administered territory: a point inside some of them
-falls in a shape of their own and a point inside others falls in the shape of the country that claims them (read on the
-shapes the site serves, `data/geo/countries.topo.json`, at points taken from Natural Earth's own populated-places and
-disputed-areas files). The atlas has not chosen a view of its own and does not judge Natural Earth's. *Atlas assumption A1*: the atlas
+falls in a shape of their own and a point inside others falls in the shape of the country that claims them, or of the
+country that administers them (read on the shapes the site serves, `data/geo/countries.topo.json`, at places of Natural
+Earth's populated-places file, at points that the atlas computed inside the polygons of Natural Earth's disputed-areas
+layer, and at two points that the atlas chose by hand). The atlas has not chosen a view of its own and does not judge Natural Earth's. *Atlas assumption A1*: the atlas
 treats Natural Earth's default view, in the version named, as its convention, so the map shows the situation of that
 version of the file, not of the day a visitor looks.
 
-**What the map draws, area by area.** The areas below are those of Natural Earth's layer of breakaway and disputed areas at
-1:10m (version 5.1.1), which the atlas does not read or draw; the table says where the country shapes of the map put the
-points of each area (Natural Earth's own points, kept with the version and checksum of the file each comes from in
-`pipeline/tests/fixtures/border_probes.json`); the notes are Natural Earth's words, as its file spells them, not the atlas's.
+**What the map draws, area by area.** The table lists every area of Natural Earth's layer of breakaway and disputed areas at
+1:10m (version 5.1.1), which the atlas does not read or draw, in the order of the names of the layer (letters without accents,
+capitals and small letters alike), then of its ids. For each area it says where the country shapes of the map put the points
+tested for it. The points are of three kinds, kept with the version and checksum of the file each comes from in
+`pipeline/tests/fixtures/border_probes.json`: places of Natural Earth's populated-places file; for each area, a point inside
+its polygon that the atlas computed from the layer (inside one part, for an area of several parts); and two points that the
+atlas chose by hand, "Point chosen inland of Dakhla" and "Point chosen in the Golan Heights". A point that lies in no shape of
+the map is followed by "(in no shape)", and an area whose points all lie in no shape has "(in no shape)" for its shape. The
+notes are Natural Earth's words, as its file spells them, not the atlas's.
 
-| Area of Natural Earth (its id) | Its note | Points of Natural Earth that it holds | Shape of the map that holds them | Shape has a customs code in CEPII BACI |
+| Area of Natural Earth (its id) | Its note | Points tested that it holds | Shape of the map that holds them | Shape has a customs code in CEPII BACI |
 |---|---|---|---|---|
 | Abkhazia (B35) | "Self admin.; Claimed by Georgia" | Interior point, Abkhazia polygon; Sukhumi | Georgia (GEO) | yes |
+| Abu Musa I. (B73) | "Admin. by Iran; Claimed by UAE" | Interior point, Abu Musa I. (in no shape) | (in no shape) | - |
 | Abyei (B13) | "Admin. by Sudan; Claimed by South Sudan" | Interior point, Abyei | Sudan (SDN) | yes |
 | Aksai Chin (B07) | "Admin. by China; Claimed by India" | Interior point, Aksai Chin | China (CHN) | yes |
 | Artsakh (B38) | "Self admin.; Claimed by Azer." | Interior point, Artsakh polygon; Stepanakert | Azerbaijan (AZE) | yes |
+| Arunachal Pradesh (B00) | "Admin. by India; Claimed by China" | Interior point, Arunachal Pradesh | India (IND) | yes |
 | Azad Kashmir (B09) | "Admin. by Pakistan; Claimed by India" | Interior point, Azad Kashmir | Pakistan (PAK) | yes |
+| Bajo Nuevo Bank (Petrel Is.) (B41) | "Claimed by Colombia, Jamaica, Nicaragua and the United States" | Interior point, Bajo Nuevo Bank (Petrel Is.) (in no shape) | (in no shape) | - |
+| Bara Hotii Valleys (B02) | "Admin. by India; Claimed by China" | Interior point, Bara Hotii Valleys | India (IND) | yes |
+| Bassas da India (B27) | "Admin. by France; Claimed by Madagascar" | Interior point, Bassas da India (in no shape) | (in no shape) | - |
+| Baykonur (B40) | "Leased to Russia by Kazakhstan" | Interior point, Baykonur | Kazakhstan (KAZ) | yes |
+| Belize (B51) | no note | Interior point, Belize | Belize (BLZ) | yes |
+| Bhutan (Chumbi salient) (B76) | "Admin. by Bhutan; Claimed by China" | Interior point, Bhutan (Chumbi salient) | Bhutan (BTN) | yes |
+| Bhutan (northwest valleys) (B75) | "Admin. by Bhutan; Claimed by China" | Interior point, Bhutan (northwest valleys) | Bhutan (BTN) | yes |
+| Bir Tawil (B94) | "Between Egypt and Sudan" | Interior point, Bir Tawil | Sudan (SDN) | yes |
+| Bird Island (B48) | "Admin. by Venezuela; Claimed by multiple" | Interior point, Bird Island (in no shape) | (in no shape) | - |
+| Br. Indian Ocean Ter. (B69) | "Admin. by U.K.; Claimed by Mauritius and Seychelles" | Interior point, Br. Indian Ocean Ter. (in no shape) | (in no shape) | - |
+| Brazilian Island (B85) | "Claimed by Brazil and Uruguay" | Interior point, Brazilian Island | Argentina (ARG) | yes |
+| Ceuta (B60) | no note | Interior point, Ceuta (in no shape) | (in no shape) | - |
+| Corner of Artigas (B92) | "Admin. by Brazil; Claimed by Uruguay" | Interior point, Corner of Artigas | Brazil (BRA) | yes |
+| Courantyne Headwaters (B15) | "Admin. by Guyana; Claimed by Suriname" | Interior point, Courantyne Headwaters | Guyana (GUY) | yes |
 | Crimea (B89) | "Admin. by Russia; Claimed by Ukraine" | Interior point, Crimea; Sevastopol; Simferopol; Kerch | Russia (RUS) | yes |
 | Cyprus U.N. Buffer Zone (B43) | no note | Interior point, Cyprus UN buffer zone; Nicosia | Cyprus (CYP), N. Cyprus (CYN) | yes, no |
+| Demchok (B03) | "Admin. by India; Claimed by China" | Interior point, Demchok | China (CHN) | yes |
+| Diego Garcia NSF (B44) | "Leased to U.S.A by U.K.; Claimed by Mauritius and Seychelles" | Interior point, Diego Garcia NSF (in no shape) | (in no shape) | - |
+| Dokdo (B39) | "Admin. by South Korea; Claimed by Japan" | Interior point, Dokdo (in no shape) | (in no shape) | - |
 | Donetsk People's Republic (C02) | "Self admin.; Claimed by Ukraine" | Interior point, Donetsk People's Republic polygon; Donetsk | Ukraine (UKR) | yes |
+| Doumera Island (B87) | "Admin. By Eritrea; Claimed by Djibouti" | Interior point, Doumera Island (in no shape) | (in no shape) | - |
+| Dragonja River (B82) | no note | Interior point, Dragonja River | Croatia (HRV) | yes |
 | East Jerusalem (B98) | "Admin. By Israel; Claimed by Palestine" | Interior point, East Jerusalem | Palestine (PSE) | yes |
+| Europa Island (B26) | "Admin. by France; Claimed by Madagascar" | Interior point, Europa Island (in no shape) | (in no shape) | - |
 | Falkland Is. (B12) | "Admin. by U.K.; Claimed by Argentina" | Interior point, Falkland Is. polygon; Stanley | Falkland Islands (FLK) | yes |
 | Gaza (B53) | no note | Interior point, Gaza; Gaza | Palestine (PSE) | yes |
+| Gibraltar (B55) | "Admin. By U.K.; Claimed by Spain" | Interior point, Gibraltar (in no shape) | (in no shape) | - |
 | Gilgit-Baltistan (B08) | "Admin. by Pakistan; Claimed by India" | Interior point, Gilgit-Baltistan polygon; Gilgit | Pakistan (PAK) | yes |
-| Golan Heights (B16) | "Admin. By Israel; Claimed by Syria" | Interior point, inside the Golan Heights polygon (area of Majdal Shams); Audit point, Golan | Israel (ISR) | yes |
+| Glorioso Is. (B24) | "Admin. by France; Claimed by Madagascar" | Interior point, Glorioso Is. (in no shape) | (in no shape) | - |
+| Golan Heights (B16) | "Admin. By Israel; Claimed by Syria" | Interior point, inside the Golan Heights polygon (area of Majdal Shams); Point chosen in the Golan Heights | Israel (ISR) | yes |
+| Guantanamo Bay USNB (B50) | "Leased to U.S.A. by Cuba; Claimed by Cuba" | Interior point, Guantanamo Bay USNB | Cuba (CUB) | yes |
 | Halayib Triangle (B93) | "Admin. by Egypt; Claimed by Sudan" | Interior point, Halayib Triangle (Hala'ib) | Egypt (EGY) | yes |
+| Hans Island (B21) | "Admin. by Denmark; Claimed by Canada" | Interior point, Hans Island (in no shape) | (in no shape) | - |
+| Ilemi Triange (B74) | no note | Interior point, Ilemi Triange | Kenya (KEN) | yes |
+| Ilemi Triangle (B17) | "Admin. by Kenya; Claimed by South Sudan" | Interior point, Ilemi Triangle | Kenya (KEN) | yes |
+| Isla del Perejil (B62) | "Admin. by Spain; Claimed by Morocco" | Interior point, Isla del Perejil | Morocco (MAR) | yes |
+| Islas Chafarinas (B65) | "Admin. by Spain; Claimed by Morocco" | Interior point, Islas Chafarinas (in no shape) | (in no shape) | - |
+| Israel (B91) | no note | Interior point, Israel; Jerusalem (NE point) | Israel (ISR), Palestine (PSE) | yes, yes |
 | Jammu and Kashmir (B05) | "Admin. by India; Claimed by Pakistan" | Interior point, Jammu and Kashmir polygon; Srinagar; Leh | India (IND) | yes |
+| Juan De Nova I. (B23) | "Admin. by France; Claimed by Madagascar" | Interior point, Juan De Nova I. (in no shape) | (in no shape) | - |
+| Junagadh and Manavadar (C01) | "Admin. by India; Claimed by Pakistan" | Interior point, Junagadh and Manavadar | India (IND) | yes |
+| Korean Demilitarized Zone (north) (B11) | "Since 1953 a 2 km buffer north of the military demarcation line, patrolled by North Korea" | Interior point, Korean Demilitarized Zone (north) | North Korea (PRK) | yes |
+| Korean Demilitarized Zone (south) (B10) | "Since 1953 a 2 km buffer south of the military demarcation line, patrolled by South Korea" | Interior point, Korean Demilitarized Zone (south) | South Korea (KOR) | yes |
+| Korean islands under UN jurisdiction (B84) | "Since 1953 islands south of maritime Northern Limit Line, patrolled by South Korea including Yeonpyeong, Baengnyeong, and Daecheong Is." | Interior point, Korean islands under UN jurisdiction (in no shape) | (in no shape) | - |
 | Kosovo (B57) | no note | Interior point, Kosovo polygon; Pristina | Kosovo (KOS) | no |
+| Kuril Is. (B29) | "Admin. by Russia; Claimed by Japan" | Interior point, Kuril Is. | Russia (RUS) | yes |
+| Lawa Headwaters (B14) | "Admin. by France; Claimed by Suriname" | Interior point, Lawa Headwaters | France (FRA) | yes |
 | Luhansk People's Republic (C03) | "Self admin.; Claimed by Ukraine" | Interior point, Luhansk People's Republic polygon; Luhansk | Ukraine (UKR) | yes |
+| Matthew and Hunter Is. (B66) | "Admin. by New Caledonia for France; Claimed by Vanuatu" | Interior point, Matthew and Hunter Is. (in no shape) | (in no shape) | - |
+| Mayotte (B22) | "Admin. by France; Claimed by Comoros" | Interior point, Mayotte | France (FRA) | yes |
+| Mbane Island (B52) | "Admin by Gabon; Claimed by Equatorial Guinea" | Interior point, Mbane Island (in no shape) | (in no shape) | - |
+| Melilla (B61) | no note | Interior point, Melilla | Morocco (MAR) | yes |
+| Mount Scopus (B99) | "Admin. By Israel; Claimed by Palestine" | Interior point, Mount Scopus | Palestine (PSE) | yes |
 | N. Cyprus (B20) | "Self admin.; Claimed by Cyprus" | Interior point, N. Cyprus polygon; Kyrenia; Famagusta | N. Cyprus (CYN) | no |
+| Navassa I. (B34) | "Admin. by U.S.A.; Claimed by Haiti" | Interior point, Navassa I. (in no shape) | (in no shape) | - |
+| Near Om Parvat (B88) | "Admin. by India; Claimed by Nepal" | Interior point, Near Om Parvat | India (IND) | yes |
+| No Man's Land (Fort Latrun) (B78) | "Admin. By Israel; Claimed by Palestine" | Interior point, No Man's Land (Fort Latrun) | Israel (ISR) | yes |
+| No Man's Land (Jerusalem) (B79) | "Admin. By Israel; Claimed by Palestine" | Interior point, No Man's Land (Jerusalem) | Palestine (PSE) | yes |
+| North Borneo (C04) | no note | Interior point, North Borneo | Malaysia (MYS) | yes |
+| Olivenza (B67) | "Admin. by Spain; Claimed by Portugal" | Interior point, Olivenza | Spain (ESP) | yes |
+| Paracel Is. (B47) | "Admin. by China; Claimed by Vietnam and Taiwan" | Interior point, Paracel Is. (in no shape) | (in no shape) | - |
+| Penon de Alhucemas (B64) | "Admin. by Spain; Claimed by Morocco" | Interior point, Penon de Alhucemas | Morocco (MAR) | yes |
+| Peñón de Vélez de la Gomera (B63) | "Admin. by Spain; Claimed by Morocco" | Interior point, Peñón de Vélez de la Gomera (in no shape) | (in no shape) | - |
+| Pinnacle Is. (B18) | "Admin. by Japan; Claimed by China and Taiwan" | Interior point, Pinnacle Is. (in no shape) | (in no shape) | - |
+| Rockall I. (B31) | "Admin by U.K.; Claimed by Ireland, Denmark, and Iceland" | Interior point, Rockall I. (in no shape) | (in no shape) | - |
+| S. Georgia (B32) | "Admin. by U.K.; Claimed by Argentina" | Interior point, S. Georgia | S. Geo. and the Is. (SGS) | no |
+| S. Sandwich Is. (B33) | "Admin. by U.K.; Claimed by Argentina" | Interior point, S. Sandwich Is. (in no shape) | (in no shape) | - |
+| Samdu Valleys (B04) | "Admin. by India; Claimed by China" | Interior point, Samdu Valleys | India (IND) | yes |
+| Sapodilla Cayes (B80) | "Admin. by Belize; Claimed by Honduras and Guatemala" | Interior point, Sapodilla Cayes (in no shape) | (in no shape) | - |
+| Šarengrad Island (B95) | no note | Interior point, Šarengrad Island | Croatia (HRV) | yes |
+| Scarborough Reef (B70) | no note | Interior point, Scarborough Reef (in no shape) | (in no shape) | - |
+| Serranilla Bank (B42) | "Claimed by Colombia, Honduras, Nicaragua, and the United States" | Interior point, Serranilla Bank (in no shape) | (in no shape) | - |
+| Shaksam Valley (B06) | "Admin. by China; Ceded to China by Pakistan; Claimed by India" | Interior point, Shaksam Valley | China (CHN) | yes |
+| Shebaa Farms (B58) | "Admin. By Israel; Claimed by Lebanon" | Interior point, Shebaa Farms | Israel (ISR) | yes |
 | Siachen Glacier (B45) | "Claimed by Pakistan and India" | Interior point, Siachen Glacier | Siachen Glacier (KAS) | no |
 | Somaliland (B30) | "Self admin.; Claimed by Somalia" | Interior point, Somaliland polygon; Hargeisa; Berbera | Somaliland (SOL) | no |
 | South Ossetia (B37) | "Self admin.; Claimed by Georgia" | Interior point, South Ossetia polygon; Tskhinvali | Georgia (GEO) | yes |
+| Southern Patagonian Ice Field (B97) | "Claimed by Chile and Argentina; under survey" | Interior point, Southern Patagonian Ice Field | Argentina (ARG) | yes |
+| Spratly Is. (B46) | "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei" | Interior point, Spratly Is. (in no shape) | (in no shape) | - |
+| Swains Island (B71) | "Admin. by American Samoa for U.S.A.; Claimed by Tokelau" | Interior point, Swains Island (in no shape) | (in no shape) | - |
 | Taiwan (B77) | "Self admin.; Claimed by China" | Interior point, Taiwan polygon; Taipei | Taiwan (TWN) | S19, read as Taiwan |
+| Tiran and Sanafir Is. (B68) | "Admin. by Egypt; Claimed by Saudi Arabia" | Interior point, Tiran and Sanafir Is. (in no shape) | (in no shape) | - |
+| Tirpani Valleys (B01) | "Admin. by India; Claimed by China" | Interior point, Tirpani Valleys | India (IND) | yes |
 | Transnistria (B36) | "Self admin.; Claimed by Moldova" | Interior point, Transnistria polygon; Tiraspol | Moldova (MDA) | yes |
-| W. Sahara (B19) | "Admin. by Morocco; Claimed by Western Sahara" | Interior point, W. Sahara claim polygon held by Morocco; Laayoune; Dakhla (in no shape); Smara; Audit point, inland Dakhla | Morocco (MAR) | yes |
+| Tromelin I. (B25) | "Admin. by France; Claimed by Mauritius and the Seychelles" | Interior point, Tromelin I. (in no shape) | (in no shape) | - |
+| UNDOF Zone (B49) | "UN Patrolled Zone in Syria" | Interior point, UNDOF Zone | Syria (SYR) | yes |
+| Vukovar Island (B96) | no note | Interior point, Vukovar Island | Croatia (HRV) | yes |
+| W. Sahara (B19) | "Admin. by Morocco; Claimed by Western Sahara" | Interior point, W. Sahara claim polygon held by Morocco; Laayoune; Dakhla (in no shape); Smara; Point chosen inland of Dakhla | Morocco (MAR) | yes |
 | W. Sahara (B28) | "Self admin.; Claimed by Morocco" | Interior point, W. Sahara polygon held by the Sahrawi side; Bir Lehlou | Western Sahara (ESH) | no |
+| Wake Atoll (B59) | "Admin. by U.S.A.; Claimed by Marshall Islands" | Interior point, Wake Atoll (in no shape) | (in no shape) | - |
 | West Bank (B54) | no note | Interior point, West Bank; Ramallah | Palestine (PSE) | yes |
+| West of Essequibo River (B56) | "Admin. by Guyana; Claimed by Venezuela" | Interior point, West of Essequibo River | Guyana (GUY) | yes |
 
 In the last column, "yes" says that the shape has a code in CEPII BACI, not where a reporter files the trade of a territory
 drawn inside it, which the atlas does not know (Atlas assumption A2, below).
 
 In Natural Earth's own file of populated places a point can carry the code of one country and fall in the shape of another: its
 "Nicosia" (adm0 CYP) falls in the shape of N. Cyprus (CYN), and its "Jerusalem" (adm0 ISR) falls in the shape of Palestine (PSE).
-Natural Earth's point "Ad Dakhla" (adm0 MAR) lies in no shape of the map (the country shapes are at 1:50m); every other point
-listed for W. Sahara (B19), "Audit point, inland Dakhla" among them, falls in the shape of Morocco (MAR).
+Natural Earth's point "Ad Dakhla" (adm0 MAR) lies in no shape of the map, and every other point listed for W. Sahara (B19),
+"Point chosen inland of Dakhla" among them, falls in the shape of Morocco (MAR).
+
+The shapes of the map are Natural Earth's 1:50m shapes, simplified by the atlas for the site (`-simplify` with `keep-shapes`, in
+`pipeline/geo/build_countries.mjs`), so a point near an edge can lie in another shape of the map than in Natural Earth's own
+1:50m file of countries. The points for which the two differ are these: "Ad Dakhla" (adm0 MAR): the shape of Morocco (MAR)
+in Natural Earth's file, no shape in the map; "Famagusta" (adm0 CYN): no shape in Natural Earth's file, the shape of N.
+Cyprus (CYN) in the map; the interior point of Ceuta (B60): the shape of Morocco (MAR) in Natural Earth's file, no shape in
+the map; the interior point of Diego Garcia NSF (B44): the shape of Br. Indian Ocean Ter. (IOT) in Natural Earth's file, no
+shape in the map; the interior point of No Man's Land (Fort Latrun) (B78): the shape of Palestine (PSE) in Natural Earth's
+file, the shape of Israel (ISR) in the map; the interior point of S. Sandwich Is. (B33): the shape of S. Geo. and the Is.
+(SGS) in Natural Earth's file, no shape in the map.
 
 **Trade follows the customs code.** CEPII BACI has no code of its own for some territories the map draws (the page of
 each of those that has a page of its own says so; "Other Asia, nes" is read as Taiwan, section 1 of this file). *Atlas
@@ -2632,9 +2721,10 @@ that it draws inside another country, and moves no trade figure with the map.
 **The notice.** The About window and the README carry the same text:
 
 Country shapes are Natural Earth's default view (version 5.1.1). Natural Earth does not apply one rule to every disputed
-or self-administered territory: it draws some as shapes of their own and keeps others inside the country that claims
-them. The boundaries, names and designations on the map do not imply official endorsement or acceptance, and the atlas
-takes no position on the status of any territory.
+or self-administered territory: it draws some as shapes of their own and keeps others inside another country, for some
+the country that claims them and for others the country that administers them. The boundaries, names and designations
+on the map do not imply official endorsement or acceptance, and the atlas takes no position on the status of any
+territory.
 
 **What the map does not do.** It follows no other convention and names no organisation as the authority for a boundary.
 It has no point-of-view switch (nothing is persisted, and every view would need its own scheme of ids). It does not
