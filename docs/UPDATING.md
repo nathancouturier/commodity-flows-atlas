@@ -370,7 +370,7 @@ leaves the tracked file as it is. When Natural Earth publishes a new version, fr
    overrides the last one, once you have read which names went). Read its report and compare the names with the old file; a name that changed is a
    change on the map.
 4. **Rebuild the lettering if a character appeared** in a name: `node pipeline/geo/build_glyphs.mjs` (the builder of the map's glyph file, which takes its characters
-   from the names).
+   from the names; see "The glyph file of the lettering" below).
 5. **Check.** `node web/scripts/validate-data.mjs` (its rules for `data/geo/seas.json` and for the country index are in `web/scripts/validate-labels.mjs`: a sea
    named like a passage of `data/freight/chokepoints.json` is refused, since the atlas draws its passages as markers), `cd web && npx tsc --noEmit && npm test`,
    `.venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_naturalearth_marine.py"` and `.venv/bin/python -I pipeline/common/sources_table.py --check`.
@@ -379,6 +379,30 @@ leaves the tracked file as it is. When Natural Earth publishes a new version, fr
 
 When a source is down or changes shape there is no run to fail: the files are in git and the site keeps its last names. The builder never replaces
 the tracked file with a smaller one without `--accept-fewer`.
+
+**The glyph file of the lettering** (`web/public/glyphs/inter-medium/0-255.pbf`, with `LICENSE.txt` next to it). MapLibre draws the names from
+signed-distance bitmaps of the characters, served by the site itself (no outside font server). `pipeline/geo/build_glyphs.mjs` builds the file from
+the font Inter Medium, which is not tracked: it is the file `Inter-Medium.otf` of the Debian package `fonts-inter` (installed at
+`/usr/share/fonts/opentype/inter/Inter-Medium.otf`; read the version with `dpkg -s fonts-inter`, 4.0+ds-1 when the file was built, and the file's sha256 with
+`sha256sum`, `1e65171f...97ba`). Copy it to `raw/fonts/Inter-Medium.otf` (`raw/` is not tracked) and run, from the repository root,
+`node pipeline/geo/build_glyphs.mjs`. The builder prints the font's own strings (copyright, licence, trademark, version): `LICENSE.txt` and the
+Inter entries of `NOTICE.md` and `THIRD-PARTY-NOTICES.md` are written from them, by hand, so compare them after a new font version, and the builder
+stops, writing nothing, when the font no longer states the SIL Open Font License 1.1 or when the `LICENSE.txt` in the output folder does not hold the font's copyright
+line. Without the font file it prints one line and leaves the tracked file as it is, which is what GitHub's runners and a fresh clone do.
+
+The characters are not typed: printable ASCII, and every other character found in the `name` of the rows of `data/countries/index.json`, in the names of the
+point features of `data/infrastructure/*.geojson` once the places in brackets at their end are dropped (`assetLabel` of `web/src/map/labelRules.ts`), and in the
+sea names of `data/geo/seas.json` in upper case. The file is therefore rebuilt only when a character appears or a name changes, and the check comes first:
+`web/scripts/glyphs.test.mjs` fails ("no glyph for ...") on a name with a character the file does not hold, and says so in the run of `cd web && npm test`; the
+builder itself stops on a character above U+00FF (one range file, `0-255`; a second one is not built). A run changes no byte if nothing changed, and
+`glyphs.test.mjs` compares the tracked file with a run to a temporary folder wherever `raw/fonts/Inter-Medium.otf` exists. The size budget of the glyph files
+(`glyphs` in `web/scripts/check-size.mjs`) is checked on the built site. Nothing is scheduled and no workflow runs the builder.
+
+`pipeline/geo/build_glyphs.mjs` imports `fontkit` and `pbf` from `web/node_modules`; they are not dependencies of the atlas but of `mapshaper` and of
+`maplibre-gl`. If an upgrade drops one the builder fails when run by hand and nothing else does; writing the protocol buffer without `pbf` is about fifteen lines.
+It was written for this atlas and compared with no other glyph tool; its output was looked at, character by character, in MapLibre (a test page with every
+character at 9 to 40 px on the land and the ocean colours, and a name anchored at its centre: the `top` of a glyph is written from the ascender line, because
+the library's layout reads it so; written from the baseline the names sat about one em above their point).
 
 ### Port traffic: the weekly step, the first load in sittings, and `index.json`
 

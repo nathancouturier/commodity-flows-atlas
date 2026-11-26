@@ -393,6 +393,14 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
   University." The README of the marine areas zip (offered at
   <https://www.naturalearthdata.com/downloads/50m-physical-vectors/>, read 25 November 2026) says: "The boundaries of physical regions should be
   taken with a grain of salt."
+- **Place-name font** (the lettering of the names on the map): Inter Medium, SIL Open Font License 1.1, from the Debian package `fonts-inter`
+  4.0+ds-1 (file `Inter-Medium.otf`, version "Version 4.000;git-a52131595", read with the `fontkit` library). The font file's own copyright line is
+  "Copyright 2016 The Inter Project Authors", and its licence string is "This Font Software is licensed under the SIL Open Font License, Version 1.1.
+  This license is available with a FAQ at: http://scripts.sil.org/OFL"; it declares no Reserved Font Name and carries the line "Inter UI and Inter is a
+  trademark of rsms." The file `web/public/glyphs/inter-medium/0-255.pbf` is a Modified Version of it (a change of format: 24 px signed-distance
+  bitmaps of the characters the map writes; the outlines are unchanged) and carries the licence text next to it, in
+  `web/public/glyphs/inter-medium/LICENSE.txt`. The font software stays entirely under the SIL Open Font License (`THIRD-PARTY-NOTICES.md` has the text);
+  the repository's MIT licence does not apply to it. The interface itself is set in Inter Tight (see `THIRD-PARTY-NOTICES.md`).
 - **World Bank Pink Sheet**, **FAOSTAT**: CC BY 4.0. FAOSTAT is also subject to the FAO statistical database terms of
   use (no endorsement by FAO, no promotion of a commercial product).
 - **U.S. Energy Information Administration, USGS, USDA**: U.S. Government publications, public domain; EIA asks for an
