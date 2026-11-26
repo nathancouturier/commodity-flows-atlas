@@ -85,6 +85,65 @@ export function countryFilter(t: number, hiddenIds: readonly string[]): Expressi
 }
 
 /**
+ * First zoom at which each rank of sea names is drawn (Natural Earth's scale rank, 0 the oceans). Rank 0 has none, for the reason
+ * given for the largest country names. An Atlas convention.
+ */
+export const SEA_MINZOOM = [null, 1.8, 3.0, 4.2] as const;
+
+export type SeaRank = 0 | 1 | 2 | 3;
+
+export interface Sea {
+  n: string;
+  r: number;
+  at: [number, number];
+}
+
+/** One point per row of the sea table, carrying its name and its rank. */
+export function seaPoints(seas: readonly Sea[]): FeatureCollection<Point> {
+  return {
+    type: 'FeatureCollection',
+    features: seas.map((s): Feature<Point> => ({
+      type: 'Feature',
+      properties: { n: s.n, r: s.r },
+      geometry: { type: 'Point', coordinates: s.at },
+    })),
+  };
+}
+
+/**
+ * The four layers of sea names, in the order they are added (rank 3 first, the oceans last). The names are upper case, which the
+ * glyph file covers for the ASCII names of the table.
+ */
+export function seaLayerSpecs(): SymbolLayerSpecification[] {
+  return ([3, 2, 1, 0] as const).map((r) => {
+    const layer: SymbolLayerSpecification = {
+      id: `names-seas-${r}`,
+      type: 'symbol',
+      source: 'names-seas',
+      filter: ['==', ['get', 'r'], r],
+      layout: {
+        'text-field': ['get', 'n'],
+        'text-font': LABEL_FONT,
+        'text-transform': 'uppercase',
+        'text-letter-spacing': 0.16,
+        'text-max-width': 6,
+        'text-padding': 3,
+        'text-size': r === 0 ? 12 : 10.5,
+      },
+      paint: {
+        'text-color': LABEL_COLOR.sea,
+        'text-opacity': LABEL_COLOR.seaOpacity,
+        'text-halo-color': LABEL_COLOR.halo,
+        'text-halo-width': LABEL_COLOR.haloWidth,
+      },
+    };
+    const minzoom = SEA_MINZOOM[r];
+    if (minzoom !== null) layer.minzoom = minzoom;
+    return layer;
+  });
+}
+
+/**
  * The four layers of country names, in the order they are added: MapLibre places the last layer of the style first, so
  * the largest names win a collision with the smaller ones; inside a layer the larger box goes first.
  */
@@ -114,4 +173,12 @@ export function countryLayerSpecs(hiddenIds: readonly string[] = []): SymbolLaye
     if (minzoom !== null) layer.minzoom = minzoom;
     return layer;
   });
+}
+
+/**
+ * Every layer of names in the order they are added. MapLibre places the last layer of the style first: the country layers come
+ * after the sea layers so that a country name wins a collision with a sea name, and the oceans, placed last, are the ones dropped.
+ */
+export function labelLayerSpecs(hiddenIds: readonly string[] = []): SymbolLayerSpecification[] {
+  return [...seaLayerSpecs(), ...countryLayerSpecs(hiddenIds)];
 }

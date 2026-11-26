@@ -9,13 +9,15 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import {
-  COUNTRY_MINZOOM, COUNTRY_TIERS, LABEL_COLOR, LABEL_FONT, GLYPH_STACK, countryFilter, countryLayerSpecs, countryPoints, countryTier,
+  COUNTRY_MINZOOM, COUNTRY_TIERS, LABEL_COLOR, LABEL_FONT, GLYPH_STACK, SEA_MINZOOM, countryFilter, countryLayerSpecs, countryPoints, countryTier,
+  labelLayerSpecs, seaLayerSpecs, seaPoints,
 } from '../src/map/labelRules.ts';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
 const repo = path.resolve(here, '../..');
 const text = (rel) => fs.readFileSync(path.join(repo, rel), 'utf8');
 const index = JSON.parse(text('data/countries/index.json'));
+const seaFile = JSON.parse(text('data/geo/seas.json'));
 const labelsSrc = text('web/src/map/labels.ts');
 const basemapSrc = text('web/src/map/basemap.ts');
 const controllerSrc = text('web/src/map/controller.ts');
@@ -190,4 +192,87 @@ test('the names are not interactive: no layer is registered for a hover or a cli
 test('the colouring leaves out the names under its share labels, and brings them back', () => {
   assert.ok(/hideCountryNames\(m, ranked\.map\(\(r\) => r\.c\)\.filter\(\(c\) => c !== 'EU27'\)\)/.test(choroplethSrc));
   assert.ok(/function clear\(m: MLMap\) \{[\s\S]*hideCountryNames\(m, \[\]\)/.test(choroplethSrc));
+});
+
+// ---------------------------------------------------------------- the seas
+
+test('the sea points are the rows of the sea table: as many as the file, each at its anchor with its name and rank', () => {
+  const fc = seaPoints(seaFile.seas);
+  assert.equal(fc.features.length, seaFile.seas.length);
+  assert.ok(fc.features.length > 0);
+  seaFile.seas.forEach((s, i) => {
+    assert.deepEqual(fc.features[i].geometry.coordinates, s.at);
+    assert.deepEqual(fc.features[i].properties, { n: s.n, r: s.r });
+  });
+  assert.ok(seaFile.seas.every((s) => [0, 1, 2, 3].includes(s.r)), 'ranks 0 to 3');
+});
+
+test('the layers are added the seas first and the countries after, each from the smallest names to the largest: the last is the top', () => {
+  assert.deepEqual(
+    labelLayerSpecs().map((s) => s.id),
+    [3, 2, 1, 0].map((r) => `names-seas-${r}`).concat([3, 2, 1, 0].map((t) => `names-countries-${t}`)),
+  );
+  assert.deepEqual(labelLayerSpecs(['FRA']).slice(4), countryLayerSpecs(['FRA']), 'the hidden ids reach the country layers');
+  assert.deepEqual(labelLayerSpecs().slice(0, 4), seaLayerSpecs());
+});
+
+test('the oceans have no zoom limit and the other ranks appear later as they get smaller', () => {
+  const byRank = Object.fromEntries(seaLayerSpecs().map((s) => [Number(s.id.slice(-1)), s]));
+  assert.ok(!('minzoom' in byRank[0]), 'a limit below zero is not allowed, and the phone first view is below it');
+  for (const r of [1, 2, 3]) assert.equal(byRank[r].minzoom, SEA_MINZOOM[r]);
+  assert.ok(byRank[1].minzoom < byRank[2].minzoom && byRank[2].minzoom < byRank[3].minzoom);
+  for (const s of seaLayerSpecs()) assert.deepEqual(s.filter, ['==', ['get', 'r'], Number(s.id.slice(-1))]);
+});
+
+test('a sea layer is a symbol layer of the sea source in the glyph file font, upper case, spaced, in the sea colour', () => {
+  for (const s of seaLayerSpecs()) {
+    assert.equal(s.type, 'symbol');
+    assert.equal(s.source, 'names-seas');
+    assert.deepEqual(s.layout['text-field'], ['get', 'n']);
+    assert.deepEqual(s.layout['text-font'], LABEL_FONT);
+    assert.equal(s.layout['text-transform'], 'uppercase', 'the glyph file is checked for the upper case of the sea names');
+    assert.equal(s.layout['text-letter-spacing'], 0.16);
+    assert.equal(s.layout['text-size'], s.id.endsWith('-0') ? 12 : 10.5);
+    assert.ok(!('symbol-sort-key' in s.layout), 'the sort key belongs to the countries');
+    assert.equal(s.paint['text-color'], LABEL_COLOR.sea);
+    assert.equal(s.paint['text-opacity'], LABEL_COLOR.seaOpacity);
+    assert.equal(s.paint['text-halo-color'], base('ocean'));
+    assert.equal(s.paint['text-halo-width'], LABEL_COLOR.haloWidth);
+  }
+});
+
+test('the colour the sea layers carry is legible over the ocean it sits on (at least 4.5 to 1)', () => {
+  for (const s of seaLayerSpecs()) assert.ok(contrast(s.paint['text-color'], s.paint['text-opacity'], base('ocean')) >= 4.5, s.id);
+});
+
+test('a sea is never also a country of the index, and no name of the table is a strait or a channel', () => {
+  const countries = new Set(index.map((c) => c.name.toLowerCase()));
+  for (const s of seaFile.seas) {
+    assert.ok(!countries.has(s.n.toLowerCase()), s.n);
+    assert.ok(!/\b(strait|channel|passage)\b/i.test(s.n), `${s.n} is a passage: the atlas draws those as markers`);
+  }
+});
+
+test('the sea names are read from the sea table, and a table that is missing leaves the seas without names and the countries with theirs', () => {
+  assert.ok(/load<\{ seas: Sea\[\] \}>\('geo\/seas\.json'\)/.test(labelsSrc));
+  const loads = labelsSrc.match(/\.catch\(\(\) => undefined\)/g) ?? [];
+  assert.equal(loads.length, 2, 'one .catch for the countries and one for the seas');
+  const seas = labelsSrc.slice(labelsSrc.indexOf("load<{ seas"));
+  assert.ok(/\.catch\(/.test(seas.slice(0, seas.indexOf(';'))), 'the load of the seas has its own catch');
+  assert.ok(/addSource\(SEA_SOURCE/.test(labelsSrc) && /labelLayerSpecs\(/.test(labelsSrc));
+  assert.ok(!/countryLayerSpecs\(/.test(labelsSrc), 'the layers come from labelLayerSpecs');
+});
+
+test('the sea names are not interactive, and the sea source has no click handler', () => {
+  assert.ok(!/names-seas/.test(controllerSrc));
+  assert.ok(!/(registerInteractiveLayer|registerPointLayer|\.on\()/.test(labelsSrc));
+});
+
+test('METHODOLOGY and the About window name the sea names as they are built', () => {
+  const md = text('METHODOLOGY.md').replace(/\s+/g, ' ');
+  const by = (r) => seaFile.seas.filter((s) => s.r === r).length;
+  assert.ok(md.includes(`${seaFile.seas.length} names, of which ${by(0)} oceans (rank 0), ${by(1)} of rank 1, ${by(2)} of rank 2 and ${by(3)} of rank 3`));
+  assert.ok(md.includes(seaFile.n.match(/version (\d+\.\d+\.\d+)/)[1]), 'the version of the file');
+  assert.ok(md.includes('Straits and channels are left out'));
+  assert.ok(/sea names from Natural Earth marine areas 1:50m; map lettering in Inter/.test(text('web/src/components/AboutDialog.tsx').replace(/\s+/g, ' ')));
 });

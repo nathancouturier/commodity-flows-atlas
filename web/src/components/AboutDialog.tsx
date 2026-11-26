@@ -88,7 +88,7 @@ function AboutTabView(props: { changes: Changes | null | undefined }) {
       <h3>Credits</h3>
       <p>
         Basemap: made with <Ext href="https://www.naturalearthdata.com/">Natural Earth</Ext>. Place names: country names from Natural Earth admin-0
-        (through the atlas's country index); map lettering in Inter (SIL OFL 1.1). Sea routes: Eurostat SeaRoute network, through the{' '}
+        (through the atlas's country index), sea names from Natural Earth marine areas 1:50m; map lettering in Inter (SIL OFL 1.1). Sea routes: Eurostat SeaRoute network, through the{' '}
         <Ext href="https://github.com/genthalili/searoute-py">searoute</Ext> package. Data: {n > 0 ? `${n} public sources` : 'public sources'}, listed
         with their licences under{' '}
         <button class="about-link" onClick={() => (aboutTab.value = 'sources')}>
