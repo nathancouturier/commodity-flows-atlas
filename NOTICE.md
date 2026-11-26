@@ -377,8 +377,22 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
 - **CEPII BACI**: Etalab Open Licence 2.0. Gaulier, G. and Zignago, S. (2010) BACI: International Trade Database at
   the Product-Level. The 1994-2007 Version. CEPII Working Paper N°2010-23. The atlas filters and cleans the data
   (METHODOLOGY.md, section 1); it does not republish the database.
-- **Natural Earth** (basemap): public domain, no credit required; "Made with Natural Earth" is shown as a courtesy
-  (<https://www.naturalearthdata.com/about/terms-of-use/>).
+- **Natural Earth** (basemap, country names, and the names of oceans, seas, bays and gulfs): the countries 1:50m and the
+  marine areas 1:50m (version 5.1.0, used for the names and positions of oceans, seas, bays and gulfs on the map). Its terms of use
+  (<https://www.naturalearthdata.com/about/terms-of-use/>, read 25 November 2026) say: "All versions of Natural Earth raster + vector map data
+  found on this website are in the public domain. You may use the maps in any manner, including modifying the content and design, electronic
+  dissemination, and offset printing." and "No permission is needed to use Natural Earth. Crediting the authors is unnecessary." "Made with
+  Natural Earth" is shown as a courtesy. The same page (<https://www.naturalearthdata.com/about/terms-of-use/>, read 25 November 2026) also
+  reproduces four third-party releases, each licensed to Natural Earth "for the sole purpose of creating a world base map": the page names a
+  theme for three of them (rivers and lakes of Europe, roads of North America, time zones) and none for the first, "The authors used data from
+  The Washington Post, here is their release:". On the same page (<https://www.naturalearthdata.com/about/terms-of-use/>, read 25 November
+  2026): "The authors’ used name data for more than 20 languages from Wikidata which is under a CC0 (public domain) license."; the sea names take
+  the `name_en` attribute of the marine areas file, and the page does not say which attributes these name data fill. The page ends with "All
+  rights reserved." and says of the downloads, which the atlas takes from naciscdn.org (<https://www.naturalearthdata.com/about/terms-of-use/>,
+  read 25 November 2026): "Our data downloads are generously hosted by Amazon Web Services since 2021 and previously Florida State
+  University." The README of the marine areas zip (offered at
+  <https://www.naturalearthdata.com/downloads/50m-physical-vectors/>, read 25 November 2026) says: "The boundaries of physical regions should be
+  taken with a grain of salt."
 - **World Bank Pink Sheet**, **FAOSTAT**: CC BY 4.0. FAOSTAT is also subject to the FAO statistical database terms of
   use (no endorsement by FAO, no promotion of a commercial product).
 - **U.S. Energy Information Administration, USGS, USDA**: U.S. Government publications, public domain; EIA asks for an

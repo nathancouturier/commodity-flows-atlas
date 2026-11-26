@@ -1,0 +1,54 @@
+{
+ "about": "Quotations of a few sentences, with their address and the day they were read, from the terms of use page of Natural Earth and from the README of its marine areas 1:50m download (version 5.1.0), kept so that NOTICE.md can be compared with them on every machine: it must hold each of them word for word, next to its address and the day. Nothing else of those pages is copied here; their text belongs to their publishers. Spacing is normalised: runs of white space are one space.",
+ "read": "2026-11-25",
+ "quotations": [
+  {
+   "key": "public-domain",
+   "where": "terms page",
+   "address": "https://www.naturalearthdata.com/about/terms-of-use/",
+   "quotation": "All versions of Natural Earth raster + vector map data found on this website are in the public domain. You may use the maps in any manner, including modifying the content and design, electronic dissemination, and offset printing."
+  },
+  {
+   "key": "no-permission",
+   "where": "terms page",
+   "address": "https://www.naturalearthdata.com/about/terms-of-use/",
+   "quotation": "No permission is needed to use Natural Earth. Crediting the authors is unnecessary."
+  },
+  {
+   "key": "third-party-purpose",
+   "where": "terms page",
+   "address": "https://www.naturalearthdata.com/about/terms-of-use/",
+   "quotation": "for the sole purpose of creating a world base map"
+  },
+  {
+   "key": "washington-post-no-theme",
+   "where": "terms page",
+   "address": "https://www.naturalearthdata.com/about/terms-of-use/",
+   "quotation": "The authors used data from The Washington Post, here is their release:"
+  },
+  {
+   "key": "wikidata-names",
+   "where": "terms page",
+   "address": "https://www.naturalearthdata.com/about/terms-of-use/",
+   "quotation": "The authors’ used name data for more than 20 languages from Wikidata which is under a CC0 (public domain) license."
+  },
+  {
+   "key": "hosting",
+   "where": "terms page",
+   "address": "https://www.naturalearthdata.com/about/terms-of-use/",
+   "quotation": "Our data downloads are generously hosted by Amazon Web Services since 2021 and previously Florida State University."
+  },
+  {
+   "key": "rights-reserved",
+   "where": "terms page",
+   "address": "https://www.naturalearthdata.com/about/terms-of-use/",
+   "quotation": "All rights reserved."
+  },
+  {
+   "key": "grain-of-salt",
+   "where": "README of the zip (ne_50m_geography_marine_polys.README.html)",
+   "address": "https://www.naturalearthdata.com/downloads/50m-physical-vectors/",
+   "quotation": "The boundaries of physical regions should be taken with a grain of salt."
+  }
+ ]
+}

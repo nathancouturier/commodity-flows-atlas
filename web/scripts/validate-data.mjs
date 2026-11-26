@@ -19,6 +19,7 @@
  *  - the lane and pairs files are consistent with each other and with the chokepoints (scripts/validate-freight.mjs),
  *  - the port index of the search field is consistent with the pairs and lane files (scripts/validate-ports.mjs),
  *  - the coverage file has its shape (scripts/validate-coverage.mjs: one row per page, known states, reasons that exist),
+ *  - the files the place names of the map read: geo/seas.json and the country index (scripts/validate-labels.mjs),
  *  - the infrastructure files follow their schema (scripts/validate-infra.mjs; every finding is an error, a file in the
  *    old shape gives warnings only with INFRA_OLD_SHAPE=1),
  *  - ranges in every file: coordinates of GeoJSON geometries and of `lat`/`lon` pairs on the globe (a swapped pair is
@@ -35,6 +36,7 @@ import { validateFreight } from './validate-freight.mjs';
 import { validatePorts } from './validate-ports.mjs';
 import { validateInfra, validateWpi, summariseWarnings } from './validate-infra.mjs';
 import { validateCoverage } from './validate-coverage.mjs';
+import { validateLabels } from './validate-labels.mjs';
 import { portTrafficProblems, portTrafficIndexProblems } from './port-traffic-rules.mjs';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../data');
@@ -642,6 +644,7 @@ checkPrices();
 validateFreight(root, errors);
 validatePorts(root, errors);
 validateCoverage(root, errors);
+validateLabels(root, errors);
 const infraWarnings = [];
 await validateInfra(root, errors, infraWarnings);
 validateWpi(root, errors, infraWarnings);
