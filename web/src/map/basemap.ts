@@ -36,6 +36,8 @@ export function baseStyle(): StyleSpecification {
   return {
     version: 8,
     name: 'Abyssal',
+    // absolute, because the glyph files are fetched by workers; the braces are the library's placeholders
+    ...(typeof document !== 'undefined' ? { glyphs: `${new URL('./', document.baseURI).href}glyphs/{fontstack}/{range}.pbf` } : {}),
     sources: {
       graticule: { type: 'geojson', data: graticule() },
       countries: { type: 'geojson', data: { type: 'FeatureCollection', features: [] }, promoteId: 'c' },

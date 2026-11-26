@@ -87,7 +87,8 @@ function AboutTabView(props: { changes: Changes | null | undefined }) {
       </ul>
       <h3>Credits</h3>
       <p>
-        Basemap: made with <Ext href="https://www.naturalearthdata.com/">Natural Earth</Ext>. Sea routes: Eurostat SeaRoute network, through the{' '}
+        Basemap: made with <Ext href="https://www.naturalearthdata.com/">Natural Earth</Ext>. Place names: country names from Natural Earth admin-0
+        (through the atlas's country index); map lettering in Inter (SIL OFL 1.1). Sea routes: Eurostat SeaRoute network, through the{' '}
         <Ext href="https://github.com/genthalili/searoute-py">searoute</Ext> package. Data: {n > 0 ? `${n} public sources` : 'public sources'}, listed
         with their licences under{' '}
         <button class="about-link" onClick={() => (aboutTab.value = 'sources')}>
@@ -170,6 +171,10 @@ function SourcesTabView(props: { status: StatusView | null; vintages: Record<str
       <ul class="about-notices">
         <li>
           <b>Basemap.</b> Made with Natural Earth. Free vector and raster map data @ <Ext href="https://www.naturalearthdata.com/">naturalearthdata.com</Ext>.
+        </li>
+        <li>
+          <b>Map lettering.</b> Inter Medium, SIL Open Font License 1.1; the glyph files are a modified version of the font (a change of format), with
+          the licence text next to them.
         </li>
         <li>
           <b>Sea routes.</b> Routes, lanes and distances are computed on the SeaRoute maritime network of Eurostat with the{' '}

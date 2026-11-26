@@ -8,6 +8,7 @@ import maplibregl, { type Map as MLMap, type Marker } from 'maplibre-gl';
 import type { CommodityData, Ranked } from '../../types';
 import { registerLayerModule } from '../layers';
 import { setCountryTooltipExtra } from '../controller';
+import { hideCountryNames } from '../labels';
 import { choroInfo, commodity, metric, select, year } from '../../lib/store';
 import { commodities } from '../../lib/data';
 import { loadHistory, loadOptional, commodityMeta, countries, countryName, sourceLabel } from '../../lib/data';
@@ -162,6 +163,8 @@ registerLayerModule((m: MLMap) => {
         });
         labels.push(placeLabel(m, el, at as [number, number]));
       }
+      // a share label sits on the point of the country's name: the name gives way to it
+      hideCountryNames(m, ranked.map((r) => r.c).filter((c) => c !== 'EU27'));
       setCountryTooltipExtra((iso) => {
         const r = byC.get(iso);
         if (!r) return '';
@@ -200,6 +203,7 @@ function snapLabels(m: MLMap) {
 function clear(m: MLMap) {
   for (const id of painted) m.setFeatureState({ source: 'countries', id }, { v: 0 });
   painted = [];
+  hideCountryNames(m, []);
   for (const l of labels) l.remove();
   labels = [];
   labelAt.clear();
