@@ -20,7 +20,7 @@ released. This file is updated at each release.
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
 | 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). A release number with release notes, a way to report an error, a coverage table of the commodity pages, a voyage calculator on the route pages and port facts from the World Port Index (eighth release, 25 November). Weekly traffic per port from IMF PortWatch, loaded little by little and slowly as the owner decided on 25 November, shown on the port pages and read each week by the PortWatch job (ninth release, 25 November). A page on the state of the freight market, as far as free and republishable data go (tenth release, 26 November). Left: freight rates in USD per tonne (for none of the sources it has read has the atlas established that the rates may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
-| 7 | The map and the screens it is read on | names on the map (countries, seas, ports and assets), the whole trading world on a phone's first view, a "Reset view" button, a scale bar, particles on both sides of the Pacific, the system's reduced-motion setting followed by the camera, a notice on the boundaries the map draws, a layout for tablets (eleventh release, 26 November). Left: the disputed areas are not drawn in any way of their own, a globe or a view centred on the Pacific, what the owner decides on the questions the release raises |
+| 7 | The map and the screens it is read on | names on the map (countries, seas, ports and assets), the whole trading world on a phone's first view, a "Reset view" button, a scale bar, particles on both sides of the Pacific, the system's reduced-motion setting followed by the camera, a notice on the boundaries the map draws, a layout for tablets, a dash pattern per vessel class on the freight routes and other cues that do not rest on colour (eleventh release, 26 November). Left: the disputed areas are not drawn in any way of their own, a globe or a view centred on the Pacific, what the owner decides on the questions the release raises |
 | all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, 2,018 and 165 at the ninth, 2,121 and 207 at the tenth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The two weekly update jobs ran on GitHub in their new form for the first time on 25 November 2026 and ended green; they were started by hand, because GitHub had not started the scheduled run an hour after its time (see the ninth release). GitHub then started both scheduled runs by itself, about seven and six hours after their times, in the night of 25 to 26 November; both ended green (see the tenth release) |
 
 ## Eleventh release (26 November 2026): what changed
@@ -103,6 +103,48 @@ that falls outside every shape) and two minor ones. One package corrected them.
   the Middle East and India in view); "Reset view" and the closing of a page give the same view. Under a touch
   screen the folded Controls button is 34 px tall.
 
+### Colours, and cues that do not rest on colour
+
+- **One module** holds every colour that carries a meaning (the families, the vessel segments, the statuses, the
+  pipelines, the kinds of event, the chart series, the surfaces of the map), and a test fails when such a colour
+  is typed anywhere else. No colour changed.
+- **The legend's five status keys** are drawn as the map draws them, by the same function: Damaged a ring with a
+  badge holding "!", Idle a ring with a badge holding two bars, Closed a ring with a badge holding a cross, Under
+  construction a dashed ring, Planned a dotted ring.
+- **A dash pattern for each vessel class on the freight routes**: Dry bulk long dashes, Tankers dash and dot, Gas
+  carriers dots, Container sparse dashes. The selected route and every lane stay solid or keep the dash they
+  had. The legend and the route and vessel-class pages show the same pattern beside the class's name. The audit's
+  pairs (an Energy lane and a Tankers route, a Metals lane and a Dry bulk route, one hue each) are now told
+  apart where a route is drawn alone, in the legend and on the pages; they are not on the trunk of the densest
+  corridor (from Hormuz to Bab el-Mandeb at zoom 3.6), where routes of several classes lie on each other under
+  the glow and the particles. Longer dashes were tried and did not help.
+- **The Container series** of the weekly charts of the passages and of the ports has a dashed edge, and its dot
+  in the readout is a short dashed line: with Dry bulk it is one colour for a deuteranope.
+- **A test of the colours that share a screen**: their distance for unsimulated vision and under three simulated
+  colour-vision deficiencies, with a second cue required (a dash, a glyph, a label, the place) for every pair
+  under the thresholds, and the contrast of every data colour on the land and on the ocean. METHODOLOGY (section
+  16) gives the method, the thresholds, the pairs that stay close and what is not done: no alternative palette
+  (it would be a setting to remember, and the site stores nothing), no new hue, the land and the outline of the
+  countries as they were.
+
+### Seven older defects
+
+- **The yearly PortWatch volumes** that the passage pages compare the atlas's tonnages with are summed from the
+  weekly series on every machine. They depended on whether the building machine held PortWatch's daily table,
+  so the next yearly run on GitHub would have moved them. The figures move by 0.06% at the median and by 0.92% at
+  most for a passage and a year (Hormuz, tankers, 2024: 915.7 Mt where the daily sum gave 915.4).
+- **A file of recorded lanes for every passage**: the pages of the ten passages without recorded lanes no longer
+  ask for a file that does not exist and no longer download the whole table (1.8 MB) for nothing.
+- **An unknown board** in the address shows "This board is not in the atlas catalogue." and no longer the heading
+  of the status board.
+- **The test of the PortWatch pace** no longer fails when the table grows: the texts give the rule (a page of
+  2,000 rows at a time) and a dated count, and the test checks the rule.
+- **The digest of the freight market**: its builder and its proof on the web side now refuse the same values (a
+  weekly value with more decimals than the weekly files carry).
+- Two points were checked and needed no change: the address that "Report an error" builds is not encoded twice
+  (the form shows the address as the address bar has it); the port page of Seria is right (the crawl that flagged
+  it tested for the word "Loading", which its World Port Index entry, "Seria Oil Loading Terminal", contains).
+
 ## Tenth release (26 November 2026): what changed
 
 One addition of wave 6 (audit point A-028): a page that says what the atlas can say of the freight market today,
@@ -116,8 +158,8 @@ back the weekly republication of the site whenever the digest step kept the file
 of the cargo in per cent computed on rounded figures, up to 0.2 point off; the rule that ranks the passages
 described wrongly) and thirteen other points, one of them older than this release. Two packages corrected
 seventeen of the eighteen; the older one (an unknown board id shows the heading of the status board, and the
-address that "Report an error" builds encodes a colon twice) is left for a later package and listed under the
-known limits.
+address that "Report an error" builds encodes a colon twice) was left for a later package (the eleventh
+release: the first is corrected, the second was checked and is not a defect).
 
 A fourth reviewer then verified the corrections on a new frozen copy. The figures, the words and the digest of
 changes held; three more important defects and nine minor points were found. Two of the three were of the same
@@ -1571,6 +1613,17 @@ These were needed to finish the work; each is reversible.
      are cut equally.
    - **The legend's status keys are 20 px wide**, the size at which their badges can be told; the legend is
      about 5 px taller.
+   - **A dash pattern per vessel class on the freight routes**, which changes the look of the default map; the
+     four patterns, the rule that tells two patterns apart and the list of every dash the map draws are Atlas
+     conventions, undone by setting the four patterns to solid in one object. The route and vessel-class pages
+     show the class's pattern after its name. The legend does not name Container, as before.
+   - **The Container series dashed** in the weekly charts of the passages and of the ports.
+   - **The colour thresholds** (15 for unsimulated vision, 8 for each simulation, between 6 and 8 only with a
+     second cue, 3.0 for contrast) are the atlas's own rule, taken from the constants of the tool that
+     METHODOLOGY section 16 names, not a standard. **No alternative or high-contrast palette, no new hue, the
+     outline of the countries not brightened.**
+   - **The yearly PortWatch volumes are sums of weekly means**, one way of summing on every machine, where the
+     building machine summed the daily values.
 
 ## Known limits
 
@@ -1596,18 +1649,15 @@ These were needed to finish the work; each is reversible.
   that the atlas read does not say what each of its five ship classes holds); the weekly count of grain vessels
   of the USDA is linked, not shown yet. The new step of the PortWatch
   job has not run on GitHub.
-- Found by the last verification of the tenth release, for the next package: `test_portwatch_pace.py` compares
-  the words "about 41 pages" of `NOTICE.md` and of the workflow with the size of the PortWatch table recorded in
-  the status file (80,724 rows today, 2,000 a page): the test will fail, and hold back a week's republication, when
-  the table passes 82,000 rows, about seven weekly runs from now (mid-January 2027); the web rebuild of the
-  freight market digest stops with an error, where it should skip, on a weekly value that has more decimals than
-  the weekly files carry today; a digest dated after one weekly file fails the checks by design (a weekly file
-  that lost its last week, which the table kept between runs makes very unlikely).
-- Older than the tenth release and found while it was checked: ten of the thirty passages have no file of
-  recorded lanes and their page asks for it all the same, which leaves a "404" line in the browser's console on
-  the public site and changes nothing on the page; an unknown board id in the address shows the heading of the
-  status board; the address that "Report an error" builds encodes the colon of the page's address twice. All
-  three are for a later package.
+- Freight market digest: a digest dated after one weekly file fails the checks by design (a weekly file that
+  lost its last week, which the table kept between runs makes very unlikely).
+- **The yearly PortWatch volumes are sums of weekly means**: a year's total differs from the sum of the daily
+  values by up to 0.92% for a passage and a year (0.06% at the median; up to 2.9% for one ship type of a small
+  passage, Kerch dry bulk in 2024). METHODOLOGY says so, with the measurement made against the daily pages read
+  on 22 November 2026.
+- **The weekly PortWatch step has 25 minutes**: at its slowest pace that leaves room for a table of about
+  107,000 rows, about 140 weekly runs from now (80,724 rows on 26 November 2026); a test warning says when the
+  table passes it.
 - `NOTICE.md` and the registry call the publications of the USGS and of the USDA "public domain" as they do
   the EIA's, and quote a page for the EIA only (its "Copyrights and Reuse" page). The USGS's page was read on 25
   November 2026 (https://www.usgs.gov/information-policies-and-instructions/copyrights-and-credits): "USGS-authored
@@ -1615,12 +1665,6 @@ These were needed to finish the work; each is reversible.
   be given" and says that some material on its sites is not in the public domain. The registry and the notice
   are to quote it. The site of the USDA Foreign Agricultural Service refused automated reading: its terms are
   still to be read, in a browser.
-- **The passage estimates depend on the machine that builds them.** The yearly totals of IMF PortWatch that the
-  passage pages compare the atlas's tonnages with (915 Mt of tanker cargo at one passage in 2024, for example)
-  were computed from PortWatch's daily table, which only the building machine holds. The yearly job on GitHub has
-  no daily table and computes them from the weekly series of the repository, whose values are rounded: the
-  totals then differ by up to about 0.1% (916 Mt). The next yearly run would move these figures by that much.
-  To be made one path, from the weekly series, in the next release.
 - Events: 37 of the 80 events still cite a Wikipedia article as one of their pages; one (the cobalt export
   suspension of the Democratic Republic of the Congo) rests on a trade-press page that asks for a free account
   after three articles.
@@ -1748,6 +1792,13 @@ These were needed to finish the work; each is reversible.
   when the camera reads it. The price drawer covers the lower part of an open page, as on a phone. A rotation
   with a page open keeps the controls folded. Under a touch screen some buttons are under 34 px tall on every
   layout (action buttons 29.4 px, section fold buttons 28 px).
+- **Colours.** For a deuteranope Dry bulk and Container are one colour, and so are the Weather and Policy
+  kinds of event: the dash and the word carry the difference. The land is 1.12:1 on the ocean and the outline of
+  the countries 1.51:1 on the ocean and 1.35:1 on the land: only the data lines carry data (all 4.1:1 or more).
+  The simulation is a model of the complete deficiencies, not a measure of anyone's sight. The dash patterns of
+  the routes do not read on the trunk of the corridor from Hormuz to Bab el-Mandeb at zoom 3.6. The Container
+  class is drawn on four routes and is not named in the legend. The tick of the History bar and the marker of
+  the price drawer give the date and the title of an event, not its kind.
 - The Sources tab of the About window shows the name, publisher, licence and update rhythm of a source, never
   what the atlas uses it for (that is in `DATA_SOURCES.md`).
 - The note of the Ghawar field says "Arabian Gulf"; the map and the other texts of the site write "Persian Gulf".
@@ -1909,7 +1960,16 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
 41. **Tablets.** (a) Should the controls stay open beside a page at 1,000 to 1,024 px, where both would fit?
     (b) On a portrait tablet the first view cuts the Pacific and Japan equally: or keep the Americas and cut
     East Asia? (c) The legend is about 5 px taller for status keys of 20 px: acceptable?
-42. The choices listed above, each reversible.
+42. **Dash patterns on the freight routes.** They change the look of the default map and do not read on the
+    densest corridor: keep them? If so, go further on the corridor (particles off on the routes, a thicker
+    route, a lower glow under a patterned route)? Should the legend name Container, which four routes carry?
+43. **Colours.** (a) A new violet for Container and for the Policy events, which a deuteranope cannot tell from
+    Dry bulk and from Weather by colour? (b) A brighter outline of the countries (1.51:1 on the ocean today)?
+    (c) Should the ticks of the History bar and the markers of the price drawer name the kind of an event in
+    their hover?
+44. **PortWatch.** Should the limit of 25 minutes of the weekly step be raised before the table reaches about
+    107,000 rows (about 2.7 years away)?
+45. The choices listed above, each reversible.
 
 ## Update jobs
 

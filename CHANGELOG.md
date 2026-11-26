@@ -17,6 +17,9 @@ releases: the About window's "What changed" lists them. The full account of each
 - The About window, the README and the methodology state which boundaries the map draws (Natural Earth's default
   view) and that the atlas takes no position on the status of any territory; the methodology lists every area that
   Natural Earth marks as disputed, with Natural Earth's note and the shape of the map that holds it.
+- Each vessel class has its own dash pattern on the freight routes (long dashes for dry bulk, dash and dot for
+  tankers, dots for gas carriers), on the map, in the legend and beside the class's name on the route and
+  vessel-class pages. The Container series is dashed in the weekly charts of the passages and of the ports.
 - The About window credits the map's lettering (Inter, SIL Open Font License 1.1) and its place names (Natural
   Earth).
 
@@ -28,6 +31,10 @@ releases: the About window's "What changed" lists them. The full account of each
 
 ### Corrected
 - Closing a passage page returns the map to its first view.
+- The yearly IMF PortWatch volumes that the passage pages compare with are summed in one way on every machine;
+  they move by less than 1% (0.06% at the median).
+- The pages of ten passages without recorded lanes no longer ask for a file that does not exist.
+- An unknown board in the address says that the board is not in the atlas catalogue.
 
 ## Release 10 (2026-11-26)
 
