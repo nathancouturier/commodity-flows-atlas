@@ -1,6 +1,6 @@
 # Commodity Flows Atlas: progress
 
-_Last updated: 2026-11-26, after the tenth release of audit fixes_
+_Last updated: 2026-11-26, after the eleventh release of audit fixes_
 
 Live site: https://nathancouturier.github.io/commodity-flows-atlas/
 
@@ -20,7 +20,88 @@ released. This file is updated at each release.
 | 4 | Data already downloaded and unused | done, released on 23 November in the third and fourth releases. Left: cocoa and coffee product tables (the customs groups exist now), proved oil and gas reserves and refining capacity (not in the EIA file on disk), metals history before 2024 |
 | 5 | Hand-curated layers | infrastructure, events (23 November); Baltic benchmark routes, vessel classes, ports and terminals, companies (fifth release, 24 November). Left: a page per index, refineries, pipelines, fields and processing plants still a sample, a page per company |
 | 6 | Additions | search, lists by kind, CSV downloads, copy link and citation (fourth release); two long freight indicators and the freight series under its own name (fifth release). 12 commodity pages and 29 customs groups with sea lanes from data on disk (sixth release). A release number with release notes, a way to report an error, a coverage table of the commodity pages, a voyage calculator on the route pages and port facts from the World Port Index (eighth release, 25 November). Weekly traffic per port from IMF PortWatch, loaded little by little and slowly as the owner decided on 25 November, shown on the port pages and read each week by the PortWatch job (ninth release, 25 November). A page on the state of the freight market, as far as free and republishable data go (tenth release, 26 November). Left: freight rates in USD per tonne (for none of the sources it has read has the atlas established that the rates may be republished), forecasts, the other commodities the audit names (cement, petroleum coke, salt, wood, methanol, palm kernel and coconut oils, critical minerals) |
+| 7 | The map and the screens it is read on | names on the map (countries, seas, ports and assets), the whole trading world on a phone's first view, a "Reset view" button, a scale bar, particles on both sides of the Pacific, the system's reduced-motion setting followed by the camera, a notice on the boundaries the map draws, a layout for tablets (eleventh release, 26 November). Left: the disputed areas are not drawn in any way of their own, a globe or a view centred on the Pacific, what the owner decides on the questions the release raises |
 | all | Update jobs, validator, tests before publication, documentation | fifth release: no silent failure, a staleness check, one writer at a time, a before-and-after guard, the checks run before every publication, 1,077 unit tests; 1,403 unit tests and 50 web tests at the sixth release, 1,562 and 75 at the seventh, 1,899 and 138 at the eighth, 2,018 and 165 at the ninth, 2,121 and 207 at the tenth, which all pass without the raw downloads, as on GitHub. The checks ran on GitHub for the first time when the fifth release was pushed (all green, about three minutes, then build and deployment). The two weekly update jobs ran on GitHub in their new form for the first time on 25 November 2026 and ended green; they were started by hand, because GitHub had not started the scheduled run an hour after its time (see the ninth release). GitHub then started both scheduled runs by itself, about seven and six hours after their times, in the night of 25 to 26 November; both ended green (see the tenth release) |
+
+## Eleventh release (26 November 2026): what changed
+
+The map itself and the screens it is read on. The audit found the map bare (points M-099, M-107 and M-108: no
+name on it, no scale, a phone that opened on a cut world, a camera that ignored the system's reduced-motion
+setting), found no statement of which boundaries it draws (C-103), found that a tablet got the phone's layout
+(M-104) and that several codes rested on colour alone (M-106). Four designs were written and read by critics
+before anything was built; the work was then built in a separate working tree while the tenth release was being
+corrected, and merged after it.
+
+The map work (eight packages) was read by four reviewers on a frozen copy: four important defects (the "Reset
+view" button did nothing once a passage page had been opened; at the first view of a phone the ocean names at the
+left edge were cut into fragments; two sentences of the texts said of Natural Earth's page and files what they
+do not say) and twenty-four minor or older points. Two packages corrected them. The boundaries work (two
+packages) was read by one reviewer: four important defects, all in the words (among them: the notice said that Natural Earth
+keeps disputed areas "inside the country that claims them", which is false for Crimea and eight other areas; the
+table read as the whole of Natural Earth's layer and listed 26 of its 99 areas; a wrong cause given for a point
+that falls outside every shape) and two minor ones. One package corrected them.
+
+### Names on the map
+
+- **Countries**: 239 names, Natural Earth's except where the atlas writes the name itself, in four size classes
+  by the area of the country's box (above 300 square degrees: 21 names, shown at every zoom; above 40: 65 names,
+  from zoom 2.0; above 6: 62, from zoom 3.2; the 91 others from zoom 4.4).
+- **Oceans, seas, bays and gulfs**: 68 names from Natural Earth's marine areas at 1:50m (version 5.1.0, read on
+  25 November 2026), in capitals: the 7 oceans at every zoom, 22 names from zoom 1.8, 28 from zoom 3.0, 11 from
+  zoom 4.2. Straits and channels are not named: the atlas draws its passages as markers.
+- **Ports and other point assets**: the 626 point assets are named to the right of their icon from zoom 4.2.
+  Pipelines are not named. Every icon is drawn at every zoom, as before: a name that would overlap another is
+  left out at that zoom, never an icon.
+- The names are drawn under the flows and the icons, in Inter Medium, from a glyph file that the site serves
+  itself (45 kB, with the font's licence beside it): no outside host is asked. They take no click and no hover.
+  A country name wins a collision with an asset name. With a colouring on, the country names are white with a
+  wider halo. An ocean name or a name of the largest class of countries is left out, not cut, when it would
+  cross an edge of the screen while the map is at rest; names of the smaller classes can be cut by an edge.
+- The About window credits the lettering (Inter, SIL Open Font License 1.1) and the place names (Natural Earth);
+  `NOTICE.md` quotes Natural Earth's terms and `THIRD-PARTY-NOTICES.md` carries the font's licence.
+
+### First view, "Reset view", scale bar, particles
+
+- **A phone opens on the whole trading world**: the frame from 125 degrees west to 150 degrees east and from 45
+  degrees south to 65 degrees north is in view at load (at 390 by 844 px the longitudes in view were 70.7 west
+  to 95.7 east, so the Americas and East Asia were cut). The lowest zoom follows the width of the screen; a
+  desktop's first view did not move (checked to the pixel at six sizes). Below zoom 0.5 the icons are drawn
+  smaller, none is hidden.
+- **"Reset view"**, a button under the zoom buttons: back to the first view, clear of the open page, which stays
+  open; the address does not change. Closing a passage page also returns to the first view now: it did not on
+  the published site, because the flight to a passage left its padding on the camera.
+- A resize fits the first view again while the camera is where the atlas put it, so a phone turned on its side
+  and back opens on its first view again; once the visitor or a page moved the map, a resize leaves it.
+- **A scale bar in nautical miles** from zoom 4 (below, a length on a world map means little).
+- **Particles on both sides of the Pacific**: they are drawn on every copy of the world that is in view (245 of
+  the 3,792 main lanes and 27 of the 341 routes cross the 180th meridian).
+- **Reduced motion**: with the system's setting on, the camera moves in one step instead of flying and the
+  particles stand still.
+
+### Boundaries and territories
+
+- The About window, the README and METHODOLOGY (section 15) carry one notice, the same words in the three
+  places: the map draws Natural Earth's default view of the countries (version 5.1.1), which draws some disputed
+  or self-administered areas as shapes of their own and keeps others inside another country, for some the
+  country that claims them and for others the country that administers them; the atlas takes no position on the
+  status of any territory. Nothing on the map changed: no tint, no claim line.
+- METHODOLOGY lists every area of Natural Earth's layer of breakaway and disputed areas (99), each with Natural
+  Earth's own note and the shape of the map that holds a point inside it; tests keep the table, the notice and
+  the map in line. It also says that the shapes are Natural Earth's 1:50m shapes simplified by the atlas, and
+  names the six tested points that the map holds in another shape than Natural Earth's own 1:50m file does.
+
+### Tablets
+
+- From 761 to 1,024 px wide and at least 501 px tall, the controls are a column of 276 px at the left and a page
+  is a column of 350 to 372 px at the right, one at a time: opening a page folds the controls into their
+  Controls button, closing it gives them back unless the visitor had folded them himself. The legend lies along
+  the bottom; the price drawer and the History bar sit right of the controls column. The phone layout (up to
+  760 px wide, and any screen up to 1,024 px wide that is 500 px tall or less) and the desktop layout (1,025 px
+  and wider) did not move (rectangles compared to the pixel).
+- The camera of a tablet: a passage page frames the passage clear of the page; the first view of a portrait
+  tablet, where the frame is wider than the free area, is centred on the middle of the frame (Europe, Africa,
+  the Middle East and India in view); "Reset view" and the closing of a page give the same view. Under a touch
+  screen the folded Controls button is 34 px tall.
 
 ## Tenth release (26 November 2026): what changed
 
@@ -1081,10 +1162,15 @@ coal" wording; licence files (MIT for code, CC BY 4.0 for the atlas's own figure
 - **Search** over every kind of page, companies included, with trade names and abbreviations; CSV
   downloads with source and licence on each row, copy link and copy citation.
 - **History**: a 2005 to 2024 timeline of flows, with events to 2026.
-- **62 registered third-party sources**, every one free to read, plus the atlas's own entry for its
-  estimates and conversions.
+- **65 registered third-party sources**: every figure shown comes from one that is free to read, and two of
+  them (the Shanghai Shipping Exchange, the USDA Agricultural Marketing Service) are only linked, with no value
+  shown; plus the atlas's own entry for its estimates and conversions.
 - **A release number and release notes** in the About window, a "Report an error" button on every page, and
   a "Quality" tab that shows which blocks each commodity page holds (362 of the 448 that apply).
+- **The map**: names of 239 countries, of 68 oceans, seas, bays and gulfs and, from zoom 4.2, of the 626 point
+  assets; a "Reset view" button; a scale bar in nautical miles from zoom 4; particles on every copy of the
+  world in view; three layouts (phone, tablet from 761 to 1,024 px wide, desktop); a notice on the boundaries
+  the map draws.
 
 ## Decisions of the owner
 
@@ -1452,6 +1538,39 @@ These were needed to finish the work; each is reversible.
    - **How the small cases print**: a change that rounds to zero reads "0.0%"; a cargo under 0.05 Mt reads
      "under 0.05 Mt" and its change "down more than N%" (the words of the status board), not the stored change.
    - **The Dallas Fed's index renamed in the registry** so that its name starts with the Bank.
+16. Eleventh release, each reversible:
+   - **Names as Natural Earth publishes them**: the 68 names of oceans, seas, bays and gulfs (among them
+     Persian Gulf, Sea of Japan, South China Sea, Gulf of Mexico) and the country names except those the atlas
+     writes itself; deleting one line of `data/geo/seas.json` removes a sea name. The atlas takes no position
+     on a naming dispute.
+   - **The size classes and the zooms of the names** are Atlas conventions: countries by the area of their box
+     (above 300, 40 and 6 square degrees), shown at every zoom for the largest class, then from zoom 2.0, 3.2
+     and 4.4; seas of the second, third and fourth rank from zoom 1.8, 3.0 and 4.2. Spain and Norway fall in
+     the largest class because their boxes include the Canary Islands and Svalbard.
+   - **Asset names from zoom 4.2**, and the order in which the asset types win a place for their name: port,
+     LNG export terminal, LNG import terminal, refinery, smelter, mine, field, store. **A country name wins over
+     an asset name.**
+   - **A name at the edge is left out, not moved**: on a phone's first view the Arctic and the two Pacific
+     oceans carry no name. The rule covers the oceans and the largest class of countries only.
+   - **White country names over a colouring**, with a wider halo.
+   - **The lettering is Inter Medium**, not the interface's Inter Tight, whose file format the glyph builder
+     cannot open.
+   - **The whole trading world on a phone's first view**, and on every narrow screen: a monitor turned upright
+     or a narrow window of the desktop layout opens on the whole frame, with empty bands above and below. The
+     icons are drawn smaller below zoom 0.5.
+   - **Two new controls on the map**: "Reset view" and the scale bar (from zoom 4 only); each is one line to
+     remove.
+   - **Neither a globe nor a Pacific-centred view** was built.
+   - **Boundaries**: Natural Earth's default view is kept and stated; the disputed areas are not drawn (no tint,
+     no claim line, no status in the hover); no organisation is cited as an authority (the United Nations' pages
+     could not be read: its site answered HTTP 403); METHODOLOGY carries the table of every area of Natural
+     Earth's disputed layer with Natural Earth's own notes (the table and its test can be removed together).
+   - **Tablet**: a page folds the controls at every width from 761 to 1,024 px, and a link that opens a page
+     loads a tablet with the controls folded; the page column ends above the History bar; the first view of a
+     portrait tablet is centred on the middle of the frame, so that the Pacific west of the Americas and Japan
+     are cut equally.
+   - **The legend's status keys are 20 px wide**, the size at which their badges can be told; the legend is
+     about 5 px taller.
 
 ## Known limits
 
@@ -1599,6 +1718,39 @@ These were needed to finish the work; each is reversible.
   of the 2026 war; a typo that fits two names equally lists them in alphabetical order; the long method sentence
   of the gold, silver and platinum tables is printed under the key figure and again under each table; the title
   of a selected event is cut beside an open panel at about 1,100 px (the full title is in the tooltip).
+- **Names on the map.** They lie under the flows and the icons, so in the dense areas (Europe, the Gulf, East
+  Asia) many are partly hidden. Names of the smaller classes can be cut by an edge of the screen (SEA OF OKHOTSK
+  at the right edge of a first view of 1,920 by 1,080 px). An asset name that loses a collision is not drawn at
+  that zoom (Ras Laffan LNG appears from zoom 5.8). Straits and channels are not named. If the glyph file fails
+  to load, the names are drawn in a fallback font and the console holds one warning of the map library per
+  character. What the names cost per frame could not be measured on a loaded machine.
+- **The country index behind the names** (older than the names, seen through them): 15 of the 239 name points
+  are not on the country's own land (New Zealand's name sits in the Tasman Sea); "Siachen Glacier", a shape of
+  its own in Natural Earth, is drawn as a country name; "São Tomé and Principe" lacks the accent of Príncipe.
+- **The first view.** A phone held sideways stays cut. A phone that was dragged, turned on its side and turned
+  back stays at zoom 0.5 until "Reset view" is pressed. On a narrow screen the world can be zoomed out until it
+  is shorter than the screen, and then panned until its centre is on a pole. Pinch and double tap were not
+  tested on a device.
+- **The scale bar** is true on the horizontal line through the middle of the map only (at zoom 4 a length
+  differs by about 24% at the top and bottom of a 900 px map centred on 45 degrees, by about 6% at zoom 6); on a
+  phone it reads the middle of the map, which is behind the sheet.
+- **The Pacific.** A lane across the Pacific is still two stubs at the two edges of the first view; both now
+  carry particles, nothing joins them. Particles never travel the last stretch of a lane that is shorter than
+  their spacing, so a short stub can show none.
+- The Route finder scrolls smoothly to its result whatever the system's reduced-motion setting.
+- **Boundaries.** The disputed areas are not drawn: Crimea reads and opens Russia, the Moroccan side of Western
+  Sahara reads Morocco. A territory that the customs data have no code for has no customs trade flow under its
+  own name.
+- **Tablets.** An on-screen keyboard that shrinks the visible height under 501 px turns the layout into the
+  phone's while it is shown (focus, text, the open page and the zoom are kept). At 768 px wide, with a page
+  open, a hover card (280 px) is wider than the free strip and runs about 25 px under the page. The vertical
+  position of the first view varies by up to about 19 px between loads, because the legend is still settling
+  when the camera reads it. The price drawer covers the lower part of an open page, as on a phone. A rotation
+  with a page open keeps the controls folded. Under a touch screen some buttons are under 34 px tall on every
+  layout (action buttons 29.4 px, section fold buttons 28 px).
+- The Sources tab of the About window shows the name, publisher, licence and update rhythm of a source, never
+  what the atlas uses it for (that is in `DATA_SOURCES.md`).
+- The note of the Ghawar field says "Arabian Gulf"; the map and the other texts of the site write "Persian Gulf".
 
 ## Open questions for the owner
 
@@ -1739,7 +1891,25 @@ copyright page and on SEC EDGAR were answered on 24 November 2026: see "Decision
     hours late (see the tenth release). The temporary workflow that was proposed to find out is no longer needed
     and was never added. Left to him: if he wants the weekly data earlier in the day, the times of the schedules
     can be moved earlier by the delay seen.
-38. The choices listed above, each reversible.
+38. **Names on the map.** (a) Natural Earth's 68 sea names are drawn as published (among them Persian Gulf, Sea
+    of Japan, South China Sea, Gulf of Mexico): keep them all, or strike some (one line of a file each)? (b)
+    Spain and Norway are in the largest class of names because of the Canary Islands and Svalbard: leave the
+    convention, or set these two by hand? (c) On a phone's first view the ocean names that would be cut by the
+    edge are left out: acceptable, or should their points be moved inward? (d) Should the same rule cover the
+    22 seas of the second rank (SEA OF OKHOTSK is cut at the right edge of a 1,920 by 1,080 first view)? (e) The
+    note of the Ghawar field says "Arabian Gulf": should it follow the map's "Persian Gulf"?
+39. **The map's first view and controls.** (a) A phone opens on the whole trading world, small: keep? (b) A
+    globe or a view centred on the Pacific was studied and not built: wanted? (c) "Reset view" and the scale
+    bar are two new controls: keep both? (d) Should a phone that was dragged, turned and turned back return to
+    its earlier zoom? (e) A monitor turned upright opens on the whole frame with empty bands: acceptable?
+40. **Boundaries.** (a) The map keeps Natural Earth's default view and says so; the disputed areas are not
+    drawn: is that the convention he wants? (b) METHODOLOGY names every area of Natural Earth's disputed layer
+    in a table (Crimea, Taiwan, Kashmir, Gibraltar, the Falkland Islands among them), with Natural Earth's own
+    notes: keep the table? (c) The wording of the notice.
+41. **Tablets.** (a) Should the controls stay open beside a page at 1,000 to 1,024 px, where both would fit?
+    (b) On a portrait tablet the first view cuts the Pacific and Japan equally: or keep the Americas and cut
+    East Asia? (c) The legend is about 5 px taller for status keys of 20 px: acceptable?
+42. The choices listed above, each reversible.
 
 ## Update jobs
 

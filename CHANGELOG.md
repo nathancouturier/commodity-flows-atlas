@@ -4,6 +4,31 @@ What a visitor sees changed on the site, release by release, newest first. The w
 releases: the About window's "What changed" lists them. The full account of each release is in
 [`PROGRESS.md`](PROGRESS.md).
 
+## Release 11 (2026-11-26)
+
+### Added
+- Names on the map: countries (the largest from the first view, the others as the map is zoomed), oceans, seas, bays
+  and gulfs, and, from zoom 4.2, ports, terminals, mines, refineries, smelters, fields and stores. The names lie
+  under the flows and the icons and take no click.
+- "Reset view", a button under the zoom buttons, returns to the first view and leaves the open page open. A scale
+  bar in nautical miles appears from zoom 4.
+- A layout for tablets (761 to 1,024 px wide): the controls and the pages are columns, one at a time, and the legend
+  lies along the bottom.
+- The About window, the README and the methodology state which boundaries the map draws (Natural Earth's default
+  view) and that the atlas takes no position on the status of any territory; the methodology lists every area that
+  Natural Earth marks as disputed, with Natural Earth's note and the shape of the map that holds it.
+- The About window credits the map's lettering (Inter, SIL Open Font License 1.1) and its place names (Natural
+  Earth).
+
+### Changed
+- A phone opens on the whole trading world, from the Americas to Japan, where it opened on part of it.
+- Particles run on both sides of the Pacific: they are drawn on every copy of the world in view.
+- With the system's reduced-motion setting on, the camera moves in one step and the particles stand still.
+- The legend draws the five status keys with the rings and badges that the map's icons carry.
+
+### Corrected
+- Closing a passage page returns the map to its first view.
+
 ## Release 10 (2026-11-26)
 
 ### Added
