@@ -2493,11 +2493,22 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   latitude (`WORLD_BOUNDS` in `web/src/map/camera.ts`; the Americas to Japan), fitted clear of the panels. The zoom
   floor is the library's pole constraint on a desktop (the world is never shorter than the screen) and a lower one on
   a narrow screen, so that the whole box fits: on a phone the world is smaller than the screen is tall, and the box is
-  358 px wide on a 390 px screen. A phone held sideways stays cut: the band the panels leave is too short for the
-  box. The camera is not kept in the address and nothing about it is stored. The "Reset view" button under the zoom
-  buttons returns to this view, clear of the open page, and leaves the page open.
+  358 px wide on a 390 px screen. The lower floor applies to every screen narrower than 1.07 times the larger of its
+  height and 724 px (up to 964 px wide at 900 px high, up to 2,057 px wide at 1,920 px high), a window of the desktop
+  layout as much as a phone: a monitor turned upright (1,080 by 1,920) or a window 800 px wide and 900 px high opens
+  on the whole box with empty bands above and below, where it used to open on part of it. That is a choice made
+  without the owner, listed in PROGRESS.md: the whole box in view is the rule of the first view on every narrow
+  screen. A phone held sideways stays cut: the band the panels leave is too short for the box. The camera is not kept
+  in the address and nothing about it is stored. The "Reset view" button under the zoom buttons returns to this view,
+  clear of the open page (a passage page too), and leaves the page open; closing a page returns to it as well. While
+  the camera is where the atlas put it (the first view, or a "Reset view"), a resize (a phone turned on its side and
+  back, a window made narrower and wider) fits the view again for the new size, so a phone turned and turned back
+  opens on the first view again. Once the visitor or a page has moved the map (a drag, a wheel, a pinch, the zoom
+  buttons, the flight to a page), a resize leaves it where it is and leaves the open page open; only the zoom floor
+  follows the new size, so a phone turned on its side is lifted to the floor of that shape, and stays there when it is
+  turned back.
 - **Icon size below zoom 0.5.** An icon is smaller below the zoom a desktop can reach (0.72 of its size at zoom 0.5,
-  0.5 at zoom -0.5, in between linearly), so that the 626 point assets stay apart on a phone's first view. Every asset
+  0.5 at zoom -0.5, in between linearly), so that the icons overlap less on a phone's first view. Every asset
   is still drawn at every zoom. The values are an Atlas convention, chosen by looking at 390 and 360 px wide screens.
 - **The Pacific.** A line that crosses the antimeridian continues past 180 degrees so that it is drawn in one piece;
   the map draws the world again on each side, so a line is seen whole when the screen shows the world twice. On a

@@ -758,9 +758,10 @@ button {
 
 /* the scale bar (nautical miles, MapLibre's own control): the dark panel's colours, the open-top shape of a scale, its
    sides and foot in the third ink (the panels' hairline is too faint to read a length from); the controller puts
-   `scale-on` on the map from the zoom at which it is drawn */
+   `scale-on` on the map from the zoom at which it is drawn; it takes no pointer, so a drag that starts on it moves the map */
 .app .maplibregl-ctrl-scale {
   display: none;
+  pointer-events: none;
   background: var(--panel);
   color: var(--ink-2);
   font-size: 11px;

@@ -6,7 +6,7 @@ import maplibregl, { type Map as MLMap, type MapMouseEvent, type GeoJSONSource, 
 import { feature } from 'topojson-client';
 import type { FeatureCollection, Feature, LineString, Point } from 'geojson';
 import { baseStyle } from './basemap';
-import { WORLD_BOUNDS, MAX_ZOOM, SCALE_MIN_ZOOM, minZoomFor, constrainCamera } from './camera';
+import { WORLD_BOUNDS, MAX_ZOOM, SCALE_MIN_ZOOM, cameraLimits, canvasSizeOf, firstViewState, hasPadding } from './camera';
 import { ResetViewControl } from './resetControl';
 import { installLabels } from './labels';
 import { FlowOverlay, type FlowPath } from './flowOverlay';
@@ -78,20 +78,19 @@ export function onMapReady(fn: (m: MLMap) => void) {
 /** Null when the map cannot start (no WebGL): the caller shows a message and the panels carry on. */
 export function initMap(container: HTMLElement): MLMap | null {
   if (map) return map;
-  // the canvas is the container: a screen's panels overlay it, so the whole screen counts
-  const canvasSize = () => ({ w: container.clientWidth || window.innerWidth, h: container.clientHeight || window.innerHeight });
+  const canvasSize = () => canvasSizeOf(container, window);
+  const limits = cameraLimits(canvasSize);
+  first = firstViewState(canvasSize);
   try {
-    const size = canvasSize();
     map = new maplibregl.Map({
       container,
       style: baseStyle(),
       center: [20, 22],
       zoom: 1.2,
-      minZoom: minZoomFor(size.w, size.h),
+      minZoom: limits.minZoom(),
       maxZoom: MAX_ZOOM,
       transformConstrain: (c, z) => {
-        const { w, h } = canvasSize();
-        const r = constrainCamera(c.lng, c.lat, z, w, h);
+        const r = limits.constrain(c.lng, c.lat, z);
         return { center: new maplibregl.LngLat(r.lng, r.lat), zoom: r.zoom };
       },
       renderWorldCopies: true,
@@ -107,10 +106,11 @@ export function initMap(container: HTMLElement): MLMap | null {
     mapFailed.value = true;
     return null;
   }
+  map.on('movestart', () => first?.moveStart());
   // first-load framing: fit the trading world into the area the panels leave free; a link that opens a
   // page (a commodity above all, whose view does not move the map) keeps the world clear of that page too
   try {
-    map.fitBounds(WORLD_BOUNDS, { padding: viewPadding({ detail: selection.peek() !== null }), maxZoom: 2.4, duration: 0 });
+    fitWorld(map, selection.peek() !== null, 0);
   } catch (e) {
     console.error('initial framing failed', e);
   }
@@ -124,10 +124,12 @@ export function initMap(container: HTMLElement): MLMap | null {
   const syncScale = () => map!.getContainer().classList.toggle('scale-on', map!.getZoom() >= SCALE_MIN_ZOOM);
   map.on('zoom', syncScale);
   syncScale();
-  // a phone turned on its side, a desktop window made narrower: the floor follows the canvas
+  // a phone turned on its side, a desktop window made narrower: the floor follows the canvas, and a camera that is
+  // still where the atlas put it is put there again for the new canvas (once the visitor or a page moved it, a resize
+  // leaves it alone)
   map.on('resize', () => {
-    const { w, h } = canvasSize();
-    map!.setMinZoom(minZoomFor(w, h));
+    map!.setMinZoom(limits.minZoom());
+    if (first?.resize()) fitWorld(map!, !!document.querySelector('.detail-panel.open'), 0);
   });
   // no attribution box on the map: Natural Earth and every data source are credited in the About / Sources window
 
@@ -385,9 +387,29 @@ export function setParticlesVisible(v: boolean) {
 
 // ---------------------------------------------------------------- camera
 
+/**
+ * A fit adds the padding it is given to the one the camera already has, and a camera move that is given a `padding`
+ * keeps it (`fitBounds` itself leaves none behind): a padding left by a page would make the next fit give up with a
+ * warning. Every fit of the controller starts from none.
+ */
+function clearPadding(m: MLMap) {
+  if (hasPadding(m.getPadding())) m.setPadding({ top: 0, bottom: 0, left: 0, right: 0 });
+}
+
+/** Whether the camera is still where the atlas put it (a resize then fits the first view again); see `firstViewState`. */
+let first: ReturnType<typeof firstViewState> | null = null;
+
+function fitWorld(m: MLMap, detail: boolean, duration: number) {
+  clearPadding(m);
+  const fit = () => m.fitBounds(WORLD_BOUNDS, { padding: viewPadding({ detail }), maxZoom: 2.4, duration });
+  if (first) first.fit(fit);
+  else fit();
+}
+
 export function flyToBounds(b: LngLatBoundsLike, maxZoom = 5, detail = true) {
   const m = map;
   if (!m) return;
+  clearPadding(m);
   m.fitBounds(b, {
     padding: viewPadding({ detail }),
     maxZoom,
@@ -402,7 +424,7 @@ export function flyToWorld(detail = !!document.querySelector('.detail-panel.open
   // a camera that drifted onto a wrapped copy of the world would fly to the Pacific-centred copy
   const c = m.getCenter();
   if (c.lng < -180 || c.lng > 180) m.jumpTo({ center: c.wrap() });
-  m.fitBounds(WORLD_BOUNDS, { padding: viewPadding({ detail }), maxZoom: 2.4, duration: 1400 });
+  fitWorld(m, detail, 1400);
 }
 
 // Closing a selection (close button, Escape, tab change) zooms back out to the world view.

@@ -82,6 +82,12 @@ test('the stylesheet hides the scale by default and shows it only under scale-on
   for (const [sel] of shown) assert.match(sel, /\.scale-on \.maplibregl-ctrl-scale$/);
 });
 
+test('the bar takes no pointer, so a drag that starts on it moves the map', () => {
+  const base = rules.filter(([sel]) => !sel.includes('scale-on'));
+  assert.ok(base.some(([, d]) => /pointer-events:\s*none\b/.test(d)));
+  assert.ok(rules.every(([, d]) => !/pointer-events:\s*(?!none\b)[a-z-]+/.test(d)));
+});
+
 test('the other stylesheets do not show the scale', () => {
   const dir = path.join(here, '../src/styles');
   for (const f of fs.readdirSync(dir).filter((n) => n.endsWith('.css') && n !== 'app.css')) {
