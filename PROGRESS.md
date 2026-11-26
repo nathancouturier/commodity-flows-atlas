@@ -64,8 +64,8 @@ have no permission of reuse, see below). Four packages built it in one chain. RE
 - It is the last build step of the weekly PortWatch job. A refusal (a series that does not hold together, fewer
   than five passages, a date earlier than the stored one, a value that is not a number) keeps the previous file,
   is recorded, and cannot turn the job red; an issue opens after three failed runs in a row, as for a weekly
-  source. The validator checks the shape of the file only, so that a secondary file can never discard the
-  weekly update.
+  source. The validator checks the shape of the file only, so that no rule of the validator can refuse a
+  digest that the builder can write.
 
 ### Texts and terms
 
