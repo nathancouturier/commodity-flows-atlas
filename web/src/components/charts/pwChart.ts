@@ -6,4 +6,4 @@ export const RANGES = [
   { label: '3Y', seconds: 3 * YEAR },
   { label: 'All', seconds: null },
 ];
-export { PW_COLORS } from '../../lib/palette';
+export { PW_COLORS, PW_DASH } from '../../lib/palette';

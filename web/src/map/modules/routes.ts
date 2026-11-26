@@ -10,7 +10,7 @@ import { registerLayerModule } from '../layers';
 import { flyToBounds, setLineSet, flyToLine, type LineFeatureProps } from '../controller';
 import { layers, routeVia, selection, vesselClasses } from '../../lib/store';
 import { commodities, commodityMeta, sourceLabel, sources } from '../../lib/data';
-import { GROUP_LABEL, SEGMENT_COLOR, loadRoutes, loadRouteGeo, routeMatches, routeTouches, segmentOf, vesselClassList, vesselName } from '../../lib/freight';
+import { GROUP_LABEL, SEGMENT_COLOR, loadRoutes, loadRouteGeo, routeMatches, routeTouches, knownSegmentOf, segmentOf, vesselClassList, vesselName } from '../../lib/freight';
 import { escapeHtml as esc, fmt, pctText } from '../../lib/format';
 import { lowerName } from '../../lib/prices';
 
@@ -64,6 +64,7 @@ registerLayerModule(() => {
           if (!r) continue;
           const isAlt = f.properties.kind === 'alt';
           const isSel = id === selId;
+          const pat = isSel ? null : knownSegmentOf(r.vclass);
           // alternatives are only drawn for the selected route
           if (isAlt && !isSel) continue;
           if (!isSel) {
@@ -83,6 +84,8 @@ registerLayerModule(() => {
               dim: !!selId && !isSel,
               hl: isSel && !isAlt,
               dash: isAlt,
+              // the selected route and a route of an unknown class stay solid; the others carry the dash pattern of their vessel segment
+              ...(pat ? { pat } : {}),
               label: isAlt && r.alt ? `<div><b>${esc(id)} alternative</b></div><div class="muted">${esc(r.alt.label)}</div>` : routeLabel(r),
             },
           });

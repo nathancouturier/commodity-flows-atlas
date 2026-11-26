@@ -46,3 +46,11 @@
   color: var(--ink-2);
   font-size: 11px;
 }
+
+/* TimeChart: the readout's sample of a dashed series, the same pattern as its line (the dot stays for the others) */
+.tc-item svg.tc-dash {
+  width: 16px;
+  height: 4px;
+  flex: none;
+  align-self: center;
+}

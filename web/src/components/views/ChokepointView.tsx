@@ -10,7 +10,7 @@ import { select } from '../../lib/store';
 import { Section, SourceLine, SourcesLine, Kpi, Skeleton, Placeholder, AlertBanners, FoldNote, WayBack } from '../ui';
 import { TimeChart, DAY, parseDate, parseEnd } from '../charts/TimeChart';
 import type { TimeMarker } from '../charts/TimeChart';
-import { PW_COLORS, RANGES } from '../charts/pwChart';
+import { PW_COLORS, PW_DASH, RANGES } from '../charts/pwChart';
 import { EVENT_COLOR, EVENT_KIND_LABEL, fmtEventDate } from './EventView';
 import { publisher, useFreightCatalogue, useLoaded } from './shared';
 import { sources } from '../../lib/data';
@@ -355,7 +355,7 @@ export default function ChokepointView({ id }: { id: string }) {
     const series = [
       { label: 'Tanker', values: src.tanker, color: PW_COLORS.tanker },
       { label: 'Dry bulk', values: src.dry, color: PW_COLORS.dry },
-      { label: 'Container', values: src.container, color: PW_COLORS.container },
+      { label: 'Container', values: src.container, color: PW_COLORS.container, dash: PW_DASH.container },
       { label: 'Other', values: src.other, color: PW_COLORS.other },
     ];
     return { x, series, vol: src !== pw };

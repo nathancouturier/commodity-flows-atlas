@@ -17,7 +17,7 @@ import { isMarkerHover, registerInteractiveLayer, registerPointLayer } from '../
 import { commodity, family, hovered, infraAvailable, infraHidden, layers, select, selection, year } from '../../lib/store';
 import { commodities, commodityMeta, countryName, loadOptional, sourceLabel, sources } from '../../lib/data';
 import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
-import { PIPELINE_COLOR, STATUS_COLOR, statusDecoration } from '../../lib/palette';
+import { PIPELINE_COLOR, PIPELINE_DASH, STATUS_COLOR, statusDecoration } from '../../lib/palette';
 import { figuresOf } from '../../lib/capacity';
 import { OUTPUT_LABEL, figureText, isOperating, monthYear, sourceText, stateAt, statusClassOf, statusText, yearText, type Figure, type StatusClass } from '../../lib/infra';
 import { INFRA_META, infraSvg } from '../../components/ui';
@@ -228,7 +228,7 @@ registerLayerModule((m) => {
     source: SRC_LINES,
     filter: isDash,
     layout: { 'line-cap': 'butt', 'line-join': 'round' },
-    paint: { 'line-color': ['get', 'color'], 'line-opacity': ['*', ['get', 'op'], 0.9], 'line-width': lineWidth, 'line-dasharray': [2.5, 2] },
+    paint: { 'line-color': ['get', 'color'], 'line-opacity': ['*', ['get', 'op'], 0.9], 'line-width': lineWidth, 'line-dasharray': PIPELINE_DASH },
   });
   m.addLayer({
     id: 'infra-lines-hit',

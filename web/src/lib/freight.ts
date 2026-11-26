@@ -428,6 +428,11 @@ export function segmentOf(vclass: string): Segment {
   return vesselById.value[vclass]?.segment ?? (vclass === 'container' ? 'container' : 'dry');
 }
 
+/** The segment of a vessel class the catalogue knows; none for another id (`segmentOf` then falls back to Dry bulk's colour). */
+export function knownSegmentOf(vclass: string): Segment | null {
+  return vesselById.value[vclass]?.segment ?? (vclass === 'container' ? 'container' : null);
+}
+
 // ---------------------------------------------------------------- vessel families
 
 /** Vessel classes that trade interchangeably on a lane (Atlas grouping; tankers stay exact except Handy tanker / MR). */

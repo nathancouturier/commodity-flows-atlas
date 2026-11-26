@@ -14,6 +14,8 @@ import { load, countryName, countries } from '../lib/data';
 import { hovered, linkApplied, mapFailed, panelCollapsed, select, selection } from '../lib/store';
 import { escapeHtml } from '../lib/format';
 import { isSheetLayout, isTabletLayout } from '../lib/layoutQueries';
+import { ALT_DASH, ROUTE_DASH } from '../lib/palette';
+import type { LineLayerSpecification } from 'maplibre-gl';
 
 export interface LineFeatureProps {
   id: string;
@@ -31,6 +33,8 @@ export interface LineFeatureProps {
   hl?: boolean;
   /** drawn dashed (alternative routing); no particles */
   dash?: boolean;
+  /** vessel segment of a freight route: the dash pattern that tells it from a lane of the same colour (none: drawn solid) */
+  pat?: string;
   label?: string;
 }
 
@@ -287,18 +291,33 @@ function ensureLineSet(m: MLMap, key: string) {
       'line-blur': 6,
     },
   });
+  const linePaint: NonNullable<LineLayerSpecification['paint']> = {
+    'line-color': ['get', 'color'],
+    'line-opacity': ['case', isHover, 1, isHl, 1, isDim, 0.12, 0.55],
+    'line-width': ['interpolate', ['linear'], ['get', 'w'], 0, 0.8, 1, 4.5],
+  };
+  // the routes that carry a pattern are drawn by the next layer: round caps would stretch every dash by the line's width
+  const notDashed: ExpressionSpecification = ['!', ['boolean', ['get', 'dash'], false]];
   m.addLayer({
     id: `${src}-line`,
     type: 'line',
     source: src,
-    filter: ['!', ['boolean', ['get', 'dash'], false]],
+    filter: key === 'routes' ? ['all', notDashed, ['!', ['has', 'pat']]] : notDashed,
     layout: { 'line-cap': 'round', 'line-join': 'round' },
-    paint: {
-      'line-color': ['get', 'color'],
-      'line-opacity': ['case', isHover, 1, isHl, 1, isDim, 0.12, 0.55],
-      'line-width': ['interpolate', ['linear'], ['get', 'w'], 0, 0.8, 1, 4.5],
-    },
+    paint: linePaint,
   });
+  if (key === 'routes') {
+    // one dash pattern per vessel segment (a multiple of the line's width, so it holds at every width)
+    const dashOf = ['match', ['get', 'pat'], ...Object.entries(ROUTE_DASH).flatMap(([seg, d]) => [seg, ['literal', d]]), ['literal', [1, 0]]] as unknown as ExpressionSpecification;
+    m.addLayer({
+      id: `${src}-pat`,
+      type: 'line',
+      source: src,
+      filter: ['all', notDashed, ['has', 'pat']],
+      layout: { 'line-cap': 'butt', 'line-join': 'round' },
+      paint: { ...linePaint, 'line-dasharray': dashOf },
+    });
+  }
   // alternative routings are always dashed
   m.addLayer({
     id: `${src}-alt`,
@@ -310,7 +329,7 @@ function ensureLineSet(m: MLMap, key: string) {
       'line-color': ['get', 'color'],
       'line-opacity': ['case', isHover, 1, isDim, 0.12, isSoft, 0.55, 0.75],
       'line-width': ['interpolate', ['linear'], ['get', 'w'], 0, 1.2, 1, 3],
-      'line-dasharray': [2, 2],
+      'line-dasharray': ALT_DASH,
     },
   });
   m.addLayer({
