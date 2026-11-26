@@ -162,8 +162,18 @@
     "role": "producer",
     "own": "listed",
     "detail": "US steelmaker that mines, beneficiates and pelletizes its own iron ore",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Cleveland-Cliffs",
+    "fig": {
+     "v": 17.3,
+     "u": "Mt",
+     "what": "iron ore production, pellets, Cleveland-Cliffs share with Hibbing at 85.3%",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/764065/000076406526000025/clf-20251231.htm",
+     "n": "Stated as 17 million long tons of pellets (long ton: 2,240 pounds); converted at 1.016047 t per long ton. Its mines supply the vast majority of the iron ore its own steelmaking needs, and its sales to other steel producers include pellets (no volume stated); 24 million long tons in 2024, before Minorca and part of Hibbing were idled in 2025. Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/764065/000076406526000025/clf-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    }
   ]
@@ -199,7 +209,7 @@
     "fig": {
      "v": 34.54,
      "u": "Mt",
-     "what": "crude steel output, Pohang and Gwangyang",
+     "what": "crude steel production, Pohang and Gwangyang",
      "y": 2025,
      "s": "sec-edgar",
      "url": "https://www.sec.gov/Archives/edgar/data/889132/000119312526188766/d26797d20f.htm",
@@ -355,8 +365,18 @@
     "role": "producer",
     "own": "listed",
     "detail": "Integrated US flat-rolled steelmaker (Cleveland, Ohio) with its own iron ore pellets",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Cleveland-Cliffs",
+    "fig": {
+     "v": 17.1,
+     "u": "Mt",
+     "what": "crude steel production (raw steel), all steelmaking facilities",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/764065/000076406526000025/clf-20251231.htm",
+     "n": "Stated as 18.8 million net tons (2,000 pounds) of raw steel; converted at 0.9072 t per short ton. Steel shipments 16,229 thousand net tons. Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/764065/000076406526000025/clf-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -385,8 +405,18 @@
     "role": "producer",
     "own": "listed",
     "detail": "Integrated Brazilian steelmaker (Volta Redonda plant)",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Companhia_Siderúrgica_Nacional",
+    "fig": {
+     "v": 2.9,
+     "u": "Mt",
+     "what": "crude steel production, Presidente Vargas Steelworks (flat steel)",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1049659/000129281426002714/sidform20f_2025.htm",
+     "n": "Tons are metric tons in the report. The integrated flat steel works (UPV) at Volta Redonda only: the electric arc long steel mills are not included (231 kt of billets at Volta Redonda in 2025, and SWT in Germany). Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/1049659/000129281426002714/sidform20f_2025.htm",
+    "y": 2025,
     "read": "2026-11"
    }
   ]
@@ -1074,9 +1104,10 @@
     "hq": "AUS",
     "role": "producer",
     "own": "listed",
-    "detail": "Nickel West (Western Australia), suspended",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/BHP",
+    "detail": "Western Australia Nickel (Nickel West and the West Musgrave project), in temporary suspension since December 2024; no saleable nickel produced in the year to 30 June 2026",
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/811809/000119312526354647/bhp-20260630.htm",
+    "y": 2026,
     "read": "2026-11"
    },
    {
@@ -1537,8 +1568,18 @@
     "role": "producer",
     "own": "listed",
     "detail": "Red Dog (zinc-lead concentrates) and Trail smelter",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Teck_Resources",
+    "fig": {
+     "v": 107,
+     "u": "kt",
+     "what": "lead in concentrate production, Red Dog (100% owned)",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/886986/000088698626000004/teck-20251231xexx993mda.htm",
+     "n": "Metal contained in concentrate at Red Dog (Alaska); Trail Operations produced 80.1 kt of refined lead in 2025. 2025 MD&A filed on Form 40-F."
+    },
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/886986/000088698626000004/teck-20251231xexx993mda.htm",
+    "y": 2025,
     "read": "2026-11"
    },
    {

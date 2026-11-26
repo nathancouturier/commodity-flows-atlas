@@ -48,6 +48,24 @@ figures. From the repository root:
 amendment (10-K/A, 20-F/A) that only replaces an exhibit, an auditor's report or a consent leaves the original
 report as the one cited: read its explanatory note.
 
+A figure read in a filing follows the rules of "An entry" and these, applied since the ninth release:
+
+- the latest year the report states for the quantity; a crop year is dated by the end of the fiscal year the report
+  ties it to, and where the report's text and a table header disagree on the year, `n` says so;
+- the unit as the filing defines it ("ton" is a short ton of 2,000 pounds only where the filing or one of its
+  exhibits says so); a ton defined nowhere is not converted;
+- a sum only of parts the report states alike (one table, one period, one basis, one unit) when it gives no total,
+  with `n` naming the parts; a part of the company (a segment, a works, the company's share, a project at 100%) only
+  with `what` naming it after a comma, so that it ranks with the company totals and says what it leaves out;
+- production first; a sales volume only when production is not stated in an allowed unit (`what` then says "sales"
+  or "sold"); an LNG liquefaction capacity (`Mtpa`, nameplate or expected, named in `what`) only when no volume
+  produced or sold is stated in tonnes or cubic feet; gas stated in cubic feet becomes `bcm` with 0.0283168, but
+  tonnes stated in the same report win;
+- nothing converted from an energy unit or a density (TBtu, MMBtu, barrels of oil equivalent to tonnes);
+- one commodity: a total of oilseeds, of several grains or of oil and gas goes in `detail` with its date;
+- when the entry's own `s` and `url` move to the filing, every fact of its `detail` must be in the filing, with its
+  date, and a detail the filing contradicts is corrected in the company's other entries too.
+
 ## An entry
 
 ```json
@@ -92,8 +110,9 @@ One company, one identity: where a company stands under several commodities or s
 
 - A company's own annual report, production report or results release: `company-reports`, with the document's
   address in `url` (infrastructure assets also cite this id with their own page).
-- Annual reports filed with the US Securities and Exchange Commission (10-K, 20-F, 40-F, and the exhibits of a 40-F
-  that hold the annual report): `sec-edgar`, with the document's sec.gov address in `url`. They are read on sec.gov
+- Annual reports filed with the US Securities and Exchange Commission (10-K, 20-F, 40-F, and the exhibits of a 20-F
+  or 40-F that hold the annual report or a part of it the filing incorporates by reference, such as a reserves
+  report): `sec-edgar`, with the document's sec.gov address in `url`. They are read on sec.gov
   (see "Reading a filing on sec.gov" below). Where that cannot be done, the same report is read on the company's
   investor pages and may still be cited by its EDGAR address.
 - Wikipedia (CC BY-SA 4.0): `wikipedia`, with the article address. Accepted for now; a company's own report is

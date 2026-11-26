@@ -96,7 +96,7 @@ articles and their infoboxes):
   comes from it;
 <!-- wikipedia-infra:end -->
 - `data/commodities/companies.json` and `data/freight/shipping-companies.json` (and their sources in
-  `pipeline/companies/`): 287 and 28 company entries whose source id is `wikipedia`, each with the `url` of its article;
+  `pipeline/companies/`): 251 and 27 company entries whose source id is `wikipedia`, each with the `url` of its article;
 - the lines of `data/countries/profiles/*.json` whose source id is `wikipedia` (they repeat figures of the files above);
 - the events of `data/freight/events.json` and `data/freight/alerts.json` whose `src` is a Wikipedia article;
 - `data/freight/vessel-classes.json`: the size ranges, typical ships and notes whose source id is

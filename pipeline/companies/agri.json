@@ -26,7 +26,7 @@
     "hq": "USA",
     "role": "trader",
     "own": "listed",
-    "detail": "Incorporated in Geneva, headquartered in St. Louis; completed its merger with Viterra in July 2025; its Grain Merchandising and Milling segment sold 67.2 Mt in 2025, corn, wheat, barley, cotton, pulses and sugar together (Form 10-K)",
+    "detail": "Incorporated in Switzerland (registered office in Geneva), corporate headquarters in Chesterfield, Missouri; completed its acquisition of Viterra on 2 July 2025; its Grain Merchandising and Milling segment (primarily corn, wheat, barley, cotton, pulses and sugar) sold 67.2 Mt to third parties in 2025, Viterra included from 2 July (Form 10-K)",
     "s": "sec-edgar",
     "y": 2025,
     "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
@@ -122,9 +122,19 @@
     "hq": "USA",
     "role": "trader",
     "own": "listed",
-    "detail": "US food processing and commodities trading company (Chicago); grain origination and export",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland",
+    "detail": "Agricultural supply chain manager and processor (Chicago): origination, merchandising, transport and storage of agricultural raw materials, and corn and wheat wet and dry milling",
+    "fig": {
+     "v": 18.5,
+     "u": "Mt",
+     "what": "corn processed",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/7084/000000708426000011/adm-20251231.htm",
+     "n": "18,525 thousand metric tons processed in 2025 (18,541 in 2024); the filing gives no volume of corn merchandised. Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/7084/000000708426000011/adm-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -132,7 +142,7 @@
     "hq": "USA",
     "role": "trader",
     "own": "listed",
-    "detail": "Incorporated in Geneva, headquartered in St. Louis; completed its merger with Viterra in July 2025; its Grain Merchandising and Milling segment sold 67.2 Mt in 2025, corn, wheat, barley, cotton, pulses and sugar together (Form 10-K)",
+    "detail": "Incorporated in Switzerland (registered office in Geneva), corporate headquarters in Chesterfield, Missouri; completed its acquisition of Viterra on 2 July 2025; its Grain Merchandising and Milling segment (primarily corn, wheat, barley, cotton, pulses and sugar) sold 67.2 Mt to third parties in 2025, Viterra included from 2 July (Form 10-K)",
     "s": "sec-edgar",
     "y": 2025,
     "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
@@ -175,9 +185,10 @@
     "hq": "USA",
     "role": "trader",
     "own": "cooperative",
-    "detail": "US cooperative owned by farm cooperatives, farmers and preferred stockholders; grain and oilseed exporter",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/CHS_Inc.",
+    "detail": "Agricultural cooperative owned by farmers, ranchers and member cooperatives (Inver Grove Heights, Minnesota), with preferred stock listed on Nasdaq; grain and oilseed volumes of 2.61 billion bushels in the year to 31 August 2026, all crops together (Form 10-K)",
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/823277/000082327726000039/chscp-20260831.htm",
+    "y": 2026,
     "read": "2026-11"
    },
    {
@@ -220,7 +231,7 @@
     "hq": "USA",
     "role": "trader",
     "own": "listed",
-    "detail": "Incorporated in Geneva, headquartered in St. Louis; completed its merger with Viterra in July 2025",
+    "detail": "Incorporated in Switzerland (registered office in Geneva), corporate headquarters in Chesterfield, Missouri; completed its acquisition of Viterra on 2 July 2025",
     "fig": {
      "v": 20.5,
      "u": "Mt",
@@ -228,7 +239,7 @@
      "y": 2025,
      "s": "sec-edgar",
      "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
-     "n": "20,489 thousand tonnes; Bunge also processed 41.0 Mt of soybeans. Form 10-K 2025."
+     "n": "20,489 thousand tonnes, Viterra included from 2 July 2025; Bunge also processed 41.0 Mt of soybeans. Form 10-K 2025."
     },
     "s": "sec-edgar",
     "y": 2025,
@@ -250,9 +261,10 @@
     "hq": "USA",
     "role": "trader",
     "own": "listed",
-    "detail": "US food processing and commodities trading company (Chicago); grain origination and export",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland",
+    "detail": "Agricultural supply chain manager and processor (Chicago); processed 36.3 Mt of oilseeds in 2025, soybeans and soft seeds together (Form 10-K)",
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/7084/000000708426000011/adm-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -292,9 +304,10 @@
     "hq": "USA",
     "role": "trader",
     "own": "cooperative",
-    "detail": "US cooperative owned by farm cooperatives, farmers and preferred stockholders; grain and oilseed exporter",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/CHS_Inc.",
+    "detail": "Agricultural cooperative owned by farmers, ranchers and member cooperatives (Inver Grove Heights, Minnesota), with preferred stock listed on Nasdaq; grain and oilseed volumes of 2.61 billion bushels in the year to 31 August 2026, all crops together (Form 10-K)",
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/823277/000082327726000039/chscp-20260831.htm",
+    "y": 2026,
     "read": "2026-11"
    },
    {
@@ -316,9 +329,10 @@
     "hq": "USA",
     "role": "crusher",
     "own": "listed",
-    "detail": "Soybean crusher and processor (Chicago)",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland",
+    "detail": "Crushes soybeans and soft seeds into vegetable oils and protein meals (Chicago); processed 36.3 Mt of oilseeds in 2025, soybeans and soft seeds together (Form 10-K)",
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/7084/000000708426000011/adm-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -326,7 +340,7 @@
     "hq": "USA",
     "role": "crusher",
     "own": "listed",
-    "detail": "Incorporated in Geneva, headquartered in St. Louis; completed its merger with Viterra in July 2025; 35 oilseed processing plants in its soybean segment; processed 41.0 Mt of soybeans in 2025, meal and oil together (Form 10-K)",
+    "detail": "Incorporated in Switzerland (registered office in Geneva), corporate headquarters in Chesterfield, Missouri; completed its acquisition of Viterra on 2 July 2025; 35 oilseed processing plants in its soybean segment at 31 December 2025; crushed 41.0 Mt of soybeans into meal and oil in 2025, Viterra included from 2 July (Form 10-K)",
     "s": "sec-edgar",
     "y": 2025,
     "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
@@ -373,7 +387,7 @@
     "hq": "USA",
     "role": "crusher",
     "own": "listed",
-    "detail": "Incorporated in Geneva, headquartered in St. Louis; completed its merger with Viterra in July 2025; 35 oilseed processing plants in its soybean segment",
+    "detail": "Incorporated in Switzerland (registered office in Geneva), corporate headquarters in Chesterfield, Missouri; completed its acquisition of Viterra on 2 July 2025; 35 oilseed processing plants in its soybean segment at 31 December 2025",
     "fig": {
      "v": 3.6,
      "u": "Mt",
@@ -381,7 +395,7 @@
      "y": 2025,
      "s": "sec-edgar",
      "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
-     "n": "3,612 thousand tonnes of refined oil; the filing does not split it by oil. The segment also processed 41.0 Mt of soybeans. Form 10-K 2025."
+     "n": "3,612 thousand tonnes of refined oil, Viterra included from 2 July 2025; the filing does not split it by oil. The segment also processed 41.0 Mt of soybeans. Form 10-K 2025."
     },
     "s": "sec-edgar",
     "y": 2025,
@@ -393,9 +407,10 @@
     "hq": "USA",
     "role": "crusher",
     "own": "listed",
-    "detail": "Soybean crusher and processor (Chicago)",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland",
+    "detail": "Crushes soybeans and soft seeds into vegetable oils and protein meals (Chicago); processed 36.3 Mt of oilseeds in 2025, soybeans and soft seeds together (Form 10-K)",
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/7084/000000708426000011/adm-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -471,7 +486,7 @@
     "hq": "USA",
     "role": "trader",
     "own": "listed",
-    "detail": "Viterra (merged July 2025) handles Canadian canola; incorporated in Geneva, headquartered in St. Louis; its Softseed Processing and Refining segment processed 10.8 Mt of softseeds (canola/rapeseed and sunflower seed) in 2025 (Form 10-K)",
+    "detail": "Incorporated in Switzerland (registered office in Geneva), corporate headquarters in Chesterfield, Missouri; completed its acquisition of Viterra on 2 July 2025; its Softseed Processing and Refining segment processed 10.8 Mt and merchandised 2.8 Mt of softseeds (canola/rapeseed and sunflower seed together) in 2025, Viterra included from 2 July (Form 10-K)",
     "s": "sec-edgar",
     "y": 2025,
     "url": "https://www.sec.gov/Archives/edgar/data/1996862/000162828026009842/bg-20251231.htm",
@@ -492,9 +507,10 @@
     "hq": "USA",
     "role": "trader",
     "own": "listed",
-    "detail": "Canola crusher and exporter",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Archer_Daniels_Midland",
+    "detail": "Crushes soybeans and soft seeds including canola and rapeseed (Chicago); processed 36.3 Mt of oilseeds in 2025, soybeans and soft seeds together (Form 10-K)",
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/7084/000000708426000011/adm-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    }
   ]
@@ -550,9 +566,19 @@
     "hq": "BRA",
     "role": "miller",
     "own": "listed",
-    "detail": "Brazilian sugar, ethanol and fuels group; joint venture of Cosan and Shell (44% each)",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Raízen",
+    "detail": "Brazilian sugar, ethanol and fuel distribution group; joint venture formed by Cosan and Shell in 2011, under their joint control at 31 December 2025, when Cosan's ownership interest was 30.84%; filed for an out-of-court reorganization of its financial debt on 11 March 2026 (Cosan Form 20-F)",
+    "fig": {
+     "v": 5.1,
+     "u": "Mt",
+     "what": "sugar production, 100% of Raízen",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1430162/000155485526000590/csan-20251231.htm",
+     "n": "5.1 million tons in the 2024/2025 harvest (ton defined in the 20-F as the metric tonne): Financial year to 31 March 2025, Raízen's fiscal years ending on 31 March. The 20-F's selected data put the same number in the 2024 column of a table headed 'year ended December 31'; the text names the harvest. 4.8 million tons in the nine months of the 2025/2026 harvest. Cosan Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/1430162/000155485526000590/csan-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -627,11 +653,12 @@
    {
     "name": "Cosan",
     "hq": "BRA",
-    "role": "processor",
+    "role": "holding company (equity partner)",
     "own": "listed",
-    "detail": "Brazilian group in bioethanol, sugar and energy (São Paulo); formed the Raízen joint venture with Shell in 2010",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Cosan",
+    "detail": "Holding company (São Paulo) with stakes in Raízen, Compass, Moove, Rumo and Radar; formed the Raízen joint venture with Shell in 2011; its ownership interest in Raízen was 30.84% on 31 December 2025 (Form 20-F)",
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/1430162/000155485526000590/csan-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    }
   ],
@@ -1111,8 +1138,18 @@
     "role": "producer",
     "own": "listed",
     "detail": "Phosphate and potash miner (Tampa, Florida); Mosaic Fertilizantes in Brazil",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/The_Mosaic_Company",
+    "fig": {
+     "v": 8.5,
+     "u": "Mt",
+     "what": "potash production, KCl, Canadian mines",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1285785/000128578526000017/mos-20251231.htm",
+     "n": "Canadian Total of finished product output: Belle Plaine, Colonsay and Esterhazy MOP mines (Saskatchewan); with 0.3 Mt of K-Mag from Carlsbad the Potash segment produced 8.8 Mt (8,797 thousand tonnes). The Taquari MOP mine in Brazil, sold in November 2025, is not in this total. Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/1285785/000128578526000017/mos-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -1143,9 +1180,19 @@
     "role": "producer",
     "own": "listed",
     "parent": "Israel Corporation",
-    "detail": "Israeli fertiliser and specialty chemicals group (Tel Aviv); Israel Corporation holds 43.98%",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/ICL_Group_Ltd.",
+    "detail": "Israeli fertiliser and specialty minerals group (Tel Aviv): potash from the Dead Sea and an underground mine in Spain; Israel Corporation held 43.11% of the share capital and 43.93% of the voting rights on 31 December 2025",
+    "fig": {
+     "v": 4.377,
+     "u": "Mt",
+     "what": "potash production, KCl",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/941221/000117891326000817/zk2634483.htm",
+     "n": "Stated as 4,377 thousand tonnes: ICL Dead Sea 3,572 and ICL Iberia (Súria, Spain) 805; sales 4,320 thousand tonnes. Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/941221/000117891326000817/zk2634483.htm",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -1162,9 +1209,19 @@
     "hq": "USA",
     "role": "producer",
     "own": "listed",
-    "detail": "Potash and langbeinite producer (Denver); three mines near Carlsbad (New Mexico), Moab and Wendover (Utah)",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Intrepid_Potash",
+    "detail": "Potash and langbeinite producer (Denver); potash from the HB mine near Carlsbad (New Mexico) and mines at Moab and Wendover (Utah); langbeinite from the East mine near Carlsbad",
+    "fig": {
+     "v": 0.254,
+     "u": "Mt",
+     "what": "potash production, KCl",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1421461/000142146126000008/ipi-20251231.htm",
+     "n": "Stated as 280 thousand tons, a ton being a short ton of 2,000 pounds; converted at 0.9072 t per short ton. Trio® (langbeinite) production 273 thousand tons. Form 10-K 2025."
+    },
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/1421461/000142146126000008/ipi-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    }
   ],
@@ -1261,9 +1318,19 @@
     "role": "producer",
     "own": "listed",
     "parent": "Israel Corporation",
-    "detail": "Israeli fertiliser and specialty chemicals group (Tel Aviv); Israel Corporation holds 43.98%",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/ICL_Group_Ltd.",
+    "detail": "Israeli fertiliser and specialty minerals group (Tel Aviv): phosphate rock from open pit mines in the Negev (Israel) and Yunnan (China); Israel Corporation held 43.11% of the share capital and 43.93% of the voting rights on 31 December 2025",
+    "fig": {
+     "v": 4.7,
+     "u": "Mt",
+     "what": "enriched phosphate rock produced, YPH joint venture at 100%",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/941221/000117891326000817/zk2634483.htm",
+     "n": "Phosphate Solutions segment, about 4.7 Mt as stated: ICL Rotem (Israel) 2,211 kt and YPH (China, a 50/50 joint venture controlled by ICL) 2,455 kt of concentrate; the segment also produced about 1.7 Mt of phosphate fertilizers. Form 20-F 2025."
+    },
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/941221/000117891326000817/zk2634483.htm",
+    "y": 2025,
     "read": "2026-11"
    }
   ]
@@ -1366,9 +1433,19 @@
     "hq": "CAN",
     "role": "producer",
     "own": "listed",
-    "detail": "Nitrogen fertiliser producer alongside its potash and phosphate businesses (Saskatoon)",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Nutrien",
+    "detail": "Produces and upgrades nitrogen at 11 facilities in Canada and the US (2025 annual report), alongside its potash and phosphate businesses; its Trinidad facility was shut down on 23 October 2025",
+    "fig": {
+     "v": 4.14,
+     "u": "Mt",
+     "what": "urea liquor production, before upgrade to solid urea, UAN and DEF",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1725964/000119312526081326/d56746dex992.htm",
+     "n": "Total of the urea column of the nitrogen production table: urea liquor prior to final product upgrade, Trinidad (0.54 Mt) included; annual capacity 4.6 Mt; sales of urea and ESN® 3,099 thousand tonnes. 2025 annual report filed on Form 40-F."
+    },
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/1725964/000119312526081326/d56746dex992.htm",
+    "y": 2025,
     "read": "2026-11"
    }
   ],
