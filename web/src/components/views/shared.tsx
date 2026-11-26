@@ -2,7 +2,8 @@
 import { useEffect, useMemo, useState } from 'preact/hooks';
 import type { AltRouting, HistFlag, PortRef, PortRiver } from '../../types';
 import { commodityMeta, sources } from '../../lib/data';
-import { fmt } from '../../lib/format';
+import { FAMILY_COLOR, fmt } from '../../lib/format';
+import { NEUTRAL_LINE } from '../../lib/palette';
 import { BASIS_QUALIFIER, SOURCED_BASES, altLabel, altOptions, chokepointName, loadFreightCatalogue, openFreightView, openVesselClass, vesselById, vesselClassList, vesselName, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
 import { commodity, select } from '../../lib/store';
 import { Section, WayBack, shortSource } from '../ui';
@@ -248,7 +249,7 @@ const DAY = 86400;
 export function HistoryChart(props: { years: number[]; values: (number | null)[]; unit: string; color?: string; label?: string; flags?: Record<string, HistFlag>; allEst?: boolean; volumeYears?: string[] }) {
   const x = useMemo(() => props.years.map((y) => Date.UTC(y, 0, 1) / 1000), [props.years]);
   const series = useMemo(
-    () => [{ label: props.label ?? 'Volume', values: props.values, color: props.color ?? '#3ee6ff' }],
+    () => [{ label: props.label ?? 'Volume', values: props.values, color: props.color ?? FAMILY_COLOR.freight }],
     [props.values, props.label, props.color],
   );
   // a ribbon under the bars, one year wide and centred on the bar
@@ -258,7 +259,7 @@ export function HistoryChart(props: { years: number[]; values: (number | null)[]
       const title = f === 'est' && props.volumeYears?.includes(y) ? "Atlas estimate (tonnage from a volume in the United States' own export statistics)" : FLAG_TITLE[f];
       if (!title) continue;
       const t = Date.UTC(Number(y), 0, 1) / 1000;
-      out.push({ t: t - 182 * DAY, end: t + 182 * DAY, title: `${y}: ${title}`, subtle: true, color: f === 'est' ? '#ffb547' : '#8aa0b8' });
+      out.push({ t: t - 182 * DAY, end: t + 182 * DAY, title: `${y}: ${title}`, subtle: true, color: f === 'est' ? FAMILY_COLOR.energy : NEUTRAL_LINE });
     }
     return out.length ? out : undefined;
   }, [props.flags, props.volumeYears]);

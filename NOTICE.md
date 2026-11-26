@@ -43,7 +43,7 @@ It does not cover data. Data files kept in the repository follow the terms of th
   the US Census Bureau's export detail file (its Public-Use Statement, credited below) and of EIA's exports by destination (public domain), `comtrade_tin_china.json` the few figures of UN Comtrade that
   the tin page prints ("Source: UN Comtrade", no answer of the service is published) and `aus_req_lng.json` one table of the Australian Department of
   Industry, Science and Resources' Resources and Energy Quarterly (CC BY 4.0), all three credited below; `wna_uranium.json` is World Nuclear Association data
-  (terms to be confirmed); `adjacency.json` is derived from Natural Earth (public domain); `geom_cache.json` and
+  (terms to be confirmed); `adjacency.json` is derived from Natural Earth ("in the public domain", as its terms of use say); `geom_cache.json` and
   `route_cache.json` hold computed routes (see the next section); `trade_checks.json` holds the findings of the atlas's
   checks, which quote CEPII BACI, USDA PSD, EIA, USGS and IMF PortWatch figures under the terms of each.
 
@@ -377,8 +377,32 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
 - **CEPII BACI**: Etalab Open Licence 2.0. Gaulier, G. and Zignago, S. (2010) BACI: International Trade Database at
   the Product-Level. The 1994-2007 Version. CEPII Working Paper N°2010-23. The atlas filters and cleans the data
   (METHODOLOGY.md, section 1); it does not republish the database.
-- **Natural Earth** (basemap): public domain, no credit required; "Made with Natural Earth" is shown as a courtesy
-  (<https://www.naturalearthdata.com/about/terms-of-use/>).
+- **Natural Earth** (basemap, country names, and the names of oceans, seas, bays and gulfs): the countries 1:50m and the
+  marine areas 1:50m (version 5.1.0, used for the names and positions of oceans, seas, bays and gulfs on the map). Its terms of use
+  (<https://www.naturalearthdata.com/about/terms-of-use/>, read 25 November 2026) say: "All versions of Natural Earth raster + vector map data
+  found on this website are in the public domain. You may use the maps in any manner, including modifying the content and design, electronic
+  dissemination, and offset printing." and "No permission is needed to use Natural Earth. Crediting the authors is unnecessary." "Made with
+  Natural Earth" is shown as a courtesy. The same page (<https://www.naturalearthdata.com/about/terms-of-use/>, read 25 November 2026) also
+  reproduces four third-party releases, each licensed to Natural Earth "for the sole purpose of creating a world base map": the page names a
+  theme for three of them (rivers and lakes of Europe, roads of North America, time zones) and none for the first, "The authors used data from
+  The Washington Post, here is their release:". On the same page (<https://www.naturalearthdata.com/about/terms-of-use/>, read 25 November
+  2026): "The authors’ used name data for more than 20 languages from Wikidata which is under a CC0 (public domain) license."; the names of the
+  seas, bays and gulfs take the `name_en` attribute of the marine areas file (the oceans take `name`), and the page does not say which attributes
+  these name data fill. The footer of the page (<https://www.naturalearthdata.com/about/terms-of-use/>, read 25 November 2026), after its
+  copyright line "© 2009 - 2026. Natural Earth.", reads "All rights reserved."; the page says of its downloads (<https://www.naturalearthdata.com/about/terms-of-use/>,
+  read 25 November 2026): "Our data downloads are generously hosted by Amazon Web Services since 2021 and previously Florida State
+  University." The atlas's copy of the marine areas zip was fetched from naciscdn.org, an address that the page does not name. The README of the marine areas zip (offered at
+  <https://www.naturalearthdata.com/downloads/50m-physical-vectors/>, read 25 November 2026) says: "The boundaries of physical regions should be
+  taken with a grain of salt." The country shapes are the default view of version 5.1.1; what that means for the map is in METHODOLOGY.md,
+  "The map: boundaries and territories".
+- **Place-name font** (the lettering of the names on the map): Inter Medium, SIL Open Font License 1.1, from the Debian package `fonts-inter`
+  4.0+ds-1 (file `Inter-Medium.otf`, version "Version 4.000;git-a52131595", read with the `fontkit` library). The font file's own copyright line is
+  "Copyright 2016 The Inter Project Authors", and its licence string is "This Font Software is licensed under the SIL Open Font License, Version 1.1.
+  This license is available with a FAQ at: http://scripts.sil.org/OFL"; it declares no Reserved Font Name and carries the line "Inter UI and Inter is a
+  trademark of rsms." The file `web/public/glyphs/inter-medium/0-255.pbf` is a Modified Version of it (a change of format: 24 px signed-distance
+  bitmaps of the characters the map writes; the outlines are unchanged) and carries the licence text next to it, in
+  `web/public/glyphs/inter-medium/LICENSE.txt`. The font software stays entirely under the SIL Open Font License (`THIRD-PARTY-NOTICES.md` has the text);
+  the repository's MIT licence does not apply to it. The interface itself is set in Inter Tight (see `THIRD-PARTY-NOTICES.md`).
 - **World Bank Pink Sheet**, **FAOSTAT**: CC BY 4.0. FAOSTAT is also subject to the FAO statistical database terms of
   use (no endorsement by FAO, no promotion of a commercial product).
 - **U.S. Energy Information Administration, USGS, USDA**: U.S. Government publications, public domain; EIA asks for an

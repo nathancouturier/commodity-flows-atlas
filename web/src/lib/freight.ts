@@ -78,13 +78,8 @@ export const SEGMENT_LABEL: Record<Segment, string> = {
   container: 'Container',
 };
 
-/** Route line colours by vessel segment (freight layer). */
-export const SEGMENT_COLOR: Record<Segment, string> = {
-  dry: '#9db7ff',
-  tanker: '#ffb547',
-  gas: '#7ef0d8',
-  container: '#c7a3ff',
-};
+/** Route line colours by vessel segment (freight layer): lib/palette.ts. */
+export { SEGMENT_COLOR } from './palette';
 
 /** Human labels for chokepoint share keys that are not commodity ids. */
 export const SHARE_LABEL: Record<string, string> = {
@@ -431,6 +426,11 @@ export function laneGroup(laneId: string): string {
 /** Segment of a vessel class id (container ships are not in the class list). */
 export function segmentOf(vclass: string): Segment {
   return vesselById.value[vclass]?.segment ?? (vclass === 'container' ? 'container' : 'dry');
+}
+
+/** The segment of a vessel class the catalogue knows; none for another id (`segmentOf` then falls back to Dry bulk's colour). */
+export function knownSegmentOf(vclass: string): Segment | null {
+  return vesselById.value[vclass]?.segment ?? (vclass === 'container' ? 'container' : null);
 }
 
 // ---------------------------------------------------------------- vessel families

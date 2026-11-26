@@ -4,10 +4,11 @@ import type { BenchmarkDefinition, Route } from '../../types';
 import { commodityMeta, countryName } from '../../lib/data';
 import { select } from '../../lib/store';
 import { fmt, fig as fmtFig } from '../../lib/format';
-import { GROUP_LABEL, loadRoutes, loadRouteGeo, routeCargoLabels, SEGMENT_LABEL, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
+import { GROUP_LABEL, knownSegmentOf, loadRoutes, loadRouteGeo, routeCargoLabels, SEGMENT_LABEL, segmentOf, SEGMENT_COLOR } from '../../lib/freight';
 import { lowerName } from '../../lib/prices';
 import { flyToLine } from '../../map/controller';
 import { Section, SourceLine, Kpi, Skeleton, Placeholder, AlertBanners } from '../ui';
+import { RouteSwatch } from '../RouteSwatch';
 import { AltBox, CommodityChips, FreightWayBack, HistoryChart, RiverNotes, ViaSection, VesselChip, publisher, useFreightCatalogue, useLoaded } from './shared';
 import { EventList } from '../EventList';
 import { RoutePorts } from './RoutePorts';
@@ -84,7 +85,7 @@ function Body({ r }: { r: Route }) {
   return (
     <>
       <div class="detail-head" style={{ '--kicker': color }}>
-        <div class="detail-kicker">{r.generated ? `Atlas corridor · ${SEGMENT_LABEL[seg]}` : r.benchmark ? `Baltic benchmark · ${SEGMENT_LABEL[seg]}` : 'Heavy-traffic route'}</div>
+        <div class={`detail-kicker${knownSegmentOf(r.vclass) ? ' kicker-swatch' : ''}`}>{r.generated ? `Atlas corridor · ${SEGMENT_LABEL[seg]}` : r.benchmark ? `Baltic benchmark · ${SEGMENT_LABEL[seg]}` : 'Heavy-traffic route'}{knownSegmentOf(r.vclass) && <RouteSwatch segment={seg} px={2} length={32} />}</div>
         <h2 class="detail-title">{r.name}</h2>
         <div class="badges">
           {r.benchmark && <span class="code-badge" title="Baltic Exchange route code">{r.id}</span>}

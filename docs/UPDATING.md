@@ -368,6 +368,67 @@ Where `raw/` does not exist (a fresh clone, the runners of GitHub), the match ru
 are not tested: those tests skip themselves, and a change to the rule is therefore proved only on a machine that has the file. The tests that run without it
 check the cache, the meta file, the builder and the data file against each other.
 
+### Place names on the map (by hand, when Natural Earth publishes a new version)
+
+The names of the oceans, seas, bays and gulfs on the map are `data/geo/seas.json`, built by `pipeline/geo/build_seas.mjs` from Natural Earth's
+marine areas 1:50m (registry entry `naturalearth-marine`); the names of the countries are read from `data/countries/index.json`, which
+`pipeline/geo/build_countries.mjs` builds from the same publisher's countries file. Nothing is scheduled: no workflow, no status entry and no
+staleness entry reads the files, the zip is read once by hand, and Natural Earth moves by years (the marine areas file is version 5.1.0). The
+builder writes only on a machine that has the shapefile (`raw/` is not tracked); on GitHub's runners and in a fresh clone it prints one line and
+leaves the tracked file as it is. When Natural Earth publishes a new version, from the repository root:
+
+1. **Read the terms again, then copy.** Open <https://www.naturalearthdata.com/about/terms-of-use/> and the download page
+   <https://www.naturalearthdata.com/downloads/50m-physical-vectors/>. Copy the sentences that `NOTICE.md` quotes (the bullet on Natural Earth) from the
+   page, word for word, into `NOTICE.md` and into `pipeline/tests/fixtures/naturalearth_terms_quotations.json`, with the day you read them; change a sentence
+   that the page no longer says and say nothing the page does not say. `test_naturalearth_marine.py` fails while `NOTICE.md` and the fixture differ. Save the terms
+   page as HTML and run `NATURALEARTH_TERMS_PAGE=<saved page> .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_naturalearth_marine.py"`: without the
+   variable the test does not compare the sentences with the page, and a sentence mistyped in both `NOTICE.md` and the fixture passes.
+2. **Download the zip** of the marine areas 1:50m into `raw/naturalearth/ne_50m_marine/` and unzip it there (`raw/` is not tracked), keeping the old
+   folder aside until the checks pass. Read the README in the zip.
+3. **Run the builder.** `node pipeline/geo/build_seas.mjs`. It takes the version for the note of the file from `ne_50m_geography_marine_polys.VERSION.txt` and the day
+   from the constant `READ_ON` at the head of the script, which you edit to the day you read the zip and the terms page. A second run changes no byte.
+   It stops, writes nothing and exits 1 when a field it reads (`name`, `name_en`, `featurecla`, `scalerank`) is missing, when it would write
+   fewer than 60 names, when a name holds a bracket or comes twice, when a label point is not inside its polygon at any rounding to 0.001 degree, or when the new file would hold fewer
+   names than the tracked one (`--accept-fewer` overrides the last one, once you have read which names went). Read its report and compare the names with the old file; a name that changed is a
+   change on the map.
+4. **Rebuild the lettering if a character appeared** in a name: `node pipeline/geo/build_glyphs.mjs` (the builder of the map's glyph file, which takes its characters
+   from the names; see "The glyph file of the lettering" below).
+5. **Check.** `node web/scripts/validate-data.mjs` (its rules for `data/geo/seas.json` and for the country index are in `web/scripts/validate-labels.mjs`: a sea
+   named like a passage of `data/freight/chokepoints.json` is refused, since the atlas draws its passages as markers), `cd web && npx tsc --noEmit && npm test`,
+   `NATURALEARTH_TERMS_PAGE=<saved terms page> .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_naturalearth_marine.py"` (the same command as in step 1:
+   without the variable the test does not compare the sentences with the page) and `.venv/bin/python -I pipeline/common/sources_table.py --check`.
+   If the version changed, edit the `name` of the entry `naturalearth-marine` in `data/sources.json` and run `.venv/bin/python -I pipeline/common/sources_table.py`.
+6. **Commit** `data/geo/seas.json` together with the glyph file if it was rebuilt, and the notice, the fixture and the registry if they changed.
+
+When a source is down or changes shape there is no run to fail: the files are in git and the site keeps its last names. The builder never replaces
+the tracked file with a smaller one without `--accept-fewer`.
+
+**The glyph file of the lettering** (`web/public/glyphs/inter-medium/0-255.pbf`, with `LICENSE.txt` next to it). MapLibre draws the names from
+signed-distance bitmaps of the characters, served by the site itself (no outside font server). `pipeline/geo/build_glyphs.mjs` builds the file from
+the font Inter Medium, which is not tracked: it is the file `Inter-Medium.otf` of the Debian package `fonts-inter` (installed at
+`/usr/share/fonts/opentype/inter/Inter-Medium.otf`; read the version with `dpkg -s fonts-inter`, 4.0+ds-1 when the file was built, and the file's sha256 with
+`sha256sum`, `1e65171f...97ba`). Copy it to `raw/fonts/Inter-Medium.otf` (`raw/` is not tracked) and run, from the repository root,
+`node pipeline/geo/build_glyphs.mjs`. The builder prints the font's own strings (copyright, licence, trademark, version): `LICENSE.txt` and the
+Inter entries of `NOTICE.md` and `THIRD-PARTY-NOTICES.md` are written from them, by hand, so compare them after a new font version, and the builder
+stops, writing nothing, when the font no longer states the SIL Open Font License 1.1 or when the `LICENSE.txt` in the output folder does not hold the font's copyright
+line. Without the font file it prints one line and leaves the tracked file as it is, which is what GitHub's runners and a fresh clone do.
+
+The characters are not typed: printable ASCII, and every other character found in the `name` of the rows of `data/countries/index.json`, in the names of the
+point features of `data/infrastructure/*.geojson` once the places in brackets at their end are dropped (`assetLabel` of `web/src/map/labelRules.ts`), and in the
+sea names of `data/geo/seas.json` in upper case. The file is therefore rebuilt only when a character appears or a name changes, and the check comes first:
+`web/scripts/glyphs.test.mjs` fails ("no glyph for ...") on a name with a character the file does not hold, and says so in the run of `cd web && npm test`; the
+builder itself stops on a character above U+00FF (one range file, `0-255`; a second one is not built). The same test also fails when a character leaves the
+data (a name rewritten without the last use of an accented letter): its message names the character, and the way out is the same run of the builder, which
+needs the font. A run changes no byte if nothing changed, and
+`glyphs.test.mjs` compares the tracked file with a run to a temporary folder wherever `raw/fonts/Inter-Medium.otf` exists. The size budget of the glyph files
+(`glyphs` in `web/scripts/check-size.mjs`) is checked on the built site. Nothing is scheduled and no workflow runs the builder.
+
+`pipeline/geo/build_glyphs.mjs` imports `fontkit` and `pbf` from `web/node_modules`; they are not dependencies of the atlas but of `mapshaper` and of
+`maplibre-gl`. If an upgrade drops one the builder fails when run by hand and nothing else does; writing the protocol buffer without `pbf` is about fifteen lines.
+It was written for this atlas and compared with no other glyph tool; its output was looked at, character by character, in MapLibre (a test page with every
+character at 9 to 40 px on the land and the ocean colours, and a name anchored at its centre: the `top` of a glyph is written from the ascender line, because
+the library's layout reads it so; written from the baseline the names sat about one em above their point).
+
 ### Port traffic: the weekly step, the first load in sittings, and `index.json`
 
 `data/freight/port-traffic/` holds one weekly file per PortWatch port (`<port id>.json`) and `index.json`. The ports are the `portwatch`

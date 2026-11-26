@@ -10,17 +10,10 @@ import { loadInfra, infraRef, type InfraFeature } from '../../map/modules/infras
 import { EventPrices } from '../EventPrices';
 import { Section, Skeleton, Placeholder } from '../ui';
 import { useFreightCatalogue, useLoaded } from './shared';
+import { EVENT_COLOR } from '../../lib/palette';
 import '../../styles/changes.css';
 
-export const EVENT_COLOR: Record<FreightEvent['kind'], string> = {
-  conflict: '#ff5c7a',
-  canal: '#3ee6ff',
-  weather: '#9db7ff',
-  policy: '#c7a3ff',
-  accident: '#ff7a59',
-  market: '#ffb547',
-  infrastructure: '#7ee0a1',
-};
+export { EVENT_COLOR };
 
 export const EVENT_KIND_LABEL: Record<FreightEvent['kind'], string> = {
   conflict: 'Conflict',

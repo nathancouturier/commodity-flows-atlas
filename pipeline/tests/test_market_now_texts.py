@@ -4,6 +4,8 @@ address and the day they were read); every figure the texts give (five passages,
 threshold, the cargo limit of the page) is the constant of the code that applies it; and the texts claim for no publisher what no page read says.
 
 Run: .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_market_now_texts.py"
+With the pages as they were saved (MARKET_NOW_PAGES names the folder that holds the saved files at the paths of SAVED below; without it the
+test does not compare the quotations with the pages): MARKET_NOW_PAGES=<folder> .venv/bin/python -I -m unittest discover -s pipeline/tests -p "test_market_now_texts.py"
 """
 import html
 import json
@@ -24,21 +26,22 @@ from common import sources_table, status  # noqa: E402
 FIXTURES = os.path.join(ROOT, "pipeline", "tests", "fixtures")
 OWN = os.path.join(FIXTURES, "market_now_texts_quotations.json")
 LINKS = os.path.join(FIXTURES, "link_only_sources_quotations.json")
-WORK = "/tmp/claude-0/audit/work/6B"
-# the pages as they were saved when the quotations were read (outside the repository: compared with the fixtures where they exist)
+# the folder of the pages as they were saved when the quotations were read (outside the repository; the machine's own, given in the environment, no
+# default): the quotations are compared with the pages where it is set
+WORK = os.environ.get("MARKET_NOW_PAGES")
 SAVED = {
-    "portwatch-ship-categories": ("item", f"{WORK}/PORTS/samples/item_3da2b9ca97684916b75c4013f95d18ab.json"),
-    "portwatch-chokepoint-trade-estimate": ("item", f"{WORK}/PORTS/samples/item_3da2b9ca97684916b75c4013f95d18ab.json"),
-    "dallasfed-proxy": ("html", f"{WORK}/FNOW/critic/dl/dallasfed-igrea.html"),
-    "baltic-terms-clause-5-1": ("html", f"{WORK}/VOYAGE/dl/baltic-terms.html"),
-    "sse-footer": ("html", f"{WORK}/FNOW/dl/sse-home.html"),
-    "ams-privacy-public-information": ("html", f"{WORK}/FNOW/critic/dl/ams-privacy.html"),
-    "ams-datasets-non-copyrighted": ("html", f"{WORK}/FNOW/dl/ams-gtr-datasets.html"),
-    "ams-datasets-vessel-activity-table": ("html", f"{WORK}/FNOW/dl/ams-gtr-datasets.html"),
-    "ams-datasets-vessel-activity-counts": ("html", f"{WORK}/FNOW/dl/ams-gtr-datasets.html"),
-    "ams-datasets-vessel-rates-source": ("html", f"{WORK}/FNOW/dl/ams-gtr-datasets.html"),
-    "agtransport-vessel-loading-attribution": ("field", f"{WORK}/FNOW/dl/views-vh5k-mnyv.json", "attribution"),
-    "agtransport-vessel-rates-attribution": ("field", f"{WORK}/FNOW/dl/views-ehs5-yac3.json", "attribution"),
+    "portwatch-ship-categories": ("item", "PORTS/samples/item_3da2b9ca97684916b75c4013f95d18ab.json"),
+    "portwatch-chokepoint-trade-estimate": ("item", "PORTS/samples/item_3da2b9ca97684916b75c4013f95d18ab.json"),
+    "dallasfed-proxy": ("html", "FNOW/critic/dl/dallasfed-igrea.html"),
+    "baltic-terms-clause-5-1": ("html", "VOYAGE/dl/baltic-terms.html"),
+    "sse-footer": ("html", "FNOW/dl/sse-home.html"),
+    "ams-privacy-public-information": ("html", "FNOW/critic/dl/ams-privacy.html"),
+    "ams-datasets-non-copyrighted": ("html", "FNOW/dl/ams-gtr-datasets.html"),
+    "ams-datasets-vessel-activity-table": ("html", "FNOW/dl/ams-gtr-datasets.html"),
+    "ams-datasets-vessel-activity-counts": ("html", "FNOW/dl/ams-gtr-datasets.html"),
+    "ams-datasets-vessel-rates-source": ("html", "FNOW/dl/ams-gtr-datasets.html"),
+    "agtransport-vessel-loading-attribution": ("field", "FNOW/dl/views-vh5k-mnyv.json", "attribution"),
+    "agtransport-vessel-rates-attribution": ("field", "FNOW/dl/views-ehs5-yac3.json", "attribution"),
 }
 NUMBER_WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five"}
 
@@ -63,9 +66,9 @@ def fixture(path):
 
 def saved_text(spec):
     """The text of a saved page (tags removed, quotes straightened, spacing normalised), or None where the page is not on this machine."""
-    if not os.path.exists(spec[1]):
+    if not WORK or not os.path.exists(os.path.join(WORK, spec[1])):
         return None
-    with open(spec[1], encoding="utf-8", errors="replace") as fh:
+    with open(os.path.join(WORK, spec[1]), encoding="utf-8", errors="replace") as fh:
         raw = fh.read()
     if spec[0] == "field":
         return flat(json.loads(raw)[spec[2]])
@@ -161,12 +164,12 @@ class Quotations(unittest.TestCase):
             self.assertIn(QUOTES[key]["quotation"], text, f"{key}: not in {spec[1]}")
         self.assertEqual(set(SAVED), set(QUOTES), "every quotation of the two fixtures has a saved page to be compared with")
         if not found:
-            self.skipTest("the saved pages are not on this machine")
+            self.skipTest("MARKET_NOW_PAGES does not name the folder of the saved pages")
 
     def test_the_saved_item_names_five_classes_does_not_say_what_each_holds_and_does_not_mention_gas_carriers(self):
         text = saved_text(SAVED["portwatch-ship-categories"])
         if text is None:
-            self.skipTest("the saved item is not on this machine")
+            self.skipTest("MARKET_NOW_PAGES does not name the folder of the saved pages")
         self.assertNotRegex(text, r"(?i)\b(gas|lng|lpg)\b")
         self.assertNotRegex(text, r"(?i)\btankers? (are|is|means|include)")
         self.assertIn("Ship Categories: all the indicators are available by 5 main ship categories", text)

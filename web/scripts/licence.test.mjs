@@ -36,7 +36,7 @@ assert.equal(licenceShort('Etalab Open Licence 2.0'), 'Etalab Open Licence 2.0')
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../../data');
 const registry = JSON.parse(fs.readFileSync(path.join(root, 'sources.json'), 'utf8'));
 const allowed = new Set([
-  'naturalearth', 'usgs-mcs', 'usgs-myb', 'baci', 'wb-pink', 'bls', 'dallasfed', 'nyfed', 'usda-psd', 'portwatch', 'portwatch-ports', 'portwatch-port-traffic', 'atlas', 'eia-chokepoints', 'eia-tie',
+  'naturalearth', 'naturalearth-marine', 'usgs-mcs', 'usgs-myb', 'baci', 'wb-pink', 'bls', 'dallasfed', 'nyfed', 'usda-psd', 'portwatch', 'portwatch-ports', 'portwatch-port-traffic', 'atlas', 'eia-chokepoints', 'eia-tie',
   'eia-intl', 'faostat', 'wikipedia', 'wikipedia-vessel-classes', 'vessel-size-conventions', 'eia-ng', 'eia-cab-russia',
   'eia-refinery-capacity', 'eia-storage-capacity', 'unctadstat-fleet', 'eia-dpr', 'eia-todayinenergy', 'openstreetmap', 'wikidata', 'faostat-rfb', 'eia-cab', 'eia-company-imports',
   'eia-exports-destination', 'disr-req', 'qld-coal-sales', 'eia-coal',

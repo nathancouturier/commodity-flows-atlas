@@ -8,6 +8,8 @@ import { App } from './App';
 import { loadCatalogue } from './lib/data';
 import { loadFreightCatalogue } from './lib/freight';
 import './map/modules';
+import './styles/tablet.css';
+import { startTabletFold } from './lib/tablet';
 
 // after a new deploy, an open tab may ask for a code chunk that no longer exists: reload once
 window.addEventListener('vite:preloadError', (e) => {
@@ -31,6 +33,8 @@ window.addEventListener('load', () => {
   }, 30000);
 });
 
+// a link that opens a page loads with the controls folded on a tablet, as the page would fold them
+startTabletFold();
 loadCatalogue().catch((e) => console.error('catalogue failed', e));
 loadFreightCatalogue().catch((e) => console.error('freight catalogue failed', e));
 render(<App />, document.getElementById('app')!);

@@ -19,9 +19,8 @@ import { commodity, family, laneVia, layers, selection, vesselClasses, year } fr
 import { commodities, commodityMeta, countries, countryName, sourceLabel, sources } from '../../lib/data';
 import { LANE_GROUPS, OVERVIEW, chokepointList, chokepointName, laneEst, laneGroup, laneMt, loadLaneFile, vesselClassList, vesselMatches, vesselName } from '../../lib/freight';
 import { FAMILY_COLOR, escapeHtml as esc, fmt, fmtEst, pct } from '../../lib/format';
+import { NEUTRAL_LINE } from '../../lib/palette';
 import '../../styles/lane-engine.css';
-
-const NEUTRAL = '#8aa0b8';
 
 /**
  * Width scale of the lanes now drawn: `max` is the volume drawn at full width (null = no lanes drawn).
@@ -209,7 +208,7 @@ registerLayerModule(() => {
           properties: {
             id: lane.id,
             kind: 'lane',
-            color: fam2 ? FAMILY_COLOR[fam2] : NEUTRAL,
+            color: fam2 ? FAMILY_COLOR[fam2] : NEUTRAL_LINE,
             w: Math.sqrt(Math.min(1, laneMt(v, file.unit) / max)),
             dim: !isBright(lane),
             hl: lane.id === selLane,
@@ -229,7 +228,7 @@ registerLayerModule(() => {
             id: picked!.lane.id,
             kind: 'lane',
             dash: true,
-            color: NEUTRAL,
+            color: NEUTRAL_LINE,
             w: 0.4,
             label: `<div><b>Alternative routing</b></div><div class="muted">${esc(alt.label)}</div>`,
           },

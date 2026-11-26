@@ -644,6 +644,19 @@ button {
   border-radius: 2px;
 }
 
+/* the line of a freight route in its vessel segment's colour and dash pattern (legend, route and vessel-class pages) */
+.route-swatch {
+  flex: none;
+  vertical-align: middle;
+}
+/* the swatch follows the words of the kicker; where the line is too narrow for both it takes a short line of its own */
+.detail-kicker.kicker-swatch {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 3px 8px;
+}
+
 .legend-dash {
   background: repeating-linear-gradient(90deg, currentColor 0 5px, transparent 5px 8px);
   opacity: 0.8;
@@ -680,18 +693,6 @@ button {
 
 .legend-infra-types .infra-ic {
   display: inline-flex;
-}
-
-.status-key {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  border: 2px solid;
-  box-sizing: border-box;
-}
-
-.status-key.dashed {
-  border-style: dashed;
 }
 
 /* ---------------------------------------------------------------- empty / loading */
@@ -742,6 +743,36 @@ button {
 
 .maplibregl-ctrl-group button .maplibregl-ctrl-icon {
   filter: invert(0.85);
+}
+
+/* the Reset view icon is an inline SVG drawn in the zoom icons' own colour (#333) and given their filter */
+.maplibregl-ctrl-group button.reset-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+}
+
+.maplibregl-ctrl-group button.reset-view svg {
+  filter: invert(0.85);
+}
+
+/* the scale bar (nautical miles, MapLibre's own control): the dark panel's colours, the open-top shape of a scale, its
+   sides and foot in the third ink (the panels' hairline is too faint to read a length from); the controller puts
+   `scale-on` on the map from the zoom at which it is drawn; it takes the pointer like the buttons above it, so a click or a
+   hover on it does nothing and a drag that starts on it does not move the map */
+.app .maplibregl-ctrl-scale {
+  display: none;
+  background: var(--panel);
+  color: var(--ink-2);
+  font-size: 11px;
+  border: 1px solid var(--ink-3);
+  border-top: 0;
+  box-shadow: var(--shadow);
+}
+
+.app .scale-on .maplibregl-ctrl-scale {
+  display: block;
 }
 
 .app .maplibregl-ctrl-top-right {

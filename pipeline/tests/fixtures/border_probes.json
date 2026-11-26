@@ -1,0 +1,1678 @@
+{
+ "about": "Points tested against the country shapes of the map, and the areas they belong to. The areas are every record of Natural Earth's 1:10m layer of breakaway and disputed areas (version 5.1.1), each with its name, id and note as the layer's file spells them. The points are of three kinds: places of Natural Earth's populated-places file (version 5.1.2); for each area, a point inside its polygon that the atlas computed from the layer (mapshaper -points inner, one point per area, inside one part for an area of several parts); and two points that the atlas chose by hand. Two names begin with a byte order mark in the layer's file; the mark is dropped. Read 25 November 2026. The field raw50 of every point is the code of the shape of Natural Earth's own 1:50m file of countries (ne_50m_admin_0_countries, version 5.1.1; the file ne_50m_admin_0_countries.shp, 1613020 bytes, sha256 94799b91827fb9f32c0c517d60281572abcf5e4647d19b7f52217071cc4fd30d) that holds the point, null for none, by the rule of codes of pipeline/geo/build_countries.mjs; it was computed on 26 November 2026 with the functions countries_file_shapes and code_of_the_shape_holding of pipeline/tests/test_borders.py, which the test runs again where raw/naturalearth/ne_50m is on the machine.",
+ "read": "2026-11-25",
+ "sources": {
+  "populated": {
+   "address": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_populated_places_simple.zip",
+   "version": "5.1.2",
+   "bytes": 652145,
+   "sha256": "2963ee08f7743f13f37d5243acd77a2f7a510e26a36c7e04b920f1b381f2b251"
+  },
+  "disputed": {
+   "address": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_disputed_areas.zip",
+   "version": "5.1.1",
+   "bytes": 215221,
+   "sha256": "a250c1cf8ab68898399928a1fa1d5c242eb4de6335cb51a7f7a7f12a9f3c8438"
+  }
+ },
+ "probes": [
+  {
+   "label": "Sevastopol",
+   "kind": "place",
+   "src": "NE 10m populated places \"Sevastopol\" (adm0 RUS)",
+   "lon": 33.52439491312476,
+   "lat": 44.60392525649835,
+   "raw50": "RUS",
+   "why": "Crimea"
+  },
+  {
+   "label": "Simferopol",
+   "kind": "place",
+   "src": "NE 10m populated places \"Simferopol\" (adm0 RUS)",
+   "lon": 34.0987349,
+   "lat": 44.9491543,
+   "raw50": "RUS",
+   "why": "Crimea"
+  },
+  {
+   "label": "Kerch",
+   "kind": "place",
+   "src": "NE 10m populated places \"Kerch\" (adm0 RUS)",
+   "lon": 36.4880981,
+   "lat": 45.3685085,
+   "raw50": "RUS",
+   "why": "east end of Crimea"
+  },
+  {
+   "label": "Laayoune",
+   "kind": "place",
+   "src": "NE 10m populated places \"Laayoune\" (adm0 MAR)",
+   "lon": -13.2000059,
+   "lat": 27.1499823,
+   "raw50": "MAR",
+   "why": "Western Sahara"
+  },
+  {
+   "label": "Ad Dakhla",
+   "kind": "place",
+   "src": "NE 10m populated places \"Ad Dakhla\" (adm0 MAR)",
+   "lon": -15.9368109,
+   "lat": 23.7140559,
+   "raw50": "MAR",
+   "why": "Western Sahara, on the coast"
+  },
+  {
+   "label": "Smara",
+   "kind": "place",
+   "src": "NE 10m populated places \"Smara\" (adm0 MAR)",
+   "lon": -11.6833285,
+   "lat": 26.7332894,
+   "raw50": "MAR",
+   "why": "inland Western Sahara"
+  },
+  {
+   "label": "Bir Lehlou",
+   "kind": "place",
+   "src": "NE 10m populated places \"Bir Lehlou\" (adm0 SAH)",
+   "lon": -9.6525222,
+   "lat": 26.1191667,
+   "raw50": "ESH",
+   "why": "east of the berm, Sahrawi-administered"
+  },
+  {
+   "label": "Srinagar",
+   "kind": "place",
+   "src": "NE 10m populated places \"Srinagar\" (adm0 IND)",
+   "lon": 74.82830910981222,
+   "lat": 34.069473874645354,
+   "raw50": "IND",
+   "why": "Kashmir valley"
+  },
+  {
+   "label": "Gilgit",
+   "kind": "place",
+   "src": "NE 10m populated places \"Gilgit\" (adm0 PAK)",
+   "lon": 74.300002,
+   "lat": 35.9170958,
+   "raw50": "PAK",
+   "why": "Gilgit-Baltistan"
+  },
+  {
+   "label": "Leh",
+   "kind": "place",
+   "src": "NE 10m populated places \"Leh\" (adm0 IND)",
+   "lon": 77.57229066274353,
+   "lat": 34.16155933706067,
+   "raw50": "IND",
+   "why": "Ladakh"
+  },
+  {
+   "label": "Taipei",
+   "kind": "place",
+   "src": "NE 10m populated places \"Taipei\" (adm0 TWN)",
+   "lon": 121.5683333,
+   "lat": 25.0358333,
+   "raw50": "TWN",
+   "why": "Taiwan"
+  },
+  {
+   "label": "Pristina",
+   "kind": "place",
+   "src": "NE 10m populated places \"Pristina\" (adm0 KOS)",
+   "lon": 21.1659843,
+   "lat": 42.6667096,
+   "raw50": "KOS",
+   "why": "Kosovo"
+  },
+  {
+   "label": "Hargeisa",
+   "kind": "place",
+   "src": "NE 10m populated places \"Hargeisa\" (adm0 SOL)",
+   "lon": 44.06531,
+   "lat": 9.5600224,
+   "raw50": "SOL",
+   "why": "Somaliland"
+  },
+  {
+   "label": "Berbera",
+   "kind": "place",
+   "src": "NE 10m populated places \"Berbera\" (adm0 SOL)",
+   "lon": 45.0164148,
+   "lat": 10.4355504,
+   "raw50": "SOL",
+   "why": "Somaliland port"
+  },
+  {
+   "label": "Nicosia",
+   "kind": "place",
+   "src": "NE 10m populated places \"Nicosia\" (adm0 CYP)",
+   "lon": 33.3666349,
+   "lat": 35.1666765,
+   "raw50": "CYN",
+   "why": "divided city, point of the Republic side"
+  },
+  {
+   "label": "Kyrenia",
+   "kind": "place",
+   "src": "NE 10m populated places \"Kyrenia\" (adm0 CYN)",
+   "lon": 33.3330036,
+   "lat": 35.3259991,
+   "raw50": "CYN",
+   "why": "north Cyprus"
+  },
+  {
+   "label": "Famagusta",
+   "kind": "place",
+   "src": "NE 10m populated places \"Famagusta\" (adm0 CYN)",
+   "lon": 33.9500101,
+   "lat": 35.1250252,
+   "raw50": null,
+   "why": "north Cyprus port"
+  },
+  {
+   "label": "Stanley",
+   "kind": "place",
+   "src": "NE 10m populated places \"Stanley\" (adm0 FLK)",
+   "lon": -57.8499679,
+   "lat": -51.700011,
+   "raw50": "FLK",
+   "why": "Falkland Islands"
+  },
+  {
+   "label": "Tskhinvali",
+   "kind": "place",
+   "src": "NE 10m populated places \"Tskhinvali\" (adm0 GEO)",
+   "lon": 43.9750313,
+   "lat": 42.2324984,
+   "raw50": "GEO",
+   "why": "South Ossetia"
+  },
+  {
+   "label": "Sukhumi",
+   "kind": "place",
+   "src": "NE 10m populated places \"Sukhumi\" (adm0 GEO)",
+   "lon": 41.0200179,
+   "lat": 43.0200214,
+   "raw50": "GEO",
+   "why": "Abkhazia"
+  },
+  {
+   "label": "Stepanakert",
+   "kind": "place",
+   "src": "NE 10m populated places \"Stepanakert\" (adm0 AZE)",
+   "lon": 46.7519677,
+   "lat": 39.8156433,
+   "raw50": "AZE",
+   "why": "Nagorno-Karabakh"
+  },
+  {
+   "label": "Tiraspol",
+   "kind": "place",
+   "src": "NE 10m populated places \"Tiraspol\" (adm0 MDA)",
+   "lon": 29.639989,
+   "lat": 46.8530949,
+   "raw50": "MDA",
+   "why": "Transnistria"
+  },
+  {
+   "label": "Donetsk",
+   "kind": "place",
+   "src": "NE 10m populated places \"Donetsk\" (adm0 UKR)",
+   "lon": 37.8280342,
+   "lat": 48.0019475,
+   "raw50": "UKR",
+   "why": "Donetsk"
+  },
+  {
+   "label": "Luhansk",
+   "kind": "place",
+   "src": "NE 10m populated places \"Luhansk\" (adm0 UKR)",
+   "lon": 39.3343843,
+   "lat": 48.5697602,
+   "raw50": "UKR",
+   "why": "Luhansk"
+  },
+  {
+   "label": "Mariupol",
+   "kind": "place",
+   "src": "NE 10m populated places \"Mariupol\" (adm0 UKR)",
+   "lon": 37.5561983,
+   "lat": 47.0961808,
+   "raw50": "UKR",
+   "why": "Azov port"
+  },
+  {
+   "label": "Gaza City",
+   "kind": "place",
+   "src": "NE 10m populated places \"Gaza City\" (adm0 PSX)",
+   "lon": 34.4450187,
+   "lat": 31.5299992,
+   "raw50": "PSE",
+   "why": "Gaza"
+  },
+  {
+   "label": "Ramallah",
+   "kind": "place",
+   "src": "NE 10m populated places \"Ramallah\" (adm0 PSX)",
+   "lon": 35.2062094,
+   "lat": 31.9029448,
+   "raw50": "PSE",
+   "why": "West Bank"
+  },
+  {
+   "label": "Jerusalem (NE point)",
+   "kind": "place",
+   "src": "NE 10m populated places \"Jerusalem\" (adm0 ISR)",
+   "lon": 35.2066259,
+   "lat": 31.7784078,
+   "raw50": "PSE",
+   "why": "Natural Earth puts the point in the west of the city"
+  },
+  {
+   "label": "Interior point, Jammu and Kashmir polygon",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B05 (\"Jammu and Kashmir\") interior point",
+   "lon": 77.2306968142936,
+   "lat": 34.00207174668811,
+   "raw50": "IND",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Aksai Chin",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B07 (\"Aksai Chin\") interior point",
+   "lon": 79.15375958758442,
+   "lat": 35.06191663403681,
+   "raw50": "CHN",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Gaza",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B53 (\"Gaza\") interior point",
+   "lon": 34.2962983560928,
+   "lat": 31.322339600097234,
+   "raw50": "PSE",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, West Bank",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B54 (\"West Bank\") interior point",
+   "lon": 35.28183651561043,
+   "lat": 32.11805396782916,
+   "raw50": "PSE",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, inside the Golan Heights polygon (area of Majdal Shams)",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B16 (\"Golan Heights\") interior point",
+   "lon": 35.73328602635888,
+   "lat": 33.00207730762111,
+   "raw50": "ISR",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Somaliland polygon",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B30 (\"Somaliland\") interior point",
+   "lon": 46.763994448690795,
+   "lat": 9.440501872888827,
+   "raw50": "SOL",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, W. Sahara claim polygon held by Morocco",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B19 (\"W. Sahara\") interior point",
+   "lon": -13.811042183809079,
+   "lat": 25.065614077224918,
+   "raw50": "MAR",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, W. Sahara polygon held by the Sahrawi side",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B28 (\"W. Sahara\") interior point",
+   "lon": -12.584236647965238,
+   "lat": 24.04554791790775,
+   "raw50": "ESH",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Abkhazia polygon",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B35 (\"Abkhazia\") interior point",
+   "lon": 41.25120454813599,
+   "lat": 43.08961546317457,
+   "raw50": "GEO",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, South Ossetia polygon",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B37 (\"South Ossetia\") interior point",
+   "lon": 44.08384449571103,
+   "lat": 42.38749713107038,
+   "raw50": "GEO",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Kosovo polygon",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B57 (\"Kosovo\") interior point",
+   "lon": 20.873742976741802,
+   "lat": 42.572883356037444,
+   "raw50": "KOS",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Artsakh polygon",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B38 (\"Artsakh\") interior point",
+   "lon": 46.69436777511758,
+   "lat": 39.884154322509346,
+   "raw50": "AZE",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Gilgit-Baltistan polygon",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B08 (\"Gilgit-Baltistan\") interior point",
+   "lon": 74.91067400009288,
+   "lat": 35.85098535658891,
+   "raw50": "PAK",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Transnistria polygon",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B36 (\"Transnistria\") interior point",
+   "lon": 29.272634972657816,
+   "lat": 47.28292913366364,
+   "raw50": "MDA",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Luhansk People's Republic polygon",
+   "kind": "interior",
+   "src": "NE 10m disputed areas C03 (\"Luhansk People's Republic\") interior point",
+   "lon": 39.18387814366246,
+   "lat": 48.307777299369256,
+   "raw50": "UKR",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Donetsk People's Republic polygon",
+   "kind": "interior",
+   "src": "NE 10m disputed areas C02 (\"Donetsk People's Republic\") interior point",
+   "lon": 38.0989746685938,
+   "lat": 47.894569546448366,
+   "raw50": "UKR",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Abyei",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B13 (\"Abyei\") interior point",
+   "lon": 28.41426351895815,
+   "lat": 9.767834976113146,
+   "raw50": "SDN",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, N. Cyprus polygon",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B20 (\"N. Cyprus\") interior point",
+   "lon": 33.60791730317709,
+   "lat": 35.20812587148565,
+   "raw50": "CYN",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Cyprus UN buffer zone",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B43 (\"Cyprus U.N. Buffer Zone\") interior point",
+   "lon": 33.28686076049294,
+   "lat": 35.14095231152092,
+   "raw50": "CYP",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Siachen Glacier",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B45 (\"Siachen Glacier\") interior point",
+   "lon": 77.18395152050303,
+   "lat": 35.36413540078617,
+   "raw50": "KAS",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Crimea",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B89 (\"Crimea\") interior point",
+   "lon": 34.33469585912164,
+   "lat": 45.32596279352552,
+   "raw50": "RUS",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Halayib Triangle (Hala'ib)",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B93 (\"Halayib Triangle\") interior point",
+   "lon": 35.509548611745196,
+   "lat": 22.403806698217842,
+   "raw50": "EGY",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, East Jerusalem",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B98 (\"East Jerusalem\") interior point",
+   "lon": 35.2356081941488,
+   "lat": 31.819366657665093,
+   "raw50": "PSE",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Azad Kashmir",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B09 (\"Azad Kashmir\") interior point",
+   "lon": 73.85819460635557,
+   "lat": 33.4498874298868,
+   "raw50": "PAK",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Taiwan polygon",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B77 (\"Taiwan\") interior point",
+   "lon": 120.94300886336725,
+   "lat": 23.761191107601633,
+   "raw50": "TWN",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Falkland Is. polygon",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B12 (\"Falkland Is.\") interior point",
+   "lon": -58.72063742738593,
+   "lat": -51.65876526883073,
+   "raw50": "FLK",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Point chosen inland of Dakhla",
+   "kind": "by hand",
+   "src": "point chosen by hand (14.5 W, 23.5 N)",
+   "lon": -14.5,
+   "lat": 23.5,
+   "raw50": "MAR",
+   "why": "a point chosen by hand, inland of the coast of Western Sahara"
+  },
+  {
+   "label": "Point chosen in the Golan Heights",
+   "kind": "by hand",
+   "src": "point chosen by hand (35.8 E, 33.0 N)",
+   "lon": 35.8,
+   "lat": 33,
+   "raw50": "ISR",
+   "why": "a point chosen by hand, in the Golan Heights"
+  },
+  {
+   "label": "Interior point, Israel",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B91 (\"Israel\") interior point",
+   "lon": 34.854720268276296,
+   "lat": 30.906300524262267,
+   "raw50": "ISR",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Ilemi Triangle",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B17 (\"Ilemi Triangle\") interior point",
+   "lon": 35.1198793065369,
+   "lat": 4.771443075295808,
+   "raw50": "KEN",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Arunachal Pradesh",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B00 (\"Arunachal Pradesh\") interior point",
+   "lon": 94.30193649500663,
+   "lat": 28.187108537416787,
+   "raw50": "IND",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, UNDOF Zone",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B49 (\"UNDOF Zone\") interior point",
+   "lon": 35.86360241583174,
+   "lat": 33.15177170009371,
+   "raw50": "SYR",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Lawa Headwaters",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B14 (\"Lawa Headwaters\") interior point",
+   "lon": -54.1776019285453,
+   "lat": 2.585330358573803,
+   "raw50": "FRA",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Courantyne Headwaters",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B15 (\"Courantyne Headwaters\") interior point",
+   "lon": -57.43713199073045,
+   "lat": 2.3167139977132454,
+   "raw50": "GUY",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Korean Demilitarized Zone (south)",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B10 (\"Korean Demilitarized Zone (south)\") interior point",
+   "lon": 126.6916366709372,
+   "lat": 37.91555511873433,
+   "raw50": "KOR",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Korean Demilitarized Zone (north)",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B11 (\"Korean Demilitarized Zone (north)\") interior point",
+   "lon": 127.8005749855096,
+   "lat": 38.322086499119465,
+   "raw50": "PRK",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Ceuta",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B60 (\"Ceuta\") interior point",
+   "lon": -5.3489928464637755,
+   "lat": 35.89004501405571,
+   "raw50": "MAR",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, West of Essequibo River",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B56 (\"West of Essequibo River\") interior point",
+   "lon": -59.57861317888175,
+   "lat": 5.987822842493229,
+   "raw50": "GUY",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Dragonja River",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B82 (\"Dragonja River\") interior point",
+   "lon": 13.610989715903207,
+   "lat": 45.470819020218286,
+   "raw50": "HRV",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Shaksam Valley",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B06 (\"Shaksam Valley\") interior point",
+   "lon": 76.3617439307408,
+   "lat": 36.048692097603094,
+   "raw50": "CHN",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Melilla",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B61 (\"Melilla\") interior point",
+   "lon": -2.945054953261629,
+   "lat": 35.2951390988946,
+   "raw50": "MAR",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Guantanamo Bay USNB",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B50 (\"Guantanamo Bay USNB\") interior point",
+   "lon": -75.12014655935734,
+   "lat": 19.91824409306059,
+   "raw50": "CUB",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Near Om Parvat",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B88 (\"Near Om Parvat\") interior point",
+   "lon": 80.94554611750632,
+   "lat": 30.212932897936177,
+   "raw50": "IND",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Brazilian Island",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B85 (\"Brazilian Island\") interior point",
+   "lon": -57.62305537546003,
+   "lat": -30.18783370810666,
+   "raw50": "ARG",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Olivenza",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B67 (\"Olivenza\") interior point",
+   "lon": -7.126904315055483,
+   "lat": 38.669414524824845,
+   "raw50": "ESP",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Gibraltar",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B55 (\"Gibraltar\") interior point",
+   "lon": -5.346845825752411,
+   "lat": 36.12993645877145,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Demchok",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B03 (\"Demchok\") interior point",
+   "lon": 79.36632790491265,
+   "lat": 32.80528168491948,
+   "raw50": "CHN",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Samdu Valleys",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B04 (\"Samdu Valleys\") interior point",
+   "lon": 78.50916821703385,
+   "lat": 32.15202049833945,
+   "raw50": "IND",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Tirpani Valleys",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B01 (\"Tirpani Valleys\") interior point",
+   "lon": 79.11206134977544,
+   "lat": 31.234054078261014,
+   "raw50": "IND",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Bara Hotii Valleys",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B02 (\"Bara Hotii Valleys\") interior point",
+   "lon": 80.11073424427009,
+   "lat": 30.72205860264216,
+   "raw50": "IND",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Baykonur",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B40 (\"Baykonur\") interior point",
+   "lon": 63.38389700315938,
+   "lat": 45.97833013824065,
+   "raw50": "KAZ",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Belize",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B51 (\"Belize\") interior point",
+   "lon": -88.62918123838175,
+   "lat": 16.534645916135812,
+   "raw50": "BLZ",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Southern Patagonian Ice Field",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B97 (\"Southern Patagonian Ice Field\") interior point",
+   "lon": -73.31883356382386,
+   "lat": -49.512342815817135,
+   "raw50": "ARG",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Bhutan (northwest valleys)",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B75 (\"Bhutan (northwest valleys)\") interior point",
+   "lon": 90.05240451033423,
+   "lat": 28.247778123182236,
+   "raw50": "BTN",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Bhutan (Chumbi salient)",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B76 (\"Bhutan (Chumbi salient)\") interior point",
+   "lon": 89.06988375431327,
+   "lat": 27.560892081277782,
+   "raw50": "BTN",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Shebaa Farms",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B58 (\"Shebaa Farms\") interior point",
+   "lon": 35.68061307027771,
+   "lat": 33.29385815653981,
+   "raw50": "ISR",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Ilemi Triange",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B74 (\"Ilemi Triange\") interior point",
+   "lon": 35.6825107056039,
+   "lat": 4.607689805093586,
+   "raw50": "KEN",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Corner of Artigas",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B92 (\"Corner of Artigas\") interior point",
+   "lon": -55.943866385474685,
+   "lat": -31.00775209232043,
+   "raw50": "BRA",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Bir Tawil",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B94 (\"Bir Tawil\") interior point",
+   "lon": 33.681601757518145,
+   "lat": 21.870402556658817,
+   "raw50": "SDN",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Vukovar Island",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B96 (\"Vukovar Island\") interior point",
+   "lon": 19.030554251863357,
+   "lat": 45.34808844638024,
+   "raw50": "HRV",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Šarengrad Island",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B95 (\"Šarengrad Island\") interior point",
+   "lon": 19.247877090116834,
+   "lat": 45.26085660707723,
+   "raw50": "HRV",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, No Man's Land (Fort Latrun)",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B78 (\"No Man's Land (Fort Latrun)\") interior point",
+   "lon": 34.979643991664055,
+   "lat": 31.853934706238377,
+   "raw50": "PSE",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, No Man's Land (Jerusalem)",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B79 (\"No Man's Land (Jerusalem)\") interior point",
+   "lon": 35.23405275812768,
+   "lat": 31.75419500116223,
+   "raw50": "PSE",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Mount Scopus",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B99 (\"Mount Scopus\") interior point",
+   "lon": 35.24563570111553,
+   "lat": 31.795053617302123,
+   "raw50": "PSE",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Junagadh and Manavadar",
+   "kind": "interior",
+   "src": "NE 10m disputed areas C01 (\"Junagadh and Manavadar\") interior point",
+   "lon": 70.1750456063953,
+   "lat": 21.29145576369431,
+   "raw50": "IND",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, North Borneo",
+   "kind": "interior",
+   "src": "NE 10m disputed areas C04 (\"North Borneo\") interior point",
+   "lon": 117.62360653737426,
+   "lat": 5.385975219322314,
+   "raw50": "MYS",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Tiran and Sanafir Is.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B68 (\"Tiran and Sanafir Is.\") interior point",
+   "lon": 34.54916477518709,
+   "lat": 27.94555626063628,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Juan De Nova I.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B23 (\"Juan De Nova I.\") interior point",
+   "lon": 42.743828828722805,
+   "lat": -17.065173239358536,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Mayotte",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B22 (\"Mayotte\") interior point",
+   "lon": 45.14457150660358,
+   "lat": -12.789658251173742,
+   "raw50": "FRA",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Diego Garcia NSF",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B44 (\"Diego Garcia NSF\") interior point",
+   "lon": 72.38542016712994,
+   "lat": -7.290532571653232,
+   "raw50": "IOT",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Kuril Is.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B29 (\"Kuril Is.\") interior point",
+   "lon": 147.8431221559278,
+   "lat": 45.07739196464656,
+   "raw50": "RUS",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Br. Indian Ocean Ter.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B69 (\"Br. Indian Ocean Ter.\") interior point",
+   "lon": 71.34910383804683,
+   "lat": -6.190520948469707,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, S. Sandwich Is.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B33 (\"S. Sandwich Is.\") interior point",
+   "lon": -26.33940597049897,
+   "lat": -58.427731854452084,
+   "raw50": "SGS",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, S. Georgia",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B32 (\"S. Georgia\") interior point",
+   "lon": -36.34439206298883,
+   "lat": -54.487849193584736,
+   "raw50": "SGS",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Paracel Is.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B47 (\"Paracel Is.\") interior point",
+   "lon": 111.20083568080169,
+   "lat": 15.782871856023784,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Europa Island",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B26 (\"Europa Island\") interior point",
+   "lon": 40.345737341582115,
+   "lat": -22.335281553464764,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Swains Island",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B71 (\"Swains Island\") interior point",
+   "lon": -171.07975745141022,
+   "lat": -11.057942758321314,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Spratly Is.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B46 (\"Spratly Is.\") interior point",
+   "lon": 115.82095667074029,
+   "lat": 10.730135338798892,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Bird Island",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B48 (\"Bird Island\") interior point",
+   "lon": -63.638150376808724,
+   "lat": 15.698722868695235,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Wake Atoll",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B59 (\"Wake Atoll\") interior point",
+   "lon": 166.64435601580868,
+   "lat": 19.286230183675837,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Korean islands under UN jurisdiction",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B84 (\"Korean islands under UN jurisdiction\") interior point",
+   "lon": 125.69200821454884,
+   "lat": 37.66742799800874,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Rockall I.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B31 (\"Rockall I.\") interior point",
+   "lon": -13.689543650143992,
+   "lat": 57.597011872297074,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Navassa I.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B34 (\"Navassa I.\") interior point",
+   "lon": -75.01378686900969,
+   "lat": 18.407373525056702,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Bassas da India",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B27 (\"Bassas da India\") interior point",
+   "lon": 39.69507904011439,
+   "lat": -21.49754543424147,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Tromelin I.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B25 (\"Tromelin I.\") interior point",
+   "lon": 54.51891789001504,
+   "lat": -15.889608097535826,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Glorioso Is.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B24 (\"Glorioso Is.\") interior point",
+   "lon": 47.29797068390822,
+   "lat": -11.562025649384653,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Pinnacle Is.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B18 (\"Pinnacle Is.\") interior point",
+   "lon": 123.52718905923165,
+   "lat": 25.766737677508857,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Abu Musa I.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B73 (\"Abu Musa I.\") interior point",
+   "lon": 55.03409812352303,
+   "lat": 25.873936105797004,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Bajo Nuevo Bank (Petrel Is.)",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B41 (\"Bajo Nuevo Bank (Petrel Is.)\") interior point",
+   "lon": -79.84561112133093,
+   "lat": 15.791774804628266,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Serranilla Bank",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B42 (\"Serranilla Bank\") interior point",
+   "lon": -78.63813229123038,
+   "lat": 15.864467677941478,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Sapodilla Cayes",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B80 (\"Sapodilla Cayes\") interior point",
+   "lon": -88.25649180753658,
+   "lat": 16.105867375349384,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Hans Island",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B21 (\"Hans Island\") interior point",
+   "lon": -66.33918879759209,
+   "lat": 80.82642933996534,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Dokdo",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B39 (\"Dokdo\") interior point",
+   "lon": 131.8613393543343,
+   "lat": 37.24278159940836,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Mbane Island",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B52 (\"Mbane Island\") interior point",
+   "lon": 9.380139747390679,
+   "lat": 0.8086888352344656,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Peñón de Vélez de la Gomera",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B63 (\"Peñón de Vélez de la Gomera\") interior point",
+   "lon": -4.299331416212334,
+   "lat": 35.17220717854254,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Penon de Alhucemas",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B64 (\"Penon de Alhucemas\") interior point",
+   "lon": -3.9025197343700255,
+   "lat": 35.215308594131955,
+   "raw50": "MAR",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Islas Chafarinas",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B65 (\"Islas Chafarinas\") interior point",
+   "lon": -2.4313569716234706,
+   "lat": 35.18257002808311,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Isla del Perejil",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B62 (\"Isla del Perejil\") interior point",
+   "lon": -5.418611831072255,
+   "lat": 35.91320548490359,
+   "raw50": "MAR",
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Matthew and Hunter Is.",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B66 (\"Matthew and Hunter Is.\") interior point",
+   "lon": 172.05683128503935,
+   "lat": -22.397443355150653,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Scarborough Reef",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B70 (\"Scarborough Reef\") interior point",
+   "lon": 117.7538115897259,
+   "lat": 15.152112773942395,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  },
+  {
+   "label": "Interior point, Doumera Island",
+   "kind": "interior",
+   "src": "NE 10m disputed areas B87 (\"Doumera Island\") interior point",
+   "lon": 43.146500193344906,
+   "lat": 12.715500269514106,
+   "raw50": null,
+   "why": "a point inside the polygon of the area, computed by the atlas from the layer"
+  }
+ ],
+ "areas": [
+  {
+   "BRK_A3": "B35",
+   "BRK_NAME": "Abkhazia",
+   "NOTE_BRK": "Self admin.; Claimed by Georgia"
+  },
+  {
+   "BRK_A3": "B73",
+   "BRK_NAME": "Abu Musa I.",
+   "NOTE_BRK": "Admin. by Iran; Claimed by UAE"
+  },
+  {
+   "BRK_A3": "B13",
+   "BRK_NAME": "Abyei",
+   "NOTE_BRK": "Admin. by Sudan; Claimed by South Sudan"
+  },
+  {
+   "BRK_A3": "B07",
+   "BRK_NAME": "Aksai Chin",
+   "NOTE_BRK": "Admin. by China; Claimed by India"
+  },
+  {
+   "BRK_A3": "B38",
+   "BRK_NAME": "Artsakh",
+   "NOTE_BRK": "Self admin.; Claimed by Azer."
+  },
+  {
+   "BRK_A3": "B00",
+   "BRK_NAME": "Arunachal Pradesh",
+   "NOTE_BRK": "Admin. by India; Claimed by China"
+  },
+  {
+   "BRK_A3": "B09",
+   "BRK_NAME": "Azad Kashmir",
+   "NOTE_BRK": "Admin. by Pakistan; Claimed by India"
+  },
+  {
+   "BRK_A3": "B41",
+   "BRK_NAME": "Bajo Nuevo Bank (Petrel Is.)",
+   "NOTE_BRK": "Claimed by Colombia, Jamaica, Nicaragua and the United States"
+  },
+  {
+   "BRK_A3": "B02",
+   "BRK_NAME": "Bara Hotii Valleys",
+   "NOTE_BRK": "Admin. by India; Claimed by China"
+  },
+  {
+   "BRK_A3": "B27",
+   "BRK_NAME": "Bassas da India",
+   "NOTE_BRK": "Admin. by France; Claimed by Madagascar"
+  },
+  {
+   "BRK_A3": "B40",
+   "BRK_NAME": "Baykonur",
+   "NOTE_BRK": "Leased to Russia by Kazakhstan"
+  },
+  {
+   "BRK_A3": "B51",
+   "BRK_NAME": "Belize",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B76",
+   "BRK_NAME": "Bhutan (Chumbi salient)",
+   "NOTE_BRK": "Admin. by Bhutan; Claimed by China"
+  },
+  {
+   "BRK_A3": "B75",
+   "BRK_NAME": "Bhutan (northwest valleys)",
+   "NOTE_BRK": "Admin. by Bhutan; Claimed by China"
+  },
+  {
+   "BRK_A3": "B94",
+   "BRK_NAME": "Bir Tawil",
+   "NOTE_BRK": "Between Egypt and Sudan"
+  },
+  {
+   "BRK_A3": "B48",
+   "BRK_NAME": "Bird Island",
+   "NOTE_BRK": "Admin. by Venezuela; Claimed by multiple"
+  },
+  {
+   "BRK_A3": "B69",
+   "BRK_NAME": "Br. Indian Ocean Ter.",
+   "NOTE_BRK": "Admin. by U.K.; Claimed by Mauritius and Seychelles"
+  },
+  {
+   "BRK_A3": "B85",
+   "BRK_NAME": "Brazilian Island",
+   "NOTE_BRK": "Claimed by Brazil and Uruguay"
+  },
+  {
+   "BRK_A3": "B60",
+   "BRK_NAME": "Ceuta",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B92",
+   "BRK_NAME": "Corner of Artigas",
+   "NOTE_BRK": "Admin. by Brazil; Claimed by Uruguay"
+  },
+  {
+   "BRK_A3": "B15",
+   "BRK_NAME": "Courantyne Headwaters",
+   "NOTE_BRK": "Admin. by Guyana; Claimed by Suriname"
+  },
+  {
+   "BRK_A3": "B89",
+   "BRK_NAME": "Crimea",
+   "NOTE_BRK": "Admin. by Russia; Claimed by Ukraine"
+  },
+  {
+   "BRK_A3": "B43",
+   "BRK_NAME": "Cyprus U.N. Buffer Zone",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B03",
+   "BRK_NAME": "Demchok",
+   "NOTE_BRK": "Admin. by India; Claimed by China"
+  },
+  {
+   "BRK_A3": "B44",
+   "BRK_NAME": "Diego Garcia NSF",
+   "NOTE_BRK": "Leased to U.S.A by U.K.; Claimed by Mauritius and Seychelles"
+  },
+  {
+   "BRK_A3": "B39",
+   "BRK_NAME": "Dokdo",
+   "NOTE_BRK": "Admin. by South Korea; Claimed by Japan"
+  },
+  {
+   "BRK_A3": "C02",
+   "BRK_NAME": "Donetsk People's Republic",
+   "NOTE_BRK": "Self admin.; Claimed by Ukraine"
+  },
+  {
+   "BRK_A3": "B87",
+   "BRK_NAME": "Doumera Island",
+   "NOTE_BRK": "Admin. By Eritrea; Claimed by Djibouti"
+  },
+  {
+   "BRK_A3": "B82",
+   "BRK_NAME": "Dragonja River",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B98",
+   "BRK_NAME": "East Jerusalem",
+   "NOTE_BRK": "Admin. By Israel; Claimed by Palestine"
+  },
+  {
+   "BRK_A3": "B26",
+   "BRK_NAME": "Europa Island",
+   "NOTE_BRK": "Admin. by France; Claimed by Madagascar"
+  },
+  {
+   "BRK_A3": "B12",
+   "BRK_NAME": "Falkland Is.",
+   "NOTE_BRK": "Admin. by U.K.; Claimed by Argentina"
+  },
+  {
+   "BRK_A3": "B53",
+   "BRK_NAME": "Gaza",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B55",
+   "BRK_NAME": "Gibraltar",
+   "NOTE_BRK": "Admin. By U.K.; Claimed by Spain"
+  },
+  {
+   "BRK_A3": "B08",
+   "BRK_NAME": "Gilgit-Baltistan",
+   "NOTE_BRK": "Admin. by Pakistan; Claimed by India"
+  },
+  {
+   "BRK_A3": "B24",
+   "BRK_NAME": "Glorioso Is.",
+   "NOTE_BRK": "Admin. by France; Claimed by Madagascar"
+  },
+  {
+   "BRK_A3": "B16",
+   "BRK_NAME": "Golan Heights",
+   "NOTE_BRK": "Admin. By Israel; Claimed by Syria"
+  },
+  {
+   "BRK_A3": "B50",
+   "BRK_NAME": "Guantanamo Bay USNB",
+   "NOTE_BRK": "Leased to U.S.A. by Cuba; Claimed by Cuba"
+  },
+  {
+   "BRK_A3": "B93",
+   "BRK_NAME": "Halayib Triangle",
+   "NOTE_BRK": "Admin. by Egypt; Claimed by Sudan"
+  },
+  {
+   "BRK_A3": "B21",
+   "BRK_NAME": "Hans Island",
+   "NOTE_BRK": "Admin. by Denmark; Claimed by Canada"
+  },
+  {
+   "BRK_A3": "B74",
+   "BRK_NAME": "Ilemi Triange",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B17",
+   "BRK_NAME": "Ilemi Triangle",
+   "NOTE_BRK": "Admin. by Kenya; Claimed by South Sudan"
+  },
+  {
+   "BRK_A3": "B62",
+   "BRK_NAME": "Isla del Perejil",
+   "NOTE_BRK": "Admin. by Spain; Claimed by Morocco"
+  },
+  {
+   "BRK_A3": "B65",
+   "BRK_NAME": "Islas Chafarinas",
+   "NOTE_BRK": "Admin. by Spain; Claimed by Morocco"
+  },
+  {
+   "BRK_A3": "B91",
+   "BRK_NAME": "Israel",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B05",
+   "BRK_NAME": "Jammu and Kashmir",
+   "NOTE_BRK": "Admin. by India; Claimed by Pakistan"
+  },
+  {
+   "BRK_A3": "B23",
+   "BRK_NAME": "Juan De Nova I.",
+   "NOTE_BRK": "Admin. by France; Claimed by Madagascar"
+  },
+  {
+   "BRK_A3": "C01",
+   "BRK_NAME": "Junagadh and Manavadar",
+   "NOTE_BRK": "Admin. by India; Claimed by Pakistan"
+  },
+  {
+   "BRK_A3": "B11",
+   "BRK_NAME": "Korean Demilitarized Zone (north)",
+   "NOTE_BRK": "Since 1953 a 2 km buffer north of the military demarcation line, patrolled by North Korea"
+  },
+  {
+   "BRK_A3": "B10",
+   "BRK_NAME": "Korean Demilitarized Zone (south)",
+   "NOTE_BRK": "Since 1953 a 2 km buffer south of the military demarcation line, patrolled by South Korea"
+  },
+  {
+   "BRK_A3": "B84",
+   "BRK_NAME": "Korean islands under UN jurisdiction",
+   "NOTE_BRK": "Since 1953 islands south of maritime Northern Limit Line, patrolled by South Korea including Yeonpyeong, Baengnyeong, and Daecheong Is."
+  },
+  {
+   "BRK_A3": "B57",
+   "BRK_NAME": "Kosovo",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B29",
+   "BRK_NAME": "Kuril Is.",
+   "NOTE_BRK": "Admin. by Russia; Claimed by Japan"
+  },
+  {
+   "BRK_A3": "B14",
+   "BRK_NAME": "Lawa Headwaters",
+   "NOTE_BRK": "Admin. by France; Claimed by Suriname"
+  },
+  {
+   "BRK_A3": "C03",
+   "BRK_NAME": "Luhansk People's Republic",
+   "NOTE_BRK": "Self admin.; Claimed by Ukraine"
+  },
+  {
+   "BRK_A3": "B66",
+   "BRK_NAME": "Matthew and Hunter Is.",
+   "NOTE_BRK": "Admin. by New Caledonia for France; Claimed by Vanuatu"
+  },
+  {
+   "BRK_A3": "B22",
+   "BRK_NAME": "Mayotte",
+   "NOTE_BRK": "Admin. by France; Claimed by Comoros"
+  },
+  {
+   "BRK_A3": "B52",
+   "BRK_NAME": "Mbane Island",
+   "NOTE_BRK": "Admin by Gabon; Claimed by Equatorial Guinea"
+  },
+  {
+   "BRK_A3": "B61",
+   "BRK_NAME": "Melilla",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B99",
+   "BRK_NAME": "Mount Scopus",
+   "NOTE_BRK": "Admin. By Israel; Claimed by Palestine"
+  },
+  {
+   "BRK_A3": "B20",
+   "BRK_NAME": "N. Cyprus",
+   "NOTE_BRK": "Self admin.; Claimed by Cyprus"
+  },
+  {
+   "BRK_A3": "B34",
+   "BRK_NAME": "Navassa I.",
+   "NOTE_BRK": "Admin. by U.S.A.; Claimed by Haiti"
+  },
+  {
+   "BRK_A3": "B88",
+   "BRK_NAME": "Near Om Parvat",
+   "NOTE_BRK": "Admin. by India; Claimed by Nepal"
+  },
+  {
+   "BRK_A3": "B78",
+   "BRK_NAME": "No Man's Land (Fort Latrun)",
+   "NOTE_BRK": "Admin. By Israel; Claimed by Palestine"
+  },
+  {
+   "BRK_A3": "B79",
+   "BRK_NAME": "No Man's Land (Jerusalem)",
+   "NOTE_BRK": "Admin. By Israel; Claimed by Palestine"
+  },
+  {
+   "BRK_A3": "C04",
+   "BRK_NAME": "North Borneo",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B67",
+   "BRK_NAME": "Olivenza",
+   "NOTE_BRK": "Admin. by Spain; Claimed by Portugal"
+  },
+  {
+   "BRK_A3": "B47",
+   "BRK_NAME": "Paracel Is.",
+   "NOTE_BRK": "Admin. by China; Claimed by Vietnam and Taiwan"
+  },
+  {
+   "BRK_A3": "B64",
+   "BRK_NAME": "Penon de Alhucemas",
+   "NOTE_BRK": "Admin. by Spain; Claimed by Morocco"
+  },
+  {
+   "BRK_A3": "B63",
+   "BRK_NAME": "Peñón de Vélez de la Gomera",
+   "NOTE_BRK": "Admin. by Spain; Claimed by Morocco"
+  },
+  {
+   "BRK_A3": "B18",
+   "BRK_NAME": "Pinnacle Is.",
+   "NOTE_BRK": "Admin. by Japan; Claimed by China and Taiwan"
+  },
+  {
+   "BRK_A3": "B31",
+   "BRK_NAME": "Rockall I.",
+   "NOTE_BRK": "Admin by U.K.; Claimed by Ireland, Denmark, and Iceland"
+  },
+  {
+   "BRK_A3": "B32",
+   "BRK_NAME": "S. Georgia",
+   "NOTE_BRK": "Admin. by U.K.; Claimed by Argentina"
+  },
+  {
+   "BRK_A3": "B33",
+   "BRK_NAME": "S. Sandwich Is.",
+   "NOTE_BRK": "Admin. by U.K.; Claimed by Argentina"
+  },
+  {
+   "BRK_A3": "B04",
+   "BRK_NAME": "Samdu Valleys",
+   "NOTE_BRK": "Admin. by India; Claimed by China"
+  },
+  {
+   "BRK_A3": "B80",
+   "BRK_NAME": "Sapodilla Cayes",
+   "NOTE_BRK": "Admin. by Belize; Claimed by Honduras and Guatemala"
+  },
+  {
+   "BRK_A3": "B95",
+   "BRK_NAME": "Šarengrad Island",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B70",
+   "BRK_NAME": "Scarborough Reef",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B42",
+   "BRK_NAME": "Serranilla Bank",
+   "NOTE_BRK": "Claimed by Colombia, Honduras, Nicaragua, and the United States"
+  },
+  {
+   "BRK_A3": "B06",
+   "BRK_NAME": "Shaksam Valley",
+   "NOTE_BRK": "Admin. by China; Ceded to China by Pakistan; Claimed by India"
+  },
+  {
+   "BRK_A3": "B58",
+   "BRK_NAME": "Shebaa Farms",
+   "NOTE_BRK": "Admin. By Israel; Claimed by Lebanon"
+  },
+  {
+   "BRK_A3": "B45",
+   "BRK_NAME": "Siachen Glacier",
+   "NOTE_BRK": "Claimed by Pakistan and India"
+  },
+  {
+   "BRK_A3": "B30",
+   "BRK_NAME": "Somaliland",
+   "NOTE_BRK": "Self admin.; Claimed by Somalia"
+  },
+  {
+   "BRK_A3": "B37",
+   "BRK_NAME": "South Ossetia",
+   "NOTE_BRK": "Self admin.; Claimed by Georgia"
+  },
+  {
+   "BRK_A3": "B97",
+   "BRK_NAME": "Southern Patagonian Ice Field",
+   "NOTE_BRK": "Claimed by Chile and Argentina; under survey"
+  },
+  {
+   "BRK_A3": "B46",
+   "BRK_NAME": "Spratly Is.",
+   "NOTE_BRK": "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei"
+  },
+  {
+   "BRK_A3": "B71",
+   "BRK_NAME": "Swains Island",
+   "NOTE_BRK": "Admin. by American Samoa for U.S.A.; Claimed by Tokelau"
+  },
+  {
+   "BRK_A3": "B77",
+   "BRK_NAME": "Taiwan",
+   "NOTE_BRK": "Self admin.; Claimed by China"
+  },
+  {
+   "BRK_A3": "B68",
+   "BRK_NAME": "Tiran and Sanafir Is.",
+   "NOTE_BRK": "Admin. by Egypt; Claimed by Saudi Arabia"
+  },
+  {
+   "BRK_A3": "B01",
+   "BRK_NAME": "Tirpani Valleys",
+   "NOTE_BRK": "Admin. by India; Claimed by China"
+  },
+  {
+   "BRK_A3": "B36",
+   "BRK_NAME": "Transnistria",
+   "NOTE_BRK": "Self admin.; Claimed by Moldova"
+  },
+  {
+   "BRK_A3": "B25",
+   "BRK_NAME": "Tromelin I.",
+   "NOTE_BRK": "Admin. by France; Claimed by Mauritius and the Seychelles"
+  },
+  {
+   "BRK_A3": "B49",
+   "BRK_NAME": "UNDOF Zone",
+   "NOTE_BRK": "UN Patrolled Zone in Syria"
+  },
+  {
+   "BRK_A3": "B96",
+   "BRK_NAME": "Vukovar Island",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B19",
+   "BRK_NAME": "W. Sahara",
+   "NOTE_BRK": "Admin. by Morocco; Claimed by Western Sahara"
+  },
+  {
+   "BRK_A3": "B28",
+   "BRK_NAME": "W. Sahara",
+   "NOTE_BRK": "Self admin.; Claimed by Morocco"
+  },
+  {
+   "BRK_A3": "B59",
+   "BRK_NAME": "Wake Atoll",
+   "NOTE_BRK": "Admin. by U.S.A.; Claimed by Marshall Islands"
+  },
+  {
+   "BRK_A3": "B54",
+   "BRK_NAME": "West Bank",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B56",
+   "BRK_NAME": "West of Essequibo River",
+   "NOTE_BRK": "Admin. by Guyana; Claimed by Venezuela"
+  }
+ ]
+}

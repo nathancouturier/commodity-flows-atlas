@@ -397,6 +397,9 @@ Places that BACI reports but the base map has no polygon for are listed in
 Tokelau, the former Netherlands Antilles, Serbia and Montenegro, Mayotte and the Cocos (Keeling)
 Islands, all coastal, and the pseudo-place "Asia, not specified". The site names them from
 `data/countries/places.json` and shows them as plain text, not as country pages.
+These are the borders of the map's default view (see "The map: boundaries and territories" below): a territory
+that the base map draws as a shape of its own (Kosovo, Somaliland, Northern Cyprus) has neighbours of its own and so
+changes the neighbours of the countries around it.
 
 **2024 by mode** (71 lane groups, 36,072 pairs, 9,659.0 Mt): sea 8,108.5 Mt (25,922 pairs), sea via a
 transit port 185.5 Mt (2,725 pairs), sea and overland 317.5 Mt (109 pairs), land 1,047.5 Mt (7,315
@@ -2520,3 +2523,363 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   by the update guard, which discards the whole update of that run (a stale reason or a failed coverage step stops
   nothing), and a real loss is accepted by hand (docs/UPDATING.md). The floor is raised by a command and
   lowered by a hand edit; no job changes either hand-typed table.
+
+## 14. The map: first view, names and scale
+
+- **First view.** The map opens on the box from -125 to 150 degrees of longitude and from -45 to 65 degrees of
+  latitude (`WORLD_BOUNDS` in `web/src/map/camera.ts`; the Americas to Japan), fitted clear of the panels. The zoom
+  floor is the library's pole constraint on a desktop (the world is never shorter than the screen) and a lower one on
+  a narrow screen, so that the whole box fits: on a phone the world is smaller than the screen is tall, and the box is
+  358 px wide on a 390 px screen. The lower floor applies to every screen narrower than 1.07 times the larger of its
+  height and 724 px (up to 964 px wide at 900 px high, up to 2,057 px wide at 1,920 px high), a window of the desktop
+  layout as much as a phone: a monitor turned upright (1,080 by 1,920) or a window 800 px wide and 900 px high opens
+  on the whole box with empty bands above and below, where it used to open on part of it. That is a choice made
+  without the owner, listed in PROGRESS.md: the whole box in view is the rule of the first view on every narrow
+  screen. A phone held sideways stays cut: the band the panels leave is too short for the box. The camera is not kept
+  in the address and nothing about it is stored. The "Reset view" button under the zoom buttons returns to this view,
+  clear of the open page where the lowest zoom allows it (a passage page too), and leaves the page open; closing a page returns to it as well.
+  Where the lowest zoom is higher than the zoom that would fit the box in the free area, the box stays wider than that area and lies under
+  the page and the Controls column: measured with a lane page open, at 1,200 by 900 pixels (56 px under the page, 100 px under the Controls)
+  and at 1,280 by 1,024 (65 and 105 px); it is clear of both, by 24 to 26 px, at 1,366 by 768, 1,440 by 900, 1,280 by 720 and 1,920 by 1,080.
+  On a tablet (761 to 1,024 px wide and at least 501 px tall) whose free width cannot hold the box, the first view is centred on 12.5 degrees east
+  and 10 degrees north (`TABLET_FIRST_CENTRE` in `web/src/map/controller.ts`), an Atlas convention tried by hand, a choice made without the owner
+  and listed in PROGRESS.md; the first view of such a tablet can sit up to about 20 px from the view that "Reset view" and the closing of a page
+  give (10 to 19 px at 768 and 820 px wide over repeated loads), because the legend is still taking its height when the first view is set. While
+  the camera is where the atlas put it (the first view, or a "Reset view"), a resize (a phone turned on its side and
+  back, a window made narrower and wider) fits the view again for the new size, so a phone turned and turned back
+  opens on the first view again. Once the visitor or a page has moved the map (a drag, a wheel, a pinch, the zoom
+  buttons, the flight to a page), a resize leaves it where it is and leaves the open page open; only the zoom floor
+  follows the new size, so a phone turned on its side is lifted to the floor of that shape, and stays there when it is
+  turned back.
+- **Icon size below zoom 0.5.** An icon is smaller below the zoom a desktop can reach (0.72 of its size at zoom 0.5,
+  0.5 at zoom -0.5, in between linearly), so that the icons overlap less on a phone's first view. Every asset
+  is still drawn at every zoom. The values are an Atlas convention, chosen by looking at 390 and 360 px wide screens.
+- **The Pacific.** A line that crosses the antimeridian continues past 180 degrees so that it is drawn in one piece;
+  the map draws the world again on each side, so a line is seen whole when the screen shows the world twice. On a
+  screen that shows about one turn of the world (a 1440 by 900 screen shows 358 degrees at its first view, which the
+  test of the copies prints; other screens show other widths) such a line is two stubs, one at each edge, and nothing
+  joins them. Particles are drawn on every copy of a line that is in view.
+- **Reduced motion.** Under the system's reduced-motion setting the camera moves without animation and the
+  particles stand still: the overlay is drawn when something changes (a move, a resize, a new set of lines, the
+  setting itself) and not on every frame. The Route finder's scroll to its result is not the camera and does not
+  follow the setting.
+- **Country names.** The names are those of the country index (`data/countries/index.json`), the same as on the pages:
+  Natural Earth's `NAME`, except where the atlas writes the name itself in `NAME_FIX` of `pipeline/geo/build_countries.mjs`
+  (35 entries; some of them repeat Natural Earth's own spelling). The abbreviations that are not in that list are
+  Natural Earth's, such as "Central African Rep." and "Antigua and Barb.". The place of a name is Natural Earth's `LABEL_X`, `LABEL_Y`, kept as the `at` of
+  the index, not a computed centre. The names come in four size classes by the area of the country's box in square
+  degrees, above 300, above 40, above 6 and below (`COUNTRY_TIERS` in `web/src/map/labelRules.ts`): 21, 65, 62 and 91
+  of the 239 rows of the index. The thresholds are an Atlas convention, chosen to show the largest countries at the
+  world view; they are not an area of land. The largest class is drawn at every zoom (the first view of a phone is
+  below zoom 0, which a layer's zoom limit cannot express); the others from zoom 2.0, 3.2 and 4.4, also an Atlas
+  convention: Natural Earth's `min_label` is for its own tile pyramid and is not used. A name is never moved to avoid a flow: lanes, routes, overland flows and icons are drawn over the
+  names, and a name is covered by the flows and the icons that cross it. A
+  name that would overlap a name already placed is not drawn at that zoom (the rule of the map library: the larger box
+  first inside a class, the larger class first), so that at the world view of a phone most names are left out. While a
+  colouring is on, the countries that carry a share label have no name, since the label sits on the same point, and the
+  names that stay sit on the colouring: they are drawn in white at 0.95 with a halo 2 px wide instead of the grey
+  with a halo of 1.2 px (`LABEL_ON_FILL`), chosen by looking at three colourings (crude oil, wheat exports, copper) at the first view and
+  at zoom 3.5 on Europe. No contrast of a glyph against a coloured fill is claimed: what a test computes is the text against its halo, the halo
+  against the strongest tint of each family colour, and the text against the plain land. The cut of a name by the edge of the screen or by a panel is dealt with
+  for the first rank only: see "Names at the edge" below.
+- **Sea names.** The names and places of the oceans, seas, bays and gulfs are those of Natural Earth's marine areas
+  1:50m (Physical Labels), in the version `data/geo/seas.json` states (5.1.0), built by `pipeline/geo/build_seas.mjs`.
+  The file holds the polygons of scale rank 0 to 3 of the classes ocean, sea, bay and gulf: 68 names, of which 7 oceans
+  (rank 0), 22 of rank 1, 28 of rank 2 and 11 of rank 3. Straits and channels are left out, because the atlas draws its
+  passages as markers (`data/freight/chokepoints.json`) and a passage should not be named twice: of the 74 polygons of
+  rank 0 to 3, 6 are dropped for that reason (Luzon Strait, Davis Strait, Hudson Strait, Mozambique Channel, Drake
+  Passage and English Channel); the polygons of rank 4 and above are not used. The place of a name is the polygon's point
+  of inaccessibility (the point of the polygon farthest from its edge), rounded to 0.1 degree, not a hand-placed label;
+  the Scotia Sea is a sliver, whose point rounded to 0.1 degree falls outside it, so the builder keeps the fewest decimals at
+  which every point is inside its polygon (two for that one) and stops if none is.
+  The names are Natural Earth's English names as published (`name_en`; for the oceans `name`, because the two Atlantic
+  polygons share one `name_en` and so do the two Pacific ones; two of the seven, the Indian and the Southern, are written
+  in capitals in the file and are set in title case by the builder), and they are the words the site's own pages use: when it was written,
+  `web/src` and `data` held "Persian Gulf" throughout, "Sea of Japan" and "South China Sea" in the passages file,
+  "Arabian Gulf" once (the note of one oil field) and "East Sea" nowhere. The atlas takes no position on any naming
+  dispute: it shows the names Natural Earth publishes. The names are drawn in capitals, spaced, and in a blue that is
+  not the colour of a country name; the oceans have no zoom limit, the other ranks appear from zoom 1.8, 3.0 and 4.2
+  (`SEA_MINZOOM` in `web/src/map/labelRules.ts`), an Atlas convention like the country thresholds. Sea names sit under
+  the country names and under the names of the ports and assets in the order of placement: when a sea name and another name would overlap, the other
+  name is drawn and the sea name is not, and flows are drawn over all of them. Natural Earth's README says of these polygons: "The
+  boundaries of physical regions should be taken with a grain of salt."
+- **Names of ports and assets.** The ports, terminals, mines, refineries, smelters, fields and stores are named from zoom
+  4.2 (`ASSET_LABEL_MINZOOM` in `web/src/map/labelRules.ts`), to the right of their icon, in the name the atlas's own
+  files give them without the list of places in brackets that ends some of them ("Hydro aluminium smelters (Årdal,
+  Husnes, ...)" reads "Hydro aluminium smelters"; a bracket in the middle of a name stays). Pipelines are not named: a
+  line has no single point, and its name is on its page and in its tooltip. The icons are those of the layer: every
+  asset is drawn at every zoom, icons may overlap, and a name is drawn under the icons, so that an icon always covers a
+  name it overlaps. A name never moves to avoid a flow or an icon, and a name that would overlap a name already placed is
+  not drawn at that zoom while the icon always is. A country name wins a collision with the name of an asset: the
+  layers are stacked, from the bottom, as the sea names, the pipeline lines, the asset names, the country names, the overland flows, the icons
+  and the opened asset, then every lane and route (`NAME_STACK` in `web/src/map/labelRules.ts`, which a test checks against the style a browser holds), so that a country name
+  is under every icon and every flow (the overland flows of a commodity page too, which lie over the names) and over a pipeline line of the infrastructure layer. The atlas has no one measure of size across the asset types
+  (capacities are in different units), so the name that wins a collision is chosen by type, in this order: port, LNG
+  export terminal, LNG import terminal, refinery, smelter, mine, field, store (`ASSET_ORDER`), and inside a type by the
+  order of the data files. That order and the zoom of 4.2 are Atlas conventions, choices made without the owner and listed in PROGRESS.md. A
+  dimmed asset (one that opens after the year selected in History) keeps its dimming in its name, and the opened asset
+  keeps its name at every zoom.
+- **Names at the edge.** A name of the first rank, an ocean or a country of the largest class, is not drawn cut by an edge of
+  the map or by a panel drawn over it. When the camera comes to rest, when the canvas is resized and when a panel changes
+  (a page opens or closes, the Controls or the Legend fold or unfold, the sheet takes another snap, the price drawer or the
+  History bar opens or closes: one frame after the change, and again when the panel has finished sliding), never during a move,
+  the box of each such name is estimated from its place, its size, its wrapping and its letter spacing on each copy of the world in
+  view (`namesAtEdge` in `web/src/map/labelRules.ts`; the estimate takes every letter wider than the lettering has it, which a test
+  checks against the glyph file). A name whose box crosses an edge of the canvas, or the border of one of the rectangles of the
+  top bar, the Controls panel (or its folded button), the Legend (or its button), the open page (the column or the sheet), the
+  price drawer and the History bar (`OVERLAYS` in the same file; each is the element's `getBoundingClientRect()` in the map's
+  coordinates, taken only while the element is displayed) is left out by its layer's filter until the camera or the panel comes to
+  rest where it fits. A name wholly in view, wholly out of it, or wholly under a panel (where it is not seen) is untouched. A
+  name is tested on every copy of the world in view and its layer draws every copy, so a name cut on one copy leaves the others
+  too. This is an Atlas rule, chosen because the map library draws a name that is only partly on the screen: without it the first
+  view of a phone showed "OUTH ACIFIC CEAN" and a window 1,024 by 768 pixels wide showed "TH PACIFIC OCEAN" beside the
+  Controls panel. What it does not cover: the names of a smaller rank may be cut by the edge of the screen and by the panels, as
+  on any map that is panned, and a name can be seen cut for the time of a move, since the rule runs when the camera stops.
+- **Scale bar.** From zoom 4 the map shows a scale bar in nautical miles under its buttons (the map library's own
+  control, 100 px wide at most; the unit of the distances on the freight pages). A nautical mile is 1,852 metres. The
+  length is worked out on a sphere of the library's mean radius, 6,371,008.8 m (`earthRadius` in the installed
+  `maplibre-gl`), between two points 100 px apart on the horizontal line through the middle of the canvas, and the bar
+  is cut to a round figure (1, 2, 3 or 5 times a power of ten). It is right on that line only: under Mercator one pixel
+  stands for a different length at each latitude, in proportion to the cosine of the latitude. On a canvas 900 px high
+  centred on 45 degrees the length per pixel at the top and bottom edges differs from that on the middle line by about
+  24% at zoom 4 (the view spans 29 to 57 degrees of latitude) and by about 6% at zoom 6. At the world view no single
+  length is right, so none is drawn: the bar appears from zoom 4 (`SCALE_MIN_ZOOM` in `web/src/map/camera.ts`), an Atlas
+  convention. On a phone the middle of the canvas is behind the sheet, a few degrees of latitude from the middle of
+  the part of the map that stays in view, and the bar still reads the middle of the canvas.
+
+## 15. The map: boundaries and territories
+
+**Convention.** The country shapes are Natural Earth's `ne_50m_admin_0_countries`, version 5.1.1 (the registry entry
+`naturalearth` states the version), in Natural Earth's default view. Natural Earth says of it: "Natural Earth shows de
+facto boundaries by default according to who controls the territory, versus de jure."
+(<https://www.naturalearthdata.com/downloads/50m-cultural-vectors/>, read 25 November 2026) and, on the page of the
+Admin-0 countries file: "Natural Earth Vector draws boundaries of countries according to defacto status. We show who
+actually controls the situation on the ground. Please feel free to mashup our disputed areas theme to match your
+particular political outlook."
+(<https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/>, read 25 November 2026).
+Natural Earth does not apply one rule to every disputed or self-administered territory: a point inside some of them
+falls in a shape of their own, a point inside others falls in the shape of a country (for most of them the country that claims
+them or the country that administers them), and a point inside some falls in no shape (read on the shapes the site serves, `data/geo/countries.topo.json`, at places of Natural
+Earth's populated-places file, at points that the atlas computed inside the polygons of Natural Earth's disputed-areas
+layer, and at two points that the atlas chose by hand). The atlas has not chosen a view of its own and does not judge Natural Earth's. *Atlas assumption A1*: the atlas
+treats Natural Earth's default view, in the version named, as its convention, so the map shows the situation of that
+version of the file, not of the day a visitor looks.
+
+**What the map draws, area by area.** The table lists every area of Natural Earth's layer of breakaway and disputed areas at
+1:10m (version 5.1.1), which the atlas does not read or draw, in the order of the names of the layer (letters without accents,
+capitals and small letters alike), then of its ids. For each area it says where the country shapes of the map put the points
+tested for it. The points are of three kinds, kept with the version and checksum of the file each comes from in
+`pipeline/tests/fixtures/border_probes.json`: places of Natural Earth's populated-places file; for each area, a point inside
+its polygon that the atlas computed from the layer (inside one part, for an area of several parts); and two points that the
+atlas chose by hand, "Point chosen inland of Dakhla" and "Point chosen in the Golan Heights". A point that lies in no shape of
+the map is followed by "(in no shape)", and an area whose points all lie in no shape has "(in no shape)" for its shape. The
+notes are Natural Earth's words, as its file spells them, not the atlas's.
+
+| Area of Natural Earth (its id) | Its note | Points tested that it holds | Shape of the map that holds them | Shape has a customs code in CEPII BACI |
+|---|---|---|---|---|
+| Abkhazia (B35) | "Self admin.; Claimed by Georgia" | Interior point, Abkhazia polygon; Sukhumi | Georgia (GEO) | yes |
+| Abu Musa I. (B73) | "Admin. by Iran; Claimed by UAE" | Interior point, Abu Musa I. (in no shape) | (in no shape) | - |
+| Abyei (B13) | "Admin. by Sudan; Claimed by South Sudan" | Interior point, Abyei | Sudan (SDN) | yes |
+| Aksai Chin (B07) | "Admin. by China; Claimed by India" | Interior point, Aksai Chin | China (CHN) | yes |
+| Artsakh (B38) | "Self admin.; Claimed by Azer." | Interior point, Artsakh polygon; Stepanakert | Azerbaijan (AZE) | yes |
+| Arunachal Pradesh (B00) | "Admin. by India; Claimed by China" | Interior point, Arunachal Pradesh | India (IND) | yes |
+| Azad Kashmir (B09) | "Admin. by Pakistan; Claimed by India" | Interior point, Azad Kashmir | Pakistan (PAK) | yes |
+| Bajo Nuevo Bank (Petrel Is.) (B41) | "Claimed by Colombia, Jamaica, Nicaragua and the United States" | Interior point, Bajo Nuevo Bank (Petrel Is.) (in no shape) | (in no shape) | - |
+| Bara Hotii Valleys (B02) | "Admin. by India; Claimed by China" | Interior point, Bara Hotii Valleys | India (IND) | yes |
+| Bassas da India (B27) | "Admin. by France; Claimed by Madagascar" | Interior point, Bassas da India (in no shape) | (in no shape) | - |
+| Baykonur (B40) | "Leased to Russia by Kazakhstan" | Interior point, Baykonur | Kazakhstan (KAZ) | yes |
+| Belize (B51) | no note | Interior point, Belize | Belize (BLZ) | yes |
+| Bhutan (Chumbi salient) (B76) | "Admin. by Bhutan; Claimed by China" | Interior point, Bhutan (Chumbi salient) | Bhutan (BTN) | yes |
+| Bhutan (northwest valleys) (B75) | "Admin. by Bhutan; Claimed by China" | Interior point, Bhutan (northwest valleys) | Bhutan (BTN) | yes |
+| Bir Tawil (B94) | "Between Egypt and Sudan" | Interior point, Bir Tawil | Sudan (SDN) | yes |
+| Bird Island (B48) | "Admin. by Venezuela; Claimed by multiple" | Interior point, Bird Island (in no shape) | (in no shape) | - |
+| Br. Indian Ocean Ter. (B69) | "Admin. by U.K.; Claimed by Mauritius and Seychelles" | Interior point, Br. Indian Ocean Ter. (in no shape) | (in no shape) | - |
+| Brazilian Island (B85) | "Claimed by Brazil and Uruguay" | Interior point, Brazilian Island | Argentina (ARG) | yes |
+| Ceuta (B60) | no note | Interior point, Ceuta (in no shape) | (in no shape) | - |
+| Corner of Artigas (B92) | "Admin. by Brazil; Claimed by Uruguay" | Interior point, Corner of Artigas | Brazil (BRA) | yes |
+| Courantyne Headwaters (B15) | "Admin. by Guyana; Claimed by Suriname" | Interior point, Courantyne Headwaters | Guyana (GUY) | yes |
+| Crimea (B89) | "Admin. by Russia; Claimed by Ukraine" | Interior point, Crimea; Sevastopol; Simferopol; Kerch | Russia (RUS) | yes |
+| Cyprus U.N. Buffer Zone (B43) | no note | Interior point, Cyprus UN buffer zone; Nicosia | Cyprus (CYP), N. Cyprus (CYN) | yes, no |
+| Demchok (B03) | "Admin. by India; Claimed by China" | Interior point, Demchok | China (CHN) | yes |
+| Diego Garcia NSF (B44) | "Leased to U.S.A by U.K.; Claimed by Mauritius and Seychelles" | Interior point, Diego Garcia NSF (in no shape) | (in no shape) | - |
+| Dokdo (B39) | "Admin. by South Korea; Claimed by Japan" | Interior point, Dokdo (in no shape) | (in no shape) | - |
+| Donetsk People's Republic (C02) | "Self admin.; Claimed by Ukraine" | Interior point, Donetsk People's Republic polygon; Donetsk | Ukraine (UKR) | yes |
+| Doumera Island (B87) | "Admin. By Eritrea; Claimed by Djibouti" | Interior point, Doumera Island (in no shape) | (in no shape) | - |
+| Dragonja River (B82) | no note | Interior point, Dragonja River | Croatia (HRV) | yes |
+| East Jerusalem (B98) | "Admin. By Israel; Claimed by Palestine" | Interior point, East Jerusalem | Palestine (PSE) | yes |
+| Europa Island (B26) | "Admin. by France; Claimed by Madagascar" | Interior point, Europa Island (in no shape) | (in no shape) | - |
+| Falkland Is. (B12) | "Admin. by U.K.; Claimed by Argentina" | Interior point, Falkland Is. polygon; Stanley | Falkland Islands (FLK) | yes |
+| Gaza (B53) | no note | Interior point, Gaza; Gaza City | Palestine (PSE) | yes |
+| Gibraltar (B55) | "Admin. By U.K.; Claimed by Spain" | Interior point, Gibraltar (in no shape) | (in no shape) | - |
+| Gilgit-Baltistan (B08) | "Admin. by Pakistan; Claimed by India" | Interior point, Gilgit-Baltistan polygon; Gilgit | Pakistan (PAK) | yes |
+| Glorioso Is. (B24) | "Admin. by France; Claimed by Madagascar" | Interior point, Glorioso Is. (in no shape) | (in no shape) | - |
+| Golan Heights (B16) | "Admin. By Israel; Claimed by Syria" | Interior point, inside the Golan Heights polygon (area of Majdal Shams); Point chosen in the Golan Heights | Israel (ISR) | yes |
+| Guantanamo Bay USNB (B50) | "Leased to U.S.A. by Cuba; Claimed by Cuba" | Interior point, Guantanamo Bay USNB | Cuba (CUB) | yes |
+| Halayib Triangle (B93) | "Admin. by Egypt; Claimed by Sudan" | Interior point, Halayib Triangle (Hala'ib) | Egypt (EGY) | yes |
+| Hans Island (B21) | "Admin. by Denmark; Claimed by Canada" | Interior point, Hans Island (in no shape) | (in no shape) | - |
+| Ilemi Triange (B74) | no note | Interior point, Ilemi Triange | Kenya (KEN) | yes |
+| Ilemi Triangle (B17) | "Admin. by Kenya; Claimed by South Sudan" | Interior point, Ilemi Triangle | Kenya (KEN) | yes |
+| Isla del Perejil (B62) | "Admin. by Spain; Claimed by Morocco" | Interior point, Isla del Perejil | Morocco (MAR) | yes |
+| Islas Chafarinas (B65) | "Admin. by Spain; Claimed by Morocco" | Interior point, Islas Chafarinas (in no shape) | (in no shape) | - |
+| Israel (B91) | no note | Interior point, Israel; Jerusalem (NE point) | Israel (ISR), Palestine (PSE) | yes, yes |
+| Jammu and Kashmir (B05) | "Admin. by India; Claimed by Pakistan" | Interior point, Jammu and Kashmir polygon; Srinagar; Leh | India (IND) | yes |
+| Juan De Nova I. (B23) | "Admin. by France; Claimed by Madagascar" | Interior point, Juan De Nova I. (in no shape) | (in no shape) | - |
+| Junagadh and Manavadar (C01) | "Admin. by India; Claimed by Pakistan" | Interior point, Junagadh and Manavadar | India (IND) | yes |
+| Korean Demilitarized Zone (north) (B11) | "Since 1953 a 2 km buffer north of the military demarcation line, patrolled by North Korea" | Interior point, Korean Demilitarized Zone (north) | North Korea (PRK) | yes |
+| Korean Demilitarized Zone (south) (B10) | "Since 1953 a 2 km buffer south of the military demarcation line, patrolled by South Korea" | Interior point, Korean Demilitarized Zone (south) | South Korea (KOR) | yes |
+| Korean islands under UN jurisdiction (B84) | "Since 1953 islands south of maritime Northern Limit Line, patrolled by South Korea including Yeonpyeong, Baengnyeong, and Daecheong Is." | Interior point, Korean islands under UN jurisdiction (in no shape) | (in no shape) | - |
+| Kosovo (B57) | no note | Interior point, Kosovo polygon; Pristina | Kosovo (KOS) | no |
+| Kuril Is. (B29) | "Admin. by Russia; Claimed by Japan" | Interior point, Kuril Is. | Russia (RUS) | yes |
+| Lawa Headwaters (B14) | "Admin. by France; Claimed by Suriname" | Interior point, Lawa Headwaters | France (FRA) | yes |
+| Luhansk People's Republic (C03) | "Self admin.; Claimed by Ukraine" | Interior point, Luhansk People's Republic polygon; Luhansk | Ukraine (UKR) | yes |
+| Matthew and Hunter Is. (B66) | "Admin. by New Caledonia for France; Claimed by Vanuatu" | Interior point, Matthew and Hunter Is. (in no shape) | (in no shape) | - |
+| Mayotte (B22) | "Admin. by France; Claimed by Comoros" | Interior point, Mayotte | France (FRA) | yes |
+| Mbane Island (B52) | "Admin by Gabon; Claimed by Equatorial Guinea" | Interior point, Mbane Island (in no shape) | (in no shape) | - |
+| Melilla (B61) | no note | Interior point, Melilla | Morocco (MAR) | yes |
+| Mount Scopus (B99) | "Admin. By Israel; Claimed by Palestine" | Interior point, Mount Scopus | Palestine (PSE) | yes |
+| N. Cyprus (B20) | "Self admin.; Claimed by Cyprus" | Interior point, N. Cyprus polygon; Kyrenia; Famagusta | N. Cyprus (CYN) | no |
+| Navassa I. (B34) | "Admin. by U.S.A.; Claimed by Haiti" | Interior point, Navassa I. (in no shape) | (in no shape) | - |
+| Near Om Parvat (B88) | "Admin. by India; Claimed by Nepal" | Interior point, Near Om Parvat | India (IND) | yes |
+| No Man's Land (Fort Latrun) (B78) | "Admin. By Israel; Claimed by Palestine" | Interior point, No Man's Land (Fort Latrun) | Israel (ISR) | yes |
+| No Man's Land (Jerusalem) (B79) | "Admin. By Israel; Claimed by Palestine" | Interior point, No Man's Land (Jerusalem) | Palestine (PSE) | yes |
+| North Borneo (C04) | no note | Interior point, North Borneo | Malaysia (MYS) | yes |
+| Olivenza (B67) | "Admin. by Spain; Claimed by Portugal" | Interior point, Olivenza | Spain (ESP) | yes |
+| Paracel Is. (B47) | "Admin. by China; Claimed by Vietnam and Taiwan" | Interior point, Paracel Is. (in no shape) | (in no shape) | - |
+| Penon de Alhucemas (B64) | "Admin. by Spain; Claimed by Morocco" | Interior point, Penon de Alhucemas | Morocco (MAR) | yes |
+| Peñón de Vélez de la Gomera (B63) | "Admin. by Spain; Claimed by Morocco" | Interior point, Peñón de Vélez de la Gomera (in no shape) | (in no shape) | - |
+| Pinnacle Is. (B18) | "Admin. by Japan; Claimed by China and Taiwan" | Interior point, Pinnacle Is. (in no shape) | (in no shape) | - |
+| Rockall I. (B31) | "Admin by U.K.; Claimed by Ireland, Denmark, and Iceland" | Interior point, Rockall I. (in no shape) | (in no shape) | - |
+| S. Georgia (B32) | "Admin. by U.K.; Claimed by Argentina" | Interior point, S. Georgia | S. Geo. and the Is. (SGS) | no |
+| S. Sandwich Is. (B33) | "Admin. by U.K.; Claimed by Argentina" | Interior point, S. Sandwich Is. (in no shape) | (in no shape) | - |
+| Samdu Valleys (B04) | "Admin. by India; Claimed by China" | Interior point, Samdu Valleys | India (IND) | yes |
+| Sapodilla Cayes (B80) | "Admin. by Belize; Claimed by Honduras and Guatemala" | Interior point, Sapodilla Cayes (in no shape) | (in no shape) | - |
+| Šarengrad Island (B95) | no note | Interior point, Šarengrad Island | Croatia (HRV) | yes |
+| Scarborough Reef (B70) | no note | Interior point, Scarborough Reef (in no shape) | (in no shape) | - |
+| Serranilla Bank (B42) | "Claimed by Colombia, Honduras, Nicaragua, and the United States" | Interior point, Serranilla Bank (in no shape) | (in no shape) | - |
+| Shaksam Valley (B06) | "Admin. by China; Ceded to China by Pakistan; Claimed by India" | Interior point, Shaksam Valley | China (CHN) | yes |
+| Shebaa Farms (B58) | "Admin. By Israel; Claimed by Lebanon" | Interior point, Shebaa Farms | Israel (ISR) | yes |
+| Siachen Glacier (B45) | "Claimed by Pakistan and India" | Interior point, Siachen Glacier | Siachen Glacier (KAS) | no |
+| Somaliland (B30) | "Self admin.; Claimed by Somalia" | Interior point, Somaliland polygon; Hargeisa; Berbera | Somaliland (SOL) | no |
+| South Ossetia (B37) | "Self admin.; Claimed by Georgia" | Interior point, South Ossetia polygon; Tskhinvali | Georgia (GEO) | yes |
+| Southern Patagonian Ice Field (B97) | "Claimed by Chile and Argentina; under survey" | Interior point, Southern Patagonian Ice Field | Argentina (ARG) | yes |
+| Spratly Is. (B46) | "Claimed by China, Taiwan, Malaysia, the Philippines, and Brunei" | Interior point, Spratly Is. (in no shape) | (in no shape) | - |
+| Swains Island (B71) | "Admin. by American Samoa for U.S.A.; Claimed by Tokelau" | Interior point, Swains Island (in no shape) | (in no shape) | - |
+| Taiwan (B77) | "Self admin.; Claimed by China" | Interior point, Taiwan polygon; Taipei | Taiwan (TWN) | S19, read as Taiwan |
+| Tiran and Sanafir Is. (B68) | "Admin. by Egypt; Claimed by Saudi Arabia" | Interior point, Tiran and Sanafir Is. (in no shape) | (in no shape) | - |
+| Tirpani Valleys (B01) | "Admin. by India; Claimed by China" | Interior point, Tirpani Valleys | India (IND) | yes |
+| Transnistria (B36) | "Self admin.; Claimed by Moldova" | Interior point, Transnistria polygon; Tiraspol | Moldova (MDA) | yes |
+| Tromelin I. (B25) | "Admin. by France; Claimed by Mauritius and the Seychelles" | Interior point, Tromelin I. (in no shape) | (in no shape) | - |
+| UNDOF Zone (B49) | "UN Patrolled Zone in Syria" | Interior point, UNDOF Zone | Syria (SYR) | yes |
+| Vukovar Island (B96) | no note | Interior point, Vukovar Island | Croatia (HRV) | yes |
+| W. Sahara (B19) | "Admin. by Morocco; Claimed by Western Sahara" | Interior point, W. Sahara claim polygon held by Morocco; Laayoune; Ad Dakhla (in no shape); Smara; Point chosen inland of Dakhla | Morocco (MAR) | yes |
+| W. Sahara (B28) | "Self admin.; Claimed by Morocco" | Interior point, W. Sahara polygon held by the Sahrawi side; Bir Lehlou | Western Sahara (ESH) | no |
+| Wake Atoll (B59) | "Admin. by U.S.A.; Claimed by Marshall Islands" | Interior point, Wake Atoll (in no shape) | (in no shape) | - |
+| West Bank (B54) | no note | Interior point, West Bank; Ramallah | Palestine (PSE) | yes |
+| West of Essequibo River (B56) | "Admin. by Guyana; Claimed by Venezuela" | Interior point, West of Essequibo River | Guyana (GUY) | yes |
+
+In the last column, "yes" says that the shape has a code in CEPII BACI, not where a reporter files the trade of a territory
+drawn inside it, which the atlas does not know (Atlas assumption A2, below).
+
+In Natural Earth's own file of populated places a point can carry the code of one country and fall in the shape of another: its
+"Nicosia" (adm0 CYP) falls in the shape of N. Cyprus (CYN), and its "Jerusalem" (adm0 ISR) falls in the shape of Palestine (PSE).
+Natural Earth's point "Ad Dakhla" (adm0 MAR) lies in no shape of the map, and every other point listed for W. Sahara (B19),
+"Point chosen inland of Dakhla" among them, falls in the shape of Morocco (MAR).
+
+The shapes of the map are Natural Earth's 1:50m shapes, simplified by the atlas for the site (`-simplify` with `keep-shapes`, in
+`pipeline/geo/build_countries.mjs`), so a point near an edge can lie in another shape of the map than in Natural Earth's own
+1:50m file of countries. The points for which the two differ are these: "Ad Dakhla" (adm0 MAR): the shape of Morocco (MAR)
+in Natural Earth's file, no shape in the map; "Famagusta" (adm0 CYN): no shape in Natural Earth's file, the shape of N.
+Cyprus (CYN) in the map; the interior point of Ceuta (B60): the shape of Morocco (MAR) in Natural Earth's file, no shape in
+the map; the interior point of Diego Garcia NSF (B44): the shape of Br. Indian Ocean Ter. (IOT) in Natural Earth's file, no
+shape in the map; the interior point of No Man's Land (Fort Latrun) (B78): the shape of Palestine (PSE) in Natural Earth's
+file, the shape of Israel (ISR) in the map; the interior point of S. Sandwich Is. (B33): the shape of S. Geo. and the Is.
+(SGS) in Natural Earth's file, no shape in the map.
+
+**Trade follows the customs code.** CEPII BACI has no code of its own for some territories the map draws (the page of
+each of those that has a page of its own says so; "Other Asia, nes" is read as Taiwan, section 1 of this file). *Atlas
+assumption A2*: the atlas does not know whether a reporter's figures include a territory that the map draws apart or one
+that it draws inside another country, and moves no trade figure with the map.
+
+**Names.** The names are Natural Earth's short English names with the adjustments of `NAME_FIX` in
+`pipeline/geo/build_countries.mjs`. *Atlas assumption A3*: a name is not a statement of status.
+
+**The notice.** The About window and the README carry the same text:
+
+Country shapes are Natural Earth's default view (version 5.1.1). Natural Earth does not apply one rule to every disputed
+or self-administered territory: it draws some as shapes of their own and keeps others inside the shape of a country,
+for most of them the country that claims them or the country that administers them; some lie in no shape of the map. The boundaries, names and designations
+on the map do not imply official endorsement or acceptance, and the atlas takes no position on the status of any
+territory.
+
+**What the map does not do.** It follows no other convention and names no organisation as the authority for a boundary.
+It has no point-of-view switch (nothing is persisted, and every view would need its own scheme of ids). It does not
+outline claimed or self-administered areas and draws no claim line. It draws no maritime claim and no territory that
+Natural Earth's countries file does not draw. It is not refreshed by a workflow and no job watches for a new version of
+the file (the registry says "not refreshed by a workflow"): a new version is read by hand.
+
+## 16. Colours and the cues that do not rest on colour
+
+The atlas checks its colours against a simulation of colour vision and against the surfaces of the map, and where two
+colours stay close it names what tells them apart besides the colour. No data method of this file depends on it.
+`web/scripts/colour-screens.test.mjs` does the checking; every figure below is computed there or read from the palette
+module, and the same test reads this section and fails if a number written here is not the one it holds.
+
+- **The simulation.** Protanopia, deuteranopia and tritanopia are simulated at severity 1.0 in linear sRGB, with the
+  matrices of Machado, Oliveira & Fernandes (2009), as the validator of the `dataviz` skill gives them ("CVD transforms at
+  severity 1.0 (linear RGB)", read on 26 November 2026) and as `web/scripts/cvd.mjs` copies them. *Atlas assumption*: this
+  is a model of colour vision, not a measure of any person's. Partial colour vision (anomalous trichromacy) is milder
+  than the dichromacies simulated here, so a pair that passes is not clear to everyone and a pair that fails is not lost to
+  everyone.
+- **The distance and the thresholds.** The distance of two colours is 100 times their Euclidean distance in OKLab, after
+  the simulation when there is one. Two colours of one screen must be at least 15 apart for unsimulated vision and at least 8
+  apart under each of the three simulations; a pair between 6 and 8 is accepted only with a second cue; a data colour must
+  reach a contrast ratio of 3.0:1 (WCAG 2.x relative luminance) against the ocean and against the land of the map. Below 8
+  every pair is accepted only with a second cue, and the test marks those under 6 when it prints them. These numbers are the
+  constants of that validator, taken as the atlas's own rule. They are not a standard.
+- **The screens.** A screen is a set of colours drawn at the same time. On the map: the lanes by family, the routes by
+  vessel class, the pipelines and the accent (the Freight family's cyan), compared with one another as lines; the five status
+  rings, the chokepoint and the alert colour, as points; and each status ring against the family colour of the icon it
+  circles. Then the four ship-type series of the port and passage charts, the three series the price drawer charts at most,
+  and the seven event kinds of the History bar and the event pages. A line and a point differ in shape before they differ in
+  colour, so lines are not compared with points. The lists are in the test and take their colours from the module.
+- **Pairs that stay close.** The test lists each pair that falls under the thresholds with a cue from a closed list and a
+  reason. `dash`: a pattern. `glyph`: a shape, the ring and badge of a status. `label`: a word beside the colour. `place`: the
+  marks are not drawn where each other is, such as sea and land. A `dash` or `glyph` cue is backed by a test of
+  `web/scripts/palette.test.mjs`, which the colour test checks is still there; a `label` or `place` cue is a statement, and its
+  entry names the files where it is true, which the test reads. A pair in the list that is already far enough apart fails
+  the test, so the list cannot keep a pair that no longer needs it. The Energy lane and the Tankers route are one amber, the
+  Metals lane and the Dry bulk route one lavender, and Dry bulk and Container are one colour to a deuteranope: `dash`. The
+  Idle ring on the icon of an energy asset, and the Damaged ring against the chokepoint marker: `glyph`. Gas carriers, the
+  freight cyan, Softs and the gas pipeline: `dash` for a route against a lane, `place` and `label` otherwise. Conflict and Accident, Canal and Infrastructure, Weather and
+  Policy, and the other event pairs that fall short: `label`, since the kind of an event is a word on its page, in the
+  lists of events and in the price drawer; the tick of the History bar gives the date and the title, not the kind.
+- **One module.** The colours of the families, the vessel classes, the statuses, the pipelines, the events and the charts,
+  the surfaces of the map, the dash patterns and the rule below, are written once, in `web/src/lib/palette.ts`. The legend's
+  status keys and the map's status icons draw the rings with one function of that module, and the tests read it.
+- **Dash patterns.** The patterns of the map's lines are lengths in multiples of the line width: long dashes for Dry bulk, dash
+  and dot for Tankers, dots for Gas carriers, short dashes far apart for Container. The selected route is solid. Alternative
+  routings, mixed lanes and overland arcs have a pattern of their own, and so do pipelines that are not operating. *Atlas
+  convention*: two patterns are told apart when the numbers of their elements differ, or their shares of the drawn length
+  differ by at least 0.15, or the longer period is at least 1.5 times the shorter; the module holds the two numbers, and the
+  test of the patterns applies the rule to the four routes and to every other pattern the map draws. The Container series of the port and passage charts is dashed with 6 px
+  drawn and 4 px empty, and the sample before its name in the readout has the same pattern; the pattern was chosen by looking.
+  The dashed edge is cut at each weekly corner, so on a very jagged series it can read as dots.
+
+What is not done, and why:
+
+- **No alternative or high-contrast palette.** It would be a setting to remember, and nothing is stored in the browser.
+- **No new hue for Container or Policy.** Dry bulk and Container, and Weather and Policy, are one colour to a deuteranope; the
+  dash and the word carry the difference. No hue was changed.
+- **No brighter outline.** The land is 1.12:1 on the ocean; the country outline is 1.51:1 on the ocean and 1.35:1 on the land;
+  the colour `coast` of the palette, which no layer draws, would be 1.83:1 on the ocean. They are measured and left as they are.
+  Only the data lines carry data: every data colour reaches the minimum, and the lowest, the Closed status ring, is 4.6:1 on
+  the ocean and 4.1:1 on the land.
+- **The dash of a route is read where the lines are isolated:** in the legend, on the route and vessel-class pages, and on the thin
+  routes. On the corridor from Hormuz to Bab el-Mandeb at zoom 3.6 the trunk through the Red Sea and the Gulf of Aden stays a
+  solid band under the glow, the particles and several routes laid exactly on each other, and longer elements did not help. So on that
+  corridor the Energy lane and the Tankers route, and the Metals lane and the Dry bulk route, are told apart only where a line
+  stands alone.
+- **The Container class is drawn on four routes** (the test counts them in `data/freight/routes.json`) and is not named in the
+  legend, which lists Dry bulk, Tankers and Gas carriers.
+
+These are choices made without the owner, listed in PROGRESS.md.

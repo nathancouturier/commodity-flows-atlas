@@ -2,9 +2,10 @@
 import { useEffect, useRef, useState } from 'preact/hooks';
 import { choroInfo, mapNotice, commodity, family, landFlowsShown, layers, selection, year } from '../lib/store';
 import { commodityMeta } from '../lib/data';
-import { SEGMENT_COLOR, SEGMENT_LABEL } from '../lib/freight';
+import { SEGMENT_LABEL } from '../lib/freight';
 import { FAMILY_COLOR, FAMILY_LABEL, fmt, pct, shareOpacity } from '../lib/format';
-import { STATUS_COLOR } from '../map/modules/infrastructure';
+import { statusRingSvg } from '../lib/palette';
+import { RouteSwatch } from './RouteSwatch';
 import { LANE_PX, laneGap, laneScale, laneWidthPx, mixedLanesShown } from '../map/modules/lanes';
 import { mixedArcsShown } from '../map/modules/landflows';
 import { ROUTE_W } from '../map/modules/routes';
@@ -17,6 +18,9 @@ import '../styles/legend-scale.css';
 import '../styles/lane-engine.css';
 
 const SEGMENTS: Segment[] = ['dry', 'tanker', 'gas'];
+
+/** Side of the status keys: the smallest at which the three badge glyphs can be told apart on a screen of one device pixel per px. */
+const STATUS_KEY_PX = 20;
 
 function hexA(hex: string, a: number): string {
   const n = parseInt(hex.slice(1), 16);
@@ -170,7 +174,7 @@ export function Legend() {
           <span class="legend-label">Freight routes</span>
           {SEGMENTS.map((s) => (
             <span class="legend-item">
-              <span class="legend-swatch" style={{ background: SEGMENT_COLOR[s] }} />
+              <RouteSwatch segment={s} />
               {SEGMENT_LABEL[s]}
             </span>
           ))}
@@ -230,11 +234,11 @@ export function Legend() {
       {infraOn && (
         <div class="legend-block legend-infra">
           <div class="legend-infra-status">
-            <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.damaged }} />Damaged</span>
-            <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.idle }} />Idle / suspended</span>
-            <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.planned, borderStyle: 'dotted' }} />Planned</span>
-            <span class="legend-item"><span class="status-key dashed" style={{ borderColor: STATUS_COLOR.construction }} />Under construction</span>
-            <span class="legend-item"><span class="status-key" style={{ borderColor: STATUS_COLOR.closed }} />Closed</span>
+            <span class="legend-item"><span class="infra-ic" aria-hidden="true" dangerouslySetInnerHTML={{ __html: statusRingSvg('damaged', { size: STATUS_KEY_PX }) }} />Damaged</span>
+            <span class="legend-item"><span class="infra-ic" aria-hidden="true" dangerouslySetInnerHTML={{ __html: statusRingSvg('idle', { size: STATUS_KEY_PX }) }} />Idle / suspended</span>
+            <span class="legend-item"><span class="infra-ic" aria-hidden="true" dangerouslySetInnerHTML={{ __html: statusRingSvg('planned', { size: STATUS_KEY_PX }) }} />Planned</span>
+            <span class="legend-item"><span class="infra-ic" aria-hidden="true" dangerouslySetInnerHTML={{ __html: statusRingSvg('construction', { size: STATUS_KEY_PX }) }} />Under construction</span>
+            <span class="legend-item"><span class="infra-ic" aria-hidden="true" dangerouslySetInnerHTML={{ __html: statusRingSvg('closed', { size: STATUS_KEY_PX }) }} />Closed</span>
             <span class="legend-item muted">Dashed pipeline = not operating</span>
             {year.value != null && (
               <span class="legend-item muted" title="History: an asset whose opening year is known is dimmed before it opens. Many assets have no opening year in the data, and those are drawn at every year.">

@@ -17,9 +17,12 @@ import { isMarkerHover, registerInteractiveLayer, registerPointLayer } from '../
 import { commodity, family, hovered, infraAvailable, infraHidden, layers, select, selection, year } from '../../lib/store';
 import { commodities, commodityMeta, countryName, loadOptional, sourceLabel, sources } from '../../lib/data';
 import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
+import { PIPELINE_COLOR, PIPELINE_DASH, STATUS_COLOR, statusDecoration } from '../../lib/palette';
 import { figuresOf } from '../../lib/capacity';
 import { OUTPUT_LABEL, figureText, isOperating, monthYear, sourceText, stateAt, statusClassOf, statusText, yearText, type Figure, type StatusClass } from '../../lib/infra';
 import { INFRA_META, infraSvg } from '../../components/ui';
+import { ASSET_ORDER, ICON_LAYER, assetLabel, assetLayerSpec, assetSelectedTextLayout, assetTextPaint } from '../labelRules';
+import { raiseAboveAssetNames } from '../labels';
 
 // ---------------------------------------------------------------- data access (shared with the detail views)
 
@@ -103,13 +106,7 @@ export type { StatusClass };
 /** Visual class of an asset status: damaged = red, idle / suspended = amber, construction / planned = dashed ring, closed = grey. */
 export const statusClass = statusClassOf;
 
-export const STATUS_COLOR: Record<Exclude<StatusClass, 'ok'>, string> = {
-  damaged: '#ff4d5e',
-  idle: '#ffc233',
-  construction: '#e6edf5',
-  planned: '#9aa7b5',
-  closed: '#6f7b88',
-};
+export { STATUS_COLOR };
 
 export function infraRef(f: InfraFeature) {
   return { kind: 'infra' as const, id: f.p.id, layer: f.p.type };
@@ -145,41 +142,16 @@ export function infraTooltip(f: InfraFeature): string {
 
 // ---------------------------------------------------------------- pipeline colours
 
-const PIPE_CRUDE = '#b8741a';
-const PIPE_PRODUCTS = '#ffd08a';
-const PIPE_GAS = '#3ed8c3';
-
 export function pipelineColor(k: string[]): string {
-  if (k.includes('crude-oil')) return PIPE_CRUDE;
-  if (k.includes('refined-products') || k.includes('lpg')) return PIPE_PRODUCTS;
-  return PIPE_GAS;
+  if (k.includes('crude-oil')) return PIPELINE_COLOR.crude;
+  if (k.includes('refined-products') || k.includes('lpg')) return PIPELINE_COLOR.products;
+  return PIPELINE_COLOR.gas;
 }
 
 // ---------------------------------------------------------------- map layer
 
 const ICON_PX = 56; // 28 css px at pixelRatio 2
 const iconPending = new Map<string, Promise<void>>();
-
-/** Status decoration drawn over the base 28x28 icon (inserted before the closing </svg>). */
-function statusSvg(st: StatusClass): string {
-  if (st === 'ok') return '';
-  const c = STATUS_COLOR[st];
-  if (st === 'planned') return `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="2.2" stroke-dasharray="0.1 3.2" stroke-linecap="round"/>`;
-  if (st === 'construction') return `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="2.2" stroke-dasharray="3 2.4"/>`;
-  if (st === 'closed')
-    return (
-      `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="1.6"/>` +
-      `<circle cx="23" cy="5" r="4.6" fill="${c}" stroke="#05090f" stroke-width="1"/>` +
-      '<path d="M21.2 3.2l3.6 3.6M24.8 3.2l-3.6 3.6" stroke="#05090f" stroke-width="1.4" stroke-linecap="round"/>'
-    );
-  const ring = `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="${st === 'damaged' ? 2.4 : 1.8}"/>`;
-  const badge =
-    `<circle cx="23" cy="5" r="4.6" fill="${c}" stroke="#05090f" stroke-width="1"/>` +
-    (st === 'damaged'
-      ? '<path d="M23 2.6v3M23 7.1v.3" stroke="#05090f" stroke-width="1.5" stroke-linecap="round"/>'
-      : '<path d="M21.7 3.2v3.6M24.3 3.2v3.6" stroke="#05090f" stroke-width="1.4" stroke-linecap="round"/>');
-  return ring + badge;
-}
 
 function ensureIcon(m: MLMap, type: InfraType, color: string, st: StatusClass): Promise<string> {
   const name = `infra-${type}-${color.slice(1)}-${st}`;
@@ -201,7 +173,7 @@ function ensureIcon(m: MLMap, type: InfraType, color: string, st: StatusClass): 
         resolve();
       };
       img.onerror = () => resolve();
-      const svg = infraSvg(type, color, ICON_PX).replace('</svg>', `${statusSvg(st)}</svg>`);
+      const svg = infraSvg(type, color, ICON_PX).replace('</svg>', `${statusDecoration(st)}</svg>`);
       img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
     });
     iconPending.set(name, p);
@@ -209,14 +181,14 @@ function ensureIcon(m: MLMap, type: InfraType, color: string, st: StatusClass): 
   return p.then(() => name);
 }
 
-type PointProps = { key: string; id: string; type: InfraType; icon: string; op: number; sel: boolean };
+type PointProps = { key: string; id: string; type: InfraType; icon: string; op: number; sel: boolean; label: string; rank: number };
 type LineProps = { key: string; id: string; type: InfraType; color: string; op: number; sel: boolean; dash: boolean; label: string };
 
 const SRC_PTS = 'infra-pts';
 const SRC_SEL = 'infra-pts-sel'; // the opened asset, drawn on top
 const SRC_LINES = 'infra-lines';
 
-const sizeExpr: ExpressionSpecification = ['interpolate', ['linear'], ['zoom'], 0.5, 0.72, 2.2, 0.82, 4, 1, 7, 1.2];
+const sizeExpr: ExpressionSpecification = ['interpolate', ['linear'], ['zoom'], -0.5, 0.5, 0.5, 0.72, 2.2, 0.82, 4, 1, 7, 1.2];
 const empty = (): FeatureCollection => ({ type: 'FeatureCollection', features: [] });
 
 registerLayerModule((m) => {
@@ -256,7 +228,7 @@ registerLayerModule((m) => {
     source: SRC_LINES,
     filter: isDash,
     layout: { 'line-cap': 'butt', 'line-join': 'round' },
-    paint: { 'line-color': ['get', 'color'], 'line-opacity': ['*', ['get', 'op'], 0.9], 'line-width': lineWidth, 'line-dasharray': [2.5, 2] },
+    paint: { 'line-color': ['get', 'color'], 'line-opacity': ['*', ['get', 'op'], 0.9], 'line-width': lineWidth, 'line-dasharray': PIPELINE_DASH },
   });
   m.addLayer({
     id: 'infra-lines-hit',
@@ -281,6 +253,11 @@ registerLayerModule((m) => {
     layout: iconLayout as never,
     paint: { 'icon-opacity': ['get', 'op'] },
   });
+  // the names of ports and assets: above the pipeline lines, under the icons (an icon always covers a name it overlaps)
+  m.addLayer(assetLayerSpec(SRC_PTS), ICON_LAYER);
+  // a country name wins a collision with an asset name: the country layers go above the asset names, still under the icons; so do the
+  // overland flows (when their module installed first they are lower: it is put right here)
+  raiseAboveAssetNames(m, ICON_LAYER);
   // selection halo and the opened asset (own source, on top)
   m.addLayer({
     id: 'infra-halo',
@@ -297,8 +274,9 @@ registerLayerModule((m) => {
     id: 'infra-pts-sel',
     type: 'symbol',
     source: SRC_SEL,
-    layout: iconLayout as never,
-    paint: { 'icon-opacity': ['get', 'op'] },
+    // the opened asset keeps its name at every zoom
+    layout: { ...iconLayout, ...assetSelectedTextLayout() } as never,
+    paint: { 'icon-opacity': ['get', 'op'], ...assetTextPaint() } as never,
   });
 
   const hitLayers = ['infra-pts-all', 'infra-pts-sel', 'infra-lines-hit'];
@@ -404,6 +382,8 @@ registerLayerModule((m) => {
               icon: '',
               op,
               sel: isSelected,
+              label: assetLabel(f.p.name),
+              rank: ASSET_ORDER[f.p.type as keyof typeof ASSET_ORDER],
             },
           });
         }

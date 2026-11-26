@@ -23,6 +23,8 @@ export interface TimeSeries {
   gaps?: [number, number][];
   /** each value holds until the next observation (annual values), instead of a sloping line */
   step?: boolean;
+  /** a stroke pattern in px (dash, gap, ...), so that a series is told from a neighbour of near colour without the colour; the readout's sample takes it too */
+  dash?: number[];
 }
 
 export interface TimeMarker {
@@ -331,6 +333,7 @@ export function TimeChart(props: TimeChartProps) {
               scale: s.scale ?? 'y',
               stroke: s.color,
               width: bars ? 0 : 1.5,
+              ...(s.dash ? { dash: s.dash } : {}),
               fill: bars ? s.color + 'cc' : stacked ? s.color + '55' : undefined,
               points: gaps && alone.size
                 ? {
@@ -567,7 +570,13 @@ export function TimeChart(props: TimeChartProps) {
             <span class="tc-date num">{fmtTime(x[i], xf)}</span>
             {series.map((s) => (
               <span class="tc-item" key={s.label}>
-                <i style={{ background: s.color }} />
+                {s.dash ? (
+                  <svg class="tc-dash" viewBox="0 0 16 4" aria-hidden="true">
+                    <line x1="0" y1="2" x2="16" y2="2" stroke={s.color} stroke-width="1.5" stroke-dasharray={s.dash.join(' ')} />
+                  </svg>
+                ) : (
+                  <i style={{ background: s.color }} />
+                )}
                 <span class="tc-lab">{s.label}</span>
                 <b class="num">{s.values[i] == null ? '—' : props.readoutFormat ? props.readoutFormat(s.values[i]) : fmtEst(s.values[i], !!props.estimated?.[i])}</b>
               </span>

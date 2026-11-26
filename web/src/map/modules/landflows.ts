@@ -16,6 +16,7 @@ import { commodities, commodityMeta, countries, countryName, loadOptional, sourc
 import { LANE_GROUPS, loadLaneFile } from '../../lib/freight';
 import { customsMark } from '../../lib/flowSources';
 import { FAMILY_COLOR, escapeHtml as esc, fmtEst } from '../../lib/format';
+import { NEUTRAL_LINE } from '../../lib/palette';
 
 const LAND_MODES = new Set(['land', 'pipeline', 'rail', 'mixed']);
 /** Arcs now drawn that stand for a mixed (sea and overland) flow, for the legend. */
@@ -108,7 +109,7 @@ registerLayerModule(() => {
       // older shape says `land` for them)
       const drawnAsLane = new Set(laneInfo.flatMap((i) => i.mixed));
       const meta = commodityMeta(k);
-      const color = meta ? FAMILY_COLOR[meta.family] : '#8aa0b8';
+      const color = meta ? FAMILY_COLOR[meta.family] : NEUTRAL_LINE;
       const all = (d?.flows ?? []).filter(
         (f) => f.mode && LAND_MODES.has(f.mode) && f.v > 0 && !(f.mode === 'mixed' && f.lane) && !drawnAsLane.has(`${f.o}-${f.d}`),
       );

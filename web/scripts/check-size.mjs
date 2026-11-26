@@ -1,6 +1,7 @@
 /**
  * Size budget of the built site (web/dist), checked after `vite build` by the CI and deploy workflows:
- *   the map library chunk, the rest of the JavaScript, the CSS, the largest data file and the whole data folder.
+ *   the map library chunk, the rest of the JavaScript, the CSS, the largest data file, the whole data folder and the
+ *   glyph files of the map's lettering (dist/glyphs).
  * The budgets leave about a fifth of room over the release of November 2026 (map library 1,054 kB, other JavaScript
  * 471 kB, CSS 165 kB, largest data file 1,328 kB, data 24.4 MB): a jump beyond them is a regression to look at, not
  * a hard limit of the platform. Change a budget here, with the reason, when the growth is wanted.
@@ -24,6 +25,11 @@ export const BUDGET = {
   // file sizes: 36,100 kB of disk blocks by `du -sk`) gives 42,400 kB, and the largest file, data/freight/chokepoint-lanes.json, 1,817 kB gives 2,200 kB.
   dataFile: 2200 * KB,
   data: 42400 * KB,
+  // The glyph files of the map's lettering (web/public/glyphs/**: the signed-distance bitmaps and the licence text next to them) measure 51 kB
+  // (45 kB of bitmaps and 5 kB of licence text) for the 104 characters of the names today. The budget was set from the bitmaps, a fifth over
+  // rounded up to 10 kB, and leaves 18% over the whole 51 kB. They are served as they are, outside assets/ and data/, so they had no
+  // budget before: a second range or a larger character set is a growth to look at.
+  glyphs: 60 * KB,
 };
 
 function files(dir) {
@@ -44,16 +50,19 @@ export function measure(dist) {
   const map = js.filter((f) => /maplibre/.test(path.basename(f.p)));
   const data = fs.existsSync(path.join(dist, 'data')) ? files(path.join(dist, 'data')) : [];
   const largest = data.reduce((a, f) => (f.size > a.size ? f : a), { p: '', size: 0 });
+  const glyphs = fs.existsSync(path.join(dist, 'glyphs')) ? files(path.join(dist, 'glyphs')) : [];
+  const largestGlyph = glyphs.reduce((a, f) => (f.size > a.size ? f : a), { p: '', size: 0 });
   const m = {
     mapChunk: Math.max(0, ...map.map((f) => f.size)),
     otherJs: js.filter((f) => !map.includes(f)).reduce((a, f) => a + f.size, 0),
     css: assets.filter((f) => f.p.endsWith('.css')).reduce((a, f) => a + f.size, 0),
     dataFile: largest.size,
     data: data.reduce((a, f) => a + f.size, 0),
+    glyphs: glyphs.reduce((a, f) => a + f.size, 0),
   };
   const problems = Object.entries(BUDGET)
     .filter(([k, b]) => m[k] > b)
-    .map(([k, b]) => `${k}: ${Math.round(m[k] / KB)} kB, over its budget of ${Math.round(b / KB)} kB${k === 'dataFile' ? ` (${path.relative(dist, largest.p)})` : ''}`);
+    .map(([k, b]) => `${k}: ${Math.round(m[k] / KB)} kB, over its budget of ${Math.round(b / KB)} kB${k === 'dataFile' ? ` (${path.relative(dist, largest.p)})` : ''}${k === 'glyphs' ? ` (largest: ${path.relative(dist, largestGlyph.p)})` : ''}`);
   if (!js.length) problems.push('no JavaScript in assets/: is this a built site?');
   return { m, problems };
 }
