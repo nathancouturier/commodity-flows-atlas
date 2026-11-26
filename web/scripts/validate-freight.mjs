@@ -23,6 +23,8 @@
  *    exists in the atlas (the commodity catalogue, the country index, the infrastructure files); an optional date of
  *    check, other source pages (`also`) and price series (`series`: a commodity of the atlas and a series of prices/index.json
  *    that is of that commodity);
+ *  - the split lane files of the chokepoint pages (freight/chokepoint-lanes/<id>.json, when freight/chokepoint-lanes.json exists): one for every
+ *    passage of the catalogue, holding that passage's rows of the whole table (an empty list where no lane crosses it);
  *  - alerts (freight/alerts.json): unique ids, an optional date of check (`checked`: only a text that was read against its
  *    source carries one), an event that exists (and, when it lists several in `events`, events that exist, the main one first), passages that exist, a severity from the list, a PortWatch figure per
  *    passage with its date, derived commodities and countries that exist, and a reason on every override;
@@ -117,6 +119,22 @@ export function validateFreight(root, errors) {
     if (!Array.isArray(ids)) return bad(file, `${where} is not a list`);
     for (const id of ids) if (!chokepoints.has(id)) bad(file, `${where} names "${id}", which is not a chokepoint`);
   };
+  // the split files of the chokepoint pages (build_chokepoint_lanes.py): a passage page asks for its own file before it falls back to the
+  // whole table, so every passage of the catalogue has one (an empty list of rows where no lane crosses it) with the rows of the table
+  const lanesTable = read('freight/chokepoint-lanes.json');
+  if (lanesTable) {
+    const files = new Set(list('freight/chokepoint-lanes'));
+    for (const id of chokepoints) {
+      const file = `chokepoint-lanes/${id}.json`;
+      if (!files.has(`${id}.json`)) {
+        bad(file, 'missing: the page of this passage asks for it (every passage of the catalogue has one, with no rows where no lane crosses it)');
+        continue;
+      }
+      const rows = read(`freight/${file}`)?.chokepoints?.[id];
+      if (!Array.isArray(rows)) bad(file, `has no list of rows for "${id}"`);
+      else if (JSON.stringify(rows) !== JSON.stringify(lanesTable.chokepoints?.[id] ?? [])) bad(file, 'does not hold the rows of freight/chokepoint-lanes.json for this passage');
+    }
+  }
 
   // ------------------------------------------------------------ pairs
   const pairGroups = new Set();

@@ -3,8 +3,9 @@
 # The daily table (pipeline/cache/portwatch) is a working file that is not in git: the atlas publishes only its own weekly
 # averages and comparisons. It is restored at the start of the job from the newest artifact "portwatch-daily" of this
 # workflow (kept 90 days) and uploaded again after a successful update; with no usable artifact (first run, expired, corrupt,
-# older than a month) the job downloads the whole table (about 80,000 rows, 41 requests, one at a time and at least
-# 8 seconds apart: about ten minutes. The owner's rule for PortWatch is: slowly, in small pieces, one request at a
+# older than a month) the job downloads the whole table (a request for every 2,000 rows, so 41 requests for the 80,724 rows of
+# 26 November 2026 and one more for every 2,000 rows it gains, one at a time and at least
+# 8 seconds apart: about ten minutes at that size. The owner's rule for PortWatch is: slowly, in small pieces, one request at a
 # time; the pause in seconds is the script's reading of it, see fetch_portwatch.py).
 # After the chokepoint step, a second PortWatch step keeps the weekly port series (data/freight/port-traffic, one file per
 # port) up to date: it asks again for the last weeks of every port and, in rotation, a year of one quarter of the ports, at

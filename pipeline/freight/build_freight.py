@@ -202,30 +202,25 @@ def frame():
     return BL.split_known(df)
 
 
-def pw_volumes(chk, rows):
+def pw_volumes(chk, series_dir=None):
     """IMF PortWatch estimated trade volume, Mt per full calendar year: {chokepoint: {year: {dry, tanker, cargo, all}}}
-    (cargo: container, general-cargo and ro-ro ships). From the daily raw rows when present, otherwise from the weekly
-    series of data/freight/portwatch (Mt/day x the days of each week inside the year)."""
+    (cargo: container, general-cargo and ro-ro ships). Always from the weekly series of data/freight/portwatch, on every
+    machine: each day of a week is counted at the week's mean Mt/day (a week is Monday to Sunday), so a year's total is
+    the sum of its days and the week that straddles 1 January counts its mean on both sides. A year is full when its
+    first and last day lie inside the series (from the first week's Monday to the last day of the data)."""
+    series_dir = series_dir or os.path.join(OUT, "portwatch")
     out = defaultdict(dict)
-    if rows:
-        pw = pd.DataFrame(rows)
-        ids = BW.mapped(chk)
-        pw["y"] = pd.to_datetime(pw["date"]).dt.year
-        pw["cargo"] = pw["capacity_container"].fillna(0) + pw["capacity_general_cargo"].fillna(0) + pw["capacity_roro"].fillna(0)
-        agg = pw.groupby(["portid", "y"]).agg(n=("date", "size"), dry=("capacity_dry_bulk", "sum"),
-                                               tanker=("capacity_tanker", "sum"), cargo=("cargo", "sum"), all=("capacity", "sum"))
-        for (pid, y), r in agg.iterrows():
-            if pid in ids and r["n"] >= 365:
-                out[ids[pid]][int(y)] = {k: float(r[k]) / 1e6 for k in ("dry", "tanker", "cargo", "all")}
-        return out
     for c in chk:
-        path = os.path.join(OUT, "portwatch", c["id"] + ".json")
+        path = os.path.join(series_dir, c["id"] + ".json")
         if not c.get("portwatch") or not os.path.exists(path):
             continue
         with open(path, encoding="utf-8") as f:
             s = json.load(f)
-        start, last, acc = date.fromisoformat(s["start"]), date.fromisoformat(s["y"]), defaultdict(lambda: defaultdict(float))
-        for i in range(len(s["vol"]["total"])):
+        n = len(s["vol"]["total"])
+        start = date.fromisoformat(s["start"])
+        last = min(date.fromisoformat(s["y"]), start + timedelta(days=7 * n - 1))
+        acc = defaultdict(lambda: defaultdict(float))
+        for i in range(n):
             for k in range(7):
                 day = start + timedelta(days=7 * i + k)
                 for t, key in (("dry", "dry"), ("tanker", "tanker"), ("cargo", "container"), ("cargo", "other"), ("all", "total")):
@@ -1103,10 +1098,13 @@ def main():
     bypass_notes(chk, reg)
     # the daily table kept by fetch_portwatch.py (pipeline/cache/portwatch, not in git), else the saved raw pages
     rows = BW.read_rows()
-    if not rows:
-        print("PortWatch daily table not found (pipeline/cache/portwatch, raw/portwatch): annual tonnages are read from "
-              "the weekly series of data/freight/portwatch and those series are not rebuilt")
-    pw = pw_volumes(chk, rows)
+    if rows:
+        # the weekly series are rebuilt first: the yearly volumes below are read from them, on every machine
+        BW.build(rows, chk, os.path.join(OUT, "portwatch"))
+    else:
+        print("PortWatch daily table not found (pipeline/cache/portwatch, raw/portwatch): the weekly series of "
+              "data/freight/portwatch are not rebuilt")
+    pw = pw_volumes(chk)
     k9 = chokepoint_shares(chk, pairs, pw, active, unrecorded_through(df, active, latest), latest, alerts)
     for c in chk:
         # typical detour when this chokepoint is avoided (main seaborne lanes with an alternative that avoids it)
@@ -1128,9 +1126,6 @@ def main():
             c["detour"] = {"nm": round(med[1]), "days": round(med[2], 1), "lanes": len(det), "y": latest, "s": "atlas",
                            "n": f"Volume-weighted median over {len(det)} mapped lanes that use this passage, at each lane's typical laden speed"}
 
-    # PortWatch weekly transit series per chokepoint (logic shared with build_portwatch.py)
-    if rows:
-        BW.build(rows, chk, os.path.join(OUT, "portwatch"))
     BCL.build()  # recorded seaborne pairs through each chokepoint, from the pairs files written by build_lanes.py
     BPI.build()  # typical ports of the lanes, for the site's search field (same pairs files)
     # traffic figures always come from the tracked series files, with or without raw/ on this machine

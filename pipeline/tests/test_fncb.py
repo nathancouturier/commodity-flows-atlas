@@ -191,11 +191,15 @@ class B1CapAgainstPortWatch(unittest.TestCase):
 
     def test_the_four_released_estimates_that_exceeded_their_ship_type(self):
         """FNCB published Lombok and Makassar iron ore and Torres LNG and refined products above PortWatch's whole volume of the ship type."""
-        chk = {c["id"]: {e["p"]: e for e in c.get("estimates") or []} for c in load(DATA, "freight", "chokepoints.json")}
-        self.assertEqual(chk["lombok"]["iron-ore"]["mt"][1], 950.3)
-        self.assertEqual(chk["makassar"]["iron-ore"]["mt"][1], 1084.7)
-        self.assertEqual(chk["torres"]["lng"]["mt"][1], 13.5)
-        self.assertEqual(chk["torres"]["refined-products"]["mt"][1], 13.5)
+        import build_freight as BF
+        catalogue = load(DATA, "freight", "chokepoints.json")
+        chk = {c["id"]: {e["p"]: e for e in c.get("estimates") or []} for c in catalogue}
+        # the whole volume of the ship type in 2024, summed from the weekly series (build_freight.pw_volumes), to the decimal the file keeps
+        whole = BF.pw_volumes(catalogue)
+        self.assertEqual(chk["lombok"]["iron-ore"]["mt"][1], round(whole["lombok"][2024]["dry"], 1))
+        self.assertEqual(chk["makassar"]["iron-ore"]["mt"][1], round(whole["makassar"][2024]["dry"], 1))
+        self.assertEqual(chk["torres"]["lng"]["mt"][1], round(whole["torres"][2024]["tanker"], 1))
+        self.assertEqual(chk["torres"]["refined-products"]["mt"][1], round(whole["torres"][2024]["tanker"], 1))
         self.assertEqual(chk["hormuz"]["crude-oil"]["mt"][1], 750.7)  # not touched by the whole-volume cap (it is under 915 Mt)
         self.assertEqual(chk["panama"]["crude-oil"]["mt"][1], 43.8)
         self.assertIn("capped at IMF PortWatch's estimate", chk["lombok"]["iron-ore"]["hi"]["n"])

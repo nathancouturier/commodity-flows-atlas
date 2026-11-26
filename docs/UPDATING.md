@@ -487,7 +487,7 @@ the weekly series nor anything this file holds.
 
 **When it fails.** The step never fails the job. It refuses, keeps the previous file, records a failure of `build-market-now` and exits 0 when: a
 weekly file is not the one its name says, has no `vol` block or lists of different lengths, does not start on a Monday, holds a value that is not a
-finite number or is negative, or has a week missing or extra (the weeks are taken by date, rebuilt from `start`: a week dropped by the weekly
+finite number, is negative or has more decimals than the weekly files carry (one for a count, four for the cargo), or has a week missing or extra (the weeks are taken by date, rebuilt from `start`: a week dropped by the weekly
 series would otherwise shift every later value by one week), whether or not the file would rank; fewer than five weekly files exist, or fewer than
 five can be ranked; the new digest would end on a date earlier than the file published. A file that starts after the first of the 52 ranking weeks
 (a passage mapped lately, which has fewer than 104 weeks) is not a refusal: it is left out of the ranking, the output names it

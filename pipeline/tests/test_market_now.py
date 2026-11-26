@@ -539,6 +539,34 @@ class Refusals(Folder):
         self.put(series_doc("gg", 120))
         BM.build(self.dir)   # the same folder with a good file is read
 
+    def test_a_value_with_more_decimals_than_the_weekly_files_carry_is_refused(self):
+        """One decimal for a vessel count and four for the cargo in Mt a day, as build_portwatch.py writes them: the same rule as the
+        page's check of the weekly files (web/src/lib/marketNow.ts, ``refusal``), so that its proof of the digest never meets a file that
+        the builder accepted and it cannot read."""
+        # the two sides and the weekly files' own rounding name the same decimals
+        self.assertEqual((BM.COUNT_DECIMALS, BM.CARGO_DECIMALS), (1, 4))
+        web = read("web", "src", "lib", "marketNow.ts")
+        self.assertIn("const COUNT_DECIMALS = 1;", web)
+        self.assertIn("const CARGO_DECIMALS = 4;", web)
+        writer = read("pipeline", "freight", "build_portwatch.py")
+        self.assertIn("[round(x, 1) for x in wk[col]]", writer)
+        self.assertIn("[round(x / 1e6, 4) for x in wk[col]]", writer)
+        self.seven(weeks=120)
+        for where, kind, bad, fragment in (("tanker", "tanker", 3.25, "has more than 1 decimals"), ("dry", "dry", 0.01, "has more than 1 decimals"),
+                                           ("vol_tanker", "vol.tanker", 0.12345, "has more than 4 decimals"),
+                                           ("vol_dry", "vol.dry", 1e-05, "has more than 4 decimals")):
+            lst = week_values("gg", kind, 120)
+            lst[9] = bad
+            self.put(series_doc("gg", 120, **{where: lst}))
+            self.refused(fragment)
+        # the decimals of the files themselves, and whole numbers, are read
+        for where, kind, good in (("tanker", "tanker", 3.2), ("tanker", "tanker", 4.0), ("tanker", "tanker", 0), ("vol_tanker", "vol.tanker", 0.1234),
+                                  ("vol_dry", "vol.dry", 0.0001), ("vol_dry", "vol.dry", 12), ("vol_dry", "vol.dry", 1e16)):
+            lst = week_values("gg", kind, 120)
+            lst[9] = good
+            self.put(series_doc("gg", 120, **{where: lst}))
+            BM.build(self.dir)
+
     def test_fewer_than_five_series_are_refused_and_a_series_that_cannot_be_read_stops_the_digest(self):
         for pid in ("aa", "bb", "cc", "dd"):
             self.put(series_doc(pid))
