@@ -58,6 +58,38 @@ export const STATUS_COLOR: Record<Exclude<StatusClass, 'ok'>, string> = {
   closed: '#6f7b88',
 };
 
+/**
+ * What the map draws over the base 28x28 icon of an asset whose status is not "operating": a ring, and for three of the
+ * statuses a round badge at the top right ("!" damaged, two bars idle, a cross closed). Under construction is a dashed ring
+ * and planned a dotted one. The strings are inserted before the closing `</svg>` of the icon; the legend draws the same
+ * strings by `statusRingSvg`, so that the two cannot drift apart. The badge ink is the ocean colour: the badge sits on the map.
+ */
+export function statusDecoration(st: StatusClass): string {
+  if (st === 'ok') return '';
+  const c = STATUS_COLOR[st];
+  const ink = C.ocean;
+  if (st === 'planned') return `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="2.2" stroke-dasharray="0.1 3.2" stroke-linecap="round"/>`;
+  if (st === 'construction') return `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="2.2" stroke-dasharray="3 2.4"/>`;
+  if (st === 'closed')
+    return (
+      `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="1.6"/>` +
+      `<circle cx="23" cy="5" r="4.6" fill="${c}" stroke="${ink}" stroke-width="1"/>` +
+      `<path d="M21.2 3.2l3.6 3.6M24.8 3.2l-3.6 3.6" stroke="${ink}" stroke-width="1.4" stroke-linecap="round"/>`
+    );
+  const ring = `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="${st === 'damaged' ? 2.4 : 1.8}"/>`;
+  const badge =
+    `<circle cx="23" cy="5" r="4.6" fill="${c}" stroke="${ink}" stroke-width="1"/>` +
+    (st === 'damaged'
+      ? `<path d="M23 2.6v3M23 7.1v.3" stroke="${ink}" stroke-width="1.5" stroke-linecap="round"/>`
+      : `<path d="M21.7 3.2v3.6M24.3 3.2v3.6" stroke="${ink}" stroke-width="1.4" stroke-linecap="round"/>`);
+  return ring + badge;
+}
+
+/** The ring and badge of a status on their own, as a small standalone image (the legend's key). */
+export function statusRingSvg(st: StatusClass, opts: { size: number }): string {
+  return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="${opts.size}" height="${opts.size}" aria-hidden="true">${statusDecoration(st)}</svg>`;
+}
+
 /** Pipeline lines by what they carry. */
 export const PIPELINE_COLOR = {
   crude: '#b8741a',

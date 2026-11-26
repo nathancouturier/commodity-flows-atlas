@@ -10,7 +10,9 @@
  *  3. every other hex colour is counted per file against OTHER_LITERALS, as measured on the day. The test fails when a
  *     count is above its allowance and when it is under it ("lower the allowance"), so the list cannot rot; a file that is
  *     not on the list has none;
- *  4. the three copies of the event colours are gone, and the old names re-export the module.
+ *  4. the three copies of the event colours are gone, and the old names re-export the module;
+ *  5. the status rings: each of the five differs from the others in something that is not its colour or its stroke width
+ *     (a dash array or a badge path), and the map and the legend both draw them with the module's functions.
  *
  * `rgb()` and `rgba()` strings are outside this test. A package that adds a colour puts it in `lib/palette.ts`; for a
  * one-off neutral that is not a code it raises its file's allowance by exactly the literals added and says why in its report.
@@ -21,7 +23,7 @@ import assert from 'node:assert/strict';
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { C, EVENT_COLOR, FAMILY_COLOR, HUES, NEUTRAL_LINE, PIPELINE_COLOR, PRICE_PALETTE, PW_COLORS, SEGMENT_COLOR, STATUS_COLOR } from '../src/lib/palette.ts';
+import { C, EVENT_COLOR, FAMILY_COLOR, HUES, NEUTRAL_LINE, PIPELINE_COLOR, PRICE_PALETTE, PW_COLORS, SEGMENT_COLOR, STATUS_COLOR, statusDecoration, statusRingSvg } from '../src/lib/palette.ts';
 import { LABEL_COLOR } from '../src/map/labelRules.ts';
 
 const here = path.dirname(fileURLToPath(import.meta.url));
@@ -39,7 +41,6 @@ const HUE_LITERALS_ALLOWED = [
   { file: 'components/views/BoardView.tsx', hex: '#9db7ff', count: 1, reason: 'fallback of a CSS variable inside an SVG attribute' },
   { file: 'map/modules/choropleth.ts', hex: '#3ee6ff', count: 1, reason: 'the colouring of a commodity that has no family' },
   { file: 'map/modules/infrastructure.ts', hex: '#3ee6ff', count: 1, reason: 'the selected-asset ring, the accent' },
-  { file: 'map/modules/infrastructure.ts', hex: '#05090f', count: 5, reason: 'the dark ink of the status badges (outline and glyph); it is the ocean colour by choice, the badge sits on the map' },
   { file: 'map/labelRules.ts', hex: '#05090f', count: 1, reason: 'the halo of the names is the ocean colour; a pure module with no value import (checked below against `C.ocean`)' },
 ];
 
@@ -171,4 +172,49 @@ test('the event colours have one copy, and the old names re-export the module', 
     ['components/views/shared.tsx', /NEUTRAL_LINE/],
   ];
   for (const [f, re] of REEXPORT) assert.match(byRel[f], re, `${f} reads the module (${re})`);
+});
+
+// ---------------------------------------------------------------- 5. cues exist for statuses
+
+const STATUSES = ['damaged', 'idle', 'construction', 'planned', 'closed'];
+
+/** What tells one status ring from another once colours and stroke widths are taken out: the elements, their dash arrays and their paths. */
+function signatureOf(svg) {
+  let t = svg;
+  for (const c of Object.values(STATUS_COLOR)) t = t.split(c).join('X');
+  t = t.replace(/\sstroke-width="[^"]*"/g, '');
+  return [...t.matchAll(/<(\w+)([^>]*)\/>/g)]
+    .map(([, name, attrs]) => `${name}|${attrs.match(/stroke-dasharray="([^"]*)"/)?.[1] ?? ''}|${attrs.match(/\sd="([^"]*)"/)?.[1] ?? ''}`)
+    .join(' ');
+}
+
+test('cues exist for statuses: the five rings differ in something that is not their colour or their stroke width', () => {
+  const sigs = STATUSES.map((st) => [st, signatureOf(statusDecoration(st))]);
+  for (const [st, sig] of sigs) assert.ok(sig.length > 0, `${st} has a drawing`);
+  for (let i = 0; i < sigs.length; i++) {
+    for (let j = i + 1; j < sigs.length; j++) assert.notEqual(sigs[i][1], sigs[j][1], `${sigs[i][0]} and ${sigs[j][0]} differ by colour or stroke width only`);
+  }
+  assert.equal(statusDecoration('ok'), '', 'an operating asset has no decoration');
+  // the legend's key is the decoration alone, in a standalone image of the requested size
+  for (const st of STATUSES) {
+    assert.equal(
+      statusRingSvg(st, { size: 20 }),
+      `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28" width="20" height="20" aria-hidden="true">${statusDecoration(st)}</svg>`,
+    );
+  }
+});
+
+test('the legend and the map draw the status rings with the module', () => {
+  const legend = byRel['components/Legend.tsx'];
+  assert.match(legend, /import\s*\{[^}]*\bstatusRingSvg\b[^}]*\}\s*from\s*'\.\.\/lib\/palette'/, 'Legend.tsx imports statusRingSvg from the module');
+  for (const st of STATUSES) assert.match(legend, new RegExp(`statusRingSvg\\(\\s*'${st}'`), `Legend.tsx draws the ${st} key with statusRingSvg`);
+  assert.doesNotMatch(legend, /borderColor:\s*STATUS_COLOR/, 'Legend.tsx draws no status key as a coloured border');
+  const infra = byRel['map/modules/infrastructure.ts'];
+  assert.match(infra, /import\s*\{[^}]*\bstatusDecoration\b[^}]*\}\s*from\s*'\.\.\/\.\.\/lib\/palette'/, 'the map imports statusDecoration from the module');
+  assert.match(infra, /\$\{statusDecoration\(st\)\}/, 'the map icon calls statusDecoration');
+  assert.doesNotMatch(infra, /stroke-dasharray|<circle|function statusSvg/, 'infrastructure.ts holds no drawing of a status of its own');
+  for (const f of files) assert.doesNotMatch(f.text, /status-key/, `${f.rel} has no status-key`);
+  for (const css of fs.readdirSync(path.join(SRC, 'styles')).filter((n) => n.endsWith('.css'))) {
+    assert.doesNotMatch(fs.readFileSync(path.join(SRC, 'styles', css), 'utf8'), /\.status-key/, `${css} has no .status-key rule`);
+  }
 });

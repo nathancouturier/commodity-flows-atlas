@@ -17,7 +17,7 @@ import { isMarkerHover, registerInteractiveLayer, registerPointLayer } from '../
 import { commodity, family, hovered, infraAvailable, infraHidden, layers, select, selection, year } from '../../lib/store';
 import { commodities, commodityMeta, countryName, loadOptional, sourceLabel, sources } from '../../lib/data';
 import { FAMILY_COLOR, escapeHtml as esc, fmt } from '../../lib/format';
-import { PIPELINE_COLOR, STATUS_COLOR } from '../../lib/palette';
+import { PIPELINE_COLOR, STATUS_COLOR, statusDecoration } from '../../lib/palette';
 import { figuresOf } from '../../lib/capacity';
 import { OUTPUT_LABEL, figureText, isOperating, monthYear, sourceText, stateAt, statusClassOf, statusText, yearText, type Figure, type StatusClass } from '../../lib/infra';
 import { INFRA_META, infraSvg } from '../../components/ui';
@@ -153,27 +153,6 @@ export function pipelineColor(k: string[]): string {
 const ICON_PX = 56; // 28 css px at pixelRatio 2
 const iconPending = new Map<string, Promise<void>>();
 
-/** Status decoration drawn over the base 28x28 icon (inserted before the closing </svg>). */
-function statusSvg(st: StatusClass): string {
-  if (st === 'ok') return '';
-  const c = STATUS_COLOR[st];
-  if (st === 'planned') return `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="2.2" stroke-dasharray="0.1 3.2" stroke-linecap="round"/>`;
-  if (st === 'construction') return `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="2.2" stroke-dasharray="3 2.4"/>`;
-  if (st === 'closed')
-    return (
-      `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="1.6"/>` +
-      `<circle cx="23" cy="5" r="4.6" fill="${c}" stroke="#05090f" stroke-width="1"/>` +
-      '<path d="M21.2 3.2l3.6 3.6M24.8 3.2l-3.6 3.6" stroke="#05090f" stroke-width="1.4" stroke-linecap="round"/>'
-    );
-  const ring = `<circle cx="14" cy="14" r="12.9" fill="none" stroke="${c}" stroke-width="${st === 'damaged' ? 2.4 : 1.8}"/>`;
-  const badge =
-    `<circle cx="23" cy="5" r="4.6" fill="${c}" stroke="#05090f" stroke-width="1"/>` +
-    (st === 'damaged'
-      ? '<path d="M23 2.6v3M23 7.1v.3" stroke="#05090f" stroke-width="1.5" stroke-linecap="round"/>'
-      : '<path d="M21.7 3.2v3.6M24.3 3.2v3.6" stroke="#05090f" stroke-width="1.4" stroke-linecap="round"/>');
-  return ring + badge;
-}
-
 function ensureIcon(m: MLMap, type: InfraType, color: string, st: StatusClass): Promise<string> {
   const name = `infra-${type}-${color.slice(1)}-${st}`;
   if (m.hasImage(name)) return Promise.resolve(name);
@@ -194,7 +173,7 @@ function ensureIcon(m: MLMap, type: InfraType, color: string, st: StatusClass): 
         resolve();
       };
       img.onerror = () => resolve();
-      const svg = infraSvg(type, color, ICON_PX).replace('</svg>', `${statusSvg(st)}</svg>`);
+      const svg = infraSvg(type, color, ICON_PX).replace('</svg>', `${statusDecoration(st)}</svg>`);
       img.src = 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(svg);
     });
     iconPending.set(name, p);
