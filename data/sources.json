@@ -334,9 +334,9 @@
   "name": "SEC EDGAR filings (annual reports on Form 10-K, 20-F and 40-F; the filing linked on each entry)",
   "publisher": "U.S. Securities and Exchange Commission",
   "url": "https://www.sec.gov/edgar/search/",
-  "licence": "Public filings, free to read; facts cited with a link (the reuse terms on sec.gov were not read: sec.gov asks automated clients for a contact address)",
+  "licence": "Public filings, free to read: \"Anyone can access and download this information for free\" (https://www.sec.gov/os/accessing-edgar-data, read 26 November 2026). Reuse, from the SEC's privacy page, section \"Website Dissemination\": \"Information presented on sec.gov is considered public information and may be copied or further distributed by users of the web site without the SEC’s permission. Please consider appropriate citation to the SEC as the source.\" (https://www.sec.gov/about/privacy-information, read 26 November 2026). The page speaks of the information presented on sec.gov and says nothing of the rights a company may hold in the text of its own report: the atlas cites facts from a filing with a link and copies no text. The page asks that the SEC seal and its logos are not used and allows EDGAR to be named in text without a licence provided no affiliation with or approval by the SEC is implied: the atlas uses no seal or logo, names EDGAR in text only and is not affiliated with the SEC",
   "update": "annual",
-  "access": "Filings read by hand, cited per entry (url); where sec.gov was not fetched, the same report on the company's investor pages",
+  "access": "Annual reports read on sec.gov by pipeline/companies/sec_get.py, the only program that talks to the SEC: a contact address of the owner, read from an environment variable and written in no file, goes in the User-Agent header; one request at a time, at least 3 seconds apart, only the files a figure needs (\"Download only what you need and please moderate requests to minimize server load.\", https://www.sec.gov/os/accessing-edgar-data, read 26 November 2026); the filing is cited per entry (url)",
   "use": "Company lists: production, capacity, sales and fleet figures, ownership"
  },
  {

@@ -478,6 +478,7 @@ verdict (redistribute, cite a few facts, link only).
 | Press reports (Bloomberg via gCaptain, Cyprus Mail, GMK Center and others) | Short facts with a link to the article. No article text is copied. |
 | Panama Canal Authority, Suez Canal Authority, port authorities | Published statistics and transit limits are cited as facts with attribution. No licence is stated on the pages; terms to be confirmed. Their toll tariffs are linked from the voyage calculator of the route pages and not copied (see below). |
 | Company reports | Facts cited with a link to the report. |
+| SEC EDGAR filings (annual reports on Form 10-K and 20-F) | Facts (production, capacity and fleet figures) cited with a link to the filing; no text is copied. The SEC's privacy page (https://www.sec.gov/about/privacy-information, read 26 November 2026) says: "Information presented on sec.gov is considered public information and may be copied or further distributed by users of the web site without the SEC’s permission. Please consider appropriate citation to the SEC as the source." Not affiliated with the SEC. |
 | World Nuclear Association | Annual uranium production figures cited with attribution. Terms to be confirmed. |
 
 ### IMF PortWatch

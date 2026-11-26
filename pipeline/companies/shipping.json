@@ -95,8 +95,18 @@
    "role": "shipowner",
    "own": "listed",
    "detail": "Antwerp maritime group, known as Euronav before October 2024; about 250 vessels: crude tankers, dry bulk carriers, container ships",
+   "fig": {
+    "v": 105,
+    "u": "ships",
+    "what": "fleet, owned and chartered-in (dry bulk)",
+    "y": 2025,
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/1604481/000160448126000004/eurn-20251231.htm",
+    "n": "Fleet development table: dry bulk vessels at the end of 2025: 105 (10 newbuildings on order are not counted); the table counts vessels owned through joint ventures at the group's economic share and includes charter-in agreements. Form 20-F 2025."
+   },
    "s": "wikipedia",
    "url": "https://en.wikipedia.org/wiki/CMB.TECH",
+   "y": 2025,
    "read": "2026-11"
   },
   {
@@ -233,8 +243,18 @@
    "role": "shipowner",
    "own": "listed",
    "detail": "Crude oil tankers (VLCCs, Suezmaxes) and FSOs; known as Euronav before October 2024",
+   "fig": {
+    "v": 27,
+    "u": "ships",
+    "what": "fleet, owned and chartered-in (VLCC and Suezmax)",
+    "y": 2025,
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/1604481/000160448126000004/eurn-20251231.htm",
+    "n": "Fleet development table: tanker (VLCC + Suezmax) vessels at the end of 2025: 27 (6 newbuildings on order are not counted; the 2 FSOs are counted apart); the table counts vessels owned through joint ventures at the group's economic share and includes charter-in agreements. Form 20-F 2025."
+   },
    "s": "wikipedia",
    "url": "https://en.wikipedia.org/wiki/CMB.TECH",
+   "y": 2025,
    "read": "2026-11",
    "classes": [
     "vlcc",
@@ -247,8 +267,18 @@
    "role": "shipowner",
    "own": "listed",
    "detail": "Refined product tankers, Monaco; LR2 and MR tankers",
+   "fig": {
+    "v": 90,
+    "u": "ships",
+    "what": "fleet, owned",
+    "y": 2025,
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/1483934/000148393426000021/stng-20251231.htm",
+    "n": "As of March 19, 2026 the fleet consisted of 90 wholly owned product tankers (34 LR2, 42 MR and 14 Handymax); at December 31, 2025 the operating fleet consisted of 93 owned or sale and leaseback vessels. Form 20-F 2025."
+   },
    "s": "wikipedia",
    "url": "https://en.wikipedia.org/wiki/Scorpio_Tankers",
+   "y": 2025,
    "read": "2026-11",
    "classes": [
     "lr2",
@@ -261,8 +291,18 @@
    "role": "shipowner",
    "own": "listed",
    "detail": "Canadian crude oil shipping group (Teekay Corporation and Teekay Tankers), Vancouver",
+   "fig": {
+    "v": 41,
+    "u": "ships",
+    "what": "fleet, owned and chartered-in (Teekay Tankers)",
+    "y": 2025,
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/911971/000091197126000015/tk-20251231.htm",
+    "n": "Fleet of Teekay Tankers as at March 1, 2026: 35 owned and 6 chartered-in vessels, 41 in all (38 tankers and 3 ship-to-ship support and bunker tanker vessels); Teekay Corporation holds 54.8% of the voting power of Teekay Tankers. Form 20-F 2025 of Teekay Corporation."
+   },
    "s": "wikipedia",
    "url": "https://en.wikipedia.org/wiki/Teekay_Corporation",
+   "y": 2025,
    "read": "2026-11"
   },
   {
@@ -402,9 +442,10 @@
    "hq": "BMU",
    "role": "shipowner",
    "own": "listed",
-   "detail": "LNG shipping company, Hamilton (Bermuda)",
-   "s": "wikipedia",
-   "url": "https://en.wikipedia.org/wiki/Golar_LNG",
+   "detail": "Floating LNG (FLNG) company, Hamilton (Bermuda): two FLNG units on the water and one in conversion at March 16, 2026; sold its last LNG carrier in March 2025",
+   "s": "sec-edgar",
+   "url": "https://www.sec.gov/Archives/edgar/data/1207179/000162828026021198/glng-20251231.htm",
+   "y": 2026,
    "read": "2026-11"
   },
   {
@@ -423,8 +464,18 @@
    "role": "shipowner",
    "own": "listed",
    "detail": "Liquefied gas shipping company (Navigator Holdings), London",
+   "fig": {
+    "v": 57,
+    "u": "ships",
+    "what": "fleet, owned",
+    "y": 2025,
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/1581804/000162828026017320/nvgs-20251231.htm",
+    "n": "As of December 31, 2025 the company owned and operated 57 liquefied gas carriers. Form 20-F 2025."
+   },
    "s": "wikipedia",
    "url": "https://en.wikipedia.org/wiki/Navigator_Holdings",
+   "y": 2025,
    "read": "2026-11"
   },
   {
@@ -492,9 +543,10 @@
    "hq": "USA",
    "role": "terminal operator",
    "own": "listed",
-   "detail": "US energy infrastructure company, Houston: oil and gas pipelines and terminals",
-   "s": "wikipedia",
-   "url": "https://en.wikipedia.org/wiki/Kinder_Morgan",
+   "detail": "US energy infrastructure company, Houston: pipelines and terminals; liquids terminals capacity of 78.7 million barrels in 47 terminals at December 31, 2025",
+   "s": "sec-edgar",
+   "url": "https://www.sec.gov/Archives/edgar/data/1506307/000150630726000011/kmi-20251231.htm",
+   "y": 2025,
    "read": "2026-11"
   }
  ]

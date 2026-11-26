@@ -2462,7 +2462,8 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   of unit, written in the figure's note with the stated number and the factor. Gas volumes in cubic feet are
   converted at 0.0283168 cubic metres per cubic foot and, for a daily rate, 365 days a year; a yearly volume in
   barrels is divided by 365 days to give barrels a day; uranium in pounds of U3O8 at 0.45359 kg per pound and
-  0.848 kg of uranium per kg of U3O8. A volume that covers several commodities (crude oil and products together, a
+  0.848 kg of uranium per kg of U3O8; coal in short tons, where the report says that its tons are short tons, at
+  0.90718474 tonne per short ton. A volume that covers several commodities (crude oil and products together, a
   segment's grain merchandising) is not a figure: it is written in the line of text with what it covers.
 - **Order.** Within a group, rows whose figures count the same thing in the same unit (liquids production in kb/d,
   LNG sold in Mt, a fleet in ships) form a block ordered by value; each other kind of figure forms its own block;

@@ -71,8 +71,13 @@ One company, one identity: where a company stands under several commodities or s
 - A company's own annual report, production report or results release: `company-reports`, with the document's
   address in `url` (infrastructure assets also cite this id with their own page).
 - Annual reports filed with the US Securities and Exchange Commission (10-K, 20-F, 40-F): `sec-edgar`. sec.gov asks
-  automated clients for a contact address that the atlas does not have; when it is not fetched, the same report is
-  read on the company's investor pages and may still be cited by its EDGAR address.
+  automated clients to declare a contact address. The owner agreed (24 November 2026) that one of his is sent to the SEC
+  and to nobody else; it is held outside the repository, in the environment variable `SEC_CONTACT_EMAIL` that only the
+  owner sets, and no address is written in any file of the repository. A filing is read only with
+  `.venv/bin/python -I pipeline/companies/sec_get.py <url> ...`, the one program that talks to sec.gov: two hosts
+  (`www.sec.gov`, `data.sec.gov`), one request at a time and at least 3 seconds apart, the robots file respected, a stop at
+  the first 403 or 429, bodies kept in `raw/sec-edgar/` (not tracked). Without the variable it fetches nothing. The
+  entry cites the filing by its address on `www.sec.gov/Archives/` (the document that states the figure).
 - Wikipedia (CC BY-SA 4.0): `wikipedia`, with the article address. Accepted for now; a company's own report is
   preferred whenever it gives the fact.
 - Sanctions: `ofac` (US Treasury press releases on designations), `uk-sanctions` (GOV.UK announcements and the UK

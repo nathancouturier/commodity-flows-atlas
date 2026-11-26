@@ -321,8 +321,18 @@
     "role": "producer",
     "own": "listed",
     "detail": "US major, Houston",
+    "fig": {
+     "v": 1827,
+     "u": "kb/d",
+     "what": "crude oil production, net, including affiliates (includes condensate and synthetic oil)",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/93410/000009341026000078/cvx-20251231.htm",
+     "n": "Net production table, total including affiliates: crude oil 1,827 MBD (thousand barrels per day) in 2025, 1,560 in 2024; natural gas liquids (477) and natural gas are counted apart. Form 10-K 2025."
+    },
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Chevron_Corporation",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -331,8 +341,18 @@
     "role": "producer",
     "own": "listed",
     "detail": "US exploration and production company, Houston",
+    "fig": {
+     "v": 1145,
+     "u": "kb/d",
+     "what": "crude oil production, net, consolidated operations and equity affiliates",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1163165/000116316526000009/cop-20251231.htm",
+     "n": "Average net production: total crude oil 1,145 MBD in 2025 (consolidated operations 1,133, equity affiliates 12); natural gas liquids (419) and bitumen (133) are counted apart. Form 10-K 2025."
+    },
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/ConocoPhillips",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -609,8 +629,18 @@
     "role": "refiner",
     "own": "listed",
     "detail": "US refiner, marketer and transporter, Findlay (Ohio); spun off from Marathon Oil in 2011",
+    "fig": {
+     "v": 2986,
+     "u": "kb/d",
+     "what": "crude oil refining capacity",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1510295/000151029526000009/mpc-20251231.htm",
+     "n": "Aggregate crude oil refining capacity of 2,986 mbpcd (thousand barrels per calendar day) at December 31, 2025; the refineries processed 2,787 mbpd of crude oil in 2025. Form 10-K 2025."
+    },
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Marathon_Petroleum",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -619,8 +649,18 @@
     "role": "refiner",
     "own": "listed",
     "detail": "US fuels producer, San Antonio (Texas)",
+    "fig": {
+     "v": 2700,
+     "u": "kb/d",
+     "what": "crude oil refining capacity, approximately",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1035002/000162828026011499/vlo-20251231.htm",
+     "n": "Total estimated crude oil capacity of the 15 refineries 'approximately 2.7 million BPD' at December 31, 2025; their feedstock throughput capacity, which includes intermediates and other feedstocks, is 3,190,000 BPD. Form 10-K 2025."
+    },
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Valero_Energy",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -629,8 +669,18 @@
     "role": "refiner",
     "own": "listed",
     "detail": "US energy company, Houston",
+    "fig": {
+     "v": 1868,
+     "u": "kb/d",
+     "what": "crude oil refining capacity, worldwide",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1534701/000153470126000006/psx-20251231.htm",
+     "n": "Operating statistics, refining operations worldwide (includes the share of equity affiliates): crude oil capacity 1,868 thousand barrels daily in 2025, crude oil processed 1,763. Form 10-K 2025."
+    },
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Phillips_66",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -739,6 +789,15 @@
     "role": "liquefaction operator",
     "own": "listed",
     "detail": "Sabine Pass and Corpus Christi (United States); exported 670 cargoes in 2025",
+    "fig": {
+     "v": 60,
+     "u": "Mtpa",
+     "what": "LNG production capacity, expected total including estimated debottlenecking",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/3570/000000357026000005/lng-20251231.htm",
+     "n": "'Our total production capacity is expected to be over 60 mtpa of LNG, inclusive of estimated debottlenecking opportunities, of which over 9 mtpa was under construction and the remainder was in operation as of December 31, 2025' (stated as 'over 60'). Form 10-K 2025."
+    },
     "s": "company-reports",
     "url": "https://lngir.cheniere.com/_assets/_75dc2c9a1fb706f14e67cee93b0e9e5a/cheniere/news/2026-02-26_Cheniere_Reports_Fourth_Quarter_and_Full_Year_333.pdf",
     "y": 2025,
@@ -781,8 +840,18 @@
     "role": "liquefaction operator",
     "own": "listed",
     "detail": "Integrated LNG segment",
+    "fig": {
+     "v": 15.1,
+     "u": "Mt",
+     "what": "LNG sales from equity production",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/879764/000110465926035876/tot-20251231x20f.htm",
+     "n": "Integrated LNG, liquefied natural gas in Mt: sales from equity production 15.1 Mt in 2025 (15.5 Mt in 2024); the equity production may be sold by TotalEnergies or by the joint ventures. Form 20-F 2025."
+    },
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/TotalEnergies",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -1161,8 +1230,18 @@
     "role": "producer",
     "own": "listed",
     "detail": "US natural gas producer, known as Chesapeake Energy until 2024",
+    "fig": {
+     "v": 68.2,
+     "u": "bcm",
+     "what": "natural gas production, net",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/895126/000089512626000011/exe-20251231.htm",
+     "n": "Total natural gas production 2,409 Bcf in 2025 (1,321 Bcf in 2024), 6,600 MMcf per day; converted at 0.0283168 cubic metres per cubic foot. Form 10-K 2025."
+    },
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Expand_Energy",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -1171,8 +1250,18 @@
     "role": "producer",
     "own": "listed",
     "detail": "US natural gas producer, Pittsburgh (Pennsylvania)",
+    "fig": {
+     "v": 63.4,
+     "u": "bcm",
+     "what": "natural gas sales volume",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/33213/000003321326000018/eqt-20251231.htm",
+     "n": "Natural gas sales volume 2,238,652 MMcf in 2025 (2,086,441 in 2024), upstream, NGLs and oil excluded; converted at 0.0283168 cubic metres per cubic foot. Form 10-K 2025."
+    },
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/EQT_Corporation",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -1276,9 +1365,10 @@
     "hq": "USA",
     "role": "producer",
     "own": "listed",
-    "detail": "US coal miner, St. Louis; mines in the United States and Australia",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Peabody_Energy",
+    "detail": "US coal miner, St. Louis; mines in the United States and Australia; tons sold in 2025: Powder River Basin 84.5 million, Seaborne Thermal 15.4 million, Other U.S. Thermal 13.4 million (122.0 million tons in all, thermal and metallurgical)",
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/1064728/000106472826000006/btu-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -1434,8 +1524,18 @@
     "role": "producer",
     "own": "listed",
     "detail": "US coal miner; mines in the United States and Australia; coal for power and steelmaking",
+    "fig": {
+     "v": 7.8,
+     "u": "Mt",
+     "what": "metallurgical coal sold, Seaborne Metallurgical segment",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1064728/000106472826000006/btu-20251231.htm",
+     "n": "Seaborne Metallurgical segment tons sold 8.6 million tons in 2025 (7.3 in 2024); the report's ton is the short ton of 2,000 pounds, converted at 0.90718474 tonne per short ton. Total tons sold, all segments: 122.0 million tons. Form 10-K 2025."
+    },
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Peabody_Energy",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -1444,8 +1544,18 @@
     "role": "producer",
     "own": "listed",
     "detail": "US met coal miner (Central and Northern Appalachia), formerly Contura Energy",
+    "fig": {
+     "v": 12.8,
+     "u": "Mt",
+     "what": "metallurgical coal sold",
+     "y": 2025,
+     "s": "sec-edgar",
+     "url": "https://www.sec.gov/Archives/edgar/data/1704715/000170471526000010/amr-20251231.htm",
+     "n": "Sales of met coal 14.1 million tons in 2025 (15.9 in 2024), about 93% of coal sales volume; the report states tonnage in short tons, converted at 0.90718474 tonne per short ton. Form 10-K 2025."
+    },
     "s": "wikipedia",
     "url": "https://en.wikipedia.org/wiki/Alpha_Metallurgical_Resources",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -4897,9 +5007,10 @@
     "hq": "USA",
     "role": "exporter",
     "own": "listed",
-    "detail": "US midstream company, Houston; NGL pipelines and export terminals",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Enterprise_Products",
+    "detail": "US midstream company, Houston; NGL pipelines, fractionation, storage and marine terminals, including LPG export; in 2025 NGL fractionation volumes were 1,706 thousand barrels a day and NGL marine terminal volumes 970 thousand barrels a day",
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/1061219/000106121926000006/epd-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    },
    {
@@ -4907,9 +5018,10 @@
     "hq": "USA",
     "role": "exporter",
     "own": "listed",
-    "detail": "US midstream company, Houston",
-    "s": "wikipedia",
-    "url": "https://en.wikipedia.org/wiki/Targa_Resources",
+    "detail": "US midstream company, Houston; NGL fractionation and LPG export services; in 2025 the Logistics and Transportation segment's fractionation volumes were 1,057.6 thousand barrels a day and its NGL export volumes 429.1 thousand barrels a day",
+    "s": "sec-edgar",
+    "url": "https://www.sec.gov/Archives/edgar/data/1389170/000119312526059296/trgp-20251231.htm",
+    "y": 2025,
     "read": "2026-11"
    },
    {

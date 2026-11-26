@@ -391,7 +391,9 @@ class Downloader(unittest.TestCase):
             if "tests" in dirpath or "__pycache__" in dirpath:
                 continue
             for f in files:
-                if f.endswith(".py") and f != "fetch.py":
+                # sec_get.py is the one other program that downloads: sec.gov asks for a declared contact and a slower pace, and no job runs it
+                # (test_sec_get.py checks that nothing calls it)
+                if f.endswith(".py") and f not in ("fetch.py", "sec_get.py"):
                     text = open(os.path.join(dirpath, f), encoding="utf-8").read()
                     for bad in ("urllib.request", "urlopen(", "requests.get(", "requests.Session("):
                         self.assertNotIn(bad, text, f"{f} downloads without common/fetch.py")

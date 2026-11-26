@@ -1,0 +1,30 @@
+{
+ "about": "Quotations of a few sentences, with their address and the day they were read, from two pages of the U.S. Securities and Exchange Commission (sec.gov), kept so that the texts of data/sources.json (the entry sec-edgar) and of NOTICE.md can be compared with them on every machine. Nothing else of those pages is copied here; their text belongs to the SEC. Spacing is normalised: runs of white space are one space.",
+ "read": "2026-11-26",
+ "quotations": [
+  {
+   "key": "sec-free-access",
+   "registry": "sec-edgar",
+   "field": "licence",
+   "address": "https://www.sec.gov/os/accessing-edgar-data",
+   "kind": "page text",
+   "quotation": "Anyone can access and download this information for free"
+  },
+  {
+   "key": "sec-website-dissemination",
+   "registry": "sec-edgar",
+   "field": "licence",
+   "address": "https://www.sec.gov/about/privacy-information",
+   "kind": "page text",
+   "quotation": "Information presented on sec.gov is considered public information and may be copied or further distributed by users of the web site without the SEC’s permission. Please consider appropriate citation to the SEC as the source."
+  },
+  {
+   "key": "sec-moderate-requests",
+   "registry": "sec-edgar",
+   "field": "access",
+   "address": "https://www.sec.gov/os/accessing-edgar-data",
+   "kind": "page text",
+   "quotation": "Download only what you need and please moderate requests to minimize server load."
+  }
+ ]
+}

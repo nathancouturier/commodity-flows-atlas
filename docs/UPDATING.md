@@ -246,6 +246,19 @@ page states them, and the voyage calculator of the route pages (`web/src/lib/voy
 them, so a changed figure moves the defaults of the calculator at the next build. `node web/scripts/validate-freight.mjs` fails
 a standard vessel that gives the speed or the fuel for one leg only, or whose `bench` names a class that has none.
 
+### Company filings on sec.gov (by hand, after the annual reports)
+
+The company lists (`pipeline/companies/`) are written by hand; no job reads them. An annual report filed with the SEC
+(Form 10-K, 20-F or 40-F) is read with `.venv/bin/python -I pipeline/companies/sec_get.py <url> ...` and with nothing
+else: it fetches only from `www.sec.gov` and `data.sec.gov`, one request at a time and at least 3 seconds apart, refuses a
+path that the host's robots file disallows, saves what it gets in `raw/sec-edgar/` (not tracked) and stops for good at the
+first 403 or 429 (the file `raw/sec-edgar/STOPPED`: a person decides what next) or after 700 requests. The contact address
+that sec.gov asks automated readers to declare is read from the environment variable `SEC_CONTACT_EMAIL`, which only the
+owner sets; it goes in the `User-Agent` header and nowhere else, and it is written in no file of the repository. Without
+the variable nothing is fetched. Ask only for the files a figure needs: the tickers file once, a company's submissions file
+(`data.sec.gov/submissions/CIK<ten digits>.json`) once, and the primary document of its latest annual report. Then follow
+`pipeline/companies/README.md` ("Adding or changing an entry") and run the builder. No update workflow calls the program.
+
 ### At each release: the routes and lanes that stay
 
 A generated route and a main lane of the last release are never put out by a cap: they stay while their corridor or their pair still exists in the
