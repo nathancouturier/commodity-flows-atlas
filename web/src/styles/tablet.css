@@ -1,0 +1,163 @@
+/*
+ * Tablet layout, 761 to 1024 px wide and at least 501 px tall: the controls and the page of the detail panel are columns
+ * (as on a desktop) instead of bottom sheets (as on a phone). Every rule of this file is inside the one media query
+ * below, so that no other width can be changed by it, and every selector starts with `html .app` so that it wins over
+ * the single-class rules of app.css, drawers.css and price-board.css wherever the bundle puts them
+ * (web/scripts/tablet-css.test.mjs keeps all of it so). The query is TABLET_QUERY in lib/layoutQueries.ts: change both together.
+ * The top bar, the search box and the typography of 761-1024 px stay as app.css sets them.
+ */
+@media (min-width: 761px) and (max-width: 1024px) and (min-height: 501px) {
+  :root {
+    --detail-w: clamp(320px, 46vw, 372px);
+    --col-top: 70px; /* the top bar ends at 62 px; one gap below it */
+  }
+
+  /* ---- controls: a column at the left, folded into its button by the Controls button */
+  html .app .side-panel,
+  html .app .side-panel.snap-peek,
+  html .app .side-panel.snap-half,
+  html .app .side-panel.snap-full,
+  html .app.tl-open .side-panel,
+  html .app.tl-open .side-panel.snap-half,
+  html .app.tl-open .side-panel.snap-full {
+    top: var(--col-top);
+    left: var(--gap);
+    right: auto;
+    bottom: auto;
+    width: var(--panel-w);
+    height: auto;
+    max-height: calc(100dvh - var(--col-top) - var(--gap) * 2 - var(--legend-h, 0px));
+    border-radius: var(--r-lg);
+    transition: none;
+  }
+  /* with History open the controls rules above have four classes; the folded button needs five to stay a button */
+  html .app .side-panel.collapsed,
+  html .app.tl-open .side-panel.snap-half.collapsed,
+  html .app.tl-open .side-panel.snap-full.collapsed {
+    width: auto;
+  }
+  html .app .side-panel.collapsed .panel-scroll {
+    display: none;
+  }
+  html .app .sheet-head {
+    display: none;
+  }
+  html .app .panel-scroll {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: 6px 8px 8px;
+  }
+  html .app .panel-head {
+    flex: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+    padding: 8px 12px 4px 14px;
+    font-size: var(--fs-xs);
+    font-weight: 650;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+    color: var(--ink-2);
+    text-align: left;
+  }
+  html .app .panel-head:hover {
+    color: var(--ink-0);
+  }
+  html .app .panel-head-chev {
+    margin-left: auto;
+  }
+  html .app .side-panel.collapsed .panel-head {
+    padding: 8px 12px;
+    color: var(--ink-1);
+  }
+  html .app .side-panel.collapsed .panel-head-chev {
+    margin-left: 4px;
+  }
+  /* a page no longer hides the controls: lib/tablet.ts folds them into their button while a page is open */
+  html .app.detail-open .side-panel {
+    visibility: visible;
+    pointer-events: auto;
+  }
+
+  /* ---- the page: a column at the right */
+  html .app .detail-panel,
+  html .app .detail-panel.snap-peek,
+  html .app .detail-panel.snap-full,
+  html .app.tl-open .detail-panel,
+  html .app.tl-open .detail-panel.snap-peek,
+  html .app.tl-open .detail-panel.snap-full {
+    top: var(--col-top);
+    left: auto;
+    right: var(--gap);
+    bottom: var(--gap);
+    width: var(--detail-w);
+    height: auto;
+    max-height: none;
+    border-radius: var(--r-lg);
+    transform: translateX(calc(100% + 24px));
+  }
+  html .app .detail-panel.open {
+    transform: none;
+  }
+  /* the History bar crosses the page's column: the page ends above it (--tl-h is set by Timeline.tsx), so that its last rows can be read */
+  html .app.tl-open .detail-panel,
+  html .app.tl-open .detail-panel.snap-peek,
+  html .app.tl-open .detail-panel.snap-full {
+    bottom: calc(var(--tl-h, 0px) + var(--gap) * 2);
+  }
+  html .app .detail-panel .sheet-head {
+    display: none;
+  }
+  /* the page's buttons sit as on a desktop */
+  html .app .detail-actions {
+    right: 46px;
+    top: 12px;
+  }
+  html .app.detail-open .maplibregl-ctrl-top-right {
+    right: calc(var(--detail-w) + var(--gap) * 2 - 10px);
+  }
+
+  /* ---- legend: the Legend button in the bottom-left corner, the legend to its right */
+  html .app .legend-dock {
+    top: auto;
+    bottom: var(--gap);
+    left: var(--gap);
+    max-width: calc(100% - var(--gap) * 2);
+    flex-direction: row;
+    align-items: flex-end;
+  }
+  html .app.detail-open .legend-dock {
+    max-width: calc(100% - var(--detail-w) - var(--gap) * 3);
+  }
+  html .app .legend-dock > .legend {
+    padding-right: 12px;
+  }
+  /* the price drawer and the timeline take the bottom edge right of the left column; the legend moves up into the column */
+  html .app.pd-open .legend-dock,
+  html .app.tl-open .legend-dock {
+    flex-direction: column-reverse;
+    align-items: flex-start;
+    max-width: var(--panel-w);
+  }
+
+  /* ---- price drawer and timeline: the bottom edge, right of the left column, over the page's column */
+  html .app .pd,
+  html .app .tl,
+  html .app.detail-open .pd,
+  html .app.detail-open .tl,
+  html .app.panel-hidden .pd,
+  html .app.panel-hidden .tl {
+    left: calc(var(--panel-w) + var(--gap) * 2);
+    right: var(--gap);
+    bottom: var(--gap);
+    border-radius: var(--r-lg);
+    z-index: 13;
+  }
+  html .app .pd {
+    height: clamp(330px, 39vh, 470px);
+  }
+  html .app .pd.pd-board-open {
+    height: min(76vh, 660px);
+  }
+}

@@ -13,6 +13,7 @@ import { FlowOverlay, type FlowPath } from './flowOverlay';
 import { load, countryName, countries } from '../lib/data';
 import { hovered, linkApplied, mapFailed, panelCollapsed, select, selection } from '../lib/store';
 import { escapeHtml } from '../lib/format';
+import { isSheetLayout, isTabletLayout } from '../lib/layoutQueries';
 
 export interface LineFeatureProps {
   id: string;
@@ -33,15 +34,13 @@ export interface LineFeatureProps {
   label?: string;
 }
 
-/** Layout switches to bottom sheets at this width; keep in sync with the @media rules in styles/app.css. */
-export const SHEET_BP = 1024;
 /** Height of the side-panel sheet in its "peek" snap, px. */
 export const SHEET_PEEK_PX = 96;
-const sheetQuery = `(max-width: ${SHEET_BP}px)`;
-export const isSheetLayout = () => window.matchMedia(sheetQuery).matches;
+// the three layouts and their queries are in lib/layoutQueries.ts (the sheet layout is the phone's, not the tablet's)
+export { isSheetLayout, isTabletLayout };
 
 /** Padding that keeps a fitted area clear of the panels (measured from the real DOM). */
-function viewPadding(opts: { detail: boolean }): { top: number; bottom: number; left: number; right: number } {
+export function viewPadding(opts: { detail: boolean }): { top: number; bottom: number; left: number; right: number } {
   const H = window.innerHeight;
   if (isSheetLayout()) {
     // short screens (a phone held sideways): the detail sheet is a column on the right, the map keeps the left
@@ -54,9 +53,19 @@ function viewPadding(opts: { detail: boolean }): { top: number; bottom: number; 
     const bottom = opts.detail ? H * 0.6 + 16 : Math.min(sheetH + 12, H * 0.55);
     return { top: 64, bottom, left: 16, right: 16 };
   }
+  const detailW = opts.detail ? (document.querySelector('.detail-panel')?.getBoundingClientRect().width || 400) + 12 : 0;
+  if (isTabletLayout()) {
+    // the legend lies along the bottom edge and is taller than on a desktop. The left edge comes from the folded state and
+    // the column's CSS variables, not from the panel's rectangle: when a page closes the controls come back in a signal and
+    // the camera moves before the column is drawn again, so the rectangle would still be the folded button's
+    const dock = document.querySelector('.legend-dock')?.getBoundingClientRect().height ?? 0;
+    const css = getComputedStyle(document.documentElement);
+    const gap = parseFloat(css.getPropertyValue('--gap')) || 10;
+    const panelW = parseFloat(css.getPropertyValue('--panel-w')) || 276;
+    return { top: 80, bottom: Math.max(40, dock + 20), left: panelCollapsed.peek() ? 24 : gap + panelW + 24, right: 24 + detailW };
+  }
   const panel = document.querySelector('.side-panel')?.getBoundingClientRect();
   const left = panelCollapsed.peek() ? 24 : (panel ? panel.right : 296) + 24;
-  const detailW = opts.detail ? (document.querySelector('.detail-panel')?.getBoundingClientRect().width || 400) + 12 : 0;
   return { top: opts.detail ? 90 : 70, bottom: opts.detail ? 60 : 40, left, right: 24 + detailW };
 }
 
