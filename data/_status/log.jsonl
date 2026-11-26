@@ -31,3 +31,7 @@
 {"t":"2026-11-25T20:38:17Z","source":"dallasfed","outcome":"ok","note":"updated","records":706,"data_to":"2026-10","consecutive_failures":0}
 {"t":"2026-11-25T20:38:17Z","source":"nyfed","outcome":"ok","note":"updated","records":346,"data_to":"2026-10","consecutive_failures":0}
 {"t":"2026-11-25T20:38:17Z","source":"build-changes","outcome":"ok","note":"updated","records":6,"data_to":"2026-11-25","consecutive_failures":0}
+{"t":"2026-11-26T02:12:26Z","source":"portwatch","outcome":"ok","note":"updated","records":80724,"data_to":"2026-11-22","consecutive_failures":0}
+{"t":"2026-11-26T02:20:02Z","source":"portwatch-port-traffic","outcome":"ok","note":"unchanged","records":163,"data_to":"2026-11-20","consecutive_failures":0}
+{"t":"2026-11-26T02:20:02Z","source":"build-alerts","outcome":"ok","note":"updated","records":3,"data_to":"2026-11-22","consecutive_failures":0}
+{"t":"2026-11-26T02:20:03Z","source":"build-changes","outcome":"ok","note":"updated","records":7,"data_to":"2026-11-26","consecutive_failures":0}
