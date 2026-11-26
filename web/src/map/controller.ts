@@ -6,6 +6,8 @@ import maplibregl, { type Map as MLMap, type MapMouseEvent, type GeoJSONSource, 
 import { feature } from 'topojson-client';
 import type { FeatureCollection, Feature, LineString, Point } from 'geojson';
 import { baseStyle } from './basemap';
+import { WORLD_BOUNDS, MAX_ZOOM, minZoomFor, constrainCamera } from './camera';
+import { ResetViewControl } from './resetControl';
 import { FlowOverlay, type FlowPath } from './flowOverlay';
 import { load, countryName, countries } from '../lib/data';
 import { hovered, linkApplied, mapFailed, panelCollapsed, select, selection } from '../lib/store';
@@ -36,9 +38,6 @@ export const SHEET_BP = 1024;
 export const SHEET_PEEK_PX = 96;
 const sheetQuery = `(max-width: ${SHEET_BP}px)`;
 export const isSheetLayout = () => window.matchMedia(sheetQuery).matches;
-
-/** Bounds of the trading world framed on first load (Americas to Japan). */
-const WORLD_BOUNDS: LngLatBoundsLike = [[-125, -45], [150, 65]];
 
 /** Padding that keeps a fitted area clear of the panels (measured from the real DOM). */
 function viewPadding(opts: { detail: boolean }): { top: number; bottom: number; left: number; right: number } {
@@ -78,14 +77,22 @@ export function onMapReady(fn: (m: MLMap) => void) {
 /** Null when the map cannot start (no WebGL): the caller shows a message and the panels carry on. */
 export function initMap(container: HTMLElement): MLMap | null {
   if (map) return map;
+  // the canvas is the container: a screen's panels overlay it, so the whole screen counts
+  const canvasSize = () => ({ w: container.clientWidth || window.innerWidth, h: container.clientHeight || window.innerHeight });
   try {
+    const size = canvasSize();
     map = new maplibregl.Map({
       container,
       style: baseStyle(),
       center: [20, 22],
       zoom: 1.2,
-      minZoom: 0.5,
-      maxZoom: 9,
+      minZoom: minZoomFor(size.w, size.h),
+      maxZoom: MAX_ZOOM,
+      transformConstrain: (c, z) => {
+        const { w, h } = canvasSize();
+        const r = constrainCamera(c.lng, c.lat, z, w, h);
+        return { center: new maplibregl.LngLat(r.lng, r.lat), zoom: r.zoom };
+      },
       renderWorldCopies: true,
       attributionControl: false,
       dragRotate: false,
@@ -108,6 +115,12 @@ export function initMap(container: HTMLElement): MLMap | null {
   }
   map.touchZoomRotate.disableRotation();
   map.addControl(new maplibregl.NavigationControl({ showCompass: false }), 'top-right');
+  map.addControl(new ResetViewControl(() => flyToWorld()), 'top-right');
+  // a phone turned on its side, a desktop window made narrower: the floor follows the canvas
+  map.on('resize', () => {
+    const { w, h } = canvasSize();
+    map!.setMinZoom(minZoomFor(w, h));
+  });
   // no attribution box on the map: Natural Earth and every data source are credited in the About / Sources window
 
   map.on('load', async () => {

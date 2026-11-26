@@ -744,6 +744,18 @@ button {
   filter: invert(0.85);
 }
 
+/* the Reset view icon is an inline SVG drawn in the zoom icons' own colour (#333) and given their filter */
+.maplibregl-ctrl-group button.reset-view {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #333;
+}
+
+.maplibregl-ctrl-group button.reset-view svg {
+  filter: invert(0.85);
+}
+
 .app .maplibregl-ctrl-top-right {
   top: calc(var(--gap) * 2 + var(--top-h) - 10px);
   right: calc(var(--gap) - 10px);

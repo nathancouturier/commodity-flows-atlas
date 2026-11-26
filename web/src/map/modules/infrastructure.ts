@@ -216,7 +216,7 @@ const SRC_PTS = 'infra-pts';
 const SRC_SEL = 'infra-pts-sel'; // the opened asset, drawn on top
 const SRC_LINES = 'infra-lines';
 
-const sizeExpr: ExpressionSpecification = ['interpolate', ['linear'], ['zoom'], 0.5, 0.72, 2.2, 0.82, 4, 1, 7, 1.2];
+const sizeExpr: ExpressionSpecification = ['interpolate', ['linear'], ['zoom'], -0.5, 0.5, 0.5, 0.72, 2.2, 0.82, 4, 1, 7, 1.2];
 const empty = (): FeatureCollection => ({ type: 'FeatureCollection', features: [] });
 
 registerLayerModule((m) => {

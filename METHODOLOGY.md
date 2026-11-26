@@ -2483,3 +2483,16 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   by the update guard, which discards the whole update of that run (a stale reason or a failed coverage step stops
   nothing), and a real loss is accepted by hand (docs/UPDATING.md). The floor is raised by a command and
   lowered by a hand edit; no job changes either hand-typed table.
+
+## 14. The map: first view, names and scale
+
+- **First view.** The map opens on the box from -125 to 150 degrees of longitude and from -45 to 65 degrees of
+  latitude (`WORLD_BOUNDS` in `web/src/map/camera.ts`; the Americas to Japan), fitted clear of the panels. The zoom
+  floor is the library's pole constraint on a desktop (the world is never shorter than the screen) and a lower one on
+  a narrow screen, so that the whole box fits: on a phone the world is smaller than the screen is tall, and the box is
+  358 px wide on a 390 px screen. A phone held sideways stays cut: the band the panels leave is too short for the
+  box. The camera is not kept in the address and nothing about it is stored. The "Reset view" button under the zoom
+  buttons returns to this view, clear of the open page, and leaves the page open.
+- **Icon size below zoom 0.5.** An icon is smaller below the zoom a desktop can reach (0.72 of its size at zoom 0.5,
+  0.5 at zoom -0.5, in between linearly), so that the 626 point assets stay apart on a phone's first view. Every asset
+  is still drawn at every zoom. The values are an Atlas convention, chosen by looking at 390 and 360 px wide screens.
