@@ -392,7 +392,8 @@ Each dataset keeps the licence of its source. The credits the sources ask for:
   read 25 November 2026): "Our data downloads are generously hosted by Amazon Web Services since 2021 and previously Florida State
   University." The README of the marine areas zip (offered at
   <https://www.naturalearthdata.com/downloads/50m-physical-vectors/>, read 25 November 2026) says: "The boundaries of physical regions should be
-  taken with a grain of salt."
+  taken with a grain of salt." The country shapes are the default view of version 5.1.1; what that means for the map is in METHODOLOGY.md,
+  "The map: boundaries and territories".
 - **Place-name font** (the lettering of the names on the map): Inter Medium, SIL Open Font License 1.1, from the Debian package `fonts-inter`
   4.0+ds-1 (file `Inter-Medium.otf`, version "Version 4.000;git-a52131595", read with the `fontkit` library). The font file's own copyright line is
   "Copyright 2016 The Inter Project Authors", and its licence string is "This Font Software is licensed under the SIL Open Font License, Version 1.1.

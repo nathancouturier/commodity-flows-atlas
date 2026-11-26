@@ -6,8 +6,8 @@
   "url": "https://www.naturalearthdata.com/downloads/50m-cultural-vectors/",
   "licence": "Public domain (no credit required)",
   "update": "irregular",
-  "access": "Zip from naciscdn.org, read once by pipeline/geo/build_countries.mjs; not refreshed by a workflow",
-  "use": "Country shapes, borders, coastlines, the basemap and country names on the map"
+  "access": "Zip from naciscdn.org (version 5.1.1), read once by pipeline/geo/build_countries.mjs; not refreshed by a workflow",
+  "use": "Country shapes, borders, coastlines and the basemap, in Natural Earth's default view, and country names on the map"
  },
  {
   "id": "naturalearth-marine",

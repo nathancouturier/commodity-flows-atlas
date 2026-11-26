@@ -1,0 +1,544 @@
+{
+ "about": "Points of Natural Earth's own files (the populated places 1:10m, version 5.1.2, and the interior points of the polygons of the 1:10m layer of breakaway and disputed areas, version 5.1.1) and the notes of those areas, used to test where the country shapes of the map put them. Read 25 November 2026.",
+ "read": "2026-11-25",
+ "sources": {
+  "populated": {
+   "address": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_populated_places_simple.zip",
+   "version": "5.1.2",
+   "bytes": 652145,
+   "sha256": "2963ee08f7743f13f37d5243acd77a2f7a510e26a36c7e04b920f1b381f2b251"
+  },
+  "disputed": {
+   "address": "https://naciscdn.org/naturalearth/10m/cultural/ne_10m_admin_0_disputed_areas.zip",
+   "version": "5.1.1",
+   "bytes": 215221,
+   "sha256": "a250c1cf8ab68898399928a1fa1d5c242eb4de6335cb51a7f7a7f12a9f3c8438"
+  }
+ },
+ "probes": [
+  {
+   "label": "Sevastopol",
+   "src": "NE 10m populated places \"Sevastopol\" (adm0 RUS)",
+   "lon": 33.52439491312476,
+   "lat": 44.60392525649835,
+   "why": "Crimea, named by the audit"
+  },
+  {
+   "label": "Simferopol",
+   "src": "NE 10m populated places \"Simferopol\" (adm0 RUS)",
+   "lon": 34.0987349,
+   "lat": 44.9491543,
+   "why": "the audit tested it"
+  },
+  {
+   "label": "Kerch",
+   "src": "NE 10m populated places \"Kerch\" (adm0 RUS)",
+   "lon": 36.4880981,
+   "lat": 45.3685085,
+   "why": "east end of Crimea"
+  },
+  {
+   "label": "Laayoune",
+   "src": "NE 10m populated places \"Laayoune\" (adm0 MAR)",
+   "lon": -13.2000059,
+   "lat": 27.1499823,
+   "why": "named by the audit"
+  },
+  {
+   "label": "Dakhla",
+   "src": "NE 10m populated places \"Ad Dakhla\" (adm0 MAR)",
+   "lon": -15.9368109,
+   "lat": 23.7140559,
+   "why": "named by the audit"
+  },
+  {
+   "label": "Smara",
+   "src": "NE 10m populated places \"Smara\" (adm0 MAR)",
+   "lon": -11.6833285,
+   "lat": 26.7332894,
+   "why": "inland Western Sahara"
+  },
+  {
+   "label": "Bir Lehlou",
+   "src": "NE 10m populated places \"Bir Lehlou\" (adm0 SAH)",
+   "lon": -9.6525222,
+   "lat": 26.1191667,
+   "why": "east of the berm, Sahrawi-administered"
+  },
+  {
+   "label": "Srinagar",
+   "src": "NE 10m populated places \"Srinagar\" (adm0 IND)",
+   "lon": 74.82830910981222,
+   "lat": 34.069473874645354,
+   "why": "Kashmir valley"
+  },
+  {
+   "label": "Gilgit",
+   "src": "NE 10m populated places \"Gilgit\" (adm0 PAK)",
+   "lon": 74.300002,
+   "lat": 35.9170958,
+   "why": "Gilgit-Baltistan"
+  },
+  {
+   "label": "Leh",
+   "src": "NE 10m populated places \"Leh\" (adm0 IND)",
+   "lon": 77.57229066274353,
+   "lat": 34.16155933706067,
+   "why": "Ladakh"
+  },
+  {
+   "label": "Taipei",
+   "src": "NE 10m populated places \"Taipei\" (adm0 TWN)",
+   "lon": 121.5683333,
+   "lat": 25.0358333,
+   "why": "named by the audit brief"
+  },
+  {
+   "label": "Pristina",
+   "src": "NE 10m populated places \"Pristina\" (adm0 KOS)",
+   "lon": 21.1659843,
+   "lat": 42.6667096,
+   "why": "Kosovo"
+  },
+  {
+   "label": "Hargeisa",
+   "src": "NE 10m populated places \"Hargeisa\" (adm0 SOL)",
+   "lon": 44.06531,
+   "lat": 9.5600224,
+   "why": "Somaliland"
+  },
+  {
+   "label": "Berbera",
+   "src": "NE 10m populated places \"Berbera\" (adm0 SOL)",
+   "lon": 45.0164148,
+   "lat": 10.4355504,
+   "why": "Somaliland port"
+  },
+  {
+   "label": "Nicosia",
+   "src": "NE 10m populated places \"Nicosia\" (adm0 CYP)",
+   "lon": 33.3666349,
+   "lat": 35.1666765,
+   "why": "divided city, point of the Republic side"
+  },
+  {
+   "label": "Kyrenia",
+   "src": "NE 10m populated places \"Kyrenia\" (adm0 CYN)",
+   "lon": 33.3330036,
+   "lat": 35.3259991,
+   "why": "north Cyprus"
+  },
+  {
+   "label": "Famagusta",
+   "src": "NE 10m populated places \"Famagusta\" (adm0 CYN)",
+   "lon": 33.9500101,
+   "lat": 35.1250252,
+   "why": "north Cyprus port"
+  },
+  {
+   "label": "Stanley",
+   "src": "NE 10m populated places \"Stanley\" (adm0 FLK)",
+   "lon": -57.8499679,
+   "lat": -51.700011,
+   "why": "Falkland Islands"
+  },
+  {
+   "label": "Tskhinvali",
+   "src": "NE 10m populated places \"Tskhinvali\" (adm0 GEO)",
+   "lon": 43.9750313,
+   "lat": 42.2324984,
+   "why": "South Ossetia"
+  },
+  {
+   "label": "Sukhumi",
+   "src": "NE 10m populated places \"Sukhumi\" (adm0 GEO)",
+   "lon": 41.0200179,
+   "lat": 43.0200214,
+   "why": "Abkhazia"
+  },
+  {
+   "label": "Stepanakert",
+   "src": "NE 10m populated places \"Stepanakert\" (adm0 AZE)",
+   "lon": 46.7519677,
+   "lat": 39.8156433,
+   "why": "Nagorno-Karabakh"
+  },
+  {
+   "label": "Tiraspol",
+   "src": "NE 10m populated places \"Tiraspol\" (adm0 MDA)",
+   "lon": 29.639989,
+   "lat": 46.8530949,
+   "why": "Transnistria"
+  },
+  {
+   "label": "Donetsk",
+   "src": "NE 10m populated places \"Donetsk\" (adm0 UKR)",
+   "lon": 37.8280342,
+   "lat": 48.0019475,
+   "why": "named by the audit brief"
+  },
+  {
+   "label": "Luhansk",
+   "src": "NE 10m populated places \"Luhansk\" (adm0 UKR)",
+   "lon": 39.3343843,
+   "lat": 48.5697602,
+   "why": "Luhansk"
+  },
+  {
+   "label": "Mariupol",
+   "src": "NE 10m populated places \"Mariupol\" (adm0 UKR)",
+   "lon": 37.5561983,
+   "lat": 47.0961808,
+   "why": "Azov port"
+  },
+  {
+   "label": "Gaza",
+   "src": "NE 10m populated places \"Gaza City\" (adm0 PSX)",
+   "lon": 34.4450187,
+   "lat": 31.5299992,
+   "why": "named by the audit brief"
+  },
+  {
+   "label": "Ramallah",
+   "src": "NE 10m populated places \"Ramallah\" (adm0 PSX)",
+   "lon": 35.2062094,
+   "lat": 31.9029448,
+   "why": "West Bank"
+  },
+  {
+   "label": "Jerusalem (NE point)",
+   "src": "NE 10m populated places \"Jerusalem\" (adm0 ISR)",
+   "lon": 35.2066259,
+   "lat": 31.7784078,
+   "why": "Natural Earth puts the point in the west of the city"
+  },
+  {
+   "label": "Interior point, Jammu and Kashmir polygon",
+   "src": "NE 10m disputed areas B05 (\"Jammu and Kashmir\") interior point",
+   "lon": 77.2306968142936,
+   "lat": 34.00207174668811,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Aksai Chin",
+   "src": "NE 10m disputed areas B07 (\"Aksai Chin\") interior point",
+   "lon": 79.15375958758442,
+   "lat": 35.06191663403681,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Gaza",
+   "src": "NE 10m disputed areas B53 (\"Gaza\") interior point",
+   "lon": 34.2962983560928,
+   "lat": 31.322339600097234,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, West Bank",
+   "src": "NE 10m disputed areas B54 (\"West Bank\") interior point",
+   "lon": 35.28183651561043,
+   "lat": 32.11805396782916,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, inside the Golan Heights polygon (area of Majdal Shams)",
+   "src": "NE 10m disputed areas B16 (\"Golan Heights\") interior point",
+   "lon": 35.73328602635888,
+   "lat": 33.00207730762111,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Somaliland polygon",
+   "src": "NE 10m disputed areas B30 (\"Somaliland\") interior point",
+   "lon": 46.763994448690795,
+   "lat": 9.440501872888827,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, W. Sahara claim polygon held by Morocco",
+   "src": "NE 10m disputed areas B19 (\"W. Sahara\") interior point",
+   "lon": -13.811042183809079,
+   "lat": 25.065614077224918,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, W. Sahara polygon held by the Sahrawi side",
+   "src": "NE 10m disputed areas B28 (\"W. Sahara\") interior point",
+   "lon": -12.584236647965238,
+   "lat": 24.04554791790775,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Abkhazia polygon",
+   "src": "NE 10m disputed areas B35 (\"Abkhazia\") interior point",
+   "lon": 41.25120454813599,
+   "lat": 43.08961546317457,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, South Ossetia polygon",
+   "src": "NE 10m disputed areas B37 (\"South Ossetia\") interior point",
+   "lon": 44.08384449571103,
+   "lat": 42.38749713107038,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Kosovo polygon",
+   "src": "NE 10m disputed areas B57 (\"Kosovo\") interior point",
+   "lon": 20.873742976741802,
+   "lat": 42.572883356037444,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Artsakh polygon",
+   "src": "NE 10m disputed areas B38 (\"Artsakh\") interior point",
+   "lon": 46.69436777511758,
+   "lat": 39.884154322509346,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Gilgit-Baltistan polygon",
+   "src": "NE 10m disputed areas B08 (\"Gilgit-Baltistan\") interior point",
+   "lon": 74.91067400009288,
+   "lat": 35.85098535658891,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Transnistria polygon",
+   "src": "NE 10m disputed areas B36 (\"Transnistria\") interior point",
+   "lon": 29.272634972657816,
+   "lat": 47.28292913366364,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Luhansk People's Republic polygon",
+   "src": "NE 10m disputed areas C03 (\"Luhansk People's Republic\") interior point",
+   "lon": 39.18387814366246,
+   "lat": 48.307777299369256,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Donetsk People's Republic polygon",
+   "src": "NE 10m disputed areas C02 (\"Donetsk People's Republic\") interior point",
+   "lon": 38.0989746685938,
+   "lat": 47.894569546448366,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Abyei",
+   "src": "NE 10m disputed areas B13 (\"Abyei\") interior point",
+   "lon": 28.41426351895815,
+   "lat": 9.767834976113146,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, N. Cyprus polygon",
+   "src": "NE 10m disputed areas B20 (\"N. Cyprus\") interior point",
+   "lon": 33.60791730317709,
+   "lat": 35.20812587148565,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Cyprus UN buffer zone",
+   "src": "NE 10m disputed areas B43 (\"Cyprus U.N. Buffer Zone\") interior point",
+   "lon": 33.28686076049294,
+   "lat": 35.14095231152092,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Siachen Glacier",
+   "src": "NE 10m disputed areas B45 (\"Siachen Glacier\") interior point",
+   "lon": 77.18395152050303,
+   "lat": 35.36413540078617,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Crimea",
+   "src": "NE 10m disputed areas B89 (\"Crimea\") interior point",
+   "lon": 34.33469585912164,
+   "lat": 45.32596279352552,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Halayib Triangle (Hala'ib)",
+   "src": "NE 10m disputed areas B93 (\"Halayib Triangle\") interior point",
+   "lon": 35.509548611745196,
+   "lat": 22.403806698217842,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, East Jerusalem",
+   "src": "NE 10m disputed areas B98 (\"East Jerusalem\") interior point",
+   "lon": 35.2356081941488,
+   "lat": 31.819366657665093,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Azad Kashmir",
+   "src": "NE 10m disputed areas B09 (\"Azad Kashmir\") interior point",
+   "lon": 73.85819460635557,
+   "lat": 33.4498874298868,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Taiwan polygon",
+   "src": "NE 10m disputed areas B77 (\"Taiwan\") interior point",
+   "lon": 120.94300886336725,
+   "lat": 23.761191107601633,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Interior point, Falkland Is. polygon",
+   "src": "NE 10m disputed areas B12 (\"Falkland Is.\") interior point",
+   "lon": -58.72063742738593,
+   "lat": -51.65876526883073,
+   "why": "probe derived from the polygon itself"
+  },
+  {
+   "label": "Audit point, inland Dakhla",
+   "src": "audit result.json CX-06 evidence (14.5 W, 23.5 N)",
+   "lon": -14.5,
+   "lat": 23.5,
+   "why": "the point the audit tested"
+  },
+  {
+   "label": "Audit point, Golan",
+   "src": "audit result.json CX-06 evidence (35.8 E, 33.0 N)",
+   "lon": 35.8,
+   "lat": 33,
+   "why": "the point the audit tested"
+  }
+ ],
+ "areas": [
+  {
+   "BRK_A3": "B35",
+   "BRK_NAME": "Abkhazia",
+   "NOTE_BRK": "Self admin.; Claimed by Georgia"
+  },
+  {
+   "BRK_A3": "B13",
+   "BRK_NAME": "Abyei",
+   "NOTE_BRK": "Admin. by Sudan; Claimed by South Sudan"
+  },
+  {
+   "BRK_A3": "B07",
+   "BRK_NAME": "Aksai Chin",
+   "NOTE_BRK": "Admin. by China; Claimed by India"
+  },
+  {
+   "BRK_A3": "B38",
+   "BRK_NAME": "Artsakh",
+   "NOTE_BRK": "Self admin.; Claimed by Azer."
+  },
+  {
+   "BRK_A3": "B09",
+   "BRK_NAME": "Azad Kashmir",
+   "NOTE_BRK": "Admin. by Pakistan; Claimed by India"
+  },
+  {
+   "BRK_A3": "B89",
+   "BRK_NAME": "Crimea",
+   "NOTE_BRK": "Admin. by Russia; Claimed by Ukraine"
+  },
+  {
+   "BRK_A3": "B43",
+   "BRK_NAME": "Cyprus U.N. Buffer Zone",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "C02",
+   "BRK_NAME": "Donetsk People's Republic",
+   "NOTE_BRK": "Self admin.; Claimed by Ukraine"
+  },
+  {
+   "BRK_A3": "B98",
+   "BRK_NAME": "East Jerusalem",
+   "NOTE_BRK": "Admin. By Israel; Claimed by Palestine"
+  },
+  {
+   "BRK_A3": "B12",
+   "BRK_NAME": "Falkland Is.",
+   "NOTE_BRK": "Admin. by U.K.; Claimed by Argentina"
+  },
+  {
+   "BRK_A3": "B53",
+   "BRK_NAME": "Gaza",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "B08",
+   "BRK_NAME": "Gilgit-Baltistan",
+   "NOTE_BRK": "Admin. by Pakistan; Claimed by India"
+  },
+  {
+   "BRK_A3": "B16",
+   "BRK_NAME": "Golan Heights",
+   "NOTE_BRK": "Admin. By Israel; Claimed by Syria"
+  },
+  {
+   "BRK_A3": "B93",
+   "BRK_NAME": "Halayib Triangle",
+   "NOTE_BRK": "Admin. by Egypt; Claimed by Sudan"
+  },
+  {
+   "BRK_A3": "B05",
+   "BRK_NAME": "Jammu and Kashmir",
+   "NOTE_BRK": "Admin. by India; Claimed by Pakistan"
+  },
+  {
+   "BRK_A3": "B57",
+   "BRK_NAME": "Kosovo",
+   "NOTE_BRK": ""
+  },
+  {
+   "BRK_A3": "C03",
+   "BRK_NAME": "Luhansk People's Republic",
+   "NOTE_BRK": "Self admin.; Claimed by Ukraine"
+  },
+  {
+   "BRK_A3": "B20",
+   "BRK_NAME": "N. Cyprus",
+   "NOTE_BRK": "Self admin.; Claimed by Cyprus"
+  },
+  {
+   "BRK_A3": "B45",
+   "BRK_NAME": "Siachen Glacier",
+   "NOTE_BRK": "Claimed by Pakistan and India"
+  },
+  {
+   "BRK_A3": "B30",
+   "BRK_NAME": "Somaliland",
+   "NOTE_BRK": "Self admin.; Claimed by Somalia"
+  },
+  {
+   "BRK_A3": "B37",
+   "BRK_NAME": "South Ossetia",
+   "NOTE_BRK": "Self admin.; Claimed by Georgia"
+  },
+  {
+   "BRK_A3": "B77",
+   "BRK_NAME": "Taiwan",
+   "NOTE_BRK": "Self admin.; Claimed by China"
+  },
+  {
+   "BRK_A3": "B36",
+   "BRK_NAME": "Transnistria",
+   "NOTE_BRK": "Self admin.; Claimed by Moldova"
+  },
+  {
+   "BRK_A3": "B19",
+   "BRK_NAME": "W. Sahara",
+   "NOTE_BRK": "Admin. by Morocco; Claimed by Western Sahara"
+  },
+  {
+   "BRK_A3": "B28",
+   "BRK_NAME": "W. Sahara",
+   "NOTE_BRK": "Self admin.; Claimed by Morocco"
+  },
+  {
+   "BRK_A3": "B54",
+   "BRK_NAME": "West Bank",
+   "NOTE_BRK": ""
+  }
+ ]
+}

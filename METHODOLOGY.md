@@ -396,6 +396,9 @@ Places that BACI reports but the base map has no polygon for are listed in
 Tokelau, the former Netherlands Antilles, Serbia and Montenegro, Mayotte and the Cocos (Keeling)
 Islands, all coastal, and the pseudo-place "Asia, not specified". The site names them from
 `data/countries/places.json` and shows them as plain text, not as country pages.
+These are the borders of the map's default view (see "The map: boundaries and territories" below): a territory
+that the base map draws as a shape of its own (Kosovo, Somaliland, Northern Cyprus) has neighbours of its own and so
+changes the neighbours of the countries around it.
 
 **2024 by mode** (71 lane groups, 36,072 pairs, 9,659.0 Mt): sea 8,108.5 Mt (25,922 pairs), sea via a
 transit port 185.5 Mt (2,725 pairs), sea and overland 317.5 Mt (109 pairs), land 1,047.5 Mt (7,315
@@ -2558,3 +2561,83 @@ vocabulary and the review routine are in [`pipeline/companies/README.md`](pipeli
   length is right, so none is drawn: the bar appears from zoom 4 (`SCALE_MIN_ZOOM` in `web/src/map/camera.ts`), an Atlas
   convention. On a phone the middle of the canvas is behind the sheet, a few degrees of latitude from the middle of
   the part of the map that stays in view, and the bar still reads the middle of the canvas.
+
+## 15. The map: boundaries and territories
+
+**Convention.** The country shapes are Natural Earth's `ne_50m_admin_0_countries`, version 5.1.1 (the registry entry
+`naturalearth` states the version), in Natural Earth's default view. Natural Earth says of it: "Natural Earth shows de
+facto boundaries by default according to who controls the territory, versus de jure."
+(<https://www.naturalearthdata.com/downloads/50m-cultural-vectors/>, read 25 November 2026) and, on the page of the
+Admin-0 countries file: "Natural Earth Vector draws boundaries of countries according to defacto status. We show who
+actually controls the situation on the ground. Please feel free to mashup our disputed areas theme to match your
+particular political outlook."
+(<https://www.naturalearthdata.com/downloads/50m-cultural-vectors/50m-admin-0-countries-2/>, read 25 November 2026).
+Natural Earth does not apply one rule to every disputed or self-administered territory: a point inside some of them
+falls in a shape of their own and a point inside others falls in the shape of the country that claims them (read on the
+shapes the site serves, `data/geo/countries.topo.json`, at points taken from Natural Earth's own populated-places and
+disputed-areas files). The atlas has not chosen a view of its own and does not judge Natural Earth's. *Atlas assumption A1*: the atlas
+treats Natural Earth's default view, in the version named, as its convention, so the map shows the situation of that
+version of the file, not of the day a visitor looks.
+
+**What the map draws, area by area.** The areas below are those of Natural Earth's layer of breakaway and disputed areas at
+1:10m (version 5.1.1), which the atlas does not read or draw; the table says where the country shapes of the map put the
+points of each area (Natural Earth's own points, kept with the version and checksum of the file each comes from in
+`pipeline/tests/fixtures/border_probes.json`); the notes are Natural Earth's words, as its file spells them, not the atlas's.
+
+| Area of Natural Earth (its id) | Its note | Points of Natural Earth that it holds | Shape of the map that holds them | Shape has a customs code in CEPII BACI |
+|---|---|---|---|---|
+| Abkhazia (B35) | "Self admin.; Claimed by Georgia" | Interior point, Abkhazia polygon; Sukhumi | Georgia (GEO) | yes |
+| Abyei (B13) | "Admin. by Sudan; Claimed by South Sudan" | Interior point, Abyei | Sudan (SDN) | yes |
+| Aksai Chin (B07) | "Admin. by China; Claimed by India" | Interior point, Aksai Chin | China (CHN) | yes |
+| Artsakh (B38) | "Self admin.; Claimed by Azer." | Interior point, Artsakh polygon; Stepanakert | Azerbaijan (AZE) | yes |
+| Azad Kashmir (B09) | "Admin. by Pakistan; Claimed by India" | Interior point, Azad Kashmir | Pakistan (PAK) | yes |
+| Crimea (B89) | "Admin. by Russia; Claimed by Ukraine" | Interior point, Crimea; Sevastopol; Simferopol; Kerch | Russia (RUS) | yes |
+| Cyprus U.N. Buffer Zone (B43) | no note | Interior point, Cyprus UN buffer zone; Nicosia | Cyprus (CYP), N. Cyprus (CYN) | yes, no |
+| Donetsk People's Republic (C02) | "Self admin.; Claimed by Ukraine" | Interior point, Donetsk People's Republic polygon; Donetsk | Ukraine (UKR) | yes |
+| East Jerusalem (B98) | "Admin. By Israel; Claimed by Palestine" | Interior point, East Jerusalem | Palestine (PSE) | yes |
+| Falkland Is. (B12) | "Admin. by U.K.; Claimed by Argentina" | Interior point, Falkland Is. polygon; Stanley | Falkland Islands (FLK) | yes |
+| Gaza (B53) | no note | Interior point, Gaza; Gaza | Palestine (PSE) | yes |
+| Gilgit-Baltistan (B08) | "Admin. by Pakistan; Claimed by India" | Interior point, Gilgit-Baltistan polygon; Gilgit | Pakistan (PAK) | yes |
+| Golan Heights (B16) | "Admin. By Israel; Claimed by Syria" | Interior point, inside the Golan Heights polygon (area of Majdal Shams); Audit point, Golan | Israel (ISR) | yes |
+| Halayib Triangle (B93) | "Admin. by Egypt; Claimed by Sudan" | Interior point, Halayib Triangle (Hala'ib) | Egypt (EGY) | yes |
+| Jammu and Kashmir (B05) | "Admin. by India; Claimed by Pakistan" | Interior point, Jammu and Kashmir polygon; Srinagar; Leh | India (IND) | yes |
+| Kosovo (B57) | no note | Interior point, Kosovo polygon; Pristina | Kosovo (KOS) | no |
+| Luhansk People's Republic (C03) | "Self admin.; Claimed by Ukraine" | Interior point, Luhansk People's Republic polygon; Luhansk | Ukraine (UKR) | yes |
+| N. Cyprus (B20) | "Self admin.; Claimed by Cyprus" | Interior point, N. Cyprus polygon; Kyrenia; Famagusta | N. Cyprus (CYN) | no |
+| Siachen Glacier (B45) | "Claimed by Pakistan and India" | Interior point, Siachen Glacier | Siachen Glacier (KAS) | no |
+| Somaliland (B30) | "Self admin.; Claimed by Somalia" | Interior point, Somaliland polygon; Hargeisa; Berbera | Somaliland (SOL) | no |
+| South Ossetia (B37) | "Self admin.; Claimed by Georgia" | Interior point, South Ossetia polygon; Tskhinvali | Georgia (GEO) | yes |
+| Taiwan (B77) | "Self admin.; Claimed by China" | Interior point, Taiwan polygon; Taipei | Taiwan (TWN) | S19, read as Taiwan |
+| Transnistria (B36) | "Self admin.; Claimed by Moldova" | Interior point, Transnistria polygon; Tiraspol | Moldova (MDA) | yes |
+| W. Sahara (B19) | "Admin. by Morocco; Claimed by Western Sahara" | Interior point, W. Sahara claim polygon held by Morocco; Laayoune; Dakhla (in no shape); Smara; Audit point, inland Dakhla | Morocco (MAR) | yes |
+| W. Sahara (B28) | "Self admin.; Claimed by Morocco" | Interior point, W. Sahara polygon held by the Sahrawi side; Bir Lehlou | Western Sahara (ESH) | no |
+| West Bank (B54) | no note | Interior point, West Bank; Ramallah | Palestine (PSE) | yes |
+
+In the last column, "yes" says that the shape has a code in CEPII BACI, not where a reporter files the trade of a territory
+drawn inside it, which the atlas does not know (Atlas assumption A2, below).
+
+In Natural Earth's own file of populated places a point can carry the code of one country and fall in the shape of another: its
+"Nicosia" (adm0 CYP) falls in the shape of N. Cyprus (CYN), and its "Jerusalem" (adm0 ISR) falls in the shape of Palestine (PSE).
+Natural Earth's point "Ad Dakhla" (adm0 MAR) lies in no shape of the map (the country shapes are at 1:50m); every other point
+listed for W. Sahara (B19), "Audit point, inland Dakhla" among them, falls in the shape of Morocco (MAR).
+
+**Trade follows the customs code.** CEPII BACI has no code of its own for some territories the map draws (the page of
+each of those that has a page of its own says so; "Other Asia, nes" is read as Taiwan, section 1 of this file). *Atlas
+assumption A2*: the atlas does not know whether a reporter's figures include a territory that the map draws apart or one
+that it draws inside another country, and moves no trade figure with the map.
+
+**Names.** The names are Natural Earth's short English names with the adjustments of `NAME_FIX` in
+`pipeline/geo/build_countries.mjs`. *Atlas assumption A3*: a name is not a statement of status.
+
+**The notice.** The About window and the README carry the same text:
+
+Country shapes are Natural Earth's default view (version 5.1.1). Natural Earth does not apply one rule to every disputed
+or self-administered territory: it draws some as shapes of their own and keeps others inside the country that claims
+them. The boundaries, names and designations on the map do not imply official endorsement or acceptance, and the atlas
+takes no position on the status of any territory.
+
+**What the map does not do.** It follows no other convention and names no organisation as the authority for a boundary.
+It has no point-of-view switch (nothing is persisted, and every view would need its own scheme of ids). It does not
+outline claimed or self-administered areas and draws no claim line. It draws no maritime claim and no territory that
+Natural Earth's countries file does not draw. It is not refreshed by a workflow and no job watches for a new version of
+the file (the registry says "not refreshed by a workflow"): a new version is read by hand.
